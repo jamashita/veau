@@ -22,10 +22,10 @@ import { TextField } from '../Atom/TextField';
 type Props = Readonly<{
   stats: Stats;
   locale: Locale;
-  nameTyped: (name: StatsName) => void;
-  unitTyped: (unit: StatsUnit) => void;
-  iso639Selected: (iso639: ISO639) => void;
-  iso3166Selected: (iso3166: ISO3166) => void;
+  nameTyped(name: StatsName): void;
+  unitTyped(unit: StatsUnit): void;
+  iso639Selected(iso639: ISO639): void;
+  iso3166Selected(iso3166: ISO3166): void;
 }>;
 type State = Readonly<{}>;
 
@@ -102,6 +102,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
                 }>
               ) => {
                 const iso639: string = event.target.value as string;
+
                 iso639Selected(ISO639.of(iso639));
               }}
             >
@@ -131,6 +132,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
                 }>
               ) => {
                 const iso3166: string = event.target.value as string;
+
                 iso3166Selected(ISO3166.of(iso3166));
               }}
             >

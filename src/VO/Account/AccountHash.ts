@@ -1,6 +1,7 @@
 import { ValueObject } from 'publikum';
-import { Hash } from './Hash';
+
 import { VeauAccountID } from '../VeauAccount/VeauAccountID';
+import { Hash } from './Hash';
 
 export class AccountHash extends ValueObject {
   public readonly noun: 'AccountHash' = 'AccountHash';

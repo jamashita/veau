@@ -14,13 +14,13 @@ import {
 
 import { Type } from '../../Container/Types';
 import { StatsItemIDError } from '../../VO/StatsItem/Error/StatsItemIDError';
-import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
 import { StatsValueRow } from '../../VO/StatsValue/StatsValue';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
-import { IMySQLQuery } from './Interface/IMySQLQuery';
 import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
+import { IMySQLQuery } from './Interface/IMySQLQuery';
 
 @injectable()
 export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
@@ -62,6 +62,7 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
 
           if (value === undefined) {
             map1.set(row.statsItemID, [row]);
+
             return;
           }
 

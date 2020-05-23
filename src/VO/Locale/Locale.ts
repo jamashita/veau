@@ -1,12 +1,12 @@
 import { Alive, Dead, JSONable, Superposition, ValueObject } from 'publikum';
 
-import { LocaleError } from './Error/LocaleError';
-import { RegionsError } from '../Region/Error/RegionsError';
 import { LanguagesError } from '../Language/Error/LanguagesError';
 import { LanguageJSON } from '../Language/Language';
 import { Languages } from '../Language/Languages';
+import { RegionsError } from '../Region/Error/RegionsError';
 import { RegionJSON } from '../Region/Region';
 import { Regions } from '../Region/Regions';
+import { LocaleError } from './Error/LocaleError';
 
 export type LocaleJSON = Readonly<{
   languages: Array<LanguageJSON>;

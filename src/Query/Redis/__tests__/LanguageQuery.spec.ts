@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition, UUID } from 'publikum';
+import { DataSourceError, MockRedis, MockRedisString, RedisError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
@@ -45,6 +45,7 @@ describe('LanguageQuery', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(jsonStr);
       const redis: MockRedis = new MockRedis({
@@ -56,9 +57,11 @@ describe('LanguageQuery', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const languages: Languages = superposition.get();
+
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
         const languageID: LanguageID = LanguageID.ofString(json[i].languageID).get();
+
         expect(languages.get(languageID).get().getLanguageID().get().get()).toBe(json[i].languageID);
         expect(languages.get(languageID).get().getName().get()).toBe(json[i].name);
         expect(languages.get(languageID).get().getEnglishName().get()).toBe(json[i].englishName);
@@ -72,6 +75,7 @@ describe('LanguageQuery', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(jsonStr);
       const redis: MockRedis = new MockRedis({
@@ -88,6 +92,7 @@ describe('LanguageQuery', () => {
     it('returns Dead when Redis returns null', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(null);
       const redis: MockRedis = new MockRedis({
@@ -117,6 +122,7 @@ describe('LanguageQuery', () => {
     it('Redis returns RedisError', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.rejects(new RedisError('test faied'));
       const redis: MockRedis = new MockRedis({
@@ -146,6 +152,7 @@ describe('LanguageQuery', () => {
     it('Redis returns JSONAError', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves('{');
       const redis: MockRedis = new MockRedis({
@@ -193,6 +200,7 @@ describe('LanguageQuery', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(jsonStr);
       const redis: MockRedis = new MockRedis({
@@ -207,6 +215,7 @@ describe('LanguageQuery', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const language: Language = superposition.get();
+
       expect(language.getLanguageID().get().get()).toBe(json[1].languageID);
       expect(language.getName().get()).toBe(json[1].name);
       expect(language.getEnglishName().get()).toBe(json[1].englishName);
@@ -219,6 +228,7 @@ describe('LanguageQuery', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(jsonStr);
       const redis: MockRedis = new MockRedis({
@@ -251,6 +261,7 @@ describe('LanguageQuery', () => {
     it('returns Dead because Redis returns null', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(null);
       const redis: MockRedis = new MockRedis({
@@ -299,6 +310,7 @@ describe('LanguageQuery', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(jsonStr);
       const redis: MockRedis = new MockRedis({
@@ -347,6 +359,7 @@ describe('LanguageQuery', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(jsonStr);
       const redis: MockRedis = new MockRedis({
@@ -379,6 +392,7 @@ describe('LanguageQuery', () => {
     it('Redis returns RedisError', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.rejects(new RedisError('test faied'));
       const redis: MockRedis = new MockRedis({
@@ -411,6 +425,7 @@ describe('LanguageQuery', () => {
     it('Redis returns JSONAError', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves('{');
       const redis: MockRedis = new MockRedis({

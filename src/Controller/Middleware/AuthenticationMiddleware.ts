@@ -10,6 +10,7 @@ export class AuthenticationMiddleware {
     return (req: Request, res: Response, next: NextFunction): void => {
       if (req.user === undefined) {
         res.sendStatus(UNAUTHORIZED);
+
         return;
       }
 

@@ -1,4 +1,5 @@
 import { ImmutableSequence } from 'publikum';
+
 import { Color } from '../Color';
 import { Colors } from '../Colors';
 import { MockColor } from '../Mock/MockColor';
@@ -51,6 +52,7 @@ describe('Colors', () => {
   describe('chartScheme', () => {
     it('generates 20 colors', () => {
       const colors: Colors = Colors.chartScheme();
+
       expect(colors.size()).toBe(20);
     });
   });

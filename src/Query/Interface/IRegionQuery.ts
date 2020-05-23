@@ -1,12 +1,12 @@
 import { DataSourceError, Superposition } from 'publikum';
 
-import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../VO/Region/ISO3166';
 import { Region } from '../../VO/Region/Region';
 import { RegionID } from '../../VO/Region/RegionID';
 import { Regions } from '../../VO/Region/Regions';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IQuery } from './IQuery';
 
 export interface IRegionQuery extends IQuery {

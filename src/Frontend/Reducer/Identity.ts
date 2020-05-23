@@ -1,4 +1,5 @@
 import { Reducer } from 'redux';
+
 import { Identity } from '../../VO/Identity/Identity';
 import { Action, IDENTITY_AUTHENTICATED } from '../Action/Action';
 

@@ -1,4 +1,5 @@
 import { Absent, ImmutableSequence } from 'publikum';
+
 import { MockStatsItemName } from '../Mock/MockStatsItemName';
 import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';

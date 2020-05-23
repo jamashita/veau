@@ -1,4 +1,4 @@
-import { Absent, Alive, Dead, ImmutableProject, ImmutableSequence, Superposition, UUID } from 'publikum';
+import { Absent, Alive, Dead, ImmutableProject, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 
 import { RegionError } from '../Error/RegionError';
@@ -29,6 +29,7 @@ describe('Regions', () => {
       expect(regions.size()).toBe(array.length);
       for (let i: number = 0; i < regions.size(); i++) {
         const mock: MockRegion = array[i];
+
         expect(regions.get(mock.getRegionID()).get()).toBe(mock);
       }
     });
@@ -52,6 +53,7 @@ describe('Regions', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const regions: Regions = superposition.get();
+
       expect(regions.size()).toBe(regionArray.length);
       for (let i: number = 0; i < regions.size(); i++) {
         expect(regions.get(regionArray[i].getRegionID()).get()).toBe(regionArray[i]);
@@ -88,7 +90,7 @@ describe('Regions', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('contains failure', () => {
+    it('contains 2 failures', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -125,6 +127,7 @@ describe('Regions', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const regions: Regions = superposition.get();
+
       expect(regions).toBe(Regions.empty());
     });
 
@@ -141,10 +144,12 @@ describe('Regions', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const regions: Regions = superposition.get();
+
       expect(regions.size()).toBe(json.length);
       for (let i: number = 0; i < regions.size(); i++) {
         const regionID: RegionID = RegionID.ofString(json[i].regionID).get();
         const region: Region = regions.get(regionID).get();
+
         expect(region.getRegionID().get().get()).toBe(json[i].regionID);
         expect(region.getName().get()).toBe(json[i].name);
         expect(region.getISO3166().get()).toBe(json[i].iso3166);
@@ -158,6 +163,7 @@ describe('Regions', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const regions: Regions = superposition.get();
+
       expect(regions).toBe(Regions.empty());
     });
 
@@ -174,10 +180,12 @@ describe('Regions', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const regions: Regions = superposition.get();
+
       expect(regions.size()).toBe(rows.length);
       for (let i: number = 0; i < regions.size(); i++) {
         const regionID: RegionID = RegionID.ofString(rows[i].regionID).get();
         const region: Region = regions.get(regionID).get();
+
         expect(region.getRegionID().get().get()).toBe(rows[i].regionID);
         expect(region.getName().get()).toBe(rows[i].name);
         expect(region.getISO3166().get()).toBe(rows[i].iso3166);

@@ -38,6 +38,7 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
       (str: string) => {
         return Schrodinger.playground<unknown, RedisError>(async () => {
           await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
+
           return this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
         });
       },

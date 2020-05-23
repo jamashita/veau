@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 
-import { Absent, DataSourceError, MockError, MockMySQL, MySQLError, Project, Superposition } from 'publikum';
+import { Absent, DataSourceError, MockMySQL, MySQLError, Project, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { AsOf } from '../../../VO/AsOf/AsOf';
-import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
+import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { StatsValuesError } from '../../../VO/StatsValue/Error/StatsValuesError';
 import { StatsValueRow } from '../../../VO/StatsValue/StatsValue';
 import { StatsValues } from '../../../VO/StatsValue/StatsValues';
@@ -62,6 +62,7 @@ describe('StatsValueQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
 
@@ -131,6 +132,7 @@ describe('StatsValueQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
       const spy1: SinonSpy = sinon.spy();
@@ -162,6 +164,7 @@ describe('StatsValueQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
       const spy1: SinonSpy = sinon.spy();

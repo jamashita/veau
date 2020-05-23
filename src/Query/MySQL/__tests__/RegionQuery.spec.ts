@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
+import { DataSourceError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
@@ -12,7 +12,6 @@ import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { Region, RegionRow } from '../../../VO/Region/Region';
 import { RegionID } from '../../../VO/Region/RegionID';
 import { Regions } from '../../../VO/Region/Regions';
-import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionQuery } from '../RegionQuery';
 
@@ -44,6 +43,7 @@ describe('RegionQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
 
@@ -61,9 +61,11 @@ describe('RegionQuery', () => {
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const regions: Regions = superposition.get();
+
       expect(regions.size()).toBe(2);
       for (let i: number = 0; i < regions.size(); i++) {
         const regionID: RegionID = RegionID.ofString(rows[i].regionID).get();
+
         expect(regions.get(regionID).get().getRegionID().get().get()).toBe(rows[i].regionID);
         expect(regions.get(regionID).get().getName().get()).toBe(rows[i].name);
         expect(regions.get(regionID).get().getISO3166().get()).toBe(rows[i].iso3166);
@@ -73,6 +75,7 @@ describe('RegionQuery', () => {
     it('returns Dead when MySQL.execute returns 0 results', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves([]);
       const spy1: SinonSpy = sinon.spy();
@@ -99,6 +102,7 @@ describe('RegionQuery', () => {
     it('returns Dead because the client throws MySQLError', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
       const spy1: SinonSpy = sinon.spy();
@@ -136,6 +140,7 @@ describe('RegionQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
 
@@ -160,6 +165,7 @@ describe('RegionQuery', () => {
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const region: Region = superposition.get();
+
       expect(region.getRegionID().get().get()).toBe(rows[0].regionID);
       expect(region.getName().get()).toBe(rows[0].name);
       expect(region.getISO3166().get()).toBe(rows[0].iso3166);
@@ -168,6 +174,7 @@ describe('RegionQuery', () => {
     it('returns Dead because MySQL returns 0 results', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves([]);
       const spy1: SinonSpy = sinon.spy();
@@ -197,6 +204,7 @@ describe('RegionQuery', () => {
     it('returns Dead because the client throws MySQLError', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
       const spy1: SinonSpy = sinon.spy();
@@ -236,6 +244,7 @@ describe('RegionQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
 
@@ -260,6 +269,7 @@ describe('RegionQuery', () => {
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const region: Region = superposition.get();
+
       expect(region.getRegionID().get().get()).toBe(rows[0].regionID);
       expect(region.getName().get()).toBe(rows[0].name);
       expect(region.getISO3166().get()).toBe(rows[0].iso3166);
@@ -268,6 +278,7 @@ describe('RegionQuery', () => {
     it('returns Dead because MySQL returns 0 results', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves([]);
       const spy1: SinonSpy = sinon.spy();
@@ -297,6 +308,7 @@ describe('RegionQuery', () => {
     it('returns Dead because the client throws MySQLError', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
       const spy1: SinonSpy = sinon.spy();

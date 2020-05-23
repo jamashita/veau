@@ -12,7 +12,6 @@ import { RegionsError } from '../../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
 import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
-import { MockRegions } from '../../../VO/Region/Mock/MockRegions';
 import { Region } from '../../../VO/Region/Region';
 import { Regions } from '../../../VO/Region/Regions';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
@@ -36,6 +35,7 @@ describe('RegionQuery', () => {
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
+
       localeVaultQuery.all = stub;
       stub.resolves(Alive.of<Locale, DataSourceError>(locale));
 
@@ -49,6 +49,7 @@ describe('RegionQuery', () => {
     it('LocaleQuery returns Dead', async () => {
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
+
       localeVaultQuery.all = stub;
       stub.resolves(Dead.of<Locale, DataSourceError>(new AJAXError('test failed', 500)));
       const spy1: SinonSpy = sinon.spy();
@@ -87,6 +88,7 @@ describe('RegionQuery', () => {
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
+
       localeVaultQuery.all = stub;
       stub.resolves(Alive.of<Locale, DataSourceError>(locale));
 
@@ -103,6 +105,7 @@ describe('RegionQuery', () => {
     it('LocaleQuery.all returns Dead, AJAXError', async () => {
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
+
       localeVaultQuery.all = stub;
       stub.resolves(Dead.of<Locale, DataSourceError>(new AJAXError('test failed', 100)));
       const spy1: SinonSpy = sinon.spy();
@@ -132,6 +135,7 @@ describe('RegionQuery', () => {
     it('LocaleQuery.all returns Dead, RegionError', async () => {
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
+
       localeVaultQuery.all = stub;
       stub.resolves(Dead.of<Locale, RegionsError>(new RegionsError('test failed')));
       const spy1: SinonSpy = sinon.spy();
@@ -172,6 +176,7 @@ describe('RegionQuery', () => {
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
+
       localeVaultQuery.all = stub;
       stub.resolves(Alive.of<Locale, DataSourceError>(locale));
       const spy1: SinonSpy = sinon.spy();

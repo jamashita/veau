@@ -223,6 +223,7 @@ describe('NumericalValues', () => {
       ]);
 
       const rows: Array<string> = values.row();
+
       expect(rows.length).toBe(nums.length);
       for (let i: number = 0; i < nums.length; i++) {
         expect(rows[i]).toBe(nums[i].toString());

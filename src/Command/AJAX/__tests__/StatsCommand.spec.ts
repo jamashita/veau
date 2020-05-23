@@ -60,6 +60,7 @@ describe('StatsCommand', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.post = stub;
       stub.resolves({
         status: CREATED,
@@ -102,6 +103,7 @@ describe('StatsCommand', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.post = stub;
       stub.resolves({
         status: BAD_REQUEST,

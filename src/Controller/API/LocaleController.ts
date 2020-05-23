@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import log4js from 'log4js';
 import { DataSourceError, JSONable, Superposition } from 'publikum';
-import { Controller, Delete, Get, Req, Res, UseBefore } from 'routing-controllers';
+import { Controller, Delete, Get, Res, UseBefore } from 'routing-controllers';
 
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
@@ -20,7 +20,7 @@ const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.Loc
 @Controller('/locale')
 export class LocaleController {
   @Get('/')
-  public async all(@Req() req: Request, @Res() res: Response): Promise<Response<unknown>> {
+  public async all(@Res() res: Response<unknown>): Promise<Response<unknown>> {
     const superposition: Superposition<JSONable, LocaleError | DataSourceError> = await localeInteractor.all();
 
     return superposition.match<Response<unknown>>(
@@ -37,7 +37,7 @@ export class LocaleController {
 
   @Delete('/')
   @UseBefore(authenticationMiddleware.requires())
-  public async delete(@Req() req: Request, @Res() res: Response): Promise<Response<unknown>> {
+  public async delete(@Res() res: Response<unknown>): Promise<Response<unknown>> {
     const superposition: Superposition<unknown, DataSourceError> = await localeInteractor.delete();
 
     return superposition.match<Response<unknown>>(

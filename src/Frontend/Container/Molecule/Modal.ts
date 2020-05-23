@@ -1,5 +1,6 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
+
 import { Action } from '../../Action/Action';
 import { closeModal } from '../../Action/ModalAction';
 import { Modal as Component } from '../../Component/Molecule/Modal';
@@ -12,7 +13,7 @@ type StateProps = Readonly<{
   values?: Record<string, string>;
 }>;
 type DispatchProps = Readonly<{
-  closeClicked: () => void;
+  closeClicked(): void;
 }>;
 type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;

@@ -1,4 +1,5 @@
 import { Alive, Dead, Schrodinger, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
+
 import { VeauAccountIDError } from './Error/VeauAccountIDError';
 
 export class VeauAccountID extends ValueObject {

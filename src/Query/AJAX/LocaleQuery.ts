@@ -1,11 +1,12 @@
 import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { AJAXError, AJAXResponse, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
+
 import { Type } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale, LocaleJSON } from '../../VO/Locale/Locale';
-import { IAJAXQuery } from './Interface/IAJAXQuery';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
+import { IAJAXQuery } from './Interface/IAJAXQuery';
 
 @injectable()
 export class LocaleQuery implements ILocaleQuery, IAJAXQuery {

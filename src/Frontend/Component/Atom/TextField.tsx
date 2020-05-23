@@ -1,5 +1,6 @@
-import { default as Text } from '@material-ui/core/TextField';
 import React from 'react';
+
+import { default as Text } from '@material-ui/core/TextField';
 
 type Props = Readonly<{
   label: string;
@@ -7,8 +8,8 @@ type Props = Readonly<{
   value: string;
   defaultValue?: string;
   disabled?: boolean;
-  onKeyUp?: (value: string) => void;
-  onEnterUp?: () => void;
+  onKeyUp?(value: string): void;
+  onEnterUp?(): void;
 }>;
 type State = Readonly<{}>;
 

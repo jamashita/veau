@@ -3,14 +3,14 @@ import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition, Uni
 
 import { Type } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
+import { Locale } from '../../VO/Locale/Locale';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
-import { Locale } from '../../VO/Locale/Locale';
 import { ISO3166 } from '../../VO/Region/ISO3166';
 import { Region } from '../../VO/Region/Region';
 import { RegionID } from '../../VO/Region/RegionID';
 import { Regions } from '../../VO/Region/Regions';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 import { IVaultQuery } from './Interface/IVaultQuery';

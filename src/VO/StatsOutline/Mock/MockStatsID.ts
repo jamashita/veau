@@ -1,4 +1,5 @@
 import { UUID } from 'publikum';
+
 import { StatsID } from '../StatsID';
 
 export class MockStatsID extends StatsID {

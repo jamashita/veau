@@ -1,4 +1,5 @@
 import { Reducer } from 'redux';
+
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
 import { Action, STATS_LIST_ITEM_RESET, STATS_LIST_ITEM_UPDATE } from '../Action/Action';
 

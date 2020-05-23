@@ -1,7 +1,9 @@
+/* eslint-disable */
 // @ts-nocheck
-import { SagaIterator } from '@redux-saga/types';
 import { DataSourceError, Superposition } from 'publikum';
+import { SagaIterator } from 'redux-saga';
 import { all, call, fork, put, take } from 'redux-saga/effects';
+
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { LOGOUT } from '../Action/Action';
 import { initializeIdentity } from '../Action/IdentityAction';

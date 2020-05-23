@@ -64,23 +64,29 @@ describe('StatsUpdateTransaction', () => {
 
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub1: SinonStub = sinon.stub();
+
       statsCommand.deleteByStatsID = stub1;
       stub1.resolves(Alive.of<DataSourceError>());
       const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
       const stub2: SinonStub = sinon.stub();
+
       statsItemCommand.deleteByStatsID = stub2;
       stub2.resolves(Alive.of<DataSourceError>());
       const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
       const stub3: SinonStub = sinon.stub();
+
       statsValueCommand.deleteByStatsID = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
       const stub4: SinonStub = sinon.stub();
+
       statsCommand.create = stub4;
       stub4.resolves(Alive.of<DataSourceError>());
       const stub5: SinonStub = sinon.stub();
+
       statsItemCommand.create = stub5;
       stub5.resolves(Alive.of<DataSourceError>());
       const stub6: SinonStub = sinon.stub();
+
       statsValueCommand.create = stub6;
       stub6.resolves(Alive.of<DataSourceError>());
 
@@ -122,14 +128,17 @@ describe('StatsUpdateTransaction', () => {
 
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub1: SinonStub = sinon.stub();
+
       statsCommand.deleteByStatsID = stub1;
       stub1.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
       const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
       const stub2: SinonStub = sinon.stub();
+
       statsItemCommand.deleteByStatsID = stub2;
       stub2.resolves(Alive.of<DataSourceError>());
       const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
       const stub3: SinonStub = sinon.stub();
+
       statsValueCommand.deleteByStatsID = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
       const spy1: SinonSpy = sinon.spy();
@@ -182,14 +191,17 @@ describe('StatsUpdateTransaction', () => {
 
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub1: SinonStub = sinon.stub();
+
       statsCommand.deleteByStatsID = stub1;
       stub1.resolves(Alive.of<DataSourceError>());
       const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
       const stub2: SinonStub = sinon.stub();
+
       statsItemCommand.deleteByStatsID = stub2;
       stub2.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
       const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
       const stub3: SinonStub = sinon.stub();
+
       statsValueCommand.deleteByStatsID = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
       const spy1: SinonSpy = sinon.spy();
@@ -242,14 +254,17 @@ describe('StatsUpdateTransaction', () => {
 
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub1: SinonStub = sinon.stub();
+
       statsCommand.deleteByStatsID = stub1;
       stub1.resolves(Alive.of<DataSourceError>());
       const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
       const stub2: SinonStub = sinon.stub();
+
       statsItemCommand.deleteByStatsID = stub2;
       stub2.resolves(Alive.of<DataSourceError>());
       const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
       const stub3: SinonStub = sinon.stub();
+
       statsValueCommand.deleteByStatsID = stub3;
       stub3.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
       const spy1: SinonSpy = sinon.spy();
@@ -302,23 +317,29 @@ describe('StatsUpdateTransaction', () => {
 
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub1: SinonStub = sinon.stub();
+
       statsCommand.deleteByStatsID = stub1;
       stub1.resolves(Alive.of<DataSourceError>());
       const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
       const stub2: SinonStub = sinon.stub();
+
       statsItemCommand.deleteByStatsID = stub2;
       stub2.resolves(Alive.of<DataSourceError>());
       const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
       const stub3: SinonStub = sinon.stub();
+
       statsValueCommand.deleteByStatsID = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
       const stub4: SinonStub = sinon.stub();
+
       statsCommand.create = stub4;
       stub4.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
       const stub5: SinonStub = sinon.stub();
+
       statsItemCommand.create = stub5;
       stub5.resolves(Alive.of<DataSourceError>());
       const stub6: SinonStub = sinon.stub();
+
       statsValueCommand.create = stub6;
       stub6.resolves(Alive.of<DataSourceError>());
       const spy1: SinonSpy = sinon.spy();
@@ -374,23 +395,29 @@ describe('StatsUpdateTransaction', () => {
 
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub1: SinonStub = sinon.stub();
+
       statsCommand.deleteByStatsID = stub1;
       stub1.resolves(Alive.of<DataSourceError>());
       const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
       const stub2: SinonStub = sinon.stub();
+
       statsItemCommand.deleteByStatsID = stub2;
       stub2.resolves(Alive.of<DataSourceError>());
       const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
       const stub3: SinonStub = sinon.stub();
+
       statsValueCommand.deleteByStatsID = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
       const stub4: SinonStub = sinon.stub();
+
       statsCommand.create = stub4;
       stub4.resolves(Alive.of<DataSourceError>());
       const stub5: SinonStub = sinon.stub();
+
       statsItemCommand.create = stub5;
       stub5.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
       const stub6: SinonStub = sinon.stub();
+
       statsValueCommand.create = stub6;
       stub6.resolves(Alive.of<DataSourceError>());
       const spy1: SinonSpy = sinon.spy();
@@ -446,23 +473,29 @@ describe('StatsUpdateTransaction', () => {
 
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub1: SinonStub = sinon.stub();
+
       statsCommand.deleteByStatsID = stub1;
       stub1.resolves(Alive.of<DataSourceError>());
       const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
       const stub2: SinonStub = sinon.stub();
+
       statsItemCommand.deleteByStatsID = stub2;
       stub2.resolves(Alive.of<DataSourceError>());
       const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
       const stub3: SinonStub = sinon.stub();
+
       statsValueCommand.deleteByStatsID = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
       const stub4: SinonStub = sinon.stub();
+
       statsCommand.create = stub4;
       stub4.resolves(Alive.of<DataSourceError>());
       const stub5: SinonStub = sinon.stub();
+
       statsItemCommand.create = stub5;
       stub5.resolves(Alive.of<DataSourceError>());
       const stub6: SinonStub = sinon.stub();
+
       statsValueCommand.create = stub6;
       stub6.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
       const spy1: SinonSpy = sinon.spy();

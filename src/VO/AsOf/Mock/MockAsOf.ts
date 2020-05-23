@@ -1,4 +1,5 @@
 import { Zeit } from 'publikum';
+
 import { AsOf } from '../AsOf';
 
 type AsOfArgs = Partial<

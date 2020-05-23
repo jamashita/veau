@@ -1,10 +1,12 @@
-import { CacheError, DataSourceError, MockCache, MockError, Superposition } from 'publikum';
 import 'reflect-metadata';
+
+import { CacheError, DataSourceError, MockCache, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
+import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../../VO/Locale/Locale';
 import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
 import { LocaleQuery } from '../LocaleQuery';
@@ -26,6 +28,7 @@ describe('LocaleQuery', () => {
 
       const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
+
       cache.get = stub;
       stub.returns(locale);
 
@@ -40,6 +43,7 @@ describe('LocaleQuery', () => {
     it('returns Dead when Cache throws CacheError', async () => {
       const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
+
       cache.get = stub;
       stub.throws(new CacheError('test failed'));
       const spy1: SinonSpy = sinon.spy();

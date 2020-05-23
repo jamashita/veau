@@ -7,8 +7,8 @@ import { StatsUpdateFactory } from '../../Factory/StatsUpdateFactory';
 import { StatsUpdateTransaction } from '../../Transaction/StatsUpdateTransaction';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
-import { IKernelCommand } from './Interface/IKernelCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
+import { IKernelCommand } from './Interface/IKernelCommand';
 
 @injectable()
 export class StatsCommand implements IStatsCommand, IKernelCommand {

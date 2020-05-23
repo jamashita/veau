@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
+import { DataSourceError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
@@ -44,6 +44,7 @@ describe('StatsOutlineQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
 
@@ -76,6 +77,7 @@ describe('StatsOutlineQuery', () => {
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const statsOutline: StatsOutline = superposition.get();
+
       expect(statsOutline.getStatsID().get().get()).toBe(rows[0].statsID);
       expect(statsOutline.getLanguageID().get().get()).toBe(rows[0].languageID);
       expect(statsOutline.getRegionID().get().get()).toBe(rows[0].regionID);
@@ -91,6 +93,7 @@ describe('StatsOutlineQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
       const spy1: SinonSpy = sinon.spy();
@@ -122,6 +125,7 @@ describe('StatsOutlineQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
       const spy1: SinonSpy = sinon.spy();
@@ -176,6 +180,7 @@ describe('StatsOutlineQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
 
@@ -212,9 +217,11 @@ describe('StatsOutlineQuery', () => {
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const statsOutlines: StatsOutlines = superposition.get();
+
       expect(statsOutlines.size()).toBe(2);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
         const statsOutline: StatsOutline = statsOutlines.get(StatsID.ofString(rows[i].statsID).get()).get();
+
         expect(statsOutline.getStatsID().get().get()).toBe(rows[i].statsID);
         expect(statsOutline.getLanguageID().get().get()).toBe(rows[i].languageID);
         expect(statsOutline.getRegionID().get().get()).toBe(rows[i].regionID);
@@ -231,6 +238,7 @@ describe('StatsOutlineQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
       const spy1: SinonSpy = sinon.spy();

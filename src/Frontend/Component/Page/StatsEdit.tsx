@@ -44,6 +44,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
 
     if (id === null) {
       invalidIDInput();
+
       return;
     }
 
@@ -121,7 +122,11 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       startDateDetermined,
       invalidDateInput
     } = this.props;
-    const { openNewStatsItemModal, openStartDateModal } = this.state;
+    // prettier-ignore
+    const {
+      openNewStatsItemModal,
+      openStartDateModal
+    } = this.state;
 
     return (
       <Authenticated>

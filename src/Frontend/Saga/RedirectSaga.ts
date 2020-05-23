@@ -1,7 +1,9 @@
+/* eslint-disable */
 // @ts-nocheck
-import { SagaIterator } from '@redux-saga/types';
 import { push } from 'connected-react-router';
+import { SagaIterator } from 'redux-saga';
 import { fork, put, take } from 'redux-saga/effects';
+
 import { PUSH_TO_ENTRANCE, PUSH_TO_STATS_EDIT, PUSH_TO_STATS_LIST, PushToStatsEditAction } from '../Action/Action';
 import { Endpoints } from '../Endpoints';
 
@@ -22,6 +24,7 @@ export class RedirectSaga {
   private *toStatsEdit(): SagaIterator<unknown> {
     while (true) {
       const action: PushToStatsEditAction = yield take(PUSH_TO_STATS_EDIT);
+
       yield put(push(Endpoints.STATS_EDIT.replace(':id', action.statsID.get().get)));
     }
   }

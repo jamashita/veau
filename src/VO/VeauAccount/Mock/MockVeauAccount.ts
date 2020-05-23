@@ -1,7 +1,7 @@
 import { AccountName } from '../../Account/AccountName';
+import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
-import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { MockRegionID } from '../../Region/Mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
 import { VeauAccount } from '../VeauAccount';

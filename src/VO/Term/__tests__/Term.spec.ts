@@ -1,4 +1,5 @@
 import { Superposition, UUID } from 'publikum';
+
 import { TermError } from '../Error/TermError';
 import { Term } from '../Term';
 import { TermID } from '../TermID';
@@ -22,7 +23,7 @@ describe('Term', () => {
     });
   });
 
-  describe('of', () => {
+  describe('ofTermID', () => {
     it('normal case', () => {
       expect(Term.ofTermID(Term.DAILY.getTermID()).get()).toBe(Term.DAILY);
       expect(Term.ofTermID(Term.WEEKLY.getTermID()).get()).toBe(Term.WEEKLY);

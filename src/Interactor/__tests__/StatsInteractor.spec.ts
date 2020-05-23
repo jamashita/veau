@@ -40,6 +40,7 @@ describe('StatsInteractor', () => {
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub: SinonStub = sinon.stub();
+
       statsQuery.findByStatsID = stub;
       stub.resolves(Alive.of<Stats, NoSuchElementError>(stats));
 
@@ -64,6 +65,7 @@ describe('StatsInteractor', () => {
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub: SinonStub = sinon.stub();
+
       statsOutlineQuery.findByVeauAccountID = stub;
       stub.resolves(Alive.of<StatsOutlines, StatsOutlinesError>(outlines));
 
@@ -86,10 +88,12 @@ describe('StatsInteractor', () => {
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub: SinonStub = sinon.stub();
+
       statsCommand.create = stub;
       stub.resolves(Alive.of<unknown, DataSourceError>('something'));
 
       const statsInteractor: StatsInteractor = new StatsInteractor(statsQuery, statsOutlineQuery, statsCommand);
+
       await statsInteractor.save(stats, accountID);
 
       expect(stub.called).toBe(true);

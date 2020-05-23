@@ -55,6 +55,7 @@ describe('Region', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const region: Region = superposition.get();
+
       expect(region.getRegionID().get().get()).toBe(json.regionID);
       expect(region.getName().get()).toBe(json.name);
       expect(region.getISO3166().get()).toBe(json.iso3166);
@@ -100,6 +101,7 @@ describe('Region', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const region: Region = superposition.get();
+
       expect(region.getRegionID().get().get()).toBe(row.regionID);
       expect(region.getName().get()).toBe(row.name);
       expect(region.getISO3166().get()).toBe(row.iso3166);

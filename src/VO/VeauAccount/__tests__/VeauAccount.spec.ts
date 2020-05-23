@@ -1,14 +1,14 @@
 import { Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 
-import { VeauAccountError } from '../Error/VeauAccountError';
 import { AccountName } from '../../Account/AccountName';
+import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
-import { MockAccountName } from '../../Account/Mock/MockAccountName';
-import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
 import { MockRegionID } from '../../Region/Mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
+import { VeauAccountError } from '../Error/VeauAccountError';
+import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
 import { VeauAccount, VeauAccountJSON } from '../VeauAccount';
 import { VeauAccountID } from '../VeauAccountID';
 
@@ -42,6 +42,7 @@ describe('VeauAccount', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const veauAccount: VeauAccount = superposition.get();
+
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
       expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
@@ -216,7 +217,7 @@ describe('VeauAccount', () => {
         veauAccountID: uuid1.get(),
         languageID: uuid2.get(),
         regionID: uuid3.get(),
-        name: name
+        name
       });
     });
   });

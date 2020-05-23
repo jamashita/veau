@@ -8,12 +8,12 @@ import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { AuthenticationMiddleware } from '../AuthenticationMiddleware';
 
-const setUser = (req: Request, res: Response, next: NextFunction) => {
+const setUser = (req: Request, res: Response, next: NextFunction): void => {
   req.user = {};
   next();
 };
 
-const ok = (req: Request, res: Response) => {
+const ok = (req: Request, res: Response): void => {
   res.sendStatus(OK);
 };
 
@@ -38,11 +38,13 @@ describe('AuthenticationMiddleware', () => {
         Type.AuthenticationMiddleware
       );
       const app: Express = express();
+
       app.use(setUser);
       app.use(authenticationMiddleware.requires());
       app.use(ok);
 
       const response: supertest.Response = await supertest(app).get('/');
+
       expect(response.status).toBe(OK);
     });
 
@@ -51,10 +53,12 @@ describe('AuthenticationMiddleware', () => {
         Type.AuthenticationMiddleware
       );
       const app: Express = express();
+
       app.use(authenticationMiddleware.requires());
       app.use(ok);
 
       const response: supertest.Response = await supertest(app).get('/');
+
       expect(response.status).toBe(UNAUTHORIZED);
     });
 
@@ -63,11 +67,13 @@ describe('AuthenticationMiddleware', () => {
         Type.AuthenticationMiddleware
       );
       const app: Express = express();
+
       app.use(setUser);
       app.use(authenticationMiddleware.requires());
       app.use(ok);
 
       const response: supertest.Response = await supertest(app).post('/');
+
       expect(response.status).toBe(OK);
     });
 
@@ -76,10 +82,12 @@ describe('AuthenticationMiddleware', () => {
         Type.AuthenticationMiddleware
       );
       const app: Express = express();
+
       app.use(authenticationMiddleware.requires());
       app.use(ok);
 
       const response: supertest.Response = await supertest(app).post('/');
+
       expect(response.status).toBe(UNAUTHORIZED);
     });
 
@@ -88,11 +96,13 @@ describe('AuthenticationMiddleware', () => {
         Type.AuthenticationMiddleware
       );
       const app: Express = express();
+
       app.use(setUser);
       app.use(authenticationMiddleware.requires());
       app.use(ok);
 
       const response: supertest.Response = await supertest(app).put('/');
+
       expect(response.status).toBe(OK);
     });
 
@@ -101,10 +111,12 @@ describe('AuthenticationMiddleware', () => {
         Type.AuthenticationMiddleware
       );
       const app: Express = express();
+
       app.use(authenticationMiddleware.requires());
       app.use(ok);
 
       const response: supertest.Response = await supertest(app).put('/');
+
       expect(response.status).toBe(UNAUTHORIZED);
     });
 
@@ -113,11 +125,13 @@ describe('AuthenticationMiddleware', () => {
         Type.AuthenticationMiddleware
       );
       const app: Express = express();
+
       app.use(setUser);
       app.use(authenticationMiddleware.requires());
       app.use(ok);
 
       const response: supertest.Response = await supertest(app).delete('/');
+
       expect(response.status).toBe(OK);
     });
 
@@ -126,10 +140,12 @@ describe('AuthenticationMiddleware', () => {
         Type.AuthenticationMiddleware
       );
       const app: Express = express();
+
       app.use(authenticationMiddleware.requires());
       app.use(ok);
 
       const response: supertest.Response = await supertest(app).delete('/');
+
       expect(response.status).toBe(UNAUTHORIZED);
     });
   });

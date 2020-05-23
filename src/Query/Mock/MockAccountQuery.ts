@@ -1,8 +1,8 @@
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 
-import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { Account } from '../../VO/Account/Account';
 import { AccountError } from '../../VO/Account/Error/AccountError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IAccountQuery } from '../Interface/IAccountQuery';
 import { IMockQuery } from './Interface/IMockQuery';
 

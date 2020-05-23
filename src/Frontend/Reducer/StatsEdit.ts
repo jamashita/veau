@@ -23,7 +23,11 @@ const initialState: StatsEdit = {
 export const statsEdit: Reducer<StatsEdit, Action> = (state: StatsEdit = initialState, action: Action) => {
   switch (action.type) {
     case STATS_EDIT_SELECT_ITEM: {
-      const { statsItem, row } = action;
+      // prettier-ignore
+      const {
+        statsItem,
+        row
+      } = action;
 
       return {
         ...state,
@@ -32,7 +36,10 @@ export const statsEdit: Reducer<StatsEdit, Action> = (state: StatsEdit = initial
       };
     }
     case STATS_EDIT_UPDATE_SELECTING_ITEM: {
-      const { statsItem } = action;
+      // prettier-ignore
+      const {
+        statsItem
+      } = action;
 
       return {
         ...state,

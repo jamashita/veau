@@ -1,13 +1,15 @@
+import 'reflect-metadata';
+
 import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
-import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { VeauAccountError } from '../../../VO/VeauAccount/Error/VeauAccountError';
 import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
 import { MockEntranceInformation } from '../../../VO/EntranceInformation/Mock/MockEntranceInformation';
 import { MockPassword } from '../../../VO/EntranceInformation/Mock/MockPassword';
+import { VeauAccountError } from '../../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount, VeauAccountJSON } from '../../../VO/VeauAccount/VeauAccount';
 import { VeauAccountQuery } from '../VeauAccountQuery';
 
@@ -33,6 +35,7 @@ describe('VeauAccountQuery', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.get = stub;
       stub.resolves({
         status: OK,
@@ -48,6 +51,7 @@ describe('VeauAccountQuery', () => {
       expect(stub.withArgs('/api/accounts').called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const veauAccount: VeauAccount = superposition.get();
+
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
       expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
@@ -64,6 +68,7 @@ describe('VeauAccountQuery', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.get = stub;
       stub.resolves({
         status: OK,
@@ -96,6 +101,7 @@ describe('VeauAccountQuery', () => {
     it('does not return OK', async () => {
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
@@ -137,6 +143,7 @@ describe('VeauAccountQuery', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.post = stub;
       stub.resolves({
         status: OK,
@@ -161,6 +168,7 @@ describe('VeauAccountQuery', () => {
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const veauAccount: VeauAccount = superposition.get();
+
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
       expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
@@ -177,6 +185,7 @@ describe('VeauAccountQuery', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.post = stub;
       stub.resolves({
         status: OK,
@@ -210,6 +219,7 @@ describe('VeauAccountQuery', () => {
     it('returns UNAUTHORIZED', async () => {
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.post = stub;
       stub.resolves({
         status: UNAUTHORIZED,
@@ -240,9 +250,10 @@ describe('VeauAccountQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it("doesn't return OK nor UNAUTHORIZED", async () => {
+    it('does not return OK nor UNAUTHORIZED', async () => {
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.post = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,

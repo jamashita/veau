@@ -1,6 +1,5 @@
 import { Absent, Alive, Ambiguous, Dead, Entity, Kind, Quantum, Superposition } from 'publikum';
 
-import { StatsError } from './Error/StatsError';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
@@ -25,6 +24,7 @@ import { TermError } from '../../VO/Term/Error/TermError';
 import { Term } from '../../VO/Term/Term';
 import { StatsItem, StatsItemJSON } from '../StatsItem/StatsItem';
 import { StatsItems } from '../StatsItem/StatsItems';
+import { StatsError } from './Error/StatsError';
 
 export type StatsJSON = Readonly<{
   outline: StatsOutlineJSON;
@@ -266,6 +266,7 @@ export class Stats extends Entity<StatsID> {
 
     this.getColumns().forEach((column: AsOf) => {
       const asOfString: string = column.toString();
+
       chartItems.set(asOfString, {
         name: asOfString
       });
@@ -282,6 +283,7 @@ export class Stats extends Entity<StatsID> {
     });
 
     const chart: Array<Chart> = [];
+
     chartItems.forEach((value: Chart) => {
       chart.push(value);
     });

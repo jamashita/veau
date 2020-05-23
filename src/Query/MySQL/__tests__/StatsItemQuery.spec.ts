@@ -6,7 +6,6 @@ import {
   DataSourceError,
   Dead,
   ImmutableProject,
-  MockError,
   MockMySQL,
   MySQLError,
   Project,
@@ -112,10 +111,12 @@ describe('StatsItemQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub1: SinonStub = sinon.stub();
+
       mysql.execute = stub1;
       stub1.resolves(rows);
       const statsValueQuery: MockStatsValueQuery = new MockStatsValueQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsValueQuery.findByStatsID = stub2;
       stub2.resolves(Alive.of<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(project));
 
@@ -140,6 +141,7 @@ describe('StatsItemQuery', () => {
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const statsItems: StatsItems = superposition.get();
+
       expect(statsItems.size()).toBe(3);
       for (let i: number = 0; i < statsItems.size(); i++) {
         expect(statsItems.get(i).get().getStatsItemID().get().get()).toBe(rows[i].statsItemID);
@@ -160,7 +162,7 @@ describe('StatsItemQuery', () => {
       expect(values3.get(asOf3)).toBeInstanceOf(Absent);
     });
 
-    it("returns Dead when statsItems' statsItemID is malformat", async () => {
+    it('returns Dead when statsItems statsItemID is malformat', async () => {
       const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsItemRow> = [
         {
@@ -180,10 +182,12 @@ describe('StatsItemQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub1: SinonStub = sinon.stub();
+
       mysql.execute = stub1;
       stub1.resolves(rows);
       const statsValueQuery: MockStatsValueQuery = new MockStatsValueQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsValueQuery.findByStatsID = stub2;
       stub2.resolves(Alive.of<StatsValues, StatsValuesError | DataSourceError>(values));
       const spy1: SinonSpy = sinon.spy();
@@ -229,10 +233,12 @@ describe('StatsItemQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub1: SinonStub = sinon.stub();
+
       mysql.execute = stub1;
       stub1.resolves(rows);
       const statsValueQuery: MockStatsValueQuery = new MockStatsValueQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsValueQuery.findByStatsID = stub2;
       stub2.resolves(Dead.of<StatsValues, StatsValuesError | DataSourceError>(new StatsValuesError('test failed')));
       const spy1: SinonSpy = sinon.spy();
@@ -278,10 +284,12 @@ describe('StatsItemQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub1: SinonStub = sinon.stub();
+
       mysql.execute = stub1;
       stub1.resolves(rows);
       const statsValueQuery: MockStatsValueQuery = new MockStatsValueQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsValueQuery.findByStatsID = stub2;
       stub2.resolves(Dead.of<StatsValues, StatsValuesError | DataSourceError>(new MySQLError('test faied')));
       const spy1: SinonSpy = sinon.spy();

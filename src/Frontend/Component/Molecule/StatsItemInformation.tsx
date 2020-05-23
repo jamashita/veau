@@ -15,8 +15,8 @@ import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
   selecting: Quantum<StatsItem>;
-  nameTyped: (name: StatsItemName) => void;
-  removeItem: (statsItem: StatsItem) => void;
+  nameTyped(name: StatsItemName): void;
+  removeItem(statsItem: StatsItem): void;
 }>;
 type State = Readonly<{}>;
 

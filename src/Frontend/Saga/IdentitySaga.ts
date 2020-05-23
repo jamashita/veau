@@ -1,10 +1,11 @@
+/* eslint-disable */
 // @ts-nocheck
 import { DataSourceError, Superposition } from 'publikum';
 import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 
-import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { UnauthorizedError } from '../../Error/UnauthorizedError';
+import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
@@ -85,7 +86,10 @@ export class IdentitySaga {
     const iso639: ISO639 = ISO639.of(supportLanguage);
     const state: State = yield select();
 
-    const { identity } = state;
+    // prettier-ignore
+    const {
+      identity
+    } = state;
 
     const superposition3: Superposition<Language, NoSuchElementError | DataSourceError> = yield call(
       (): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
@@ -115,7 +119,10 @@ export class IdentitySaga {
       yield take(IDENTITY_INITIALIZE);
       const state: State = yield select();
 
-      const { identity } = state;
+      // prettier-ignore
+      const {
+        identity
+      } = state;
 
       const veauAccount: VeauAccount = VeauAccount.of(
         VeauAccountID.generate(),

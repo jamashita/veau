@@ -1,7 +1,7 @@
 import { AccountName } from '../../Account/AccountName';
+import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { EntranceInformation } from '../EntranceInformation';
 import { Password } from '../Password';
-import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { MockPassword } from './MockPassword';
 
 type EntranceInformationArgs = Partial<

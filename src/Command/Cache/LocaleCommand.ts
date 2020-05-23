@@ -4,8 +4,8 @@ import { CacheError, DataSourceError, ICache, Schrodinger, Superposition } from 
 import { Type } from '../../Container/Types';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';
 import { Locale } from '../../VO/Locale/Locale';
-import { ICacheCommand } from './Interface/ICacheCommand';
 import { ILocaleCommand } from '../Interface/ILocaleCommand';
+import { ICacheCommand } from './Interface/ICacheCommand';
 
 @injectable()
 export class LocaleCommand implements ILocaleCommand, ICacheCommand {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
+
 import { LanguageIdentificationService } from '../../Service/LanguageIdentificationService';
 import { SystemSupportLanguage } from '../../VO/System/SystemSupportLanguage';
 import { Props } from '../Container/I18NProvider';

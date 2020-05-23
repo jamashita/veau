@@ -1,4 +1,5 @@
 import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
+
 import { RowError } from './Error/RowError';
 
 const ORIGIN_VALUE: number = 0;

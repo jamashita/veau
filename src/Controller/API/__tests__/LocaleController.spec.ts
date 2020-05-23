@@ -24,7 +24,7 @@ import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
 import { MockVeauAccount } from '../../../VO/VeauAccount/Mock/MockVeauAccount';
 import { LocaleController } from '../LocaleController';
 
-const fakeAccount = (req: Request, res: Response, next: NextFunction) => {
+const fakeAccount = (req: Request, res: Response, next: NextFunction): void => {
   req.user = new MockVeauAccount();
   next();
 };
@@ -52,15 +52,18 @@ describe('LocaleController', () => {
 
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
+
       localeInteractor.all = stub;
       stub.resolves(Alive.of<Locale, NoSuchElementError | DataSourceError>(locale));
 
       const app: Express = express();
+
       useExpressServer(app, {
         controllers: [LocaleController]
       });
 
       const response: supertest.Response = await supertest(app).get('/locale');
+
       expect(response.status).toBe(OK);
       expect(response.body).toEqual(locale.toJSON());
     });
@@ -68,30 +71,36 @@ describe('LocaleController', () => {
     it('returns INTERNAL_SERVER_ERROR when Dead contains NoSuchElementError', async () => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
+
       localeInteractor.all = stub;
       stub.resolves(Dead.of<Locale, NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed')));
 
       const app: Express = express();
+
       useExpressServer(app, {
         controllers: [LocaleController]
       });
 
       const response: supertest.Response = await supertest(app).get('/locale');
+
       expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
 
     it('returns INTERNAL_SERVER_ERROR when Dead contains DataSourceError', async () => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
+
       localeInteractor.all = stub;
       stub.resolves(Dead.of<Locale, NoSuchElementError | DataSourceError>(new RedisError('test failed')));
 
       const app: Express = express();
+
       useExpressServer(app, {
         controllers: [LocaleController]
       });
 
       const response: supertest.Response = await supertest(app).get('/locale');
+
       expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
   });
@@ -100,32 +109,38 @@ describe('LocaleController', () => {
     it('delete all locales of the cache', async () => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
+
       localeInteractor.delete = stub;
       stub.resolves(Alive.of<DataSourceError>());
 
       const app: Express = express();
+
       app.use(fakeAccount);
       useExpressServer(app, {
         controllers: [LocaleController]
       });
 
       const response: supertest.Response = await supertest(app).delete('/locale');
+
       expect(response.status).toBe(OK);
     });
 
     it('replies INTERNAL_SERVER_ERROR', async () => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
+
       localeInteractor.delete = stub;
       stub.resolves(Dead.of<DataSourceError>(new RedisError('test failed')));
 
       const app: Express = express();
+
       app.use(fakeAccount);
       useExpressServer(app, {
         controllers: [LocaleController]
       });
 
       const response: supertest.Response = await supertest(app).delete('/locale');
+
       expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
   });

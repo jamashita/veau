@@ -15,16 +15,16 @@ import {
 } from 'publikum';
 
 import { Type } from '../../Container/Types';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
+import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
-import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { ISO3166 } from '../../VO/Region/ISO3166';
 import { Region, RegionJSON } from '../../VO/Region/Region';
 import { RegionID } from '../../VO/Region/RegionID';
 import { Regions } from '../../VO/Region/Regions';
-import { IRedisQuery } from './Interface/IRedisQuery';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IRegionQuery } from '../Interface/IRegionQuery';
+import { IRedisQuery } from './Interface/IRedisQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery, IRedisQuery {

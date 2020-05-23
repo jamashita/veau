@@ -14,10 +14,10 @@ import {
   Superposition
 } from 'publikum';
 
-import { StatsValueError } from './Error/StatsValueError';
-import { StatsValuesError } from './Error/StatsValuesError';
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfs } from '../AsOf/AsOfs';
+import { StatsValueError } from './Error/StatsValueError';
+import { StatsValuesError } from './Error/StatsValuesError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
 export class StatsValues extends Objet implements Collection<AsOf, StatsValue>, Cloneable<StatsValues>, JSONable {

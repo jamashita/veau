@@ -17,6 +17,7 @@ export class LanguageIdentificationService {
       }
       default: {
         const lang: string = LanguageIdentificationService.split(smallLocale);
+
         if (lang === smallLocale) {
           return 'en';
         }

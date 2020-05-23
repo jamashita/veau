@@ -115,6 +115,7 @@ describe('Stats', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
+
       expect(stats.getStatsID().get().get()).toBe(json.outline.statsID);
       expect(stats.getName().get()).toBe(json.outline.name);
       expect(stats.getUnit().get()).toBe(json.outline.unit);
@@ -134,6 +135,7 @@ describe('Stats', () => {
         expect(stats.getItems().get(i).get().getValues().size()).toBe(json.items[i].values.length);
         for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
           const asOf: AsOf = AsOf.ofString(json.items[i].values[j].asOf).get();
+
           expect(stats.getItems().get(i).get().getValues().get(asOf).get().getAsOf().toString()).toBe(
             json.items[i].values[j].asOf
           );
@@ -1115,6 +1117,7 @@ describe('Stats', () => {
       );
 
       const columns: AsOfs = stats.getColumns();
+
       expect(columns.size()).toBe(7);
       expect(columns.get(0).get().toString()).toBe('1999-12-31');
       expect(columns.get(1).get().toString()).toBe('2000-01-01');
@@ -1180,6 +1183,7 @@ describe('Stats', () => {
       );
 
       const columns: AsOfs = stats.getColumns();
+
       expect(columns.size()).toBe(10);
       expect(columns.get(0).get().toString()).toBe('1999-12-31');
       expect(columns.get(1).get().toString()).toBe('2000-01-01');
@@ -1203,6 +1207,7 @@ describe('Stats', () => {
       );
 
       const columns: AsOfs = stats.getColumns();
+
       expect(columns.isEmpty()).toBe(true);
     });
   });
@@ -1272,60 +1277,62 @@ describe('Stats', () => {
   });
 
   describe('getRow', () => {
-    const statsItem1: MockStatsItem = new MockStatsItem({
-      values: new MockStatsValues(
-        new MockStatsValue({
-          asOf: new MockAsOf({
-            month: 1,
-            day: 1
+    it('normal case', () => {
+      const statsItem1: MockStatsItem = new MockStatsItem({
+        values: new MockStatsValues(
+          new MockStatsValue({
+            asOf: new MockAsOf({
+              month: 1,
+              day: 1
+            }),
+            value: new MockNumericalValue(1)
           }),
-          value: new MockNumericalValue(1)
-        }),
-        new MockStatsValue({
-          asOf: new MockAsOf({
-            month: 1,
-            day: 3
+          new MockStatsValue({
+            asOf: new MockAsOf({
+              month: 1,
+              day: 3
+            }),
+            value: new MockNumericalValue(2)
+          })
+        )
+      });
+      const statsItem2: MockStatsItem = new MockStatsItem({
+        values: new MockStatsValues(
+          new MockStatsValue({
+            asOf: new MockAsOf({
+              month: 1,
+              day: 1
+            }),
+            value: new MockNumericalValue(2)
           }),
-          value: new MockNumericalValue(2)
-        })
-      )
-    });
-    const statsItem2: MockStatsItem = new MockStatsItem({
-      values: new MockStatsValues(
-        new MockStatsValue({
-          asOf: new MockAsOf({
-            month: 1,
-            day: 1
+          new MockStatsValue({
+            asOf: new MockAsOf({
+              month: 1,
+              day: 2
+            }),
+            value: new MockNumericalValue(4)
           }),
-          value: new MockNumericalValue(2)
-        }),
-        new MockStatsValue({
-          asOf: new MockAsOf({
-            month: 1,
-            day: 2
-          }),
-          value: new MockNumericalValue(4)
-        }),
-        new MockStatsValue({
-          asOf: new MockAsOf({
-            month: 1,
-            day: 5
-          }),
-          value: new MockNumericalValue(6)
-        })
-      )
-    });
+          new MockStatsValue({
+            asOf: new MockAsOf({
+              month: 1,
+              day: 5
+            }),
+            value: new MockNumericalValue(6)
+          })
+        )
+      });
 
-    const stats: Stats = Stats.of(
-      new MockStatsOutline(),
-      new MockLanguage(),
-      new MockRegion(),
-      new MockTerm(),
-      new MockStatsItems(statsItem1, statsItem2)
-    );
+      const stats: Stats = Stats.of(
+        new MockStatsOutline(),
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm(),
+        new MockStatsItems(statsItem1, statsItem2)
+      );
 
-    expect(stats.getRow(Row.of(0).get()).get()).toBe(statsItem1);
-    expect(stats.getRow(Row.of(1).get()).get()).toBe(statsItem2);
+      expect(stats.getRow(Row.of(0).get()).get()).toBe(statsItem1);
+      expect(stats.getRow(Row.of(1).get()).get()).toBe(statsItem2);
+    });
   });
 
   describe('getRowHeaders', () => {
@@ -1387,6 +1394,7 @@ describe('Stats', () => {
       );
 
       const rowHeaders: StatsItemNames = stats.getRowHeaders();
+
       expect(rowHeaders.size()).toBe(2);
       expect(rowHeaders.get(0).get()).toBe(name1);
       expect(rowHeaders.get(1).get()).toBe(name2);
@@ -1849,6 +1857,7 @@ describe('Stats', () => {
       stats.setData(Coordinate.of(Row.of(0).get(), Column.of(2).get()), NumericalValue.of(4));
 
       const values: StatsValues = stats.getItems().get(0).get().getValues();
+
       expect(values.size()).toBe(2);
       expect(values.get(asOf1).get().getValue().get()).toBe(1);
       expect(values.get(asOf2).get().getValue().get()).toBe(4);
@@ -1885,6 +1894,7 @@ describe('Stats', () => {
       stats.setData(Coordinate.of(Row.of(0).get(), Column.of(2).get()), NumericalValue.of(2));
 
       const item: StatsItem = stats.getItems().get(0).get();
+
       expect(item.getValues().size()).toBe(3);
       expect(item.getValues().get(asOf1).get().getValue().get()).toBe(1);
       expect(item.getValues().get(asOf2).get().getValue().get()).toBe(2);
@@ -1941,6 +1951,7 @@ describe('Stats', () => {
       stats.deleteData(Coordinate.of(Row.of(0).get(), Column.of(1).get()));
 
       const items: StatsItems = stats.getItems();
+
       expect(items.size()).toBe(2);
       expect(items.get(0).get().getValues().size()).toBe(1);
       expect(items.get(0).get().getValues().get(asOf3).get().getValue().get()).toBe(2);
@@ -2032,12 +2043,29 @@ describe('Stats', () => {
       );
 
       expect(stats.getChart()).toEqual([
-        { name: '1999-12-31' },
-        { name: '2000-01-01', stats1: 1 },
-        { name: '2000-01-02', stats2: 12 },
-        { name: '2000-01-03', stats1: 2, stats2: 13 },
-        { name: '2000-01-04', stats2: 14 },
-        { name: '2000-01-05' }
+        {
+          name: '1999-12-31'
+        },
+        {
+          name: '2000-01-01',
+          stats1: 1
+        },
+        {
+          name: '2000-01-02',
+          stats2: 12
+        },
+        {
+          name: '2000-01-03',
+          stats1: 2,
+          stats2: 13
+        },
+        {
+          name: '2000-01-04',
+          stats2: 14
+        },
+        {
+          name: '2000-01-05'
+        }
       ]);
     });
   });
@@ -2070,7 +2098,7 @@ describe('Stats', () => {
       expect(stats.isDetermined()).toBe(true);
     });
 
-    it("even if it doesn't have values , if startDate is set, returns true", () => {
+    it('even if it does not have values , if startDate is set, returns true', () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
@@ -2086,7 +2114,7 @@ describe('Stats', () => {
       expect(stats.isDetermined()).toBe(true);
     });
 
-    it("returns false if stats doesn't have values nor startDate", () => {
+    it('returns false if stats does not have values nor startDate', () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),

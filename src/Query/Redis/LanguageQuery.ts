@@ -15,7 +15,6 @@ import {
 } from 'publikum';
 
 import { Type } from '../../Container/Types';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
@@ -23,6 +22,7 @@ import { ISO639 } from '../../VO/Language/ISO639';
 import { Language, LanguageJSON } from '../../VO/Language/Language';
 import { LanguageID } from '../../VO/Language/LanguageID';
 import { Languages } from '../../VO/Language/Languages';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { IRedisQuery } from './Interface/IRedisQuery';
 

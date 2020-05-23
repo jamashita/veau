@@ -1,4 +1,4 @@
-import { Absent, Alive, Dead, ImmutableProject, ImmutableSequence, Superposition, UUID } from 'publikum';
+import { Absent, Alive, Dead, ImmutableProject, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 
 import { LanguageID } from '../../Language/LanguageID';
@@ -54,6 +54,7 @@ describe('StatsOutlines', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const outlines: StatsOutlines = superposition.get();
+
       expect(outlines.size()).toBe(2);
       for (let i: number = 0; i < outlines.size(); i++) {
         expect(outlines.get(array[i].getStatsID()).get()).toBe(array[i]);
@@ -92,7 +93,7 @@ describe('StatsOutlines', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('contains failure', () => {
+    it('contains 2 failures', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -150,8 +151,10 @@ describe('StatsOutlines', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const outlines: StatsOutlines = superposition.get();
+
       for (let i: number = 0; i < 2; i++) {
         const outline: StatsOutline = outlines.get(StatsID.ofString(json[i].statsID).get()).get();
+
         expect(outline.getStatsID().get().get()).toBe(json[i].statsID);
         expect(outline.getLanguageID().get().get()).toBe(json[i].languageID);
         expect(outline.getRegionID().get().get()).toBe(json[i].regionID);
@@ -217,8 +220,10 @@ describe('StatsOutlines', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const outlines: StatsOutlines = superposition.get();
+
       for (let i: number = 0; i < 2; i++) {
         const outline: StatsOutline = outlines.get(StatsID.ofString(rows[i].statsID).get()).get();
+
         expect(outline.getStatsID().get().get()).toBe(rows[i].statsID);
         expect(outline.getLanguageID().get().get()).toBe(rows[i].languageID);
         expect(outline.getRegionID().get().get()).toBe(rows[i].regionID);
@@ -420,6 +425,7 @@ describe('StatsOutlines', () => {
       expect(outlines.size()).toBe(duplicated.size());
       for (let i: number = 0; i < outlines.size(); i++) {
         const statsID: StatsID = array[i].getStatsID();
+
         expect(outlines.get(statsID).get()).toBe(duplicated.get(statsID).get());
       }
     });

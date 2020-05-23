@@ -1,13 +1,14 @@
+/* eslint-disable */
 // @ts-nocheck
 import { DataSourceError, Present, Quantum, Superposition } from 'publikum';
 import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, PutEffect, select, take } from 'redux-saga/effects';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
+import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
-import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
@@ -17,38 +18,17 @@ import { Language } from '../../VO/Language/Language';
 import { Region } from '../../VO/Region/Region';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
-  Action,
-  STATS_EDIT_DATA_DELETED,
-  STATS_EDIT_DATA_FILLED,
-  STATS_EDIT_INITIALIZATION_FAILURE,
-  STATS_EDIT_INITIALIZE,
-  STATS_EDIT_INVALID_DATE_INPUT,
-  STATS_EDIT_INVALID_VALUE_INPUT,
-  STATS_EDIT_ISO3166_SELECTED,
-  STATS_EDIT_ISO639_SELECTED,
-  STATS_EDIT_ITEM_NAME_TYPED,
-  STATS_EDIT_ITEM_SAVE,
-  STATS_EDIT_NAME_TYPED,
-  STATS_EDIT_REMOVE_SELECTING_ITEM,
-  STATS_EDIT_ROW_MOVED,
-  STATS_EDIT_ROW_SELECTED,
-  STATS_EDIT_SAVE_STATS,
-  STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
-  STATS_EDIT_START_DATE_DETERMINED,
-  STATS_EDIT_UNIT_TYPED,
-  StatsEditDataDeletedAction,
-  StatsEditDataFilledAction,
-  StatsEditInitializeAction,
-  StatsEditISO3166SelectedAction,
-  StatsEditISO639SelectedAction,
-  StatsEditItemNameTypedAction,
-  StatsEditNameTypedAction,
-  StatsEditRemoveSelectingItemAction,
-  StatsEditRowMovedAction,
-  StatsEditRowSelectedAction,
-  StatsEditSelectingItemNameTypedAction,
-  StatsEditStartDateDeterminedAction,
-  StatsEditUnitTypedAction
+    Action, STATS_EDIT_DATA_DELETED, STATS_EDIT_DATA_FILLED, STATS_EDIT_INITIALIZATION_FAILURE,
+    STATS_EDIT_INITIALIZE, STATS_EDIT_INVALID_DATE_INPUT, STATS_EDIT_INVALID_VALUE_INPUT,
+    STATS_EDIT_ISO3166_SELECTED, STATS_EDIT_ISO639_SELECTED, STATS_EDIT_ITEM_NAME_TYPED,
+    STATS_EDIT_ITEM_SAVE, STATS_EDIT_NAME_TYPED, STATS_EDIT_REMOVE_SELECTING_ITEM,
+    STATS_EDIT_ROW_MOVED, STATS_EDIT_ROW_SELECTED, STATS_EDIT_SAVE_STATS,
+    STATS_EDIT_SELECTING_ITEM_NAME_TYPED, STATS_EDIT_START_DATE_DETERMINED, STATS_EDIT_UNIT_TYPED,
+    StatsEditDataDeletedAction, StatsEditDataFilledAction, StatsEditInitializeAction,
+    StatsEditISO3166SelectedAction, StatsEditISO639SelectedAction, StatsEditItemNameTypedAction,
+    StatsEditNameTypedAction, StatsEditRemoveSelectingItemAction, StatsEditRowMovedAction,
+    StatsEditRowSelectedAction, StatsEditSelectingItemNameTypedAction,
+    StatsEditStartDateDeterminedAction, StatsEditUnitTypedAction
 } from '../Action/Action';
 import { loaded, loading } from '../Action/LoadingAction';
 import { raiseModal } from '../Action/ModalAction';
@@ -104,7 +84,10 @@ export class StatsEditSaga {
     while (true) {
       const action: StatsEditInitializeAction = yield take(STATS_EDIT_INITIALIZE);
 
-      const { statsID } = action;
+      // prettier-ignore
+      const {
+        statsID
+      } = action;
 
       const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = yield call(
         (): Promise<Superposition<Stats, NoSuchElementError | StatsError | DataSourceError>> => {
@@ -140,7 +123,11 @@ export class StatsEditSaga {
       const action: StatsEditNameTypedAction = yield take(STATS_EDIT_NAME_TYPED);
       const state: State = yield select();
 
-      const { stats } = state;
+      // prettier-ignore
+      
+      const {
+        stats
+      } = state;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -162,7 +149,10 @@ export class StatsEditSaga {
       const action: StatsEditUnitTypedAction = yield take(STATS_EDIT_UNIT_TYPED);
       const state: State = yield select();
 
-      const { stats } = state;
+      // prettier-ignore
+      const {
+        stats
+      } = state;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -184,7 +174,10 @@ export class StatsEditSaga {
       const action: StatsEditISO639SelectedAction = yield take(STATS_EDIT_ISO639_SELECTED);
       const state: State = yield select();
 
-      const { stats } = state;
+      // prettier-ignore
+      const {
+        stats
+      } = state;
 
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = yield call(
         (): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
@@ -214,7 +207,10 @@ export class StatsEditSaga {
       const action: StatsEditISO3166SelectedAction = yield take(STATS_EDIT_ISO3166_SELECTED);
       const state: State = yield select();
 
-      const { stats } = state;
+      // prettier-ignore
+      const {
+        stats
+      } = state;
 
       const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = yield call(
         (): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
@@ -244,10 +240,18 @@ export class StatsEditSaga {
       const action: StatsEditDataFilledAction = yield take(STATS_EDIT_DATA_FILLED);
       const state: State = yield select();
 
-      const { stats } = state;
-      const { coordinate, value } = action;
+      // prettier-ignore
+      const {
+        stats
+      } = state;
+      // prettier-ignore
+      const { 
+        oordinate,
+        value
+      } = action;
 
       const duplicated: Stats = stats.duplicate();
+
       duplicated.setData(coordinate, value);
 
       yield put(updateStats(duplicated));
@@ -259,10 +263,17 @@ export class StatsEditSaga {
       const action: StatsEditDataDeletedAction = yield take(STATS_EDIT_DATA_DELETED);
       const state: State = yield select();
 
-      const { stats } = state;
-      const { coordinate } = action;
+      // prettier-ignore
+      const {
+        stats
+      } = state;
+      // prettier-ignore
+      const {
+        coordinate
+      } = action;
 
       const duplicated: Stats = stats.duplicate();
+
       duplicated.deleteData(coordinate);
 
       yield put(updateStats(duplicated));
@@ -274,8 +285,14 @@ export class StatsEditSaga {
       const action: StatsEditItemNameTypedAction = yield take(STATS_EDIT_ITEM_NAME_TYPED);
       const state: State = yield select();
 
-      const { statsItem } = state;
-      const { name } = action;
+      // prettier-ignore
+      const {
+        statsItem
+      } = state;
+      // prettier-ignore
+      const {
+        name
+      } = action;
 
       const newStatsItem: StatsItem = StatsItem.of(statsItem.getStatsItemID(), name, statsItem.getValues());
 
@@ -288,7 +305,11 @@ export class StatsEditSaga {
       yield take(STATS_EDIT_ITEM_SAVE);
       const state: State = yield select();
 
-      const { stats, statsItem } = state;
+      // prettier-ignore
+      const {
+        stats,
+        statsItem
+      } = state;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -311,8 +332,14 @@ export class StatsEditSaga {
       const action: StatsEditRowSelectedAction = yield take(STATS_EDIT_ROW_SELECTED);
       const state: State = yield select();
 
-      const { stats } = state;
-      const { row } = action;
+      // prettier-ignore
+      const {
+        stats
+      } = state;
+      // prettier-ignore
+      const {
+        row
+      } = action;
 
       const statsItem: Quantum<StatsItem> = stats.getRow(row);
 
@@ -327,9 +354,16 @@ export class StatsEditSaga {
 
       const {
         stats,
-        statsEdit: { selectingItem, selectingRow }
+        // prettier-ignore
+        statsEdit: {
+          selectingItem,
+          selectingRow
+        }
       } = state;
-      const { name } = action;
+      // prettier-ignore
+      const {
+        name
+      } = action;
 
       if (selectingItem.isAbsent()) {
         continue;
@@ -338,6 +372,7 @@ export class StatsEditSaga {
       const statsItem: StatsItem = selectingItem.get();
       const newSelectingItem: StatsItem = StatsItem.of(statsItem.getStatsItemID(), name, statsItem.getValues());
       const duplicated: Stats = stats.duplicate();
+
       duplicated.replaceItem(newSelectingItem, selectingRow);
 
       yield all([put(updateSelectingItem(Present.of<StatsItem>(newSelectingItem))), put(updateStats(duplicated))]);
@@ -349,8 +384,14 @@ export class StatsEditSaga {
       const action: StatsEditStartDateDeterminedAction = yield take(STATS_EDIT_START_DATE_DETERMINED);
       const state: State = yield select();
 
-      const { stats } = state;
-      const { startDate } = action;
+      // prettier-ignore
+      const {
+        stats
+      } = state;
+      // prettier-ignore
+      const {
+        startDate
+      } = action;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -381,10 +422,18 @@ export class StatsEditSaga {
       const action: StatsEditRowMovedAction = yield take(STATS_EDIT_ROW_MOVED);
       const state: State = yield select();
 
-      const { stats } = state;
-      const { column, target } = action;
+      // prettier-ignore
+      const {
+        stats
+      } = state;
+      // prettier-ignore
+      const {
+        column,
+        target 
+      } = action;
 
       const duplicated: Stats = stats.duplicate();
+
       duplicated.moveItem(column, target);
 
       yield put(updateStats(duplicated));
@@ -403,9 +452,13 @@ export class StatsEditSaga {
       const action: StatsEditRemoveSelectingItemAction = yield take(STATS_EDIT_REMOVE_SELECTING_ITEM);
       const state: State = yield select();
 
-      const { stats } = state;
+      // prettier-ignore
+      const {
+        stats
+      } = state;
 
       const duplicated: Stats = stats.duplicate();
+
       duplicated.removeItem(action.statsItem);
 
       yield all([put(updateStats(duplicated)), put(clearSelectingItem())]);
@@ -417,7 +470,10 @@ export class StatsEditSaga {
       yield take(STATS_EDIT_SAVE_STATS);
       const state: State = yield select();
 
-      const { stats } = state;
+      // prettier-ignore
+      const {
+        stats
+      } = state;
 
       yield put(loading());
 

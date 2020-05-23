@@ -1,4 +1,5 @@
 import { JSONable, ValueObject } from 'publikum';
+
 import { AccountName } from '../Account/AccountName';
 import { Password } from './Password';
 

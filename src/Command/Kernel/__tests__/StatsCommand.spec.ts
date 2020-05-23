@@ -27,6 +27,7 @@ describe('StatsCommand', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.transact = stub;
       stub.resolves(Alive.of<DataSourceError>());
 
@@ -42,6 +43,7 @@ describe('StatsCommand', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.transact = stub;
       stub.resolves(Dead.of<unknown, DataSourceError>(new MySQLError('test failed')));
       const spy1: SinonSpy = sinon.spy();

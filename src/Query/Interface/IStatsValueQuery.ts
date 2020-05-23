@@ -1,7 +1,7 @@
 import { DataSourceError, Project, Superposition } from 'publikum';
 
-import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { IQuery } from './IQuery';

@@ -1,4 +1,5 @@
 import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
+
 import { HeaderSizeError } from './Error/HeaderSizeError';
 
 export class HeaderSize extends ValueObject {

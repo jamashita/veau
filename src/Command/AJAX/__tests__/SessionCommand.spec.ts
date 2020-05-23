@@ -23,6 +23,7 @@ describe('SessionCommand', () => {
     it('normal case', async () => {
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.delete = stub;
       stub.resolves({
         status: OK,
@@ -39,6 +40,7 @@ describe('SessionCommand', () => {
     it('throws AJAXError', async () => {
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.delete = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,

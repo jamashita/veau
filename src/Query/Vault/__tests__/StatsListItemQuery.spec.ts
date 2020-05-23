@@ -88,16 +88,19 @@ describe('StatsListItemQuery', () => {
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
       const termQuery: MockTermQuery = new MockTermQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.findByVeauAccountID = stub1;
       stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
       const stub2: SinonStub = sinon.stub();
+
       localeQuery.all = stub2;
       stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
+
       termQuery.all = stub3;
       stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
 
-      const statsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
+      const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
       const superposition: Superposition<
         StatsListItems,
         StatsListItemsError | DataSourceError
@@ -105,6 +108,7 @@ describe('StatsListItemQuery', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const listItems: StatsListItems = superposition.get();
+
       expect(listItems.size()).toBe(outlines.size());
       expect(listItems.get(0).get().getOutline()).toBe(outline1);
       expect(listItems.get(0).get().getLanguage()).toBe(language1);
@@ -124,19 +128,22 @@ describe('StatsListItemQuery', () => {
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
       const termQuery: MockTermQuery = new MockTermQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.findByVeauAccountID = stub1;
       stub1.resolves(Dead.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed')));
       const stub2: SinonStub = sinon.stub();
+
       localeQuery.all = stub2;
       stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
+
       termQuery.all = stub3;
       stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
+      const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
       const superposition: Superposition<
         StatsListItems,
         StatsListItemsError | DataSourceError
@@ -165,19 +172,22 @@ describe('StatsListItemQuery', () => {
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
       const termQuery: MockTermQuery = new MockTermQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.findByVeauAccountID = stub1;
       stub1.resolves(Dead.of<StatsOutlines, AJAXError>(new AJAXError('test failed', 500)));
       const stub2: SinonStub = sinon.stub();
+
       localeQuery.all = stub2;
       stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
+
       termQuery.all = stub3;
       stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
+      const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
       const superposition: Superposition<
         StatsListItems,
         StatsListItemsError | DataSourceError
@@ -206,19 +216,22 @@ describe('StatsListItemQuery', () => {
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
       const termQuery: MockTermQuery = new MockTermQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.findByVeauAccountID = stub1;
       stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
       const stub2: SinonStub = sinon.stub();
+
       localeQuery.all = stub2;
       stub2.resolves(Dead.of<Locale, LocaleError>(new LocaleError('test faield')));
       const stub3: SinonStub = sinon.stub();
+
       termQuery.all = stub3;
       stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
+      const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
       const superposition: Superposition<
         StatsListItems,
         StatsListItemsError | DataSourceError
@@ -247,19 +260,22 @@ describe('StatsListItemQuery', () => {
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
       const termQuery: MockTermQuery = new MockTermQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.findByVeauAccountID = stub1;
       stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
       const stub2: SinonStub = sinon.stub();
+
       localeQuery.all = stub2;
       stub2.resolves(Dead.of<Locale, AJAXError>(new AJAXError('test faield', 500)));
       const stub3: SinonStub = sinon.stub();
+
       termQuery.all = stub3;
       stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
+      const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
       const superposition: Superposition<
         StatsListItems,
         StatsListItemsError | DataSourceError
@@ -288,19 +304,22 @@ describe('StatsListItemQuery', () => {
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
       const termQuery: MockTermQuery = new MockTermQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.findByVeauAccountID = stub1;
       stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
       const stub2: SinonStub = sinon.stub();
+
       localeQuery.all = stub2;
       stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
+
       termQuery.all = stub3;
       stub3.resolves(Dead.of<Terms, TermsError>(new TermsError('test failed')));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
+      const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
       const superposition: Superposition<
         StatsListItems,
         StatsListItemsError | DataSourceError
@@ -329,19 +348,22 @@ describe('StatsListItemQuery', () => {
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
       const termQuery: MockTermQuery = new MockTermQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.findByVeauAccountID = stub1;
       stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
       const stub2: SinonStub = sinon.stub();
+
       localeQuery.all = stub2;
       stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
+
       termQuery.all = stub3;
       stub3.resolves(Dead.of<Terms, CacheError>(new CacheError('test failed')));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
+      const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
       const superposition: Superposition<
         StatsListItems,
         StatsListItemsError | DataSourceError
@@ -381,19 +403,22 @@ describe('StatsListItemQuery', () => {
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
       const termQuery: MockTermQuery = new MockTermQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.findByVeauAccountID = stub1;
       stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
       const stub2: SinonStub = sinon.stub();
+
       localeQuery.all = stub2;
       stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
+
       termQuery.all = stub3;
       stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
+      const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
       const superposition: Superposition<
         StatsListItems,
         StatsListItemsError | DataSourceError
@@ -439,19 +464,22 @@ describe('StatsListItemQuery', () => {
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
       const termQuery: MockTermQuery = new MockTermQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.findByVeauAccountID = stub1;
       stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
       const stub2: SinonStub = sinon.stub();
+
       localeQuery.all = stub2;
       stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
+
       termQuery.all = stub3;
       stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
+      const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
       const superposition: Superposition<
         StatsListItems,
         StatsListItemsError | DataSourceError
@@ -502,19 +530,22 @@ describe('StatsListItemQuery', () => {
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
       const termQuery: MockTermQuery = new MockTermQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.findByVeauAccountID = stub1;
       stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
       const stub2: SinonStub = sinon.stub();
+
       localeQuery.all = stub2;
       stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
+
       termQuery.all = stub3;
       stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
+      const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
       const superposition: Superposition<
         StatsListItems,
         StatsListItemsError | DataSourceError

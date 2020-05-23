@@ -1,4 +1,4 @@
-import { DataSourceError, MockError, MockSQL, MySQLError, Superposition, UUID } from 'publikum';
+import { DataSourceError, MockSQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { MockStatsItem } from '../../../Entity/StatsItem/Mock/MockStatsItem';
@@ -22,6 +22,7 @@ describe('StatsItemCommand', () => {
 
       const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
+
       sql.execute = stub;
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
@@ -57,6 +58,7 @@ describe('StatsItemCommand', () => {
 
       const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
+
       sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
       const spy1: SinonSpy = sinon.spy();
@@ -92,6 +94,7 @@ describe('StatsItemCommand', () => {
 
       const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
+
       sql.execute = stub;
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
@@ -117,6 +120,7 @@ describe('StatsItemCommand', () => {
 
       const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
+
       sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
       const spy1: SinonSpy = sinon.spy();

@@ -1,4 +1,5 @@
 import { Collection, ImmutableSequence, JSONable, Mapper, Objet, Quantum, Sequence } from 'publikum';
+
 import { StatsItemName } from './StatsItemName';
 
 export class StatsItemNames extends Objet implements Collection<number, StatsItemName>, JSONable {

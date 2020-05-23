@@ -1,5 +1,6 @@
 import { Container } from 'inversify';
 import { MySQL, Redis } from 'publikum';
+
 import { StatsCommand as StatsKernelCommand } from '../Command/Kernel/StatsCommand';
 import { LanguageCommand as LanguageRedisCommand } from '../Command/Redis/LanguageCommand';
 import { RegionCommand as RegionRedisCommand } from '../Command/Redis/RegionCommand';

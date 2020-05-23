@@ -1,7 +1,7 @@
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 
-import { IMockCommand } from './Interface/IMockCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
+import { IMockCommand } from './Interface/IMockCommand';
 
 export class MockStatsCommand implements IStatsCommand, IMockCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';

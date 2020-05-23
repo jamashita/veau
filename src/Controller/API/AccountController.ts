@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { OK } from 'http-status';
-import { Controller, Get, Req, Res, UseBefore } from 'routing-controllers';
+import { Controller, Get, Res, UseBefore } from 'routing-controllers';
 
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
@@ -14,7 +14,7 @@ const authenticationMiddleware: AuthenticationMiddleware = kernel.get<Authentica
 @UseBefore(authenticationMiddleware.requires())
 export class AccountController {
   @Get('/')
-  public inquire(@Req() req: Request, @Res() res: Response): Response<unknown> {
+  public inquire(@Res() res: Response<unknown>): Response<unknown> {
     return res.status(OK).send(res.locals.account.toJSON());
   }
 }

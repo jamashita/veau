@@ -1,8 +1,9 @@
 import { Absent, ImmutableSequence } from 'publikum';
+
+import { Term } from '../../Term/Term';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 import { MockAsOf } from '../Mock/MockAsOf';
-import { Term } from '../../Term/Term';
 
 describe('AsOfs', () => {
   describe('of', () => {
@@ -83,6 +84,7 @@ describe('AsOfs', () => {
       const asOfs2: AsOfs = AsOfs.ofArray([asOf4, asOf5]);
 
       const asOfs: AsOfs = AsOfs.merge(asOfs1, asOfs2);
+
       expect(asOfs.size()).toBe(5);
       expect(asOfs.get(0).get()).toBe(asOf1);
       expect(asOfs.get(1).get()).toBe(asOf2);
@@ -381,18 +383,6 @@ describe('AsOfs', () => {
       const asOfs: AsOfs = AsOfs.ofArray([]);
 
       expect(asOfs.duplicate()).toBe(asOfs);
-    });
-  });
-
-  describe('toJSON', () => {
-    it('normal case', () => {
-      const asOfs: AsOfs = AsOfs.ofArray([
-        AsOf.ofString('2000-01-01').get(),
-        AsOf.ofString('2000-01-02').get(),
-        AsOf.ofString('2000-01-03').get()
-      ]);
-
-      expect(asOfs.toJSON()).toEqual(['2000-01-01', '2000-01-02', '2000-01-03']);
     });
   });
 

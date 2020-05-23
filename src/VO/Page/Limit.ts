@@ -1,4 +1,5 @@
 import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
+
 import { LimitError } from './Error/LimitError';
 
 const DEFAULT_VALUE: number = 40;

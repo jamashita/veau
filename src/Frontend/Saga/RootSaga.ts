@@ -1,5 +1,7 @@
+/* eslint-disable */
 // @ts-nocheck
 import { fork } from 'redux-saga/effects';
+
 import { EntranceSaga } from './EntranceSaga';
 import { IdentitySaga } from './IdentitySaga';
 import { LogoutSaga } from './LogoutSaga';

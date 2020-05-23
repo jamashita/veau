@@ -54,24 +54,24 @@ type StateProps = Readonly<{
   id: Nullable<string>;
 }>;
 type DispatchProps = Readonly<{
-  initialize: (statsID: StatsID) => void;
-  invalidIDInput: () => void;
-  dataFilled: (coordinate: Coordinate, value: NumericalValue) => void;
-  dataDeleted: (coordinate: Coordinate) => void;
-  nameTyped: (name: StatsName) => void;
-  unitTyped: (unit: StatsUnit) => void;
-  iso639Selected: (iso639: ISO639) => void;
-  iso3166Selected: (iso3166: ISO3166) => void;
-  itemNameTyped: (name: StatsItemName) => void;
-  saveNewItem: () => void;
-  rowSelected: (row: Row) => void;
-  selectingItemNameTyped: (name: StatsItemName) => void;
-  startDateDetermined: (startDate: AsOf) => void;
-  invalidDateInput: () => void;
-  rowMoved: (column: Column, target: Column) => void;
-  invalidValueInput: () => void;
-  removeItem: (statsItem: StatsItem) => void;
-  save: () => void;
+  initialize(statsID: StatsID): void;
+  invalidIDInput(): void;
+  dataFilled(coordinate: Coordinate, value: NumericalValue): void;
+  dataDeleted(coordinate: Coordinate): void;
+  nameTyped(name: StatsName): void;
+  unitTyped(unit: StatsUnit): void;
+  iso639Selected(iso639: ISO639): void;
+  iso3166Selected(iso3166: ISO3166): void;
+  itemNameTyped(name: StatsItemName): void;
+  saveNewItem(): void;
+  rowSelected(row: Row): void;
+  selectingItemNameTyped(name: StatsItemName): void;
+  startDateDetermined(startDate: AsOf): void;
+  invalidDateInput(): void;
+  rowMoved(column: Column, target: Column): void;
+  invalidValueInput(): void;
+  removeItem(statsItem: StatsItem): void;
+  save(): void;
 }>;
 type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;
@@ -81,6 +81,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   const {
     stats,
     statsItem,
+    // prettier-ignore
     statsEdit: {
       selectingItem
     },

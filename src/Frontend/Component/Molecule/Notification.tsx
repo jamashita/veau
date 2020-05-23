@@ -61,15 +61,15 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
       case 'success': {
         return <Icon className='fas fa-check-circle icon-spacing' />;
       }
-      case 'info':
-      default: {
-        return <Icon className='fas fa-info-circle icon-spacing' />;
-      }
       case 'warn': {
         return <Icon className='fas fa-exclamation-circle icon-spacing' />;
       }
       case 'error': {
         return <Icon className='fas fa-exclamation-triangle icon-spacing' />;
+      }
+      case 'info':
+      default: {
+        return <Icon className='fas fa-info-circle icon-spacing' />;
       }
     }
   }
@@ -84,15 +84,15 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
       case 'success': {
         return green['700'];
       }
-      default:
-      case 'info': {
-        return blue['800'];
-      }
       case 'warn': {
         return amber['400'];
       }
       case 'error': {
         return red['900'];
+      }
+      case 'info':
+      default: {
+        return blue['800'];
       }
     }
   }

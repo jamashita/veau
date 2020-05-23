@@ -15,9 +15,9 @@ import { TextField } from '../Atom/TextField';
 type Props = Readonly<{
   open: boolean;
   statsItem: StatsItem;
-  close: () => void;
-  itemNameTyped: (name: StatsItemName) => void;
-  saveNewItem: () => void;
+  close(): void;
+  itemNameTyped(name: StatsItemName): void;
+  saveNewItem(): void;
 }>;
 type State = Readonly<{}>;
 

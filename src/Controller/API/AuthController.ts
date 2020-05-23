@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { OK } from 'http-status';
 import passport from 'passport';
-import { Controller, Post, Req, Res, UseBefore } from 'routing-controllers';
+import { Controller, Post, Res, UseBefore } from 'routing-controllers';
 
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
@@ -16,7 +16,7 @@ export class AuthController {
   @Post('/')
   @UseBefore(passport.authenticate('local'))
   @UseBefore(authenticationMiddleware.requires())
-  public auth(@Req() req: Request, @Res() res: Response): Response<unknown> {
+  public auth(@Res() res: Response<unknown>): Response<unknown> {
     return res.status(OK).send(res.locals.account.toJSON());
   }
 }

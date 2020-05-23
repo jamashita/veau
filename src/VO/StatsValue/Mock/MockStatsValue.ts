@@ -1,8 +1,8 @@
 import { AsOf } from '../../AsOf/AsOf';
+import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
 import { MockNumericalValue } from '../../NumericalValue/Mock/MockNumericalValue';
 import { NumericalValue } from '../../NumericalValue/NumericalValue';
 import { StatsValue } from '../StatsValue';
-import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
 
 type StatsValueArgs = Partial<
   Readonly<{

@@ -3,12 +3,13 @@ import { DataSourceError, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
+
 import { Type } from '../../Container/Types';
-import { IdentityError } from '../../VO/Identity/Error/IdentityError';
-import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
+import { IdentityError } from '../../VO/Identity/Error/IdentityError';
 import { Identity } from '../../VO/Identity/Identity';
+import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import {
   Action,

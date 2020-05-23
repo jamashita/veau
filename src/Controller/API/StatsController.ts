@@ -28,7 +28,7 @@ const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsI
 export class StatsController {
   @Get('/page/:page(\\d+)')
   @UseBefore(authenticationMiddleware.requires())
-  public list(@Param('page') pg: number, @Res() res: Response): Promise<Response<unknown>> {
+  public list(@Param('page') pg: number, @Res() res: Response<unknown>): Promise<Response<unknown>> {
     return Page.of(pg).match<Promise<Response<unknown>>>(
       async (page: Page) => {
         const superposition: Superposition<
@@ -57,7 +57,7 @@ export class StatsController {
 
   @Get('/:statsID([0-9a-f-]{36})')
   @UseBefore(authenticationMiddleware.requires())
-  public refer(@Param('statsID') id: string, @Res() res: Response): Promise<Response<unknown>> {
+  public refer(@Param('statsID') id: string, @Res() res: Response<unknown>): Promise<Response<unknown>> {
     return StatsID.ofString(id).match<Promise<Response<unknown>>>(
       async (statsID: StatsID) => {
         const superposition: Superposition<
@@ -92,7 +92,7 @@ export class StatsController {
 
   @Post('/')
   @UseBefore(authenticationMiddleware.requires())
-  public register(@Body() body: PlainObject, @Res() res: Response): Promise<Response<unknown>> {
+  public register(@Body() body: PlainObject, @Res() res: Response<unknown>): Promise<Response<unknown>> {
     if (!Stats.isJSON(body)) {
       return Promise.resolve<Response<unknown>>(res.sendStatus(BAD_REQUEST));
     }

@@ -1,10 +1,10 @@
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 
+import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { Stats } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
-import { StatsError } from '../../Entity/Stats/Error/StatsError';
-import { IMockQuery } from './Interface/IMockQuery';
 import { IStatsQuery } from '../Interface/IStatsQuery';
+import { IMockQuery } from './Interface/IMockQuery';
 
 export class MockStatsQuery implements IStatsQuery, IMockQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';

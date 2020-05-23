@@ -1,6 +1,7 @@
 import { DataSourceError, Superposition } from 'publikum';
-import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
+
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
+import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import { IQuery } from './IQuery';
 

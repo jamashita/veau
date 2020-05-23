@@ -1,20 +1,20 @@
 import { Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 
-import { AccountError } from '../Error/AccountError';
+import { Password } from '../../EntranceInformation/Password';
 import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
-import { MockHash } from '../Mock/MockHash';
-import { MockVeauAccount } from '../../VeauAccount/Mock/MockVeauAccount';
-import { MockVeauAccountID } from '../../VeauAccount/Mock/MockVeauAccountID';
-import { Password } from '../../EntranceInformation/Password';
 import { MockRegionID } from '../../Region/Mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
+import { MockVeauAccount } from '../../VeauAccount/Mock/MockVeauAccount';
+import { MockVeauAccountID } from '../../VeauAccount/Mock/MockVeauAccountID';
 import { VeauAccount } from '../../VeauAccount/VeauAccount';
 import { VeauAccountID } from '../../VeauAccount/VeauAccountID';
 import { Account, AccountRow } from '../Account';
 import { AccountName } from '../AccountName';
+import { AccountError } from '../Error/AccountError';
 import { Hash } from '../Hash';
+import { MockHash } from '../Mock/MockHash';
 
 describe('Account', () => {
   describe('of', () => {
@@ -43,6 +43,7 @@ describe('Account', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const account: Account = superposition.get();
+
       expect(account.getVeauAccountID().get().get()).toBe(row.veauAccountID);
       expect(account.getLanguageID().get().get()).toBe(row.languageID);
       expect(account.getRegionID().get().get()).toBe(row.regionID);

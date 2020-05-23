@@ -34,7 +34,7 @@ export class LocaleInteractor implements Noun {
   }
 
   public async all(): Promise<Superposition<Locale, LocaleError | DataSourceError>> {
-    const [languagesSuperposition, regionsSuperposition]: [
+    const [superposition1, superposition2]: [
       Superposition<Languages, LanguagesError | DataSourceError>,
       Superposition<Regions, RegionsError | DataSourceError>
     ] = await Promise.all<
@@ -42,9 +42,9 @@ export class LocaleInteractor implements Noun {
       Superposition<Regions, RegionsError | DataSourceError>
     >([this.languageQuery.all(), this.regionQuery.all()]);
 
-    return languagesSuperposition.match<Locale, LocaleError | DataSourceError>(
+    return superposition1.match<Locale, LocaleError | DataSourceError>(
       (languages: Languages) => {
-        return regionsSuperposition.match<Locale, LocaleError | DataSourceError>(
+        return superposition2.match<Locale, LocaleError | DataSourceError>(
           (regions: Regions) => {
             return Alive.of<Locale, DataSourceError>(Locale.of(languages, regions));
           },

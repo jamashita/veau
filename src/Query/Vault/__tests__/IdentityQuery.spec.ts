@@ -48,14 +48,17 @@ describe('IdentityQuery', () => {
 
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.find = stub1;
       stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageQuery.find = stub2;
       stub2.resolves(Alive.of<Language, DataSourceError>(language));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
+
       regionQuery.find = stub3;
       stub3.resolves(Alive.of<Region, DataSourceError>(region));
 
@@ -64,6 +67,7 @@ describe('IdentityQuery', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const identity: Identity = superposition.get();
+
       expect(identity.getVeauAccountID()).toBe(veauAccountID);
       expect(identity.getAccountName()).toBe(account);
       expect(identity.getLanguage()).toBe(language);
@@ -73,6 +77,7 @@ describe('IdentityQuery', () => {
     it('returns Dead when VeauAccountQuery returns Dead VeauAccountError', async () => {
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.find = stub1;
       stub1.resolves(Dead.of<VeauAccount, VeauAccountError>(new VeauAccountError('test failed')));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
@@ -102,6 +107,7 @@ describe('IdentityQuery', () => {
     it('returns Dead when VeauAccountQuery returns Dead AJAXError', async () => {
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.find = stub1;
       stub1.resolves(Dead.of<VeauAccount, AJAXError>(new AJAXError('test failed', 500)));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
@@ -134,14 +140,17 @@ describe('IdentityQuery', () => {
 
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.find = stub1;
       stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageQuery.find = stub2;
       stub2.resolves(Dead.of<Language, LanguageError>(new LanguageError('test faield')));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
+
       regionQuery.find = stub3;
       stub3.resolves(Alive.of<Region, DataSourceError>(region));
 
@@ -172,14 +181,17 @@ describe('IdentityQuery', () => {
 
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.find = stub1;
       stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageQuery.find = stub2;
       stub2.resolves(Dead.of<Language, AJAXError>(new AJAXError('test faield', 500)));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
+
       regionQuery.find = stub3;
       stub3.resolves(Alive.of<Region, DataSourceError>(region));
 
@@ -210,14 +222,17 @@ describe('IdentityQuery', () => {
 
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.find = stub1;
       stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageQuery.find = stub2;
       stub2.resolves(Alive.of<Language, DataSourceError>(language));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
+
       regionQuery.find = stub3;
       stub3.resolves(Dead.of<Region, RegionError>(new RegionError('test failed')));
 
@@ -248,14 +263,17 @@ describe('IdentityQuery', () => {
 
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.find = stub1;
       stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageQuery.find = stub2;
       stub2.resolves(Alive.of<Language, DataSourceError>(language));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
+
       regionQuery.find = stub3;
       stub3.resolves(Dead.of<Region, AJAXError>(new AJAXError('test failed', 500)));
 
@@ -294,14 +312,17 @@ describe('IdentityQuery', () => {
 
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.findByEntranceInfo = stub1;
       stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageQuery.find = stub2;
       stub2.resolves(Alive.of<Language, DataSourceError>(language));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
+
       regionQuery.find = stub3;
       stub3.resolves(Alive.of<Region, DataSourceError>(region));
 
@@ -313,6 +334,7 @@ describe('IdentityQuery', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const identity: Identity = superposition.get();
+
       expect(identity.getVeauAccountID()).toBe(veauAccountID);
       expect(identity.getAccountName()).toBe(account);
       expect(identity.getLanguage()).toBe(language);
@@ -322,6 +344,7 @@ describe('IdentityQuery', () => {
     it('returns Dead when VeauAccountQuery returns Dead VeauAccountError', async () => {
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.findByEntranceInfo = stub1;
       stub1.resolves(Dead.of<VeauAccount, VeauAccountError>(new VeauAccountError('test failed')));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
@@ -354,6 +377,7 @@ describe('IdentityQuery', () => {
     it('returns Dead when VeauAccountQuery returns Dead AJAXError', async () => {
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.findByEntranceInfo = stub1;
       stub1.resolves(Dead.of<VeauAccount, AJAXError>(new AJAXError('test failed', 500)));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
@@ -389,14 +413,17 @@ describe('IdentityQuery', () => {
 
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.findByEntranceInfo = stub1;
       stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageQuery.find = stub2;
       stub2.resolves(Dead.of<Language, LanguageError>(new LanguageError('test faield')));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
+
       regionQuery.find = stub3;
       stub3.resolves(Alive.of<Region, DataSourceError>(region));
 
@@ -430,14 +457,17 @@ describe('IdentityQuery', () => {
 
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.findByEntranceInfo = stub1;
       stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageQuery.find = stub2;
       stub2.resolves(Dead.of<Language, AJAXError>(new AJAXError('test faield', 500)));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
+
       regionQuery.find = stub3;
       stub3.resolves(Alive.of<Region, DataSourceError>(region));
 
@@ -471,14 +501,17 @@ describe('IdentityQuery', () => {
 
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.findByEntranceInfo = stub1;
       stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageQuery.find = stub2;
       stub2.resolves(Alive.of<Language, DataSourceError>(language));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
+
       regionQuery.find = stub3;
       stub3.resolves(Dead.of<Region, RegionError>(new RegionError('test failed')));
 
@@ -512,14 +545,17 @@ describe('IdentityQuery', () => {
 
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       veauAccountQuery.findByEntranceInfo = stub1;
       stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageQuery.find = stub2;
       stub2.resolves(Alive.of<Language, DataSourceError>(language));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
+
       regionQuery.find = stub3;
       stub3.resolves(Dead.of<Region, AJAXError>(new AJAXError('test failed', 500)));
 

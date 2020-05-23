@@ -2,10 +2,9 @@ import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
 
 import { Type } from '../../Container/Types';
+import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItems } from '../../Entity/StatsItem/StatsItems';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
-import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Language } from '../../VO/Language/Language';
 import { RegionError } from '../../VO/Region/Error/RegionError';
@@ -16,12 +15,13 @@ import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { TermError } from '../../VO/Term/Error/TermError';
 import { Term } from '../../VO/Term/Term';
-import { IKernelQuery } from './Interface/IKernelQuery';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 import { IStatsItemQuery } from '../Interface/IStatsItemQuery';
 import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../Interface/IStatsQuery';
+import { IKernelQuery } from './Interface/IKernelQuery';
 
 @injectable()
 export class StatsQuery implements IStatsQuery, IKernelQuery {

@@ -1,11 +1,11 @@
 import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 
-import { StatsValueError } from '../Error/StatsValueError';
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
 import { MockNumericalValue } from '../../NumericalValue/Mock/MockNumericalValue';
 import { NumericalValue } from '../../NumericalValue/NumericalValue';
+import { StatsValueError } from '../Error/StatsValueError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 
 describe('StatsValue', () => {
@@ -20,6 +20,7 @@ describe('StatsValue', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const statsValue: StatsValue = superposition.get();
+
       expect(statsValue.getAsOf().toString()).toBe(json.asOf);
       expect(statsValue.getValue().get()).toBe(json.value);
     });
@@ -63,6 +64,7 @@ describe('StatsValue', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const statsValue: StatsValue = superposition.get();
+
       expect(statsValue.getAsOf().toString()).toBe(row.asOf);
       expect(statsValue.getValue().get()).toBe(row.value);
     });
@@ -86,6 +88,7 @@ describe('StatsValue', () => {
         },
         (err: StatsValueError) => {
           spy2();
+          expect(err).toBeInstanceOf(StatsValueError);
         }
       );
 

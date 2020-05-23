@@ -1,4 +1,5 @@
 import { UUID } from 'publikum';
+
 import { TermID } from '../TermID';
 
 export class MockTermID extends TermID {

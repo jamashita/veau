@@ -301,6 +301,7 @@ export class StatsEditEpic {
       ofType<Action, StatsEditDataFilledAction>(STATS_EDIT_DATA_FILLED),
       map<StatsEditDataFilledAction, Action>((action: StatsEditDataFilledAction) => {
         const duplicated: Stats = stats.duplicate();
+
         duplicated.setData(action.coordinate, action.value);
 
         return updateStats(duplicated);
@@ -320,6 +321,7 @@ export class StatsEditEpic {
       ofType<Action, StatsEditDataDeletedAction>(STATS_EDIT_DATA_DELETED),
       map<StatsEditDataDeletedAction, Action>((action: StatsEditDataDeletedAction) => {
         const duplicated: Stats = stats.duplicate();
+
         duplicated.deleteData(action.coordinate);
 
         return updateStats(duplicated);
@@ -421,6 +423,7 @@ export class StatsEditEpic {
               );
 
               const duplicated: Stats = stats.duplicate();
+
               duplicated.replaceItem(newSelectingItem, selectingRow);
 
               return of<Action>(updateSelectingItem(Present.of<StatsItem>(newSelectingItem)), updateStats(duplicated));
@@ -475,6 +478,7 @@ export class StatsEditEpic {
       ofType<Action, StatsEditRowMovedAction>(STATS_EDIT_ROW_MOVED),
       map<StatsEditRowMovedAction, Action>((action: StatsEditRowMovedAction) => {
         const duplicated: Stats = stats.duplicate();
+
         duplicated.moveItem(action.column, action.target);
 
         return updateStats(duplicated);
@@ -501,6 +505,7 @@ export class StatsEditEpic {
       ofType<Action, StatsEditRemoveSelectingItemAction>(STATS_EDIT_REMOVE_SELECTING_ITEM),
       map<StatsEditRemoveSelectingItemAction, Action>((action: StatsEditRemoveSelectingItemAction) => {
         const duplicated: Stats = stats.duplicate();
+
         duplicated.removeItem(action.statsItem);
 
         return updateStats(duplicated);

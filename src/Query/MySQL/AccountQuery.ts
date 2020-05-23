@@ -1,10 +1,11 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Dead, IMySQL, MySQLError, Schrodinger, Superposition } from 'publikum';
+
 import { Type } from '../../Container/Types';
-import { AccountError } from '../../VO/Account/Error/AccountError';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { Account, AccountRow } from '../../VO/Account/Account';
 import { AccountName } from '../../VO/Account/AccountName';
+import { AccountError } from '../../VO/Account/Error/AccountError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IAccountQuery } from '../Interface/IAccountQuery';
 import { IMySQLQuery } from './Interface/IMySQLQuery';
 

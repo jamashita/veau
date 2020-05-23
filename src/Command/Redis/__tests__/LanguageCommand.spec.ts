@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition } from 'publikum';
+import { DataSourceError, MockRedis, MockRedisString, RedisError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
@@ -37,12 +37,14 @@ describe('LanguageCommand', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
+
       string.set = stub1;
       stub1.resolves();
       const redis: MockRedis = new MockRedis({
         string
       });
       const stub2: SinonStub = sinon.stub();
+
       redis.expires = stub2;
       stub2.resolves();
 
@@ -59,12 +61,14 @@ describe('LanguageCommand', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
+
       string.set = stub1;
       stub1.rejects(new RedisError('test failed'));
       const redis: MockRedis = new MockRedis({
         string
       });
       const stub2: SinonStub = sinon.stub();
+
       redis.expires = stub2;
       stub2.resolves();
       const spy1: SinonSpy = sinon.spy();
@@ -93,12 +97,14 @@ describe('LanguageCommand', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
+
       string.set = stub1;
       stub1.resolves();
       const redis: MockRedis = new MockRedis({
         string
       });
       const stub2: SinonStub = sinon.stub();
+
       redis.expires = stub2;
       stub2.rejects(new RedisError('test failed'));
       const spy1: SinonSpy = sinon.spy();
@@ -127,6 +133,7 @@ describe('LanguageCommand', () => {
     it('normal case', async () => {
       const redis: MockRedis = new MockRedis({});
       const stub: SinonStub = sinon.stub();
+
       redis.delete = stub;
       stub.resolves(true);
 
@@ -140,6 +147,7 @@ describe('LanguageCommand', () => {
     it('returns Dead with CacheError because Redis.delete fails', async () => {
       const redis: MockRedis = new MockRedis({});
       const stub: SinonStub = sinon.stub();
+
       redis.delete = stub;
       stub.resolves(false);
       const spy1: SinonSpy = sinon.spy();
@@ -166,6 +174,7 @@ describe('LanguageCommand', () => {
     it('returns Dead because the client throws RedisError', async () => {
       const redis: MockRedis = new MockRedis({});
       const stub: SinonStub = sinon.stub();
+
       redis.delete = stub;
       stub.rejects(new RedisError('test failed'));
       const spy1: SinonSpy = sinon.spy();

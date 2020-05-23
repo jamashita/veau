@@ -1,9 +1,10 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+
 import { kernel } from '../Container/Kernel';
 import { Type } from '../Container/Types';
-import { VeauAccountError } from '../VO/VeauAccount/Error/VeauAccountError';
 import { AuthenticationInteractor } from '../Interactor/AuthenticationInteractor';
+import { VeauAccountError } from '../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount, VeauAccountJSON } from '../VO/VeauAccount/VeauAccount';
 
 const authenticationInteractor: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(

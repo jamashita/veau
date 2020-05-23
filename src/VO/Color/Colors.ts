@@ -1,4 +1,5 @@
 import { Collection, ImmutableSequence, Objet, Quantum, Sequence } from 'publikum';
+
 import { Color } from './Color';
 
 export class Colors extends Objet implements Collection<number, Color> {

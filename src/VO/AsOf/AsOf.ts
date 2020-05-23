@@ -1,6 +1,7 @@
 import { Alive, Dead, Schrodinger, Superposition, ValueObject, Zeit, ZeitError } from 'publikum';
-import { AsOfError } from './Error/AsOfError';
+
 import { Term } from '../Term/Term';
+import { AsOfError } from './Error/AsOfError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 

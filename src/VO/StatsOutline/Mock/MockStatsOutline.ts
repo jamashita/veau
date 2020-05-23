@@ -1,18 +1,18 @@
 import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
+import { MockRegionID } from '../../Region/Mock/MockRegionID';
+import { RegionID } from '../../Region/RegionID';
+import { MockTermID } from '../../Term/Mock/MockTermID';
+import { TermID } from '../../Term/TermID';
+import { StatsID } from '../StatsID';
+import { StatsName } from '../StatsName';
+import { StatsOutline } from '../StatsOutline';
+import { StatsUnit } from '../StatsUnit';
+import { UpdatedAt } from '../UpdatedAt';
 import { MockStatsID } from './MockStatsID';
 import { MockStatsName } from './MockStatsName';
 import { MockStatsUnit } from './MockStatsUnit';
 import { MockUpdatedAt } from './MockUpdatedAt';
-import { MockRegionID } from '../../Region/Mock/MockRegionID';
-import { RegionID } from '../../Region/RegionID';
-import { StatsID } from '../StatsID';
-import { StatsName } from '../StatsName';
-import { StatsUnit } from '../StatsUnit';
-import { MockTermID } from '../../Term/Mock/MockTermID';
-import { TermID } from '../../Term/TermID';
-import { UpdatedAt } from '../UpdatedAt';
-import { StatsOutline } from '../StatsOutline';
 
 type StatsOutlineArgs = Partial<
   Readonly<{

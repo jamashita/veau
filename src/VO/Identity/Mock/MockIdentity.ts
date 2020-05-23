@@ -1,12 +1,12 @@
 import { AccountName } from '../../Account/AccountName';
-import { Identity } from '../Identity';
+import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { Language } from '../../Language/Language';
 import { MockLanguage } from '../../Language/Mock/MockLanguage';
 import { MockRegion } from '../../Region/Mock/MockRegion';
 import { Region } from '../../Region/Region';
-import { VeauAccountID } from '../../VeauAccount/VeauAccountID';
-import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { MockVeauAccountID } from '../../VeauAccount/Mock/MockVeauAccountID';
+import { VeauAccountID } from '../../VeauAccount/VeauAccountID';
+import { Identity } from '../Identity';
 
 type VeauAccountArgs = Partial<
   Readonly<{

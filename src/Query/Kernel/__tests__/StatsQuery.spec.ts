@@ -5,11 +5,10 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
+import { StatsError } from '../../../Entity/Stats/Error/StatsError';
 import { Stats } from '../../../Entity/Stats/Stats';
 import { MockStatsItems } from '../../../Entity/StatsItem/Mock/MockStatsItems';
 import { StatsItems } from '../../../Entity/StatsItem/StatsItems';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { StatsError } from '../../../Entity/Stats/Error/StatsError';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { Language } from '../../../VO/Language/Language';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
@@ -26,6 +25,7 @@ import { MockUpdatedAt } from '../../../VO/StatsOutline/Mock/MockUpdatedAt';
 import { StatsOutline } from '../../../VO/StatsOutline/StatsOutline';
 import { Term } from '../../../VO/Term/Term';
 import { TermID } from '../../../VO/Term/TermID';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
 import { MockRegionQuery } from '../../Mock/MockRegionQuery';
 import { MockStatsItemQuery } from '../../Mock/MockStatsItemQuery';
@@ -62,18 +62,22 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.find = stub1;
       stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsItemQuery.findByStatsID = stub2;
       stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
+
       languageQuery.find = stub3;
       stub3.resolves(Alive.of<Language, LanguageError | NoSuchElementError | DataSourceError>(language));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub4: SinonStub = sinon.stub();
+
       regionQuery.find = stub4;
       stub4.resolves(Alive.of<Region, RegionError | NoSuchElementError | DataSourceError>(region));
 
@@ -85,6 +89,7 @@ describe('StatsQuery', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
+
       expect(stats.getStatsID()).toBe(statsID);
       expect(stats.getName()).toBe(name);
       expect(stats.getUnit()).toBe(unit);
@@ -100,6 +105,7 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.find = stub1;
       stub1.resolves(Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed')));
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
@@ -135,6 +141,7 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.find = stub1;
       stub1.resolves(Dead.of<StatsOutline, NoSuchElementError>(new NoSuchElementError('test failed')));
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
@@ -171,10 +178,12 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.find = stub1;
       stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsItemQuery.findByStatsID = stub2;
       stub2.resolves(Dead.of<StatsItems, StatsItemsError | DataSourceError>(new StatsItemsError('test failed')));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
@@ -210,10 +219,12 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.find = stub1;
       stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsItemQuery.findByStatsID = stub2;
       stub2.resolves(Dead.of<StatsItems, StatsItemsError | DataSourceError>(new MySQLError('test failed')));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
@@ -250,14 +261,17 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.find = stub1;
       stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsItemQuery.findByStatsID = stub2;
       stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
+
       languageQuery.find = stub3;
       stub3.resolves(
         Dead.of<Language, LanguageError | NoSuchElementError | DataSourceError>(new LanguageError('test failed'))
@@ -295,14 +309,17 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.find = stub1;
       stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsItemQuery.findByStatsID = stub2;
       stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
+
       languageQuery.find = stub3;
       stub3.resolves(
         Dead.of<Language, LanguageError | NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed'))
@@ -341,18 +358,22 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.find = stub1;
       stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsItemQuery.findByStatsID = stub2;
       stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
+
       languageQuery.find = stub3;
       stub3.resolves(Alive.of<Language, LanguageError | NoSuchElementError | DataSourceError>(language));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub4: SinonStub = sinon.stub();
+
       regionQuery.find = stub4;
       stub4.resolves(
         Dead.of<Region, RegionError | NoSuchElementError | DataSourceError>(new RegionError('test failed'))
@@ -390,18 +411,22 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.find = stub1;
       stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsItemQuery.findByStatsID = stub2;
       stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
+
       languageQuery.find = stub3;
       stub3.resolves(Alive.of<Language, LanguageError | NoSuchElementError | DataSourceError>(language));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub4: SinonStub = sinon.stub();
+
       regionQuery.find = stub4;
       stub4.resolves(
         Dead.of<Region, RegionError | NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed'))
@@ -442,18 +467,22 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
+
       statsOutlineQuery.find = stub1;
       stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
+
       statsItemQuery.findByStatsID = stub2;
       stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
+
       languageQuery.find = stub3;
       stub3.resolves(Alive.of<Language, LanguageError | NoSuchElementError | DataSourceError>(language));
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub4: SinonStub = sinon.stub();
+
       regionQuery.find = stub4;
       stub4.resolves(Alive.of<Region, RegionError | NoSuchElementError | DataSourceError>(region));
 

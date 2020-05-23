@@ -1,5 +1,6 @@
 import { Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
 import { TermIDError } from '../Error/TermIDError';
 import { TermID } from '../TermID';
 

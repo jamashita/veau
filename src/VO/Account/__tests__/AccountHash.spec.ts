@@ -1,8 +1,8 @@
+import { MockVeauAccountID } from '../../VeauAccount/Mock/MockVeauAccountID';
+import { VeauAccountID } from '../../VeauAccount/VeauAccountID';
 import { AccountHash } from '../AccountHash';
 import { Hash } from '../Hash';
 import { MockHash } from '../Mock/MockHash';
-import { MockVeauAccountID } from '../../VeauAccount/Mock/MockVeauAccountID';
-import { VeauAccountID } from '../../VeauAccount/VeauAccountID';
 
 describe('AccountHash', () => {
   describe('equals', () => {

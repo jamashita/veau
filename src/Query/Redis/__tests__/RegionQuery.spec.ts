@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 
-import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition, UUID } from 'publikum';
-import { of } from 'rxjs';
+import { DataSourceError, MockRedis, MockRedisString, RedisError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
@@ -45,6 +44,7 @@ describe('RegionQuery', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(jsonStr);
       const redis: MockRedis = new MockRedis({
@@ -56,9 +56,11 @@ describe('RegionQuery', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const regions: Regions = superposition.get();
+
       expect(regions.size()).toBe(json.length);
       for (let i: number = 0; i < regions.size(); i++) {
         const regionID: RegionID = RegionID.ofString(json[i].regionID).get();
+
         expect(regions.get(regionID).get().getRegionID().get().get()).toBe(json[i].regionID);
         expect(regions.get(regionID).get().getName().get()).toBe(json[i].name);
         expect(regions.get(regionID).get().getISO3166().get()).toBe(json[i].iso3166);
@@ -71,6 +73,7 @@ describe('RegionQuery', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(jsonStr);
       const redis: MockRedis = new MockRedis({
@@ -87,6 +90,7 @@ describe('RegionQuery', () => {
     it('returns Dead when Redis returns null', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(null);
       const redis: MockRedis = new MockRedis({
@@ -116,6 +120,7 @@ describe('RegionQuery', () => {
     it('Redis returns RedisError', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.rejects(new RedisError('test faied'));
       const redis: MockRedis = new MockRedis({
@@ -145,6 +150,7 @@ describe('RegionQuery', () => {
     it('Redis returns JSONAError', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves('}');
       const redis: MockRedis = new MockRedis({
@@ -190,6 +196,7 @@ describe('RegionQuery', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(jsonStr);
       const redis: MockRedis = new MockRedis({
@@ -204,6 +211,7 @@ describe('RegionQuery', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const region: Region = superposition.get();
+
       expect(region.getRegionID().get().get()).toBe(json[1].regionID);
       expect(region.getName().get()).toBe(json[1].name);
       expect(region.getISO3166().get()).toBe(json[1].iso3166);
@@ -215,6 +223,7 @@ describe('RegionQuery', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(jsonStr);
       const redis: MockRedis = new MockRedis({
@@ -247,6 +256,7 @@ describe('RegionQuery', () => {
     it('returns Dead because Redis returns null', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(null);
       const redis: MockRedis = new MockRedis({
@@ -293,6 +303,7 @@ describe('RegionQuery', () => {
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves(jsonStr);
       const redis: MockRedis = new MockRedis({
@@ -322,55 +333,10 @@ describe('RegionQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('no match results', async () => {
-      const json: Array<RegionJSON> = [
-        {
-          regionID: 'ccio',
-          name: 'Afghanistan',
-          iso3166: 'AFG'
-        },
-        {
-          regionID: 'cchio',
-          name: 'Albania',
-          iso3166: 'ALB'
-        }
-      ];
-      const jsonStr: string = JSON.stringify(json);
-
-      const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
-      string.get = stub;
-      stub.resolves(jsonStr);
-      const redis: MockRedis = new MockRedis({
-        string
-      });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<
-        Region,
-        RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('OOP'));
-
-      expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RegionError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-    });
-
     it('Redis returns RedisError', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.rejects(new RedisError('test faied'));
       const redis: MockRedis = new MockRedis({
@@ -403,6 +369,7 @@ describe('RegionQuery', () => {
     it('Redis returns JSONAError', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
+
       string.get = stub;
       stub.resolves('}');
       const redis: MockRedis = new MockRedis({

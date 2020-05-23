@@ -3,12 +3,12 @@ import { inject, injectable } from 'inversify';
 import { AJAXError, AJAXResponse, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
 
 import { Type } from '../../Container/Types';
-import { Stats, StatsJSON } from '../../Entity/Stats/Stats';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
+import { Stats, StatsJSON } from '../../Entity/Stats/Stats';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
-import { IAJAXQuery } from './Interface/IAJAXQuery';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IStatsQuery } from '../Interface/IStatsQuery';
+import { IAJAXQuery } from './Interface/IAJAXQuery';
 
 @injectable()
 export class StatsQuery implements IStatsQuery, IAJAXQuery {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @ts-nocheck
 import { DataSourceError, Superposition } from 'publikum';
 import { SagaIterator } from 'redux-saga';
@@ -8,11 +9,8 @@ import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInform
 import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import {
-  ENTRANCE_ACCOUNT_NAME_TYPED,
-  ENTRANCE_PASSWORD_TYPED,
-  EntranceAccountNameTypedAction,
-  EntrancePasswordTypedAction,
-  IDENTITY_AUTHENTICATE
+    ENTRANCE_ACCOUNT_NAME_TYPED, ENTRANCE_PASSWORD_TYPED, EntranceAccountNameTypedAction,
+    EntrancePasswordTypedAction, IDENTITY_AUTHENTICATE
 } from '../Action/Action';
 import { updateEntranceInformation } from '../Action/EntranceAction';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
@@ -77,9 +75,13 @@ export class EntranceSaga {
       const action: EntranceAccountNameTypedAction = yield take(ENTRANCE_ACCOUNT_NAME_TYPED);
       const state: State = yield select();
 
-      const { entranceInformation } = state;
+      // prettier-ignore
+      const {
+        entranceInformation
+      } = state;
 
       const newLogin: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
+
       yield put(updateEntranceInformation(newLogin));
     }
   }
@@ -89,9 +91,13 @@ export class EntranceSaga {
       const action: EntrancePasswordTypedAction = yield take(ENTRANCE_PASSWORD_TYPED);
       const state: State = yield select();
 
-      const { entranceInformation } = state;
+      // prettier-ignore
+      const {
+        entranceInformation
+      } = state;
 
       const newLogin: EntranceInformation = EntranceInformation.of(entranceInformation.getAccount(), action.password);
+
       yield put(updateEntranceInformation(newLogin));
     }
   }

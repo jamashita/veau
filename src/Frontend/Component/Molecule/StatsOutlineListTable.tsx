@@ -13,7 +13,7 @@ import { StatsID } from '../../../VO/StatsOutline/StatsID';
 
 type Props = Readonly<{
   statsListItems: StatsListItems;
-  toStatsEdit: (statsID: StatsID) => void;
+  toStatsEdit(statsID: StatsID): void;
 }>;
 type State = Readonly<{}>;
 

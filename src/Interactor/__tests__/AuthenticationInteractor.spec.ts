@@ -28,20 +28,23 @@ describe('AuthenticationInteractor', () => {
   });
 
   describe('review', () => {
-    it('normal case', (done) => {
+    it('normal case', (done: jest.DoneCallback) => {
       const name: string = 'dummy name';
       const password: string = 'dummy password';
       const account: MockAccount = new MockAccount();
 
       const accountQuery: MockAccountQuery = new MockAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       accountQuery.findByAccount = stub1;
       stub1.resolves(Alive.of<Account, NoSuchElementError>(account));
       const stub2: SinonStub = sinon.stub();
+
       account.verify = stub2;
       stub2.resolves(true);
 
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
+
       authenticationInteractor.review()(name, password, (err: unknown, ret: VeauAccount) => {
         expect(err).toBe(null);
         expect(ret).toBe(account.getVeauAccount());
@@ -49,16 +52,18 @@ describe('AuthenticationInteractor', () => {
       });
     });
 
-    it('name not found', (done) => {
+    it('name not found', (done: jest.DoneCallback) => {
       const name: string = 'dummy name';
       const password: string = 'dummy password';
 
       const accountQuery: MockAccountQuery = new MockAccountQuery();
       const stub: SinonStub = sinon.stub();
+
       accountQuery.findByAccount = stub;
       stub.resolves(Dead.of<Account, NoSuchElementError>(new NoSuchElementError('test failed')));
 
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
+
       authenticationInteractor.review()(name, password, (err: unknown, ret: unknown) => {
         expect(err).toBe(null);
         expect(ret).toBe(false);
@@ -66,20 +71,23 @@ describe('AuthenticationInteractor', () => {
       });
     });
 
-    it('Account.verify returns false', (done) => {
+    it('Account.verify returns false', (done: jest.DoneCallback) => {
       const name: string = 'dummy name';
       const password: string = 'dummy password';
       const account: MockAccount = new MockAccount();
 
       const accountQuery: MockAccountQuery = new MockAccountQuery();
       const stub1: SinonStub = sinon.stub();
+
       accountQuery.findByAccount = stub1;
       stub1.resolves(Alive.of<Account, NoSuchElementError>(account));
       const stub2: SinonStub = sinon.stub();
+
       account.verify = stub2;
       stub2.resolves(false);
 
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
+
       authenticationInteractor.review()(name, password, (err: unknown, ret: unknown) => {
         expect(err).toBe(null);
         expect(ret).toBe(false);

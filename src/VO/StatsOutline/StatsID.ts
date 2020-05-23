@@ -1,4 +1,5 @@
 import { Alive, Dead, Schrodinger, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
+
 import { StatsIDError } from './Error/StatsIDError';
 
 export class StatsID extends ValueObject {

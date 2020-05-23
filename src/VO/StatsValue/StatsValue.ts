@@ -1,9 +1,9 @@
 import { Alive, Dead, JSONable, Kind, Superposition, ValueObject } from 'publikum';
 
-import { AsOfError } from '../AsOf/Error/AsOfError';
-import { StatsValueError } from './Error/StatsValueError';
 import { AsOf } from '../AsOf/AsOf';
+import { AsOfError } from '../AsOf/Error/AsOfError';
 import { NumericalValue } from '../NumericalValue/NumericalValue';
+import { StatsValueError } from './Error/StatsValueError';
 
 export type StatsValueJSON = Readonly<{
   asOf: string;

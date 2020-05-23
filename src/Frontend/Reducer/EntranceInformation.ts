@@ -1,4 +1,5 @@
 import { Reducer } from 'redux';
+
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
 import { Action, ENTRANCE_UPDATE, IDENTITY_IDENTIFIED } from '../Action/Action';
 

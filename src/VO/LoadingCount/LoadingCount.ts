@@ -1,4 +1,5 @@
 import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
+
 import { LoadingCountError } from './Error/LoadingCountError';
 
 const DEFAULT_COUNT: number = 0;

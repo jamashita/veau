@@ -43,6 +43,7 @@ describe('StatsOutlineQuery', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.get = stub;
       stub.resolves({
         status: OK,
@@ -58,9 +59,11 @@ describe('StatsOutlineQuery', () => {
       expect(stub.withArgs('/api/stats/page/3').called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const outlines: StatsOutlines = superposition.get();
+
       expect(outlines.size()).toBe(1);
       for (let i: number = 0; i < outlines.size(); i++) {
         const statsID: StatsID = StatsID.ofString(json[i].statsID).get();
+
         expect(outlines.get(statsID).get().getStatsID().get().get()).toBe(json[i].statsID);
         expect(outlines.get(statsID).get().getLanguageID().get().get()).toBe(json[i].languageID);
         expect(outlines.get(statsID).get().getRegionID().get().get()).toBe(json[i].regionID);
@@ -88,6 +91,7 @@ describe('StatsOutlineQuery', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.get = stub;
       stub.resolves({
         status: OK,
@@ -123,6 +127,7 @@ describe('StatsOutlineQuery', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,

@@ -1,4 +1,5 @@
 import { Reducer } from 'redux';
+
 import { Action, MODAL_CLOSE, MODAL_RAISE } from '../Action/Action';
 
 export type Modal = Readonly<{
@@ -17,7 +18,12 @@ const initialState: Modal = {
 export const modal: Reducer<Modal, Action> = (state: Modal = initialState, action: Action) => {
   switch (action.type) {
     case MODAL_RAISE: {
-      const { title, description, values } = action;
+      // prettier-ignore
+      const {
+        title,
+        description,
+        values
+      } = action;
 
       return {
         ...state,

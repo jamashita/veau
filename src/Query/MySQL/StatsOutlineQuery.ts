@@ -1,16 +1,17 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Dead, IMySQL, MySQLError, Schrodinger, Superposition } from 'publikum';
+
 import { Type } from '../../Container/Types';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
+import { Page } from '../../VO/Page/Page';
 import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
-import { Page } from '../../VO/Page/Page';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsOutline, StatsOutlineRow } from '../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
-import { IMySQLQuery } from './Interface/IMySQLQuery';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
+import { IMySQLQuery } from './Interface/IMySQLQuery';
 
 @injectable()
 export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {

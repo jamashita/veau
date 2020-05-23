@@ -1,5 +1,6 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
+
 import { Action, NotificationHPosition, NotificationKind, NotificationVPosition } from '../../Action/Action';
 import { disappearNotification } from '../../Action/NotificationAction';
 import { Notification as Component } from '../../Component/Molecule/Notification';
@@ -15,7 +16,7 @@ type StateProps = Readonly<{
   values?: Record<string, string>;
 }>;
 type DispatchProps = Readonly<{
-  closeClicked: () => void;
+  closeClicked(): void;
 }>;
 type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;

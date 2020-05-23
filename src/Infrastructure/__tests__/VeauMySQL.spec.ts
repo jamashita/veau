@@ -1,5 +1,7 @@
-import { MySQL } from 'publikum';
 import 'reflect-metadata';
+
+import { MySQL } from 'publikum';
+
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
 

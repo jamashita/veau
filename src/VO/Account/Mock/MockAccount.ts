@@ -1,7 +1,7 @@
+import { MockVeauAccount } from '../../VeauAccount/Mock/MockVeauAccount';
 import { Account } from '../Account';
 import { Hash } from '../Hash';
 import { MockHash } from './MockHash';
-import { MockVeauAccount } from '../../VeauAccount/Mock/MockVeauAccount';
 
 type AccountArgs = Partial<
   Readonly<{

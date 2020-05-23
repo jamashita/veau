@@ -1,7 +1,7 @@
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 
-import { IMockCommand } from './Interface/IMockCommand';
 import { IRegionCommand } from '../Interface/IRegionCommand';
+import { IMockCommand } from './Interface/IMockCommand';
 
 export class MockRegionCommand implements IRegionCommand, IMockCommand {
   public readonly noun: 'RegionCommand' = 'RegionCommand';

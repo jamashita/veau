@@ -37,17 +37,6 @@ describe('Language', () => {
       expect(language).toBe(Language.empty());
     });
 
-    it('returns Language.empty() if LanguageID is empty', () => {
-      const language: Language = Language.of(
-        LanguageID.empty(),
-        new MockLanguageName(),
-        new MockLanguageName(),
-        new MockISO639()
-      );
-
-      expect(language).toBe(Language.empty());
-    });
-
     it('returns Language.empty() if LanguageName is empty 1', () => {
       const language: Language = Language.of(
         new MockLanguageID(),
@@ -95,6 +84,7 @@ describe('Language', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const language: Language = superposition.get();
+
       expect(language.getLanguageID().get().get()).toBe(json.languageID);
       expect(language.getName().get()).toBe(json.name);
       expect(language.getEnglishName().get()).toBe(json.englishName);
@@ -139,12 +129,11 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<Language, LanguageError> = Language.ofRow(row);
+
       expect(superposition.isAlive()).toBe(true);
       const language: Language = superposition.get();
+
       expect(language.getLanguageID().get().get()).toBe(row.languageID);
       expect(language.getName().get()).toBe(row.name);
       expect(language.getEnglishName().get()).toBe(row.englishName);

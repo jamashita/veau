@@ -35,6 +35,7 @@ describe('RegionQuery', () => {
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub: SinonStub = sinon.stub();
+
       regionRedisQuery.all = stub;
       stub.resolves(Alive.of<Regions, NoSuchElementError>(regions));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
@@ -52,14 +53,17 @@ describe('RegionQuery', () => {
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
+
       regionRedisQuery.all = stub1;
       stub1.resolves(Dead.of<Regions, DataSourceError>(new MySQLError('test faied')));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
+
       regionMySQLQuery.all = stub2;
       stub2.resolves(Alive.of<Regions, NoSuchElementError>(regions));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
+
       regionRedisCommand.insertAll = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
 
@@ -73,14 +77,17 @@ describe('RegionQuery', () => {
     it('RegionRedisQuery nor RegionMySQLQuery returns Dead', async () => {
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
+
       regionRedisQuery.all = stub1;
       stub1.resolves(Dead.of<Regions, RedisError>(new RedisError('test failed')));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
+
       regionMySQLQuery.all = stub2;
       stub2.resolves(Dead.of<Regions, MySQLError>(new MySQLError('test failed')));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
+
       regionRedisCommand.insertAll = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
       const spy1: SinonSpy = sinon.spy();
@@ -109,14 +116,17 @@ describe('RegionQuery', () => {
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
+
       regionRedisQuery.all = stub1;
       stub1.resolves(Dead.of<Regions, RedisError>(new RedisError('test failed')));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
+
       regionMySQLQuery.all = stub2;
       stub2.resolves(Alive.of<Regions, NoSuchElementError>(regions));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
+
       regionRedisCommand.insertAll = stub3;
       stub3.resolves(Dead.of<DataSourceError>(new RedisError('test faied')));
       const spy1: SinonSpy = sinon.spy();
@@ -153,6 +163,7 @@ describe('RegionQuery', () => {
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub: SinonStub = sinon.stub();
+
       regionRedisQuery.all = stub;
       stub.resolves(Alive.of<Regions, NoSuchElementError>(regions));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
@@ -171,10 +182,12 @@ describe('RegionQuery', () => {
     it('RegionQuery.all returns Dead, MySQLError', async () => {
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
+
       regionRedisQuery.all = stub1;
       stub1.resolves(Dead.of<Regions, RegionError>(new RegionError('test failed')));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
+
       regionMySQLQuery.all = stub2;
       stub2.resolves(Dead.of<Regions, MySQLError>(new MySQLError('test failed')));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
@@ -205,10 +218,12 @@ describe('RegionQuery', () => {
     it('RegionQuery.all returns Dead, RegionsError', async () => {
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
+
       regionRedisQuery.all = stub1;
       stub1.resolves(Dead.of<Regions, RegionError>(new RegionError('test failed')));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
+
       regionMySQLQuery.all = stub2;
       stub2.resolves(Dead.of<Regions, RegionsError>(new RegionsError('test failed')));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
@@ -248,6 +263,7 @@ describe('RegionQuery', () => {
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
+
       regionRedisQuery.all = stub1;
       stub1.resolves(Alive.of<Regions, NoSuchElementError>(regions));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();

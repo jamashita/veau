@@ -1,5 +1,6 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
+
 import { Action } from '../../Action/Action';
 import { openProvider } from '../../Action/PageProviderAction';
 import { Authenticated as Component } from '../../Component/Template/Authenticated';
@@ -7,7 +8,7 @@ import { State } from '../../State';
 
 type StateProps = Readonly<{}>;
 type DispatchProps = Readonly<{
-  menuClicked: () => void;
+  menuClicked(): void;
 }>;
 type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;

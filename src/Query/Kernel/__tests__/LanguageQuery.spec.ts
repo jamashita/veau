@@ -35,6 +35,7 @@ describe('LanguageQuery', () => {
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
+
       languageRedisQuery.all = stub;
       stub.resolves(Alive.of<Languages, NoSuchElementError>(languages));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
@@ -56,14 +57,17 @@ describe('LanguageQuery', () => {
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
+
       languageRedisQuery.all = stub1;
       stub1.resolves(Dead.of<Languages, DataSourceError>(new MySQLError('test faied')));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageMySQLQuery.all = stub2;
       stub2.resolves(Alive.of<Languages, DataSourceError>(languages));
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub3: SinonStub = sinon.stub();
+
       languageRedisCommand.insertAll = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
 
@@ -81,10 +85,12 @@ describe('LanguageQuery', () => {
     it('LanguageRedisQuery and LanguageMySQLQuery returns Dead', async () => {
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
+
       languageRedisQuery.all = stub1;
       stub1.resolves(Dead.of<Languages, RedisError>(new RedisError('test failed')));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageMySQLQuery.all = stub2;
       stub2.resolves(Dead.of<Languages, MySQLError>(new MySQLError('test failed')));
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
@@ -118,14 +124,17 @@ describe('LanguageQuery', () => {
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
+
       languageRedisQuery.all = stub1;
       stub1.resolves(Dead.of<Languages, RedisError>(new RedisError('test failed')));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageMySQLQuery.all = stub2;
       stub2.resolves(Alive.of<Languages, NoSuchElementError>(languages));
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub3: SinonStub = sinon.stub();
+
       languageRedisCommand.insertAll = stub3;
       stub3.resolves(Dead.of<RedisError>(new RedisError('test faied')));
       const spy1: SinonSpy = sinon.spy();
@@ -167,6 +176,7 @@ describe('LanguageQuery', () => {
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
+
       languageRedisQuery.all = stub;
       stub.resolves(Alive.of<Languages, NoSuchElementError>(languages));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
@@ -189,10 +199,12 @@ describe('LanguageQuery', () => {
     it('LanguageQuery.all returns Dead, MySQLError', async () => {
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
+
       languageRedisQuery.all = stub1;
       stub1.resolves(Dead.of<Languages, RedisError>(new RedisError('test failed')));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageMySQLQuery.all = stub2;
       stub2.resolves(Dead.of<Languages, MySQLError>(new MySQLError('test failed')));
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
@@ -227,10 +239,12 @@ describe('LanguageQuery', () => {
     it('LanguageQuery.all returns Dead, LanguagesError', async () => {
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
+
       languageRedisQuery.all = stub1;
       stub1.resolves(Dead.of<Languages, RedisError>(new RedisError('test failed')));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
+
       languageMySQLQuery.all = stub2;
       stub2.resolves(Dead.of<Languages, LanguagesError>(new LanguagesError('test failed')));
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
@@ -274,6 +288,7 @@ describe('LanguageQuery', () => {
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
+
       languageRedisQuery.all = stub;
       stub.resolves(Alive.of<Languages, NoSuchElementError>(languages));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();

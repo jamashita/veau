@@ -1,12 +1,13 @@
 import { OK, UNAUTHORIZED } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { AJAXError, AJAXResponse, Alive, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
+
 import { Type } from '../../Container/Types';
-import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
+import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount, VeauAccountJSON } from '../../VO/VeauAccount/VeauAccount';
-import { IAJAXQuery } from './Interface/IAJAXQuery';
 import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
+import { IAJAXQuery } from './Interface/IAJAXQuery';
 
 @injectable()
 export class VeauAccountQuery implements IVeauAccountQuery, IAJAXQuery {

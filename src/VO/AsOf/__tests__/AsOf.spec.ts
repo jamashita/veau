@@ -158,7 +158,7 @@ describe('AsOf', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01').get();
       const allTerm: Terms = Terms.all();
 
-      allTerm.map((term: Term) => {
+      allTerm.map<void>((term: Term) => {
         expect(() => {
           asOf.previous(allTerm.get(term.getTermID()).get());
         }).not.toThrow(AsOfError);
@@ -220,7 +220,7 @@ describe('AsOf', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01').get();
       const allTerm: Terms = Terms.all();
 
-      allTerm.map((term: Term) => {
+      allTerm.map<void>((term: Term) => {
         expect(() => {
           asOf.next(allTerm.get(term.getTermID()).get());
         }).not.toThrow(AsOfError);

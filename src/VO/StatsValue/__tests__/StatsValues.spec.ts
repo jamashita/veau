@@ -1,14 +1,14 @@
 import { Alive, Dead, ImmutableProject, Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 
-import { StatsValueError } from '../Error/StatsValueError';
-import { StatsValuesError } from '../Error/StatsValuesError';
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
 import { MockAsOfs } from '../../AsOf/Mock/MockAsOfs';
-import { MockStatsValue } from '../Mock/MockStatsValue';
 import { MockNumericalValue } from '../../NumericalValue/Mock/MockNumericalValue';
 import { NumericalValue } from '../../NumericalValue/NumericalValue';
+import { StatsValueError } from '../Error/StatsValueError';
+import { StatsValuesError } from '../Error/StatsValuesError';
+import { MockStatsValue } from '../Mock/MockStatsValue';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
 
@@ -84,6 +84,7 @@ describe('StatsValues', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const values: StatsValues = superposition.get();
+
       expect(values.size()).toBe(2);
       expect(values.contains(statsValue1)).toBe(true);
       expect(values.contains(statsValue2)).toBe(true);
@@ -177,6 +178,7 @@ describe('StatsValues', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const values: StatsValues = superposition.get();
+
       expect(values.size()).toBe(json.length);
       expect(values.contains(statsValue1)).toBe(true);
       expect(values.contains(statsValue2)).toBe(true);
@@ -275,6 +277,7 @@ describe('StatsValues', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const values: StatsValues = superposition.get();
+
       expect(values.size()).toBe(row.length);
       expect(values.contains(statsValue1)).toBe(true);
       expect(values.contains(statsValue2)).toBe(true);

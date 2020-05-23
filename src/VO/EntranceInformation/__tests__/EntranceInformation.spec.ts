@@ -1,12 +1,12 @@
 import { AccountName } from '../../Account/AccountName';
-import { EntranceInformation } from '../EntranceInformation';
 import { MockAccountName } from '../../Account/Mock/MockAccountName';
+import { EntranceInformation } from '../EntranceInformation';
 import { MockPassword } from '../Mock/MockPassword';
 import { Password } from '../Password';
 
 describe('EntranceInformation', () => {
   describe('empty', () => {
-    it("'s account and password must also be empty", () => {
+    it('s account and password must also be empty', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.empty();
 
       expect(entranceInformation.getAccount().isEmpty()).toBe(true);

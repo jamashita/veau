@@ -129,7 +129,6 @@ export class StatsItem extends Entity<StatsItemID> {
         if (column.equals(statsValue.getAsOf())) {
           valuesByColumn = valuesByColumn.add(statsValue.getValue());
           alreadyInput = true;
-          return;
         }
       });
       if (!alreadyInput) {

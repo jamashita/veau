@@ -7,8 +7,10 @@ import supertest from 'supertest';
 
 import { SessionController } from '../SessionController';
 
-const dummy = (req: Request, res: Response, next: NextFunction) => {
-  req.logout = () => {};
+const dummy = (req: Request, res: Response, next: NextFunction): void => {
+  req.logout = () => {
+    // NOOP
+  };
   next();
 };
 
@@ -16,12 +18,14 @@ describe('SessionController', () => {
   describe('DELETE /', () => {
     it('no session returns OK', async () => {
       const app: Express = express();
+
       app.use(dummy);
       useExpressServer(app, {
         controllers: [SessionController]
       });
 
       const response: supertest.Response = await supertest(app).delete('/session');
+
       expect(response.status).toBe(OK);
     });
   });

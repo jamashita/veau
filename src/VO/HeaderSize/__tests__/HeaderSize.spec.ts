@@ -1,5 +1,6 @@
 import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
 import { HeaderSizeError } from '../Error/HeaderSizeError';
 import { HeaderSize } from '../HeaderSize';
 

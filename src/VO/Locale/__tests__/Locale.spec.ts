@@ -59,9 +59,11 @@ describe('Locale', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const locale: Locale = superposition.get();
+
       expect(locale.getLanguages().size()).toBe(languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
         const language: Language = locale.getLanguages().get(LanguageID.ofString(languages[i].languageID).get()).get();
+
         expect(language.getLanguageID().get().get()).toBe(languages[i].languageID);
         expect(language.getName().get()).toBe(languages[i].name);
         expect(language.getEnglishName().get()).toBe(languages[i].englishName);
@@ -70,6 +72,7 @@ describe('Locale', () => {
       expect(locale.getRegions().size()).toBe(regions.length);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
         const region: Region = locale.getRegions().get(RegionID.ofString(regions[i].regionID).get()).get();
+
         expect(region.getRegionID().get().get()).toBe(regions[i].regionID);
         expect(region.getName().get()).toBe(regions[i].name);
         expect(region.getISO3166().get()).toBe(regions[i].iso3166);
@@ -275,6 +278,7 @@ describe('Locale', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const locale: Locale = superposition.get();
+
       expect(locale.toJSON()).toEqual({
         languages: [
           {
@@ -324,7 +328,7 @@ describe('Locale', () => {
       );
 
       expect(locale.toString()).toBe(
-        `{${uuid1}: ${uuid1} ${name1} ${englishName1} ${iso6391}}, {${uuid2}: ${uuid2} ${name2} ${englishName2} ${iso6392}} {${uuid3}: ${uuid3} ${name3} ${iso31661}}, {${uuid4}: ${uuid4} ${name4} ${iso31662}}`
+        `{${uuid1.get()}: ${uuid1.get()} ${name1} ${englishName1} ${iso6391}}, {${uuid2.get()}: ${uuid2.get()} ${name2} ${englishName2} ${iso6392}} {${uuid3.get()}: ${uuid3.get()} ${name3} ${iso31661}}, {${uuid4.get()}: ${uuid4.get()} ${name4} ${iso31662}}`
       );
     });
   });

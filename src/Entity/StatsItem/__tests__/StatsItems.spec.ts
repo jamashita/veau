@@ -40,9 +40,11 @@ describe('StatsItems', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const items: StatsItems = superposition.get();
+
       expect(items.size()).toBe(2);
       for (let i: number = 0; i < items.size(); i++) {
         const item: StatsItem = items.get(i).get();
+
         expect(item.getStatsItemID().get().get()).toBe(json[i].statsItemID);
         expect(item.getName().get()).toBe(json[i].name);
       }
@@ -69,7 +71,7 @@ describe('StatsItems', () => {
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
-        (items: StatsItems) => {
+        () => {
           spy1();
         },
         (err: StatsItemsError) => {
@@ -103,7 +105,7 @@ describe('StatsItems', () => {
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
-        (items: StatsItems) => {
+        () => {
           spy1();
         },
         (err: StatsItemsError) => {
@@ -175,9 +177,11 @@ describe('StatsItems', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const items: StatsItems = superposition.get();
+
       expect(items.size()).toBe(2);
       for (let i: number = 0; i < items.size(); i++) {
         const item: StatsItem = items.get(i).get();
+
         expect(item.getStatsItemID().get().get()).toBe(row[i].statsItemID);
         expect(item.getName().get()).toBe(row[i].name);
       }
@@ -213,7 +217,7 @@ describe('StatsItems', () => {
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
-        (items: StatsItems) => {
+        () => {
           spy1();
         },
         (err: StatsItemsError) => {
@@ -248,7 +252,7 @@ describe('StatsItems', () => {
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
-        (items: StatsItems) => {
+        () => {
           spy1();
         },
         (err: StatsItemsError) => {
@@ -435,6 +439,7 @@ describe('StatsItems', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const items: StatsItems = superposition.get();
+
       expect(items.size()).toBe(2);
       expect(items.get(0).get()).toBe(statsItem1);
       expect(items.get(1).get()).toBe(statsItem2);
@@ -771,6 +776,7 @@ describe('StatsItems', () => {
       const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
       const asOfs: AsOfs = statsItems.getAsOfs();
+
       expect(asOfs.size()).toBe(8);
       expect(asOfs.get(0).get().toString()).toBe('2000-01-01');
       expect(asOfs.get(1).get().toString()).toBe('2000-01-02');

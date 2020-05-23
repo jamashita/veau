@@ -1,4 +1,5 @@
 import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
+
 import { OffsetError } from './Error/OffsetError';
 
 export class Offset extends ValueObject {

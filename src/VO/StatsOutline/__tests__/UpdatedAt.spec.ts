@@ -1,5 +1,6 @@
 import { Superposition, Zeit } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
 import { UpdatedAtError } from '../Error/UpdatedAtError';
 import { UpdatedAt } from '../UpdatedAt';
 

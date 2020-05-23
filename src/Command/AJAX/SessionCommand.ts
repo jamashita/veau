@@ -3,8 +3,8 @@ import { inject, injectable } from 'inversify';
 import { AJAXError, AJAXResponse, Alive, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
 
 import { Type } from '../../Container/Types';
-import { IAJAXCommand } from './Interface/IAJAXCommand';
 import { ISessionCommand } from '../Interface/ISessionCommand';
+import { IAJAXCommand } from './Interface/IAJAXCommand';
 
 @injectable()
 export class SessionCommand implements ISessionCommand, IAJAXCommand {

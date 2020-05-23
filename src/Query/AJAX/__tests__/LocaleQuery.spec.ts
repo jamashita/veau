@@ -45,6 +45,7 @@ describe('LocaleQuery', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.get = stub;
       stub.resolves({
         status: OK,
@@ -57,9 +58,11 @@ describe('LocaleQuery', () => {
       expect(stub.withArgs('/api/locale').called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const locale: Locale = superposition.get();
+
       expect(locale.getLanguages().size()).toBe(json.languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
         const languageID: LanguageID = LanguageID.ofString(json.languages[i].languageID).get();
+
         expect(locale.getLanguages().get(languageID).get().getLanguageID().get().get()).toBe(
           json.languages[i].languageID
         );
@@ -70,6 +73,7 @@ describe('LocaleQuery', () => {
       expect(locale.getRegions().size()).toBe(1);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
         const regionID: RegionID = RegionID.ofString(json.regions[i].regionID).get();
+
         expect(locale.getRegions().get(regionID).get().getRegionID().get().get()).toBe(json.regions[i].regionID);
         expect(locale.getRegions().get(regionID).get().getName().get()).toBe(json.regions[i].name);
         expect(locale.getRegions().get(regionID).get().getISO3166().get()).toBe(json.regions[i].iso3166);
@@ -79,6 +83,7 @@ describe('LocaleQuery', () => {
     it('returns Dead when AJAX call doesn not return OK', async () => {
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,

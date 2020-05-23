@@ -42,6 +42,7 @@ describe('Terms', () => {
       const fakeTerm: MockTerm = new MockTerm();
 
       const stub: SinonStub = sinon.stub();
+
       fakeTerm.equals = stub;
       stub.returns(false);
 

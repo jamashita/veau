@@ -1,12 +1,12 @@
 import { Alive, Dead, JSONable, Superposition, ValueObject } from 'publikum';
 
-import { RegionIDError } from '../Region/Error/RegionIDError';
-import { VeauAccountError } from './Error/VeauAccountError';
-import { VeauAccountIDError } from './Error/VeauAccountIDError';
 import { AccountName } from '../Account/AccountName';
 import { LanguageIDError } from '../Language/Error/LanguageIDError';
 import { LanguageID } from '../Language/LanguageID';
+import { RegionIDError } from '../Region/Error/RegionIDError';
 import { RegionID } from '../Region/RegionID';
+import { VeauAccountError } from './Error/VeauAccountError';
+import { VeauAccountIDError } from './Error/VeauAccountIDError';
 import { VeauAccountID } from './VeauAccountID';
 
 export type VeauAccountJSON = Readonly<{

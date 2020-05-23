@@ -28,13 +28,13 @@ type Props = Readonly<{
   open: boolean;
   stats: Stats;
   locale: Locale;
-  closeNewStatsModal: () => void;
-  nameTyped: (name: StatsName) => void;
-  unitTyped: (unit: StatsUnit) => void;
-  iso639Selected: (iso639: ISO639) => void;
-  iso3166Selected: (iso3166: ISO3166) => void;
-  termSelected: (term: Term) => void;
-  saveNewStats: () => void;
+  closeNewStatsModal(): void;
+  nameTyped(name: StatsName): void;
+  unitTyped(unit: StatsUnit): void;
+  iso639Selected(iso639: ISO639): void;
+  iso3166Selected(iso3166: ISO3166): void;
+  termSelected(term: Term): void;
+  saveNewStats(): void;
 }>;
 type State = Readonly<{}>;
 
@@ -118,6 +118,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
                 }>
               ) => {
                 const iso639: string = event.target.value as string;
+
                 iso639Selected(ISO639.of(iso639));
               }}
             >
@@ -147,6 +148,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
                 }>
               ) => {
                 const iso3166: string = event.target.value as string;
+
                 iso3166Selected(ISO3166.of(iso3166));
               }}
             >
@@ -177,14 +179,11 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               ) => {
                 const termID: string = event.target.value as string;
 
-                Term.ofString(termID).match<void>(
-                  (term: Term) => {
+                Term.ofString(termID)
+                  .toQuantum()
+                  .ifPresent((term: Term) => {
                     termSelected(term);
-                  },
-                  () => {
-                    // NOOP
-                  }
-                );
+                  });
               }}
             >
               {Terms.all().map<React.ReactNode>(

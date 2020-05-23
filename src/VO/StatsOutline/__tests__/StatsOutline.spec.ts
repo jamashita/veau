@@ -58,6 +58,7 @@ describe('StatsOutline', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const statsOutline: StatsOutline = superposition.get();
+
       expect(statsOutline.getStatsID().get().get()).toBe(json.statsID);
       expect(statsOutline.getLanguageID().get().get()).toBe(json.languageID);
       expect(statsOutline.getRegionID().get().get()).toBe(json.regionID);
@@ -239,6 +240,7 @@ describe('StatsOutline', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const statsOutline: StatsOutline = superposition.get();
+
       expect(statsOutline.getStatsID().get().get()).toBe(row.statsID);
       expect(statsOutline.getLanguageID().get().get()).toBe(row.languageID);
       expect(statsOutline.getRegionID().get().get()).toBe(row.regionID);
@@ -407,6 +409,7 @@ describe('StatsOutline', () => {
   describe('default', () => {
     it('id will be generated, data are empty', () => {
       const outline: StatsOutline = StatsOutline.default();
+
       expect(outline.getStatsID().get().get().length).toBe(UUID.size());
       expect(outline.getLanguageID()).toBe(LanguageID.empty());
       expect(outline.getRegionID()).toBe(RegionID.empty());
@@ -525,20 +528,6 @@ describe('StatsOutline', () => {
         statsID: 'oink',
         languageID: 'miaow',
         regionID: 'moin',
-        name: 'off',
-        unit: 'on',
-        updatedAt: 'today'
-      };
-
-      expect(StatsOutline.isJSON(n)).toBe(false);
-    });
-
-    it('returns false because regionID is not string', () => {
-      const n: unknown = {
-        statsID: 'oink',
-        languageID: 'miaow',
-        regionID: 'moin',
-        termID: 1,
         name: 'off',
         unit: 'on',
         updatedAt: 'today'

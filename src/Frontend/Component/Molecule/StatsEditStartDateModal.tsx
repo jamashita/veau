@@ -15,8 +15,8 @@ import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
   open: boolean;
-  close: () => void;
-  determineStartDate: (superposition: Superposition<AsOf, AsOfError>) => void;
+  close(): void;
+  determineStartDate(superposition: Superposition<AsOf, AsOfError>): void;
 }>;
 type State = Readonly<{
   startDate: Superposition<AsOf, AsOfError>;
@@ -79,7 +79,14 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
               id: 'START_DATE'
             })}
             type='date'
-            value={startDate.toString()}
+            value={startDate.match<string>(
+              (asOf: AsOf) => {
+                return asOf.toString();
+              },
+              () => {
+                return '';
+              }
+            )}
             onKeyUp={(date: string) => {
               this.setState({
                 startDate: AsOf.ofString(date)

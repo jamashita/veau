@@ -1,4 +1,5 @@
 import { Alive, Ambiguous, Dead, Superposition, UUID, ValueObject } from 'publikum';
+
 import { TermError } from './Error/TermError';
 import { TermID } from './TermID';
 import { TermKey } from './TermKey';

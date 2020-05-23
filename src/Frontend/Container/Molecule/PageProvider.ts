@@ -14,9 +14,9 @@ type StateProps = Readonly<{
 }>;
 
 type DispatchProps = Readonly<{
-  close: () => void;
-  toStatsList: () => void;
-  logout: () => void;
+  close(): void;
+  toStatsList(): void;
+  logout(): void;
 }>;
 type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;

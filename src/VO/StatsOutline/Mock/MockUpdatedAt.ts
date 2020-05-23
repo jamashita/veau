@@ -1,4 +1,5 @@
 import { Zeit } from 'publikum';
+
 import { UpdatedAt } from '../UpdatedAt';
 
 type UpdatedAtArgs = Partial<

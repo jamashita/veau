@@ -26,7 +26,7 @@ export class AuthenticationInteractor implements Noun {
   }
 
   public review(): VerifyFunction {
-    return async (name: string, pass: string, callback: (error: unknown, account?: unknown) => void) => {
+    return async (name: string, pass: string, callback: (error: unknown, account?: unknown) => void): Promise<void> => {
       const superposition: Superposition<
         Account,
         AccountError | NoSuchElementError | DataSourceError
@@ -40,6 +40,7 @@ export class AuthenticationInteractor implements Noun {
 
           if (correct) {
             callback(null, account.getVeauAccount());
+
             return;
           }
 

@@ -1,12 +1,14 @@
-import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
+
+import { DataSourceError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { AccountError } from '../../../VO/Account/Error/AccountError';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { Account, AccountRow } from '../../../VO/Account/Account';
+import { AccountError } from '../../../VO/Account/Error/AccountError';
 import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { AccountQuery } from '../AccountQuery';
 
 describe('AccountQuery', () => {
@@ -35,6 +37,7 @@ describe('AccountQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
 
@@ -68,6 +71,7 @@ describe('AccountQuery', () => {
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const account: Account = superposition.get();
+
       expect(account.getVeauAccountID().get().get()).toBe(rows[0].veauAccountID);
       expect(account.getLanguageID().get().get()).toBe(rows[0].languageID);
       expect(account.getRegionID().get().get()).toBe(rows[0].regionID);
@@ -80,6 +84,7 @@ describe('AccountQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves([]);
       const spy1: SinonSpy = sinon.spy();
@@ -120,6 +125,7 @@ describe('AccountQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
       const spy1: SinonSpy = sinon.spy();
@@ -151,6 +157,7 @@ describe('AccountQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faield'));
       const spy1: SinonSpy = sinon.spy();

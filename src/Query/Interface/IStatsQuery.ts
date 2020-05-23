@@ -1,9 +1,9 @@
 import { DataSourceError, Superposition } from 'publikum';
 
-import { Stats } from '../../Entity/Stats/Stats';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
+import { Stats } from '../../Entity/Stats/Stats';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IQuery } from './IQuery';
 
 export interface IStatsQuery extends IQuery {

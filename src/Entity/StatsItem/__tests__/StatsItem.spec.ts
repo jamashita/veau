@@ -57,13 +57,16 @@ describe('StatsItem', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const statsItem: StatsItem = superposition.get();
+
       expect(statsItem.getStatsItemID().get().get()).toBe(json.statsItemID);
       expect(statsItem.getName().get()).toBe(json.name);
       expect(statsItem.getValues().size()).toBe(json.values.length);
       const statsValue1: StatsValue = statsItem.getValues().get(AsOf.ofString(asOf1).get()).get();
+
       expect(statsValue1.getAsOf().toString()).toBe(AsOf.ofString(json.values[0].asOf).get().toString());
       expect(statsValue1.getValue().get()).toBe(json.values[0].value);
       const statsValue2: StatsValue = statsItem.getValues().get(AsOf.ofString(asOf2).get()).get();
+
       expect(statsValue2.getAsOf().toString()).toBe(AsOf.ofString(json.values[1].asOf).get().toString());
       expect(statsValue2.getValue().get()).toBe(json.values[1].value);
     });
@@ -237,16 +240,20 @@ describe('StatsItem', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const statsItem: StatsItem = superposition.get();
+
       expect(statsItem.getStatsItemID().get().get()).toBe(row.statsItemID);
       expect(statsItem.getName().get()).toBe(row.name);
       expect(statsItem.getValues().size()).toBe(statsItem.getValues().size());
       const statsValue1: StatsValue = statsItem.getValues().get(asOf1).get();
+
       expect(statsValue1.getAsOf()).toBe(statsItem.getValues().get(asOf1).get().getAsOf());
       expect(statsValue1.getValue()).toBe(statsItem.getValues().get(asOf1).get().getValue());
       const statsValue2: StatsValue = statsItem.getValues().get(asOf2).get();
+
       expect(statsValue2.getAsOf()).toBe(statsItem.getValues().get(asOf2).get().getAsOf());
       expect(statsValue2.getValue()).toBe(statsItem.getValues().get(asOf2).get().getValue());
       const statsValue3: StatsValue = statsItem.getValues().get(asOf3).get();
+
       expect(statsValue3.getAsOf()).toBe(statsItem.getValues().get(asOf3).get().getAsOf());
       expect(statsValue3.getValue()).toBe(statsItem.getValues().get(asOf3).get().getValue());
     });
@@ -291,6 +298,7 @@ describe('StatsItem', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const statsItem: StatsItem = superposition.get();
+
       expect(statsItem.getStatsItemID().get().get()).toBe(row.statsItemID);
       expect(statsItem.getName().get()).toBe(row.name);
       expect(statsItem.getValues().size()).toBe(0);
@@ -476,6 +484,7 @@ describe('StatsItem', () => {
   describe('default', () => {
     it('id will be generated, data are empty', () => {
       const item: StatsItem = StatsItem.default();
+
       expect(item.getStatsItemID().get().get().length).toBe(UUID.size());
       expect(item.getName()).toBe(StatsItemName.empty());
       expect(item.getValues().isEmpty()).toBe(true);

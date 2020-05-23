@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { CacheError, DataSourceError, MockCache, MockError, Superposition } from 'publikum';
+import { CacheError, DataSourceError, MockCache, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { Type } from '../../../Container/Types';
@@ -27,6 +27,7 @@ describe('LocaleCommand', () => {
 
       const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
+
       cache.set = stub;
       stub.returns(locale);
 
@@ -42,6 +43,7 @@ describe('LocaleCommand', () => {
 
       const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
+
       cache.set = stub;
       stub.throws(new CacheError('test failed'));
       const spy1: SinonSpy = sinon.spy();

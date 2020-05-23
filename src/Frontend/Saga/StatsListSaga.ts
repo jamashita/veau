@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @ts-nocheck
 import { DataSourceError, Superposition } from 'publikum';
 import { SagaIterator } from 'redux-saga';
@@ -16,18 +17,10 @@ import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesErr
 import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
-  STATS_LIST_INITIALIZE,
-  STATS_LIST_ISO3166_SELECTED,
-  STATS_LIST_ISO639_SELECTED,
-  STATS_LIST_NAME_TYPED,
-  STATS_LIST_SAVE_NEW_STATS,
-  STATS_LIST_TERM_SELECTED,
-  STATS_LIST_UNIT_TYPED,
-  StatsListISO3166SelectedAction,
-  StatsListISO639SelectedAction,
-  StatsListNameTypedAction,
-  StatsListTermSelectedAction,
-  StatsListUnitTypedAction
+    STATS_LIST_INITIALIZE, STATS_LIST_ISO3166_SELECTED, STATS_LIST_ISO639_SELECTED,
+    STATS_LIST_NAME_TYPED, STATS_LIST_SAVE_NEW_STATS, STATS_LIST_TERM_SELECTED,
+    STATS_LIST_UNIT_TYPED, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
+    StatsListNameTypedAction, StatsListTermSelectedAction, StatsListUnitTypedAction
 } from '../Action/Action';
 import { loaded, loading } from '../Action/LoadingAction';
 import { raiseModal } from '../Action/ModalAction';
@@ -94,10 +87,17 @@ export class StatsListSaga {
       const action: StatsListNameTypedAction = yield take(STATS_LIST_NAME_TYPED);
       const state: State = yield select();
 
+      // prettier-ignore
       const {
-        statsList: { stats }
+        // prettier-ignore
+        statsList: {
+          stats
+        }
       } = state;
-      const { name } = action;
+      // prettier-ignore
+      const {
+        name
+      } = action;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -119,10 +119,17 @@ export class StatsListSaga {
       const action: StatsListUnitTypedAction = yield take(STATS_LIST_UNIT_TYPED);
       const state: State = yield select();
 
+      // prettier-ignore
       const {
-        statsList: { stats }
+        // prettier-ignore
+        statsList: {
+          stats
+        }
       } = state;
-      const { unit } = action;
+      // prettier-ignore
+      const {
+        unit
+      } = action;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -144,8 +151,12 @@ export class StatsListSaga {
       const action: StatsListISO639SelectedAction = yield take(STATS_LIST_ISO639_SELECTED);
       const state: State = yield select();
 
+      // prettier-ignore
       const {
-        statsList: { stats }
+        // prettier-ignore
+        statsList: {
+          stats
+        }
       } = state;
 
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = yield call(
@@ -176,8 +187,12 @@ export class StatsListSaga {
       const action: StatsListISO3166SelectedAction = yield take(STATS_LIST_ISO3166_SELECTED);
       const state: State = yield select();
 
+      // prettier-ignore
       const {
-        statsList: { stats }
+        // prettier-ignore
+        statsList: {
+          stats
+        }
       } = state;
 
       const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = yield call(
@@ -208,8 +223,12 @@ export class StatsListSaga {
       const action: StatsListTermSelectedAction = yield take(STATS_LIST_TERM_SELECTED);
       const state: State = yield select();
 
+      // prettier-ignore
       const {
-        statsList: { stats }
+        // prettier-ignore
+        statsList: {
+          stats
+        }
       } = state;
 
       const newStats: Stats = Stats.of(
@@ -233,8 +252,12 @@ export class StatsListSaga {
 
       const state: State = yield select();
 
+      // prettier-ignore
       const {
-        statsList: { stats }
+        // prettier-ignore
+        statsList: {
+          stats
+        }
       } = state;
 
       if (!stats.isFilled()) {

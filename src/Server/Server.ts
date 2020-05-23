@@ -1,3 +1,7 @@
+import 'reflect-metadata';
+import 'source-map-support/register';
+import '../Service/AuthenticationService';
+
 import compression from 'compression';
 import config from 'config';
 import connectRedis from 'connect-redis';
@@ -8,14 +12,13 @@ import log4js from 'log4js';
 import passport from 'passport';
 import path from 'path';
 import { Ambiguous } from 'publikum';
-import 'reflect-metadata';
 import favicon from 'serve-favicon';
-import 'source-map-support/register';
+
 import { BaseController } from '../Controller/BaseController';
 import { veauRedis } from '../Infrastructure/VeauRedis';
-import '../Service/AuthenticationService';
 
 const port: number = config.get<number>('port');
+// eslint-disable-next-line no-process-env
 const mode: Ambiguous<string> = process.env.NODE_ENV;
 
 log4js.configure(config.get<log4js.Configuration>('log4js'));
@@ -23,6 +26,7 @@ const logger: log4js.Logger = log4js.getLogger();
 
 if (mode === undefined) {
   logger.fatal('mode IS NOT SET');
+  // eslint-disable-next-line no-process-exit
   process.exit(1);
 }
 

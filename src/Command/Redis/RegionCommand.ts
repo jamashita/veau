@@ -14,8 +14,8 @@ import {
 import { Type } from '../../Container/Types';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { Regions } from '../../VO/Region/Regions';
-import { IRedisCommand } from './Interface/IRedisCommand';
 import { IRegionCommand } from '../Interface/IRegionCommand';
+import { IRedisCommand } from './Interface/IRedisCommand';
 
 const DURATION: number = 3 * 60 * 60;
 
@@ -38,6 +38,7 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
       (str: string) => {
         return Schrodinger.playground<unknown, RedisError>(async () => {
           await this.redis.getString().set(REDIS_REGION_KEY, str);
+
           return this.redis.expires(REDIS_REGION_KEY, DURATION);
         });
       },

@@ -1,4 +1,5 @@
 import { ImmutableSequence } from 'publikum';
+
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 

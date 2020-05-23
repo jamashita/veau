@@ -1,5 +1,6 @@
 import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
 import { OffsetError } from '../Error/OffsetError';
 import { Offset } from '../Offset';
 

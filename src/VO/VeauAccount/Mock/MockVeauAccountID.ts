@@ -1,4 +1,5 @@
 import { UUID } from 'publikum';
+
 import { VeauAccountID } from '../VeauAccountID';
 
 export class MockVeauAccountID extends VeauAccountID {

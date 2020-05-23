@@ -13,8 +13,9 @@ import {
   Zeit,
   ZeitError
 } from 'publikum';
-import { AsOf } from './AsOf';
+
 import { Term } from '../Term/Term';
+import { AsOf } from './AsOf';
 
 export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<AsOfs>, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
@@ -55,6 +56,7 @@ export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<
     });
 
     const merged: Array<AsOf> = [];
+
     all.forEach((asOfs: Array<AsOf>) => {
       merged.push(...asOfs);
     });

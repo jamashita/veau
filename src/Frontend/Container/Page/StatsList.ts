@@ -33,16 +33,16 @@ type StateProps = Readonly<{
   locale: Locale;
 }>;
 type DispatchProps = Readonly<{
-  initialize: () => void;
-  toStatsEdit: (statsID: StatsID) => void;
-  newStatsClicked: () => void;
-  closeNewStatsModal: () => void;
-  nameTyped: (name: StatsName) => void;
-  unitTyped: (unit: StatsUnit) => void;
-  iso639Selected: (iso639: ISO639) => void;
-  iso3166Selected: (iso3166: ISO3166) => void;
-  termSelected: (term: Term) => void;
-  saveNewStats: () => void;
+  initialize(): void;
+  toStatsEdit(statsID: StatsID): void;
+  newStatsClicked(): void;
+  closeNewStatsModal(): void;
+  nameTyped(name: StatsName): void;
+  unitTyped(unit: StatsUnit): void;
+  iso639Selected(iso639: ISO639): void;
+  iso3166Selected(iso3166: ISO3166): void;
+  termSelected(term: Term): void;
+  saveNewStats(): void;
 }>;
 type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;

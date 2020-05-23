@@ -2,7 +2,6 @@ import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition, UnimplementedError } from 'publikum';
 
 import { Type } from '../../Container/Types';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../VO/Language/ISO639';
@@ -11,6 +10,7 @@ import { LanguageID } from '../../VO/Language/LanguageID';
 import { Languages } from '../../VO/Language/Languages';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../VO/Locale/Locale';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IVaultQuery } from './Interface/IVaultQuery';

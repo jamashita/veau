@@ -1,7 +1,8 @@
 import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
-import { ColumnError } from '../Error/ColumnError';
+
 import { Column } from '../Column';
+import { ColumnError } from '../Error/ColumnError';
 
 describe('Column', () => {
   describe('origin', () => {

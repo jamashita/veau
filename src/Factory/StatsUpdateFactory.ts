@@ -1,4 +1,5 @@
 import { ISQL } from 'publikum';
+
 import { StatsCommand } from '../Command/MySQL/StatsCommand';
 import { StatsItemCommand } from '../Command/MySQL/StatsItemCommand';
 import { StatsValueCommand } from '../Command/MySQL/StatsValueCommand';

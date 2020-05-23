@@ -1,10 +1,10 @@
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 
-import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
 import { Language } from '../../VO/Language/Language';
 import { Languages } from '../../VO/Language/Languages';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { IMockQuery } from './Interface/IMockQuery';
 

@@ -1,4 +1,4 @@
-import { Absent, Alive, Dead, ImmutableProject, ImmutableSequence, Superposition, UUID } from 'publikum';
+import { Absent, Alive, Dead, ImmutableProject, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 
 import { LanguageError } from '../Error/LanguageError';
@@ -51,6 +51,7 @@ describe('Languages', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const languages: Languages = superposition.get();
+
       expect(languages.size()).toBe(array.length);
       for (let i: number = 0; i < languages.size(); i++) {
         expect(languages.get(array[i].getLanguageID()).get()).toBe(array[i]);
@@ -87,7 +88,7 @@ describe('Languages', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('contains failure', () => {
+    it('contains 2 failures', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -124,6 +125,7 @@ describe('Languages', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const regions: Languages = superposition.get();
+
       expect(regions).toBe(Languages.empty());
     });
 
@@ -141,9 +143,11 @@ describe('Languages', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const languages: Languages = superposition.get();
+
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
         const language: Language = languages.get(LanguageID.ofString(json[i].languageID).get()).get();
+
         expect(language.getLanguageID().get().get()).toBe(json[i].languageID);
         expect(language.getName().get()).toBe(json[i].name);
         expect(language.getEnglishName().get()).toBe(json[i].englishName);
@@ -158,6 +162,7 @@ describe('Languages', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const regions: Languages = superposition.get();
+
       expect(regions).toBe(Languages.empty());
     });
 
@@ -175,9 +180,11 @@ describe('Languages', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const languages: Languages = superposition.get();
+
       expect(languages.size()).toBe(rows.length);
       for (let i: number = 0; i < languages.size(); i++) {
         const language: Language = languages.get(LanguageID.ofString(rows[i].languageID).get()).get();
+
         expect(language.getLanguageID().get().get()).toBe(rows[i].languageID);
         expect(language.getName().get()).toBe(rows[i].name);
         expect(language.getEnglishName().get()).toBe(rows[i].englishName);

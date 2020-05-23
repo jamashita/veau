@@ -1,18 +1,18 @@
 import { Alive, Dead, JSONable, Kind, Superposition, ValueObject } from 'publikum';
 
-import { RegionIDError } from '../Region/Error/RegionIDError';
-import { StatsIDError } from './Error/StatsIDError';
-import { StatsOutlineError } from './Error/StatsOutlineError';
-import { TermIDError } from '../Term/Error/TermIDError';
-import { UpdatedAtError } from './Error/UpdatedAtError';
 import { LanguageIDError } from '../Language/Error/LanguageIDError';
 import { LanguageID } from '../Language/LanguageID';
+import { RegionIDError } from '../Region/Error/RegionIDError';
 import { RegionID } from '../Region/RegionID';
+import { TermIDError } from '../Term/Error/TermIDError';
+import { Term } from '../Term/Term';
+import { TermID } from '../Term/TermID';
+import { StatsIDError } from './Error/StatsIDError';
+import { StatsOutlineError } from './Error/StatsOutlineError';
+import { UpdatedAtError } from './Error/UpdatedAtError';
 import { StatsID } from './StatsID';
 import { StatsName } from './StatsName';
 import { StatsUnit } from './StatsUnit';
-import { Term } from '../Term/Term';
-import { TermID } from '../Term/TermID';
 import { UpdatedAt } from './UpdatedAt';
 
 export type StatsOutlineJSON = Readonly<{

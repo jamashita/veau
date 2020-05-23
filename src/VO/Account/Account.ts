@@ -1,16 +1,16 @@
 import { Alive, Dead, Digest, Superposition, ValueObject } from 'publikum';
 
-import { AccountError } from './Error/AccountError';
-import { RegionIDError } from '../Region/Error/RegionIDError';
-import { VeauAccountIDError } from '../VeauAccount/Error/VeauAccountIDError';
-import { AccountName } from './AccountName';
-import { Hash } from './Hash';
+import { Password } from '../EntranceInformation/Password';
 import { LanguageIDError } from '../Language/Error/LanguageIDError';
 import { LanguageID } from '../Language/LanguageID';
-import { Password } from '../EntranceInformation/Password';
+import { RegionIDError } from '../Region/Error/RegionIDError';
 import { RegionID } from '../Region/RegionID';
+import { VeauAccountIDError } from '../VeauAccount/Error/VeauAccountIDError';
 import { VeauAccount } from '../VeauAccount/VeauAccount';
 import { VeauAccountID } from '../VeauAccount/VeauAccountID';
+import { AccountName } from './AccountName';
+import { AccountError } from './Error/AccountError';
+import { Hash } from './Hash';
 
 export type AccountRow = Readonly<{
   veauAccountID: string;

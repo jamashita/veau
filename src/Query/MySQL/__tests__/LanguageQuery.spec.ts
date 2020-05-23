@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
+import { DataSourceError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
@@ -45,6 +45,7 @@ describe('LanguageQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
 
@@ -63,9 +64,11 @@ describe('LanguageQuery', () => {
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const languages: Languages = superposition.get();
+
       expect(languages.size()).toBe(2);
       for (let i: number = 0; i < languages.size(); i++) {
         const languageID: LanguageID = LanguageID.ofString(rows[i].languageID).get();
+
         expect(languages.get(languageID).get().getLanguageID().get().get()).toBe(rows[i].languageID);
         expect(languages.get(languageID).get().getName().get()).toBe(rows[i].name);
         expect(languages.get(languageID).get().getEnglishName().get()).toBe(rows[i].englishName);
@@ -76,6 +79,7 @@ describe('LanguageQuery', () => {
     it('returns Dead when MySQL.execute returns 0 results', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves([]);
       const spy1: SinonSpy = sinon.spy();
@@ -102,6 +106,7 @@ describe('LanguageQuery', () => {
     it('returns Dead because the client throws MySQLError', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
       const spy1: SinonSpy = sinon.spy();
@@ -140,6 +145,7 @@ describe('LanguageQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
 
@@ -165,6 +171,7 @@ describe('LanguageQuery', () => {
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const language: Language = superposition.get();
+
       expect(language.getLanguageID().get().get()).toBe(rows[0].languageID);
       expect(language.getName().get()).toBe(rows[0].name);
       expect(language.getEnglishName().get()).toBe(rows[0].englishName);
@@ -174,6 +181,7 @@ describe('LanguageQuery', () => {
     it('returns Dead because MySQL returns 0 results', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves([]);
       const spy1: SinonSpy = sinon.spy();
@@ -203,6 +211,7 @@ describe('LanguageQuery', () => {
     it('returns Dead because the client throws MySQLError', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
       const spy1: SinonSpy = sinon.spy();
@@ -243,6 +252,7 @@ describe('LanguageQuery', () => {
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves(rows);
 
@@ -268,6 +278,7 @@ describe('LanguageQuery', () => {
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const language: Language = superposition.get();
+
       expect(language.getLanguageID().get().get()).toBe(rows[0].languageID);
       expect(language.getName().get()).toBe(rows[0].name);
       expect(language.getEnglishName().get()).toBe(rows[0].englishName);
@@ -277,6 +288,7 @@ describe('LanguageQuery', () => {
     it('returns Dead because MySQL returns 0 results', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.resolves([]);
       const spy1: SinonSpy = sinon.spy();
@@ -306,6 +318,7 @@ describe('LanguageQuery', () => {
     it('returns Dead because the client throws MySQLError', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
+
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
       const spy1: SinonSpy = sinon.spy();

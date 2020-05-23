@@ -1,5 +1,7 @@
-import { Redis } from 'publikum';
 import 'reflect-metadata';
+
+import { Redis } from 'publikum';
+
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
 

@@ -6,11 +6,11 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { Stats, StatsJSON } from '../../../Entity/Stats/Stats';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../../Entity/Stats/Error/StatsError';
+import { Stats, StatsJSON } from '../../../Entity/Stats/Stats';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { Term } from '../../../VO/Term/Term';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsQuery } from '../StatsQuery';
 
 describe('StatsQuery', () => {
@@ -56,6 +56,7 @@ describe('StatsQuery', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.get = stub;
       stub.resolves({
         status: OK,
@@ -71,6 +72,7 @@ describe('StatsQuery', () => {
       expect(stub.withArgs(`/api/stats/${statsID.get().get()}`).called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
+
       expect(stats.getStatsID().get().get()).toBe(json.outline.statsID);
       expect(stats.getName().get()).toBe(json.outline.name);
       expect(stats.getUnit().get()).toBe(json.outline.unit);
@@ -90,6 +92,7 @@ describe('StatsQuery', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.get = stub;
       stub.resolves({
         status: NO_CONTENT,
@@ -124,6 +127,7 @@ describe('StatsQuery', () => {
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
+
       ajax.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
