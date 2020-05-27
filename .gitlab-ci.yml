@@ -1,10 +1,18 @@
-image: node:14.0.0
-
+image: 'node:14.0.0'
 stages:
-  - test
-
-test:
-  stage: test
+  - 'build'
+  - 'test'
+cache:
+  paths:
+    - 'node_modules'
+install_dependencies:
+  stage: 'build'
   script:
-    - yarn install --frozen-lockfile
-    - yarn test
+    - 'yarn install --frozen-lockfile'
+  artifacts:
+    paths:
+      - 'node_modules'
+execute_tests:
+  stage: 'test'
+  script:
+    - 'yarn test'
