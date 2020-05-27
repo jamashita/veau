@@ -1,14 +1,19 @@
 {
   "name": "veau",
   "version": "1.6.3",
-  "main": "./dist/Server/Server.js",
+  "author": "jamashita <jamashita@arachnid.xyz>",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:jamashita/veau.git"
   },
-  "author": "jamashita <jamashita@arachnid.xyz>",
-  "license": "MIT",
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": "npm is not supported"
+  },
   "private": true,
+  "sideEffects": false,
+  "engineStrict": true,
   "scripts": {
     "start": "pm2-runtime start pm2.yml",
     "stop": "pm2-runtime stop pm2.yml",
@@ -21,12 +26,6 @@
     "format": "prettier --write './src/**/*.{ts,tsx}'",
     "update": "ncu -u && yarn install && yarn upgrade"
   },
-  "engines": {
-    "node": ">= 14.0.0",
-    "npm": "npm is not supported"
-  },
-  "sideEffects": false,
-  "engineStrict": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.13.0",
     "@handsontable/react": "3.1.3",
