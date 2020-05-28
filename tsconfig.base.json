@@ -87,8 +87,7 @@
     "src"
   ],
   "exclude": [
-    "dist",
-    "node_modules"
+    "dist"
   ],
   "files": [
     "src/@types/VeauAccount.d.ts"
