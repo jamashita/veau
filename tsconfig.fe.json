@@ -2,11 +2,14 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     /* Basic Options */
-    "module": "commonjs",
+    "module": "esnext",
     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
     "lib": [
-      "esnext"
+      "esnext",
+      "dom"
     ],
     /* Specify library files to be included in the compilation. */
+    "jsx": "react",
+    /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
   }
 }
