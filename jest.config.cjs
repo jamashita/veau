@@ -6,12 +6,13 @@ module.exports = {
   ],
   testRegex: '/__tests__/.+\\.spec\\.tsx?$',
   testPathIgnorePatterns: [
-    '/node_modules/'
+    'node_modules',
+    'dist'
   ],
   collectCoverage: true,
   coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '/Mock/'
+    'node_modules',
+    'Mock'
   ],
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
@@ -20,9 +21,7 @@ module.exports = {
     'js',
     'jsx',
     'ts',
-    'tsx',
-    'json',
-    'node'
+    'tsx'
   ],
   testURL: 'http://localhost'
 };
