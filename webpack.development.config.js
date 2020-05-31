@@ -13,8 +13,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    publicPath: '/js/',
-    libraryTarget: 'umd'
+    publicPath: '/js/'
   },
   resolve: {
     extensions: [
