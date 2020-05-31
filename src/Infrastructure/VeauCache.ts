@@ -1,5 +1,5 @@
-import { Cache } from 'publikum';
+import { Cache } from '@jamashita/publikum-cache';
 
 export const veauCache: Cache = new Cache();
 
-export const VAULT_LOCALE_KEY: symbol = Symbol('LOCALES');
+export const VAULT_LOCALE_KEY: symbol = Symbol();

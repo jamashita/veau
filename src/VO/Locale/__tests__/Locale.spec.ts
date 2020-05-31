@@ -1,5 +1,7 @@
-import { Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
+import { Superposition } from '@jamashita/publikum-monad';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { ISO639 } from '../../Language/ISO639';
 import { Language, LanguageJSON } from '../../Language/Language';

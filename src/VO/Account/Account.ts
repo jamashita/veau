@@ -1,4 +1,6 @@
-import { Alive, Dead, Digest, Superposition, ValueObject } from 'publikum';
+import { Digest } from '@jamashita/publikum-digest';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { ValueObject } from '@jamashita/publikum-object';
 
 import { Password } from '../EntranceInformation/Password';
 import { LanguageIDError } from '../Language/Error/LanguageIDError';

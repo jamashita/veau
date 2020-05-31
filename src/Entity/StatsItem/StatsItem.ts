@@ -1,4 +1,7 @@
-import { Alive, Dead, Entity, Kind, Project, Superposition } from 'publikum';
+import { Project } from '@jamashita/publikum-collection';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Entity } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';

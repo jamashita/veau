@@ -1,4 +1,4 @@
-import { ValueObject } from 'publikum';
+import { ValueObject } from '@jamashita/publikum-object';
 
 import { AccountName } from '../Account/AccountName';
 import { Language } from '../Language/Language';

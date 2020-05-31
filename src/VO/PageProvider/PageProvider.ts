@@ -1,4 +1,4 @@
-import { ValueObject } from 'publikum';
+import { ValueObject } from '@jamashita/publikum-object';
 
 export class PageProvider extends ValueObject {
   public readonly noun: 'PageProvider' = 'PageProvider';

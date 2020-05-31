@@ -1,5 +1,8 @@
-import { Absent, Alive, Dead, ImmutableProject, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
+import { ImmutableProject } from '@jamashita/publikum-collection';
+import { Absent, Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { RegionError } from '../Error/RegionError';
 import { RegionsError } from '../Error/RegionsError';
@@ -258,7 +261,6 @@ describe('Regions', () => {
     it('returns Absent when the index is out of range', () => {
       const regions: Regions = Regions.empty();
 
-      expect(regions.get(new MockRegionID())).toBeInstanceOf(Absent);
       expect(regions.get(new MockRegionID())).toBeInstanceOf(Absent);
     });
   });

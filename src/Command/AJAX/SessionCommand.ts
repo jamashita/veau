@@ -1,6 +1,9 @@
 import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
-import { AJAXError, AJAXResponse, Alive, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
+
+import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { ISessionCommand } from '../Interface/ISessionCommand';

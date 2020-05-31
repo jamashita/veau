@@ -1,7 +1,10 @@
 import 'reflect-metadata';
 
-import { CacheError, DataSourceError, MockCache, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
+import { CacheError, MockCache } from '@jamashita/publikum-cache';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';

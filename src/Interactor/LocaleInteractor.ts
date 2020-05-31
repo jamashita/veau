@@ -1,5 +1,8 @@
 import { inject, injectable } from 'inversify';
-import { Alive, DataSourceError, Dead, Noun, Schrodinger, Superposition } from 'publikum';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Noun } from '@jamashita/publikum-interface';
+import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';

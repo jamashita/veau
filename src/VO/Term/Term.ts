@@ -1,4 +1,7 @@
-import { Alive, Ambiguous, Dead, Superposition, UUID, ValueObject } from 'publikum';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { ValueObject } from '@jamashita/publikum-object';
+import { Ambiguous } from '@jamashita/publikum-type';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { TermError } from './Error/TermError';
 import { TermID } from './TermID';

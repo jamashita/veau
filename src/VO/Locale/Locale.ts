@@ -1,4 +1,6 @@
-import { Alive, Dead, JSONable, Superposition, ValueObject } from 'publikum';
+import { JSONable } from '@jamashita/publikum-interface';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { ValueObject } from '@jamashita/publikum-object';
 
 import { LanguagesError } from '../Language/Error/LanguagesError';
 import { LanguageJSON } from '../Language/Language';

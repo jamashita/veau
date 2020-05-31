@@ -1,18 +1,12 @@
 import 'reflect-metadata';
 
-import {
-  Absent,
-  Alive,
-  DataSourceError,
-  Dead,
-  ImmutableProject,
-  MockMySQL,
-  MySQLError,
-  Project,
-  Superposition,
-  UUID
-} from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
+import { ImmutableProject, Project } from '@jamashita/publikum-collection';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Absent, Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';

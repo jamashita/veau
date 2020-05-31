@@ -562,7 +562,14 @@
         "asyncArrow": "always"
       }
     ],
-    "@typescript-eslint/strict-boolean-expressions": "error",
+    "@typescript-eslint/strict-boolean-expressions": [
+      "error",
+      {
+        "allowString": false,
+        "allowNumber": false,
+        "allowNullableObject": false
+      }
+    ],
     "@typescript-eslint/switch-exhaustiveness-check": "error",
     "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/type-annotation-spacing": [

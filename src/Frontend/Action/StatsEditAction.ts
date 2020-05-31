@@ -1,4 +1,4 @@
-import { Present, Quantum } from 'publikum';
+import { Present, Quantum } from '@jamashita/publikum-monad';
 
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { AsOf } from '../../VO/AsOf/AsOf';

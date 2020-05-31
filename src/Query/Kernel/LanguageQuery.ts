@@ -1,5 +1,7 @@
 import { inject, injectable } from 'inversify';
-import { Alive, DataSourceError, Dead, Quantum, Superposition, UnimplementedError } from 'publikum';
+
+import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
+import { Alive, Dead, Quantum, Superposition } from '@jamashita/publikum-monad';
 
 import { ILanguageCommand } from '../../Command/Interface/ILanguageCommand';
 import { Type } from '../../Container/Types';

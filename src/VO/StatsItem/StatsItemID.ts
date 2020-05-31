@@ -1,4 +1,6 @@
-import { Alive, Dead, Schrodinger, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
+import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { ValueObject } from '@jamashita/publikum-object';
+import { UUID, UUIDError } from '@jamashita/publikum-uuid';
 
 import { StatsItemIDError } from './Error/StatsItemIDError';
 

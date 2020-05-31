@@ -1,4 +1,5 @@
-import { DataSourceError, Superposition } from 'publikum';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Page } from '../../VO/Page/Page';
 import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';

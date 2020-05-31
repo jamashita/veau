@@ -1,4 +1,4 @@
-import { ImmutableProject, Project } from 'publikum';
+import { ImmutableProject, Project } from '@jamashita/publikum-collection';
 
 import { Term } from '../Term';
 import { TermID } from '../TermID';

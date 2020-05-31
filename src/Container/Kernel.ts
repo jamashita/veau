@@ -1,5 +1,7 @@
 import { Container } from 'inversify';
-import { MySQL, Redis } from 'publikum';
+
+import { IMySQL } from '@jamashita/publikum-mysql';
+import { IRedis } from '@jamashita/publikum-redis';
 
 import { StatsCommand as StatsKernelCommand } from '../Command/Kernel/StatsCommand';
 import { LanguageCommand as LanguageRedisCommand } from '../Command/Redis/LanguageCommand';
@@ -29,8 +31,8 @@ kernel.bind<StatsKernelCommand>(Type.StatsKernelCommand).to(StatsKernelCommand).
 kernel.bind<LanguageRedisCommand>(Type.LanguageRedisCommand).to(LanguageRedisCommand).inSingletonScope();
 kernel.bind<RegionRedisCommand>(Type.RegionRedisCommand).to(RegionRedisCommand).inSingletonScope();
 kernel.bind<AuthenticationMiddleware>(Type.AuthenticationMiddleware).to(AuthenticationMiddleware).inSingletonScope();
-kernel.bind<MySQL>(Type.MySQL).toConstantValue(veauMySQL);
-kernel.bind<Redis>(Type.Redis).toConstantValue(veauRedis);
+kernel.bind<IMySQL>(Type.MySQL).toConstantValue(veauMySQL);
+kernel.bind<IRedis>(Type.Redis).toConstantValue(veauRedis);
 kernel.bind<AuthenticationInteractor>(Type.AuthenticationInteractor).to(AuthenticationInteractor).inSingletonScope();
 kernel.bind<LocaleInteractor>(Type.LocaleInteractor).to(LocaleInteractor).inSingletonScope();
 kernel.bind<StatsInteractor>(Type.StatsInteractor).to(StatsInteractor).inSingletonScope();

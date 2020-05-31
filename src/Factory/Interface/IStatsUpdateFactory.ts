@@ -1,4 +1,5 @@
-import { ISQL, Noun } from 'publikum';
+import { Noun } from '@jamashita/publikum-interface';
+import { ISQL } from '@jamashita/publikum-mysql';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../../Command/Interface/IStatsItemCommand';

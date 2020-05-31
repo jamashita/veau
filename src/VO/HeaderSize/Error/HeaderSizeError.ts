@@ -1,4 +1,4 @@
-import { RuntimeError } from 'publikum';
+import { RuntimeError } from '@jamashita/publikum-error';
 
 export class HeaderSizeError extends RuntimeError {
   public readonly name: 'HeaderSizeError' = 'HeaderSizeError';

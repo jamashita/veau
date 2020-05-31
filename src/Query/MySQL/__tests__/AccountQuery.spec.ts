@@ -1,7 +1,11 @@
 import 'reflect-metadata';
 
-import { DataSourceError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
+import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';

@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 
-import { Alive, Dead } from 'publikum';
 import sinon, { SinonStub } from 'sinon';
+
+import { Alive, Dead } from '@jamashita/publikum-monad';
 
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
@@ -69,7 +70,7 @@ describe('AuthenticationInteractor', () => {
         expect(ret).toBe(false);
         done();
       });
-    });
+    }, 20000);
 
     it('Account.verify returns false', (done: jest.DoneCallback) => {
       const name: string = 'dummy name';

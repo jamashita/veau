@@ -1,4 +1,4 @@
-import { ValueObject } from 'publikum';
+import { ValueObject } from '@jamashita/publikum-object';
 
 import { Column } from './Column';
 import { Row } from './Row';

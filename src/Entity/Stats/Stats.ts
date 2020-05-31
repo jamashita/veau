@@ -1,4 +1,6 @@
-import { Absent, Alive, Ambiguous, Dead, Entity, Kind, Quantum, Superposition } from 'publikum';
+import { Absent, Alive, Dead, Quantum, Superposition } from '@jamashita/publikum-monad';
+import { Entity } from '@jamashita/publikum-object';
+import { Ambiguous, Kind } from '@jamashita/publikum-type';
 
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';

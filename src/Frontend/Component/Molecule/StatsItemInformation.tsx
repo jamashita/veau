@@ -1,7 +1,7 @@
-import { Quantum } from 'publikum';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
+import { Quantum } from '@jamashita/publikum-monad';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';

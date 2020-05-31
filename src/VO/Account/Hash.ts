@@ -1,4 +1,4 @@
-import { ValueObject } from 'publikum';
+import { ValueObject } from '@jamashita/publikum-object';
 
 export class Hash extends ValueObject {
   public readonly noun: 'Hash' = 'Hash';

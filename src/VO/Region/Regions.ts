@@ -1,19 +1,8 @@
-import {
-  Absent,
-  Alive,
-  Collection,
-  Dead,
-  ImmutableProject,
-  JSONable,
-  Mapper,
-  Objet,
-  Predicate,
-  Present,
-  Project,
-  Quantum,
-  Schrodinger,
-  Superposition
-} from 'publikum';
+import { Collection, ImmutableProject, Project } from '@jamashita/publikum-collection';
+import { JSONable } from '@jamashita/publikum-interface';
+import { Absent, Alive, Dead, Present, Quantum, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Objet } from '@jamashita/publikum-object';
+import { Mapper, Predicate } from '@jamashita/publikum-type';
 
 import { RegionError } from './Error/RegionError';
 import { RegionsError } from './Error/RegionsError';

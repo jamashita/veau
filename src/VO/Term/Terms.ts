@@ -1,4 +1,7 @@
-import { Collection, ImmutableProject, Mapper, Objet, Project, Quantum } from 'publikum';
+import { Collection, ImmutableProject, Project } from '@jamashita/publikum-collection';
+import { Quantum } from '@jamashita/publikum-monad';
+import { Objet } from '@jamashita/publikum-object';
+import { Mapper } from '@jamashita/publikum-type';
 
 import { Term } from './Term';
 import { TermID } from './TermID';

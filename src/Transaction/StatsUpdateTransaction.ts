@@ -1,4 +1,6 @@
-import { DataSourceError, Dead, ISQL, ITransaction, Schrodinger, Superposition } from 'publikum';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { ISQL, ITransaction } from '@jamashita/publikum-mysql';
 
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../Command/Interface/IStatsItemCommand';

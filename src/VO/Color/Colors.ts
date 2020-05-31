@@ -1,4 +1,6 @@
-import { Collection, ImmutableSequence, Objet, Quantum, Sequence } from 'publikum';
+import { Collection, ImmutableSequence, Sequence } from '@jamashita/publikum-collection';
+import { Quantum } from '@jamashita/publikum-monad';
+import { Objet } from '@jamashita/publikum-object';
 
 import { Color } from './Color';
 

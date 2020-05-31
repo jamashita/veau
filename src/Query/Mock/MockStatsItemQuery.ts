@@ -1,4 +1,5 @@
-import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
+import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { StatsItems } from '../../Entity/StatsItem/StatsItems';
 import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';

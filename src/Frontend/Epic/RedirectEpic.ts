@@ -5,11 +5,7 @@ import { merge, Observable } from 'rxjs';
 import { map, mapTo } from 'rxjs/operators';
 
 import {
-  Action,
-  PUSH_TO_ENTRANCE,
-  PUSH_TO_STATS_EDIT,
-  PUSH_TO_STATS_LIST,
-  PushToStatsEditAction
+    Action, PUSH_TO_ENTRANCE, PUSH_TO_STATS_EDIT, PUSH_TO_STATS_LIST, PushToStatsEditAction
 } from '../Action/Action';
 import { Endpoints } from '../Endpoints';
 

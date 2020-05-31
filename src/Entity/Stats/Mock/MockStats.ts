@@ -1,4 +1,4 @@
-import { Absent, Quantum } from 'publikum';
+import { Absent, Quantum } from '@jamashita/publikum-monad';
 
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { Language } from '../../../VO/Language/Language';

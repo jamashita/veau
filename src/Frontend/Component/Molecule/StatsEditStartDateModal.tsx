@@ -1,7 +1,7 @@
-import { Alive, Superposition } from 'publikum';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
+import { Alive, Superposition } from '@jamashita/publikum-monad';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';

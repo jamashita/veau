@@ -1,4 +1,4 @@
-import { ImmutableSequence } from 'publikum';
+import { ImmutableSequence } from '@jamashita/publikum-collection';
 
 import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';

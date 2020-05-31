@@ -1,5 +1,6 @@
-import { Absent, Quantum } from 'publikum';
 import { Reducer } from 'redux';
+
+import { Absent, Quantum } from '@jamashita/publikum-monad';
 
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { Row } from '../../VO/Coordinate/Row';

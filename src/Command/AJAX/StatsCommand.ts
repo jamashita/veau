@@ -1,15 +1,9 @@
 import { CREATED } from 'http-status';
 import { inject, injectable } from 'inversify';
-import {
-  AJAXError,
-  AJAXResponse,
-  Alive,
-  DataSourceError,
-  Dead,
-  IAJAX,
-  Superposition,
-  UnimplementedError
-} from 'publikum';
+
+import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
+import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';

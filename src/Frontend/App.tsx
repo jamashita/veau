@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 
 import { ConnectedRouter } from 'connected-react-router';
-import { Supplier } from 'publikum';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
+import { Supplier } from '@jamashita/publikum-type';
 import { createMuiTheme, MuiThemeProvider, Theme } from '@material-ui/core';
 import { grey, lightGreen, pink } from '@material-ui/core/colors';
 

@@ -1,4 +1,5 @@
-import { JSONable, ValueObject } from 'publikum';
+import { JSONable } from '@jamashita/publikum-interface';
+import { ValueObject } from '@jamashita/publikum-object';
 
 import { AccountName } from '../Account/AccountName';
 import { Password } from './Password';

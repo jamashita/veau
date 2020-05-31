@@ -1,5 +1,6 @@
-import { Absent } from 'publikum';
 import sinon, { SinonStub } from 'sinon';
+
+import { Absent } from '@jamashita/publikum-monad';
 
 import { MockTerm } from '../Mock/MockTerm';
 import { MockTermID } from '../Mock/MockTermID';
@@ -31,7 +32,6 @@ describe('Terms', () => {
     it('returns Absent when the index is out of range', () => {
       const terms: Terms = Terms.all();
 
-      expect(terms.get(new MockTermID())).toBeInstanceOf(Absent);
       expect(terms.get(new MockTermID())).toBeInstanceOf(Absent);
     });
   });

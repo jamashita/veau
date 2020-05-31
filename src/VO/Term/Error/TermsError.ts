@@ -1,4 +1,4 @@
-import { RuntimeError } from 'publikum';
+import { RuntimeError } from '@jamashita/publikum-error';
 
 export class TermsError extends RuntimeError {
   public readonly name: 'TermsError' = 'TermsError';

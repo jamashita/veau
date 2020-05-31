@@ -1,5 +1,6 @@
-import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { PageError } from '../Error/PageError';
 import { Limit } from '../Limit';

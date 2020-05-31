@@ -1,4 +1,5 @@
-import { DataSourceError, Superposition } from 'publikum';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { TermsError } from '../../VO/Term/Error/TermsError';
 import { Terms } from '../../VO/Term/Terms';

@@ -1,5 +1,7 @@
 import { Container } from 'inversify';
-import { AJAX, Cache } from 'publikum';
+
+import { AJAX, IAJAX } from '@jamashita/publikum-ajax';
+import { ICache } from '@jamashita/publikum-cache';
 
 import { SessionCommand as SessionAJAXCommand } from '../Command/AJAX/SessionCommand';
 import { StatsCommand as StatsAJAXCommand } from '../Command/AJAX/StatsCommand';
@@ -27,8 +29,8 @@ import { Type } from './Types';
 
 export const vault: Container = new Container();
 
-vault.bind<AJAX>(Type.AJAX).toConstantValue(new AJAX());
-vault.bind<Cache>(Type.Cache).toConstantValue(veauCache);
+vault.bind<IAJAX>(Type.AJAX).toConstantValue(new AJAX());
+vault.bind<ICache>(Type.Cache).toConstantValue(veauCache);
 vault.bind<SessionAJAXCommand>(Type.SessionAJAXCommand).to(SessionAJAXCommand).inSingletonScope();
 vault.bind<StatsAJAXCommand>(Type.StatsAJAXCommand).to(StatsAJAXCommand).inSingletonScope();
 vault.bind<LocaleCacheCommand>(Type.LocaleCacheCommand).to(LocaleCacheCommand).inSingletonScope();

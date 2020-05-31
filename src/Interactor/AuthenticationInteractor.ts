@@ -1,7 +1,11 @@
 import { inject, injectable } from 'inversify';
 import log4js from 'log4js';
 import { VerifyFunction } from 'passport-local';
-import { DataSourceError, Digest, Noun, Schrodinger, Superposition } from 'publikum';
+
+import { Digest } from '@jamashita/publikum-digest';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Noun } from '@jamashita/publikum-interface';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../Container/Types';
 import { NoSuchElementError } from '../Query/Error/NoSuchElementError';

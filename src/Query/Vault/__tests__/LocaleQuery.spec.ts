@@ -1,7 +1,11 @@
 import 'reflect-metadata';
 
-import { AJAXError, Alive, CacheError, DataSourceError, Dead, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
+import { AJAXError } from '@jamashita/publikum-ajax';
+import { CacheError } from '@jamashita/publikum-cache';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
 
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
 import { Type } from '../../../Container/Types';

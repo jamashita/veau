@@ -1,8 +1,12 @@
 import 'reflect-metadata';
 
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
+import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';

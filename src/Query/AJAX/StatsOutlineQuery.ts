@@ -1,17 +1,21 @@
 import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
-import { AJAXError, AJAXResponse, DataSourceError, Dead, IAJAX, Superposition, UnimplementedError } from 'publikum';
+
+import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
+import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
+import { Dead, Superposition } from '@jamashita/publikum-monad';
+
 import { Type } from '../../Container/Types';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
+import { Page } from '../../VO/Page/Page';
 import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
-import { Page } from '../../VO/Page/Page';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsOutline, StatsOutlineJSON } from '../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
-import { IAJAXQuery } from './Interface/IAJAXQuery';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
+import { IAJAXQuery } from './Interface/IAJAXQuery';
 
 @injectable()
 export class StatsOutlineQuery implements IStatsOutlineQuery, IAJAXQuery {

@@ -1,4 +1,4 @@
-import { ValueObject } from 'publikum';
+import { ValueObject } from '@jamashita/publikum-object';
 
 export class Color extends ValueObject {
   public readonly noun: 'Color' = 'Color';

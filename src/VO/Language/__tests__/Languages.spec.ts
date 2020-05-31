@@ -1,5 +1,8 @@
-import { Absent, Alive, Dead, ImmutableProject, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
+import { ImmutableProject } from '@jamashita/publikum-collection';
+import { Absent, Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { LanguageError } from '../Error/LanguageError';
 import { LanguagesError } from '../Error/LanguagesError';
@@ -258,7 +261,6 @@ describe('Languages', () => {
     it('returns Absent when the index is out of range', () => {
       const languages: Languages = Languages.empty();
 
-      expect(languages.get(new MockLanguageID())).toBeInstanceOf(Absent);
       expect(languages.get(new MockLanguageID())).toBeInstanceOf(Absent);
     });
   });

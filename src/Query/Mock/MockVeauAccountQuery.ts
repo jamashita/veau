@@ -1,4 +1,5 @@
-import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
+import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';

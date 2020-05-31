@@ -1,9 +1,11 @@
-import { DataSourceError, ISQL, MySQLError, Schrodinger, Superposition } from 'publikum';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { ISQL, MySQLError } from '@jamashita/publikum-mysql';
 
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
-import { IMySQLCommand } from './Interface/IMySQLCommand';
 import { IStatsItemCommand } from '../Interface/IStatsItemCommand';
+import { IMySQLCommand } from './Interface/IMySQLCommand';
 
 export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
   public readonly noun: 'StatsItemCommand' = 'StatsItemCommand';

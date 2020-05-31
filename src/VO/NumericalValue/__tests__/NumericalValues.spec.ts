@@ -1,4 +1,5 @@
-import { Absent, ImmutableSequence } from 'publikum';
+import { ImmutableSequence } from '@jamashita/publikum-collection';
+import { Absent } from '@jamashita/publikum-monad';
 
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { NumericalValue } from '../NumericalValue';

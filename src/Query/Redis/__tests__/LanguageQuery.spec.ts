@@ -1,7 +1,11 @@
 import 'reflect-metadata';
 
-import { DataSourceError, MockRedis, MockRedisString, RedisError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
+import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';

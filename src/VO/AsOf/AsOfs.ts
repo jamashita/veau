@@ -1,18 +1,9 @@
-import {
-  Absent,
-  Cloneable,
-  Collection,
-  Enumerator,
-  ImmutableSequence,
-  JSONable,
-  Objet,
-  Present,
-  Quantum,
-  Schrodinger,
-  Sequence,
-  Zeit,
-  ZeitError
-} from 'publikum';
+import { Collection, ImmutableSequence, Sequence } from '@jamashita/publikum-collection';
+import { Cloneable, JSONable } from '@jamashita/publikum-interface';
+import { Absent, Present, Quantum, Schrodinger } from '@jamashita/publikum-monad';
+import { Objet } from '@jamashita/publikum-object';
+import { Enumerator } from '@jamashita/publikum-type';
+import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
 
 import { Term } from '../Term/Term';
 import { AsOf } from './AsOf';

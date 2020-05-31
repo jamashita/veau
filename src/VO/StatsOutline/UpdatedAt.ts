@@ -1,4 +1,6 @@
-import { Alive, Dead, Schrodinger, Superposition, ValueObject, Zeit, ZeitError } from 'publikum';
+import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { ValueObject } from '@jamashita/publikum-object';
+import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
 
 import { UpdatedAtError } from './Error/UpdatedAtError';
 

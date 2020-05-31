@@ -1,5 +1,9 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Dead, IMySQL, MySQLError, Project, Schrodinger, Superposition } from 'publikum';
+
+import { Project } from '@jamashita/publikum-collection';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
 
 import { Type } from '../../Container/Types';
 import { StatsItemRow } from '../../Entity/StatsItem/StatsItem';

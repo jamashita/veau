@@ -1,18 +1,8 @@
-import {
-  Alive,
-  Cloneable,
-  Collection,
-  Dead,
-  Enumerator,
-  ImmutableProject,
-  JSONable,
-  Kind,
-  Objet,
-  Project,
-  Quantum,
-  Schrodinger,
-  Superposition
-} from 'publikum';
+import { Collection, ImmutableProject, Project } from '@jamashita/publikum-collection';
+import { Cloneable, JSONable } from '@jamashita/publikum-interface';
+import { Alive, Dead, Quantum, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Objet } from '@jamashita/publikum-object';
+import { Enumerator, Kind } from '@jamashita/publikum-type';
 
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfs } from '../AsOf/AsOfs';

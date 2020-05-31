@@ -1,5 +1,7 @@
-import { Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
+import { Superposition } from '@jamashita/publikum-monad';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { TermIDError } from '../Error/TermIDError';
 import { TermID } from '../TermID';
@@ -9,9 +11,9 @@ describe('TermID', () => {
     it('normal case', () => {
       const uuid: UUID = UUID.v4();
 
-      const veauAccountID: TermID = TermID.of(uuid);
+      const termID: TermID = TermID.of(uuid);
 
-      expect(veauAccountID.get()).toBe(uuid);
+      expect(termID.get()).toBe(uuid);
     });
   });
 
@@ -50,22 +52,22 @@ describe('TermID', () => {
     it('returns true if the property is the same', () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
-      const veauAccountID1: TermID = TermID.of(uuid1);
-      const veauAccountID2: TermID = TermID.of(uuid2);
-      const veauAccountID3: TermID = TermID.of(uuid1);
+      const termID1: TermID = TermID.of(uuid1);
+      const termID2: TermID = TermID.of(uuid2);
+      const termID3: TermID = TermID.of(uuid1);
 
-      expect(veauAccountID1.equals(veauAccountID1)).toBe(true);
-      expect(veauAccountID1.equals(veauAccountID2)).toBe(false);
-      expect(veauAccountID1.equals(veauAccountID3)).toBe(true);
+      expect(termID1.equals(termID1)).toBe(true);
+      expect(termID1.equals(termID2)).toBe(false);
+      expect(termID1.equals(termID3)).toBe(true);
     });
   });
 
   describe('toString', () => {
     it('returns the original string', () => {
       const uuid: UUID = UUID.v4();
-      const veauAccountID: TermID = TermID.of(uuid);
+      const termID: TermID = TermID.of(uuid);
 
-      expect(veauAccountID.toString()).toBe(uuid.toString());
+      expect(termID.toString()).toBe(uuid.toString());
     });
   });
 });

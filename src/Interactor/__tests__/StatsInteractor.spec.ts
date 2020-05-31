@@ -1,7 +1,9 @@
 import 'reflect-metadata';
 
-import { Alive, DataSourceError, Superposition } from 'publikum';
 import sinon, { SinonStub } from 'sinon';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Alive, Superposition } from '@jamashita/publikum-monad';
 
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { kernel } from '../../Container/Kernel';

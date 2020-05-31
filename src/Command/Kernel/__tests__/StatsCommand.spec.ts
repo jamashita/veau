@@ -1,7 +1,10 @@
 import 'reflect-metadata';
 
-import { Alive, DataSourceError, Dead, MockMySQL, MySQLError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';

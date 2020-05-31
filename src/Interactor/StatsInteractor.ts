@@ -1,5 +1,8 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Noun, Superposition } from 'publikum';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Noun } from '@jamashita/publikum-interface';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { Type } from '../Container/Types';

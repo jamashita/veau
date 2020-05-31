@@ -1,5 +1,8 @@
-import { Absent, Alive, Dead, ImmutableProject, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
+import { ImmutableProject } from '@jamashita/publikum-collection';
+import { Absent, Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
@@ -321,7 +324,6 @@ describe('StatsOutlines', () => {
     it('returns Absent if the index is out of range', () => {
       const outlines: StatsOutlines = StatsOutlines.empty();
 
-      expect(outlines.get(new MockStatsID())).toBeInstanceOf(Absent);
       expect(outlines.get(new MockStatsID())).toBeInstanceOf(Absent);
     });
   });

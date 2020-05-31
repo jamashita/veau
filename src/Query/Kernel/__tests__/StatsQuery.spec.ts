@@ -1,7 +1,11 @@
 import 'reflect-metadata';
 
-import { Alive, DataSourceError, Dead, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { MySQLError } from '@jamashita/publikum-mysql';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';

@@ -1,16 +1,10 @@
 import { inject, injectable } from 'inversify';
-import {
-  Alive,
-  Ambiguous,
-  DataSourceError,
-  Dead,
-  ImmutableProject,
-  IMySQL,
-  MySQLError,
-  Project,
-  Schrodinger,
-  Superposition
-} from 'publikum';
+
+import { ImmutableProject, Project } from '@jamashita/publikum-collection';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
+import { Ambiguous } from '@jamashita/publikum-type';
 
 import { Type } from '../../Container/Types';
 import { StatsItemIDError } from '../../VO/StatsItem/Error/StatsItemIDError';

@@ -1,6 +1,7 @@
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
-import { Present, Quantum } from 'publikum';
 import { Action as ReduxAction } from 'redux';
+
+import { Present, Quantum } from '@jamashita/publikum-monad';
 
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';

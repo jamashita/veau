@@ -1,4 +1,5 @@
-import { Present, Superposition, UUID } from 'publikum';
+import { Present, Superposition } from '@jamashita/publikum-monad';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { AsOfs } from '../../../VO/AsOf/AsOfs';

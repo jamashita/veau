@@ -5,7 +5,7 @@ const rimraf = require('rimraf');
 const plumber = require('gulp-plumber');
 
 const ts = require('gulp-typescript');
-const tsc = ts.createProject('./tsconfig.json');
+const tsc = ts.createProject('./tsconfig.server.json');
 
 const sass = require('gulp-dart-sass');
 const cleanCSS = require('gulp-clean-css');

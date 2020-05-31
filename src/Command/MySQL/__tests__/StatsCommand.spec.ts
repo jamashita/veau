@@ -1,5 +1,9 @@
-import { DataSourceError, MockSQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
+import { MockSQL, MySQLError } from '@jamashita/publikum-mysql';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { MockStats } from '../../../Entity/Stats/Mock/MockStats';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';

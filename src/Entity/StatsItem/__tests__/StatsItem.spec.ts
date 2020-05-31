@@ -1,5 +1,8 @@
-import { ImmutableProject, Present, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
+import { ImmutableProject } from '@jamashita/publikum-collection';
+import { Present, Superposition } from '@jamashita/publikum-monad';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';

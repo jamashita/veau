@@ -1,4 +1,4 @@
-import { UUID } from 'publikum';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { LanguageID } from '../LanguageID';
 

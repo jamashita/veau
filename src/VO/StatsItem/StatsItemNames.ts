@@ -1,4 +1,8 @@
-import { Collection, ImmutableSequence, JSONable, Mapper, Objet, Quantum, Sequence } from 'publikum';
+import { Collection, ImmutableSequence, Sequence } from '@jamashita/publikum-collection';
+import { JSONable } from '@jamashita/publikum-interface';
+import { Quantum } from '@jamashita/publikum-monad';
+import { Objet } from '@jamashita/publikum-object';
+import { Mapper } from '@jamashita/publikum-type';
 
 import { StatsItemName } from './StatsItemName';
 

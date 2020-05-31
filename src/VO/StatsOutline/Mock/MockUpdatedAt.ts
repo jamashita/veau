@@ -1,4 +1,4 @@
-import { Zeit } from 'publikum';
+import { Zeit } from '@jamashita/publikum-zeit';
 
 import { UpdatedAt } from '../UpdatedAt';
 

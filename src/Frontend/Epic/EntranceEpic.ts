@@ -1,8 +1,10 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
@@ -12,12 +14,8 @@ import { Identity } from '../../VO/Identity/Identity';
 import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import {
-  Action,
-  ENTRANCE_ACCOUNT_NAME_TYPED,
-  ENTRANCE_PASSWORD_TYPED,
-  EntranceAccountNameTypedAction,
-  EntrancePasswordTypedAction,
-  IDENTITY_AUTHENTICATE
+    Action, ENTRANCE_ACCOUNT_NAME_TYPED, ENTRANCE_PASSWORD_TYPED, EntranceAccountNameTypedAction,
+    EntrancePasswordTypedAction, IDENTITY_AUTHENTICATE
 } from '../Action/Action';
 import { updateEntranceInformation } from '../Action/EntranceAction';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';

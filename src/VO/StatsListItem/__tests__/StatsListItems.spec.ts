@@ -1,4 +1,6 @@
-import { Absent, ImmutableSequence, UUID } from 'publikum';
+import { ImmutableSequence } from '@jamashita/publikum-collection';
+import { Absent } from '@jamashita/publikum-monad';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { ISO639 } from '../../Language/ISO639';
 import { Language } from '../../Language/Language';

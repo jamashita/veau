@@ -1,17 +1,8 @@
-import {
-  Alive,
-  Cloneable,
-  Collection,
-  Dead,
-  ImmutableProject,
-  JSONable,
-  Mapper,
-  Objet,
-  Project,
-  Quantum,
-  Schrodinger,
-  Superposition
-} from 'publikum';
+import { Collection, ImmutableProject, Project } from '@jamashita/publikum-collection';
+import { Cloneable, JSONable } from '@jamashita/publikum-interface';
+import { Alive, Dead, Quantum, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Objet } from '@jamashita/publikum-object';
+import { Mapper } from '@jamashita/publikum-type';
 
 import { StatsOutlineError } from './Error/StatsOutlineError';
 import { StatsOutlinesError } from './Error/StatsOutlinesError';

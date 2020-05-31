@@ -1,7 +1,7 @@
-import { Nullable } from 'publikum';
 import React from 'react';
 
 import { HotTable } from '@handsontable/react';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { Stats } from '../../../Entity/Stats/Stats';
 import { AsOfs } from '../../../VO/AsOf/AsOfs';

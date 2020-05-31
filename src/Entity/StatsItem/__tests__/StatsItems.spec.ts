@@ -1,5 +1,8 @@
-import { Absent, Alive, Dead, ImmutableProject, ImmutableSequence, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
+import { ImmutableProject, ImmutableSequence } from '@jamashita/publikum-collection';
+import { Absent, Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';

@@ -11,8 +11,9 @@ import helmet from 'helmet';
 import log4js from 'log4js';
 import passport from 'passport';
 import path from 'path';
-import { Ambiguous } from 'publikum';
 import favicon from 'serve-favicon';
+
+import { Ambiguous } from '@jamashita/publikum-type';
 
 import { BaseController } from '../Controller/BaseController';
 import { veauRedis } from '../Infrastructure/VeauRedis';

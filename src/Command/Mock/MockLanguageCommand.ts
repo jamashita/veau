@@ -1,4 +1,5 @@
-import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
+import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { ILanguageCommand } from '../Interface/ILanguageCommand';
 import { IMockCommand } from './Interface/IMockCommand';

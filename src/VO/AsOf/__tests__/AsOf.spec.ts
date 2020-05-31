@@ -1,5 +1,6 @@
-import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { MockTerm } from '../../Term/Mock/MockTerm';
 import { Term } from '../../Term/Term';

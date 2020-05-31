@@ -1,4 +1,4 @@
-import { ValueObject } from 'publikum';
+import { ValueObject } from '@jamashita/publikum-object';
 
 import { VeauAccountID } from '../VeauAccount/VeauAccountID';
 import { Hash } from './Hash';

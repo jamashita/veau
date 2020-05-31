@@ -1,4 +1,4 @@
-import { ImmutableSequence } from 'publikum';
+import { ImmutableSequence } from '@jamashita/publikum-collection';
 
 import { Color } from '../Color';
 import { Colors } from '../Colors';

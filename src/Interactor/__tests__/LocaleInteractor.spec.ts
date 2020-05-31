@@ -1,7 +1,11 @@
 import 'reflect-metadata';
 
-import { Alive, DataSourceError, Dead, MySQLError, RedisError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { MySQLError } from '@jamashita/publikum-mysql';
+import { RedisError } from '@jamashita/publikum-redis';
 
 import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';
 import { MockRegionCommand } from '../../Command/Mock/MockRegionCommand';

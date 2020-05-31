@@ -1,8 +1,10 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Present, Quantum, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Present, Quantum, Superposition } from '@jamashita/publikum-monad';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Type } from '../../Container/Types';
@@ -22,38 +24,17 @@ import { Region } from '../../VO/Region/Region';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
-  Action,
-  STATS_EDIT_DATA_DELETED,
-  STATS_EDIT_DATA_FILLED,
-  STATS_EDIT_INITIALIZATION_FAILURE,
-  STATS_EDIT_INITIALIZE,
-  STATS_EDIT_INVALID_DATE_INPUT,
-  STATS_EDIT_INVALID_VALUE_INPUT,
-  STATS_EDIT_ISO3166_SELECTED,
-  STATS_EDIT_ISO639_SELECTED,
-  STATS_EDIT_ITEM_NAME_TYPED,
-  STATS_EDIT_ITEM_SAVE,
-  STATS_EDIT_NAME_TYPED,
-  STATS_EDIT_REMOVE_SELECTING_ITEM,
-  STATS_EDIT_ROW_MOVED,
-  STATS_EDIT_ROW_SELECTED,
-  STATS_EDIT_SAVE_STATS,
-  STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
-  STATS_EDIT_START_DATE_DETERMINED,
-  STATS_EDIT_UNIT_TYPED,
-  StatsEditDataDeletedAction,
-  StatsEditDataFilledAction,
-  StatsEditInitializeAction,
-  StatsEditISO3166SelectedAction,
-  StatsEditISO639SelectedAction,
-  StatsEditItemNameTypedAction,
-  StatsEditNameTypedAction,
-  StatsEditRemoveSelectingItemAction,
-  StatsEditRowMovedAction,
-  StatsEditRowSelectedAction,
-  StatsEditSelectingItemNameTypedAction,
-  StatsEditStartDateDeterminedAction,
-  StatsEditUnitTypedAction
+    Action, STATS_EDIT_DATA_DELETED, STATS_EDIT_DATA_FILLED, STATS_EDIT_INITIALIZATION_FAILURE,
+    STATS_EDIT_INITIALIZE, STATS_EDIT_INVALID_DATE_INPUT, STATS_EDIT_INVALID_VALUE_INPUT,
+    STATS_EDIT_ISO3166_SELECTED, STATS_EDIT_ISO639_SELECTED, STATS_EDIT_ITEM_NAME_TYPED,
+    STATS_EDIT_ITEM_SAVE, STATS_EDIT_NAME_TYPED, STATS_EDIT_REMOVE_SELECTING_ITEM,
+    STATS_EDIT_ROW_MOVED, STATS_EDIT_ROW_SELECTED, STATS_EDIT_SAVE_STATS,
+    STATS_EDIT_SELECTING_ITEM_NAME_TYPED, STATS_EDIT_START_DATE_DETERMINED, STATS_EDIT_UNIT_TYPED,
+    StatsEditDataDeletedAction, StatsEditDataFilledAction, StatsEditInitializeAction,
+    StatsEditISO3166SelectedAction, StatsEditISO639SelectedAction, StatsEditItemNameTypedAction,
+    StatsEditNameTypedAction, StatsEditRemoveSelectingItemAction, StatsEditRowMovedAction,
+    StatsEditRowSelectedAction, StatsEditSelectingItemNameTypedAction,
+    StatsEditStartDateDeterminedAction, StatsEditUnitTypedAction
 } from '../Action/Action';
 import { loaded, loading } from '../Action/LoadingAction';
 import { raiseModal } from '../Action/ModalAction';
@@ -108,7 +89,7 @@ export class StatsEditEpic {
     );
   }
 
-  public findStats(action$: ActionsObservable<Action>): Observable<Action> {
+  public findStats(action$: Observable<Action>): Observable<Action> {
     return action$.pipe<StatsEditInitializeAction, Action>(
       ofType<Action, StatsEditInitializeAction>(STATS_EDIT_INITIALIZE),
       mergeMap<StatsEditInitializeAction, Observable<Action>>((action: StatsEditInitializeAction) => {
@@ -139,7 +120,7 @@ export class StatsEditEpic {
     );
   }
 
-  public initializationFailed(action$: ActionsObservable<Action>): Observable<Action> {
+  public initializationFailed(action$: Observable<Action>): Observable<Action> {
     return action$.pipe<Action, Action, Action>(
       ofType<Action, Action>(STATS_EDIT_INITIALIZATION_FAILURE),
       mapTo<Action, Action>(pushToStatsList()),
@@ -391,10 +372,7 @@ export class StatsEditEpic {
     );
   }
 
-  public selectingItemNameTyped(
-    action$: ActionsObservable<Action>,
-    state$: StateObservable<State>
-  ): Observable<Action> {
+  public selectingItemNameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     // prettier-ignore
     const {
       value: {
@@ -459,7 +437,7 @@ export class StatsEditEpic {
     );
   }
 
-  public invalidDateInput(action$: ActionsObservable<Action>): Observable<Action> {
+  public invalidDateInput(action$: Observable<Action>): Observable<Action> {
     return action$.pipe<Action, Action>(
       ofType<Action, Action>(STATS_EDIT_INVALID_DATE_INPUT),
       mapTo<Action, Action>(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'))
@@ -486,7 +464,7 @@ export class StatsEditEpic {
     );
   }
 
-  public invalidValueInput(action$: ActionsObservable<Action>): Observable<Action> {
+  public invalidValueInput(action$: Observable<Action>): Observable<Action> {
     return action$.pipe<Action, Action>(
       ofType<Action, Action>(STATS_EDIT_INVALID_VALUE_INPUT),
       mapTo<Action, Action>(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'))

@@ -1,7 +1,7 @@
-import { Absent, Quantum, Superposition } from 'publikum';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
+import { Absent, Quantum, Superposition } from '@jamashita/publikum-monad';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 

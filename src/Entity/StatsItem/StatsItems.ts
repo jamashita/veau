@@ -1,20 +1,8 @@
-import {
-  Alive,
-  Cloneable,
-  Collection,
-  Dead,
-  Enumerator,
-  ImmutableSequence,
-  JSONable,
-  Kind,
-  Mapper,
-  Objet,
-  Project,
-  Quantum,
-  Schrodinger,
-  Sequence,
-  Superposition
-} from 'publikum';
+import { Collection, ImmutableSequence, Project, Sequence } from '@jamashita/publikum-collection';
+import { Cloneable, JSONable } from '@jamashita/publikum-interface';
+import { Alive, Dead, Quantum, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Objet } from '@jamashita/publikum-object';
+import { Enumerator, Kind, Mapper } from '@jamashita/publikum-type';
 
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';

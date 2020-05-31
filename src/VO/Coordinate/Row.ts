@@ -1,4 +1,6 @@
-import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 
 import { RowError } from './Error/RowError';
 

@@ -1,4 +1,4 @@
-import { UUID } from 'publikum';
+import { UUID } from '@jamashita/publikum-uuid';
 
 import { MockLanguage } from '../../Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';

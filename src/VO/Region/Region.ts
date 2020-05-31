@@ -1,4 +1,7 @@
-import { Alive, Dead, JSONable, Kind, Superposition, ValueObject } from 'publikum';
+import { JSONable } from '@jamashita/publikum-interface';
+import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 
 import { RegionError } from './Error/RegionError';
 import { RegionIDError } from './Error/RegionIDError';

@@ -1,7 +1,11 @@
 import 'reflect-metadata';
 
-import { Absent, DataSourceError, MockMySQL, MySQLError, Project, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
+import { Project } from '@jamashita/publikum-collection';
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Absent, Superposition } from '@jamashita/publikum-monad';
+import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';

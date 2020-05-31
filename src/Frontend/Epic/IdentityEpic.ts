@@ -1,8 +1,10 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
+
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';

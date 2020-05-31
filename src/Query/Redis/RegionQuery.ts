@@ -1,18 +1,10 @@
 import { inject, injectable } from 'inversify';
-import {
-  Alive,
-  DataSourceError,
-  Dead,
-  IRedis,
-  JSONA,
-  JSONAError,
-  Nullable,
-  Quantum,
-  RedisError,
-  Schrodinger,
-  Superposition,
-  UnimplementedError
-} from 'publikum';
+
+import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
+import { JSONA, JSONAError } from '@jamashita/publikum-json';
+import { Alive, Dead, Quantum, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { IRedis, RedisError } from '@jamashita/publikum-redis';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { Type } from '../../Container/Types';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
