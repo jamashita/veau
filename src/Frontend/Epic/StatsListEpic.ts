@@ -55,7 +55,7 @@ export class StatsListEpic {
   }
 
   public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return merge(
+    return merge<Action>(
       this.findStatsList(action$, state$),
       this.nameTyped(action$, state$),
       this.unitTyped(action$, state$),

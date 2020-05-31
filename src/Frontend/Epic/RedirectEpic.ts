@@ -12,7 +12,7 @@ import { Endpoints } from '../Endpoints';
 @injectable()
 export class RedirectEpic {
   public init(action$: ActionsObservable<Action>): Observable<Action> {
-    return merge<Action, Action, Action>(
+    return merge<Action>(
       this.toStatsList(action$),
       this.toStatsEdit(action$),
       this.toEntrance(action$)

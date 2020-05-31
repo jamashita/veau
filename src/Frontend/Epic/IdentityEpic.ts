@@ -48,7 +48,7 @@ export class IdentityEpic {
   }
 
   public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return merge<Action, Action>(this.initIdentity(state$), this.initialize(action$, state$));
+    return merge<Action>(this.initIdentity(state$), this.initialize(action$, state$));
   }
 
   public initIdentity(state$: StateObservable<State>): Observable<Action> {

@@ -33,7 +33,7 @@ export class EntranceEpic {
   }
 
   public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return merge<Action, Action, Action>(
+    return merge<Action>(
       this.login(action$, state$),
       this.accountNameTyped(action$, state$),
       this.passwordTyped(action$, state$)
