@@ -57,7 +57,7 @@ export class Spreadsheet extends React.Component<Props, State> {
     const size: HeaderSize = stats.getRowHeaderSize();
 
     if (rowHeaders.isEmpty()) {
-      return <div />;
+      return null;
     }
 
     return (

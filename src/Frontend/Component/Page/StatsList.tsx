@@ -1,8 +1,7 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
+import { Button, Icon } from '@material-ui/core';
 
 import { Props } from '../../Container/Page/StatsList';
 import { Authenticated } from '../../Container/Template/Authenticated';

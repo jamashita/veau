@@ -1,13 +1,8 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import amber from '@material-ui/core/colors/amber';
-import blue from '@material-ui/core/colors/blue';
-import green from '@material-ui/core/colors/green';
-import red from '@material-ui/core/colors/red';
-import Icon from '@material-ui/core/Icon';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
+import { Icon, Snackbar, SnackbarContent } from '@material-ui/core';
+import { amber, blue, green, red } from '@material-ui/core/colors';
 
 import { Props } from '../../Container/Molecule/Notification';
 

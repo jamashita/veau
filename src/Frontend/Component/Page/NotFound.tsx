@@ -9,6 +9,10 @@ export class NotFound extends React.Component<Props, State> {
   }
 
   public render(): React.ReactNode {
-    return <span>404 - Not Found</span>;
+    return (
+      <div>
+        <span>404 - Not Found</span>
+      </div>
+    );
   }
 }

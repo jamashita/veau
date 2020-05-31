@@ -2,8 +2,7 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 import { Absent, Quantum, Superposition } from '@jamashita/publikum-monad';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
+import { Button, Icon } from '@material-ui/core';
 
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { AsOfError } from '../../../VO/AsOf/Error/AsOfError';

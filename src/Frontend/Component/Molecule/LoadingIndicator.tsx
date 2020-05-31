@@ -1,10 +1,7 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 
 import { Props } from '../../Container/Molecule/LoadingIndicator';
 
