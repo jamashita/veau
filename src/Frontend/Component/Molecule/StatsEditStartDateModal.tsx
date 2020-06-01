@@ -62,12 +62,7 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
     } = this.state;
 
     return (
-      <Dialog
-        open={open}
-        onClose={close}
-        fullWidth={true}
-        maxWidth='md'
-      >
+      <Dialog open={open} onClose={close} fullWidth={true} maxWidth='md'>
         <DialogTitle>
           {intl.formatMessage({
             id: 'DETERMINE_START_DATE'
@@ -101,20 +96,13 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
               determineStartDate(startDate);
             }}
           >
-            <Icon
-              className='fas fa-check'
-            />
+            <Icon className='fas fa-check' />
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
           </Button>
-          <Button
-            color='secondary'
-            onClick={close}
-          >
-            <Icon
-              className='fas fa-times'
-            />
+          <Button color='secondary' onClick={close}>
+            <Icon className='fas fa-times' />
             {intl.formatMessage({
               id: 'CANCEL'
             })}

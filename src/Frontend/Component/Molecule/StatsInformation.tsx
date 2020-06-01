@@ -1,9 +1,7 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import {
-    Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select
-} from '@material-ui/core';
+import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 
 import { Stats } from '../../../Entity/Stats/Stats';
 import { ISO639 } from '../../../VO/Language/ISO639';
@@ -56,9 +54,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
     } = this.props;
 
     return (
-      <Card
-        className='stats-info'
-      >
+      <Card className='stats-info'>
         <CardHeader
           title={intl.formatMessage({
             id: 'STATS_INFO'
@@ -85,9 +81,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
               unitTyped(StatsUnit.of(value));
             }}
           />
-          <FormControl
-            fullWidth={true}
-          >
+          <FormControl fullWidth={true}>
             <InputLabel>
               {intl.formatMessage({
                 id: 'LANGUAGE'
@@ -117,9 +111,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
               })}
             </Select>
           </FormControl>
-          <FormControl
-            fullWidth={true}
-          >
+          <FormControl fullWidth={true}>
             <InputLabel>
               {intl.formatMessage({
                 id: 'REGION'

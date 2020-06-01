@@ -1,9 +1,7 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import {
-    Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText
-} from '@material-ui/core';
+import { Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 
 import { Props } from '../../Container/Molecule/PageProvider';
 
@@ -34,32 +32,15 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
     } = this.props;
 
     return (
-      <Drawer
-        anchor='left'
-        open={provider.get()}
-        variant='temporary'
-        onClose={close}
-      >
-        <Button
-          variant='contained'
-          color='primary'
-          fullWidth={true}
-          onClick={close}
-        >
-          <Icon
-            className='fas fa-times'
-          />
+      <Drawer anchor='left' open={provider.get()} variant='temporary' onClose={close}>
+        <Button variant='contained' color='primary' fullWidth={true} onClick={close}>
+          <Icon className='fas fa-times' />
         </Button>
         <Divider />
         <List>
-          <ListItem
-            button={true}
-            onClick={toStatsList}
-          >
+          <ListItem button={true} onClick={toStatsList}>
             <ListItemIcon>
-              <Icon
-                className='fas fa-list-alt'
-              />
+              <Icon className='fas fa-list-alt' />
             </ListItemIcon>
             <ListItemText>
               {intl.formatMessage({
@@ -70,14 +51,9 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
         </List>
         <Divider />
         <List>
-          <ListItem
-            button={true}
-            onClick={logout}
-          >
+          <ListItem button={true} onClick={logout}>
             <ListItemIcon>
-              <Icon
-                className='fas fa-sign-out-alt'
-              />
+              <Icon className='fas fa-sign-out-alt' />
             </ListItemIcon>
             <ListItemText>
               {intl.formatMessage({

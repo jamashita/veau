@@ -80,10 +80,7 @@ export class IdentityEpic {
                           return concat<Action>(
                             superposition2.match<Observable<Action>>(
                               (identity: Identity) => {
-                                const actions: Array<Action> = [
-                                  identityAuthenticated(identity),
-                                  identified()
-                                ];
+                                const actions: Array<Action> = [identityAuthenticated(identity), identified()];
 
                                 if (location.pathname === Endpoints.ENTRANCE) {
                                   actions.push(pushToStatsList());

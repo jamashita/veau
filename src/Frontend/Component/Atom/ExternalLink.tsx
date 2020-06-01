@@ -33,12 +33,7 @@ export class ExternalLink extends React.Component<Props, State> {
     } = this.props;
 
     return (
-      <a
-        style={style}
-        href={href}
-        target='_blank'
-        rel='noopener noreferrer'
-      >
+      <a style={style} href={href} target='_blank' rel='noopener noreferrer'>
         {children}
       </a>
     );

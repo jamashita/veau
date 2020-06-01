@@ -21,21 +21,10 @@ class HeaderImpl extends React.Component<Props & WrappedComponentProps, State> {
     } = this.props;
 
     return (
-      <AppBar
-        position='static'
-        className='header'
-      >
-        <Toolbar
-          variant='dense'
-        >
-          <Icon
-            className='fas fa-bars icon-spacing'
-            onClick={menuClicked}
-          />
-          <Typography
-            variant='h5'
-            color='inherit'
-          >
+      <AppBar position='static' className='header'>
+        <Toolbar variant='dense'>
+          <Icon className='fas fa-bars icon-spacing' onClick={menuClicked} />
+          <Typography variant='h5' color='inherit'>
             {intl.formatMessage({
               id: 'VEAU'
             })}

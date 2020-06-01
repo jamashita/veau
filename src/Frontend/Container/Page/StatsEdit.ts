@@ -22,10 +22,24 @@ import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { Action } from '../../Action/Action';
 import {
-    initFailed, initStatsEdit, invalidDateInput, invalidValueInput, itemNameTyped, removeItem,
-    rowMoved, rowSelected, saveItem, saveStats, selectingItemNameTyped, startDateDetermined,
-    statsDataDeleted, statsDataFilled, statsISO3166Selected, statsISO639Selected, statsNameTyped,
-    statsUnitTyped
+  initFailed,
+  initStatsEdit,
+  invalidDateInput,
+  invalidValueInput,
+  itemNameTyped,
+  removeItem,
+  rowMoved,
+  rowSelected,
+  saveItem,
+  saveStats,
+  selectingItemNameTyped,
+  startDateDetermined,
+  statsDataDeleted,
+  statsDataFilled,
+  statsISO3166Selected,
+  statsISO639Selected,
+  statsNameTyped,
+  statsUnitTyped
 } from '../../Action/StatsEditAction';
 import { StatsEdit as Component } from '../../Component/Page/StatsEdit';
 import { Endpoints } from '../../Endpoints';

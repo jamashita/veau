@@ -5,18 +5,18 @@ import { merge, Observable } from 'rxjs';
 import { map, mapTo } from 'rxjs/operators';
 
 import {
-    Action, PUSH_TO_ENTRANCE, PUSH_TO_STATS_EDIT, PUSH_TO_STATS_LIST, PushToStatsEditAction
+  Action,
+  PUSH_TO_ENTRANCE,
+  PUSH_TO_STATS_EDIT,
+  PUSH_TO_STATS_LIST,
+  PushToStatsEditAction
 } from '../Action/Action';
 import { Endpoints } from '../Endpoints';
 
 @injectable()
 export class RedirectEpic {
   public init(action$: ActionsObservable<Action>): Observable<Action> {
-    return merge<Action>(
-      this.toStatsList(action$),
-      this.toStatsEdit(action$),
-      this.toEntrance(action$)
-    );
+    return merge<Action>(this.toStatsList(action$), this.toStatsEdit(action$), this.toEntrance(action$));
   }
 
   public toStatsList(action$: ActionsObservable<Action>): Observable<Action> {

@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-    CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis
-} from 'recharts';
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { Stats } from '../../../Entity/Stats/Stats';
 import { Colors } from '../../../VO/Color/Colors';
@@ -36,10 +34,7 @@ export class Chart extends React.Component<Props, State> {
     } = this.props;
 
     return (
-      <ResponsiveContainer
-        width='100%'
-        minHeight={CHART_HEIGHT}
-      >
+      <ResponsiveContainer width='100%' minHeight={CHART_HEIGHT}>
         <LineChart
           margin={{
             top: MARGIN,
@@ -49,12 +44,8 @@ export class Chart extends React.Component<Props, State> {
           }}
           data={stats.getChart()}
         >
-          <XAxis
-            dataKey='name'
-          />
-          <YAxis
-            domain={['dataMin', 'dataMax']}
-          />
+          <XAxis dataKey='name' />
+          <YAxis domain={['dataMin', 'dataMax']} />
           <CartesianGrid />
           <Legend />
           <Tooltip />

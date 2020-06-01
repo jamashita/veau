@@ -24,17 +24,38 @@ import { Region } from '../../VO/Region/Region';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
-    Action, STATS_EDIT_DATA_DELETED, STATS_EDIT_DATA_FILLED, STATS_EDIT_INITIALIZATION_FAILURE,
-    STATS_EDIT_INITIALIZE, STATS_EDIT_INVALID_DATE_INPUT, STATS_EDIT_INVALID_VALUE_INPUT,
-    STATS_EDIT_ISO3166_SELECTED, STATS_EDIT_ISO639_SELECTED, STATS_EDIT_ITEM_NAME_TYPED,
-    STATS_EDIT_ITEM_SAVE, STATS_EDIT_NAME_TYPED, STATS_EDIT_REMOVE_SELECTING_ITEM,
-    STATS_EDIT_ROW_MOVED, STATS_EDIT_ROW_SELECTED, STATS_EDIT_SAVE_STATS,
-    STATS_EDIT_SELECTING_ITEM_NAME_TYPED, STATS_EDIT_START_DATE_DETERMINED, STATS_EDIT_UNIT_TYPED,
-    StatsEditDataDeletedAction, StatsEditDataFilledAction, StatsEditInitializeAction,
-    StatsEditISO3166SelectedAction, StatsEditISO639SelectedAction, StatsEditItemNameTypedAction,
-    StatsEditNameTypedAction, StatsEditRemoveSelectingItemAction, StatsEditRowMovedAction,
-    StatsEditRowSelectedAction, StatsEditSelectingItemNameTypedAction,
-    StatsEditStartDateDeterminedAction, StatsEditUnitTypedAction
+  Action,
+  STATS_EDIT_DATA_DELETED,
+  STATS_EDIT_DATA_FILLED,
+  STATS_EDIT_INITIALIZATION_FAILURE,
+  STATS_EDIT_INITIALIZE,
+  STATS_EDIT_INVALID_DATE_INPUT,
+  STATS_EDIT_INVALID_VALUE_INPUT,
+  STATS_EDIT_ISO3166_SELECTED,
+  STATS_EDIT_ISO639_SELECTED,
+  STATS_EDIT_ITEM_NAME_TYPED,
+  STATS_EDIT_ITEM_SAVE,
+  STATS_EDIT_NAME_TYPED,
+  STATS_EDIT_REMOVE_SELECTING_ITEM,
+  STATS_EDIT_ROW_MOVED,
+  STATS_EDIT_ROW_SELECTED,
+  STATS_EDIT_SAVE_STATS,
+  STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
+  STATS_EDIT_START_DATE_DETERMINED,
+  STATS_EDIT_UNIT_TYPED,
+  StatsEditDataDeletedAction,
+  StatsEditDataFilledAction,
+  StatsEditInitializeAction,
+  StatsEditISO3166SelectedAction,
+  StatsEditISO639SelectedAction,
+  StatsEditItemNameTypedAction,
+  StatsEditNameTypedAction,
+  StatsEditRemoveSelectingItemAction,
+  StatsEditRowMovedAction,
+  StatsEditRowSelectedAction,
+  StatsEditSelectingItemNameTypedAction,
+  StatsEditStartDateDeterminedAction,
+  StatsEditUnitTypedAction
 } from '../Action/Action';
 import { loaded, loading } from '../Action/LoadingAction';
 import { raiseModal } from '../Action/ModalAction';
@@ -124,10 +145,7 @@ export class StatsEditEpic {
     return action$.pipe<Action, Action>(
       ofType<Action, Action>(STATS_EDIT_INITIALIZATION_FAILURE),
       mergeMap<Action, Observable<Action>>(() => {
-        return of<Action>(
-          pushToStatsList(),
-          appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID')
-        );
+        return of<Action>(pushToStatsList(), appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID'));
       })
     );
   }
@@ -376,7 +394,10 @@ export class StatsEditEpic {
     );
   }
 
-  public selectingItemNameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public selectingItemNameTyped(
+    action$: ActionsObservable<Action>,
+    state$: StateObservable<State>
+  ): Observable<Action> {
     return action$.pipe<StatsEditSelectingItemNameTypedAction, Action>(
       ofType<Action, StatsEditSelectingItemNameTypedAction>(STATS_EDIT_SELECTING_ITEM_NAME_TYPED),
       mergeMap<StatsEditSelectingItemNameTypedAction, Observable<Action>>(
@@ -489,10 +510,7 @@ export class StatsEditEpic {
 
         duplicated.removeItem(action.statsItem);
 
-        return of<Action>(
-          updateStats(duplicated),
-          clearSelectingItem()
-        );
+        return of<Action>(updateStats(duplicated), clearSelectingItem());
       })
     );
   }
