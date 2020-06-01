@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 
-import { Action, MODAL_CLOSE, MODAL_RAISE } from '../Action/Action';
+import { MODAL_CLOSE, MODAL_RAISE, VeauAction } from '../Action/Action';
 
 export type Modal = Readonly<{
   open: boolean;
@@ -15,7 +15,7 @@ const initialState: Modal = {
   description: 'GREETING'
 };
 
-export const modal: Reducer<Modal, Action> = (state: Modal = initialState, action: Action) => {
+export const modal: Reducer<Modal, VeauAction> = (state: Modal = initialState, action: VeauAction) => {
   switch (action.type) {
     case MODAL_RAISE: {
       // prettier-ignore

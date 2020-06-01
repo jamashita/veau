@@ -1,12 +1,8 @@
 import { Reducer } from 'redux';
 
 import {
-  Action,
-  NOTIFICATION_APPEAR,
-  NOTIFICATION_DISAPPEAR,
-  NotificationHPosition,
-  NotificationKind,
-  NotificationVPosition
+    NOTIFICATION_APPEAR, NOTIFICATION_DISAPPEAR, NotificationHPosition, NotificationKind,
+    NotificationVPosition, VeauAction
 } from '../Action/Action';
 
 export type Notification = Readonly<{
@@ -28,7 +24,7 @@ const initialState: Notification = {
   message: 'GREETING'
 };
 
-export const notification: Reducer<Notification, Action> = (state: Notification = initialState, action: Action) => {
+export const notification: Reducer<Notification, VeauAction> = (state: Notification = initialState, action: VeauAction) => {
   switch (action.type) {
     case NOTIFICATION_APPEAR: {
       // prettier-ignore
