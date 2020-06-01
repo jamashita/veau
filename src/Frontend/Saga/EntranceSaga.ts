@@ -11,7 +11,7 @@ import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import {
     ENTRANCE_ACCOUNT_NAME_TYPED, ENTRANCE_PASSWORD_TYPED, EntranceAccountNameTypedAction,
     EntrancePasswordTypedAction, IDENTITY_AUTHENTICATE
-} from '../Action/Action';
+} from '../Action';
 import { updateEntranceInformation } from '../Action/EntranceAction';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
 import { loaded, loading } from '../Action/LoadingAction';

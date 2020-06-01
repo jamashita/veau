@@ -29,7 +29,7 @@ import {
     StatsEditNameTypedAction, StatsEditRemoveSelectingItemAction, StatsEditRowMovedAction,
     StatsEditRowSelectedAction, StatsEditSelectingItemNameTypedAction,
     StatsEditStartDateDeterminedAction, StatsEditUnitTypedAction, VeauAction
-} from '../Action/Action';
+} from '../Action';
 import { loaded, loading } from '../Action/LoadingAction';
 import { raiseModal } from '../Action/ModalAction';
 import { appearNotification } from '../Action/NotificationAction';

@@ -7,7 +7,7 @@ import { Row } from '../../VO/Coordinate/Row';
 import {
     STATS_EDIT_CLEAR_SELECTING_ITEM, STATS_EDIT_SELECT_ITEM, STATS_EDIT_UPDATE_SELECTING_ITEM,
     VeauAction
-} from '../Action/Action';
+} from '../Action';
 
 export type StatsEdit = Readonly<{
   selectingItem: Quantum<StatsItem>;

@@ -17,7 +17,7 @@ import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
-import { VeauAction } from '../../Action/Action';
+import { VeauAction } from '../../Action';
 import {
     initFailed, initStatsEdit, invalidDateInput, invalidValueInput, itemNameTyped, removeItem,
     rowMoved, rowSelected, saveItem, saveStats, selectingItemNameTyped, startDateDetermined,

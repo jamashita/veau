@@ -6,7 +6,7 @@ import {
   IdentityAuthenticatedAction,
   IdentityIdentifiedAction,
   IdentityInitializeAction
-} from './Action';
+} from '../Action';
 
 export const identityAuthenticated = (identity: Identity): IdentityAuthenticatedAction => {
   return {

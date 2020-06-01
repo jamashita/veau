@@ -55,7 +55,7 @@ import {
   StatsEditStartDateDeterminedAction,
   StatsEditUnitTypedAction,
   StatsEditUpdateSelectingItemAction
-} from './Action';
+} from '../Action';
 
 export const initStatsEdit = (statsID: StatsID): StatsEditInitializeAction => {
   return {

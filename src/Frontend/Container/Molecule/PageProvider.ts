@@ -1,7 +1,7 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { VeauAction } from '../../Action/Action';
+import { VeauAction } from '../../Action';
 import { logout } from '../../Action/LogoutAction';
 import { closeProvider } from '../../Action/PageProviderAction';
 import { pushToStatsList } from '../../Action/RedirectAction';

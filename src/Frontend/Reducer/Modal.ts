@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 
-import { MODAL_CLOSE, MODAL_RAISE, VeauAction } from '../Action/Action';
+import { MODAL_CLOSE, MODAL_RAISE, VeauAction } from '../Action';
 
 export type Modal = Readonly<{
   open: boolean;

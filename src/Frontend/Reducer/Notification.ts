@@ -3,7 +3,7 @@ import { Reducer } from 'redux';
 import {
     NOTIFICATION_APPEAR, NOTIFICATION_DISAPPEAR, NotificationHPosition, NotificationKind,
     NotificationVPosition, VeauAction
-} from '../Action/Action';
+} from '../Action';
 
 export type Notification = Readonly<{
   kind: NotificationKind;

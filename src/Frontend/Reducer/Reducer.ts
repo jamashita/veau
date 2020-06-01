@@ -1,7 +1,7 @@
 import { connectRouter, RouterState } from 'connected-react-router';
 import { combineReducers, Reducer } from 'redux';
 
-import { VeauAction } from '../Action/Action';
+import { VeauAction } from '../Action';
 import { history } from '../history';
 import { State } from '../State';
 import { entranceInformation } from './EntranceInformation';

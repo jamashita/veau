@@ -21,7 +21,7 @@ import {
     STATS_LIST_NAME_TYPED, STATS_LIST_SAVE_NEW_STATS, STATS_LIST_TERM_SELECTED,
     STATS_LIST_UNIT_TYPED, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
     StatsListNameTypedAction, StatsListTermSelectedAction, StatsListUnitTypedAction
-} from '../Action/Action';
+} from '../Action';
 import { loaded, loading } from '../Action/LoadingAction';
 import { raiseModal } from '../Action/ModalAction';
 import { appearNotification } from '../Action/NotificationAction';

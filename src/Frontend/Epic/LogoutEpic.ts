@@ -8,7 +8,7 @@ import { Superposition } from '@jamashita/publikum-monad';
 
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { Type } from '../../Container/Types';
-import { LOGOUT, LogoutAction, VeauAction } from '../Action/Action';
+import { LOGOUT, LogoutAction, VeauAction } from '../Action';
 import { initializeIdentity } from '../Action/IdentityAction';
 import { closeProvider } from '../Action/PageProviderAction';
 import { pushToEntrance } from '../Action/RedirectAction';

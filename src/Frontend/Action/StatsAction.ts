@@ -14,7 +14,7 @@ import {
   StatsListItemUpdateAction,
   StatsResetAction,
   StatsUpdateAction
-} from './Action';
+} from '../Action';
 
 export const updateStatsListItems = (statsListItems: StatsListItems): StatsListItemUpdateAction => {
   return {

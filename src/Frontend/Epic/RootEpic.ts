@@ -3,7 +3,7 @@ import { ActionsObservable, Epic, StateObservable } from 'redux-observable';
 import { merge, Observable } from 'rxjs';
 
 import { Type } from '../../Container/Types';
-import { VeauAction } from '../Action/Action';
+import { VeauAction } from '../Action';
 import { State } from '../State';
 import { EntranceEpic } from './EntranceEpic';
 import { IdentityEpic } from './IdentityEpic';

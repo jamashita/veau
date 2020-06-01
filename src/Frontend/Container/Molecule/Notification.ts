@@ -1,7 +1,7 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { VeauAction } from '../../Action/Action';
+import { VeauAction } from '../../Action';
 import { disappearNotification } from '../../Action/NotificationAction';
 import {
     DispatchProps, Notification as Component, OwnProps, StateProps

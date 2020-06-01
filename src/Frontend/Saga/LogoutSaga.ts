@@ -5,7 +5,7 @@ import { SagaIterator } from 'redux-saga';
 import { all, call, fork, put, take } from 'redux-saga/effects';
 
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
-import { LOGOUT } from '../Action/Action';
+import { LOGOUT } from '../Action';
 import { initializeIdentity } from '../Action/IdentityAction';
 import { closeProvider } from '../Action/PageProviderAction';
 import { pushToEntrance } from '../Action/RedirectAction';

@@ -6,7 +6,7 @@ import {
   PushToEntranceAction,
   PushToStatsEditAction,
   PushToStatsListAction
-} from './Action';
+} from '../Action';
 
 export const pushToStatsList = (): PushToStatsListAction => {
   return {

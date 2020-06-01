@@ -18,7 +18,7 @@ import { SystemSupportLanguage } from '../../VO/System/SystemSupportLanguage';
 import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
-import { IDENTITY_INITIALIZE } from '../Action/Action';
+import { IDENTITY_INITIALIZE } from '../Action';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
 import { loaded, loading } from '../Action/LoadingAction';
 import { defineLocale } from '../Action/LocaleAction';

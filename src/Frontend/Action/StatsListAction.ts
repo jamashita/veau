@@ -27,7 +27,7 @@ import {
   StatsListTermSelectedAction,
   StatsListUnitTypedAction,
   StatsListUpdateNewStatsAction
-} from './Action';
+} from '../Action';
 
 export const initStatsList = (): StatsListInitializeAction => {
   return {

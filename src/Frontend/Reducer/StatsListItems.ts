@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
-import { STATS_LIST_ITEM_RESET, STATS_LIST_ITEM_UPDATE, VeauAction } from '../Action/Action';
+import { STATS_LIST_ITEM_RESET, STATS_LIST_ITEM_UPDATE, VeauAction } from '../Action';
 
 const initialState: StatsListItems = StatsListItems.empty();
 

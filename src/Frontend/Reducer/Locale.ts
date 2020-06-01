@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 
 import { Locale } from '../../VO/Locale/Locale';
-import { LOCALE_DEFINED, VeauAction } from '../Action/Action';
+import { LOCALE_DEFINED, VeauAction } from '../Action';
 
 // TODO UNNECESSARY
 const initialState: Locale = Locale.empty();

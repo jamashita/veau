@@ -10,7 +10,7 @@ import {
   EntranceUpdateAction,
   IDENTITY_AUTHENTICATE,
   IdentityAuthenticateAction
-} from './Action';
+} from '../Action';
 
 export const accountTyped = (account: AccountName): EntranceAccountNameTypedAction => {
   return {

@@ -1,7 +1,7 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { VeauAction } from '../../Action/Action';
+import { VeauAction } from '../../Action';
 import { openProvider } from '../../Action/PageProviderAction';
 import {
     Authenticated as Component, DispatchProps, OwnProps, StateProps

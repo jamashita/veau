@@ -4,7 +4,7 @@ import { Stats } from '../../Entity/Stats/Stats';
 import {
     STATS_LIST_CLOSE_STATS_MODAL, STATS_LIST_OPEN_STATS_MODAL, STATS_LIST_RESET_NEW_STATS,
     STATS_LIST_UPDATE_NEW_STATS, VeauAction
-} from '../Action/Action';
+} from '../Action';
 
 export type StatsList = Readonly<{
   open: boolean;

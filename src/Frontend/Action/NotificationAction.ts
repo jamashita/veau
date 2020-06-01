@@ -6,7 +6,7 @@ import {
   NotificationHPosition,
   NotificationKind,
   NotificationVPosition
-} from './Action';
+} from '../Action';
 
 export const appearNotification = (
   kind: NotificationKind,
