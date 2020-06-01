@@ -1,11 +1,11 @@
 import { Reducer } from 'redux';
 
 import { Identity } from '../../VO/Identity/Identity';
-import { Action, IDENTITY_AUTHENTICATED } from '../Action/Action';
+import { IDENTITY_AUTHENTICATED, VeauAction } from '../Action/Action';
 
 const initialState: Identity = Identity.empty();
 
-export const identity: Reducer<Identity, Action> = (state: Identity = initialState, action: Action) => {
+export const identity: Reducer<Identity, VeauAction> = (state: Identity = initialState, action: VeauAction) => {
   switch (action.type) {
     case IDENTITY_AUTHENTICATED: {
       return action.identity;

@@ -1,7 +1,7 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { Action } from '../../Action/Action';
+import { VeauAction } from '../../Action/Action';
 import { openProvider } from '../../Action/PageProviderAction';
 import {
     Authenticated as Component, DispatchProps, OwnProps, StateProps
@@ -12,7 +12,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = () => {
   return {};
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<VeauAction>) => {
   return {
     menuClicked(): void {
       dispatch(openProvider());

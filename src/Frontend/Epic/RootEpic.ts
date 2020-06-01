@@ -3,7 +3,7 @@ import { ActionsObservable, Epic, StateObservable } from 'redux-observable';
 import { merge, Observable } from 'rxjs';
 
 import { Type } from '../../Container/Types';
-import { Action } from '../Action/Action';
+import { VeauAction } from '../Action/Action';
 import { State } from '../State';
 import { EntranceEpic } from './EntranceEpic';
 import { IdentityEpic } from './IdentityEpic';
@@ -37,9 +37,9 @@ export class RootEpic {
     this.statsListEpic = statsListEpic;
   }
 
-  public init(): Epic<Action, Action, State> {
-    return (action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> => {
-      return merge<Action>(
+  public init(): Epic<VeauAction, VeauAction, State> {
+    return (action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> => {
+      return merge<VeauAction>(
         this.entranceEpic.init(action$, state$),
         this.identityEpic.init(action$, state$),
         this.logoutEpic.init(action$),

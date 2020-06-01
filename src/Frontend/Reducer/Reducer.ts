@@ -1,7 +1,7 @@
 import { connectRouter, RouterState } from 'connected-react-router';
 import { combineReducers, Reducer } from 'redux';
 
-import { Action } from '../Action/Action';
+import { VeauAction } from '../Action/Action';
 import { history } from '../history';
 import { State } from '../State';
 import { entranceInformation } from './EntranceInformation';
@@ -17,7 +17,7 @@ import { statsItem } from './StatsItem';
 import { statsList } from './StatsList';
 import { statsListItems } from './StatsListItems';
 
-export const reducers: Reducer<State, Action> = combineReducers<State, Action>({
+export const reducers: Reducer<State, VeauAction> = combineReducers<State, VeauAction>({
   entranceInformation,
   identity,
   loadingCount,
@@ -30,5 +30,5 @@ export const reducers: Reducer<State, Action> = combineReducers<State, Action>({
   statsItem,
   statsList,
   statsListItems,
-  router: connectRouter(history) as Reducer<RouterState, Action>
+  router: connectRouter(history) as Reducer<RouterState, VeauAction>
 });

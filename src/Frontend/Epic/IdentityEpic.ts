@@ -22,7 +22,7 @@ import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../VO/Locale/Locale';
 import { SystemSupportLanguage } from '../../VO/System/SystemSupportLanguage';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
-import { Action, IDENTITY_INITIALIZE } from '../Action/Action';
+import { IDENTITY_INITIALIZE, VeauAction } from '../Action/Action';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
 import { loaded, loading } from '../Action/LoadingAction';
 import { defineLocale } from '../Action/LocaleAction';
@@ -47,52 +47,52 @@ export class IdentityEpic {
     this.languageQuery = languageQuery;
   }
 
-  public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return merge<Action>(this.initIdentity(state$), this.initialize(action$, state$));
+  public init(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return merge<VeauAction>(this.initIdentity(state$), this.initialize(action$, state$));
   }
 
-  public initIdentity(state$: StateObservable<State>): Observable<Action> {
-    return EMPTY.pipe<Action>(
-      mergeMap<Action, Observable<Action>>(() => {
-        return concat<Action>(
-          of<Action>(loading()),
-          from<Promise<Superposition<Locale, LocaleError | DataSourceError>>>(this.localeQuery.all()).pipe<Action>(
-            mergeMap<Superposition<Locale, LocaleError | DataSourceError>, Observable<Action>>(
+  public initIdentity(state$: StateObservable<State>): Observable<VeauAction> {
+    return EMPTY.pipe<VeauAction>(
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        return concat<VeauAction>(
+          of<VeauAction>(loading()),
+          from<Promise<Superposition<Locale, LocaleError | DataSourceError>>>(this.localeQuery.all()).pipe<VeauAction>(
+            mergeMap<Superposition<Locale, LocaleError | DataSourceError>, Observable<VeauAction>>(
               (superposition1: Superposition<Locale, LocaleError | DataSourceError>) => {
-                return concat<Action>(
-                  of<Action>(loaded()),
-                  mergeMap<Action, Observable<Action>>(() => {
-                    return superposition1.match<Observable<Action>>(
+                return concat<VeauAction>(
+                  of<VeauAction>(loaded()),
+                  mergeMap<VeauAction, Observable<VeauAction>>(() => {
+                    return superposition1.match<Observable<VeauAction>>(
                       (locale: Locale) => {
-                        return of<Action>(defineLocale(locale));
+                        return of<VeauAction>(defineLocale(locale));
                       },
                       () => {
-                        return of<Action>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+                        return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
                       }
                     );
                   }),
-                  mergeMap<Action, Observable<Action>>(() => {
+                  mergeMap<VeauAction, Observable<VeauAction>>(() => {
                     return from<Promise<Superposition<Identity, IdentityError | DataSourceError>>>(
                       this.identityQuery.find()
-                    ).pipe<Action>(
-                      mergeMap<Superposition<Identity, IdentityError | DataSourceError>, Observable<Action>>(
+                    ).pipe<VeauAction>(
+                      mergeMap<Superposition<Identity, IdentityError | DataSourceError>, Observable<VeauAction>>(
                         (superposition2: Superposition<Identity, IdentityError | DataSourceError>) => {
-                          return concat<Action>(
-                            superposition2.match<Observable<Action>>(
+                          return concat<VeauAction>(
+                            superposition2.match<Observable<VeauAction>>(
                               (identity: Identity) => {
-                                const actions: Array<Action> = [identityAuthenticated(identity), identified()];
+                                const actions: Array<VeauAction> = [identityAuthenticated(identity), identified()];
 
                                 if (location.pathname === Endpoints.ENTRANCE) {
                                   actions.push(pushToStatsList());
                                 }
 
-                                return of<Action>(...actions);
+                                return of<VeauAction>(...actions);
                               },
                               () => {
-                                return of<Action>();
+                                return of<VeauAction>();
                               }
                             ),
-                            mergeMap<Action, Observable<Action>>(() => {
+                            mergeMap<VeauAction, Observable<VeauAction>>(() => {
                               const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
                                 navigator.language
                               );
@@ -100,10 +100,10 @@ export class IdentityEpic {
 
                               return from<
                                 Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>
-                              >(this.languageQuery.findByISO639(iso639)).pipe<Action>(
+                              >(this.languageQuery.findByISO639(iso639)).pipe<VeauAction>(
                                 mergeMap<
                                   Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
-                                  Observable<Action>
+                                  Observable<VeauAction>
                                 >(
                                   (
                                     superposition3: Superposition<
@@ -111,7 +111,7 @@ export class IdentityEpic {
                                       LanguageError | NoSuchElementError | DataSourceError
                                     >
                                   ) => {
-                                    return superposition3.match<Observable<Action>>(
+                                    return superposition3.match<Observable<VeauAction>>(
                                       (language: Language) => {
                                         // prettier-ignore
                                         const {
@@ -120,7 +120,7 @@ export class IdentityEpic {
                                           }
                                         } = state$;
 
-                                        return of<Action>(
+                                        return of<VeauAction>(
                                           identityAuthenticated(
                                             Identity.of(
                                               identity.getVeauAccountID(),
@@ -133,7 +133,7 @@ export class IdentityEpic {
                                         );
                                       },
                                       () => {
-                                        return of<Action>(
+                                        return of<VeauAction>(
                                           raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION')
                                         );
                                       }
@@ -156,10 +156,10 @@ export class IdentityEpic {
     );
   }
 
-  public initialize(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<Action, Action>(
-      ofType<Action, Action>(IDENTITY_INITIALIZE),
-      map<Action, Action>(() => {
+  public initialize(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(IDENTITY_INITIALIZE),
+      map<VeauAction, VeauAction>(() => {
         // prettier-ignore
         const {
           value: {

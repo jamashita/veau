@@ -14,12 +14,8 @@ import { Identity } from '../../VO/Identity/Identity';
 import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import {
-  Action,
-  ENTRANCE_ACCOUNT_NAME_TYPED,
-  ENTRANCE_PASSWORD_TYPED,
-  EntranceAccountNameTypedAction,
-  EntrancePasswordTypedAction,
-  IDENTITY_AUTHENTICATE
+    ENTRANCE_ACCOUNT_NAME_TYPED, ENTRANCE_PASSWORD_TYPED, EntranceAccountNameTypedAction,
+    EntrancePasswordTypedAction, IDENTITY_AUTHENTICATE, VeauAction
 } from '../Action/Action';
 import { updateEntranceInformation } from '../Action/EntranceAction';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
@@ -36,18 +32,18 @@ export class EntranceEpic {
     this.identityQuery = identityQuery;
   }
 
-  public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return merge<Action>(
+  public init(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return merge<VeauAction>(
       this.login(action$, state$),
       this.accountNameTyped(action$, state$),
       this.passwordTyped(action$, state$)
     );
   }
 
-  public login(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<Action, Action, Action>(
-      ofType<Action, Action>(IDENTITY_AUTHENTICATE),
-      filter<Action>(() => {
+  public login(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(IDENTITY_AUTHENTICATE),
+      filter<VeauAction>(() => {
         // prettier-ignore
         const {
           value: {
@@ -64,10 +60,10 @@ export class EntranceEpic {
 
         return entranceInformation.isAcceptable();
       }),
-      mergeMap<Action, Observable<Action>>(() => {
-        return concat<Action>(
-          of<Action>(loading()),
-          mergeMap<unknown, Observable<Action>>(() => {
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        return concat<VeauAction>(
+          of<VeauAction>(loading()),
+          mergeMap<unknown, Observable<VeauAction>>(() => {
             // prettier-ignore
             const {
               value: {
@@ -77,18 +73,18 @@ export class EntranceEpic {
 
             return from<Promise<Superposition<Identity, IdentityError | DataSourceError>>>(
               this.identityQuery.findByEntranceInfo(entranceInformation)
-            ).pipe<Action>(
-              mergeMap<Superposition<Identity, IdentityError | DataSourceError>, Observable<Action>>(
+            ).pipe<VeauAction>(
+              mergeMap<Superposition<Identity, IdentityError | DataSourceError>, Observable<VeauAction>>(
                 (superposition: Superposition<Identity, IdentityError | DataSourceError>) => {
-                  return concat<Action>(
-                    of<Action>(loaded()),
-                    mergeMap<Superposition<VeauAccount, VeauAccountError | DataSourceError>, Observable<Action>>(() => {
-                      return superposition.match<Observable<Action>>(
+                  return concat<VeauAction>(
+                    of<VeauAction>(loaded()),
+                    mergeMap<Superposition<VeauAccount, VeauAccountError | DataSourceError>, Observable<VeauAction>>(() => {
+                      return superposition.match<Observable<VeauAction>>(
                         (identity: Identity) => {
-                          return of<Action>(identityAuthenticated(identity), pushToStatsList(), identified());
+                          return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
                         },
                         () => {
-                          return of<Action>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
+                          return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
                         }
                       );
                     })
@@ -102,10 +98,10 @@ export class EntranceEpic {
     );
   }
 
-  public accountNameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<EntranceAccountNameTypedAction, Action>(
-      ofType<Action, EntranceAccountNameTypedAction>(ENTRANCE_ACCOUNT_NAME_TYPED),
-      map<EntranceAccountNameTypedAction, Action>((action: EntranceAccountNameTypedAction) => {
+  public accountNameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<EntranceAccountNameTypedAction, VeauAction>(
+      ofType<VeauAction, EntranceAccountNameTypedAction>(ENTRANCE_ACCOUNT_NAME_TYPED),
+      map<EntranceAccountNameTypedAction, VeauAction>((action: EntranceAccountNameTypedAction) => {
         // prettier-ignore
         const {
           value: {
@@ -120,10 +116,10 @@ export class EntranceEpic {
     );
   }
 
-  public passwordTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<EntrancePasswordTypedAction, Action>(
-      ofType<Action, EntrancePasswordTypedAction>(ENTRANCE_PASSWORD_TYPED),
-      map<EntrancePasswordTypedAction, Action>((action: EntrancePasswordTypedAction) => {
+  public passwordTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<EntrancePasswordTypedAction, VeauAction>(
+      ofType<VeauAction, EntrancePasswordTypedAction>(ENTRANCE_PASSWORD_TYPED),
+      map<EntrancePasswordTypedAction, VeauAction>((action: EntrancePasswordTypedAction) => {
         // prettier-ignore
         const {
           value: {

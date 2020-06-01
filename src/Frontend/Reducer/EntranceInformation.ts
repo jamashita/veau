@@ -1,13 +1,13 @@
 import { Reducer } from 'redux';
 
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
-import { Action, ENTRANCE_UPDATE, IDENTITY_IDENTIFIED } from '../Action/Action';
+import { ENTRANCE_UPDATE, IDENTITY_IDENTIFIED, VeauAction } from '../Action/Action';
 
 const initialState: EntranceInformation = EntranceInformation.empty();
 
-export const entranceInformation: Reducer<EntranceInformation, Action> = (
+export const entranceInformation: Reducer<EntranceInformation, VeauAction> = (
   state: EntranceInformation = initialState,
-  action: Action
+  action: VeauAction
 ) => {
   switch (action.type) {
     case IDENTITY_IDENTIFIED: {

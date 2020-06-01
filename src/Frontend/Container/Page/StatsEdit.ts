@@ -17,7 +17,7 @@ import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
-import { Action } from '../../Action/Action';
+import { VeauAction } from '../../Action/Action';
 import {
     initFailed, initStatsEdit, invalidDateInput, invalidValueInput, itemNameTyped, removeItem,
     rowMoved, rowSelected, saveItem, saveStats, selectingItemNameTyped, startDateDetermined,
@@ -70,7 +70,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<VeauAction>) => {
   return {
     initialize(statsID: StatsID): void {
       dispatch(initStatsEdit(statsID));

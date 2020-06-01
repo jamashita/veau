@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 
 import { AccountName } from '../../../VO/Account/AccountName';
 import { Password } from '../../../VO/EntranceInformation/Password';
-import { Action } from '../../Action/Action';
+import { VeauAction } from '../../Action/Action';
 import { accountTyped, attemptLogin, passwordTyped } from '../../Action/EntranceAction';
 import {
     DispatchProps, Entrance as Component, OwnProps, StateProps
@@ -21,7 +21,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<VeauAction>) => {
   return {
     accountTyped(account: AccountName): void {
       dispatch(accountTyped(account));

@@ -1,11 +1,11 @@
 import { Reducer } from 'redux';
 
 import { Stats } from '../../Entity/Stats/Stats';
-import { Action, STATS_RESET, STATS_UPDATE } from '../Action/Action';
+import { STATS_RESET, STATS_UPDATE, VeauAction } from '../Action/Action';
 
 const initialState: Stats = Stats.default();
 
-export const stats: Reducer<Stats, Action> = (state: Stats = initialState, action: Action) => {
+export const stats: Reducer<Stats, VeauAction> = (state: Stats = initialState, action: VeauAction) => {
   switch (action.type) {
     case STATS_UPDATE: {
       return action.stats;

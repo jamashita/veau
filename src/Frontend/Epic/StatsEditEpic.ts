@@ -24,38 +24,17 @@ import { Region } from '../../VO/Region/Region';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
-  Action,
-  STATS_EDIT_DATA_DELETED,
-  STATS_EDIT_DATA_FILLED,
-  STATS_EDIT_INITIALIZATION_FAILURE,
-  STATS_EDIT_INITIALIZE,
-  STATS_EDIT_INVALID_DATE_INPUT,
-  STATS_EDIT_INVALID_VALUE_INPUT,
-  STATS_EDIT_ISO3166_SELECTED,
-  STATS_EDIT_ISO639_SELECTED,
-  STATS_EDIT_ITEM_NAME_TYPED,
-  STATS_EDIT_ITEM_SAVE,
-  STATS_EDIT_NAME_TYPED,
-  STATS_EDIT_REMOVE_SELECTING_ITEM,
-  STATS_EDIT_ROW_MOVED,
-  STATS_EDIT_ROW_SELECTED,
-  STATS_EDIT_SAVE_STATS,
-  STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
-  STATS_EDIT_START_DATE_DETERMINED,
-  STATS_EDIT_UNIT_TYPED,
-  StatsEditDataDeletedAction,
-  StatsEditDataFilledAction,
-  StatsEditInitializeAction,
-  StatsEditISO3166SelectedAction,
-  StatsEditISO639SelectedAction,
-  StatsEditItemNameTypedAction,
-  StatsEditNameTypedAction,
-  StatsEditRemoveSelectingItemAction,
-  StatsEditRowMovedAction,
-  StatsEditRowSelectedAction,
-  StatsEditSelectingItemNameTypedAction,
-  StatsEditStartDateDeterminedAction,
-  StatsEditUnitTypedAction
+    STATS_EDIT_DATA_DELETED, STATS_EDIT_DATA_FILLED, STATS_EDIT_INITIALIZATION_FAILURE,
+    STATS_EDIT_INITIALIZE, STATS_EDIT_INVALID_DATE_INPUT, STATS_EDIT_INVALID_VALUE_INPUT,
+    STATS_EDIT_ISO3166_SELECTED, STATS_EDIT_ISO639_SELECTED, STATS_EDIT_ITEM_NAME_TYPED,
+    STATS_EDIT_ITEM_SAVE, STATS_EDIT_NAME_TYPED, STATS_EDIT_REMOVE_SELECTING_ITEM,
+    STATS_EDIT_ROW_MOVED, STATS_EDIT_ROW_SELECTED, STATS_EDIT_SAVE_STATS,
+    STATS_EDIT_SELECTING_ITEM_NAME_TYPED, STATS_EDIT_START_DATE_DETERMINED, STATS_EDIT_UNIT_TYPED,
+    StatsEditDataDeletedAction, StatsEditDataFilledAction, StatsEditInitializeAction,
+    StatsEditISO3166SelectedAction, StatsEditISO639SelectedAction, StatsEditItemNameTypedAction,
+    StatsEditNameTypedAction, StatsEditRemoveSelectingItemAction, StatsEditRowMovedAction,
+    StatsEditRowSelectedAction, StatsEditSelectingItemNameTypedAction,
+    StatsEditStartDateDeterminedAction, StatsEditUnitTypedAction, VeauAction
 } from '../Action/Action';
 import { loaded, loading } from '../Action/LoadingAction';
 import { raiseModal } from '../Action/ModalAction';
@@ -87,8 +66,8 @@ export class StatsEditEpic {
     this.statsCommand = statsCommand;
   }
 
-  public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return merge<Action>(
+  public init(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return merge<VeauAction>(
       this.findStats(action$),
       this.initializationFailed(action$),
       this.nameTyped(action$, state$),
@@ -110,28 +89,28 @@ export class StatsEditEpic {
     );
   }
 
-  public findStats(action$: Observable<Action>): Observable<Action> {
-    return action$.pipe<StatsEditInitializeAction, Action>(
-      ofType<Action, StatsEditInitializeAction>(STATS_EDIT_INITIALIZE),
-      mergeMap<StatsEditInitializeAction, Observable<Action>>((action: StatsEditInitializeAction) => {
+  public findStats(action$: Observable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<StatsEditInitializeAction, VeauAction>(
+      ofType<VeauAction, StatsEditInitializeAction>(STATS_EDIT_INITIALIZE),
+      mergeMap<StatsEditInitializeAction, Observable<VeauAction>>((action: StatsEditInitializeAction) => {
         return from<Promise<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>>>(
           this.statsQuery.findByStatsID(action.statsID)
-        ).pipe<Action>(
-          mergeMap<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>, Observable<Action>>(
+        ).pipe<VeauAction>(
+          mergeMap<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>, Observable<VeauAction>>(
             (superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>) => {
-              return superposition.match<Observable<Action>>(
+              return superposition.match<Observable<VeauAction>>(
                 (stats: Stats) => {
-                  return of<Action>(updateStats(stats), clearSelectingItem());
+                  return of<VeauAction>(updateStats(stats), clearSelectingItem());
                 },
                 (err: StatsError | NoSuchElementError | DataSourceError) => {
                   if (err instanceof NoSuchElementError) {
-                    return of<Action>(
+                    return of<VeauAction>(
                       pushToStatsList(),
                       appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND')
                     );
                   }
 
-                  return of<Action>(pushToStatsList());
+                  return of<VeauAction>(pushToStatsList());
                 }
               );
             }
@@ -141,19 +120,19 @@ export class StatsEditEpic {
     );
   }
 
-  public initializationFailed(action$: Observable<Action>): Observable<Action> {
-    return action$.pipe<Action, Action>(
-      ofType<Action, Action>(STATS_EDIT_INITIALIZATION_FAILURE),
-      mergeMap<Action, Observable<Action>>(() => {
-        return of<Action>(pushToStatsList(), appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID'));
+  public initializationFailed(action$: Observable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_EDIT_INITIALIZATION_FAILURE),
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        return of<VeauAction>(pushToStatsList(), appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID'));
       })
     );
   }
 
-  public nameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsEditNameTypedAction, Action>(
-      ofType<Action, StatsEditNameTypedAction>(STATS_EDIT_NAME_TYPED),
-      map<StatsEditNameTypedAction, Action>((action: StatsEditNameTypedAction) => {
+  public nameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditNameTypedAction, VeauAction>(
+      ofType<VeauAction, StatsEditNameTypedAction>(STATS_EDIT_NAME_TYPED),
+      map<StatsEditNameTypedAction, VeauAction>((action: StatsEditNameTypedAction) => {
         // prettier-ignore
         const {
           value: {
@@ -182,10 +161,10 @@ export class StatsEditEpic {
     );
   }
 
-  public unitTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsEditUnitTypedAction, Action>(
-      ofType<Action, StatsEditUnitTypedAction>(STATS_EDIT_UNIT_TYPED),
-      map<StatsEditUnitTypedAction, Action>((action: StatsEditUnitTypedAction) => {
+  public unitTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditUnitTypedAction, VeauAction>(
+      ofType<VeauAction, StatsEditUnitTypedAction>(STATS_EDIT_UNIT_TYPED),
+      map<StatsEditUnitTypedAction, VeauAction>((action: StatsEditUnitTypedAction) => {
         // prettier-ignore
         const {
           value: {
@@ -214,14 +193,14 @@ export class StatsEditEpic {
     );
   }
 
-  public iso639Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsEditISO639SelectedAction, Action>(
-      ofType<Action, StatsEditISO639SelectedAction>(STATS_EDIT_ISO639_SELECTED),
-      mergeMap<StatsEditISO639SelectedAction, Observable<Action>>((action: StatsEditISO639SelectedAction) => {
+  public iso639Selected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditISO639SelectedAction, VeauAction>(
+      ofType<VeauAction, StatsEditISO639SelectedAction>(STATS_EDIT_ISO639_SELECTED),
+      mergeMap<StatsEditISO639SelectedAction, Observable<VeauAction>>((action: StatsEditISO639SelectedAction) => {
         return from<Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>>(
           this.languageQuery.findByISO639(action.iso639)
-        ).pipe<Action>(
-          mergeMap<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Observable<Action>>(
+        ).pipe<VeauAction>(
+          mergeMap<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Observable<VeauAction>>(
             (superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
               // prettier-ignore
               const {
@@ -230,7 +209,7 @@ export class StatsEditEpic {
                 }
               } = state$;
 
-              return superposition.match<Observable<Action>>(
+              return superposition.match<Observable<VeauAction>>(
                 (language: Language) => {
                   const newStats: Stats = Stats.of(
                     stats.getOutline(),
@@ -240,10 +219,10 @@ export class StatsEditEpic {
                     stats.getItems()
                   );
 
-                  return of<Action>(updateStats(newStats));
+                  return of<VeauAction>(updateStats(newStats));
                 },
                 () => {
-                  return of<Action>();
+                  return of<VeauAction>();
                 }
               );
             }
@@ -253,14 +232,14 @@ export class StatsEditEpic {
     );
   }
 
-  public iso3166Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsEditISO3166SelectedAction, Action>(
-      ofType<Action, StatsEditISO3166SelectedAction>(STATS_EDIT_ISO3166_SELECTED),
-      mergeMap<StatsEditISO3166SelectedAction, Observable<Action>>((action: StatsEditISO3166SelectedAction) => {
+  public iso3166Selected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditISO3166SelectedAction, VeauAction>(
+      ofType<VeauAction, StatsEditISO3166SelectedAction>(STATS_EDIT_ISO3166_SELECTED),
+      mergeMap<StatsEditISO3166SelectedAction, Observable<VeauAction>>((action: StatsEditISO3166SelectedAction) => {
         return from<Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>>(
           this.regionQuery.findByISO3166(action.iso3166)
-        ).pipe<Action>(
-          mergeMap<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>, Observable<Action>>(
+        ).pipe<VeauAction>(
+          mergeMap<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>, Observable<VeauAction>>(
             (superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError>) => {
               // prettier-ignore
               const {
@@ -269,7 +248,7 @@ export class StatsEditEpic {
                 }
               } = state$;
 
-              return superposition.match<Observable<Action>>(
+              return superposition.match<Observable<VeauAction>>(
                 (region: Region) => {
                   const newStats: Stats = Stats.of(
                     stats.getOutline(),
@@ -279,10 +258,10 @@ export class StatsEditEpic {
                     stats.getItems()
                   );
 
-                  return of<Action>(updateStats(newStats));
+                  return of<VeauAction>(updateStats(newStats));
                 },
                 () => {
-                  return of<Action>();
+                  return of<VeauAction>();
                 }
               );
             }
@@ -292,10 +271,10 @@ export class StatsEditEpic {
     );
   }
 
-  public dataFilled(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsEditDataFilledAction, Action>(
-      ofType<Action, StatsEditDataFilledAction>(STATS_EDIT_DATA_FILLED),
-      map<StatsEditDataFilledAction, Action>((action: StatsEditDataFilledAction) => {
+  public dataFilled(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditDataFilledAction, VeauAction>(
+      ofType<VeauAction, StatsEditDataFilledAction>(STATS_EDIT_DATA_FILLED),
+      map<StatsEditDataFilledAction, VeauAction>((action: StatsEditDataFilledAction) => {
         // prettier-ignore
         const {
           value: {
@@ -312,10 +291,10 @@ export class StatsEditEpic {
     );
   }
 
-  public dataDeleted(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsEditDataDeletedAction, Action>(
-      ofType<Action, StatsEditDataDeletedAction>(STATS_EDIT_DATA_DELETED),
-      map<StatsEditDataDeletedAction, Action>((action: StatsEditDataDeletedAction) => {
+  public dataDeleted(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditDataDeletedAction, VeauAction>(
+      ofType<VeauAction, StatsEditDataDeletedAction>(STATS_EDIT_DATA_DELETED),
+      map<StatsEditDataDeletedAction, VeauAction>((action: StatsEditDataDeletedAction) => {
         // prettier-ignore
         const {
           value: {
@@ -332,10 +311,10 @@ export class StatsEditEpic {
     );
   }
 
-  public itemNameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsEditItemNameTypedAction, Action>(
-      ofType<Action, StatsEditItemNameTypedAction>(STATS_EDIT_ITEM_NAME_TYPED),
-      map<StatsEditItemNameTypedAction, Action>((action: StatsEditItemNameTypedAction) => {
+  public itemNameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditItemNameTypedAction, VeauAction>(
+      ofType<VeauAction, StatsEditItemNameTypedAction>(STATS_EDIT_ITEM_NAME_TYPED),
+      map<StatsEditItemNameTypedAction, VeauAction>((action: StatsEditItemNameTypedAction) => {
         // prettier-ignore
         const {
           value: {
@@ -350,10 +329,10 @@ export class StatsEditEpic {
     );
   }
 
-  public saveItem(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<Action, Action>(
-      ofType<Action, Action>(STATS_EDIT_ITEM_SAVE),
-      mergeMap<Action, Observable<Action>>(() => {
+  public saveItem(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_EDIT_ITEM_SAVE),
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
         // prettier-ignore
         const {
           value: {
@@ -371,15 +350,15 @@ export class StatsEditEpic {
           stats.getStartDate()
         );
 
-        return of<Action>(updateStats(newStats), resetStatsItem());
+        return of<VeauAction>(updateStats(newStats), resetStatsItem());
       })
     );
   }
 
-  public rowSelected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsEditRowSelectedAction, Action>(
-      ofType<Action, StatsEditRowSelectedAction>(STATS_EDIT_ROW_SELECTED),
-      map<StatsEditRowSelectedAction, Action>((action: StatsEditRowSelectedAction) => {
+  public rowSelected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditRowSelectedAction, VeauAction>(
+      ofType<VeauAction, StatsEditRowSelectedAction>(STATS_EDIT_ROW_SELECTED),
+      map<StatsEditRowSelectedAction, VeauAction>((action: StatsEditRowSelectedAction) => {
         // prettier-ignore
         const {
           value: {
@@ -395,12 +374,12 @@ export class StatsEditEpic {
   }
 
   public selectingItemNameTyped(
-    action$: ActionsObservable<Action>,
+    action$: ActionsObservable<VeauAction>,
     state$: StateObservable<State>
-  ): Observable<Action> {
-    return action$.pipe<StatsEditSelectingItemNameTypedAction, Action>(
-      ofType<Action, StatsEditSelectingItemNameTypedAction>(STATS_EDIT_SELECTING_ITEM_NAME_TYPED),
-      mergeMap<StatsEditSelectingItemNameTypedAction, Observable<Action>>(
+  ): Observable<VeauAction> {
+    return action$.pipe<StatsEditSelectingItemNameTypedAction, VeauAction>(
+      ofType<VeauAction, StatsEditSelectingItemNameTypedAction>(STATS_EDIT_SELECTING_ITEM_NAME_TYPED),
+      mergeMap<StatsEditSelectingItemNameTypedAction, Observable<VeauAction>>(
         (action: StatsEditSelectingItemNameTypedAction) => {
           // prettier-ignore
           const {
@@ -413,7 +392,7 @@ export class StatsEditEpic {
             }
           } = state$;
 
-          return selectingItem.toSuperposition().match<Observable<Action>>(
+          return selectingItem.toSuperposition().match<Observable<VeauAction>>(
             (statsItem: StatsItem) => {
               const newSelectingItem: StatsItem = StatsItem.of(
                 statsItem.getStatsItemID(),
@@ -425,10 +404,10 @@ export class StatsEditEpic {
 
               duplicated.replaceItem(newSelectingItem, selectingRow);
 
-              return of<Action>(updateSelectingItem(Present.of<StatsItem>(newSelectingItem)), updateStats(duplicated));
+              return of<VeauAction>(updateSelectingItem(Present.of<StatsItem>(newSelectingItem)), updateStats(duplicated));
             },
             () => {
-              return of<Action>();
+              return of<VeauAction>();
             }
           );
         }
@@ -436,10 +415,10 @@ export class StatsEditEpic {
     );
   }
 
-  public startDateDetermined(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsEditStartDateDeterminedAction, Action>(
-      ofType<Action, StatsEditStartDateDeterminedAction>(STATS_EDIT_START_DATE_DETERMINED),
-      map<StatsEditStartDateDeterminedAction, Action>((action: StatsEditStartDateDeterminedAction) => {
+  public startDateDetermined(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditStartDateDeterminedAction, VeauAction>(
+      ofType<VeauAction, StatsEditStartDateDeterminedAction>(STATS_EDIT_START_DATE_DETERMINED),
+      map<StatsEditStartDateDeterminedAction, VeauAction>((action: StatsEditStartDateDeterminedAction) => {
         // prettier-ignore
         const {
           value: {
@@ -461,17 +440,17 @@ export class StatsEditEpic {
     );
   }
 
-  public invalidDateInput(action$: Observable<Action>): Observable<Action> {
-    return action$.pipe<Action, Action>(
-      ofType<Action, Action>(STATS_EDIT_INVALID_DATE_INPUT),
-      mapTo<Action, Action>(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'))
+  public invalidDateInput(action$: Observable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_EDIT_INVALID_DATE_INPUT),
+      mapTo<VeauAction, VeauAction>(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'))
     );
   }
 
-  public rowMoved(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsEditRowMovedAction, Action>(
-      ofType<Action, StatsEditRowMovedAction>(STATS_EDIT_ROW_MOVED),
-      map<StatsEditRowMovedAction, Action>((action: StatsEditRowMovedAction) => {
+  public rowMoved(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditRowMovedAction, VeauAction>(
+      ofType<VeauAction, StatsEditRowMovedAction>(STATS_EDIT_ROW_MOVED),
+      map<StatsEditRowMovedAction, VeauAction>((action: StatsEditRowMovedAction) => {
         // prettier-ignore
         const {
           value: {
@@ -488,17 +467,17 @@ export class StatsEditEpic {
     );
   }
 
-  public invalidValueInput(action$: Observable<Action>): Observable<Action> {
-    return action$.pipe<Action, Action>(
-      ofType<Action, Action>(STATS_EDIT_INVALID_VALUE_INPUT),
-      mapTo<Action, Action>(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'))
+  public invalidValueInput(action$: Observable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_EDIT_INVALID_VALUE_INPUT),
+      mapTo<VeauAction, VeauAction>(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'))
     );
   }
 
-  public removeItem(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsEditRemoveSelectingItemAction, Action>(
-      ofType<Action, StatsEditRemoveSelectingItemAction>(STATS_EDIT_REMOVE_SELECTING_ITEM),
-      mergeMap<StatsEditRemoveSelectingItemAction, Observable<Action>>((action: StatsEditRemoveSelectingItemAction) => {
+  public removeItem(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditRemoveSelectingItemAction, VeauAction>(
+      ofType<VeauAction, StatsEditRemoveSelectingItemAction>(STATS_EDIT_REMOVE_SELECTING_ITEM),
+      mergeMap<StatsEditRemoveSelectingItemAction, Observable<VeauAction>>((action: StatsEditRemoveSelectingItemAction) => {
         // prettier-ignore
         const {
           value: {
@@ -510,18 +489,18 @@ export class StatsEditEpic {
 
         duplicated.removeItem(action.statsItem);
 
-        return of<Action>(updateStats(duplicated), clearSelectingItem());
+        return of<VeauAction>(updateStats(duplicated), clearSelectingItem());
       })
     );
   }
 
-  public save(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<Action, Action>(
-      ofType<Action, Action>(STATS_EDIT_SAVE_STATS),
-      mergeMap<Action, Observable<Action>>(() => {
-        return concat<Action>(
-          of<Action>(loading()),
-          mergeMap<Action, Observable<Action>>(() => {
+  public save(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_EDIT_SAVE_STATS),
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        return concat<VeauAction>(
+          of<VeauAction>(loading()),
+          mergeMap<VeauAction, Observable<VeauAction>>(() => {
             // prettier-ignore
             const {
               value: {
@@ -531,13 +510,13 @@ export class StatsEditEpic {
 
             return from<Promise<Superposition<unknown, DataSourceError>>>(
               this.statsCommand.create(stats, VeauAccountID.generate())
-            ).pipe<Action>(
-              mergeMap<Superposition<unknown, DataSourceError>, Observable<Action>>(
+            ).pipe<VeauAction>(
+              mergeMap<Superposition<unknown, DataSourceError>, Observable<VeauAction>>(
                 (superposition: Superposition<unknown, DataSourceError>) => {
-                  return concat<Action>(
-                    of<Action>(loaded()),
-                    map<Action, Action>(() => {
-                      return superposition.match<Action>(
+                  return concat<VeauAction>(
+                    of<VeauAction>(loaded()),
+                    map<VeauAction, VeauAction>(() => {
+                      return superposition.match<VeauAction>(
                         () => {
                           return appearNotification('success', 'center', 'top', 'SAVE_SUCCESS');
                         },

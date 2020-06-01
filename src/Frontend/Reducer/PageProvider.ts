@@ -1,11 +1,11 @@
 import { Reducer } from 'redux';
 
 import { PageProvider } from '../../VO/PageProvider/PageProvider';
-import { Action, LOCATION_CHANGE, PROVIDER_CLOSE, PROVIDER_OPEN } from '../Action/Action';
+import { LOCATION_CHANGE, PROVIDER_CLOSE, PROVIDER_OPEN, VeauAction } from '../Action/Action';
 
 const initialState: PageProvider = PageProvider.close();
 
-export const pageProvider: Reducer<PageProvider, Action> = (state: PageProvider = initialState, action: Action) => {
+export const pageProvider: Reducer<PageProvider, VeauAction> = (state: PageProvider = initialState, action: VeauAction) => {
   switch (action.type) {
     case LOCATION_CHANGE: {
       return PageProvider.close();

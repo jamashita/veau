@@ -5,7 +5,7 @@ import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
 
 import { Type } from '../Container/Types';
 import { vault } from '../Container/Vault';
-import { Action } from './Action/Action';
+import { VeauAction } from './Action/Action';
 import { RootEpic } from './Epic/RootEpic';
 import { history } from './history';
 import { reducers } from './Reducer/Reducer';
@@ -16,7 +16,7 @@ const logger: Middleware = createLogger({
   collapsed: true
 });
 const router: Middleware = routerMiddleware(history);
-const epic: EpicMiddleware<Action, Action, State> = createEpicMiddleware<Action, Action, State>();
+const epic: EpicMiddleware<VeauAction, VeauAction, State> = createEpicMiddleware<VeauAction, VeauAction, State>();
 
 export const store: Store = createStore(reducers, applyMiddleware(epic, logger, router));
 

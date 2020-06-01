@@ -1,7 +1,7 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { Action } from '../../Action/Action';
+import { VeauAction } from '../../Action/Action';
 import { disappearNotification } from '../../Action/NotificationAction';
 import {
     DispatchProps, Notification as Component, OwnProps, StateProps
@@ -33,7 +33,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<VeauAction>) => {
   return {
     closeClicked(): void {
       dispatch(disappearNotification());

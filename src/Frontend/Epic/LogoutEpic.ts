@@ -8,7 +8,7 @@ import { Superposition } from '@jamashita/publikum-monad';
 
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { Type } from '../../Container/Types';
-import { Action, LOGOUT, LogoutAction } from '../Action/Action';
+import { LOGOUT, LogoutAction, VeauAction } from '../Action/Action';
 import { initializeIdentity } from '../Action/IdentityAction';
 import { closeProvider } from '../Action/PageProviderAction';
 import { pushToEntrance } from '../Action/RedirectAction';
@@ -21,17 +21,17 @@ export class LogoutEpic {
     this.sessionCommand = sessionCommand;
   }
 
-  public init(action$: ActionsObservable<Action>): Observable<Action> {
-    return merge<Action>(this.logout(action$));
+  public init(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
+    return merge<VeauAction>(this.logout(action$));
   }
 
-  public logout(action$: ActionsObservable<Action>): Observable<Action> {
-    return action$.pipe<LogoutAction, Action>(
-      ofType<Action, LogoutAction>(LOGOUT),
-      mergeMap<Action, Observable<Action>>(() => {
-        return from<Promise<Superposition<unknown, DataSourceError>>>(this.sessionCommand.delete()).pipe<Action>(
-          mergeMap<unknown, Observable<Action>>(() => {
-            return of<Action>(initializeIdentity(), closeProvider(), pushToEntrance());
+  public logout(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<LogoutAction, VeauAction>(
+      ofType<VeauAction, LogoutAction>(LOGOUT),
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        return from<Promise<Superposition<unknown, DataSourceError>>>(this.sessionCommand.delete()).pipe<VeauAction>(
+          mergeMap<unknown, Observable<VeauAction>>(() => {
+            return of<VeauAction>(initializeIdentity(), closeProvider(), pushToEntrance());
           })
         );
       })

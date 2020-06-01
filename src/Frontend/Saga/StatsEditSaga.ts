@@ -18,7 +18,7 @@ import { Language } from '../../VO/Language/Language';
 import { Region } from '../../VO/Region/Region';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
-    Action, STATS_EDIT_DATA_DELETED, STATS_EDIT_DATA_FILLED, STATS_EDIT_INITIALIZATION_FAILURE,
+    STATS_EDIT_DATA_DELETED, STATS_EDIT_DATA_FILLED, STATS_EDIT_INITIALIZATION_FAILURE,
     STATS_EDIT_INITIALIZE, STATS_EDIT_INVALID_DATE_INPUT, STATS_EDIT_INVALID_VALUE_INPUT,
     STATS_EDIT_ISO3166_SELECTED, STATS_EDIT_ISO639_SELECTED, STATS_EDIT_ITEM_NAME_TYPED,
     STATS_EDIT_ITEM_SAVE, STATS_EDIT_NAME_TYPED, STATS_EDIT_REMOVE_SELECTING_ITEM,
@@ -28,7 +28,7 @@ import {
     StatsEditISO3166SelectedAction, StatsEditISO639SelectedAction, StatsEditItemNameTypedAction,
     StatsEditNameTypedAction, StatsEditRemoveSelectingItemAction, StatsEditRowMovedAction,
     StatsEditRowSelectedAction, StatsEditSelectingItemNameTypedAction,
-    StatsEditStartDateDeterminedAction, StatsEditUnitTypedAction
+    StatsEditStartDateDeterminedAction, StatsEditUnitTypedAction, VeauAction
 } from '../Action/Action';
 import { loaded, loading } from '../Action/LoadingAction';
 import { raiseModal } from '../Action/ModalAction';
@@ -485,7 +485,7 @@ export class StatsEditSaga {
 
       yield put(loaded());
 
-      yield superposition.match<PutEffect<Action>>(
+      yield superposition.match<PutEffect<VeauAction>>(
         () => {
           return put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
         },

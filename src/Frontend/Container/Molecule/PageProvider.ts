@@ -1,7 +1,7 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { Action } from '../../Action/Action';
+import { VeauAction } from '../../Action/Action';
 import { logout } from '../../Action/LogoutAction';
 import { closeProvider } from '../../Action/PageProviderAction';
 import { pushToStatsList } from '../../Action/RedirectAction';
@@ -21,7 +21,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<VeauAction>) => {
   return {
     close(): void {
       dispatch(closeProvider());

@@ -392,7 +392,7 @@ export interface StatsItemResetAction extends ReduxAction {
   readonly type: typeof STATS_ITEM_RESET;
 }
 
-export type Action =
+export type VeauAction =
   | ChangeAction
   | CallHistoryAction
   | ModalRaiseAction

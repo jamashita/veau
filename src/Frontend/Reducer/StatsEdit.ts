@@ -5,10 +5,8 @@ import { Absent, Quantum } from '@jamashita/publikum-monad';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { Row } from '../../VO/Coordinate/Row';
 import {
-  Action,
-  STATS_EDIT_CLEAR_SELECTING_ITEM,
-  STATS_EDIT_SELECT_ITEM,
-  STATS_EDIT_UPDATE_SELECTING_ITEM
+    STATS_EDIT_CLEAR_SELECTING_ITEM, STATS_EDIT_SELECT_ITEM, STATS_EDIT_UPDATE_SELECTING_ITEM,
+    VeauAction
 } from '../Action/Action';
 
 export type StatsEdit = Readonly<{
@@ -21,7 +19,7 @@ const initialState: StatsEdit = {
   selectingRow: Row.origin()
 };
 
-export const statsEdit: Reducer<StatsEdit, Action> = (state: StatsEdit = initialState, action: Action) => {
+export const statsEdit: Reducer<StatsEdit, VeauAction> = (state: StatsEdit = initialState, action: VeauAction) => {
   switch (action.type) {
     case STATS_EDIT_SELECT_ITEM: {
       // prettier-ignore

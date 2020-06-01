@@ -22,19 +22,10 @@ import { StatsListItemsError } from '../../VO/StatsListItem/Error/StatsListItems
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import {
-  Action,
-  STATS_LIST_INITIALIZE,
-  STATS_LIST_ISO3166_SELECTED,
-  STATS_LIST_ISO639_SELECTED,
-  STATS_LIST_NAME_TYPED,
-  STATS_LIST_SAVE_NEW_STATS,
-  STATS_LIST_TERM_SELECTED,
-  STATS_LIST_UNIT_TYPED,
-  StatsListISO3166SelectedAction,
-  StatsListISO639SelectedAction,
-  StatsListNameTypedAction,
-  StatsListTermSelectedAction,
-  StatsListUnitTypedAction
+    STATS_LIST_INITIALIZE, STATS_LIST_ISO3166_SELECTED, STATS_LIST_ISO639_SELECTED,
+    STATS_LIST_NAME_TYPED, STATS_LIST_SAVE_NEW_STATS, STATS_LIST_TERM_SELECTED,
+    STATS_LIST_UNIT_TYPED, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
+    StatsListNameTypedAction, StatsListTermSelectedAction, StatsListUnitTypedAction, VeauAction
 } from '../Action/Action';
 import { loaded, loading } from '../Action/LoadingAction';
 import { raiseModal } from '../Action/ModalAction';
@@ -63,8 +54,8 @@ export class StatsListEpic {
     this.statsCommand = statsCommand;
   }
 
-  public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return merge<Action>(
+  public init(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return merge<VeauAction>(
       this.findStatsList(action$, state$),
       this.nameTyped(action$, state$),
       this.unitTyped(action$, state$),
@@ -75,10 +66,10 @@ export class StatsListEpic {
     );
   }
 
-  public findStatsList(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<Action, Action>(
-      ofType<Action, Action>(STATS_LIST_INITIALIZE),
-      mergeMap<Action, Observable<Action>>(() => {
+  public findStatsList(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_LIST_INITIALIZE),
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
         // prettier-ignore
         const {
           value: {
@@ -88,15 +79,15 @@ export class StatsListEpic {
 
         return from<Promise<Superposition<StatsListItems, StatsListItemsError | DataSourceError>>>(
           this.statsListItemQuery.findByVeauAccountID(identity.getVeauAccountID(), Page.of(1).get())
-        ).pipe<Action>(
-          mergeMap<Superposition<StatsListItems, StatsListItemsError | DataSourceError>, Observable<Action>>(
+        ).pipe<VeauAction>(
+          mergeMap<Superposition<StatsListItems, StatsListItemsError | DataSourceError>, Observable<VeauAction>>(
             (superposition: Superposition<StatsListItems, StatsListItemsError | DataSourceError>) => {
-              return superposition.match<Observable<Action>>(
+              return superposition.match<Observable<VeauAction>>(
                 (listItems: StatsListItems) => {
-                  return of<Action>(updateStatsListItems(listItems));
+                  return of<VeauAction>(updateStatsListItems(listItems));
                 },
                 () => {
-                  return of<Action>(
+                  return of<VeauAction>(
                     resetStatsListItems(),
                     appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND')
                   );
@@ -109,10 +100,10 @@ export class StatsListEpic {
     );
   }
 
-  public nameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsListNameTypedAction, Action>(
-      ofType<Action, StatsListNameTypedAction>(STATS_LIST_NAME_TYPED),
-      map<StatsListNameTypedAction, Action>((action: StatsListNameTypedAction) => {
+  public nameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsListNameTypedAction, VeauAction>(
+      ofType<VeauAction, StatsListNameTypedAction>(STATS_LIST_NAME_TYPED),
+      map<StatsListNameTypedAction, VeauAction>((action: StatsListNameTypedAction) => {
         // prettier-ignore
         const {
           value: {
@@ -143,10 +134,10 @@ export class StatsListEpic {
     );
   }
 
-  public unitTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsListUnitTypedAction, Action>(
-      ofType<Action, StatsListUnitTypedAction>(STATS_LIST_UNIT_TYPED),
-      map<StatsListUnitTypedAction, Action>((action: StatsListUnitTypedAction) => {
+  public unitTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsListUnitTypedAction, VeauAction>(
+      ofType<VeauAction, StatsListUnitTypedAction>(STATS_LIST_UNIT_TYPED),
+      map<StatsListUnitTypedAction, VeauAction>((action: StatsListUnitTypedAction) => {
         // prettier-ignore
         const {
           value: {
@@ -177,16 +168,16 @@ export class StatsListEpic {
     );
   }
 
-  public iso639Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsListISO639SelectedAction, Action>(
-      ofType<Action, StatsListISO639SelectedAction>(STATS_LIST_ISO639_SELECTED),
-      mergeMap<StatsListISO639SelectedAction, Observable<Action>>((action: StatsListISO639SelectedAction) => {
+  public iso639Selected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsListISO639SelectedAction, VeauAction>(
+      ofType<VeauAction, StatsListISO639SelectedAction>(STATS_LIST_ISO639_SELECTED),
+      mergeMap<StatsListISO639SelectedAction, Observable<VeauAction>>((action: StatsListISO639SelectedAction) => {
         return from<Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>>(
           this.languageQuery.findByISO639(action.iso639)
-        ).pipe<Action>(
-          mergeMap<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Observable<Action>>(
+        ).pipe<VeauAction>(
+          mergeMap<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Observable<VeauAction>>(
             (superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
-              return superposition.match<Observable<Action>>(
+              return superposition.match<Observable<VeauAction>>(
                 (language: Language) => {
                   // prettier-ignore
                   const {
@@ -205,10 +196,10 @@ export class StatsListEpic {
                     stats.getItems()
                   );
 
-                  return of<Action>(updateNewStats(newStats));
+                  return of<VeauAction>(updateNewStats(newStats));
                 },
                 () => {
-                  return of<Action>();
+                  return of<VeauAction>();
                 }
               );
             }
@@ -218,16 +209,16 @@ export class StatsListEpic {
     );
   }
 
-  public iso3166Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsListISO3166SelectedAction, Action>(
-      ofType<Action, StatsListISO3166SelectedAction>(STATS_LIST_ISO3166_SELECTED),
-      mergeMap<StatsListISO3166SelectedAction, Observable<Action>>((action: StatsListISO3166SelectedAction) => {
+  public iso3166Selected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsListISO3166SelectedAction, VeauAction>(
+      ofType<VeauAction, StatsListISO3166SelectedAction>(STATS_LIST_ISO3166_SELECTED),
+      mergeMap<StatsListISO3166SelectedAction, Observable<VeauAction>>((action: StatsListISO3166SelectedAction) => {
         return from<Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>>(
           this.regionQuery.findByISO3166(action.iso3166)
-        ).pipe<Action>(
-          mergeMap<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>, Observable<Action>>(
+        ).pipe<VeauAction>(
+          mergeMap<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>, Observable<VeauAction>>(
             (superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError>) => {
-              return superposition.match<Observable<Action>>(
+              return superposition.match<Observable<VeauAction>>(
                 (region: Region) => {
                   // prettier-ignore
                   const {
@@ -246,10 +237,10 @@ export class StatsListEpic {
                     stats.getItems()
                   );
 
-                  return of<Action>(updateNewStats(newStats));
+                  return of<VeauAction>(updateNewStats(newStats));
                 },
                 () => {
-                  return of<Action>();
+                  return of<VeauAction>();
                 }
               );
             }
@@ -259,10 +250,10 @@ export class StatsListEpic {
     );
   }
 
-  public termSelected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<StatsListTermSelectedAction, Action>(
-      ofType<Action, StatsListTermSelectedAction>(STATS_LIST_TERM_SELECTED),
-      map<StatsListTermSelectedAction, Action>((action: StatsListTermSelectedAction) => {
+  public termSelected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsListTermSelectedAction, VeauAction>(
+      ofType<VeauAction, StatsListTermSelectedAction>(STATS_LIST_TERM_SELECTED),
+      map<StatsListTermSelectedAction, VeauAction>((action: StatsListTermSelectedAction) => {
         // prettier-ignore
         const {
           value: {
@@ -285,10 +276,10 @@ export class StatsListEpic {
     );
   }
 
-  public save(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<Action, Action, Action>(
-      ofType<Action, Action>(STATS_LIST_SAVE_NEW_STATS),
-      filter<Action>(() => {
+  public save(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_LIST_SAVE_NEW_STATS),
+      filter<VeauAction>(() => {
         // prettier-ignore
         const {
           value: {
@@ -300,10 +291,10 @@ export class StatsListEpic {
 
         return !stats.isFilled();
       }),
-      mergeMap<Action, Observable<Action>>(() => {
-        return concat<Action>(
-          of<Action>(closeNewStatsModal()),
-          of<Action>(loading()),
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        return concat<VeauAction>(
+          of<VeauAction>(closeNewStatsModal()),
+          of<VeauAction>(loading()),
           mergeMap(() => {
             // prettier-ignore
             const {
@@ -317,18 +308,18 @@ export class StatsListEpic {
 
             return from<Promise<Superposition<unknown, DataSourceError>>>(
               this.statsCommand.create(stats, identity.getVeauAccountID())
-            ).pipe<Action>(
-              mergeMap<Superposition<unknown, DataSourceError>, Observable<Action>>(
+            ).pipe<VeauAction>(
+              mergeMap<Superposition<unknown, DataSourceError>, Observable<VeauAction>>(
                 (superposition: Superposition<unknown, DataSourceError>) => {
-                  return concat<Action>(
-                    of<Action>(loaded()),
-                    mergeMap<Action, Observable<Action>>(() => {
-                      return superposition.match<Observable<Action>>(
+                  return concat<VeauAction>(
+                    of<VeauAction>(loaded()),
+                    mergeMap<VeauAction, Observable<VeauAction>>(() => {
+                      return superposition.match<Observable<VeauAction>>(
                         () => {
-                          return of<Action>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
+                          return of<VeauAction>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
                         },
                         () => {
-                          return of<Action>(
+                          return of<VeauAction>(
                             loaded(),
                             raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
                           );

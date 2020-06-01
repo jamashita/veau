@@ -5,40 +5,36 @@ import { merge, Observable } from 'rxjs';
 import { map, mapTo } from 'rxjs/operators';
 
 import {
-  Action,
-  PUSH_TO_ENTRANCE,
-  PUSH_TO_STATS_EDIT,
-  PUSH_TO_STATS_LIST,
-  PushToStatsEditAction
+    PUSH_TO_ENTRANCE, PUSH_TO_STATS_EDIT, PUSH_TO_STATS_LIST, PushToStatsEditAction, VeauAction
 } from '../Action/Action';
 import { Endpoints } from '../Endpoints';
 
 @injectable()
 export class RedirectEpic {
-  public init(action$: ActionsObservable<Action>): Observable<Action> {
-    return merge<Action>(this.toStatsList(action$), this.toStatsEdit(action$), this.toEntrance(action$));
+  public init(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
+    return merge<VeauAction>(this.toStatsList(action$), this.toStatsEdit(action$), this.toEntrance(action$));
   }
 
-  public toStatsList(action$: ActionsObservable<Action>): Observable<Action> {
-    return action$.pipe<Action, Action>(
-      ofType<Action, Action>(PUSH_TO_STATS_LIST),
-      mapTo<Action, Action>(push(Endpoints.STATS_LIST))
+  public toStatsList(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(PUSH_TO_STATS_LIST),
+      mapTo<VeauAction, VeauAction>(push(Endpoints.STATS_LIST))
     );
   }
 
-  public toStatsEdit(action$: ActionsObservable<Action>): Observable<Action> {
-    return action$.pipe<PushToStatsEditAction, Action>(
-      ofType<Action, PushToStatsEditAction>(PUSH_TO_STATS_EDIT),
-      map<PushToStatsEditAction, Action>((action: PushToStatsEditAction) => {
+  public toStatsEdit(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<PushToStatsEditAction, VeauAction>(
+      ofType<VeauAction, PushToStatsEditAction>(PUSH_TO_STATS_EDIT),
+      map<PushToStatsEditAction, VeauAction>((action: PushToStatsEditAction) => {
         return push(Endpoints.STATS_EDIT.replace(':id', action.statsID.get().get()));
       })
     );
   }
 
-  public toEntrance(action$: ActionsObservable<Action>): Observable<Action> {
-    return action$.pipe<Action, Action>(
-      ofType<Action, Action>(PUSH_TO_ENTRANCE),
-      mapTo<Action, Action>(push(Endpoints.ENTRANCE))
+  public toEntrance(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(PUSH_TO_ENTRANCE),
+      mapTo<VeauAction, VeauAction>(push(Endpoints.ENTRANCE))
     );
   }
 }

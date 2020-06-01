@@ -1,13 +1,13 @@
 import { Reducer } from 'redux';
 
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
-import { Action, STATS_LIST_ITEM_RESET, STATS_LIST_ITEM_UPDATE } from '../Action/Action';
+import { STATS_LIST_ITEM_RESET, STATS_LIST_ITEM_UPDATE, VeauAction } from '../Action/Action';
 
 const initialState: StatsListItems = StatsListItems.empty();
 
-export const statsListItems: Reducer<StatsListItems, Action> = (
+export const statsListItems: Reducer<StatsListItems, VeauAction> = (
   state: StatsListItems = initialState,
-  action: Action
+  action: VeauAction
 ) => {
   switch (action.type) {
     case STATS_LIST_ITEM_UPDATE: {

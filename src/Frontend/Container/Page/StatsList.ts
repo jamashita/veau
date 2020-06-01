@@ -7,7 +7,7 @@ import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { Term } from '../../../VO/Term/Term';
-import { Action } from '../../Action/Action';
+import { VeauAction } from '../../Action/Action';
 import { pushToStatsEdit } from '../../Action/RedirectAction';
 import {
     closeNewStatsModal, initStatsList, newStatsISO3166Selected, newStatsISO639Selected,
@@ -37,7 +37,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<VeauAction>) => {
   return {
     initialize(): void {
       dispatch(initStatsList());
