@@ -8,11 +8,11 @@ import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { Term } from '../../../VO/Term/Term';
 import { VeauAction } from '../../Action';
-import { pushToStatsEdit } from '../../Action/RedirectAction';
+import { pushToStatsEdit } from '../../ActionCreator/RedirectAction';
 import {
     closeNewStatsModal, initStatsList, newStatsISO3166Selected, newStatsISO639Selected,
     newStatsNameTyped, newStatsTermSelected, newStatsUnitTyped, openNewStatsModal, saveNewStats
-} from '../../Action/StatsListAction';
+} from '../../ActionCreator/StatsListAction';
 import {
     DispatchProps, OwnProps, StateProps, StatsList as Component
 } from '../../Component/Page/StatsList';

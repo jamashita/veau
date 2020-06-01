@@ -27,12 +27,14 @@ import {
     STATS_LIST_UNIT_TYPED, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
     StatsListNameTypedAction, StatsListTermSelectedAction, StatsListUnitTypedAction, VeauAction
 } from '../Action';
-import { loaded, loading } from '../Action/LoadingAction';
-import { raiseModal } from '../Action/ModalAction';
-import { appearNotification } from '../Action/NotificationAction';
-import { pushToStatsEdit } from '../Action/RedirectAction';
-import { resetStatsListItems, updateStatsListItems } from '../Action/StatsAction';
-import { closeNewStatsModal, resetNewStats, updateNewStats } from '../Action/StatsListAction';
+import { loaded, loading } from '../ActionCreator/LoadingAction';
+import { raiseModal } from '../ActionCreator/ModalAction';
+import { appearNotification } from '../ActionCreator/NotificationAction';
+import { pushToStatsEdit } from '../ActionCreator/RedirectAction';
+import { resetStatsListItems, updateStatsListItems } from '../ActionCreator/StatsAction';
+import {
+    closeNewStatsModal, resetNewStats, updateNewStats
+} from '../ActionCreator/StatsListAction';
 import { State } from '../State';
 
 @injectable()

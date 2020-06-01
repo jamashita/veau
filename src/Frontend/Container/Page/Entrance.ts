@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import { AccountName } from '../../../VO/Account/AccountName';
 import { Password } from '../../../VO/EntranceInformation/Password';
 import { VeauAction } from '../../Action';
-import { accountTyped, attemptLogin, passwordTyped } from '../../Action/EntranceAction';
+import { accountTyped, attemptLogin, passwordTyped } from '../../ActionCreator/EntranceAction';
 import {
     DispatchProps, Entrance as Component, OwnProps, StateProps
 } from '../../Component/Page/Entrance';

@@ -2,9 +2,9 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { Dispatch } from 'redux';
 
 import { VeauAction } from '../../Action';
-import { logout } from '../../Action/LogoutAction';
-import { closeProvider } from '../../Action/PageProviderAction';
-import { pushToStatsList } from '../../Action/RedirectAction';
+import { logout } from '../../ActionCreator/LogoutAction';
+import { closeProvider } from '../../ActionCreator/PageProviderAction';
+import { pushToStatsList } from '../../ActionCreator/RedirectAction';
 import {
     DispatchProps, OwnProps, PageProvider as Component, StateProps
 } from '../../Component/Molecule/PageProvider';

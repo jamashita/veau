@@ -36,12 +36,14 @@ import {
     StatsEditRowSelectedAction, StatsEditSelectingItemNameTypedAction,
     StatsEditStartDateDeterminedAction, StatsEditUnitTypedAction, VeauAction
 } from '../Action';
-import { loaded, loading } from '../Action/LoadingAction';
-import { raiseModal } from '../Action/ModalAction';
-import { appearNotification } from '../Action/NotificationAction';
-import { pushToStatsList } from '../Action/RedirectAction';
-import { resetStatsItem, updateStats, updateStatsItem } from '../Action/StatsAction';
-import { clearSelectingItem, selectItem, updateSelectingItem } from '../Action/StatsEditAction';
+import { loaded, loading } from '../ActionCreator/LoadingAction';
+import { raiseModal } from '../ActionCreator/ModalAction';
+import { appearNotification } from '../ActionCreator/NotificationAction';
+import { pushToStatsList } from '../ActionCreator/RedirectAction';
+import { resetStatsItem, updateStats, updateStatsItem } from '../ActionCreator/StatsAction';
+import {
+    clearSelectingItem, selectItem, updateSelectingItem
+} from '../ActionCreator/StatsEditAction';
 import { State } from '../State';
 
 @injectable()

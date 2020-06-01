@@ -2,7 +2,7 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { Dispatch } from 'redux';
 
 import { VeauAction } from '../../Action';
-import { closeModal } from '../../Action/ModalAction';
+import { closeModal } from '../../ActionCreator/ModalAction';
 import {
     DispatchProps, Modal as Component, OwnProps, StateProps
 } from '../../Component/Molecule/Modal';

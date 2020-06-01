@@ -23,11 +23,11 @@ import { Locale } from '../../VO/Locale/Locale';
 import { SystemSupportLanguage } from '../../VO/System/SystemSupportLanguage';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import { IDENTITY_INITIALIZE, VeauAction } from '../Action';
-import { identified, identityAuthenticated } from '../Action/IdentityAction';
-import { loaded, loading } from '../Action/LoadingAction';
-import { defineLocale } from '../Action/LocaleAction';
-import { raiseModal } from '../Action/ModalAction';
-import { pushToEntrance, pushToStatsList } from '../Action/RedirectAction';
+import { identified, identityAuthenticated } from '../ActionCreator/IdentityAction';
+import { loaded, loading } from '../ActionCreator/LoadingAction';
+import { defineLocale } from '../ActionCreator/LocaleAction';
+import { raiseModal } from '../ActionCreator/ModalAction';
+import { pushToEntrance, pushToStatsList } from '../ActionCreator/RedirectAction';
 import { Endpoints } from '../Endpoints';
 import { State } from '../State';
 
