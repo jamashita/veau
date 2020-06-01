@@ -23,7 +23,7 @@ import {
     rowMoved, rowSelected, saveItem, saveStats, selectingItemNameTyped, startDateDetermined,
     statsDataDeleted, statsDataFilled, statsISO3166Selected, statsISO639Selected, statsNameTyped,
     statsUnitTyped
-} from '../../ActionCreator/StatsEditAction';
+} from '../../ActionCreator/StatsEditActionCreator';
 import {
     DispatchProps, OwnProps, StateProps, StatsEdit as Component
 } from '../../Component/Page/StatsEdit';

@@ -22,14 +22,14 @@ import {
     STATS_LIST_UNIT_TYPED, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
     StatsListNameTypedAction, StatsListTermSelectedAction, StatsListUnitTypedAction
 } from '../Action';
-import { loaded, loading } from '../ActionCreator/LoadingAction';
-import { raiseModal } from '../ActionCreator/ModalAction';
-import { appearNotification } from '../ActionCreator/NotificationAction';
-import { pushToStatsEdit } from '../ActionCreator/RedirectAction';
-import { resetStatsListItems, updateStatsListItems } from '../ActionCreator/StatsAction';
+import { loaded, loading } from '../ActionCreator/LoadingActionCreator';
+import { raiseModal } from '../ActionCreator/ModalActionCreator';
+import { appearNotification } from '../ActionCreator/NotificationActionCreator';
+import { pushToStatsEdit } from '../ActionCreator/RedirectActionCreator';
+import { resetStatsListItems, updateStatsListItems } from '../ActionCreator/StatsActionCreator';
 import {
     closeNewStatsModal, resetNewStats, updateNewStats
-} from '../ActionCreator/StatsListAction';
+} from '../ActionCreator/StatsListActionCreator';
 import { State } from '../State';
 
 export class StatsListSaga {

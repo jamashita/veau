@@ -9,9 +9,9 @@ import { Superposition } from '@jamashita/publikum-monad';
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { Type } from '../../Container/Types';
 import { LOGOUT, LogoutAction, VeauAction } from '../Action';
-import { initializeIdentity } from '../ActionCreator/IdentityAction';
-import { closeProvider } from '../ActionCreator/PageProviderAction';
-import { pushToEntrance } from '../ActionCreator/RedirectAction';
+import { initializeIdentity } from '../ActionCreator/IdentityActionCreator';
+import { closeProvider } from '../ActionCreator/PageProviderActionCreator';
+import { pushToEntrance } from '../ActionCreator/RedirectActionCreator';
 
 @injectable()
 export class LogoutEpic {

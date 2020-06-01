@@ -12,11 +12,11 @@ import {
     ENTRANCE_ACCOUNT_NAME_TYPED, ENTRANCE_PASSWORD_TYPED, EntranceAccountNameTypedAction,
     EntrancePasswordTypedAction, IDENTITY_AUTHENTICATE
 } from '../Action';
-import { updateEntranceInformation } from '../ActionCreator/EntranceAction';
-import { identified, identityAuthenticated } from '../ActionCreator/IdentityAction';
-import { loaded, loading } from '../ActionCreator/LoadingAction';
-import { raiseModal } from '../ActionCreator/ModalAction';
-import { pushToStatsList } from '../ActionCreator/RedirectAction';
+import { updateEntranceInformation } from '../ActionCreator/EntranceActionCreator';
+import { identified, identityAuthenticated } from '../ActionCreator/IdentityActionCreator';
+import { loaded, loading } from '../ActionCreator/LoadingActionCreator';
+import { raiseModal } from '../ActionCreator/ModalActionCreator';
+import { pushToStatsList } from '../ActionCreator/RedirectActionCreator';
 import { State } from '../State';
 
 export class EntranceSaga {

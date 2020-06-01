@@ -6,9 +6,9 @@ import { all, call, fork, put, take } from 'redux-saga/effects';
 
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { LOGOUT } from '../Action';
-import { initializeIdentity } from '../ActionCreator/IdentityAction';
-import { closeProvider } from '../ActionCreator/PageProviderAction';
-import { pushToEntrance } from '../ActionCreator/RedirectAction';
+import { initializeIdentity } from '../ActionCreator/IdentityActionCreator';
+import { closeProvider } from '../ActionCreator/PageProviderActionCreator';
+import { pushToEntrance } from '../ActionCreator/RedirectActionCreator';
 
 export class LogoutSaga {
   private readonly sessionCommand: ISessionCommand;
