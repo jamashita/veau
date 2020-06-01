@@ -1,25 +1,14 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { PageProvider as Provider } from '../../../VO/PageProvider/PageProvider';
 import { Action } from '../../Action/Action';
 import { logout } from '../../Action/LogoutAction';
 import { closeProvider } from '../../Action/PageProviderAction';
 import { pushToStatsList } from '../../Action/RedirectAction';
-import { PageProvider as Component } from '../../Component/Molecule/PageProvider';
+import {
+    DispatchProps, OwnProps, PageProvider as Component, StateProps
+} from '../../Component/Molecule/PageProvider';
 import { State } from '../../State';
-
-type StateProps = Readonly<{
-  provider: Provider;
-}>;
-
-type DispatchProps = Readonly<{
-  close(): void;
-  toStatsList(): void;
-  logout(): void;
-}>;
-type OwnProps = Readonly<{}>;
-export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   // prettier-ignore
@@ -34,13 +23,13 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    close: () => {
+    close(): void {
       dispatch(closeProvider());
     },
-    toStatsList: () => {
+    toStatsList(): void {
       dispatch(pushToStatsList());
     },
-    logout: () => {
+    logout(): void {
       dispatch(logout());
     }
   };

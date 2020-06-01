@@ -3,17 +3,14 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { match } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { Quantum } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 
-import { Stats } from '../../../Entity/Stats/Stats';
 import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { Column } from '../../../VO/Coordinate/Column';
 import { Coordinate } from '../../../VO/Coordinate/Coordinate';
 import { Row } from '../../../VO/Coordinate/Row';
 import { ISO639 } from '../../../VO/Language/ISO639';
-import { Locale } from '../../../VO/Locale/Locale';
 import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
@@ -22,61 +19,20 @@ import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { Action } from '../../Action/Action';
 import {
-  initFailed,
-  initStatsEdit,
-  invalidDateInput,
-  invalidValueInput,
-  itemNameTyped,
-  removeItem,
-  rowMoved,
-  rowSelected,
-  saveItem,
-  saveStats,
-  selectingItemNameTyped,
-  startDateDetermined,
-  statsDataDeleted,
-  statsDataFilled,
-  statsISO3166Selected,
-  statsISO639Selected,
-  statsNameTyped,
-  statsUnitTyped
+    initFailed, initStatsEdit, invalidDateInput, invalidValueInput, itemNameTyped, removeItem,
+    rowMoved, rowSelected, saveItem, saveStats, selectingItemNameTyped, startDateDetermined,
+    statsDataDeleted, statsDataFilled, statsISO3166Selected, statsISO639Selected, statsNameTyped,
+    statsUnitTyped
 } from '../../Action/StatsEditAction';
-import { StatsEdit as Component } from '../../Component/Page/StatsEdit';
+import {
+    DispatchProps, OwnProps, StateProps, StatsEdit as Component
+} from '../../Component/Page/StatsEdit';
 import { Endpoints } from '../../Endpoints';
 import { State } from '../../State';
 
 type MatchParam = Readonly<{
   id: string;
 }>;
-type StateProps = Readonly<{
-  stats: Stats;
-  statsItem: StatsItem;
-  selectingItem: Quantum<StatsItem>;
-  locale: Locale;
-  id: Nullable<string>;
-}>;
-type DispatchProps = Readonly<{
-  initialize(statsID: StatsID): void;
-  invalidIDInput(): void;
-  dataFilled(coordinate: Coordinate, value: NumericalValue): void;
-  dataDeleted(coordinate: Coordinate): void;
-  nameTyped(name: StatsName): void;
-  unitTyped(unit: StatsUnit): void;
-  iso639Selected(iso639: ISO639): void;
-  iso3166Selected(iso3166: ISO3166): void;
-  itemNameTyped(name: StatsItemName): void;
-  saveNewItem(): void;
-  rowSelected(row: Row): void;
-  selectingItemNameTyped(name: StatsItemName): void;
-  startDateDetermined(startDate: AsOf): void;
-  invalidDateInput(): void;
-  rowMoved(column: Column, target: Column): void;
-  invalidValueInput(): void;
-  removeItem(statsItem: StatsItem): void;
-  save(): void;
-}>;
-type OwnProps = Readonly<{}>;
-export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   // prettier-ignore
@@ -116,58 +72,58 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    initialize: (statsID: StatsID) => {
+    initialize(statsID: StatsID): void {
       dispatch(initStatsEdit(statsID));
     },
-    invalidIDInput: () => {
+    invalidIDInput(): void {
       dispatch(initFailed());
     },
-    dataFilled: (coordinate: Coordinate, value: NumericalValue) => {
+    dataFilled(coordinate: Coordinate, value: NumericalValue): void {
       dispatch(statsDataFilled(coordinate, value));
     },
-    dataDeleted: (coordinate: Coordinate) => {
+    dataDeleted(coordinate: Coordinate): void {
       dispatch(statsDataDeleted(coordinate));
     },
-    nameTyped: (name: StatsName) => {
+    nameTyped(name: StatsName): void {
       dispatch(statsNameTyped(name));
     },
-    unitTyped: (unit: StatsUnit) => {
+    unitTyped(unit: StatsUnit): void {
       dispatch(statsUnitTyped(unit));
     },
-    iso639Selected: (iso639: ISO639) => {
+    iso639Selected(iso639: ISO639): void {
       dispatch(statsISO639Selected(iso639));
     },
-    iso3166Selected: (iso3166: ISO3166) => {
+    iso3166Selected(iso3166: ISO3166): void {
       dispatch(statsISO3166Selected(iso3166));
     },
-    itemNameTyped: (name: StatsItemName) => {
+    itemNameTyped(name: StatsItemName): void {
       dispatch(itemNameTyped(name));
     },
-    saveNewItem: () => {
+    saveNewItem(): void {
       dispatch(saveItem());
     },
-    rowSelected: (row: Row) => {
+    rowSelected(row: Row): void {
       dispatch(rowSelected(row));
     },
-    selectingItemNameTyped: (name: StatsItemName) => {
+    selectingItemNameTyped(name: StatsItemName): void {
       dispatch(selectingItemNameTyped(name));
     },
-    startDateDetermined: (startDate: AsOf) => {
+    startDateDetermined(startDate: AsOf): void {
       dispatch(startDateDetermined(startDate));
     },
-    invalidDateInput: () => {
+    invalidDateInput(): void {
       dispatch(invalidDateInput());
     },
-    rowMoved: (column: Column, target: Column) => {
+    rowMoved(column: Column, target: Column): void {
       dispatch(rowMoved(column, target));
     },
-    invalidValueInput: () => {
+    invalidValueInput(): void {
       dispatch(invalidValueInput());
     },
-    removeItem: (statsItem: StatsItem) => {
+    removeItem(statsItem: StatsItem): void {
       dispatch(removeItem(statsItem));
     },
-    save: () => {
+    save(): void {
       dispatch(saveStats());
     }
   };

@@ -1,15 +1,9 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 
-import { Identity } from '../../VO/Identity/Identity';
-import { I18NProvider as Component } from '../Component/I18NProvider';
+import {
+    DispatchProps, I18NProvider as Component, OwnProps, StateProps
+} from '../Component/I18NProvider';
 import { State } from '../State';
-
-type StateProps = Readonly<{
-  identity: Identity;
-}>;
-type DispatchProps = Readonly<{}>;
-type OwnProps = Readonly<{}>;
-export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   // prettier-ignore

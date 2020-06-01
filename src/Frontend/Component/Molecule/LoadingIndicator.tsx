@@ -3,8 +3,14 @@ import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 
-import { Props } from '../../Container/Molecule/LoadingIndicator';
+import { LoadingCount } from '../../../VO/LoadingCount/LoadingCount';
 
+export type StateProps = Readonly<{
+  loadingCount: LoadingCount;
+}>;
+export type DispatchProps = Readonly<{}>;
+export type OwnProps = Readonly<{}>;
+type Props = StateProps & DispatchProps & OwnProps;
 type State = Readonly<{}>;
 
 const SIZE: number = 100;

@@ -1,11 +1,8 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { Stats } from '../../../Entity/Stats/Stats';
 import { ISO639 } from '../../../VO/Language/ISO639';
-import { Locale } from '../../../VO/Locale/Locale';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
-import { StatsListItems } from '../../../VO/StatsListItem/StatsListItems';
 import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
@@ -13,39 +10,13 @@ import { Term } from '../../../VO/Term/Term';
 import { Action } from '../../Action/Action';
 import { pushToStatsEdit } from '../../Action/RedirectAction';
 import {
-  closeNewStatsModal,
-  initStatsList,
-  newStatsISO3166Selected,
-  newStatsISO639Selected,
-  newStatsNameTyped,
-  newStatsTermSelected,
-  newStatsUnitTyped,
-  openNewStatsModal,
-  saveNewStats
+    closeNewStatsModal, initStatsList, newStatsISO3166Selected, newStatsISO639Selected,
+    newStatsNameTyped, newStatsTermSelected, newStatsUnitTyped, openNewStatsModal, saveNewStats
 } from '../../Action/StatsListAction';
-import { StatsList as Component } from '../../Component/Page/StatsList';
+import {
+    DispatchProps, OwnProps, StateProps, StatsList as Component
+} from '../../Component/Page/StatsList';
 import { State } from '../../State';
-
-type StateProps = Readonly<{
-  statsListItems: StatsListItems;
-  open: boolean;
-  stats: Stats;
-  locale: Locale;
-}>;
-type DispatchProps = Readonly<{
-  initialize(): void;
-  toStatsEdit(statsID: StatsID): void;
-  newStatsClicked(): void;
-  closeNewStatsModal(): void;
-  nameTyped(name: StatsName): void;
-  unitTyped(unit: StatsUnit): void;
-  iso639Selected(iso639: ISO639): void;
-  iso3166Selected(iso3166: ISO3166): void;
-  termSelected(term: Term): void;
-  saveNewStats(): void;
-}>;
-type OwnProps = Readonly<{}>;
-export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   // prettier-ignore
@@ -68,34 +39,34 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    initialize: () => {
+    initialize(): void {
       dispatch(initStatsList());
     },
-    toStatsEdit: (statsID: StatsID) => {
+    toStatsEdit(statsID: StatsID): void {
       dispatch(pushToStatsEdit(statsID));
     },
-    newStatsClicked: () => {
+    newStatsClicked(): void {
       dispatch(openNewStatsModal());
     },
-    closeNewStatsModal: () => {
+    closeNewStatsModal(): void {
       dispatch(closeNewStatsModal());
     },
-    nameTyped: (name: StatsName) => {
+    nameTyped(name: StatsName): void {
       dispatch(newStatsNameTyped(name));
     },
-    unitTyped: (unit: StatsUnit) => {
+    unitTyped(unit: StatsUnit): void {
       dispatch(newStatsUnitTyped(unit));
     },
-    iso639Selected: (iso639: ISO639) => {
+    iso639Selected(iso639: ISO639): void {
       dispatch(newStatsISO639Selected(iso639));
     },
-    iso3166Selected: (iso3166: ISO3166) => {
+    iso3166Selected(iso3166: ISO3166): void {
       dispatch(newStatsISO3166Selected(iso3166));
     },
-    termSelected: (term: Term) => {
+    termSelected(term: Term): void {
       dispatch(newStatsTermSelected(term));
     },
-    saveNewStats: () => {
+    saveNewStats(): void {
       dispatch(saveNewStats());
     }
   };

@@ -1,15 +1,9 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 
-import { LoadingCount } from '../../../VO/LoadingCount/LoadingCount';
-import { LoadingIndicator as Component } from '../../Component/Molecule/LoadingIndicator';
+import {
+    DispatchProps, LoadingIndicator as Component, OwnProps, StateProps
+} from '../../Component/Molecule/LoadingIndicator';
 import { State } from '../../State';
-
-type StateProps = Readonly<{
-  loadingCount: LoadingCount;
-}>;
-type DispatchProps = Readonly<{}>;
-type OwnProps = Readonly<{}>;
-export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   // prettier-ignore

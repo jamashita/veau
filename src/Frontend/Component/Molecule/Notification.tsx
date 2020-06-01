@@ -1,11 +1,26 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+import {
+    NotificationHPosition, NotificationKind, NotificationVPosition
+} from 'src/Frontend/Action/Action';
 
 import { Icon, Snackbar, SnackbarContent } from '@material-ui/core';
 import { amber, blue, green, red } from '@material-ui/core/colors';
 
-import { Props } from '../../Container/Molecule/Notification';
-
+export type StateProps = Readonly<{
+  kind: NotificationKind;
+  open: boolean;
+  horizontal: NotificationHPosition;
+  vertical: NotificationVPosition;
+  message: string;
+  duration: number;
+  values?: Record<string, string>;
+}>;
+export type DispatchProps = Readonly<{
+  closeClicked(): void;
+}>;
+export type OwnProps = Readonly<{}>;
+type Props = StateProps & DispatchProps & OwnProps;
 type State = Readonly<{}>;
 
 class NotificationImpl extends React.Component<Props & WrappedComponentProps, State> {

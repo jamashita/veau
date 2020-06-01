@@ -3,15 +3,10 @@ import { Dispatch } from 'redux';
 
 import { Action } from '../../Action/Action';
 import { openProvider } from '../../Action/PageProviderAction';
-import { Authenticated as Component } from '../../Component/Template/Authenticated';
+import {
+    Authenticated as Component, DispatchProps, OwnProps, StateProps
+} from '../../Component/Template/Authenticated';
 import { State } from '../../State';
-
-type StateProps = Readonly<{}>;
-type DispatchProps = Readonly<{
-  menuClicked(): void;
-}>;
-type OwnProps = Readonly<{}>;
-export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = () => {
   return {};
@@ -19,7 +14,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = () => {
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    menuClicked: () => {
+    menuClicked(): void {
       dispatch(openProvider());
     }
   };

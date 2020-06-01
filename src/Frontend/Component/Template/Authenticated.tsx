@@ -1,9 +1,14 @@
 import React from 'react';
 
 import { PageProvider } from '../../Container/Molecule/PageProvider';
-import { Props } from '../../Container/Template/Authenticated';
 import { Header } from '../Molecule/Header';
 
+export type StateProps = Readonly<{}>;
+export type DispatchProps = Readonly<{
+  menuClicked(): void;
+}>;
+export type OwnProps = Readonly<{}>;
+type Props = StateProps & DispatchProps & OwnProps;
 type State = Readonly<{}>;
 
 export class Authenticated extends React.Component<Props, State> {

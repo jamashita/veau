@@ -1,10 +1,22 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import { Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import {
+    Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText
+} from '@material-ui/core';
 
-import { Props } from '../../Container/Molecule/PageProvider';
+import { PageProvider as Provider } from '../../../VO/PageProvider/PageProvider';
 
+export type StateProps = Readonly<{
+  provider: Provider;
+}>;
+export type DispatchProps = Readonly<{
+  close(): void;
+  toStatsList(): void;
+  logout(): void;
+}>;
+export type OwnProps = Readonly<{}>;
+type Props = StateProps & DispatchProps & OwnProps;
 type State = Readonly<{}>;
 
 class PageProviderImpl extends React.Component<Props & WrappedComponentProps, State> {

@@ -2,12 +2,24 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 import { Absent, Quantum, Superposition } from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 import { Button, Icon } from '@material-ui/core';
 
+import { Stats } from '../../../Entity/Stats/Stats';
+import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { AsOfError } from '../../../VO/AsOf/Error/AsOfError';
+import { Column } from '../../../VO/Coordinate/Column';
+import { Coordinate } from '../../../VO/Coordinate/Coordinate';
+import { Row } from '../../../VO/Coordinate/Row';
+import { ISO639 } from '../../../VO/Language/ISO639';
+import { Locale } from '../../../VO/Locale/Locale';
+import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
+import { ISO3166 } from '../../../VO/Region/ISO3166';
+import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 import { StatsID } from '../../../VO/StatsOutline/StatsID';
-import { Props } from '../../Container/Page/StatsEdit';
+import { StatsName } from '../../../VO/StatsOutline/StatsName';
+import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { Authenticated } from '../../Container/Template/Authenticated';
 import { Chart } from '../Molecule/Chart';
 import { Spreadsheet } from '../Molecule/Spreadsheet';
@@ -16,6 +28,35 @@ import { StatsInformation } from '../Molecule/StatsInformation';
 import { StatsItemInformation } from '../Molecule/StatsItemInformation';
 import { StatsItemModal } from '../Molecule/StatsItemModal';
 
+export type StateProps = Readonly<{
+  stats: Stats;
+  statsItem: StatsItem;
+  selectingItem: Quantum<StatsItem>;
+  locale: Locale;
+  id: Nullable<string>;
+}>;
+export type DispatchProps = Readonly<{
+  initialize(statsID: StatsID): void;
+  invalidIDInput(): void;
+  dataFilled(coordinate: Coordinate, value: NumericalValue): void;
+  dataDeleted(coordinate: Coordinate): void;
+  nameTyped(name: StatsName): void;
+  unitTyped(unit: StatsUnit): void;
+  iso639Selected(iso639: ISO639): void;
+  iso3166Selected(iso3166: ISO3166): void;
+  itemNameTyped(name: StatsItemName): void;
+  saveNewItem(): void;
+  rowSelected(row: Row): void;
+  selectingItemNameTyped(name: StatsItemName): void;
+  startDateDetermined(startDate: AsOf): void;
+  invalidDateInput(): void;
+  rowMoved(column: Column, target: Column): void;
+  invalidValueInput(): void;
+  removeItem(statsItem: StatsItem): void;
+  save(): void;
+}>;
+export type OwnProps = Readonly<{}>;
+type Props = StateProps & DispatchProps & OwnProps;
 type State = Readonly<{
   openNewStatsItemModal: boolean;
   openStartDateModal: boolean;

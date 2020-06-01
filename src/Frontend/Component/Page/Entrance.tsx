@@ -4,10 +4,20 @@ import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 
 import { AccountName } from '../../../VO/Account/AccountName';
+import { EntranceInformation } from '../../../VO/EntranceInformation/EntranceInformation';
 import { Password } from '../../../VO/EntranceInformation/Password';
-import { Props } from '../../Container/Page/Entrance';
 import { TextField } from '../Atom/TextField';
 
+export type StateProps = Readonly<{
+  entranceInformation: EntranceInformation;
+}>;
+export type DispatchProps = Readonly<{
+  accountTyped(name: AccountName): void;
+  passwordTyped(password: Password): void;
+  loginClicked(): void;
+}>;
+export type OwnProps = Readonly<{}>;
+type Props = StateProps & DispatchProps & OwnProps;
 type State = Readonly<{}>;
 
 class EntranceImpl extends React.Component<Props & WrappedComponentProps, State> {

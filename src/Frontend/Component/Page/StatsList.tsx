@@ -3,11 +3,39 @@ import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 import { Button, Icon } from '@material-ui/core';
 
-import { Props } from '../../Container/Page/StatsList';
+import { Stats } from '../../../Entity/Stats/Stats';
+import { ISO639 } from '../../../VO/Language/ISO639';
+import { Locale } from '../../../VO/Locale/Locale';
+import { ISO3166 } from '../../../VO/Region/ISO3166';
+import { StatsListItems } from '../../../VO/StatsListItem/StatsListItems';
+import { StatsID } from '../../../VO/StatsOutline/StatsID';
+import { StatsName } from '../../../VO/StatsOutline/StatsName';
+import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
+import { Term } from '../../../VO/Term/Term';
 import { Authenticated } from '../../Container/Template/Authenticated';
 import { StatsOutlineListTable } from '../Molecule/StatsOutlineListTable';
 import { StatsOutlineModal } from '../Molecule/StatsOutlineModal';
 
+export type StateProps = Readonly<{
+  statsListItems: StatsListItems;
+  open: boolean;
+  stats: Stats;
+  locale: Locale;
+}>;
+export type DispatchProps = Readonly<{
+  initialize(): void;
+  toStatsEdit(statsID: StatsID): void;
+  newStatsClicked(): void;
+  closeNewStatsModal(): void;
+  nameTyped(name: StatsName): void;
+  unitTyped(unit: StatsUnit): void;
+  iso639Selected(iso639: ISO639): void;
+  iso3166Selected(iso3166: ISO3166): void;
+  termSelected(term: Term): void;
+  saveNewStats(): void;
+}>;
+export type OwnProps = Readonly<{}>;
+type Props = StateProps & DispatchProps & OwnProps;
 type State = Readonly<{}>;
 
 class StatsListImpl extends React.Component<Props & WrappedComponentProps, State> {

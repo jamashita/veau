@@ -2,23 +2,13 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { Dispatch } from 'redux';
 
 import { AccountName } from '../../../VO/Account/AccountName';
-import { EntranceInformation } from '../../../VO/EntranceInformation/EntranceInformation';
 import { Password } from '../../../VO/EntranceInformation/Password';
 import { Action } from '../../Action/Action';
 import { accountTyped, attemptLogin, passwordTyped } from '../../Action/EntranceAction';
-import { Entrance as Component } from '../../Component/Page/Entrance';
+import {
+    DispatchProps, Entrance as Component, OwnProps, StateProps
+} from '../../Component/Page/Entrance';
 import { State } from '../../State';
-
-type StateProps = Readonly<{
-  entranceInformation: EntranceInformation;
-}>;
-type DispatchProps = Readonly<{
-  accountTyped(name: AccountName): void;
-  passwordTyped(password: Password): void;
-  loginClicked(): void;
-}>;
-type OwnProps = Readonly<{}>;
-export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   // prettier-ignore
@@ -33,13 +23,13 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    accountTyped: (account: AccountName) => {
+    accountTyped(account: AccountName): void {
       dispatch(accountTyped(account));
     },
-    passwordTyped: (password: Password) => {
+    passwordTyped(password: Password): void {
       dispatch(passwordTyped(password));
     },
-    loginClicked: () => {
+    loginClicked(): void {
       dispatch(attemptLogin());
     }
   };

@@ -3,20 +3,10 @@ import { Dispatch } from 'redux';
 
 import { Action } from '../../Action/Action';
 import { closeModal } from '../../Action/ModalAction';
-import { Modal as Component } from '../../Component/Molecule/Modal';
+import {
+    DispatchProps, Modal as Component, OwnProps, StateProps
+} from '../../Component/Molecule/Modal';
 import { State } from '../../State';
-
-type StateProps = Readonly<{
-  open: boolean;
-  title: string;
-  description: string;
-  values?: Record<string, string>;
-}>;
-type DispatchProps = Readonly<{
-  closeClicked(): void;
-}>;
-type OwnProps = Readonly<{}>;
-export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   // prettier-ignore
@@ -39,7 +29,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    closeClicked: () => {
+    closeClicked(): void {
       dispatch(closeModal());
     }
   };
