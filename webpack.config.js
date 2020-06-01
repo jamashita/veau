@@ -22,6 +22,10 @@ module.exports = {
     ]
   },
   mode: 'production',
+  optimization: {
+    usedExports: true,
+    sideEffects: false
+  },
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production'
