@@ -45,7 +45,11 @@ class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
     } = this.props;
 
     return (
-      <Dialog open={open} disableEscapeKeyDown={true} onClose={closeClicked}>
+      <Dialog
+        open={open}
+        disableEscapeKeyDown={true}
+        onClose={closeClicked}
+      >
         <DialogTitle>
           {intl.formatMessage(
             {
@@ -63,8 +67,13 @@ class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
           )}
         </DialogContent>
         <DialogActions>
-          <Button color='primary' onClick={closeClicked}>
-            <Icon className='fas fa-times' />
+          <Button
+            color='primary'
+            onClick={closeClicked}
+          >
+            <Icon
+              className='fas fa-times'
+            />
           </Button>
         </DialogActions>
       </Dialog>

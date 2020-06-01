@@ -31,7 +31,9 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
     } = this.props;
 
     return (
-      <Dialog open={loadingCount.isLoading()}>
+      <Dialog
+        open={loadingCount.isLoading()}
+      >
         <DialogTitle
           style={{
             textAlign: 'center'
@@ -42,7 +44,9 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
           })}
         </DialogTitle>
         <DialogContent>
-          <CircularProgress size={SIZE} />
+          <CircularProgress
+            size={SIZE}
+          />
         </DialogContent>
       </Dialog>
     );

@@ -54,17 +54,33 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
 
     switch (kind) {
       case 'success': {
-        return <Icon className='fas fa-check-circle icon-spacing' />;
+        return (
+          <Icon
+            className='fas fa-check-circle icon-spacing'
+          />
+);
       }
       case 'warn': {
-        return <Icon className='fas fa-exclamation-circle icon-spacing' />;
+        return (
+          <Icon
+            className='fas fa-exclamation-circle icon-spacing'
+          />
+);
       }
       case 'error': {
-        return <Icon className='fas fa-exclamation-triangle icon-spacing' />;
+        return (
+          <Icon
+            className='fas fa-exclamation-triangle icon-spacing'
+          />
+);
       }
       case 'info':
       default: {
-        return <Icon className='fas fa-info-circle icon-spacing' />;
+        return (
+          <Icon
+            className='fas fa-info-circle icon-spacing'
+          />
+);
       }
     }
   }

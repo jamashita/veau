@@ -70,7 +70,12 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
     } = this.props;
 
     return (
-      <Dialog open={open} onClose={closeNewStatsModal} fullWidth={true} maxWidth='md'>
+      <Dialog
+        open={open}
+        onClose={closeNewStatsModal}
+        fullWidth={true}
+        maxWidth='md'
+      >
         <DialogTitle>
           {intl.formatMessage({
             id: 'CREATE_NEW_STATS'
@@ -97,7 +102,9 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               unitTyped(StatsUnit.of(value));
             }}
           />
-          <FormControl fullWidth={true}>
+          <FormControl
+            fullWidth={true}
+          >
             <InputLabel>
               {intl.formatMessage({
                 id: 'LANGUAGE'
@@ -127,7 +134,9 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               })}
             </Select>
           </FormControl>
-          <FormControl fullWidth={true}>
+          <FormControl
+            fullWidth={true}
+          >
             <InputLabel>
               {intl.formatMessage({
                 id: 'REGION'
@@ -157,7 +166,9 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               })}
             </Select>
           </FormControl>
-          <FormControl fullWidth={true}>
+          <FormControl
+            fullWidth={true}
+          >
             <InputLabel>
               {intl.formatMessage({
                 id: 'TERM'
@@ -197,14 +208,25 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button color='secondary' onClick={saveNewStats} disabled={!stats.isFilled()}>
-            <Icon className='fas fa-check' />
+          <Button
+            color='secondary'
+            onClick={saveNewStats}
+            disabled={!stats.isFilled()}
+          >
+            <Icon
+              className='fas fa-check'
+            />
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
           </Button>
-          <Button color='secondary' onClick={closeNewStatsModal}>
-            <Icon className='fas fa-times' />
+          <Button
+            color='secondary'
+            onClick={closeNewStatsModal}
+          >
+            <Icon
+              className='fas fa-times'
+            />
             {intl.formatMessage({
               id: 'CANCEL'
             })}

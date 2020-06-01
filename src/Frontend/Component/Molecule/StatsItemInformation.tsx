@@ -43,7 +43,9 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
     }
 
     return (
-      <Card className='stats-item-info'>
+      <Card
+        className='stats-item-info'
+      >
         <CardHeader
           title={intl.formatMessage({
             id: 'STATS_ITEM_INFO'

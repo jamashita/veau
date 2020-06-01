@@ -39,7 +39,10 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
     } = this.props;
 
     return (
-      <Card className='login-form' raised={true}>
+      <Card
+        className='login-form'
+        raised={true}
+      >
         <CardHeader
           title={intl.formatMessage({
             id: 'VEAU'
@@ -80,7 +83,9 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
             disabled={!entranceInformation.isAcceptable()}
             onClick={loginClicked}
           >
-            <Icon className='fas fa-sign-in-alt icon-spacing' />
+            <Icon
+              className='fas fa-sign-in-alt icon-spacing'
+            />
             {intl.formatMessage({
               id: 'LOGIN'
             })}

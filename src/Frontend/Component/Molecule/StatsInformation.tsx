@@ -56,7 +56,9 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
     } = this.props;
 
     return (
-      <Card className='stats-info'>
+      <Card
+        className='stats-info'
+      >
         <CardHeader
           title={intl.formatMessage({
             id: 'STATS_INFO'
@@ -83,7 +85,9 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
               unitTyped(StatsUnit.of(value));
             }}
           />
-          <FormControl fullWidth={true}>
+          <FormControl
+            fullWidth={true}
+          >
             <InputLabel>
               {intl.formatMessage({
                 id: 'LANGUAGE'
@@ -113,7 +117,9 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
               })}
             </Select>
           </FormControl>
-          <FormControl fullWidth={true}>
+          <FormControl
+            fullWidth={true}
+          >
             <InputLabel>
               {intl.formatMessage({
                 id: 'REGION'

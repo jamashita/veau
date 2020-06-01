@@ -46,7 +46,12 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
     } = this.props;
 
     return (
-      <Dialog open={open} onClose={close} fullWidth={true} maxWidth='md'>
+      <Dialog
+        open={open}
+        onClose={close}
+        fullWidth={true}
+        maxWidth='md'
+      >
         <DialogTitle>
           {intl.formatMessage({
             id: 'CREATE_NEW_ITEM'
@@ -65,14 +70,25 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
           />
         </DialogContent>
         <DialogActions>
-          <Button color='secondary' onClick={saveNewItem} disabled={!statsItem.isFilled()}>
-            <Icon className='fas fa-check' />
+          <Button
+            color='secondary'
+            onClick={saveNewItem}
+            disabled={!statsItem.isFilled()}
+          >
+            <Icon
+              className='fas fa-check'
+            />
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
           </Button>
-          <Button color='secondary' onClick={close}>
-            <Icon className='fas fa-times' />
+          <Button
+            color='secondary'
+            onClick={close}
+          >
+            <Icon
+              className='fas fa-times'
+            />
             {intl.formatMessage({
               id: 'CANCEL'
             })}

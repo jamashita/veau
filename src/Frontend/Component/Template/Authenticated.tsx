@@ -20,7 +20,9 @@ export class Authenticated extends React.Component<Props, State> {
 
     return (
       <div>
-        <Header menuClicked={menuClicked} />
+        <Header
+          menuClicked={menuClicked}
+        />
         <PageProvider />
         {children}
       </div>
