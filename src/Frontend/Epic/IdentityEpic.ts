@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, EMPTY, from, merge, Observable, of } from 'rxjs';
-import { filter, map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
@@ -52,15 +52,15 @@ export class IdentityEpic {
   }
 
   public initIdentity(state$: StateObservable<State>): Observable<Action> {
-    return EMPTY.pipe(
+    return EMPTY.pipe<Action>(
       mergeMap<Action, Observable<Action>>(() => {
-        return concat(
-          of(loading()),
+        return concat<Action>(
+          of<Action>(loading()),
           from<Promise<Superposition<Locale, LocaleError | DataSourceError>>>(this.localeQuery.all()).pipe<Action>(
             mergeMap<Superposition<Locale, LocaleError | DataSourceError>, Observable<Action>>(
               (superposition1: Superposition<Locale, LocaleError | DataSourceError>) => {
-                return concat(
-                  of(loaded()),
+                return concat<Action>(
+                  of<Action>(loaded()),
                   mergeMap<Action, Observable<Action>>(() => {
                     return superposition1.match<Observable<Action>>(
                       (locale: Locale) => {
@@ -74,76 +74,80 @@ export class IdentityEpic {
                   mergeMap<Action, Observable<Action>>(() => {
                     return from<Promise<Superposition<Identity, IdentityError | DataSourceError>>>(
                       this.identityQuery.find()
-                    ).pipe<Action, Action>(
+                    ).pipe<Action>(
                       mergeMap<Superposition<Identity, IdentityError | DataSourceError>, Observable<Action>>(
                         (superposition2: Superposition<Identity, IdentityError | DataSourceError>) => {
-                          return EMPTY.pipe<never, Action>(
-                            filter<never>(() => {
-                              return superposition2.isAlive();
-                            }),
-                            mergeMap<never, Observable<Action>>(() => {
-                              const actions: Array<Action> = [
-                                identityAuthenticated(superposition2.get()),
-                                identified()
-                              ];
+                          return concat<Action>(
+                            superposition2.match<Observable<Action>>(
+                              (identity: Identity) => {
+                                const actions: Array<Action> = [
+                                  identityAuthenticated(identity),
+                                  identified()
+                                ];
 
-                              if (location.pathname === Endpoints.ENTRANCE) {
-                                actions.push(pushToStatsList());
+                                if (location.pathname === Endpoints.ENTRANCE) {
+                                  actions.push(pushToStatsList());
+                                }
+
+                                return of<Action>(...actions);
+                              },
+                              () => {
+                                return of<Action>();
                               }
+                            ),
+                            mergeMap<Action, Observable<Action>>(() => {
+                              const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
+                                navigator.language
+                              );
+                              const iso639: ISO639 = ISO639.of(supportLanguage);
 
-                              return of<Action>(...actions);
+                              return from<
+                                Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>
+                              >(this.languageQuery.findByISO639(iso639)).pipe<Action>(
+                                mergeMap<
+                                  Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
+                                  Observable<Action>
+                                >(
+                                  (
+                                    superposition3: Superposition<
+                                      Language,
+                                      LanguageError | NoSuchElementError | DataSourceError
+                                    >
+                                  ) => {
+                                    return superposition3.match<Observable<Action>>(
+                                      (language: Language) => {
+                                        // prettier-ignore
+                                        const {
+                                          value: {
+                                            identity
+                                          }
+                                        } = state$;
+
+                                        return of<Action>(
+                                          identityAuthenticated(
+                                            Identity.of(
+                                              identity.getVeauAccountID(),
+                                              identity.getAccountName(),
+                                              language,
+                                              identity.getRegion()
+                                            )
+                                          ),
+                                          pushToEntrance()
+                                        );
+                                      },
+                                      () => {
+                                        return of<Action>(
+                                          raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION')
+                                        );
+                                      }
+                                    );
+                                  }
+                                )
+                              );
                             })
                           );
                         }
-                      ),
-                      mergeMap<Action, Observable<Action>>(() => {
-                        const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
-                          navigator.language
-                        );
-                        const iso639: ISO639 = ISO639.of(supportLanguage);
-
-                        return from<
-                          Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>
-                        >(this.languageQuery.findByISO639(iso639)).pipe<Action>(
-                          mergeMap<
-                            Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
-                            Observable<Action>
-                          >(
-                            (
-                              superposition3: Superposition<
-                                Language,
-                                LanguageError | NoSuchElementError | DataSourceError
-                              >
-                            ) => {
-                              return superposition3.match<Observable<Action>>(
-                                (language: Language) => {
-                                  // prettier-ignore
-                                  const {
-                                    value: {
-                                      identity
-                                    }
-                                  } = state$;
-
-                                  return of<Action>(
-                                    identityAuthenticated(
-                                      Identity.of(
-                                        identity.getVeauAccountID(),
-                                        identity.getAccountName(),
-                                        language,
-                                        identity.getRegion()
-                                      )
-                                    ),
-                                    pushToEntrance()
-                                  );
-                                },
-                                () => {
-                                  return of<Action>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-                                }
-                              );
-                            }
-                          )
-                        );
-                      })
+                      )
                     );
                   })
                 );

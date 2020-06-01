@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType } from 'redux-observable';
-import { from, merge, Observable } from 'rxjs';
-import { mapTo, mergeMap } from 'rxjs/operators';
+import { from, merge, Observable, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
@@ -29,15 +29,14 @@ export class LogoutEpic {
     return action$.pipe<LogoutAction, Action>(
       ofType<Action, LogoutAction>(LOGOUT),
       mergeMap<Action, Observable<Action>>(() => {
-        // TODO of ?
-        return from<Promise<Superposition<unknown, DataSourceError>>>(this.sessionCommand.delete()).pipe<
-          Action,
-          Action,
-          Action
-        >(
-          mapTo<Superposition<unknown, DataSourceError>, Action>(initializeIdentity()),
-          mapTo<Action, Action>(closeProvider()),
-          mapTo<Action, Action>(pushToEntrance())
+        return from<Promise<Superposition<unknown, DataSourceError>>>(this.sessionCommand.delete()).pipe<Action>(
+          mergeMap<unknown, Observable<Action>>(() => {
+            return of<Action>(
+              initializeIdentity(),
+              closeProvider(),
+              pushToEntrance()
+            );
+          })
         );
       })
     );

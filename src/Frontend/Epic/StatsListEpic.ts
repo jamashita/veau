@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
-import { EMPTY, from, merge, Observable, of } from 'rxjs';
-import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
+import { concat, from, merge, Observable, of } from 'rxjs';
+import { filter, map, mergeMap } from 'rxjs/operators';
 
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
@@ -177,30 +177,30 @@ export class StatsListEpic {
         ).pipe<Action>(
           mergeMap<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Observable<Action>>(
             (superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
-              // prettier-ignore
-              const {
-                value: {
-                  statsList: {
-                    stats
-                  }
-                }
-              } = state$;
+              return superposition.match<Observable<Action>>(
+                (language: Language) => {
+                  // prettier-ignore
+                  const {
+                    value: {
+                      statsList: {
+                        stats
+                      }
+                    }
+                  } = state$;
 
-              return EMPTY.pipe<never, Action>(
-                filter<never>(() => {
-                  return superposition.isAlive();
-                }),
-                map<never, Action>(() => {
                   const newStats: Stats = Stats.of(
                     stats.getOutline(),
-                    superposition.get(),
+                    language,
                     stats.getRegion(),
                     stats.getTerm(),
                     stats.getItems()
                   );
 
-                  return updateNewStats(newStats);
-                })
+                  return of<Action>(updateNewStats(newStats));
+                },
+                () => {
+                  return of<Action>();
+                }
               );
             }
           )
@@ -218,30 +218,30 @@ export class StatsListEpic {
         ).pipe<Action>(
           mergeMap<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>, Observable<Action>>(
             (superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError>) => {
-              // prettier-ignore
-              const {
-                value: {
-                  statsList: {
-                    stats
-                  }
-                }
-              } = state$;
+              return superposition.match<Observable<Action>>(
+                (region: Region) => {
+                  // prettier-ignore
+                  const {
+                    value: {
+                      statsList: {
+                        stats
+                      }
+                    }
+                  } = state$;
 
-              return EMPTY.pipe<never, Action>(
-                filter<never>(() => {
-                  return superposition.isAlive();
-                }),
-                map<never, Action>(() => {
                   const newStats: Stats = Stats.of(
                     stats.getOutline(),
                     stats.getLanguage(),
-                    superposition.get(),
+                    region,
                     stats.getTerm(),
                     stats.getItems()
                   );
 
-                  return updateNewStats(newStats);
-                })
+                  return of<Action>(updateNewStats(newStats));
+                },
+                () => {
+                  return of<Action>();
+                }
               );
             }
           )
@@ -277,7 +277,7 @@ export class StatsListEpic {
   }
 
   public save(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe<Action, Action, Action, Action, Action>(
+    return action$.pipe<Action, Action, Action>(
       ofType<Action, Action>(STATS_LIST_SAVE_NEW_STATS),
       filter<Action>(() => {
         // prettier-ignore
@@ -291,42 +291,46 @@ export class StatsListEpic {
 
         return !stats.isFilled();
       }),
-      mapTo<Action, Action>(closeNewStatsModal()),
-      mapTo<Action, Action>(loading()),
-      mergeMap(() => {
-        // prettier-ignore
-        const {
-          value: {
-            identity,
-            statsList: {
-              stats
-            }
-          }
-        } = state$;
+      mergeMap<Action, Observable<Action>>(() => {
+        return concat<Action>(
+          of<Action>(closeNewStatsModal()),
+          of<Action>(loading()),
+          mergeMap(() => {
+            // prettier-ignore
+            const {
+              value: {
+                identity,
+                statsList: {
+                  stats
+                }
+              }
+            } = state$;
 
-        return from<Promise<Superposition<unknown, DataSourceError>>>(
-          this.statsCommand.create(stats, identity.getVeauAccountID())
-        ).pipe<Action>(
-          mergeMap<Superposition<unknown, DataSourceError>, Observable<Action>>(
-            (superposition: Superposition<unknown, DataSourceError>) => {
-              return EMPTY.pipe<Action, Action>(
-                mapTo<never, Action>(loaded()),
-                mergeMap<Action, Observable<Action>>(() => {
-                  return superposition.match<Observable<Action>>(
-                    () => {
-                      return of<Action>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
-                    },
-                    () => {
-                      return of<Action>(
-                        loaded(),
-                        raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
+            return from<Promise<Superposition<unknown, DataSourceError>>>(
+              this.statsCommand.create(stats, identity.getVeauAccountID())
+            ).pipe<Action>(
+              mergeMap<Superposition<unknown, DataSourceError>, Observable<Action>>(
+                (superposition: Superposition<unknown, DataSourceError>) => {
+                  return concat<Action>(
+                    of<Action>(loaded()),
+                    mergeMap<Action, Observable<Action>>(() => {
+                      return superposition.match<Observable<Action>>(
+                        () => {
+                          return of<Action>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
+                        },
+                        () => {
+                          return of<Action>(
+                            loaded(),
+                            raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
+                          );
+                        }
                       );
-                    }
+                    })
                   );
-                })
-              );
-            }
-          )
+                }
+              )
+            );
+          })
         );
       })
     );
