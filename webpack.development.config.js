@@ -30,10 +30,8 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: 'development'
-      }
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development'
     }),
     new TsConfigWebpackPlugin({
       configFile: 'tsconfig.fe.json'

@@ -23,10 +23,8 @@ module.exports = {
   },
   mode: 'production',
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: 'production'
-      }
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production'
     }),
     new TsConfigWebpackPlugin({
       configFile: 'tsconfig.fe.json'
