@@ -1,5 +1,5 @@
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
-import { Action as ReduxAction } from 'redux';
+import { Action } from 'redux';
 
 import { Present, Quantum } from '@jamashita/publikum-monad';
 
@@ -110,26 +110,26 @@ export const STATS_RESET: '@@veau/STATS_RESET' = '@@veau/STATS_RESET';
 export const STATS_ITEM_UPDATE: '@@veau/STATS_ITEM_UPDATE' = '@@veau/STATS_ITEM_UPDATE';
 export const STATS_ITEM_RESET: '@@veau/STATS_ITEM_RESET' = '@@veau/STATS_ITEM_RESET';
 
-export interface ChangeAction extends LocationChangeAction, ReduxAction {
+export interface ChangeAction extends LocationChangeAction, Action {
   readonly type: typeof LOCATION_CHANGE;
 }
 
-export interface CallHistoryAction extends CallHistoryMethodAction, ReduxAction {
+export interface CallHistoryAction extends CallHistoryMethodAction, Action {
   readonly type: typeof CALL_HISTORY_METHOD;
 }
 
-export interface ModalRaiseAction extends ReduxAction {
+export interface ModalRaiseAction extends Action {
   readonly type: typeof MODAL_RAISE;
   readonly title: string;
   readonly description: string;
   readonly values?: Record<string, string>;
 }
 
-export interface ModalCloseAction extends ReduxAction {
+export interface ModalCloseAction extends Action {
   readonly type: typeof MODAL_CLOSE;
 }
 
-export interface NotificationAppearAction extends ReduxAction {
+export interface NotificationAppearAction extends Action {
   readonly type: typeof NOTIFICATION_APPEAR;
   readonly kind: NotificationKind;
   readonly horizontal: NotificationHPosition;
@@ -139,256 +139,256 @@ export interface NotificationAppearAction extends ReduxAction {
   readonly values?: Record<string, string>;
 }
 
-export interface NotificationDisappearAction extends ReduxAction {
+export interface NotificationDisappearAction extends Action {
   readonly type: typeof NOTIFICATION_DISAPPEAR;
 }
 
-export interface LoadingStartAction extends ReduxAction {
+export interface LoadingStartAction extends Action {
   readonly type: typeof LOADING_START;
 }
 
-export interface LoadingFinishAction extends ReduxAction {
+export interface LoadingFinishAction extends Action {
   readonly type: typeof LOADING_FINISH;
 }
 
-export interface IdentityAuthenticateAction extends ReduxAction {
+export interface IdentityAuthenticateAction extends Action {
   readonly type: typeof IDENTITY_AUTHENTICATE;
 }
 
-export interface IdentityAuthenticatedAction extends ReduxAction {
+export interface IdentityAuthenticatedAction extends Action {
   readonly type: typeof IDENTITY_AUTHENTICATED;
   readonly identity: Identity;
 }
 
-export interface IdentityInitializeAction extends ReduxAction {
+export interface IdentityInitializeAction extends Action {
   readonly type: typeof IDENTITY_INITIALIZE;
 }
 
-export interface IdentityIdentifiedAction extends ReduxAction {
+export interface IdentityIdentifiedAction extends Action {
   readonly type: typeof IDENTITY_IDENTIFIED;
 }
 
-export interface LogoutAction extends ReduxAction {
+export interface LogoutAction extends Action {
   readonly type: typeof LOGOUT;
 }
 
-export interface PushToStatsListAction extends ReduxAction {
+export interface PushToStatsListAction extends Action {
   readonly type: typeof PUSH_TO_STATS_LIST;
 }
 
-export interface PushToStatsEditAction extends ReduxAction {
+export interface PushToStatsEditAction extends Action {
   readonly type: typeof PUSH_TO_STATS_EDIT;
   readonly statsID: StatsID;
 }
 
-export interface PushToEntranceAction extends ReduxAction {
+export interface PushToEntranceAction extends Action {
   readonly type: typeof PUSH_TO_ENTRANCE;
 }
 
-export interface ProviderOpenAction extends ReduxAction {
+export interface ProviderOpenAction extends Action {
   readonly type: typeof PROVIDER_OPEN;
 }
 
-export interface ProviderCloseAction extends ReduxAction {
+export interface ProviderCloseAction extends Action {
   readonly type: typeof PROVIDER_CLOSE;
 }
 
-export interface LocaleDefinedAction extends ReduxAction {
+export interface LocaleDefinedAction extends Action {
   readonly type: typeof LOCALE_DEFINED;
   readonly locale: Locale;
 }
 
-export interface EntranceAccountNameTypedAction extends ReduxAction {
+export interface EntranceAccountNameTypedAction extends Action {
   readonly type: typeof ENTRANCE_ACCOUNT_NAME_TYPED;
   readonly account: AccountName;
 }
 
-export interface EntrancePasswordTypedAction extends ReduxAction {
+export interface EntrancePasswordTypedAction extends Action {
   readonly type: typeof ENTRANCE_PASSWORD_TYPED;
   readonly password: Password;
 }
 
-export interface EntranceUpdateAction extends ReduxAction {
+export interface EntranceUpdateAction extends Action {
   readonly type: typeof ENTRANCE_UPDATE;
   readonly entranceInformation: EntranceInformation;
 }
 
-export interface StatsListInitializeAction extends ReduxAction {
+export interface StatsListInitializeAction extends Action {
   readonly type: typeof STATS_LIST_INITIALIZE;
 }
 
-export interface StatsListOpenNewStatsModalAction extends ReduxAction {
+export interface StatsListOpenNewStatsModalAction extends Action {
   readonly type: typeof STATS_LIST_OPEN_STATS_MODAL;
 }
 
-export interface StatsListCloseNewStatsModalAction extends ReduxAction {
+export interface StatsListCloseNewStatsModalAction extends Action {
   readonly type: typeof STATS_LIST_CLOSE_STATS_MODAL;
 }
 
-export interface StatsListNameTypedAction extends ReduxAction {
+export interface StatsListNameTypedAction extends Action {
   readonly type: typeof STATS_LIST_NAME_TYPED;
   readonly name: StatsName;
 }
 
-export interface StatsListUnitTypedAction extends ReduxAction {
+export interface StatsListUnitTypedAction extends Action {
   readonly type: typeof STATS_LIST_UNIT_TYPED;
   readonly unit: StatsUnit;
 }
 
-export interface StatsListISO639SelectedAction extends ReduxAction {
+export interface StatsListISO639SelectedAction extends Action {
   readonly type: typeof STATS_LIST_ISO639_SELECTED;
   readonly iso639: ISO639;
 }
 
-export interface StatsListISO3166SelectedAction extends ReduxAction {
+export interface StatsListISO3166SelectedAction extends Action {
   readonly type: typeof STATS_LIST_ISO3166_SELECTED;
   readonly iso3166: ISO3166;
 }
 
-export interface StatsListTermSelectedAction extends ReduxAction {
+export interface StatsListTermSelectedAction extends Action {
   readonly type: typeof STATS_LIST_TERM_SELECTED;
   readonly term: Term;
 }
 
-export interface StatsListUpdateNewStatsAction extends ReduxAction {
+export interface StatsListUpdateNewStatsAction extends Action {
   readonly type: typeof STATS_LIST_UPDATE_NEW_STATS;
   readonly stats: Stats;
 }
 
-export interface StatsListResetNewStatsAction extends ReduxAction {
+export interface StatsListResetNewStatsAction extends Action {
   readonly type: typeof STATS_LIST_RESET_NEW_STATS;
 }
 
-export interface StatsListSaveNewStatsAction extends ReduxAction {
+export interface StatsListSaveNewStatsAction extends Action {
   readonly type: typeof STATS_LIST_SAVE_NEW_STATS;
 }
 
-export interface StatsEditInitializeAction extends ReduxAction {
+export interface StatsEditInitializeAction extends Action {
   readonly type: typeof STATS_EDIT_INITIALIZE;
   readonly statsID: StatsID;
 }
 
-export interface StatsEditInitializationDeadAction extends ReduxAction {
+export interface StatsEditInitializationDeadAction extends Action {
   readonly type: typeof STATS_EDIT_INITIALIZATION_FAILURE;
 }
 
-export interface StatsEditNameTypedAction extends ReduxAction {
+export interface StatsEditNameTypedAction extends Action {
   readonly type: typeof STATS_EDIT_NAME_TYPED;
   readonly name: StatsName;
 }
 
-export interface StatsEditUnitTypedAction extends ReduxAction {
+export interface StatsEditUnitTypedAction extends Action {
   readonly type: typeof STATS_EDIT_UNIT_TYPED;
   readonly unit: StatsUnit;
 }
 
-export interface StatsEditISO639SelectedAction extends ReduxAction {
+export interface StatsEditISO639SelectedAction extends Action {
   readonly type: typeof STATS_EDIT_ISO639_SELECTED;
   readonly iso639: ISO639;
 }
 
-export interface StatsEditISO3166SelectedAction extends ReduxAction {
+export interface StatsEditISO3166SelectedAction extends Action {
   readonly type: typeof STATS_EDIT_ISO3166_SELECTED;
   readonly iso3166: ISO3166;
 }
 
-export interface StatsEditItemNameTypedAction extends ReduxAction {
+export interface StatsEditItemNameTypedAction extends Action {
   readonly type: typeof STATS_EDIT_ITEM_NAME_TYPED;
   readonly name: StatsItemName;
 }
 
-export interface StatsEditItemSaveAction extends ReduxAction {
+export interface StatsEditItemSaveAction extends Action {
   readonly type: typeof STATS_EDIT_ITEM_SAVE;
 }
 
-export interface StatsEditSelectItemAction extends ReduxAction {
+export interface StatsEditSelectItemAction extends Action {
   readonly type: typeof STATS_EDIT_SELECT_ITEM;
   readonly statsItem: Quantum<StatsItem>;
   readonly row: Row;
 }
 
-export interface StatsEditSelectingItemNameTypedAction extends ReduxAction {
+export interface StatsEditSelectingItemNameTypedAction extends Action {
   readonly type: typeof STATS_EDIT_SELECTING_ITEM_NAME_TYPED;
   readonly name: StatsItemName;
 }
 
-export interface StatsEditUpdateSelectingItemAction extends ReduxAction {
+export interface StatsEditUpdateSelectingItemAction extends Action {
   readonly type: typeof STATS_EDIT_UPDATE_SELECTING_ITEM;
   readonly statsItem: Present<StatsItem>;
 }
 
-export interface StatsEditRemoveSelectingItemAction extends ReduxAction {
+export interface StatsEditRemoveSelectingItemAction extends Action {
   readonly type: typeof STATS_EDIT_REMOVE_SELECTING_ITEM;
   readonly statsItem: StatsItem;
 }
 
-export interface StatsEditClearSelectingItemAction extends ReduxAction {
+export interface StatsEditClearSelectingItemAction extends Action {
   readonly type: typeof STATS_EDIT_CLEAR_SELECTING_ITEM;
 }
 
-export interface StatsEditStartDateDeterminedAction extends ReduxAction {
+export interface StatsEditStartDateDeterminedAction extends Action {
   readonly type: typeof STATS_EDIT_START_DATE_DETERMINED;
   readonly startDate: AsOf;
 }
 
-export interface StatsEditInvalidDateInputAction extends ReduxAction {
+export interface StatsEditInvalidDateInputAction extends Action {
   readonly type: typeof STATS_EDIT_INVALID_DATE_INPUT;
 }
 
-export interface StatsEditDataFilledAction extends ReduxAction {
+export interface StatsEditDataFilledAction extends Action {
   readonly type: typeof STATS_EDIT_DATA_FILLED;
   readonly coordinate: Coordinate;
   readonly value: NumericalValue;
 }
 
-export interface StatsEditDataDeletedAction extends ReduxAction {
+export interface StatsEditDataDeletedAction extends Action {
   readonly type: typeof STATS_EDIT_DATA_DELETED;
   readonly coordinate: Coordinate;
 }
 
-export interface StatsEditRowSelectedAction extends ReduxAction {
+export interface StatsEditRowSelectedAction extends Action {
   readonly type: typeof STATS_EDIT_ROW_SELECTED;
   readonly row: Row;
 }
 
-export interface StatsEditRowMovedAction extends ReduxAction {
+export interface StatsEditRowMovedAction extends Action {
   readonly type: typeof STATS_EDIT_ROW_MOVED;
   readonly column: Column;
   readonly target: Column;
 }
 
-export interface StatsEditInvalidValueInputAction extends ReduxAction {
+export interface StatsEditInvalidValueInputAction extends Action {
   readonly type: typeof STATS_EDIT_INVALID_VALUE_INPUT;
 }
 
-export interface StatsEditSaveStatsAction extends ReduxAction {
+export interface StatsEditSaveStatsAction extends Action {
   readonly type: typeof STATS_EDIT_SAVE_STATS;
 }
 
-export interface StatsListItemUpdateAction extends ReduxAction {
+export interface StatsListItemUpdateAction extends Action {
   readonly type: typeof STATS_LIST_ITEM_UPDATE;
   readonly statsListItems: StatsListItems;
 }
 
-export interface StatsListItemResetAction extends ReduxAction {
+export interface StatsListItemResetAction extends Action {
   readonly type: typeof STATS_LIST_ITEM_RESET;
 }
 
-export interface StatsUpdateAction extends ReduxAction {
+export interface StatsUpdateAction extends Action {
   readonly type: typeof STATS_UPDATE;
   readonly stats: Stats;
 }
 
-export interface StatsResetAction extends ReduxAction {
+export interface StatsResetAction extends Action {
   readonly type: typeof STATS_RESET;
 }
 
-export interface StatsItemUpdateAction extends ReduxAction {
+export interface StatsItemUpdateAction extends Action {
   readonly type: typeof STATS_ITEM_UPDATE;
   readonly statsItem: StatsItem;
 }
 
-export interface StatsItemResetAction extends ReduxAction {
+export interface StatsItemResetAction extends Action {
   readonly type: typeof STATS_ITEM_RESET;
 }
 
