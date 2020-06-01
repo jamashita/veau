@@ -1,11 +1,10 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import {
-    NotificationHPosition, NotificationKind, NotificationVPosition
-} from 'src/Frontend/Action/Action';
 
 import { Icon, Snackbar, SnackbarContent } from '@material-ui/core';
 import { amber, blue, green, red } from '@material-ui/core/colors';
+
+import { NotificationHPosition, NotificationKind, NotificationVPosition } from '../../Action';
 
 export type StateProps = Readonly<{
   kind: NotificationKind;
