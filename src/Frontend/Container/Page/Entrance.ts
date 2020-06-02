@@ -5,9 +5,7 @@ import { AccountName } from '../../../VO/Account/AccountName';
 import { Password } from '../../../VO/EntranceInformation/Password';
 import { VeauAction } from '../../Action';
 import { accountTyped, attemptLogin, passwordTyped } from '../../ActionCreator/EntranceActionCreator';
-import {
-    DispatchProps, Entrance as Component, OwnProps, StateProps
-} from '../../Component/Page/Entrance';
+import { DispatchProps, Entrance as Component, OwnProps, StateProps } from '../../Component/Page/Entrance';
 import { State } from '../../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

@@ -1,7 +1,10 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 
 import {
-    DispatchProps, LoadingIndicator as Component, OwnProps, StateProps
+  DispatchProps,
+  LoadingIndicator as Component,
+  OwnProps,
+  StateProps
 } from '../../Component/Molecule/LoadingIndicator';
 import { State } from '../../State';
 

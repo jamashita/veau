@@ -14,13 +14,13 @@
     "eslint:recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jest/recommended",
-    "plugin:prettier/recommended",
-    "prettier/@typescript-eslint",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:jest/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint"
   ],
   "env": {
     "browser": true,
@@ -783,6 +783,6 @@
     ],
     "import/no-unresolved": "off",
     "jest/no-test-callback": "off",
-    "prettier/prettier": "warn"
+    "prettier/prettier": "error"
   }
 }

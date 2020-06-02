@@ -4,7 +4,10 @@ import { Dispatch } from 'redux';
 import { VeauAction } from '../../Action';
 import { openProvider } from '../../ActionCreator/PageProviderActionCreator';
 import {
-    Authenticated as Component, DispatchProps, OwnProps, StateProps
+  Authenticated as Component,
+  DispatchProps,
+  OwnProps,
+  StateProps
 } from '../../Component/Template/Authenticated';
 import { State } from '../../State';
 

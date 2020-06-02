@@ -17,19 +17,25 @@ import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesErr
 import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
-    STATS_LIST_INITIALIZE, STATS_LIST_ISO3166_SELECTED, STATS_LIST_ISO639_SELECTED,
-    STATS_LIST_NAME_TYPED, STATS_LIST_SAVE_NEW_STATS, STATS_LIST_TERM_SELECTED,
-    STATS_LIST_UNIT_TYPED, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
-    StatsListNameTypedAction, StatsListTermSelectedAction, StatsListUnitTypedAction
+  STATS_LIST_INITIALIZE,
+  STATS_LIST_ISO3166_SELECTED,
+  STATS_LIST_ISO639_SELECTED,
+  STATS_LIST_NAME_TYPED,
+  STATS_LIST_SAVE_NEW_STATS,
+  STATS_LIST_TERM_SELECTED,
+  STATS_LIST_UNIT_TYPED,
+  StatsListISO3166SelectedAction,
+  StatsListISO639SelectedAction,
+  StatsListNameTypedAction,
+  StatsListTermSelectedAction,
+  StatsListUnitTypedAction
 } from '../Action';
 import { loaded, loading } from '../ActionCreator/LoadingActionCreator';
 import { raiseModal } from '../ActionCreator/ModalActionCreator';
 import { appearNotification } from '../ActionCreator/NotificationActionCreator';
 import { pushToStatsEdit } from '../ActionCreator/RedirectActionCreator';
 import { resetStatsListItems, updateStatsListItems } from '../ActionCreator/StatsActionCreator';
-import {
-    closeNewStatsModal, resetNewStats, updateNewStats
-} from '../ActionCreator/StatsListActionCreator';
+import { closeNewStatsModal, resetNewStats, updateNewStats } from '../ActionCreator/StatsListActionCreator';
 import { State } from '../State';
 
 export class StatsListSaga {

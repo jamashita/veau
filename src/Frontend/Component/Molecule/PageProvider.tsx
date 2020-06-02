@@ -1,9 +1,7 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import {
-    Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText
-} from '@material-ui/core';
+import { Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 
 import { PageProvider as Provider } from '../../../VO/PageProvider/PageProvider';
 

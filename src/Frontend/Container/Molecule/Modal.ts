@@ -3,9 +3,7 @@ import { Dispatch } from 'redux';
 
 import { VeauAction } from '../../Action';
 import { closeModal } from '../../ActionCreator/ModalActionCreator';
-import {
-    DispatchProps, Modal as Component, OwnProps, StateProps
-} from '../../Component/Molecule/Modal';
+import { DispatchProps, Modal as Component, OwnProps, StateProps } from '../../Component/Molecule/Modal';
 import { State } from '../../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

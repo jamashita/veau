@@ -9,8 +9,11 @@ import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInform
 import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import {
-    ENTRANCE_ACCOUNT_NAME_TYPED, ENTRANCE_PASSWORD_TYPED, EntranceAccountNameTypedAction,
-    EntrancePasswordTypedAction, IDENTITY_AUTHENTICATE
+  ENTRANCE_ACCOUNT_NAME_TYPED,
+  ENTRANCE_PASSWORD_TYPED,
+  EntranceAccountNameTypedAction,
+  EntrancePasswordTypedAction,
+  IDENTITY_AUTHENTICATE
 } from '../Action';
 import { updateEntranceInformation } from '../ActionCreator/EntranceActionCreator';
 import { identified, identityAuthenticated } from '../ActionCreator/IdentityActionCreator';

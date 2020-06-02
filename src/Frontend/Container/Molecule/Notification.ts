@@ -3,9 +3,7 @@ import { Dispatch } from 'redux';
 
 import { VeauAction } from '../../Action';
 import { disappearNotification } from '../../ActionCreator/NotificationActionCreator';
-import {
-    DispatchProps, Notification as Component, OwnProps, StateProps
-} from '../../Component/Molecule/Notification';
+import { DispatchProps, Notification as Component, OwnProps, StateProps } from '../../Component/Molecule/Notification';
 import { State } from '../../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

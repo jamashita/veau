@@ -1,8 +1,6 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 
-import {
-    DispatchProps, I18NProvider as Component, OwnProps, StateProps
-} from '../Component/I18NProvider';
+import { DispatchProps, I18NProvider as Component, OwnProps, StateProps } from '../Component/I18NProvider';
 import { State } from '../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

@@ -10,12 +10,17 @@ import { Term } from '../../../VO/Term/Term';
 import { VeauAction } from '../../Action';
 import { pushToStatsEdit } from '../../ActionCreator/RedirectActionCreator';
 import {
-    closeNewStatsModal, initStatsList, newStatsISO3166Selected, newStatsISO639Selected,
-    newStatsNameTyped, newStatsTermSelected, newStatsUnitTyped, openNewStatsModal, saveNewStats
+  closeNewStatsModal,
+  initStatsList,
+  newStatsISO3166Selected,
+  newStatsISO639Selected,
+  newStatsNameTyped,
+  newStatsTermSelected,
+  newStatsUnitTyped,
+  openNewStatsModal,
+  saveNewStats
 } from '../../ActionCreator/StatsListActionCreator';
-import {
-    DispatchProps, OwnProps, StateProps, StatsList as Component
-} from '../../Component/Page/StatsList';
+import { DispatchProps, OwnProps, StateProps, StatsList as Component } from '../../Component/Page/StatsList';
 import { State } from '../../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

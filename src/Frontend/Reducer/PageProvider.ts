@@ -5,7 +5,10 @@ import { LOCATION_CHANGE, PROVIDER_CLOSE, PROVIDER_OPEN, VeauAction } from '../A
 
 const initialState: PageProvider = PageProvider.close();
 
-export const pageProvider: Reducer<PageProvider, VeauAction> = (state: PageProvider = initialState, action: VeauAction) => {
+export const pageProvider: Reducer<PageProvider, VeauAction> = (
+  state: PageProvider = initialState,
+  action: VeauAction
+) => {
   switch (action.type) {
     case LOCATION_CHANGE: {
       return PageProvider.close();

@@ -5,9 +5,7 @@ import { VeauAction } from '../../Action';
 import { logout } from '../../ActionCreator/LogoutActionCreator';
 import { closeProvider } from '../../ActionCreator/PageProviderActionCreator';
 import { pushToStatsList } from '../../ActionCreator/RedirectActionCreator';
-import {
-    DispatchProps, OwnProps, PageProvider as Component, StateProps
-} from '../../Component/Molecule/PageProvider';
+import { DispatchProps, OwnProps, PageProvider as Component, StateProps } from '../../Component/Molecule/PageProvider';
 import { State } from '../../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

@@ -22,19 +22,26 @@ import { StatsListItemsError } from '../../VO/StatsListItem/Error/StatsListItems
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import {
-    STATS_LIST_INITIALIZE, STATS_LIST_ISO3166_SELECTED, STATS_LIST_ISO639_SELECTED,
-    STATS_LIST_NAME_TYPED, STATS_LIST_SAVE_NEW_STATS, STATS_LIST_TERM_SELECTED,
-    STATS_LIST_UNIT_TYPED, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
-    StatsListNameTypedAction, StatsListTermSelectedAction, StatsListUnitTypedAction, VeauAction
+  STATS_LIST_INITIALIZE,
+  STATS_LIST_ISO3166_SELECTED,
+  STATS_LIST_ISO639_SELECTED,
+  STATS_LIST_NAME_TYPED,
+  STATS_LIST_SAVE_NEW_STATS,
+  STATS_LIST_TERM_SELECTED,
+  STATS_LIST_UNIT_TYPED,
+  StatsListISO3166SelectedAction,
+  StatsListISO639SelectedAction,
+  StatsListNameTypedAction,
+  StatsListTermSelectedAction,
+  StatsListUnitTypedAction,
+  VeauAction
 } from '../Action';
 import { loaded, loading } from '../ActionCreator/LoadingActionCreator';
 import { raiseModal } from '../ActionCreator/ModalActionCreator';
 import { appearNotification } from '../ActionCreator/NotificationActionCreator';
 import { pushToStatsEdit } from '../ActionCreator/RedirectActionCreator';
 import { resetStatsListItems, updateStatsListItems } from '../ActionCreator/StatsActionCreator';
-import {
-    closeNewStatsModal, resetNewStats, updateNewStats
-} from '../ActionCreator/StatsListActionCreator';
+import { closeNewStatsModal, resetNewStats, updateNewStats } from '../ActionCreator/StatsListActionCreator';
 import { State } from '../State';
 
 @injectable()
@@ -170,19 +177,24 @@ export class StatsListEpic {
     );
   }
 
-  public iso639Selected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+  public iso639Selected(
+    action$: ActionsObservable<VeauAction>,
+    state$: StateObservable<State>
+  ): Observable<VeauAction> {
     return action$.pipe<StatsListISO639SelectedAction, VeauAction>(
       ofType<VeauAction, StatsListISO639SelectedAction>(STATS_LIST_ISO639_SELECTED),
       mergeMap<StatsListISO639SelectedAction, Observable<VeauAction>>((action: StatsListISO639SelectedAction) => {
         return from<Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>>(
           this.languageQuery.findByISO639(action.iso639)
         ).pipe<VeauAction>(
-          mergeMap<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Observable<VeauAction>>(
-            (superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
-              return superposition.match<Observable<VeauAction>>(
-                (language: Language) => {
-                  // prettier-ignore
-                  const {
+          mergeMap<
+            Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
+            Observable<VeauAction>
+          >((superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
+            return superposition.match<Observable<VeauAction>>(
+              (language: Language) => {
+                // prettier-ignore
+                const {
                     value: {
                       statsList: {
                         stats
@@ -190,28 +202,30 @@ export class StatsListEpic {
                     }
                   } = state$;
 
-                  const newStats: Stats = Stats.of(
-                    stats.getOutline(),
-                    language,
-                    stats.getRegion(),
-                    stats.getTerm(),
-                    stats.getItems()
-                  );
+                const newStats: Stats = Stats.of(
+                  stats.getOutline(),
+                  language,
+                  stats.getRegion(),
+                  stats.getTerm(),
+                  stats.getItems()
+                );
 
-                  return of<VeauAction>(updateNewStats(newStats));
-                },
-                () => {
-                  return of<VeauAction>();
-                }
-              );
-            }
-          )
+                return of<VeauAction>(updateNewStats(newStats));
+              },
+              () => {
+                return of<VeauAction>();
+              }
+            );
+          })
         );
       })
     );
   }
 
-  public iso3166Selected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+  public iso3166Selected(
+    action$: ActionsObservable<VeauAction>,
+    state$: StateObservable<State>
+  ): Observable<VeauAction> {
     return action$.pipe<StatsListISO3166SelectedAction, VeauAction>(
       ofType<VeauAction, StatsListISO3166SelectedAction>(STATS_LIST_ISO3166_SELECTED),
       mergeMap<StatsListISO3166SelectedAction, Observable<VeauAction>>((action: StatsListISO3166SelectedAction) => {
