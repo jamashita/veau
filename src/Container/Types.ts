@@ -5,7 +5,12 @@ type DIType = Readonly<{
   StatsKernelCommand: symbol;
   LanguageRedisCommand: symbol;
   RegionRedisCommand: symbol;
-  AuthenticationMiddleware: symbol;
+  AccountController: symbol;
+  AuthController: symbol;
+  LocaleController: symbol;
+  SessionController: symbol;
+  StatsController: symbol;
+  FEController: symbol;
   EntranceEpic: symbol;
   IdentityEpic: symbol;
   LogoutEpic: symbol;
@@ -51,7 +56,12 @@ export const Type: DIType = {
   StatsKernelCommand: Symbol(),
   LanguageRedisCommand: Symbol(),
   RegionRedisCommand: Symbol(),
-  AuthenticationMiddleware: Symbol(),
+  AccountController: Symbol(),
+  AuthController: Symbol(),
+  LocaleController: Symbol(),
+  SessionController: Symbol(),
+  StatsController: Symbol(),
+  FEController: Symbol(),
   EntranceEpic: Symbol(),
   IdentityEpic: Symbol(),
   LogoutEpic: Symbol(),

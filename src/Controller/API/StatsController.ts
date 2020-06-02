@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
+import { inject } from 'inversify';
 import log4js from 'log4js';
 import { Body, Controller, Get, Param, Post, Res, UseBefore } from 'routing-controllers';
 
@@ -8,7 +9,6 @@ import { JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
 import { PlainObject } from '@jamashita/publikum-type';
 
-import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { Stats } from '../../Entity/Stats/Stats';
@@ -23,22 +23,23 @@ import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware
 
 const logger: log4js.Logger = log4js.getLogger();
 
-const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
-  Type.AuthenticationMiddleware
-);
-const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
-
 @Controller('/stats')
 export class StatsController {
+  private readonly statsInteractor: StatsInteractor;
+
+  public constructor(@inject(Type.StatsInteractor) statsInteractor: StatsInteractor) {
+    this.statsInteractor = statsInteractor;
+  }
+
   @Get('/page/:page(\\d+)')
-  @UseBefore(authenticationMiddleware.requires())
+  @UseBefore(AuthenticationMiddleware)
   public list(@Param('page') pg: number, @Res() res: Response<unknown>): Promise<Response<unknown>> {
     return Page.of(pg).match<Promise<Response<unknown>>>(
       async (page: Page) => {
         const superposition: Superposition<
           JSONable,
           StatsOutlinesError | DataSourceError
-        > = await statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), page);
+        > = await this.statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), page);
 
         return superposition.match<Response<unknown>>(
           (outlines: JSONable) => {
@@ -60,14 +61,14 @@ export class StatsController {
   }
 
   @Get('/:statsID([0-9a-f-]{36})')
-  @UseBefore(authenticationMiddleware.requires())
+  @UseBefore(AuthenticationMiddleware)
   public refer(@Param('statsID') id: string, @Res() res: Response<unknown>): Promise<Response<unknown>> {
     return StatsID.ofString(id).match<Promise<Response<unknown>>>(
       async (statsID: StatsID) => {
         const superposition: Superposition<
           JSONable,
           StatsError | NoSuchElementError | DataSourceError
-        > = await statsInteractor.findByStatsID(statsID);
+        > = await this.statsInteractor.findByStatsID(statsID);
 
         return superposition.match<Response<unknown>>(
           (stats: JSONable) => {
@@ -95,7 +96,7 @@ export class StatsController {
   }
 
   @Post('/')
-  @UseBefore(authenticationMiddleware.requires())
+  @UseBefore(AuthenticationMiddleware)
   public register(@Body() body: PlainObject, @Res() res: Response<unknown>): Promise<Response<unknown>> {
     if (!Stats.isJSON(body)) {
       return Promise.resolve<Response<unknown>>(res.sendStatus(BAD_REQUEST));
@@ -103,7 +104,7 @@ export class StatsController {
 
     return Stats.ofJSON(body).match<Promise<Response<unknown>>>(
       async (stats: Stats) => {
-        const superposition: Superposition<unknown, DataSourceError> = await statsInteractor.save(
+        const superposition: Superposition<unknown, DataSourceError> = await this.statsInteractor.save(
           stats,
           res.locals.account.getVeauAccountID()
         );

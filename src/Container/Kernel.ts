@@ -1,4 +1,5 @@
 import { Container } from 'inversify';
+import { StatsController } from 'src/Controller/API/StatsController';
 
 import { IMySQL } from '@jamashita/publikum-mysql';
 import { IRedis } from '@jamashita/publikum-redis';
@@ -6,7 +7,11 @@ import { IRedis } from '@jamashita/publikum-redis';
 import { StatsCommand as StatsKernelCommand } from '../Command/Kernel/StatsCommand';
 import { LanguageCommand as LanguageRedisCommand } from '../Command/Redis/LanguageCommand';
 import { RegionCommand as RegionRedisCommand } from '../Command/Redis/RegionCommand';
-import { AuthenticationMiddleware } from '../Controller/Middleware/AuthenticationMiddleware';
+import { AccountController } from '../Controller/API/AccountController';
+import { AuthController } from '../Controller/API/AuthController';
+import { LocaleController } from '../Controller/API/LocaleController';
+import { SessionController } from '../Controller/API/SessionController';
+import { FEController } from '../Controller/FE/FEController';
 import { veauMySQL } from '../Infrastructure/VeauMySQL';
 import { veauRedis } from '../Infrastructure/VeauRedis';
 import { AuthenticationInteractor } from '../Interactor/AuthenticationInteractor';
@@ -33,7 +38,12 @@ kernel.bind<LanguageRedisCommand>(Type.LanguageRedisCommand).to(LanguageRedisCom
 kernel.bind<RegionRedisCommand>(Type.RegionRedisCommand).to(RegionRedisCommand).inSingletonScope();
 
 // Controller
-kernel.bind<AuthenticationMiddleware>(Type.AuthenticationMiddleware).to(AuthenticationMiddleware).inSingletonScope();
+kernel.bind<AccountController>(Type.AccountController).to(AccountController).inSingletonScope();
+kernel.bind<AuthController>(Type.AuthController).to(AuthController).inSingletonScope();
+kernel.bind<LocaleController>(Type.LocaleController).to(LocaleController).inSingletonScope();
+kernel.bind<SessionController>(Type.SessionController).to(SessionController).inSingletonScope();
+kernel.bind<StatsController>(Type.StatsController).to(StatsController).inSingletonScope();
+kernel.bind<FEController>(Type.FEController).to(FEController).inSingletonScope();
 
 // Gateway
 kernel.bind<IMySQL>(Type.MySQL).toConstantValue(veauMySQL);

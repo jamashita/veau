@@ -1,21 +1,18 @@
-import { NextFunction, Request, RequestHandler, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UNAUTHORIZED } from 'http-status';
-import { injectable } from 'inversify';
+import { ExpressMiddlewareInterface } from 'routing-controllers';
 
 import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 
-@injectable()
-export class AuthenticationMiddleware {
-  public requires(): RequestHandler {
-    return (req: Request, res: Response, next: NextFunction): void => {
-      if (req.user === undefined) {
-        res.sendStatus(UNAUTHORIZED);
+export class AuthenticationMiddleware implements ExpressMiddlewareInterface {
+  public use(req: Request, res: Response, next: NextFunction): void {
+    if (req.user === undefined) {
+      res.sendStatus(UNAUTHORIZED);
 
-        return;
-      }
+      return;
+    }
 
-      res.locals.account = req.user as VeauAccount;
-      next();
-    };
+    res.locals.account = req.user as VeauAccount;
+    next();
   }
 }
