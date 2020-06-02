@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { OK } from 'http-status';
-import { useExpressServer } from 'routing-controllers';
+import { useContainer, useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
 
 import { kernel } from '../../../Container/Kernel';
@@ -31,6 +31,7 @@ describe('SessionController', () => {
     it('no session returns OK', async () => {
       const app: Express = express();
 
+      useContainer(kernel);
       app.use(dummy);
       useExpressServer(app, {
         controllers: [SessionController]

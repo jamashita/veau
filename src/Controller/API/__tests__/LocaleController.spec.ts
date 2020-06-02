@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { useExpressServer } from 'routing-controllers';
+import { useContainer, useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 
@@ -71,6 +71,7 @@ describe('LocaleController', () => {
 
       const app: Express = express();
 
+      useContainer(kernel);
       useExpressServer(app, {
         controllers: [LocaleController]
       });
@@ -90,6 +91,7 @@ describe('LocaleController', () => {
 
       const app: Express = express();
 
+      useContainer(kernel);
       useExpressServer(app, {
         controllers: [LocaleController]
       });
@@ -108,6 +110,7 @@ describe('LocaleController', () => {
 
       const app: Express = express();
 
+      useContainer(kernel);
       useExpressServer(app, {
         controllers: [LocaleController]
       });
@@ -128,6 +131,7 @@ describe('LocaleController', () => {
 
       const app: Express = express();
 
+      useContainer(kernel);
       app.use(fakeAccount);
       useExpressServer(app, {
         controllers: [LocaleController]
@@ -147,6 +151,7 @@ describe('LocaleController', () => {
 
       const app: Express = express();
 
+      useContainer(kernel);
       app.use(fakeAccount);
       useExpressServer(app, {
         controllers: [LocaleController]

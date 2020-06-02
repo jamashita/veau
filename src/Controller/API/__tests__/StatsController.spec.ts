@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import bodyParser from 'body-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { useExpressServer } from 'routing-controllers';
+import { useContainer, useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 
@@ -61,6 +61,7 @@ describe('StatsController', () => {
 
       const app: express.Express = express();
 
+      useContainer(kernel);
       app.use(fakeAccount);
       useExpressServer(app, {
         controllers: [StatsController]
@@ -75,6 +76,7 @@ describe('StatsController', () => {
     it('page is 0', async () => {
       const app: express.Express = express();
 
+      useContainer(kernel);
       app.use(fakeAccount);
       useExpressServer(app, {
         controllers: [StatsController]
@@ -94,6 +96,7 @@ describe('StatsController', () => {
 
       const app: express.Express = express();
 
+      useContainer(kernel);
       app.use(fakeAccount);
       useExpressServer(app, {
         controllers: [StatsController]
@@ -117,6 +120,7 @@ describe('StatsController', () => {
 
       const app: express.Express = express();
 
+      useContainer(kernel);
       app.use(fakeAccount);
       useExpressServer(app, {
         controllers: [StatsController]
@@ -137,6 +141,7 @@ describe('StatsController', () => {
 
       const app: express.Express = express();
 
+      useContainer(kernel);
       app.use(fakeAccount);
       useExpressServer(app, {
         controllers: [StatsController]
@@ -156,6 +161,7 @@ describe('StatsController', () => {
 
       const app: express.Express = express();
 
+      useContainer(kernel);
       app.use(fakeAccount);
       useExpressServer(app, {
         controllers: [StatsController]
@@ -183,6 +189,7 @@ describe('StatsController', () => {
 
       const app: express.Express = express();
 
+      useContainer(kernel);
       app.use(
         bodyParser.urlencoded({
           extended: false
@@ -202,6 +209,7 @@ describe('StatsController', () => {
     it('replies BAD_REQUEST because request body is malformat', async () => {
       const app: express.Express = express();
 
+      useContainer(kernel);
       app.use(
         bodyParser.urlencoded({
           extended: false
@@ -239,6 +247,7 @@ describe('StatsController', () => {
 
       const app: express.Express = express();
 
+      useContainer(kernel);
       app.use(
         bodyParser.urlencoded({
           extended: false
@@ -294,6 +303,7 @@ describe('StatsController', () => {
 
       const app: express.Express = express();
 
+      useContainer(kernel);
       app.use(
         bodyParser.urlencoded({
           extended: false
