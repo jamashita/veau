@@ -5,6 +5,8 @@ import { OK } from 'http-status';
 import { useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
 
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
 import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
 import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
@@ -21,6 +23,16 @@ const setAccount = (account: VeauAccount) => {
 };
 
 describe('AccountController', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const accountController1: AccountController = kernel.get<AccountController>(Type.AccountController);
+      const accountController2: AccountController = kernel.get<AccountController>(Type.AccountController);
+
+      expect(accountController1).toBeInstanceOf(AccountController);
+      expect(accountController1).toBe(accountController2);
+    });
+  });
+
   describe('GET /', () => {
     it('returns VeauAccount as JSON', async () => {
       const account: VeauAccount = new MockVeauAccount({

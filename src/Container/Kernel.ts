@@ -1,5 +1,4 @@
 import { Container } from 'inversify';
-import { StatsController } from 'src/Controller/API/StatsController';
 
 import { IMySQL } from '@jamashita/publikum-mysql';
 import { IRedis } from '@jamashita/publikum-redis';
@@ -11,6 +10,7 @@ import { AccountController } from '../Controller/API/AccountController';
 import { AuthController } from '../Controller/API/AuthController';
 import { LocaleController } from '../Controller/API/LocaleController';
 import { SessionController } from '../Controller/API/SessionController';
+import { StatsController } from '../Controller/API/StatsController';
 import { FEController } from '../Controller/FE/FEController';
 import { veauMySQL } from '../Infrastructure/VeauMySQL';
 import { veauRedis } from '../Infrastructure/VeauRedis';

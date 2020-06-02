@@ -33,6 +33,16 @@ const fakeAccount = (req: Request, res: Response, next: NextFunction): void => {
 };
 
 describe('LocaleController', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const localeController1: LocaleController = kernel.get<LocaleController>(Type.LocaleController);
+      const localeController2: LocaleController = kernel.get<LocaleController>(Type.LocaleController);
+
+      expect(localeController1).toBeInstanceOf(LocaleController);
+      expect(localeController1).toBe(localeController2);
+    });
+  });
+
   describe('GET /', () => {
     it('returns JSON as LocaleInteractor returns', async () => {
       const locale: MockLocale = new MockLocale({

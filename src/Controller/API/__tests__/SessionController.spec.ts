@@ -5,6 +5,8 @@ import { OK } from 'http-status';
 import { useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
 
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { SessionController } from '../SessionController';
 
 const dummy = (req: Request, res: Response, next: NextFunction): void => {
@@ -15,6 +17,16 @@ const dummy = (req: Request, res: Response, next: NextFunction): void => {
 };
 
 describe('SessionController', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const sessionController1: SessionController = kernel.get<SessionController>(Type.SessionController);
+      const sessionController2: SessionController = kernel.get<SessionController>(Type.SessionController);
+
+      expect(sessionController1).toBeInstanceOf(SessionController);
+      expect(sessionController1).toBe(sessionController2);
+    });
+  });
+
   describe('DELETE /', () => {
     it('no session returns OK', async () => {
       const app: Express = express();

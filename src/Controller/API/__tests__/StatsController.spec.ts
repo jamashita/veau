@@ -33,6 +33,16 @@ const fakeAccount = (req: Request, res: Response, next: NextFunction): void => {
 };
 
 describe('StatsController', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const statsController1: StatsController = kernel.get<StatsController>(Type.StatsController);
+      const statsController2: StatsController = kernel.get<StatsController>(Type.StatsController);
+
+      expect(statsController1).toBeInstanceOf(StatsController);
+      expect(statsController1).toBe(statsController2);
+    });
+  });
+
   describe('GET /page/:page(\\d+)', () => {
     it('normal case', async () => {
       const outlines: MockStatsOutlines = new MockStatsOutlines(
