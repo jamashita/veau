@@ -27,15 +27,24 @@ import { Type } from './Types';
 
 export const kernel: Container = new Container();
 
+// Command
 kernel.bind<StatsKernelCommand>(Type.StatsKernelCommand).to(StatsKernelCommand).inSingletonScope();
 kernel.bind<LanguageRedisCommand>(Type.LanguageRedisCommand).to(LanguageRedisCommand).inSingletonScope();
 kernel.bind<RegionRedisCommand>(Type.RegionRedisCommand).to(RegionRedisCommand).inSingletonScope();
+
+// Controller
 kernel.bind<AuthenticationMiddleware>(Type.AuthenticationMiddleware).to(AuthenticationMiddleware).inSingletonScope();
+
+// Gateway
 kernel.bind<IMySQL>(Type.MySQL).toConstantValue(veauMySQL);
 kernel.bind<IRedis>(Type.Redis).toConstantValue(veauRedis);
+
+// Interactor
 kernel.bind<AuthenticationInteractor>(Type.AuthenticationInteractor).to(AuthenticationInteractor).inSingletonScope();
 kernel.bind<LocaleInteractor>(Type.LocaleInteractor).to(LocaleInteractor).inSingletonScope();
 kernel.bind<StatsInteractor>(Type.StatsInteractor).to(StatsInteractor).inSingletonScope();
+
+// Query
 kernel.bind<LanguageKernelQuery>(Type.LanguageKernelQuery).to(LanguageKernelQuery).inSingletonScope();
 kernel.bind<RegionKernelQuery>(Type.RegionKernelQuery).to(RegionKernelQuery).inSingletonScope();
 kernel.bind<StatsKernelQuery>(Type.StatsKernelQuery).to(StatsKernelQuery).inSingletonScope();

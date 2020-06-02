@@ -29,11 +29,16 @@ import { Type } from './Types';
 
 export const vault: Container = new Container();
 
+// Gateway
 vault.bind<IAJAX>(Type.AJAX).toConstantValue(new AJAX());
 vault.bind<ICache>(Type.Cache).toConstantValue(veauCache);
+
+// Command
 vault.bind<SessionAJAXCommand>(Type.SessionAJAXCommand).to(SessionAJAXCommand).inSingletonScope();
 vault.bind<StatsAJAXCommand>(Type.StatsAJAXCommand).to(StatsAJAXCommand).inSingletonScope();
 vault.bind<LocaleCacheCommand>(Type.LocaleCacheCommand).to(LocaleCacheCommand).inSingletonScope();
+
+// Epic
 vault.bind<EntranceEpic>(Type.EntranceEpic).to(EntranceEpic).inSingletonScope();
 vault.bind<IdentityEpic>(Type.IdentityEpic).to(IdentityEpic).inSingletonScope();
 vault.bind<LogoutEpic>(Type.LogoutEpic).to(LogoutEpic).inSingletonScope();
@@ -41,6 +46,8 @@ vault.bind<RedirectEpic>(Type.RedirectEpic).to(RedirectEpic).inSingletonScope();
 vault.bind<RootEpic>(Type.RootEpic).to(RootEpic).inSingletonScope();
 vault.bind<StatsEditEpic>(Type.StatsEditEpic).to(StatsEditEpic).inSingletonScope();
 vault.bind<StatsListEpic>(Type.StatsListEpic).to(StatsListEpic).inSingletonScope();
+
+// Query
 vault.bind<LocaleAJAXQuery>(Type.LocaleAJAXQuery).to(LocaleAJAXQuery).inSingletonScope();
 vault.bind<StatsOutlineAJAXQuery>(Type.StatsOutlineAJAXQuery).to(StatsOutlineAJAXQuery).inSingletonScope();
 vault.bind<StatsAJAXQuery>(Type.StatsAJAXQuery).to(StatsAJAXQuery).inSingletonScope();
