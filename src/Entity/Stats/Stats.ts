@@ -38,7 +38,7 @@ type Chart = Record<string, string | number>;
 
 const REVISED_VALUE: number = 14;
 
-export class Stats extends Entity<StatsID> {
+export class Stats extends Entity<StatsID, Stats> {
   public readonly noun: 'Stats' = 'Stats';
   private readonly outline: StatsOutline;
   private readonly language: Language;
@@ -60,15 +60,15 @@ export class Stats extends Entity<StatsID> {
   }
 
   public static ofJSON(json: StatsJSON): Superposition<Stats, StatsError> {
-    return StatsOutline.ofJSON(json.outline).match<Stats, StatsError>(
+    return StatsOutline.ofJSON(json.outline).transform<Stats, StatsError>(
       (outline: StatsOutline) => {
-        return Language.ofJSON(json.language).match(
+        return Language.ofJSON(json.language).transform<Stats, StatsError>(
           (language: Language) => {
-            return Region.ofJSON(json.region).match(
+            return Region.ofJSON(json.region).transform<Stats, StatsError>(
               (region: Region) => {
-                return Term.ofString(json.outline.termID).match<Stats, StatsError>(
+                return Term.ofString(json.outline.termID).transform<Stats, StatsError>(
                   (term: Term) => {
-                    return StatsItems.ofJSON(json.items).match<Stats, StatsError>(
+                    return StatsItems.ofJSON(json.items).transform<Stats, StatsError>(
                       (statsItems: StatsItems) => {
                         return Alive.of<Stats, StatsError>(Stats.of(outline, language, region, term, statsItems));
                       },

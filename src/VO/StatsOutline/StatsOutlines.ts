@@ -9,7 +9,7 @@ import { StatsOutlinesError } from './Error/StatsOutlinesError';
 import { StatsID } from './StatsID';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
-export class StatsOutlines extends Objet
+export class StatsOutlines extends Objet<StatsOutlines>
   implements Collection<StatsID, StatsOutline>, Cloneable<StatsOutlines>, JSONable {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
   private readonly outlines: Project<StatsID, StatsOutline>;
@@ -45,7 +45,10 @@ export class StatsOutlines extends Objet
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>
   ): Superposition<StatsOutlines, StatsOutlinesError> {
-    return Schrodinger.all<StatsOutline, StatsOutlineError>(superpositions).match<StatsOutlines, StatsOutlinesError>(
+    return Schrodinger.all<StatsOutline, StatsOutlineError>(superpositions).transform<
+      StatsOutlines,
+      StatsOutlinesError
+    >(
       (outlines: Array<StatsOutline>) => {
         return Alive.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(outlines));
       },

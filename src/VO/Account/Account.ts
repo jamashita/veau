@@ -22,7 +22,7 @@ export type AccountRow = Readonly<{
   hash: string;
 }>;
 
-export class Account extends ValueObject {
+export class Account extends ValueObject<Account> {
   public readonly noun: 'Account' = 'Account';
   private readonly account: VeauAccount;
   private readonly hash: Hash;
@@ -32,11 +32,11 @@ export class Account extends ValueObject {
   }
 
   public static ofRow(row: AccountRow): Superposition<Account, AccountError> {
-    return VeauAccountID.ofString(row.veauAccountID).match<Account, AccountError>(
+    return VeauAccountID.ofString(row.veauAccountID).transform<Account, AccountError>(
       (veauAccountID: VeauAccountID) => {
-        return LanguageID.ofString(row.languageID).match<Account, AccountError>(
+        return LanguageID.ofString(row.languageID).transform<Account, AccountError>(
           (languageID: LanguageID) => {
-            return RegionID.ofString(row.regionID).match<Account, AccountError>(
+            return RegionID.ofString(row.regionID).transform<Account, AccountError>(
               (regionID: RegionID) => {
                 return Alive.of<Account, AccountError>(
                   Account.of(

@@ -91,7 +91,7 @@ export class StatsListEpic {
         ).pipe<VeauAction>(
           mergeMap<Superposition<StatsListItems, StatsListItemsError | DataSourceError>, Observable<VeauAction>>(
             (superposition: Superposition<StatsListItems, StatsListItemsError | DataSourceError>) => {
-              return superposition.match<Observable<VeauAction>>(
+              return superposition.transform<Observable<VeauAction>>(
                 (listItems: StatsListItems) => {
                   return of<VeauAction>(updateStatsListItems(listItems));
                 },
@@ -191,7 +191,7 @@ export class StatsListEpic {
             Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
             Observable<VeauAction>
           >((superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
-            return superposition.match<Observable<VeauAction>>(
+            return superposition.transform<Observable<VeauAction>>(
               (language: Language) => {
                 // prettier-ignore
                 const {
@@ -234,7 +234,7 @@ export class StatsListEpic {
         ).pipe<VeauAction>(
           mergeMap<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>, Observable<VeauAction>>(
             (superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError>) => {
-              return superposition.match<Observable<VeauAction>>(
+              return superposition.transform<Observable<VeauAction>>(
                 (region: Region) => {
                   // prettier-ignore
                   const {
@@ -330,7 +330,7 @@ export class StatsListEpic {
                   return concat<VeauAction>(
                     of<VeauAction>(loaded()),
                     mergeMap<VeauAction, Observable<VeauAction>>(() => {
-                      return superposition.match<Observable<VeauAction>>(
+                      return superposition.transform<Observable<VeauAction>>(
                         () => {
                           return of<VeauAction>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
                         },

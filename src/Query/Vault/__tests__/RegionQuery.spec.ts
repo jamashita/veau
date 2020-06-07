@@ -62,7 +62,7 @@ describe('RegionQuery', () => {
       const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -121,7 +121,7 @@ describe('RegionQuery', () => {
       > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -151,7 +151,7 @@ describe('RegionQuery', () => {
       > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -192,7 +192,7 @@ describe('RegionQuery', () => {
       > = await regionQuery.findByISO3166(ISO3166.of('OOP'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

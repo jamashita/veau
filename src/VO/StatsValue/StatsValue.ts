@@ -18,7 +18,7 @@ export type StatsValueRow = Readonly<{
   value: number;
 }>;
 
-export class StatsValue extends ValueObject implements JSONable {
+export class StatsValue extends ValueObject<StatsValue> implements JSONable {
   public readonly noun: 'StatsValue' = 'StatsValue';
   private readonly asOf: AsOf;
   private readonly value: NumericalValue;
@@ -28,7 +28,7 @@ export class StatsValue extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: StatsValueJSON): Superposition<StatsValue, StatsValueError> {
-    return AsOf.ofString(json.asOf).match<StatsValue, StatsValueError>(
+    return AsOf.ofString(json.asOf).transform<StatsValue, StatsValueError>(
       (asOf: AsOf) => {
         return Alive.of<StatsValue, StatsValueError>(StatsValue.of(asOf, NumericalValue.of(json.value)));
       },
@@ -39,7 +39,7 @@ export class StatsValue extends ValueObject implements JSONable {
   }
 
   public static ofRow(row: StatsValueRow): Superposition<StatsValue, StatsValueError> {
-    return AsOf.ofString(row.asOf).match<StatsValue, StatsValueError>(
+    return AsOf.ofString(row.asOf).transform<StatsValue, StatsValueError>(
       (asOf: AsOf) => {
         return Alive.of<StatsValue, StatsValueError>(StatsValue.of(asOf, NumericalValue.of(row.value)));
       },

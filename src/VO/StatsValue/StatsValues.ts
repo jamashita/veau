@@ -10,7 +10,8 @@ import { StatsValueError } from './Error/StatsValueError';
 import { StatsValuesError } from './Error/StatsValuesError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
-export class StatsValues extends Objet implements Collection<AsOf, StatsValue>, Cloneable<StatsValues>, JSONable {
+export class StatsValues extends Objet<StatsValues>
+  implements Collection<AsOf, StatsValue>, Cloneable<StatsValues>, JSONable {
   public readonly noun: 'StatsValues' = 'StatsValues';
   private readonly values: Project<AsOf, StatsValue>;
 
@@ -45,7 +46,7 @@ export class StatsValues extends Objet implements Collection<AsOf, StatsValue>, 
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsValue, StatsValueError>>
   ): Superposition<StatsValues, StatsValuesError> {
-    return Schrodinger.all<StatsValue, StatsValueError>(superpositions).match<StatsValues, StatsValuesError>(
+    return Schrodinger.all<StatsValue, StatsValueError>(superpositions).transform<StatsValues, StatsValuesError>(
       (values: Array<StatsValue>) => {
         return Alive.of<StatsValues, StatsValuesError>(StatsValues.ofArray(values));
       },

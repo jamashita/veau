@@ -30,7 +30,7 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
   public async all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
     const superposition: Superposition<Locale, LocaleError | DataSourceError> = await this.localeVaultQuery.all();
 
-    return superposition.match<Regions, RegionsError | DataSourceError>(
+    return superposition.transform<Regions, RegionsError | DataSourceError>(
       (locale: Locale) => {
         return Alive.of<Regions, DataSourceError>(locale.getRegions());
       },
@@ -56,13 +56,13 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
   ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
     const superposition: Superposition<Regions, RegionsError | DataSourceError> = await this.all();
 
-    return superposition.match<Region, RegionError | NoSuchElementError | DataSourceError>(
+    return superposition.transform<Region, RegionError | NoSuchElementError | DataSourceError>(
       (regions: Regions) => {
         const quantum: Quantum<Region> = regions.find((region: Region) => {
           return region.getISO3166().equals(iso3166);
         });
 
-        return quantum.toSuperposition().match<Region, NoSuchElementError | DataSourceError>(
+        return quantum.toSuperposition().transform<Region, NoSuchElementError | DataSourceError>(
           (region: Region, self: Alive<Region, QuantumError>) => {
             return self.transpose<DataSourceError>();
           },

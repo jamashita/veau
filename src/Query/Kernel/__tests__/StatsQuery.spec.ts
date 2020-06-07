@@ -126,7 +126,7 @@ describe('StatsQuery', () => {
       > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -162,7 +162,7 @@ describe('StatsQuery', () => {
       > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -203,7 +203,7 @@ describe('StatsQuery', () => {
       > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -244,7 +244,7 @@ describe('StatsQuery', () => {
       > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -292,7 +292,7 @@ describe('StatsQuery', () => {
       > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -340,7 +340,7 @@ describe('StatsQuery', () => {
       > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -393,7 +393,7 @@ describe('StatsQuery', () => {
       > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -446,7 +446,7 @@ describe('StatsQuery', () => {
       > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -500,7 +500,7 @@ describe('StatsQuery', () => {
       > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

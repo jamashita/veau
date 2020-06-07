@@ -38,7 +38,7 @@ describe('StatsValue', () => {
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -83,7 +83,7 @@ describe('StatsValue', () => {
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
       expect(superposition.isAlive()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -110,7 +110,7 @@ describe('StatsValue', () => {
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

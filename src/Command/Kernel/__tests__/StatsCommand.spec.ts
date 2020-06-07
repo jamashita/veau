@@ -55,7 +55,7 @@ describe('StatsCommand', () => {
       const statsCommand: StatsCommand = new StatsCommand(mysql);
       const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats, accountID);
 
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

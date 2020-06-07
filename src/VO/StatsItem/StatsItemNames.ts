@@ -6,7 +6,7 @@ import { Mapper } from '@jamashita/publikum-type';
 
 import { StatsItemName } from './StatsItemName';
 
-export class StatsItemNames extends Objet implements Collection<number, StatsItemName>, JSONable {
+export class StatsItemNames extends Objet<StatsItemNames> implements Collection<number, StatsItemName>, JSONable {
   public readonly noun: 'StatsItemNames' = 'StatsItemNames';
   private readonly names: Sequence<StatsItemName>;
 

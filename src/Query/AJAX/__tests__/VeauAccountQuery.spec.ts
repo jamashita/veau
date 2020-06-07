@@ -88,7 +88,7 @@ describe('VeauAccountQuery', () => {
       > = await veauAccountQuery.find();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -121,7 +121,7 @@ describe('VeauAccountQuery', () => {
       > = await veauAccountQuery.find();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -206,7 +206,7 @@ describe('VeauAccountQuery', () => {
       > = await veauAccountQuery.findByEntranceInfo(info);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -240,7 +240,7 @@ describe('VeauAccountQuery', () => {
       > = await veauAccountQuery.findByEntranceInfo(info);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -274,7 +274,7 @@ describe('VeauAccountQuery', () => {
       > = await veauAccountQuery.findByEntranceInfo(info);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

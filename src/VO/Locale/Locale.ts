@@ -15,7 +15,7 @@ export type LocaleJSON = Readonly<{
   regions: Array<RegionJSON>;
 }>;
 
-export class Locale extends ValueObject implements JSONable {
+export class Locale extends ValueObject<Locale> implements JSONable {
   public readonly noun: 'Locale' = 'Locale';
   private readonly languages: Languages;
   private readonly regions: Regions;
@@ -27,9 +27,9 @@ export class Locale extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: LocaleJSON): Superposition<Locale, LocaleError> {
-    return Languages.ofJSON(json.languages).match<Locale, LocaleError>(
+    return Languages.ofJSON(json.languages).transform<Locale, LocaleError>(
       (languages: Languages) => {
-        return Regions.ofJSON(json.regions).match<Locale, LocaleError>(
+        return Regions.ofJSON(json.regions).transform<Locale, LocaleError>(
           (regions: Regions) => {
             return Alive.of<Locale, LocaleError>(Locale.of(languages, regions));
           },

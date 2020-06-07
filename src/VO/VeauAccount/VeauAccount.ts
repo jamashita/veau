@@ -18,7 +18,7 @@ export type VeauAccountJSON = Readonly<{
   name: string;
 }>;
 
-export class VeauAccount extends ValueObject implements JSONable {
+export class VeauAccount extends ValueObject<VeauAccount> implements JSONable {
   public readonly noun: 'VeauAccount' = 'VeauAccount';
   private readonly veauAccountID: VeauAccountID;
   private readonly languageID: LanguageID;
@@ -35,11 +35,11 @@ export class VeauAccount extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: VeauAccountJSON): Superposition<VeauAccount, VeauAccountError> {
-    return VeauAccountID.ofString(json.veauAccountID).match<VeauAccount, VeauAccountError>(
+    return VeauAccountID.ofString(json.veauAccountID).transform<VeauAccount, VeauAccountError>(
       (veauAccountID: VeauAccountID) => {
-        return LanguageID.ofString(json.languageID).match<VeauAccount, VeauAccountError>(
+        return LanguageID.ofString(json.languageID).transform<VeauAccount, VeauAccountError>(
           (languageID: LanguageID) => {
-            return RegionID.ofString(json.regionID).match<VeauAccount, VeauAccountError>(
+            return RegionID.ofString(json.regionID).transform<VeauAccount, VeauAccountError>(
               (regionID: RegionID) => {
                 return Alive.of<VeauAccount, VeauAccountError>(
                   VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(json.name))

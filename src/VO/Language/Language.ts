@@ -22,7 +22,7 @@ export type LanguageRow = Readonly<{
   iso639: string;
 }>;
 
-export class Language extends ValueObject implements JSONable {
+export class Language extends ValueObject<Language> implements JSONable {
   public readonly noun: 'Language' = 'Language';
   private readonly languageID: LanguageID;
   private readonly name: LanguageName;
@@ -54,7 +54,7 @@ export class Language extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: LanguageJSON): Superposition<Language, LanguageError> {
-    return LanguageID.ofString(json.languageID).match<Language, LanguageError>(
+    return LanguageID.ofString(json.languageID).transform<Language, LanguageError>(
       (languageID: LanguageID) => {
         return Alive.of<Language, LanguageError>(
           Language.of(languageID, LanguageName.of(json.name), LanguageName.of(json.englishName), ISO639.of(json.iso639))
@@ -67,7 +67,7 @@ export class Language extends ValueObject implements JSONable {
   }
 
   public static ofRow(row: LanguageRow): Superposition<Language, LanguageError> {
-    return LanguageID.ofString(row.languageID).match<Language, LanguageError>(
+    return LanguageID.ofString(row.languageID).transform<Language, LanguageError>(
       (languageID: LanguageID) => {
         return Alive.of<Language, LanguageError>(
           Language.of(languageID, LanguageName.of(row.name), LanguageName.of(row.englishName), ISO639.of(row.iso639))

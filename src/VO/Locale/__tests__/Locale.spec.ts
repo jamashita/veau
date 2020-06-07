@@ -107,7 +107,7 @@ describe('Locale', () => {
       });
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -147,7 +147,7 @@ describe('Locale', () => {
       });
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

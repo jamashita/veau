@@ -28,7 +28,7 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
       return JSONA.stringify(languages.toJSON());
     });
 
-    return superposition.match<unknown, RedisError>(
+    return superposition.transform<unknown, RedisError>(
       (str: string) => {
         return Schrodinger.playground<unknown, RedisError>(async () => {
           await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
@@ -47,7 +47,7 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
       return this.redis.delete(REDIS_LANGUAGE_KEY);
     });
 
-    return superposition.match<unknown, RedisError>(
+    return superposition.transform<unknown, RedisError>(
       (ok: boolean) => {
         if (ok) {
           return Alive.of<RedisError>();

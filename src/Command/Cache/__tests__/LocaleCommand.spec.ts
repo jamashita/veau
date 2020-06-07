@@ -56,7 +56,7 @@ describe('LocaleCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await localeCommand.create(locale);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

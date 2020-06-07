@@ -38,7 +38,7 @@ export class AuthenticationInteractor implements Noun {
         return this.accountQuery.findByAccount(AccountName.of(name));
       });
 
-      superposition.match<void>(
+      superposition.transform<void>(
         async (account: Account) => {
           const correct: boolean = await account.verify(Password.of(pass));
 

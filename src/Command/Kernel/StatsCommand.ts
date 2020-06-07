@@ -34,7 +34,7 @@ export class StatsCommand implements IStatsCommand, IKernelCommand {
       Superposition<unknown, DataSourceError>
     >(statsUpdateTransaction);
 
-    return superposition.match<void, DataSourceError>(
+    return superposition.transform<void, DataSourceError>(
       () => {
         return Alive.of<DataSourceError>();
       },

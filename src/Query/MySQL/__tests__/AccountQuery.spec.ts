@@ -101,7 +101,7 @@ describe('AccountQuery', () => {
       > = await accountQuery.findByAccount(name);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -142,7 +142,7 @@ describe('AccountQuery', () => {
       > = await accountQuery.findByAccount(name);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -174,7 +174,7 @@ describe('AccountQuery', () => {
       > = await accountQuery.findByAccount(name);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

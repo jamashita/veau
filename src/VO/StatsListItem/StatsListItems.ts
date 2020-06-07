@@ -5,7 +5,7 @@ import { Mapper } from '@jamashita/publikum-type';
 
 import { StatsListItem } from './StatsListItem';
 
-export class StatsListItems extends Objet implements Collection<number, StatsListItem> {
+export class StatsListItems extends Objet<StatsListItems> implements Collection<number, StatsListItem> {
   public readonly noun: 'StatsListItems' = 'StatsListItems';
   private readonly items: Sequence<StatsListItem>;
 

@@ -154,7 +154,7 @@ describe('StatsListItemQuery', () => {
       > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -198,7 +198,7 @@ describe('StatsListItemQuery', () => {
       > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -242,7 +242,7 @@ describe('StatsListItemQuery', () => {
       > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -286,7 +286,7 @@ describe('StatsListItemQuery', () => {
       > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -330,7 +330,7 @@ describe('StatsListItemQuery', () => {
       > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -374,7 +374,7 @@ describe('StatsListItemQuery', () => {
       > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -429,7 +429,7 @@ describe('StatsListItemQuery', () => {
       > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -490,7 +490,7 @@ describe('StatsListItemQuery', () => {
       > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -556,7 +556,7 @@ describe('StatsListItemQuery', () => {
       > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

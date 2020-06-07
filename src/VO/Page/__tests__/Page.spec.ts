@@ -31,7 +31,7 @@ describe('Page', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition1.match<void>(
+      superposition1.transform<void>(
         () => {
           spy1();
         },
@@ -41,7 +41,7 @@ describe('Page', () => {
         }
       );
 
-      superposition2.match<void>(
+      superposition2.transform<void>(
         () => {
           spy3();
         },
@@ -76,7 +76,7 @@ describe('Page', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition1.match<void>(
+      superposition1.transform<void>(
         () => {
           spy1();
         },
@@ -86,7 +86,7 @@ describe('Page', () => {
         }
       );
 
-      superposition2.match<void>(
+      superposition2.transform<void>(
         () => {
           spy3();
         },

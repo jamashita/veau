@@ -54,32 +54,32 @@ export class StatsQuery implements IStatsQuery, IKernelQuery {
       StatsOutlineError | NoSuchElementError | DataSourceError
     > = await this.statsOutlineQuery.find(statsID);
 
-    return superposition1.match<Stats, StatsError | NoSuchElementError | DataSourceError>(
+    return superposition1.transform<Stats, StatsError | NoSuchElementError | DataSourceError>(
       async (outline: StatsOutline) => {
         const superposition2: Superposition<
           StatsItems,
           StatsItemsError | DataSourceError
         > = await this.statsItemQuery.findByStatsID(statsID);
 
-        return superposition2.match<Stats, StatsError | NoSuchElementError | DataSourceError>(
+        return superposition2.transform<Stats, StatsError | NoSuchElementError | DataSourceError>(
           async (items: StatsItems) => {
             const superposition3: Superposition<
               Language,
               LanguageError | NoSuchElementError | DataSourceError
             > = await this.languageQuery.find(outline.getLanguageID());
 
-            return superposition3.match<Stats, StatsError | NoSuchElementError | DataSourceError>(
+            return superposition3.transform<Stats, StatsError | NoSuchElementError | DataSourceError>(
               async (language: Language) => {
                 const superposition4: Superposition<
                   Region,
                   RegionError | NoSuchElementError | DataSourceError
                 > = await this.regionQuery.find(outline.getRegionID());
 
-                return superposition4.match<Stats, StatsError | NoSuchElementError | DataSourceError>(
+                return superposition4.transform<Stats, StatsError | NoSuchElementError | DataSourceError>(
                   (region: Region) => {
                     const superposition5: Superposition<Term, TermError> = Term.ofTermID(outline.getTermID());
 
-                    return superposition5.match<Stats, StatsError | NoSuchElementError | DataSourceError>(
+                    return superposition5.transform<Stats, StatsError | NoSuchElementError | DataSourceError>(
                       (term: Term) => {
                         return Alive.of<Stats, StatsError | NoSuchElementError | DataSourceError>(
                           Stats.of(outline, language, region, term, items)

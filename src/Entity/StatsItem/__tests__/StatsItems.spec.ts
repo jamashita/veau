@@ -73,7 +73,7 @@ describe('StatsItems', () => {
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -107,7 +107,7 @@ describe('StatsItems', () => {
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -219,7 +219,7 @@ describe('StatsItems', () => {
       );
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -254,7 +254,7 @@ describe('StatsItems', () => {
       );
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -464,7 +464,7 @@ describe('StatsItems', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -494,7 +494,7 @@ describe('StatsItems', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

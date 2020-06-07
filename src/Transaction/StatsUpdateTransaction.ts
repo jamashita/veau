@@ -41,7 +41,7 @@ export class StatsUpdateTransaction implements ITransaction<Superposition<unknow
       superpositions
     );
 
-    return deleteCompletion.match<unknown, DataSourceError>(
+    return deleteCompletion.transform<unknown, DataSourceError>(
       async () => {
         const itemPromises: Array<Promise<Superposition<unknown, DataSourceError>>> = [];
         const valuePromises: Array<Promise<Superposition<unknown, DataSourceError>>> = [];

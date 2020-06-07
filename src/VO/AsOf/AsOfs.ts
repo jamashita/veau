@@ -8,7 +8,7 @@ import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
 import { Term } from '../Term/Term';
 import { AsOf } from './AsOf';
 
-export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<AsOfs>, JSONable {
+export class AsOfs extends Objet<AsOfs> implements Collection<number, AsOf>, Cloneable<AsOfs>, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
   private readonly asOfs: Sequence<AsOf>;
 
@@ -103,7 +103,7 @@ export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<
 
     return Schrodinger.playground<Zeit, ZeitError>(() => {
       return Zeit.min(zeiten, AsOf.format());
-    }).match<Quantum<AsOf>>(
+    }).transform<Quantum<AsOf>>(
       (zeit: Zeit) => {
         return Present.of<AsOf>(AsOf.of(zeit));
       },
@@ -127,7 +127,7 @@ export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<
 
     return Schrodinger.playground<Zeit, ZeitError>(() => {
       return Zeit.max(zeiten, AsOf.format());
-    }).match<Quantum<AsOf>>(
+    }).transform<Quantum<AsOf>>(
       (zeit: Zeit) => {
         return Present.of<AsOf>(AsOf.of(zeit));
       },

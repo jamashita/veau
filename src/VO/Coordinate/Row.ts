@@ -6,7 +6,7 @@ import { RowError } from './Error/RowError';
 
 const ORIGIN_VALUE: number = 0;
 
-export class Row extends ValueObject {
+export class Row extends ValueObject<Row> {
   public readonly noun: 'Row' = 'Row';
   private readonly row: number;
 

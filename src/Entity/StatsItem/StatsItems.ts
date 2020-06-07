@@ -15,7 +15,8 @@ import { StatsItemNames } from '../../VO/StatsItem/StatsItemNames';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 
-export class StatsItems extends Objet implements Collection<number, StatsItem>, Cloneable<StatsItems>, JSONable {
+export class StatsItems extends Objet<StatsItems>
+  implements Collection<number, StatsItem>, Cloneable<StatsItems>, JSONable {
   public readonly noun: 'StatsItems' = 'StatsItems';
   private readonly items: Sequence<StatsItem>;
 
@@ -40,7 +41,7 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsItem, StatsItemError>>
   ): Superposition<StatsItems, StatsItemsError> {
-    return Schrodinger.all<StatsItem, StatsItemError>(superpositions).match<StatsItems, StatsItemsError>(
+    return Schrodinger.all<StatsItem, StatsItemError>(superpositions).transform<StatsItems, StatsItemsError>(
       (statsItems: Array<StatsItem>) => {
         return Alive.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
       },

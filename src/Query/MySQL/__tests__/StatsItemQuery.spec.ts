@@ -194,7 +194,7 @@ describe('StatsItemQuery', () => {
       > = await statsItemQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -245,7 +245,7 @@ describe('StatsItemQuery', () => {
       > = await statsItemQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -296,7 +296,7 @@ describe('StatsItemQuery', () => {
       > = await statsItemQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

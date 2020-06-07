@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/publikum-object';
 
-export class NumericalValue extends ValueObject {
+export class NumericalValue extends ValueObject<NumericalValue> {
   public readonly noun: 'NumericalValue' = 'NumericalValue';
   private readonly value: number;
 

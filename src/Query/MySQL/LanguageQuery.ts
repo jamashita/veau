@@ -42,7 +42,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       return this.mysql.execute<Array<LanguageRow>>(query);
     });
 
-    return superposition.match<Languages, LanguagesError | DataSourceError>(
+    return superposition.transform<Languages, LanguagesError | DataSourceError>(
       (rows: Array<LanguageRow>) => {
         if (rows.length === 0) {
           return Dead.of<Languages, MySQLError>(new MySQLError('NO LANGUAGES FROM MYSQL'));
@@ -76,7 +76,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       });
     });
 
-    return superposition.match<Language, LanguageError | NoSuchElementError | DataSourceError>(
+    return superposition.transform<Language, LanguageError | NoSuchElementError | DataSourceError>(
       (rows: Array<LanguageRow>) => {
         if (rows.length === 0) {
           return Dead.of<Language, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
@@ -110,7 +110,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       });
     });
 
-    return superposition.match<Language, LanguageError | NoSuchElementError | MySQLError>(
+    return superposition.transform<Language, LanguageError | NoSuchElementError | MySQLError>(
       (rows: Array<LanguageRow>) => {
         if (rows.length === 0) {
           return Dead.of<Language, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));

@@ -6,7 +6,7 @@ import { LimitError } from './Error/LimitError';
 
 const DEFAULT_VALUE: number = 40;
 
-export class Limit extends ValueObject {
+export class Limit extends ValueObject<Limit> {
   public readonly noun: 'Limit' = 'Limit';
   private readonly limit: number;
 

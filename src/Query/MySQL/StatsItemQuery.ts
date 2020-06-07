@@ -49,7 +49,7 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
       });
     });
 
-    return superposition1.match<StatsItems, StatsItemsError | DataSourceError>(
+    return superposition1.transform<StatsItems, StatsItemsError | DataSourceError>(
       async (rows: Array<StatsItemRow>) => {
         const superposition2: Superposition<
           Project<StatsItemID, StatsValues>,
@@ -58,7 +58,7 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
           return this.statsValueQuery.findByStatsID(statsID);
         });
 
-        return superposition2.match<StatsItems, StatsItemsError | DataSourceError>(
+        return superposition2.transform<StatsItems, StatsItemsError | DataSourceError>(
           (project: Project<StatsItemID, StatsValues>) => {
             return StatsItems.ofRow(rows, project);
           },

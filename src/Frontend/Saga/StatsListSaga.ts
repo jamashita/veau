@@ -76,7 +76,7 @@ export class StatsListSaga {
         }
       );
 
-      yield superposition.match<Effect>(
+      yield superposition.transform<Effect>(
         (statsOutlines: StatsOutlines) => {
           return put(updateStatsListItems(statsOutlines));
         },
@@ -280,7 +280,7 @@ export class StatsListSaga {
         }
       );
 
-      yield superposition.match<Effect>(
+      yield superposition.transform<Effect>(
         () => {
           return all([put(loaded()), put(pushToStatsEdit(stats.getStatsID())), put(resetNewStats())]);
         },

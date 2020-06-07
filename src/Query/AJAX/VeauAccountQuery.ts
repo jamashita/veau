@@ -32,7 +32,7 @@ export class VeauAccountQuery implements IVeauAccountQuery, IAJAXQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.ofJSON(body).match<VeauAccount, VeauAccountError | DataSourceError>(
+        return VeauAccount.ofJSON(body).transform<VeauAccount, VeauAccountError | DataSourceError>(
           (veauAccount: VeauAccount) => {
             return Alive.of<VeauAccount, DataSourceError>(veauAccount);
           },
@@ -62,7 +62,7 @@ export class VeauAccountQuery implements IVeauAccountQuery, IAJAXQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.ofJSON(body).match<VeauAccount, VeauAccountError | DataSourceError>(
+        return VeauAccount.ofJSON(body).transform<VeauAccount, VeauAccountError | DataSourceError>(
           (veauAccount: VeauAccount) => {
             return Alive.of<VeauAccount, DataSourceError>(veauAccount);
           },

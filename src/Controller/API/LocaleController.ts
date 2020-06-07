@@ -27,7 +27,7 @@ export class LocaleController {
   public async all(@Res() res: Response<unknown>): Promise<Response<unknown>> {
     const superposition: Superposition<JSONable, LocaleError | DataSourceError> = await this.localeInteractor.all();
 
-    return superposition.match<Response<unknown>>(
+    return superposition.transform<Response<unknown>>(
       (locale: JSONable) => {
         return res.status(OK).send(locale.toJSON());
       },
@@ -44,7 +44,7 @@ export class LocaleController {
   public async delete(@Res() res: Response<unknown>): Promise<Response<unknown>> {
     const superposition: Superposition<unknown, DataSourceError> = await this.localeInteractor.delete();
 
-    return superposition.match<Response<unknown>>(
+    return superposition.transform<Response<unknown>>(
       () => {
         return res.sendStatus(OK);
       },

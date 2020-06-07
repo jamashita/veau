@@ -119,7 +119,7 @@ export class StatsEditEpic {
         ).pipe<VeauAction>(
           mergeMap<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>, Observable<VeauAction>>(
             (superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>) => {
-              return superposition.match<Observable<VeauAction>>(
+              return superposition.transform<Observable<VeauAction>>(
                 (stats: Stats) => {
                   return of<VeauAction>(updateStats(stats), clearSelectingItem());
                 },
@@ -235,7 +235,7 @@ export class StatsEditEpic {
                 }
               } = state$;
 
-            return superposition.match<Observable<VeauAction>>(
+            return superposition.transform<Observable<VeauAction>>(
               (language: Language) => {
                 const newStats: Stats = Stats.of(
                   stats.getOutline(),
@@ -276,7 +276,7 @@ export class StatsEditEpic {
                 }
               } = state$;
 
-              return superposition.match<Observable<VeauAction>>(
+              return superposition.transform<Observable<VeauAction>>(
                 (region: Region) => {
                   const newStats: Stats = Stats.of(
                     stats.getOutline(),
@@ -420,7 +420,7 @@ export class StatsEditEpic {
             }
           } = state$;
 
-          return selectingItem.toSuperposition().match<Observable<VeauAction>>(
+          return selectingItem.toSuperposition().transform<Observable<VeauAction>>(
             (statsItem: StatsItem) => {
               const newSelectingItem: StatsItem = StatsItem.of(
                 statsItem.getStatsItemID(),
@@ -552,7 +552,7 @@ export class StatsEditEpic {
                   return concat<VeauAction>(
                     of<VeauAction>(loaded()),
                     map<VeauAction, VeauAction>(() => {
-                      return superposition.match<VeauAction>(
+                      return superposition.transform<VeauAction>(
                         () => {
                           return appearNotification('success', 'center', 'top', 'SAVE_SUCCESS');
                         },

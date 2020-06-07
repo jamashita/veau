@@ -4,7 +4,7 @@ import { Kind } from '@jamashita/publikum-type';
 
 import { OffsetError } from './Error/OffsetError';
 
-export class Offset extends ValueObject {
+export class Offset extends ValueObject<Offset> {
   public readonly noun: 'Offset' = 'Offset';
   private readonly offset: number;
 

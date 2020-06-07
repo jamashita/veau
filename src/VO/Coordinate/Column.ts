@@ -6,7 +6,7 @@ import { ColumnError } from './Error/ColumnError';
 
 const ORIGIN_VALUE: number = 0;
 
-export class Column extends ValueObject {
+export class Column extends ValueObject<Column> {
   public readonly noun: 'Column' = 'Column';
   private readonly column: number;
 

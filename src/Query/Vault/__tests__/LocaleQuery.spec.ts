@@ -111,7 +111,7 @@ describe('LocaleQuery', () => {
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(false);
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -153,7 +153,7 @@ describe('LocaleQuery', () => {
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(true);
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

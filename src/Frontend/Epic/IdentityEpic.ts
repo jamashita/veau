@@ -62,7 +62,7 @@ export class IdentityEpic {
                 return concat<VeauAction>(
                   of<VeauAction>(loaded()),
                   mergeMap<VeauAction, Observable<VeauAction>>(() => {
-                    return superposition1.match<Observable<VeauAction>>(
+                    return superposition1.transform<Observable<VeauAction>>(
                       (locale: Locale) => {
                         return of<VeauAction>(defineLocale(locale));
                       },
@@ -78,7 +78,7 @@ export class IdentityEpic {
                       mergeMap<Superposition<Identity, IdentityError | DataSourceError>, Observable<VeauAction>>(
                         (superposition2: Superposition<Identity, IdentityError | DataSourceError>) => {
                           return concat<VeauAction>(
-                            superposition2.match<Observable<VeauAction>>(
+                            superposition2.transform<Observable<VeauAction>>(
                               (identity: Identity) => {
                                 const actions: Array<VeauAction> = [identityAuthenticated(identity), identified()];
 
@@ -111,7 +111,7 @@ export class IdentityEpic {
                                       LanguageError | NoSuchElementError | DataSourceError
                                     >
                                   ) => {
-                                    return superposition3.match<Observable<VeauAction>>(
+                                    return superposition3.transform<Observable<VeauAction>>(
                                       (language: Language) => {
                                         // prettier-ignore
                                         const {

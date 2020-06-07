@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/publikum-object';
 
-export class Color extends ValueObject {
+export class Color extends ValueObject<Color> {
   public readonly noun: 'Color' = 'Color';
   private readonly rgb: string;
 

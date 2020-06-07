@@ -109,7 +109,7 @@ describe('LanguageQuery', () => {
       const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -152,7 +152,7 @@ describe('LanguageQuery', () => {
       const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -226,7 +226,7 @@ describe('LanguageQuery', () => {
       > = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -266,7 +266,7 @@ describe('LanguageQuery', () => {
       > = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -311,7 +311,7 @@ describe('LanguageQuery', () => {
       > = await languageQuery.findByISO639(ISO639.of('oop'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

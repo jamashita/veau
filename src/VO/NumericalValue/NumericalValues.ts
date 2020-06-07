@@ -4,7 +4,7 @@ import { Objet } from '@jamashita/publikum-object';
 
 import { NumericalValue } from './NumericalValue';
 
-export class NumericalValues extends Objet implements Collection<number, NumericalValue> {
+export class NumericalValues extends Objet<NumericalValues> implements Collection<number, NumericalValue> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
   private readonly values: Sequence<NumericalValue>;
 

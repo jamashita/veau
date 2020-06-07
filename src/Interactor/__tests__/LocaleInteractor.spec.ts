@@ -93,7 +93,7 @@ describe('LocaleInteractor', () => {
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -134,7 +134,7 @@ describe('LocaleInteractor', () => {
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -175,7 +175,7 @@ describe('LocaleInteractor', () => {
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -216,7 +216,7 @@ describe('LocaleInteractor', () => {
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -286,7 +286,7 @@ describe('LocaleInteractor', () => {
       expect(superposition.isDead()).toBe(true);
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -327,7 +327,7 @@ describe('LocaleInteractor', () => {
       expect(superposition.isDead()).toBe(true);
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

@@ -25,7 +25,7 @@ export type StatsItemRow = Readonly<{
   name: string;
 }>;
 
-export class StatsItem extends Entity<StatsItemID> {
+export class StatsItem extends Entity<StatsItemID, StatsItem> {
   public readonly noun: 'StatsItem' = 'StatsItem';
   private readonly statsItemID: StatsItemID;
   private readonly name: StatsItemName;
@@ -36,9 +36,9 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public static ofJSON(json: StatsItemJSON): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(json.statsItemID).match<StatsItem, StatsItemError>(
+    return StatsItemID.ofString(json.statsItemID).transform<StatsItem, StatsItemError>(
       (statsItemID: StatsItemID) => {
-        return StatsValues.ofJSON(json.values).match<StatsItem, StatsItemError>(
+        return StatsValues.ofJSON(json.values).transform<StatsItem, StatsItemError>(
           (statsValues: StatsValues) => {
             return Alive.of<StatsItem, StatsItemError>(
               StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues)
@@ -59,9 +59,9 @@ export class StatsItem extends Entity<StatsItemID> {
     row: StatsItemRow,
     project: Project<StatsItemID, StatsValues>
   ): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(row.statsItemID).match<StatsItem, StatsItemError>(
+    return StatsItemID.ofString(row.statsItemID).transform<StatsItem, StatsItemError>(
       (statsItemID: StatsItemID) => {
-        const values: StatsValues = project.get(statsItemID).orElse(StatsValues.empty());
+        const values: StatsValues = project.get(statsItemID).getOrElse(StatsValues.empty());
 
         return Alive.of<StatsItem, StatsItemError>(StatsItem.of(statsItemID, StatsItemName.of(row.name), values));
       },

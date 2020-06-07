@@ -82,7 +82,7 @@ describe('StatsOutlines', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -112,7 +112,7 @@ describe('StatsOutlines', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

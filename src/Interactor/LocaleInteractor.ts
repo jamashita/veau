@@ -45,9 +45,9 @@ export class LocaleInteractor implements Noun {
       Superposition<Regions, RegionsError | DataSourceError>
     >([this.languageQuery.all(), this.regionQuery.all()]);
 
-    return superposition1.match<Locale, LocaleError | DataSourceError>(
+    return superposition1.transform<Locale, LocaleError | DataSourceError>(
       (languages: Languages) => {
-        return superposition2.match<Locale, LocaleError | DataSourceError>(
+        return superposition2.transform<Locale, LocaleError | DataSourceError>(
           (regions: Regions) => {
             return Alive.of<Locale, DataSourceError>(Locale.of(languages, regions));
           },

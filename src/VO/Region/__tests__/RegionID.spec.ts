@@ -43,7 +43,7 @@ describe('RegionID', () => {
       const superposition: Superposition<RegionID, RegionIDError> = RegionID.ofString('quasi');
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

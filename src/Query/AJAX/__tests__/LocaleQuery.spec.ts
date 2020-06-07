@@ -100,7 +100,7 @@ describe('LocaleQuery', () => {
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

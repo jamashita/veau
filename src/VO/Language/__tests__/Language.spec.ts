@@ -107,7 +107,7 @@ describe('Language', () => {
       const superposition: Superposition<Language, LanguageError> = Language.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -156,7 +156,7 @@ describe('Language', () => {
       const superposition: Superposition<Language, LanguageError> = Language.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

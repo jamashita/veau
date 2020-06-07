@@ -30,7 +30,7 @@ passport.serializeUser<VeauAccount, VeauAccountJSON>(
 
 passport.deserializeUser<VeauAccount, VeauAccountJSON>(
   (json: VeauAccountJSON, done: (err: unknown, account?: VeauAccount) => void) => {
-    VeauAccount.ofJSON(json).match<void>(
+    VeauAccount.ofJSON(json).transform<void>(
       (account: VeauAccount) => {
         done(null, account);
       },

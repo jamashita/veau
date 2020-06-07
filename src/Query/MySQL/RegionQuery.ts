@@ -41,7 +41,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       return this.mysql.execute<Array<RegionRow>>(query);
     });
 
-    return superposition.match<Regions, RegionsError | DataSourceError>(
+    return superposition.transform<Regions, RegionsError | DataSourceError>(
       (rows: Array<RegionRow>) => {
         if (rows.length === 0) {
           return Dead.of<Regions, MySQLError>(new MySQLError('NO REGIONS FROM MYSQL'));
@@ -74,7 +74,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       });
     });
 
-    return superposition.match<Region, RegionError | NoSuchElementError | DataSourceError>(
+    return superposition.transform<Region, RegionError | NoSuchElementError | DataSourceError>(
       (rows: Array<RegionRow>) => {
         if (rows.length === 0) {
           return Dead.of<Region, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
@@ -107,7 +107,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       });
     });
 
-    return superposition.match<Region, RegionError | NoSuchElementError | DataSourceError>(
+    return superposition.transform<Region, RegionError | NoSuchElementError | DataSourceError>(
       (rows: Array<RegionRow>) => {
         if (rows.length === 0) {
           return Dead.of<Region, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));

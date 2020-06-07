@@ -4,7 +4,7 @@ import { UUID, UUIDError } from '@jamashita/publikum-uuid';
 
 import { TermIDError } from './Error/TermIDError';
 
-export class TermID extends ValueObject {
+export class TermID extends ValueObject<TermID> {
   public readonly noun: 'TermID' = 'TermID';
   private readonly uuid: UUID;
 
@@ -15,7 +15,7 @@ export class TermID extends ValueObject {
   public static ofString(id: string): Superposition<TermID, TermIDError> {
     return Schrodinger.playground<UUID, UUIDError>(() => {
       return UUID.of(id);
-    }).match<TermID, TermIDError>(
+    }).transform<TermID, TermIDError>(
       (uuid: UUID) => {
         return Alive.of<TermID, TermIDError>(TermID.of(uuid));
       },

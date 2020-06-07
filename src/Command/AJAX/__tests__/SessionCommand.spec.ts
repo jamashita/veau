@@ -56,7 +56,7 @@ describe('SessionCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await sessionCommand.delete();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

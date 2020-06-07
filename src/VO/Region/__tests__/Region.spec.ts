@@ -76,7 +76,7 @@ describe('Region', () => {
       const superposition: Superposition<Region, RegionError> = Region.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -122,7 +122,7 @@ describe('Region', () => {
       const superposition: Superposition<Region, RegionError> = Region.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

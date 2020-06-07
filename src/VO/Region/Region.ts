@@ -20,7 +20,7 @@ export type RegionRow = Readonly<{
   iso3166: string;
 }>;
 
-export class Region extends ValueObject implements JSONable {
+export class Region extends ValueObject<Region> implements JSONable {
   public readonly noun: 'Region' = 'Region';
   private readonly regionID: RegionID;
   private readonly name: RegionName;
@@ -43,7 +43,7 @@ export class Region extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: RegionJSON): Superposition<Region, RegionError> {
-    return RegionID.ofString(json.regionID).match<Region, RegionError>(
+    return RegionID.ofString(json.regionID).transform<Region, RegionError>(
       (regionID: RegionID) => {
         return Alive.of<Region, RegionError>(Region.of(regionID, RegionName.of(json.name), ISO3166.of(json.iso3166)));
       },
@@ -54,7 +54,7 @@ export class Region extends ValueObject implements JSONable {
   }
 
   public static ofRow(row: RegionRow): Superposition<Region, RegionError> {
-    return RegionID.ofString(row.regionID).match<Region, RegionError>(
+    return RegionID.ofString(row.regionID).transform<Region, RegionError>(
       (regionID: RegionID) => {
         return Alive.of<Region, RegionError>(Region.of(regionID, RegionName.of(row.name), ISO3166.of(row.iso3166)));
       },

@@ -33,7 +33,7 @@ describe('StatsItemID', () => {
       const superposition: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString('quatre');
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

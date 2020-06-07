@@ -9,7 +9,7 @@ export type EntranceInformationJSON = Readonly<{
   password: string;
 }>;
 
-export class EntranceInformation extends ValueObject implements JSONable {
+export class EntranceInformation extends ValueObject<EntranceInformation> implements JSONable {
   public readonly noun: 'EntranceInformation' = 'EntranceInformation';
   private readonly account: AccountName;
   private readonly password: Password;

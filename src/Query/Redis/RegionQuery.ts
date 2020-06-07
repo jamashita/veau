@@ -36,7 +36,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
       return this.redis.getString().get(REDIS_REGION_KEY);
     });
 
-    return superposition1.match<Regions, RegionsError | DataSourceError>(
+    return superposition1.transform<Regions, RegionsError | DataSourceError>(
       async (str: Nullable<string>) => {
         if (str === null) {
           return Dead.of<Regions, RedisError>(new RedisError('NO REGIONS FROM REDIS'));
@@ -49,7 +49,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
           return JSONA.parse<Array<RegionJSON>>(str);
         });
 
-        return superposition2.match<Regions, RegionsError | DataSourceError>(
+        return superposition2.transform<Regions, RegionsError | DataSourceError>(
           (json: Array<RegionJSON>) => {
             return Regions.ofJSON(json);
           },
@@ -76,13 +76,13 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
   ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
     const superposition: Superposition<Regions, RegionsError | DataSourceError> = await this.all();
 
-    return superposition.match<Region, RegionError | NoSuchElementError | DataSourceError>(
+    return superposition.transform<Region, RegionError | NoSuchElementError | DataSourceError>(
       (regions: Regions) => {
         const quantum: Quantum<Region> = regions.find((region: Region) => {
           return region.getISO3166().equals(iso3166);
         });
 
-        return quantum.toSuperposition().match<Region, NoSuchElementError | DataSourceError>(
+        return quantum.toSuperposition().transform<Region, NoSuchElementError | DataSourceError>(
           (region: Region) => {
             return Alive.of<Region, DataSourceError>(region);
           },

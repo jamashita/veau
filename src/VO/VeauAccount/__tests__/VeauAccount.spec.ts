@@ -64,7 +64,7 @@ describe('VeauAccount', () => {
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -91,7 +91,7 @@ describe('VeauAccount', () => {
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -118,7 +118,7 @@ describe('VeauAccount', () => {
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

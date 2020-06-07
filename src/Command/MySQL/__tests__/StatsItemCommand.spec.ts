@@ -76,7 +76,7 @@ describe('StatsItemCommand', () => {
       );
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -134,7 +134,7 @@ describe('StatsItemCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

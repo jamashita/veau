@@ -57,11 +57,11 @@ export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {
       this.termQuery.all()
     ]);
 
-    return superposition1.match<StatsListItems, StatsListItemsError | DataSourceError>(
+    return superposition1.transform<StatsListItems, StatsListItemsError | DataSourceError>(
       (outlines: StatsOutlines) => {
-        return superposition2.match<StatsListItems, StatsListItemsError | DataSourceError>(
+        return superposition2.transform<StatsListItems, StatsListItemsError | DataSourceError>(
           (locale: Locale) => {
-            return superposition3.match<StatsListItems, StatsListItemsError | DataSourceError>(
+            return superposition3.transform<StatsListItems, StatsListItemsError | DataSourceError>(
               (terms: Terms) => {
                 const superpositions: Array<Superposition<StatsListItem, StatsListItemsError>> = outlines.map<
                   Superposition<StatsListItem, StatsListItemsError>
@@ -69,7 +69,7 @@ export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {
                   return this.extract(outline, locale, terms);
                 });
 
-                return Schrodinger.all<StatsListItem, StatsListItemsError>(superpositions).match<
+                return Schrodinger.all<StatsListItem, StatsListItemsError>(superpositions).transform<
                   StatsListItems,
                   StatsListItemsError
                 >(
@@ -124,18 +124,18 @@ export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {
       .getLanguages()
       .get(outline.getLanguageID())
       .toSuperposition()
-      .match<StatsListItem, StatsListItemsError>(
+      .transform<StatsListItem, StatsListItemsError>(
         (language: Language) => {
           return locale
             .getRegions()
             .get(outline.getRegionID())
             .toSuperposition()
-            .match<StatsListItem, StatsListItemsError>(
+            .transform<StatsListItem, StatsListItemsError>(
               (region: Region) => {
                 return terms
                   .get(outline.getTermID())
                   .toSuperposition()
-                  .match<StatsListItem, StatsListItemsError>(
+                  .transform<StatsListItem, StatsListItemsError>(
                     (term: Term) => {
                       return Alive.of<StatsListItem, StatsListItemsError>(
                         StatsListItem.of(outline, language, region, term)

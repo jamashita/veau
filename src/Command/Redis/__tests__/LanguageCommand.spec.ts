@@ -81,7 +81,7 @@ describe('LanguageCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await languageCommand.insertAll(languages);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -117,7 +117,7 @@ describe('LanguageCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await languageCommand.insertAll(languages);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -160,7 +160,7 @@ describe('LanguageCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await languageCommand.deleteAll();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -187,7 +187,7 @@ describe('LanguageCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await languageCommand.deleteAll();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

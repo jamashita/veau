@@ -2,7 +2,7 @@ import { ValueObject } from '@jamashita/publikum-object';
 
 const EMPTY_PASSWORD: string = '';
 
-export class Password extends ValueObject {
+export class Password extends ValueObject<Password> {
   public readonly noun: 'Password' = 'Password';
   private readonly password: string;
 

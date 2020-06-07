@@ -31,7 +31,7 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   public async all(): Promise<Superposition<Locale, LocaleError | DataSourceError>> {
     const superposition1: Superposition<Locale, LocaleError | DataSourceError> = await this.localeCacheQuery.all();
 
-    return superposition1.match<Locale, LocaleError | DataSourceError>(
+    return superposition1.transform<Locale, LocaleError | DataSourceError>(
       (locale: Locale) => {
         return Promise.resolve<Superposition<Locale, LocaleError | DataSourceError>>(
           Alive.of<Locale, DataSourceError>(locale)
@@ -40,11 +40,11 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
       async () => {
         const superposition2: Superposition<Locale, LocaleError | DataSourceError> = await this.localeAJAXQuery.all();
 
-        return superposition2.match<Locale, LocaleError | DataSourceError>(
+        return superposition2.transform<Locale, LocaleError | DataSourceError>(
           async (locale: Locale) => {
             const superposition3: Superposition<unknown, DataSourceError> = await this.localeCommand.create(locale);
 
-            return superposition3.match<Locale, DataSourceError>(
+            return superposition3.transform<Locale, DataSourceError>(
               () => {
                 return Alive.of<Locale, DataSourceError>(locale);
               },

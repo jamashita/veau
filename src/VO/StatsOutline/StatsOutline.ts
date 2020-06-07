@@ -37,7 +37,7 @@ export type StatsOutlineRow = Readonly<{
   updatedAt: string;
 }>;
 
-export class StatsOutline extends ValueObject implements JSONable {
+export class StatsOutline extends ValueObject<StatsOutline> implements JSONable {
   public readonly noun: 'StatsOutline' = 'StatsOutline';
   private readonly statsID: StatsID;
   private readonly languageID: LanguageID;
@@ -60,15 +60,15 @@ export class StatsOutline extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: StatsOutlineJSON): Superposition<StatsOutline, StatsOutlineError> {
-    return StatsID.ofString(json.statsID).match<StatsOutline, StatsOutlineError>(
+    return StatsID.ofString(json.statsID).transform<StatsOutline, StatsOutlineError>(
       (statsID: StatsID) => {
-        return LanguageID.ofString(json.languageID).match<StatsOutline, StatsOutlineError>(
+        return LanguageID.ofString(json.languageID).transform<StatsOutline, StatsOutlineError>(
           (languageID: LanguageID) => {
-            return RegionID.ofString(json.regionID).match<StatsOutline, StatsOutlineError>(
+            return RegionID.ofString(json.regionID).transform<StatsOutline, StatsOutlineError>(
               (regionID: RegionID) => {
-                return TermID.ofString(json.termID).match<StatsOutline, StatsOutlineError>(
+                return TermID.ofString(json.termID).transform<StatsOutline, StatsOutlineError>(
                   (termID: TermID) => {
-                    return UpdatedAt.ofString(json.updatedAt).match<StatsOutline, StatsOutlineError>(
+                    return UpdatedAt.ofString(json.updatedAt).transform<StatsOutline, StatsOutlineError>(
                       (updatedAt: UpdatedAt) => {
                         return Alive.of<StatsOutline, StatsOutlineError>(
                           StatsOutline.of(
@@ -113,15 +113,15 @@ export class StatsOutline extends ValueObject implements JSONable {
   }
 
   public static ofRow(row: StatsOutlineRow): Superposition<StatsOutline, StatsOutlineError> {
-    return StatsID.ofString(row.statsID).match<StatsOutline, StatsOutlineError>(
+    return StatsID.ofString(row.statsID).transform<StatsOutline, StatsOutlineError>(
       (statsID: StatsID) => {
-        return LanguageID.ofString(row.languageID).match<StatsOutline, StatsOutlineError>(
+        return LanguageID.ofString(row.languageID).transform<StatsOutline, StatsOutlineError>(
           (languageID: LanguageID) => {
-            return RegionID.ofString(row.regionID).match<StatsOutline, StatsOutlineError>(
+            return RegionID.ofString(row.regionID).transform<StatsOutline, StatsOutlineError>(
               (regionID: RegionID) => {
-                return TermID.ofString(row.termID).match<StatsOutline, StatsOutlineError>(
+                return TermID.ofString(row.termID).transform<StatsOutline, StatsOutlineError>(
                   (termID: TermID) => {
-                    return UpdatedAt.ofString(row.updatedAt).match<StatsOutline, StatsOutlineError>(
+                    return UpdatedAt.ofString(row.updatedAt).transform<StatsOutline, StatsOutlineError>(
                       (updatedAt: UpdatedAt) => {
                         return Alive.of<StatsOutline, StatsOutlineError>(
                           StatsOutline.of(

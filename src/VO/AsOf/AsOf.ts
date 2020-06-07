@@ -7,7 +7,7 @@ import { AsOfError } from './Error/AsOfError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
-export class AsOf extends ValueObject {
+export class AsOf extends ValueObject<AsOf> {
   public readonly noun: 'AsOf' = 'AsOf';
   private readonly asOf: Zeit;
 
@@ -18,7 +18,7 @@ export class AsOf extends ValueObject {
   public static ofString(asOf: string): Superposition<AsOf, AsOfError> {
     return Schrodinger.playground<Zeit, ZeitError>(() => {
       return Zeit.ofString(asOf, TERM_FORMAT);
-    }).match<AsOf, AsOfError>(
+    }).transform<AsOf, AsOfError>(
       (zeit: Zeit) => {
         return Alive.of<AsOf, AsOfError>(AsOf.of(zeit));
       },

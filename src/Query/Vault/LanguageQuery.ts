@@ -30,7 +30,7 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
   public async all(): Promise<Superposition<Languages, LanguagesError | DataSourceError>> {
     const superposition: Superposition<Locale, LocaleError | DataSourceError> = await this.localeVaultQuery.all();
 
-    return superposition.match<Languages, LanguagesError | DataSourceError>(
+    return superposition.transform<Languages, LanguagesError | DataSourceError>(
       (locale: Locale) => {
         return Alive.of<Languages, DataSourceError>(locale.getLanguages());
       },
@@ -58,13 +58,13 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
   ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
     const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await this.all();
 
-    return superposition.match<Language, LanguageError | NoSuchElementError | DataSourceError>(
+    return superposition.transform<Language, LanguageError | NoSuchElementError | DataSourceError>(
       (languages: Languages) => {
         const quantum: Quantum<Language> = languages.find((language: Language) => {
           return language.getISO639().equals(iso639);
         });
 
-        return quantum.toSuperposition().match<Language, NoSuchElementError | DataSourceError>(
+        return quantum.toSuperposition().transform<Language, NoSuchElementError | DataSourceError>(
           (language: Language, self: Alive<Language, QuantumError>) => {
             return self.transpose<DataSourceError>();
           },

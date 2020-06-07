@@ -74,7 +74,7 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
               id: 'START_DATE'
             })}
             type='date'
-            value={startDate.match<string>(
+            value={startDate.transform<string>(
               (asOf: AsOf) => {
                 return asOf.toString();
               },

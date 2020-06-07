@@ -9,7 +9,7 @@ import { LanguagesError } from './Error/LanguagesError';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 import { LanguageID } from './LanguageID';
 
-export class Languages extends Objet implements Collection<LanguageID, Language>, JSONable {
+export class Languages extends Objet<Languages> implements Collection<LanguageID, Language>, JSONable {
   public readonly noun: 'Languages' = 'Languages';
   private readonly languages: Project<LanguageID, Language>;
 
@@ -44,7 +44,7 @@ export class Languages extends Objet implements Collection<LanguageID, Language>
   public static ofSuperposition(
     superpositions: Array<Superposition<Language, LanguageError>>
   ): Superposition<Languages, LanguagesError> {
-    return Schrodinger.all<Language, LanguageError>(superpositions).match<Languages, LanguagesError>(
+    return Schrodinger.all<Language, LanguageError>(superpositions).transform<Languages, LanguagesError>(
       (regions: Array<Language>) => {
         return Alive.of<Languages, LanguagesError>(Languages.ofArray(regions));
       },

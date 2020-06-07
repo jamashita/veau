@@ -88,7 +88,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       return;
     }
 
-    StatsID.ofString(id).match<void>(
+    StatsID.ofString(id).transform<void>(
       (statsID: StatsID) => {
         initialize(statsID);
       },
@@ -251,7 +251,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
             });
           }}
           determineStartDate={(superposition: Superposition<AsOf, AsOfError>) => {
-            superposition.match<void>(
+            superposition.transform<void>(
               (asOf: AsOf) => {
                 startDateDetermined(asOf);
               },

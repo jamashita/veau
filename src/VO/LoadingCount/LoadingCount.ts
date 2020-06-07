@@ -6,7 +6,7 @@ import { LoadingCountError } from './Error/LoadingCountError';
 
 const DEFAULT_COUNT: number = 0;
 
-export class LoadingCount extends ValueObject {
+export class LoadingCount extends ValueObject<LoadingCount> {
   public readonly noun: 'LoadingCount' = 'LoadingCount';
   private readonly count: number;
 

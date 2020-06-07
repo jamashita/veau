@@ -4,7 +4,7 @@ import { Objet } from '@jamashita/publikum-object';
 
 import { Color } from './Color';
 
-export class Colors extends Objet implements Collection<number, Color> {
+export class Colors extends Objet<Colors> implements Collection<number, Color> {
   public readonly noun: 'Colors' = 'Colors';
   private readonly colors: Sequence<Color>;
 

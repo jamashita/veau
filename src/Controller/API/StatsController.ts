@@ -34,14 +34,14 @@ export class StatsController {
   @Get('/page/:page(\\d+)')
   @UseBefore(AuthenticationMiddleware)
   public list(@Param('page') pg: number, @Res() res: Response<unknown>): Promise<Response<unknown>> {
-    return Page.of(pg).match<Promise<Response<unknown>>>(
+    return Page.of(pg).transform<Promise<Response<unknown>>>(
       async (page: Page) => {
         const superposition: Superposition<
           JSONable,
           StatsOutlinesError | DataSourceError
         > = await this.statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), page);
 
-        return superposition.match<Response<unknown>>(
+        return superposition.transform<Response<unknown>>(
           (outlines: JSONable) => {
             return res.status(OK).send(outlines.toJSON());
           },
@@ -63,14 +63,14 @@ export class StatsController {
   @Get('/:statsID([0-9a-f-]{36})')
   @UseBefore(AuthenticationMiddleware)
   public refer(@Param('statsID') id: string, @Res() res: Response<unknown>): Promise<Response<unknown>> {
-    return StatsID.ofString(id).match<Promise<Response<unknown>>>(
+    return StatsID.ofString(id).transform<Promise<Response<unknown>>>(
       async (statsID: StatsID) => {
         const superposition: Superposition<
           JSONable,
           StatsError | NoSuchElementError | DataSourceError
         > = await this.statsInteractor.findByStatsID(statsID);
 
-        return superposition.match<Response<unknown>>(
+        return superposition.transform<Response<unknown>>(
           (stats: JSONable) => {
             return res.status(OK).send(stats.toJSON());
           },
@@ -102,14 +102,14 @@ export class StatsController {
       return Promise.resolve<Response<unknown>>(res.sendStatus(BAD_REQUEST));
     }
 
-    return Stats.ofJSON(body).match<Promise<Response<unknown>>>(
+    return Stats.ofJSON(body).transform<Promise<Response<unknown>>>(
       async (stats: Stats) => {
         const superposition: Superposition<unknown, DataSourceError> = await this.statsInteractor.save(
           stats,
           res.locals.account.getVeauAccountID()
         );
 
-        return superposition.match<Response<unknown>>(
+        return superposition.transform<Response<unknown>>(
           () => {
             return res.sendStatus(CREATED);
           },

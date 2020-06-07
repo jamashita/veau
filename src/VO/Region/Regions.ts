@@ -9,7 +9,7 @@ import { RegionsError } from './Error/RegionsError';
 import { Region, RegionJSON, RegionRow } from './Region';
 import { RegionID } from './RegionID';
 
-export class Regions extends Objet implements Collection<RegionID, Region>, JSONable {
+export class Regions extends Objet<Regions> implements Collection<RegionID, Region>, JSONable {
   public readonly noun: 'Regions' = 'Regions';
   private readonly regions: Project<RegionID, Region>;
 
@@ -44,7 +44,7 @@ export class Regions extends Objet implements Collection<RegionID, Region>, JSON
   public static ofSuperposition(
     superpositions: Array<Superposition<Region, RegionError>>
   ): Superposition<Regions, RegionsError> {
-    return Schrodinger.all<Region, RegionError>(superpositions).match<Regions, RegionsError>(
+    return Schrodinger.all<Region, RegionError>(superpositions).transform<Regions, RegionsError>(
       (regions: Array<Region>) => {
         return Alive.of<Regions, RegionsError>(Regions.ofArray(regions));
       },

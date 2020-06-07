@@ -18,7 +18,7 @@ describe('UpdatedAt', () => {
       const superposition2: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01');
 
       expect(superposition1.isDead()).toBe(true);
-      superposition1.match<void>(
+      superposition1.transform<void>(
         () => {
           spy1();
         },
@@ -28,7 +28,7 @@ describe('UpdatedAt', () => {
         }
       );
       expect(superposition2.isDead()).toBe(true);
-      superposition2.match<void>(
+      superposition2.transform<void>(
         () => {
           spy3();
         },

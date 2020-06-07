@@ -8,7 +8,7 @@ import { Offset } from './Offset';
 
 const MIN_PAGE: number = 1;
 
-export class Page extends ValueObject {
+export class Page extends ValueObject<Page> {
   public readonly noun: 'Page' = 'Page';
   private readonly page: number;
 

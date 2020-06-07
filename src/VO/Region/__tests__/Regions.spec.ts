@@ -79,7 +79,7 @@ describe('Regions', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -109,7 +109,7 @@ describe('Regions', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

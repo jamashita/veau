@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/publikum-object';
 
-export class PageProvider extends ValueObject {
+export class PageProvider extends ValueObject<PageProvider> {
   public readonly noun: 'PageProvider' = 'PageProvider';
   private readonly open: boolean;
 

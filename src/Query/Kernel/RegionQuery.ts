@@ -36,7 +36,7 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   public async all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
     const superposition1: Superposition<Regions, RegionsError | DataSourceError> = await this.regionRedisQuery.all();
 
-    return superposition1.match<Regions, RegionsError | DataSourceError>(
+    return superposition1.transform<Regions, RegionsError | DataSourceError>(
       (regions: Regions, self: Alive<Regions, RegionsError | DataSourceError>) => {
         return Promise.resolve<Superposition<Regions, RegionsError | DataSourceError>>(self);
       },
@@ -46,13 +46,13 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
           RegionsError | DataSourceError
         > = await this.regionMySQLQuery.all();
 
-        return superposition2.match<Regions, RegionsError | DataSourceError>(
+        return superposition2.transform<Regions, RegionsError | DataSourceError>(
           async (regions: Regions) => {
             const superposition3: Superposition<unknown, DataSourceError> = await this.regionRedisCommand.insertAll(
               regions
             );
 
-            return superposition3.match<Regions, DataSourceError>(
+            return superposition3.transform<Regions, DataSourceError>(
               () => {
                 return Alive.of<Regions, DataSourceError>(regions);
               },
@@ -81,13 +81,13 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
     const superposition: Superposition<Regions, RegionsError | DataSourceError> = await this.all();
 
-    return superposition.match<Region, RegionError | NoSuchElementError | DataSourceError>(
+    return superposition.transform<Region, RegionError | NoSuchElementError | DataSourceError>(
       (regions: Regions) => {
         const quantum: Quantum<Region> = regions.find((region: Region) => {
           return region.getISO3166().equals(iso3166);
         });
 
-        return quantum.toSuperposition().match<Region, NoSuchElementError | DataSourceError>(
+        return quantum.toSuperposition().transform<Region, NoSuchElementError | DataSourceError>(
           (region: Region) => {
             return Alive.of<Region, DataSourceError>(region);
           },

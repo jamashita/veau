@@ -110,7 +110,7 @@ describe('StatsOutlineQuery', () => {
       > = await statsOutlineQuery.find(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -142,7 +142,7 @@ describe('StatsOutlineQuery', () => {
       > = await statsOutlineQuery.find(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -255,7 +255,7 @@ describe('StatsOutlineQuery', () => {
       > = await statsOutlineQuery.findByVeauAccountID(accountID, page);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

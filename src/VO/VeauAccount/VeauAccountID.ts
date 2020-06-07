@@ -4,7 +4,7 @@ import { UUID, UUIDError } from '@jamashita/publikum-uuid';
 
 import { VeauAccountIDError } from './Error/VeauAccountIDError';
 
-export class VeauAccountID extends ValueObject {
+export class VeauAccountID extends ValueObject<VeauAccountID> {
   public readonly noun: 'VeauAccountID' = 'VeauAccountID';
   private readonly uuid: UUID;
 
@@ -15,7 +15,7 @@ export class VeauAccountID extends ValueObject {
   public static ofString(id: string): Superposition<VeauAccountID, VeauAccountIDError> {
     return Schrodinger.playground<UUID, UUIDError>(() => {
       return UUID.of(id);
-    }).match<VeauAccountID, VeauAccountIDError>(
+    }).transform<VeauAccountID, VeauAccountIDError>(
       (uuid: UUID) => {
         return Alive.of<VeauAccountID, VeauAccountIDError>(VeauAccountID.of(uuid));
       },

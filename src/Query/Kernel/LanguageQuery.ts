@@ -39,7 +39,7 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
       LanguagesError | DataSourceError
     > = await this.languageRedisQuery.all();
 
-    return superposition1.match<Languages, LanguagesError | DataSourceError>(
+    return superposition1.transform<Languages, LanguagesError | DataSourceError>(
       (languages: Languages, self: Alive<Languages, LanguagesError | DataSourceError>) => {
         return Promise.resolve<Superposition<Languages, LanguagesError | DataSourceError>>(self);
       },
@@ -49,13 +49,13 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
           LanguagesError | DataSourceError
         > = await this.languageMySQLQuery.all();
 
-        return superposition2.match<Languages, LanguagesError | DataSourceError>(
+        return superposition2.transform<Languages, LanguagesError | DataSourceError>(
           async (languages: Languages) => {
             const superposition3: Superposition<unknown, DataSourceError> = await this.languageRedisCommand.insertAll(
               languages
             );
 
-            return superposition3.match<Languages, DataSourceError>(
+            return superposition3.transform<Languages, DataSourceError>(
               () => {
                 return Alive.of<Languages, DataSourceError>(languages);
               },
@@ -86,13 +86,13 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
   ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
     const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await this.all();
 
-    return superposition.match<Language, LanguageError | NoSuchElementError | DataSourceError>(
+    return superposition.transform<Language, LanguageError | NoSuchElementError | DataSourceError>(
       (languages: Languages) => {
         const quantum: Quantum<Language> = languages.find((language: Language) => {
           return language.getISO639().equals(iso639);
         });
 
-        return quantum.toSuperposition().match<Language, NoSuchElementError | DataSourceError>(
+        return quantum.toSuperposition().transform<Language, NoSuchElementError | DataSourceError>(
           (language: Language) => {
             return Alive.of<Language, DataSourceError>(language);
           },

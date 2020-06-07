@@ -36,7 +36,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
       return this.redis.getString().get(REDIS_LANGUAGE_KEY);
     });
 
-    return superposition1.match<Languages, LanguagesError | DataSourceError>(
+    return superposition1.transform<Languages, LanguagesError | DataSourceError>(
       async (str: Nullable<string>) => {
         if (str === null) {
           return Dead.of<Languages, RedisError>(new RedisError('NO LANGUAGES FROM REDIS'));
@@ -49,7 +49,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
           return JSONA.parse<Array<LanguageJSON>>(str);
         });
 
-        return superposition2.match<Languages, LanguagesError | DataSourceError>(
+        return superposition2.transform<Languages, LanguagesError | DataSourceError>(
           (json: Array<LanguageJSON>) => {
             return Languages.ofJSON(json);
           },
@@ -78,13 +78,13 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
   ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
     const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await this.all();
 
-    return superposition.match<Language, LanguageError | NoSuchElementError | DataSourceError>(
+    return superposition.transform<Language, LanguageError | NoSuchElementError | DataSourceError>(
       (languages: Languages) => {
         const quantum: Quantum<Language> = languages.find((language: Language) => {
           return language.getISO639().equals(iso639);
         });
 
-        return quantum.toSuperposition().match<Language, NoSuchElementError | DataSourceError>(
+        return quantum.toSuperposition().transform<Language, NoSuchElementError | DataSourceError>(
           (language: Language) => {
             return Alive.of<Language, DataSourceError>(language);
           },

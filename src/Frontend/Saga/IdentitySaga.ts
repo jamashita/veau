@@ -54,7 +54,7 @@ export class IdentitySaga {
 
     yield put(loaded());
 
-    yield superposition1.match<Effect>(
+    yield superposition1.transform<Effect>(
       (locale: Locale) => {
         return put(defineLocale(locale));
       },
@@ -97,7 +97,7 @@ export class IdentitySaga {
       }
     );
 
-    yield superposition3.match<Effect>(
+    yield superposition3.transform<Effect>(
       (language: Language) => {
         const veauAccount: VeauAccount = VeauAccount.of(
           identity.getVeauAccountID(),

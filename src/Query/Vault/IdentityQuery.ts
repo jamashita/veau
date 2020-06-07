@@ -44,7 +44,7 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
       VeauAccountError | DataSourceError
     > = await this.veauAccountQuery.find();
 
-    return superposition1.match<Superposition<Identity, IdentityError | DataSourceError>>(
+    return superposition1.transform<Superposition<Identity, IdentityError | DataSourceError>>(
       async (veauAccount: VeauAccount) => {
         const [superposition2, superposition3]: [
           Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
@@ -54,9 +54,9 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
           this.regionQuery.find(veauAccount.getRegionID())
         ]);
 
-        return superposition2.match<Superposition<Identity, IdentityError | DataSourceError>>(
+        return superposition2.transform<Superposition<Identity, IdentityError | DataSourceError>>(
           (language: Language) => {
-            return superposition3.match<Superposition<Identity, IdentityError | DataSourceError>>(
+            return superposition3.transform<Superposition<Identity, IdentityError | DataSourceError>>(
               (region: Region) => {
                 return Alive.of<Identity, DataSourceError>(
                   Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region)
@@ -100,7 +100,7 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
       VeauAccountError | DataSourceError
     > = await this.veauAccountQuery.findByEntranceInfo(entranceInformation);
 
-    return superposition1.match<Superposition<Identity, IdentityError | DataSourceError>>(
+    return superposition1.transform<Superposition<Identity, IdentityError | DataSourceError>>(
       async (veauAccount: VeauAccount) => {
         const [superposition2, superposition3]: [
           Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
@@ -110,9 +110,9 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
           this.regionQuery.find(veauAccount.getRegionID())
         ]);
 
-        return superposition2.match<Superposition<Identity, IdentityError | DataSourceError>>(
+        return superposition2.transform<Superposition<Identity, IdentityError | DataSourceError>>(
           (language: Language) => {
-            return superposition3.match<Superposition<Identity, IdentityError | DataSourceError>>(
+            return superposition3.transform<Superposition<Identity, IdentityError | DataSourceError>>(
               (region: Region) => {
                 return Alive.of<Identity, DataSourceError>(
                   Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region)

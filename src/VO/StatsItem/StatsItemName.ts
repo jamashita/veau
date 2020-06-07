@@ -2,7 +2,7 @@ import { ValueObject } from '@jamashita/publikum-object';
 
 const EMPTY_NAME: string = '';
 
-export class StatsItemName extends ValueObject {
+export class StatsItemName extends ValueObject<StatsItemName> {
   public readonly noun: 'StatsItemName' = 'StatsItemName';
   private readonly name: string;
 

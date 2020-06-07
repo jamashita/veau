@@ -93,7 +93,7 @@ describe('IdentityQuery', () => {
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -123,7 +123,7 @@ describe('IdentityQuery', () => {
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -164,7 +164,7 @@ describe('IdentityQuery', () => {
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -205,7 +205,7 @@ describe('IdentityQuery', () => {
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -246,7 +246,7 @@ describe('IdentityQuery', () => {
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -287,7 +287,7 @@ describe('IdentityQuery', () => {
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -363,7 +363,7 @@ describe('IdentityQuery', () => {
       > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -396,7 +396,7 @@ describe('IdentityQuery', () => {
       > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -440,7 +440,7 @@ describe('IdentityQuery', () => {
       > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -484,7 +484,7 @@ describe('IdentityQuery', () => {
       > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -528,7 +528,7 @@ describe('IdentityQuery', () => {
       > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -572,7 +572,7 @@ describe('IdentityQuery', () => {
       > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

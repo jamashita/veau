@@ -120,7 +120,7 @@ describe('StatsCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

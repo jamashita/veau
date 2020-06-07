@@ -47,7 +47,7 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
       });
     });
 
-    return superposition.match<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(
+    return superposition.transform<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(
       (rows: Array<StatsValueRow>) => {
         const map1: Map<string, Array<StatsValueRow>> = new Map<string, Array<StatsValueRow>>();
 

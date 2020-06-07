@@ -53,7 +53,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
       });
     });
 
-    return superposition.match<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(
+    return superposition.transform<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(
       (rows: Array<StatsOutlineRow>) => {
         if (rows.length === 0) {
           return Dead.of<StatsOutline, NoSuchElementError>(new NoSuchElementError(statsID.toString()));
@@ -99,7 +99,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
       });
     });
 
-    return superposition.match<StatsOutlines, StatsOutlinesError | DataSourceError>(
+    return superposition.transform<StatsOutlines, StatsOutlinesError | DataSourceError>(
       (rows: Array<StatsOutlineRow>) => {
         return StatsOutlines.ofRow(rows);
       },

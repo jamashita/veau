@@ -81,7 +81,7 @@ describe('RegionCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await regionCommand.insertAll(regions);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -117,7 +117,7 @@ describe('RegionCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await regionCommand.insertAll(regions);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -160,7 +160,7 @@ describe('RegionCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await regionCommand.deleteAll();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -187,7 +187,7 @@ describe('RegionCommand', () => {
       const superposition: Superposition<unknown, DataSourceError> = await regionCommand.deleteAll();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

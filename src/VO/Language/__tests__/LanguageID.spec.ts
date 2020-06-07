@@ -43,7 +43,7 @@ describe('LanguageID', () => {
       const superposition: Superposition<LanguageID, LanguageIDError> = LanguageID.ofString('quasi');
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

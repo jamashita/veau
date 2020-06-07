@@ -162,7 +162,7 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -225,7 +225,7 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -288,7 +288,7 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -363,7 +363,7 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -441,7 +441,7 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -519,7 +519,7 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },

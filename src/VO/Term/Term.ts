@@ -13,7 +13,7 @@ const MONTHLY_ID: string = '5a60eb2e-64f4-4d18-b8c1-34d3fa6a6262';
 const QUARTERLY_ID: string = 'fbfe34f4-9757-4133-8353-c9a4bf3479d3';
 const ANNUAL_ID: string = '96f0d8a0-a136-4fb1-bc07-22dad6b8a21c';
 
-export class Term extends ValueObject {
+export class Term extends ValueObject<Term> {
   public readonly noun: 'Term' = 'Term';
   private readonly termID: TermID;
   private readonly key: TermKey;

@@ -50,7 +50,7 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
       });
     });
 
-    return superposition.match<Account, AccountError | NoSuchElementError | DataSourceError>(
+    return superposition.transform<Account, AccountError | NoSuchElementError | DataSourceError>(
       (rows: Array<AccountRow>) => {
         if (rows.length === 0) {
           return Dead.of<Account, NoSuchElementError>(new NoSuchElementError(account.get()));

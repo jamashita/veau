@@ -4,7 +4,7 @@ import { Kind } from '@jamashita/publikum-type';
 
 import { HeaderSizeError } from './Error/HeaderSizeError';
 
-export class HeaderSize extends ValueObject {
+export class HeaderSize extends ValueObject<HeaderSize> {
   public readonly noun: 'HeaderSize' = 'HeaderSize';
   private readonly size: number;
 

@@ -6,7 +6,7 @@ import { UpdatedAtError } from './Error/UpdatedAtError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 
-export class UpdatedAt extends ValueObject {
+export class UpdatedAt extends ValueObject<UpdatedAt> {
   public readonly noun: 'UpdatedAt' = 'UpdatedAt';
   private readonly at: Zeit;
 
@@ -17,7 +17,7 @@ export class UpdatedAt extends ValueObject {
   public static ofString(at: string): Superposition<UpdatedAt, UpdatedAtError> {
     return Schrodinger.playground<Zeit, ZeitError>(() => {
       return Zeit.ofString(at, TERM_FORMAT);
-    }).match<UpdatedAt, UpdatedAtError>(
+    }).transform<UpdatedAt, UpdatedAtError>(
       (zeit: Zeit) => {
         return Alive.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(zeit));
       },

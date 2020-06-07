@@ -6,7 +6,7 @@ import { Mapper } from '@jamashita/publikum-type';
 import { Term } from './Term';
 import { TermID } from './TermID';
 
-export class Terms extends Objet implements Collection<TermID, Term> {
+export class Terms extends Objet<Terms> implements Collection<TermID, Term> {
   public readonly noun: 'Terms' = 'Terms';
   private readonly terms: Project<TermID, Term>;
 

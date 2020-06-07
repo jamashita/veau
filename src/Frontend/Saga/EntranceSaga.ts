@@ -62,7 +62,7 @@ export class EntranceSaga {
 
       yield put(loaded());
 
-      yield superposition.match<Effect>(
+      yield superposition.transform<Effect>(
         (veauAccount: VeauAccount) => {
           return all([put(identityAuthenticated(veauAccount)), put(pushToStatsList()), put(identified())]);
         },
