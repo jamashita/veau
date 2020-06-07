@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
 import bodyParser from 'body-parser';
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
@@ -53,7 +53,7 @@ describe('StatsController', () => {
 
       useContainer(kernel);
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [StatsController]
       });
 
@@ -68,7 +68,7 @@ describe('StatsController', () => {
 
       useContainer(kernel);
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [StatsController]
       });
 
@@ -88,7 +88,7 @@ describe('StatsController', () => {
 
       useContainer(kernel);
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [StatsController]
       });
 
@@ -112,7 +112,7 @@ describe('StatsController', () => {
 
       useContainer(kernel);
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [StatsController]
       });
 
@@ -133,7 +133,7 @@ describe('StatsController', () => {
 
       useContainer(kernel);
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [StatsController]
       });
 
@@ -153,7 +153,7 @@ describe('StatsController', () => {
 
       useContainer(kernel);
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [StatsController]
       });
 
@@ -187,7 +187,7 @@ describe('StatsController', () => {
       );
       app.use(bodyParser.json());
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [StatsController]
       });
 
@@ -207,7 +207,7 @@ describe('StatsController', () => {
       );
       app.use(bodyParser.json());
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [StatsController]
       });
 
@@ -245,7 +245,7 @@ describe('StatsController', () => {
       );
       app.use(bodyParser.json());
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [StatsController]
       });
 
@@ -301,7 +301,7 @@ describe('StatsController', () => {
       );
       app.use(bodyParser.json());
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [StatsController]
       });
 

@@ -1,6 +1,8 @@
 import { Response } from 'express';
+import { injectable } from 'inversify';
 import { Controller, Get, Render, Res } from 'routing-controllers';
 
+@injectable()
 @Controller()
 export class FEController {
   @Get('/robots.txt')

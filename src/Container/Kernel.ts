@@ -12,6 +12,7 @@ import { LocaleController } from '../Controller/API/LocaleController';
 import { SessionController } from '../Controller/API/SessionController';
 import { StatsController } from '../Controller/API/StatsController';
 import { FEController } from '../Controller/FE/FEController';
+import { AuthenticationMiddleware } from '../Controller/Middleware/AuthenticationMiddleware';
 import { veauMySQL } from '../Infrastructure/VeauMySQL';
 import { veauRedis } from '../Infrastructure/VeauRedis';
 import { AuthenticationInteractor } from '../Interactor/AuthenticationInteractor';
@@ -44,6 +45,7 @@ kernel.bind<LocaleController>(LocaleController).toSelf().inSingletonScope();
 kernel.bind<SessionController>(SessionController).toSelf().inSingletonScope();
 kernel.bind<StatsController>(StatsController).toSelf().inSingletonScope();
 kernel.bind<FEController>(FEController).toSelf().inSingletonScope();
+kernel.bind<AuthenticationMiddleware>(AuthenticationMiddleware).toSelf().inSingletonScope();
 
 // Gateway
 kernel.bind<IMySQL>(Type.MySQL).toConstantValue(veauMySQL);

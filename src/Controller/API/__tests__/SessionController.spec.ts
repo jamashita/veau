@@ -22,7 +22,7 @@ describe('SessionController', () => {
 
       useContainer(kernel);
       app.use(dummy);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [SessionController]
       });
 

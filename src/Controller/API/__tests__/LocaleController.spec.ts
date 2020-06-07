@@ -62,7 +62,7 @@ describe('LocaleController', () => {
       const app: Express = express();
 
       useContainer(kernel);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [LocaleController]
       });
 
@@ -82,7 +82,7 @@ describe('LocaleController', () => {
       const app: Express = express();
 
       useContainer(kernel);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [LocaleController]
       });
 
@@ -101,7 +101,7 @@ describe('LocaleController', () => {
       const app: Express = express();
 
       useContainer(kernel);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [LocaleController]
       });
 
@@ -123,7 +123,7 @@ describe('LocaleController', () => {
 
       useContainer(kernel);
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [LocaleController]
       });
 
@@ -143,7 +143,7 @@ describe('LocaleController', () => {
 
       useContainer(kernel);
       app.use(fakeAccount);
-      useExpressServer(app, {
+      useExpressServer<Express>(app, {
         controllers: [LocaleController]
       });
 

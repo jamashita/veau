@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import log4js from 'log4js';
 import { Controller, Delete, Get, Res, UseBefore } from 'routing-controllers';
 
@@ -15,6 +15,7 @@ import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware
 
 const logger: log4js.Logger = log4js.getLogger();
 
+@injectable()
 @Controller('/locale')
 export class LocaleController {
   private readonly localeInteractor: LocaleInteractor;

@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import log4js from 'log4js';
 import { Body, Controller, Get, Param, Post, Res, UseBefore } from 'routing-controllers';
 
@@ -23,6 +23,7 @@ import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware
 
 const logger: log4js.Logger = log4js.getLogger();
 
+@injectable()
 @Controller('/stats')
 export class StatsController {
   private readonly statsInteractor: StatsInteractor;

@@ -1,10 +1,12 @@
 import { Response } from 'express';
 import { OK } from 'http-status';
+import { injectable } from 'inversify';
 import passport from 'passport';
 import { Controller, Post, Res, UseBefore } from 'routing-controllers';
 
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
+@injectable()
 @Controller('/auth')
 export class AuthController {
   @Post('/')
