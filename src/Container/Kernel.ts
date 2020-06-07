@@ -38,12 +38,12 @@ kernel.bind<LanguageRedisCommand>(Type.LanguageRedisCommand).to(LanguageRedisCom
 kernel.bind<RegionRedisCommand>(Type.RegionRedisCommand).to(RegionRedisCommand).inSingletonScope();
 
 // Controller
-kernel.bind<AccountController>(Type.AccountController).to(AccountController).inSingletonScope();
-kernel.bind<AuthController>(Type.AuthController).to(AuthController).inSingletonScope();
-kernel.bind<LocaleController>(Type.LocaleController).to(LocaleController).inSingletonScope();
-kernel.bind<SessionController>(Type.SessionController).to(SessionController).inSingletonScope();
-kernel.bind<StatsController>(Type.StatsController).to(StatsController).inSingletonScope();
-kernel.bind<FEController>(Type.FEController).to(FEController).inSingletonScope();
+kernel.bind<AccountController>(AccountController).toSelf().inSingletonScope();
+kernel.bind<AuthController>(AuthController).toSelf().inSingletonScope();
+kernel.bind<LocaleController>(LocaleController).toSelf().inSingletonScope();
+kernel.bind<SessionController>(SessionController).toSelf().inSingletonScope();
+kernel.bind<StatsController>(StatsController).toSelf().inSingletonScope();
+kernel.bind<FEController>(FEController).toSelf().inSingletonScope();
 
 // Gateway
 kernel.bind<IMySQL>(Type.MySQL).toConstantValue(veauMySQL);
