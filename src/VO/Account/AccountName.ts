@@ -1,15 +1,15 @@
 import { ValueObject } from '@jamashita/publikum-object';
 
-const EMPTY_NAE: string = '';
+const EMPTY_NAME: string = '';
 
 export class AccountName extends ValueObject<AccountName> {
   public readonly noun: 'AccountName' = 'AccountName';
   private readonly name: string;
 
-  private static readonly EMPTY: AccountName = new AccountName(EMPTY_NAE);
+  private static readonly EMPTY: AccountName = new AccountName(EMPTY_NAME);
 
   public static of(name: string): AccountName {
-    if (name === EMPTY_NAE) {
+    if (name === EMPTY_NAME) {
       return AccountName.empty();
     }
 
