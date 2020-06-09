@@ -38,7 +38,7 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
       USING(stats_item_id)
       WHERE R2.stats_id = :statsID;`;
 
-    const superposition: Superposition<Array<StatsValueRow>, MySQLError> = await Schrodinger.playground<
+    const superposition: Superposition<Array<StatsValueRow>, MySQLError> = await Schrodinger.sandbox<
       Array<StatsValueRow>,
       MySQLError
     >(() => {

@@ -1,7 +1,6 @@
 import { Response } from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
 import { inject, injectable } from 'inversify';
-import log4js from 'log4js';
 import { Body, Controller, Get, Param, Post, Res, UseBefore } from 'routing-controllers';
 
 import { DataSourceError } from '@jamashita/publikum-error';
@@ -12,6 +11,7 @@ import { PlainObject } from '@jamashita/publikum-type';
 import { Type } from '../../Container/Types';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { Stats } from '../../Entity/Stats/Stats';
+import { logger } from '../../Infrastructure/Logger';
 import { StatsInteractor } from '../../Interactor/StatsInteractor';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { PageError } from '../../VO/Page/Error/PageError';
@@ -20,8 +20,6 @@ import { StatsIDError } from '../../VO/StatsOutline/Error/StatsIDError';
 import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
-
-const logger: log4js.Logger = log4js.getLogger();
 
 @injectable()
 @Controller('/stats')

@@ -8,7 +8,6 @@ import connectRedis from 'connect-redis';
 import express, { Express, RequestHandler } from 'express';
 import expressSession from 'express-session';
 import helmet from 'helmet';
-import log4js from 'log4js';
 import passport from 'passport';
 import path from 'path';
 import favicon from 'serve-favicon';
@@ -16,14 +15,12 @@ import favicon from 'serve-favicon';
 import { Ambiguous } from '@jamashita/publikum-type';
 
 import { BaseController } from '../Controller/BaseController';
+import { logger } from '../Infrastructure/Logger';
 import { veauRedis } from '../Infrastructure/VeauRedis';
 
 const port: number = config.get<number>('port');
 // eslint-disable-next-line no-process-env
 const mode: Ambiguous<string> = process.env.NODE_ENV;
-
-log4js.configure(config.get<log4js.Configuration>('log4js'));
-const logger: log4js.Logger = log4js.getLogger();
 
 if (mode === undefined) {
   logger.fatal('mode IS NOT SET');
@@ -50,13 +47,6 @@ app.use(compression());
 app.use(helmet());
 app.use(express.static(path.resolve(__dirname, 'public')));
 app.use(favicon(path.resolve(__dirname, 'favicon.ico')));
-app.use(
-  log4js.connectLogger(logger, {
-    level: 'info',
-    nolog: ['\\.css', '\\.js', '\\.jpeg', '\\.png', '\\.ttf', '\\.ico'],
-    format: ':method :url :status'
-  })
-);
 
 const RedisStore: connectRedis.RedisStore = connectRedis(expressSession);
 const sessionStore: expressSession.Store = new RedisStore({

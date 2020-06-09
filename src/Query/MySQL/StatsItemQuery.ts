@@ -40,7 +40,7 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
       WHERE R1.stats_id = :statsID
       ORDER BY R1.seq;`;
 
-    const superposition1: Superposition<Array<StatsItemRow>, MySQLError> = await Schrodinger.playground<
+    const superposition1: Superposition<Array<StatsItemRow>, MySQLError> = await Schrodinger.sandbox<
       Array<StatsItemRow>,
       MySQLError
     >(() => {
@@ -54,7 +54,7 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
         const superposition2: Superposition<
           Project<StatsItemID, StatsValues>,
           StatsValuesError | DataSourceError
-        > = await Schrodinger.playground<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(() => {
+        > = await Schrodinger.sandbox<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(() => {
           return this.statsValueQuery.findByStatsID(statsID);
         });
 

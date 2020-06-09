@@ -44,7 +44,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
       USING(region_id)
       WHERE R1.stats_id = :statsID;`;
 
-    const superposition: Superposition<Array<StatsOutlineRow>, MySQLError> = await Schrodinger.playground<
+    const superposition: Superposition<Array<StatsOutlineRow>, MySQLError> = await Schrodinger.sandbox<
       Array<StatsOutlineRow>,
       MySQLError
     >(() => {
@@ -88,7 +88,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
       LIMIT :limit
       OFFSET :offset;`;
 
-    const superposition: Superposition<Array<StatsOutlineRow>, MySQLError> = await Schrodinger.playground<
+    const superposition: Superposition<Array<StatsOutlineRow>, MySQLError> = await Schrodinger.sandbox<
       Array<StatsOutlineRow>,
       MySQLError
     >(() => {

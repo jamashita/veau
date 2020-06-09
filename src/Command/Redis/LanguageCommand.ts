@@ -24,7 +24,7 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
   }
 
   public async insertAll(languages: Languages): Promise<Superposition<unknown, DataSourceError>> {
-    const superposition: Superposition<string, JSONAError> = await Schrodinger.playground<string, JSONAError>(() => {
+    const superposition: Superposition<string, JSONAError> = await Schrodinger.sandbox<string, JSONAError>(() => {
       return JSONA.stringify(languages.toJSON());
     });
 
@@ -43,7 +43,7 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
   }
 
   public async deleteAll(): Promise<Superposition<unknown, DataSourceError>> {
-    const superposition: Superposition<boolean, RedisError> = await Schrodinger.playground<boolean, RedisError>(() => {
+    const superposition: Superposition<boolean, RedisError> = await Schrodinger.sandbox<boolean, RedisError>(() => {
       return this.redis.delete(REDIS_LANGUAGE_KEY);
     });
 

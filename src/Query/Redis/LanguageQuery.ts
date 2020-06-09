@@ -29,7 +29,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
   }
 
   public async all(): Promise<Superposition<Languages, LanguagesError | DataSourceError>> {
-    const superposition1: Superposition<Nullable<string>, RedisError> = await Schrodinger.playground<
+    const superposition1: Superposition<Nullable<string>, RedisError> = await Schrodinger.sandbox<
       Nullable<string>,
       RedisError
     >(() => {
@@ -42,7 +42,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
           return Dead.of<Languages, RedisError>(new RedisError('NO LANGUAGES FROM REDIS'));
         }
 
-        const superposition2: Superposition<Array<LanguageJSON>, JSONAError> = await Schrodinger.playground<
+        const superposition2: Superposition<Array<LanguageJSON>, JSONAError> = await Schrodinger.sandbox<
           Array<LanguageJSON>,
           JSONAError
         >(() => {

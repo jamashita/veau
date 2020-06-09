@@ -1,5 +1,4 @@
 import { inject, injectable } from 'inversify';
-import log4js from 'log4js';
 import { VerifyFunction } from 'passport-local';
 
 import { Digest } from '@jamashita/publikum-digest';
@@ -8,14 +7,13 @@ import { Noun } from '@jamashita/publikum-interface';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../Container/Types';
+import { logger } from '../Infrastructure/Logger';
 import { NoSuchElementError } from '../Query/Error/NoSuchElementError';
 import { IAccountQuery } from '../Query/Interface/IAccountQuery';
 import { Account } from '../VO/Account/Account';
 import { AccountName } from '../VO/Account/AccountName';
 import { AccountError } from '../VO/Account/Error/AccountError';
 import { Password } from '../VO/EntranceInformation/Password';
-
-const logger: log4js.Logger = log4js.getLogger();
 
 const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
 const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';
@@ -34,7 +32,7 @@ export class AuthenticationInteractor implements Noun {
       const superposition: Superposition<
         Account,
         AccountError | NoSuchElementError | DataSourceError
-      > = await Schrodinger.playground<Account, AccountError | NoSuchElementError | DataSourceError>(() => {
+      > = await Schrodinger.sandbox<Account, AccountError | NoSuchElementError | DataSourceError>(() => {
         return this.accountQuery.findByAccount(AccountName.of(name));
       });
 

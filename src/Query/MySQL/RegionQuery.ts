@@ -34,7 +34,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       FORCE INDEX(iso3166)
       ORDER BY R1.iso3166;`;
 
-    const superposition: Superposition<Array<RegionRow>, MySQLError> = await Schrodinger.playground<
+    const superposition: Superposition<Array<RegionRow>, MySQLError> = await Schrodinger.sandbox<
       Array<RegionRow>,
       MySQLError
     >(() => {
@@ -65,7 +65,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       FROM regions R1
       WHERE R1.region_id = :regionID;`;
 
-    const superposition: Superposition<Array<RegionRow>, MySQLError> = await Schrodinger.playground<
+    const superposition: Superposition<Array<RegionRow>, MySQLError> = await Schrodinger.sandbox<
       Array<RegionRow>,
       MySQLError
     >(() => {
@@ -98,7 +98,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       FROM regions R1
       WHERE R1.iso3166 = :iso3166;`;
 
-    const superposition: Superposition<Array<RegionRow>, MySQLError> = await Schrodinger.playground<
+    const superposition: Superposition<Array<RegionRow>, MySQLError> = await Schrodinger.sandbox<
       Array<RegionRow>,
       MySQLError
     >(() => {

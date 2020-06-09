@@ -41,7 +41,7 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
       WHERE R1.account = :account
       AND R1.active = true;`;
 
-    const superposition: Superposition<Array<AccountRow>, MySQLError> = await Schrodinger.playground<
+    const superposition: Superposition<Array<AccountRow>, MySQLError> = await Schrodinger.sandbox<
       Array<AccountRow>,
       MySQLError
     >(() => {

@@ -1,7 +1,6 @@
 import { Response } from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { inject, injectable } from 'inversify';
-import log4js from 'log4js';
 import { Controller, Delete, Get, Res, UseBefore } from 'routing-controllers';
 
 import { DataSourceError } from '@jamashita/publikum-error';
@@ -9,11 +8,10 @@ import { JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
+import { logger } from '../../Infrastructure/Logger';
 import { LocaleInteractor } from '../../Interactor/LocaleInteractor';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
-
-const logger: log4js.Logger = log4js.getLogger();
 
 @injectable()
 @Controller('/locale')

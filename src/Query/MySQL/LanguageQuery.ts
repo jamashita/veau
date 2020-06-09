@@ -35,7 +35,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       FORCE INDEX(iso639)
       ORDER BY R1.iso639;`;
 
-    const superposition: Superposition<Array<LanguageRow>, MySQLError> = await Schrodinger.playground<
+    const superposition: Superposition<Array<LanguageRow>, MySQLError> = await Schrodinger.sandbox<
       Array<LanguageRow>,
       MySQLError
     >(() => {
@@ -67,7 +67,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       FROM languages R1
       WHERE R1.language_id = :languageID;`;
 
-    const superposition: Superposition<Array<LanguageRow>, MySQLError> = await Schrodinger.playground<
+    const superposition: Superposition<Array<LanguageRow>, MySQLError> = await Schrodinger.sandbox<
       Array<LanguageRow>,
       MySQLError
     >(() => {
@@ -101,7 +101,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       FROM languages R1
       WHERE R1.iso639 = :iso639;`;
 
-    const superposition: Superposition<Array<LanguageRow>, MySQLError> = await Schrodinger.playground<
+    const superposition: Superposition<Array<LanguageRow>, MySQLError> = await Schrodinger.sandbox<
       Array<LanguageRow>,
       MySQLError
     >(() => {

@@ -29,7 +29,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
   }
 
   public async all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
-    const superposition1: Superposition<Nullable<string>, RedisError> = await Schrodinger.playground<
+    const superposition1: Superposition<Nullable<string>, RedisError> = await Schrodinger.sandbox<
       Nullable<string>,
       RedisError
     >(() => {
@@ -42,7 +42,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
           return Dead.of<Regions, RedisError>(new RedisError('NO REGIONS FROM REDIS'));
         }
 
-        const superposition2: Superposition<Array<RegionJSON>, JSONAError> = await Schrodinger.playground<
+        const superposition2: Superposition<Array<RegionJSON>, JSONAError> = await Schrodinger.sandbox<
           Array<RegionJSON>,
           JSONAError
         >(() => {
