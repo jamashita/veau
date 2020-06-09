@@ -9,14 +9,11 @@ import { Superposition } from '@jamashita/publikum-monad';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
-import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsListItemQuery } from '../../Query/Interface/IStatsListItemQuery';
-import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Language } from '../../VO/Language/Language';
 import { Page } from '../../VO/Page/Page';
-import { RegionError } from '../../VO/Region/Error/RegionError';
 import { Region } from '../../VO/Region/Region';
 import { StatsListItemsError } from '../../VO/StatsListItem/Error/StatsListItemsError';
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
@@ -184,17 +181,15 @@ export class StatsListEpic {
     return action$.pipe<StatsListISO639SelectedAction, VeauAction>(
       ofType<VeauAction, StatsListISO639SelectedAction>(STATS_LIST_ISO639_SELECTED),
       mergeMap<StatsListISO639SelectedAction, Observable<VeauAction>>((action: StatsListISO639SelectedAction) => {
-        return from<Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>>(
-          this.languageQuery.findByISO639(action.iso639)
-        ).pipe<VeauAction>(
-          mergeMap<
-            Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
-            Observable<VeauAction>
-          >((superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
-            return superposition.transform<Observable<VeauAction>>(
-              (language: Language) => {
-                // prettier-ignore
-                const {
+        return from<Promise<Superposition<Language, Error>>>(this.languageQuery.findByISO639(action.iso639)).pipe<
+          VeauAction
+        >(
+          mergeMap<Superposition<Language, Error>, Observable<VeauAction>>(
+            (superposition: Superposition<Language, Error>) => {
+              return superposition.transform<Observable<VeauAction>>(
+                (language: Language) => {
+                  // prettier-ignore
+                  const {
                     value: {
                       statsList: {
                         stats
@@ -202,21 +197,22 @@ export class StatsListEpic {
                     }
                   } = state$;
 
-                const newStats: Stats = Stats.of(
-                  stats.getOutline(),
-                  language,
-                  stats.getRegion(),
-                  stats.getTerm(),
-                  stats.getItems()
-                );
+                  const newStats: Stats = Stats.of(
+                    stats.getOutline(),
+                    language,
+                    stats.getRegion(),
+                    stats.getTerm(),
+                    stats.getItems()
+                  );
 
-                return of<VeauAction>(updateNewStats(newStats));
-              },
-              () => {
-                return of<VeauAction>();
-              }
-            );
-          })
+                  return of<VeauAction>(updateNewStats(newStats));
+                },
+                () => {
+                  return of<VeauAction>();
+                }
+              );
+            }
+          )
         );
       })
     );
@@ -229,11 +225,11 @@ export class StatsListEpic {
     return action$.pipe<StatsListISO3166SelectedAction, VeauAction>(
       ofType<VeauAction, StatsListISO3166SelectedAction>(STATS_LIST_ISO3166_SELECTED),
       mergeMap<StatsListISO3166SelectedAction, Observable<VeauAction>>((action: StatsListISO3166SelectedAction) => {
-        return from<Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>>(
-          this.regionQuery.findByISO3166(action.iso3166)
-        ).pipe<VeauAction>(
-          mergeMap<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>, Observable<VeauAction>>(
-            (superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError>) => {
+        return from<Promise<Superposition<Region, Error>>>(this.regionQuery.findByISO3166(action.iso3166)).pipe<
+          VeauAction
+        >(
+          mergeMap<Superposition<Region, Error>, Observable<VeauAction>>(
+            (superposition: Superposition<Region, Error>) => {
               return superposition.transform<Observable<VeauAction>>(
                 (region: Region) => {
                   // prettier-ignore
@@ -309,8 +305,7 @@ export class StatsListEpic {
       }),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
         return concat<VeauAction>(
-          of<VeauAction>(closeNewStatsModal()),
-          of<VeauAction>(loading()),
+          of<VeauAction>(closeNewStatsModal(), loading()),
           mergeMap(() => {
             // prettier-ignore
             const {
@@ -322,31 +317,27 @@ export class StatsListEpic {
               }
             } = state$;
 
-            return from<Promise<Superposition<unknown, DataSourceError>>>(
+            return from<Promise<Superposition<unknown, Error>>>(
               this.statsCommand.create(stats, identity.getVeauAccountID())
             ).pipe<VeauAction>(
-              mergeMap<Superposition<unknown, DataSourceError>, Observable<VeauAction>>(
-                (superposition: Superposition<unknown, DataSourceError>) => {
-                  return concat<VeauAction>(
-                    of<VeauAction>(loaded()),
-                    mergeMap<VeauAction, Observable<VeauAction>>(() => {
-                      return superposition.transform<Observable<VeauAction>>(
-                        () => {
-                          return of<VeauAction>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
-                        },
-                        () => {
-                          return of<VeauAction>(
-                            loaded(),
-                            raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
-                          );
-                        }
+              mergeMap<Superposition<unknown, Error>, Observable<VeauAction>>(
+                (superposition: Superposition<unknown, Error>) => {
+                  return superposition.transform<Observable<VeauAction>>(
+                    () => {
+                      return of<VeauAction>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
+                    },
+                    () => {
+                      return of<VeauAction>(
+                        loaded(),
+                        raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
                       );
-                    })
+                    }
                   );
                 }
               )
             );
-          })
+          }),
+          of<VeauAction>(loaded())
         );
       })
     );

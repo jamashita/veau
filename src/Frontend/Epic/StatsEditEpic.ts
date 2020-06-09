@@ -13,7 +13,6 @@ import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
-import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsQuery } from '../../Query/Interface/IStatsQuery';
 import { AsOf } from '../../VO/AsOf/AsOf';
@@ -68,20 +67,17 @@ import { State } from '../State';
 @injectable()
 export class StatsEditEpic {
   private readonly statsQuery: IStatsQuery;
-  private readonly localeQuery: ILocaleQuery;
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
     @inject(Type.StatsAJAXQuery) statsQuery: IStatsQuery,
-    @inject(Type.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery,
     @inject(Type.StatsAJAXCommand) statsCommand: IStatsCommand
   ) {
     this.statsQuery = statsQuery;
-    this.localeQuery = localeQuery;
     this.languageQuery = languageQuery;
     this.regionQuery = regionQuery;
     this.statsCommand = statsCommand;
@@ -145,7 +141,10 @@ export class StatsEditEpic {
     return action$.pipe<VeauAction, VeauAction>(
       ofType<VeauAction, VeauAction>(STATS_EDIT_INITIALIZATION_FAILURE),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
-        return of<VeauAction>(pushToStatsList(), appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID'));
+        return concat<VeauAction>(
+          of<VeauAction>(pushToStatsList()),
+          of<VeauAction>(appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID'))
+        );
       })
     );
   }
@@ -534,38 +533,32 @@ export class StatsEditEpic {
     return action$.pipe<VeauAction, VeauAction>(
       ofType<VeauAction, VeauAction>(STATS_EDIT_SAVE_STATS),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        // prettier-ignore
+        const {
+          value: {
+            stats
+          }
+        } = state$;
+
         return concat<VeauAction>(
           of<VeauAction>(loading()),
-          mergeMap<VeauAction, Observable<VeauAction>>(() => {
-            // prettier-ignore
-            const {
-              value: {
-                stats
+          from<Promise<Superposition<unknown, DataSourceError>>>(
+            this.statsCommand.create(stats, VeauAccountID.generate())
+          ).pipe<VeauAction>(
+            mergeMap<Superposition<unknown, DataSourceError>, Observable<VeauAction>>(
+              (superposition: Superposition<unknown, DataSourceError>) => {
+                return superposition.transform<VeauAction>(
+                  () => {
+                    return of<VeauAction>(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
+                  },
+                  () => {
+                    return of<VeauAction>(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
+                  }
+                );
               }
-            } = state$;
-
-            return from<Promise<Superposition<unknown, DataSourceError>>>(
-              this.statsCommand.create(stats, VeauAccountID.generate())
-            ).pipe<VeauAction>(
-              mergeMap<Superposition<unknown, DataSourceError>, Observable<VeauAction>>(
-                (superposition: Superposition<unknown, DataSourceError>) => {
-                  return concat<VeauAction>(
-                    of<VeauAction>(loaded()),
-                    map<VeauAction, VeauAction>(() => {
-                      return superposition.transform<VeauAction>(
-                        () => {
-                          return appearNotification('success', 'center', 'top', 'SAVE_SUCCESS');
-                        },
-                        () => {
-                          return raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION');
-                        }
-                      );
-                    })
-                  );
-                }
-              )
-            );
-          })
+            )
+          ),
+          of<VeauAction>(loaded())
         );
       })
     );
