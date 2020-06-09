@@ -542,12 +542,12 @@ export class StatsEditEpic {
 
         return concat<VeauAction>(
           of<VeauAction>(loading()),
-          from<Promise<Superposition<unknown, DataSourceError>>>(
-            this.statsCommand.create(stats, VeauAccountID.generate())
-          ).pipe<VeauAction>(
-            mergeMap<Superposition<unknown, DataSourceError>, Observable<VeauAction>>(
-              (superposition: Superposition<unknown, DataSourceError>) => {
-                return superposition.transform<VeauAction>(
+          from<Promise<Superposition<unknown, Error>>>(this.statsCommand.create(stats, VeauAccountID.generate())).pipe<
+            VeauAction
+          >(
+            mergeMap<Superposition<unknown, Error>, Observable<VeauAction>>(
+              (superposition: Superposition<unknown, Error>) => {
+                return superposition.transform<Observable<VeauAction>>(
                   () => {
                     return of<VeauAction>(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
                   },

@@ -4,7 +4,7 @@ import { VerifyFunction } from 'passport-local';
 import { Digest } from '@jamashita/publikum-digest';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../Container/Types';
 import { logger } from '../Infrastructure/Logger';
@@ -32,9 +32,7 @@ export class AuthenticationInteractor implements Noun {
       const superposition: Superposition<
         Account,
         AccountError | NoSuchElementError | DataSourceError
-      > = await Schrodinger.sandbox<Account, AccountError | NoSuchElementError | DataSourceError>(() => {
-        return this.accountQuery.findByAccount(AccountName.of(name));
-      });
+      > = await this.accountQuery.findByAccount(AccountName.of(name));
 
       superposition.transform<void>(
         async (account: Account) => {

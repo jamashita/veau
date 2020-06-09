@@ -54,9 +54,7 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
         const superposition2: Superposition<
           Project<StatsItemID, StatsValues>,
           StatsValuesError | DataSourceError
-        > = await Schrodinger.sandbox<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(() => {
-          return this.statsValueQuery.findByStatsID(statsID);
-        });
+        > = await this.statsValueQuery.findByStatsID(statsID);
 
         return superposition2.transform<StatsItems, StatsItemsError | DataSourceError>(
           (project: Project<StatsItemID, StatsValues>) => {
