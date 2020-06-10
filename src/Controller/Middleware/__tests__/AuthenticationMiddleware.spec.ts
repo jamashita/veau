@@ -2,30 +2,52 @@ import 'reflect-metadata';
 
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { OK, UNAUTHORIZED } from 'http-status';
+import { Controller, Delete, Get, Post, Put, Res, UseBefore, useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
 
 import { AuthenticationMiddleware } from '../AuthenticationMiddleware';
+
+@Controller('/')
+class MockController {
+  @Get('/')
+  @UseBefore(AuthenticationMiddleware)
+  public get(@Res() res: Response): Response {
+    return res.sendStatus(OK);
+  }
+
+  @Post('/')
+  @UseBefore(AuthenticationMiddleware)
+  public post(@Res() res: Response): Response {
+    return res.sendStatus(OK);
+  }
+
+  @Put('/')
+  @UseBefore(AuthenticationMiddleware)
+  public put(@Res() res: Response): Response {
+    return res.sendStatus(OK);
+  }
+
+  @Delete('/')
+  @UseBefore(AuthenticationMiddleware)
+  public delete(@Res() res: Response): Response {
+    return res.sendStatus(OK);
+  }
+}
 
 const setUser = (req: Request, res: Response, next: NextFunction): void => {
   req.user = {};
   next();
 };
 
-const ok = (req: Request, res: Response): void => {
-  res.sendStatus(OK);
-};
-
 describe('AuthenticationMiddleware', () => {
   describe('requires', () => {
     it('GET: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = new AuthenticationMiddleware();
       const app: Express = express();
 
       app.use(setUser);
-      app.use((req: Request, res: Response, next: NextFunction) => {
-        authenticationMiddleware.use(req, res, next);
+      useExpressServer<Express>(app, {
+        controllers: [MockController]
       });
-      app.use(ok);
 
       const response: supertest.Response = await supertest(app).get('/');
 
@@ -33,13 +55,11 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('GET: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = new AuthenticationMiddleware();
       const app: Express = express();
 
-      app.use((req: Request, res: Response, next: NextFunction) => {
-        authenticationMiddleware.use(req, res, next);
+      useExpressServer<Express>(app, {
+        controllers: [MockController]
       });
-      app.use(ok);
 
       const response: supertest.Response = await supertest(app).get('/');
 
@@ -47,14 +67,12 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('POST: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = new AuthenticationMiddleware();
       const app: Express = express();
 
       app.use(setUser);
-      app.use((req: Request, res: Response, next: NextFunction) => {
-        authenticationMiddleware.use(req, res, next);
+      useExpressServer<Express>(app, {
+        controllers: [MockController]
       });
-      app.use(ok);
 
       const response: supertest.Response = await supertest(app).post('/');
 
@@ -62,13 +80,11 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('POST: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = new AuthenticationMiddleware();
       const app: Express = express();
 
-      app.use((req: Request, res: Response, next: NextFunction) => {
-        authenticationMiddleware.use(req, res, next);
+      useExpressServer<Express>(app, {
+        controllers: [MockController]
       });
-      app.use(ok);
 
       const response: supertest.Response = await supertest(app).post('/');
 
@@ -76,14 +92,12 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('PUT: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = new AuthenticationMiddleware();
       const app: Express = express();
 
       app.use(setUser);
-      app.use((req: Request, res: Response, next: NextFunction) => {
-        authenticationMiddleware.use(req, res, next);
+      useExpressServer<Express>(app, {
+        controllers: [MockController]
       });
-      app.use(ok);
 
       const response: supertest.Response = await supertest(app).put('/');
 
@@ -91,13 +105,11 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('PUT: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = new AuthenticationMiddleware();
       const app: Express = express();
 
-      app.use((req: Request, res: Response, next: NextFunction) => {
-        authenticationMiddleware.use(req, res, next);
+      useExpressServer<Express>(app, {
+        controllers: [MockController]
       });
-      app.use(ok);
 
       const response: supertest.Response = await supertest(app).put('/');
 
@@ -105,14 +117,12 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('DELETE: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = new AuthenticationMiddleware();
       const app: Express = express();
 
       app.use(setUser);
-      app.use((req: Request, res: Response, next: NextFunction) => {
-        authenticationMiddleware.use(req, res, next);
+      useExpressServer<Express>(app, {
+        controllers: [MockController]
       });
-      app.use(ok);
 
       const response: supertest.Response = await supertest(app).delete('/');
 
@@ -120,13 +130,11 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('DELETE: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = new AuthenticationMiddleware();
       const app: Express = express();
 
-      app.use((req: Request, res: Response, next: NextFunction) => {
-        authenticationMiddleware.use(req, res, next);
+      useExpressServer<Express>(app, {
+        controllers: [MockController]
       });
-      app.use(ok);
 
       const response: supertest.Response = await supertest(app).delete('/');
 
