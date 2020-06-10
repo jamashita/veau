@@ -7,11 +7,11 @@ import { FEController } from './FE/FEController';
 
 export const BaseController = (app: Express): Express => {
   useContainer(kernel);
+  APIController(app);
   useExpressServer<Express>(app, {
     routePrefix: '/',
     controllers: [FEController]
   });
-  APIController(app);
 
   return app;
 };

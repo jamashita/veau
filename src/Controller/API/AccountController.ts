@@ -7,10 +7,10 @@ import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware
 
 @injectable()
 @Controller('/accounts')
-@UseBefore(AuthenticationMiddleware)
 export class AccountController {
   @Get('/')
-  public inquire(@Res() res: Response<unknown>): Response<unknown> {
+  @UseBefore(AuthenticationMiddleware)
+  public inquire(@Res() res: Response): Response {
     return res.status(OK).send(res.locals.account.toJSON());
   }
 }
