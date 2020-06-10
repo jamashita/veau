@@ -96,7 +96,10 @@ export class StatsController {
 
   @Post('/')
   @UseBefore(AuthenticationMiddleware)
-  public register(@Body() body: PlainObject, @Res() res: Response<unknown>): Promise<Response<unknown>> {
+  public register(
+    @Body({ required: true }) body: PlainObject,
+    @Res() res: Response<unknown>
+  ): Promise<Response<unknown>> {
     if (!Stats.isJSON(body)) {
       return Promise.resolve<Response<unknown>>(res.sendStatus(BAD_REQUEST));
     }
