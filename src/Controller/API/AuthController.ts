@@ -12,7 +12,7 @@ export class AuthController {
   @Post('/')
   @UseBefore(passport.authenticate('local'))
   @UseBefore(AuthenticationMiddleware)
-  public auth(@Res() res: Response<unknown>): Response<unknown> {
+  public auth(@Res() res: Response): Response {
     return res.status(OK).send(res.locals.account.toJSON());
   }
 }

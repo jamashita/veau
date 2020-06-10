@@ -32,15 +32,15 @@ export class StatsController {
 
   @Get('/page/:page(\\d+)')
   @UseBefore(AuthenticationMiddleware)
-  public list(@Param('page') pg: number, @Res() res: Response<unknown>): Promise<Response<unknown>> {
-    return Page.of(pg).transform<Promise<Response<unknown>>>(
+  public list(@Param('page') pg: number, @Res() res: Response): Promise<Response> {
+    return Page.of(pg).transform<Promise<Response>>(
       async (page: Page) => {
         const superposition: Superposition<
           JSONable,
           StatsOutlinesError | DataSourceError
         > = await this.statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), page);
 
-        return superposition.transform<Response<unknown>>(
+        return superposition.transform<Response>(
           (outlines: JSONable) => {
             return res.status(OK).send(outlines.toJSON());
           },
@@ -54,22 +54,22 @@ export class StatsController {
       (err: PageError) => {
         logger.fatal(err);
 
-        return Promise.resolve<Response<unknown>>(res.sendStatus(BAD_REQUEST));
+        return Promise.resolve<Response>(res.sendStatus(BAD_REQUEST));
       }
     );
   }
 
   @Get('/:statsID([0-9a-f-]{36})')
   @UseBefore(AuthenticationMiddleware)
-  public refer(@Param('statsID') id: string, @Res() res: Response<unknown>): Promise<Response<unknown>> {
-    return StatsID.ofString(id).transform<Promise<Response<unknown>>>(
+  public refer(@Param('statsID') id: string, @Res() res: Response): Promise<Response> {
+    return StatsID.ofString(id).transform<Promise<Response>>(
       async (statsID: StatsID) => {
         const superposition: Superposition<
           JSONable,
           StatsError | NoSuchElementError | DataSourceError
         > = await this.statsInteractor.findByStatsID(statsID);
 
-        return superposition.transform<Response<unknown>>(
+        return superposition.transform<Response>(
           (stats: JSONable) => {
             return res.status(OK).send(stats.toJSON());
           },
@@ -89,29 +89,26 @@ export class StatsController {
       (err: StatsIDError) => {
         logger.fatal(err);
 
-        return Promise.resolve<Response<unknown>>(res.sendStatus(INTERNAL_SERVER_ERROR));
+        return Promise.resolve<Response>(res.sendStatus(INTERNAL_SERVER_ERROR));
       }
     );
   }
 
   @Post('/')
   @UseBefore(AuthenticationMiddleware)
-  public register(
-    @Body({ required: true }) body: PlainObject,
-    @Res() res: Response<unknown>
-  ): Promise<Response<unknown>> {
+  public register(@Body({ required: true }) body: PlainObject, @Res() res: Response): Promise<Response> {
     if (!Stats.isJSON(body)) {
-      return Promise.resolve<Response<unknown>>(res.sendStatus(BAD_REQUEST));
+      return Promise.resolve<Response>(res.sendStatus(BAD_REQUEST));
     }
 
-    return Stats.ofJSON(body).transform<Promise<Response<unknown>>>(
+    return Stats.ofJSON(body).transform<Promise<Response>>(
       async (stats: Stats) => {
         const superposition: Superposition<unknown, DataSourceError> = await this.statsInteractor.save(
           stats,
           res.locals.account.getVeauAccountID()
         );
 
-        return superposition.transform<Response<unknown>>(
+        return superposition.transform<Response>(
           () => {
             return res.sendStatus(CREATED);
           },
@@ -125,7 +122,7 @@ export class StatsController {
       (err: StatsError) => {
         logger.warn(err);
 
-        return Promise.resolve<Response<unknown>>(res.sendStatus(BAD_REQUEST));
+        return Promise.resolve<Response>(res.sendStatus(BAD_REQUEST));
       }
     );
   }

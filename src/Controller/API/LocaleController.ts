@@ -23,10 +23,10 @@ export class LocaleController {
   }
 
   @Get('/')
-  public async all(@Res() res: Response<unknown>): Promise<Response<unknown>> {
+  public async all(@Res() res: Response): Promise<Response> {
     const superposition: Superposition<JSONable, LocaleError | DataSourceError> = await this.localeInteractor.all();
 
-    return superposition.transform<Response<unknown>>(
+    return superposition.transform<Response>(
       (locale: JSONable) => {
         return res.status(OK).send(locale.toJSON());
       },
@@ -40,10 +40,10 @@ export class LocaleController {
 
   @Delete('/')
   @UseBefore(AuthenticationMiddleware)
-  public async delete(@Res() res: Response<unknown>): Promise<Response<unknown>> {
+  public async delete(@Res() res: Response): Promise<Response> {
     const superposition: Superposition<unknown, DataSourceError> = await this.localeInteractor.delete();
 
-    return superposition.transform<Response<unknown>>(
+    return superposition.transform<Response>(
       () => {
         return res.sendStatus(OK);
       },

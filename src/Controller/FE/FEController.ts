@@ -6,7 +6,7 @@ import { Controller, Get, Render, Res } from 'routing-controllers';
 @Controller()
 export class FEController {
   @Get('/robots.txt')
-  public robot(@Res() res: Response<unknown>): Response<unknown> {
+  public robot(@Res() res: Response): Response {
     res.set('Content-Type', 'text/plain');
 
     return res.send('User-Agent: *\nDisallow:');
