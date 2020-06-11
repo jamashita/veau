@@ -46,6 +46,7 @@ describe('RegionCommand', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
+
       const stub2: SinonStub = sinon.stub();
 
       redis.expires = stub2;
@@ -70,6 +71,7 @@ describe('RegionCommand', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
+
       const stub2: SinonStub = sinon.stub();
 
       redis.expires = stub2;
@@ -106,6 +108,7 @@ describe('RegionCommand', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
+
       const stub2: SinonStub = sinon.stub();
 
       redis.expires = stub2;

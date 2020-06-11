@@ -46,6 +46,7 @@ describe('LanguageCommand', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
+
       const stub2: SinonStub = sinon.stub();
 
       redis.expires = stub2;
@@ -70,10 +71,12 @@ describe('LanguageCommand', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
+
       const stub2: SinonStub = sinon.stub();
 
       redis.expires = stub2;
       stub2.resolves();
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -106,10 +109,12 @@ describe('LanguageCommand', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
+
       const stub2: SinonStub = sinon.stub();
 
       redis.expires = stub2;
       stub2.rejects(new RedisError('test failed'));
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -153,6 +158,7 @@ describe('LanguageCommand', () => {
 
       redis.delete = stub;
       stub.resolves(false);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -180,6 +186,7 @@ describe('LanguageCommand', () => {
 
       redis.delete = stub;
       stub.rejects(new RedisError('test failed'));
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 

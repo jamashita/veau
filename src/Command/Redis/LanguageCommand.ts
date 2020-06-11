@@ -30,14 +30,16 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
 
     return superposition.transform<unknown, RedisError>(
       (str: string) => {
-        return Schrodinger.playground<unknown, RedisError>(async () => {
+        return Schrodinger.sandbox<unknown, RedisError>(async () => {
           await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
 
           return this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
         });
       },
       (err: JSONAError) => {
-        return Dead.of<RedisError>(new RedisError('LanguageCommand.insertAll()', err));
+        return Promise.reject<Superposition<unknown, RedisError>>(
+          Dead.of<RedisError>(new RedisError('LanguageCommand.insertAll()', err))
+        );
       }
     );
   }

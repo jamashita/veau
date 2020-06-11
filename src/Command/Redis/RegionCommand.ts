@@ -30,14 +30,16 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
 
     return superposition.transform<unknown, RedisError>(
       (str: string) => {
-        return Schrodinger.playground<unknown, RedisError>(async () => {
+        return Schrodinger.sandbox<unknown, RedisError>(async () => {
           await this.redis.getString().set(REDIS_REGION_KEY, str);
 
           return this.redis.expires(REDIS_REGION_KEY, DURATION);
         });
       },
       (err: JSONAError) => {
-        return Dead.of<RedisError>(new RedisError('RegionCommand.insertAll()', err));
+        return Promise.resolve<Superposition<unknown, RedisError>>(
+          Dead.of<RedisError>(new RedisError('RegionCommand.insertAll()', err))
+        );
       }
     );
   }

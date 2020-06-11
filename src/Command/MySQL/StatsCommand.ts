@@ -30,7 +30,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       );`;
 
     return Promise.resolve<Superposition<unknown, MySQLError>>(
-      Schrodinger.playground<unknown, MySQLError>(() => {
+      Schrodinger.sandbox<unknown, MySQLError>(() => {
         return this.sql.execute<unknown>(query, {
           statsID: stats.getStatsID().get().get(),
           languageID: stats.getLanguage().getLanguageID().get().get(),
@@ -51,7 +51,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       WHERE R1.stats_id = :statsID;`;
 
     return Promise.resolve<Superposition<unknown, MySQLError>>(
-      Schrodinger.playground<unknown, MySQLError>(() => {
+      Schrodinger.sandbox<unknown, MySQLError>(() => {
         return this.sql.execute<unknown>(query, {
           statsID: statsID.get().get()
         });
