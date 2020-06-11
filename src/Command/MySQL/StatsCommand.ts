@@ -29,20 +29,18 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       :updatedAt
       );`;
 
-    return Promise.resolve<Superposition<unknown, MySQLError>>(
-      Schrodinger.sandbox<unknown, MySQLError>(() => {
-        return this.sql.execute<unknown>(query, {
-          statsID: stats.getStatsID().get().get(),
-          languageID: stats.getLanguage().getLanguageID().get().get(),
-          regionID: stats.getRegion().getRegionID().get().get(),
-          termID: stats.getTerm().getTermID().get().get(),
-          veauAccountID: veauAccountID.get().get(),
-          name: stats.getName().get(),
-          unit: stats.getUnit().get(),
-          updatedAt: stats.getUpdatedAt().toString()
-        });
-      })
-    );
+    return Schrodinger.sandbox<unknown, MySQLError>(() => {
+      return this.sql.execute<unknown>(query, {
+        statsID: stats.getStatsID().get().get(),
+        languageID: stats.getLanguage().getLanguageID().get().get(),
+        regionID: stats.getRegion().getRegionID().get().get(),
+        termID: stats.getTerm().getTermID().get().get(),
+        veauAccountID: veauAccountID.get().get(),
+        name: stats.getName().get(),
+        unit: stats.getUnit().get(),
+        updatedAt: stats.getUpdatedAt().toString()
+      });
+    });
   }
 
   public deleteByStatsID(statsID: StatsID): Promise<Superposition<unknown, DataSourceError>> {
@@ -50,12 +48,10 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       FROM stats R1
       WHERE R1.stats_id = :statsID;`;
 
-    return Promise.resolve<Superposition<unknown, MySQLError>>(
-      Schrodinger.sandbox<unknown, MySQLError>(() => {
-        return this.sql.execute<unknown>(query, {
-          statsID: statsID.get().get()
-        });
-      })
-    );
+    return Schrodinger.sandbox<unknown, MySQLError>(() => {
+      return this.sql.execute<unknown>(query, {
+        statsID: statsID.get().get()
+      });
+    });
   }
 }

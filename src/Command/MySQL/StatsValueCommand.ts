@@ -24,15 +24,13 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
       :value
       );`;
 
-    return Promise.resolve<Superposition<unknown, MySQLError>>(
-      Schrodinger.sandbox<unknown, MySQLError>(() => {
-        return this.sql.execute<unknown>(query, {
-          statsItemID: statsItemID.get().get(),
-          asOf: statsValue.getAsOf().toString(),
-          value: statsValue.getValue().get()
-        });
-      })
-    );
+    return Schrodinger.sandbox<unknown, MySQLError>(() => {
+      return this.sql.execute<unknown>(query, {
+        statsItemID: statsItemID.get().get(),
+        asOf: statsValue.getAsOf().toString(),
+        value: statsValue.getValue().get()
+      });
+    });
   }
 
   public deleteByStatsID(statsID: StatsID): Promise<Superposition<unknown, DataSourceError>> {
@@ -44,12 +42,10 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
       USING(stats_id)
       WHERE R3.stats_id = :statsID;`;
 
-    return Promise.resolve<Superposition<unknown, MySQLError>>(
-      Schrodinger.sandbox<unknown, MySQLError>(() => {
-        return this.sql.execute<unknown>(query, {
-          statsID: statsID.get().get()
-        });
-      })
-    );
+    return Schrodinger.sandbox<unknown, MySQLError>(() => {
+      return this.sql.execute<unknown>(query, {
+        statsID: statsID.get().get()
+      });
+    });
   }
 }
