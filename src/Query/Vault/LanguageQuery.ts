@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 
-import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
+import { DataSourceError } from '@jamashita/publikum-error';
 import { Alive, Dead, Quantum, QuantumError, Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
@@ -44,12 +44,34 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
     );
   }
 
-  public find(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // TODO TESTS UNDONE
+  public async find(
     languageID: LanguageID
   ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(
-      new UnimplementedError()
+    const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await this.all();
+
+    return superposition.transform<Language, LanguageError | NoSuchElementError | DataSourceError>(
+      (languages: Languages) => {
+        const quantum: Quantum<Language> = languages.find((language: Language) => {
+          return language.getLanguageID().equals(languageID);
+        });
+
+        return quantum.toSuperposition().transform<Language, NoSuchElementError | DataSourceError>(
+          (language: Language, self: Alive<Language, QuantumError>) => {
+            return self.transpose<DataSourceError>();
+          },
+          () => {
+            return Dead.of<Language, NoSuchElementError>(new NoSuchElementError(languageID.get().get()));
+          }
+        );
+      },
+      (err: LanguagesError | DataSourceError) => {
+        if (err instanceof LanguagesError) {
+          return Dead.of<Language, LanguageError>(new LanguageError('LanguageQuery.findByISO639()', err));
+        }
+
+        return Dead.of<Language, DataSourceError>(err);
+      }
     );
   }
 

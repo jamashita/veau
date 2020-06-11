@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 
-import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
+import { DataSourceError } from '@jamashita/publikum-error';
 import { Alive, Dead, Quantum, QuantumError, Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
@@ -44,10 +44,34 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(regionID: RegionID): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(
-      new UnimplementedError()
+  // TODO TEST UNDONE
+  public async find(
+    regionID: RegionID
+  ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
+    const superposition: Superposition<Regions, RegionsError | DataSourceError> = await this.all();
+
+    return superposition.transform<Region, RegionError | NoSuchElementError | DataSourceError>(
+      (regions: Regions) => {
+        const quantum: Quantum<Region> = regions.find((region: Region) => {
+          return region.getRegionID().equals(regionID);
+        });
+
+        return quantum.toSuperposition().transform<Region, NoSuchElementError | DataSourceError>(
+          (region: Region, self: Alive<Region, QuantumError>) => {
+            return self.transpose<DataSourceError>();
+          },
+          () => {
+            return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(regionID.get().get()));
+          }
+        );
+      },
+      (err: RegionsError | DataSourceError) => {
+        if (err instanceof RegionsError) {
+          return Dead.of<Region, RegionError>(new RegionError('RegionQuery.findByISO3166()', err));
+        }
+
+        return Dead.of<Region, DataSourceError>(err);
+      }
     );
   }
 

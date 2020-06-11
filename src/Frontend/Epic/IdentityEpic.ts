@@ -66,7 +66,6 @@ export class IdentityEpic {
               }
             )
           ),
-          of<VeauAction>(loaded()),
           from<Promise<Superposition<Identity, Error>>>(this.identityQuery.find()).pipe<VeauAction>(
             mergeMap<Superposition<Identity, Error>, Observable<VeauAction>>(
               (superposition: Superposition<Identity, Error>) => {
@@ -87,6 +86,7 @@ export class IdentityEpic {
               }
             )
           ),
+          of<VeauAction>(loaded()),
           mergeMap<VeauAction, Observable<VeauAction>>(() => {
             const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
               navigator.language
