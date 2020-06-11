@@ -22,6 +22,30 @@ module.exports = {
     ]
   },
   mode: 'production',
+  module: {
+    rules: [
+      {
+        test: /\.scss/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              url: false,
+              sourceMap: false,
+              importLoaders: 2
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: false
+            }
+          }
+        ]
+      }
+    ]
+  },
   optimization: {
     usedExports: true,
     sideEffects: false

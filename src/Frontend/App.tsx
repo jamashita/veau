@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import './sass/style.scss';
 
 import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
