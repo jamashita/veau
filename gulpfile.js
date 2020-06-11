@@ -7,10 +7,6 @@ const plumber = require('gulp-plumber');
 const ts = require('gulp-typescript');
 const tsc = ts.createProject('./tsconfig.server.json');
 
-const sass = require('gulp-dart-sass');
-const cleanCSS = require('gulp-clean-css');
-const autoprefixer = require('gulp-autoprefixer');
-
 const webpack = require('webpack');
 const stream = require('webpack-stream');
 const webpackConfig = require('./webpack.config');
@@ -135,19 +131,6 @@ gulp.task('pug', () => {
     .pipe(gulp.dest('dist/Server/views'));
 });
 
-gulp.task('sass', () => {
-  return gulp.src(['src/Server/sass/*.scss'])
-    .pipe(plumber())
-    .pipe(sass())
-    .pipe(autoprefixer({
-      'overrideBrowserslist': [
-        'last 2 major versions'
-      ]
-    }))
-    .pipe(cleanCSS())
-    .pipe(gulp.dest('dist/Server/public/css'));
-});
-
 gulp.task('favicon', () => {
   return gulp.src(['src/Server/*.ico'])
     .pipe(gulp.dest('dist/Server'));
@@ -192,7 +175,6 @@ gulp.task(
     'clean',
     gulp.parallel(
       'pug',
-      'sass',
       'favicon',
       'font'
     ),
@@ -230,7 +212,6 @@ gulp.task(
       gulp.watch('src/Transaction/**/*.ts', gulp.series('Transaction'));
       gulp.watch('src/VO/**/*.ts', gulp.series('VO'));
       gulp.watch('src/Server/views/*.pug', gulp.series('pug'));
-      gulp.watch('src/Server/sass/*.scss', gulp.series('sass'));
       callback();
     }
   )
