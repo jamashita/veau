@@ -6,6 +6,7 @@ import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
 import { Type } from '../Container/Types';
 import { vault } from '../Container/Vault';
 import { VeauAction } from './Action';
+import { onload } from './ActionCreator/OnLoadActionCreator';
 import { RootEpic } from './Epic/RootEpic';
 import { history } from './history';
 import { reducers } from './Reducer/Reducer';
@@ -23,3 +24,5 @@ export const store: Store = createStore(reducers, applyMiddleware(epic, logger, 
 const rootEpic: RootEpic = vault.get<RootEpic>(Type.RootEpic);
 
 epic.run(rootEpic.init());
+
+store.dispatch(onload());

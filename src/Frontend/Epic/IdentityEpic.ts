@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
-import { concat, EMPTY, from, merge, Observable, of } from 'rxjs';
+import { concat, from, merge, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
 import { Superposition } from '@jamashita/publikum-monad';
@@ -17,7 +17,7 @@ import { Language } from '../../VO/Language/Language';
 import { Locale } from '../../VO/Locale/Locale';
 import { SystemSupportLanguage } from '../../VO/System/SystemSupportLanguage';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
-import { IDENTITY_INITIALIZE, VeauAction } from '../Action';
+import { IDENTITY_INITIALIZE, ON_LOAD, VeauAction } from '../Action';
 import { identified, identityAuthenticated } from '../ActionCreator/IdentityActionCreator';
 import { loaded, loading } from '../ActionCreator/LoadingActionCreator';
 import { defineLocale } from '../ActionCreator/LocaleActionCreator';
@@ -43,11 +43,12 @@ export class IdentityEpic {
   }
 
   public init(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return merge<VeauAction>(this.initIdentity(state$), this.initialize(action$, state$));
+    return merge<VeauAction>(this.initIdentity(action$, state$), this.initialize(action$, state$));
   }
 
-  public initIdentity(state$: StateObservable<State>): Observable<VeauAction> {
-    return EMPTY.pipe<VeauAction>(
+  public initIdentity(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType(ON_LOAD),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
         return concat<VeauAction>(
           of<VeauAction>(loading()),
