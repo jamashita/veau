@@ -3,6 +3,4 @@ dist/*
 coverage/*
 certs/*
 !certs/.gitkeep
-logs/*
-!logs/.gitkeep
 *.log

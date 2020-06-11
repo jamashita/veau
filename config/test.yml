@@ -13,15 +13,3 @@ mysql:
   connectionLimit: 50
   connectTimeout: 60000
   acquireTimeout: 60000
-log4js:
-  appenders:
-    console:
-      type: 'console'
-      layout:
-        type: 'coloured'
-  categories:
-    default:
-      appenders:
-        - 'console'
-      level: 'debug'
-  pm2: true
