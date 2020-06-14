@@ -69,10 +69,6 @@ describe('StatsOutlineQuery', () => {
       R1.unit,
       R1.updated_at AS updatedAt
       FROM stats R1
-      INNER JOIN languages R2
-      USING(language_id)
-      INNER JOIN regions R3
-      USING(region_id)
       WHERE R1.stats_id = :statsID;`,
           {
             statsID: statsID.get().get()
@@ -205,10 +201,6 @@ describe('StatsOutlineQuery', () => {
       R1.unit,
       R1.updated_at AS updatedAt
       FROM stats R1
-      INNER JOIN languages R2
-      USING(language_id)
-      INNER JOIN regions R3
-      USING(region_id)
       WHERE R1.veau_account_id = :veauAccountID
       LIMIT :limit
       OFFSET :offset;`,

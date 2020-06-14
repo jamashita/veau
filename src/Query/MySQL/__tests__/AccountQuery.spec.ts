@@ -55,17 +55,13 @@ describe('AccountQuery', () => {
         stub.withArgs(
           `SELECT
       R1.veau_account_id AS veauAccountID,
-      R3.language_id AS languageID,
-      R4.region_id AS regionID,
+      R1.language_id AS languageID,
+      R1.region_id AS regionID,
       R1.account AS name,
       R2.hash
       FROM veau_accounts R1
       INNER JOIN veau_account_hashes R2
       USING(veau_account_id)
-      INNER JOIN languages R3
-      USING(language_id)
-      INNER JOIN regions R4
-      USING(region_id)
       WHERE R1.account = :account
       AND R1.active = true;`,
           {
