@@ -35,6 +35,7 @@ process.on('unhandledRejection', (reason: unknown) => {
 
 const app: Express = express();
 
+app.disable('x-powered-by');
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(

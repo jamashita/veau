@@ -3,7 +3,7 @@ import { injectable } from 'inversify';
 import { Controller, Get, Render, Res } from 'routing-controllers';
 
 @injectable()
-@Controller()
+@Controller('/')
 export class FEController {
   @Get('/robots.txt')
   public robot(@Res() res: Response): Response {
