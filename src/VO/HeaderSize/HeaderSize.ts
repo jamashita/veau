@@ -4,19 +4,19 @@ import { Kind } from '@jamashita/publikum-type';
 
 import { HeaderSizeError } from './Error/HeaderSizeError';
 
-export class HeaderSize extends ValueObject<HeaderSize> {
+export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
   public readonly noun: 'HeaderSize' = 'HeaderSize';
   private readonly size: number;
 
   public static of(size: number): Superposition<HeaderSize, HeaderSizeError> {
     if (size < 0) {
-      return Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`));
+      return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`)));
     }
     if (Kind.isInteger(size)) {
-      return Alive.of<HeaderSize, HeaderSizeError>(new HeaderSize(size));
+      return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(Alive.of<HeaderSize, HeaderSizeError>(new HeaderSize(size)));
     }
 
-    return Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError('ILLEGAL SIZE SPECIFIED'));
+    return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError('ILLEGAL SIZE SPECIFIED')));
   }
 
   protected constructor(size: number) {
