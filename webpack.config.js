@@ -55,7 +55,7 @@ module.exports = {
       NODE_ENV: 'production'
     }),
     new TsConfigWebpackPlugin({
-      configFile: 'tsconfig.fe.json'
+      configFile: 'tsconfig.esm.json'
     })
   ]
 };

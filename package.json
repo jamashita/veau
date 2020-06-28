@@ -1,32 +1,27 @@
 {
   "name": "@jamashita/veau",
   "version": "1.6.3",
-  "author": "jamashita <jamashita@arachnid.xyz>",
-  "license": "MIT",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:jamashita/veau.git"
   },
-  "engines": {
-    "node": ">= 14.0.0",
-    "npm": "npm is not supported"
-  },
-  "private": true,
+  "license": "MIT",
+  "author": "jamashita <jamashita@arachnid.xyz>",
   "sideEffects": false,
-  "engineStrict": true,
   "scripts": {
+    "build": "gulp build",
+    "format": "prettier --write 'src/**/*.{ts,tsx}'",
+    "lint": "eslint --fix 'src/**/*.{ts,tsx}'",
     "start": "pm2-runtime start pm2.yml",
     "stop": "pm2-runtime stop pm2.yml",
-    "build": "gulp build",
+    "test": "jest test --detectOpenHandles --coverage",
+    "update": "yarn update:upgrade && yarn update:install",
+    "update:install": "yarn install && yarn upgrade",
+    "update:upgrade": "ncu --upgrade",
     "watch": "concurrently \"npm:watch:*\"",
     "watch:server": "ts-node-dev --respawn src/Server/Server.ts",
-    "watch:webpack": "webpack-dev-server --hot --config webpack.development.config.js",
-    "test": "jest test --detectOpenHandles --coverage",
-    "lint": "eslint --fix 'src/**/*.{ts,tsx}'",
-    "format": "prettier --write 'src/**/*.{ts,tsx}'",
-    "update": "yarn update:upgrade && yarn update:install",
-    "update:upgrade": "ncu --upgrade",
-    "update:install": "yarn install && yarn upgrade"
+    "watch:webpack": "webpack-dev-server --hot --config webpack.development.config.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.13.1",
@@ -133,6 +128,7 @@
     "rimraf": "3.0.2",
     "sass-loader": "8.0.2",
     "sinon": "9.0.2",
+    "sort-package-json": "1.44.0",
     "style-loader": "1.2.1",
     "supertest": "4.0.2",
     "ts-config-webpack-plugin": "2.0.0",
@@ -144,5 +140,10 @@
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0",
     "webpack-stream": "5.2.1"
-  }
+  },
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": "npm is not supported"
+  },
+  "engineStrict": true
 }

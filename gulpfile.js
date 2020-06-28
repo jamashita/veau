@@ -5,7 +5,7 @@ const rimraf = require('rimraf');
 const plumber = require('gulp-plumber');
 
 const ts = require('gulp-typescript');
-const tsc = ts.createProject('./tsconfig.server.json');
+const tsc = ts.createProject('./tsconfig.cjs.json');
 
 const webpack = require('webpack');
 const stream = require('webpack-stream');
