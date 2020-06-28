@@ -1,4 +1,4 @@
-import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
 
@@ -7,7 +7,7 @@ import { AsOfError } from './Error/AsOfError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
-export class AsOf extends ValueObject<AsOf> {
+export class AsOf extends ValueObject<AsOf, 'AsOf'> {
   public readonly noun: 'AsOf' = 'AsOf';
   private readonly asOf: Zeit;
 
@@ -16,14 +16,14 @@ export class AsOf extends ValueObject<AsOf> {
   }
 
   public static ofString(asOf: string): Superposition<AsOf, AsOfError> {
-    return Schrodinger.playground<Zeit, ZeitError>(() => {
+    return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.ofString(asOf, TERM_FORMAT);
     }).transform<AsOf, AsOfError>(
       (zeit: Zeit) => {
-        return Alive.of<AsOf, AsOfError>(AsOf.of(zeit));
+        return AsOf.of(zeit);
       },
       (err: ZeitError) => {
-        return Dead.of<AsOf, AsOfError>(new AsOfError('asOf is not suitable for date time', err));
+        throw new AsOfError('asOf is not suitable for date time', err);
       }
     );
   }
