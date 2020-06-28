@@ -1,12 +1,11 @@
-import { Collection, ImmutableProject, Project } from '@jamashita/publikum-collection';
-import { Quantum } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
-import { Mapper } from '@jamashita/publikum-type';
+import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
+import { Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { Term } from './Term';
 import { TermID } from './TermID';
 
-export class Terms extends Objet<Terms> implements Collection<TermID, Term> {
+// TODO TEST UNDONE
+export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
   public readonly noun: 'Terms' = 'Terms';
   private readonly terms: Project<TermID, Term>;
 
@@ -49,7 +48,7 @@ export class Terms extends Objet<Terms> implements Collection<TermID, Term> {
     this.terms = terms;
   }
 
-  public get(key: TermID): Quantum<Term> {
+  public get(key: TermID): Nullable<Term> {
     return this.terms.get(key);
   }
 
@@ -65,16 +64,24 @@ export class Terms extends Objet<Terms> implements Collection<TermID, Term> {
     return false;
   }
 
+  public forEach(iterator: CancellableEnumerator<TermID, Term>): void {
+    this.terms.forEach(iterator);
+  }
+
   public map<U>(mapper: Mapper<Term, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;
 
-    this.terms.forEach((term: Term) => {
+    this.forEach((term: Term) => {
       array.push(mapper(term, i));
       i++;
     });
 
     return array;
+  }
+
+  public iterator(): Iterator<Pair<TermID, Term>> {
+    return this.terms.iterator();
   }
 
   public equals(other: Terms): boolean {

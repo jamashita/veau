@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/publikum-object';
 
-export class TermKey extends ValueObject<TermKey> {
+export class TermKey extends ValueObject<TermKey, 'TermKey'> {
   public readonly noun: 'TermKey' = 'TermKey';
   private readonly key: string;
 
