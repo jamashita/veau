@@ -5,7 +5,7 @@ import { Language } from '../Language/Language';
 import { Region } from '../Region/Region';
 import { VeauAccountID } from '../VeauAccount/VeauAccountID';
 
-export class Identity extends ValueObject<Identity> {
+export class Identity extends ValueObject<Identity, 'Identity'> {
   public readonly noun: 'Identity' = 'Identity';
   private readonly veauAccountID: VeauAccountID;
   private readonly name: AccountName;
