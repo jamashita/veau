@@ -6,7 +6,7 @@ import { LimitError } from './Error/LimitError';
 
 const DEFAULT_VALUE: number = 40;
 
-export class Limit extends ValueObject<Limit> {
+export class Limit extends ValueObject<Limit, 'Limit'> {
   public readonly noun: 'Limit' = 'Limit';
   private readonly limit: number;
 
@@ -14,16 +14,16 @@ export class Limit extends ValueObject<Limit> {
 
   public static of(limit: number): Superposition<Limit, LimitError> {
     if (limit <= 0) {
-      return Dead.of<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit}`));
+      return Superposition.ofSchrodinger<Limit, LimitError>(Dead.of<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit}`)));
     }
     if (limit === DEFAULT_VALUE) {
-      return Alive.of<Limit, LimitError>(Limit.default());
+      return Superposition.ofSchrodinger<Limit, LimitError>(Alive.of<Limit, LimitError>(Limit.default()));
     }
     if (Kind.isInteger(limit)) {
-      return Alive.of<Limit, LimitError>(new Limit(limit));
+      return Superposition.ofSchrodinger<Limit, LimitError>(Alive.of<Limit, LimitError>(new Limit(limit)));
     }
 
-    return Dead.of<Limit, LimitError>(new LimitError('ILLEGAL LIMIT SPECIFIED'));
+    return Superposition.ofSchrodinger<Limit, LimitError>(Dead.of<Limit, LimitError>(new LimitError('ILLEGAL LIMIT SPECIFIED')));
   }
 
   public static default(): Limit {

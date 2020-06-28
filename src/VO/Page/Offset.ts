@@ -4,19 +4,19 @@ import { Kind } from '@jamashita/publikum-type';
 
 import { OffsetError } from './Error/OffsetError';
 
-export class Offset extends ValueObject<Offset> {
+export class Offset extends ValueObject<Offset, 'Offset'> {
   public readonly noun: 'Offset' = 'Offset';
   private readonly offset: number;
 
   public static of(offset: number): Superposition<Offset, OffsetError> {
     if (offset < 0) {
-      return Dead.of<Offset, OffsetError>(new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`));
+      return Superposition.ofSchrodinger<Offset, OffsetError>(Dead.of<Offset, OffsetError>(new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`)));
     }
     if (Kind.isInteger(offset)) {
-      return Alive.of<Offset, OffsetError>(new Offset(offset));
+      return Superposition.ofSchrodinger<Offset, OffsetError>(Alive.of<Offset, OffsetError>(new Offset(offset)));
     }
 
-    return Dead.of<Offset, OffsetError>(new OffsetError('ILLEGAL OFFSET SPECIFIED'));
+    return Superposition.ofSchrodinger<Offset, OffsetError>(Dead.of<Offset, OffsetError>(new OffsetError('ILLEGAL OFFSET SPECIFIED')));
   }
 
   protected constructor(offset: number) {

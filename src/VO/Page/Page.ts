@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Alive, Dead, Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -8,7 +8,8 @@ import { Offset } from './Offset';
 
 const MIN_PAGE: number = 1;
 
-export class Page extends ValueObject<Page> {
+// TODO TESTS
+export class Page extends ValueObject<Page, 'Page'> {
   public readonly noun: 'Page' = 'Page';
   private readonly page: number;
 
@@ -16,16 +17,16 @@ export class Page extends ValueObject<Page> {
 
   public static of(page: number): Superposition<Page, PageError> {
     if (page <= 0) {
-      return Dead.of<Page, PageError>(new PageError(`ILLEGAL PAGE SPECIFIED ${page}`));
+      return Superposition.ofSchrodinger<Page, PageError>(Dead.of<Page, PageError>(new PageError(`ILLEGAL PAGE SPECIFIED ${page}`)));
     }
     if (page === MIN_PAGE) {
-      return Alive.of<Page, PageError>(Page.MIN);
+      return Superposition.ofSchrodinger<Page, PageError>(Alive.of<Page, PageError>(Page.MIN));
     }
     if (Kind.isInteger(page)) {
-      return Alive.of<Page, PageError>(new Page(page));
+      return Superposition.ofSchrodinger<Page, PageError>(Alive.of<Page, PageError>(new Page(page)));
     }
 
-    return Dead.of<Page, PageError>(new PageError('ILLEGAL PAGE SPECIFIED'));
+    return Superposition.ofSchrodinger<Page, PageError>(Dead.of<Page, PageError>(new PageError('ILLEGAL PAGE SPECIFIED')));
   }
 
   public static min(): Page {
@@ -45,10 +46,10 @@ export class Page extends ValueObject<Page> {
     return Limit.default();
   }
 
-  public getOffset(): Offset {
+  public getOffset(): Unscharferelation<Offset> {
     const offset: number = (this.page - 1) * this.getLimit().get();
 
-    return Offset.of(offset).get();
+    return Offset.of(offset).toUnscharferelation();
   }
 
   public equals(other: Page): boolean {
