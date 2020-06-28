@@ -1,5 +1,5 @@
 import { JSONable } from '@jamashita/publikum-interface';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -20,7 +20,7 @@ export type RegionRow = Readonly<{
   iso3166: string;
 }>;
 
-export class Region extends ValueObject<Region> implements JSONable {
+export class Region extends ValueObject<Region, 'Region'> implements JSONable<RegionJSON> {
   public readonly noun: 'Region' = 'Region';
   private readonly regionID: RegionID;
   private readonly name: RegionName;
@@ -45,10 +45,10 @@ export class Region extends ValueObject<Region> implements JSONable {
   public static ofJSON(json: RegionJSON): Superposition<Region, RegionError> {
     return RegionID.ofString(json.regionID).transform<Region, RegionError>(
       (regionID: RegionID) => {
-        return Alive.of<Region, RegionError>(Region.of(regionID, RegionName.of(json.name), ISO3166.of(json.iso3166)));
+        return Region.of(regionID, RegionName.of(json.name), ISO3166.of(json.iso3166));
       },
       (err: RegionIDError) => {
-        return Dead.of<Region, RegionError>(new RegionError('Region.ofJSON()', err));
+        throw new RegionError('Region.ofJSON()', err);
       }
     );
   }
@@ -56,10 +56,10 @@ export class Region extends ValueObject<Region> implements JSONable {
   public static ofRow(row: RegionRow): Superposition<Region, RegionError> {
     return RegionID.ofString(row.regionID).transform<Region, RegionError>(
       (regionID: RegionID) => {
-        return Alive.of<Region, RegionError>(Region.of(regionID, RegionName.of(row.name), ISO3166.of(row.iso3166)));
+        return Region.of(regionID, RegionName.of(row.name), ISO3166.of(row.iso3166));
       },
       (err: RegionIDError) => {
-        return Dead.of<Region, RegionError>(new RegionError('Region.ofRow()', err));
+        throw new RegionError('Region.ofRow()', err);
       }
     );
   }

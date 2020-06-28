@@ -1,15 +1,17 @@
-import { Collection, ImmutableProject, Project } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
+} from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { Absent, Alive, Dead, Present, Quantum, Schrodinger, Superposition } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
-import { Mapper, Predicate } from '@jamashita/publikum-type';
+import { Superposition } from '@jamashita/publikum-monad';
+import { Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
 
 import { RegionError } from './Error/RegionError';
 import { RegionsError } from './Error/RegionsError';
 import { Region, RegionJSON, RegionRow } from './Region';
 import { RegionID } from './RegionID';
 
-export class Regions extends Objet<Regions> implements Collection<RegionID, Region>, JSONable {
+// TODO TESTS UNDONE
+export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> implements JSONable<Array<RegionJSON>> {
   public readonly noun: 'Regions' = 'Regions';
   private readonly regions: Project<RegionID, Region>;
 
@@ -44,12 +46,12 @@ export class Regions extends Objet<Regions> implements Collection<RegionID, Regi
   public static ofSuperposition(
     superpositions: Array<Superposition<Region, RegionError>>
   ): Superposition<Regions, RegionsError> {
-    return Schrodinger.all<Region, RegionError>(superpositions).transform<Regions, RegionsError>(
+    return Superposition.all<Region, RegionError>(superpositions).transform<Regions, RegionsError>(
       (regions: Array<Region>) => {
-        return Alive.of<Regions, RegionsError>(Regions.ofArray(regions));
+        return Regions.ofArray(regions);
       },
       (err: RegionError) => {
-        return Dead.of<Regions, RegionsError>(new RegionsError('Regions.ofSuperposition()', err));
+        throw new RegionsError('Regions.ofSuperposition()', err);
       }
     );
   }
@@ -83,7 +85,7 @@ export class Regions extends Objet<Regions> implements Collection<RegionID, Regi
     this.regions = regions;
   }
 
-  public get(key: RegionID): Quantum<Region> {
+  public get(key: RegionID): Nullable<Region> {
     return this.regions.get(key);
   }
 
@@ -95,11 +97,15 @@ export class Regions extends Objet<Regions> implements Collection<RegionID, Regi
     return this.regions.size();
   }
 
+  public forEach(iteration: CancellableEnumerator<RegionID, Region>): void {
+    this.regions.forEach(iteration);
+  }
+
   public map<U>(mapper: Mapper<Region, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;
 
-    this.regions.forEach((region: Region) => {
+    this.forEach((region: Region) => {
       array.push(mapper(region, i));
       i++;
     });
@@ -107,14 +113,18 @@ export class Regions extends Objet<Regions> implements Collection<RegionID, Regi
     return array;
   }
 
-  public find(predicate: Predicate<Region>): Quantum<Region> {
+  public find(predicate: Predicate<Region>): Nullable<Region> {
     for (const region of this.regions.toMap().values()) {
       if (predicate(region)) {
-        return Present.of<Region>(region);
+        return region;
       }
     }
 
-    return Absent.of<Region>();
+    return null;
+  }
+
+  public iterator(): Iterator<Pair<RegionID, Region>> {
+    return this.regions.iterator();
   }
 
   public isEmpty(): boolean {
