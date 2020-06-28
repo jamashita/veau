@@ -1,10 +1,12 @@
-import { Collection, ImmutableSequence, Sequence } from '@jamashita/publikum-collection';
-import { Quantum } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
+import {
+    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
+} from '@jamashita/publikum-collection';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { Color } from './Color';
 
-export class Colors extends Objet<Colors> implements Collection<number, Color> {
+// TODO TESTS UNDONE
+export class Colors extends Quantity<Colors, number, Color, 'Colors'>  {
   public readonly noun: 'Colors' = 'Colors';
   private readonly colors: Sequence<Color>;
 
@@ -52,7 +54,7 @@ export class Colors extends Objet<Colors> implements Collection<number, Color> {
     this.colors = colors;
   }
 
-  public get(index: number): Quantum<Color> {
+  public get(index: number): Nullable<Color> {
     const length: number = this.colors.size();
 
     return this.colors.get(index % length);
@@ -64,6 +66,14 @@ export class Colors extends Objet<Colors> implements Collection<number, Color> {
 
   public size(): number {
     return this.colors.size();
+  }
+
+  public forEach(iteration: CancellableEnumerator<number, Color>): void {
+    this.colors.forEach(iteration);
+  }
+
+  public iterator(): Iterator<Pair<number, Color>> {
+    return this.colors.iterator();
   }
 
   public isEmpty(): boolean {
