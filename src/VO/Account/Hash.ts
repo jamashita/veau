@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/publikum-object';
 
-export class Hash extends ValueObject<Hash> {
+export class Hash extends ValueObject<Hash, 'Hash'> {
   public readonly noun: 'Hash' = 'Hash';
   private readonly hash: string;
 
