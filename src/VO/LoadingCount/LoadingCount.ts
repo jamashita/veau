@@ -6,7 +6,7 @@ import { LoadingCountError } from './Error/LoadingCountError';
 
 const DEFAULT_COUNT: number = 0;
 
-export class LoadingCount extends ValueObject<LoadingCount> {
+export class LoadingCount extends ValueObject<LoadingCount, 'LoadingCount'> {
   public readonly noun: 'LoadingCount' = 'LoadingCount';
   private readonly count: number;
 
@@ -14,16 +14,16 @@ export class LoadingCount extends ValueObject<LoadingCount> {
 
   public static of(count: number): Superposition<LoadingCount, LoadingCountError> {
     if (count < 0) {
-      return Dead.of<LoadingCount, LoadingCountError>(new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`));
+      return Superposition.ofSchrodinger<LoadingCount, LoadingCountError>(Dead.of<LoadingCount, LoadingCountError>(new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`)));
     }
     if (count === DEFAULT_COUNT) {
-      return Alive.of<LoadingCount, LoadingCountError>(LoadingCount.default());
+      return Superposition.ofSchrodinger<LoadingCount, LoadingCountError>(Alive.of<LoadingCount, LoadingCountError>(LoadingCount.default()));
     }
     if (Kind.isInteger(count)) {
-      return Alive.of<LoadingCount, LoadingCountError>(new LoadingCount(count));
+      return Superposition.ofSchrodinger<LoadingCount, LoadingCountError>(Alive.of<LoadingCount, LoadingCountError>(new LoadingCount(count)));
     }
 
-    return Dead.of<LoadingCount, LoadingCountError>(new LoadingCountError('ILLEGAL COUNT SPECIFIED'));
+    return Superposition.ofSchrodinger<LoadingCount, LoadingCountError>(Dead.of<LoadingCount, LoadingCountError>(new LoadingCountError('ILLEGAL COUNT SPECIFIED')));
   }
 
   public static default(): LoadingCount {
