@@ -1,16 +1,18 @@
-import { Collection, ImmutableProject, Project } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
+} from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { Alive, Dead, Quantum, Schrodinger, Superposition } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
-import { Mapper } from '@jamashita/publikum-type';
+import { Superposition } from '@jamashita/publikum-monad';
+import { Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { StatsOutlineError } from './Error/StatsOutlineError';
 import { StatsOutlinesError } from './Error/StatsOutlinesError';
 import { StatsID } from './StatsID';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
-export class StatsOutlines extends Objet<StatsOutlines>
-  implements Collection<StatsID, StatsOutline>, Cloneable<StatsOutlines>, JSONable {
+// TODO TEST UNDONE
+export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline, 'StatsOutlines'>
+  implements Cloneable<StatsOutlines>, JSONable<Array<StatsOutlineJSON>> {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
   private readonly outlines: Project<StatsID, StatsOutline>;
 
@@ -45,17 +47,15 @@ export class StatsOutlines extends Objet<StatsOutlines>
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>
   ): Superposition<StatsOutlines, StatsOutlinesError> {
-    return Schrodinger.all<StatsOutline, StatsOutlineError>(superpositions).transform<
+    return Superposition.all<StatsOutline, StatsOutlineError>(superpositions).transform<
       StatsOutlines,
       StatsOutlinesError
     >(
       (outlines: Array<StatsOutline>) => {
-        return Alive.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(outlines));
+        return StatsOutlines.ofArray(outlines);
       },
       (err: StatsOutlineError) => {
-        return Dead.of<StatsOutlines, StatsOutlinesError>(
-          new StatsOutlinesError('StatsOutlines.ofSuperposition()', err)
-        );
+        throw new StatsOutlinesError('StatsOutlines.ofSuperposition()', err);
       }
     );
   }
@@ -89,7 +89,7 @@ export class StatsOutlines extends Objet<StatsOutlines>
     this.outlines = outlines;
   }
 
-  public get(key: StatsID): Quantum<StatsOutline> {
+  public get(key: StatsID): Nullable<StatsOutline> {
     return this.outlines.get(key);
   }
 
@@ -101,16 +101,24 @@ export class StatsOutlines extends Objet<StatsOutlines>
     return this.outlines.size();
   }
 
+  public forEach(iteration: CancellableEnumerator<StatsID, StatsOutline>): void {
+    this.outlines.forEach(iteration);
+  }
+
   public map<U>(mapper: Mapper<StatsOutline, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;
 
-    this.outlines.forEach((outline: StatsOutline) => {
+    this.forEach((outline: StatsOutline) => {
       array.push(mapper(outline, i));
       i++;
     });
 
     return array;
+  }
+
+  public iterator(): Iterator<Pair<StatsID, StatsOutline>> {
+    return this.outlines.iterator();
   }
 
   public duplicate(): StatsOutlines {

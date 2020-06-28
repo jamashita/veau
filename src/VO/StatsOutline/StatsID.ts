@@ -1,10 +1,10 @@
-import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { UUID, UUIDError } from '@jamashita/publikum-uuid';
 
 import { StatsIDError } from './Error/StatsIDError';
 
-export class StatsID extends ValueObject<StatsID> {
+export class StatsID extends ValueObject<StatsID, 'StatsID'> {
   public readonly noun: 'StatsID' = 'StatsID';
   private readonly uuid: UUID;
 
@@ -13,14 +13,14 @@ export class StatsID extends ValueObject<StatsID> {
   }
 
   public static ofString(id: string): Superposition<StatsID, StatsIDError> {
-    return Schrodinger.playground<UUID, UUIDError>(() => {
+    return Superposition.playground<UUID, UUIDError>(() => {
       return UUID.of(id);
     }).transform<StatsID, StatsIDError>(
       (uuid: UUID) => {
-        return Alive.of<StatsID, StatsIDError>(StatsID.of(uuid));
+        return StatsID.of(uuid);
       },
       (err: UUIDError) => {
-        return Dead.of<StatsID, StatsIDError>(new StatsIDError('StatsID.ofString()', err));
+        throw new StatsIDError('StatsID.ofString()', err);
       }
     );
   }

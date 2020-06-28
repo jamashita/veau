@@ -1,4 +1,4 @@
-import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
 
@@ -6,7 +6,7 @@ import { UpdatedAtError } from './Error/UpdatedAtError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 
-export class UpdatedAt extends ValueObject<UpdatedAt> {
+export class UpdatedAt extends ValueObject<UpdatedAt, 'UpdatedAt'> {
   public readonly noun: 'UpdatedAt' = 'UpdatedAt';
   private readonly at: Zeit;
 
@@ -15,14 +15,14 @@ export class UpdatedAt extends ValueObject<UpdatedAt> {
   }
 
   public static ofString(at: string): Superposition<UpdatedAt, UpdatedAtError> {
-    return Schrodinger.playground<Zeit, ZeitError>(() => {
+    return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.ofString(at, TERM_FORMAT);
     }).transform<UpdatedAt, UpdatedAtError>(
       (zeit: Zeit) => {
-        return Alive.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(zeit));
+        return UpdatedAt.of(zeit);
       },
       (err: ZeitError) => {
-        return Dead.of<UpdatedAt, UpdatedAtError>(new UpdatedAtError('AT IS NOT DATE FORMAT', err));
+        throw new UpdatedAtError('AT IS NOT DATE FORMAT', err);
       }
     );
   }
