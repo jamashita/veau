@@ -1,10 +1,10 @@
-import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { UUID, UUIDError } from '@jamashita/publikum-uuid';
 
 import { VeauAccountIDError } from './Error/VeauAccountIDError';
 
-export class VeauAccountID extends ValueObject<VeauAccountID> {
+export class VeauAccountID extends ValueObject<VeauAccountID, 'VeauAccountID'> {
   public readonly noun: 'VeauAccountID' = 'VeauAccountID';
   private readonly uuid: UUID;
 
@@ -13,14 +13,14 @@ export class VeauAccountID extends ValueObject<VeauAccountID> {
   }
 
   public static ofString(id: string): Superposition<VeauAccountID, VeauAccountIDError> {
-    return Schrodinger.playground<UUID, UUIDError>(() => {
+    return Superposition.playground<UUID, UUIDError>(() => {
       return UUID.of(id);
     }).transform<VeauAccountID, VeauAccountIDError>(
       (uuid: UUID) => {
-        return Alive.of<VeauAccountID, VeauAccountIDError>(VeauAccountID.of(uuid));
+        return VeauAccountID.of(uuid);
       },
       (err: UUIDError) => {
-        return Dead.of<VeauAccountID, VeauAccountIDError>(new VeauAccountIDError('VeauAccountID.ofString()', err));
+        throw new VeauAccountIDError('VeauAccountID.ofString()', err);
       }
     );
   }
