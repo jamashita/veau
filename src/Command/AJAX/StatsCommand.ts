@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify';
 
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
 import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
@@ -21,21 +21,23 @@ export class StatsCommand implements IStatsCommand, IAJAXCommand {
     this.ajax = ajax;
   }
 
-  public async create(stats: Stats): Promise<Superposition<unknown, DataSourceError>> {
-    const response: AJAXResponse<unknown> = await this.ajax.post<unknown>('/api/stats', stats.toJSON());
-
-    switch (response.status) {
-      case CREATED: {
-        return Alive.of<DataSourceError>();
+  public create(stats: Stats): Superposition<unknown, AJAXError> {
+    return Superposition.playground<AJAXResponse<unknown>, AJAXError>(() => {
+      return this.ajax.post<unknown>('/api/stats', stats.toJSON());
+    }).map<unknown, AJAXError>((response: AJAXResponse<unknown>) => {
+      switch (response.status) {
+        case CREATED: {
+          return null;
+        }
+        default: {
+          throw new AJAXError('UNKNOWN ERROR', response.status);
+        }
       }
-      default: {
-        return Dead.of<AJAXError>(new AJAXError('UNKNOWN ERROR', response.status));
-      }
-    }
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public deleteByStatsID(statsID: StatsID): Promise<Superposition<unknown, DataSourceError>> {
-    return Promise.reject<Superposition<unknown, DataSourceError>>(new UnimplementedError());
+  public deleteByStatsID(statsID: StatsID): Superposition<unknown, DataSourceError> {
+    throw new UnimplementedError();
   }
 }

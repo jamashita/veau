@@ -2,8 +2,7 @@ import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { ISessionCommand } from '../Interface/ISessionCommand';
@@ -19,16 +18,18 @@ export class SessionCommand implements ISessionCommand, IAJAXCommand {
     this.ajax = ajax;
   }
 
-  public async delete(): Promise<Superposition<unknown, DataSourceError>> {
-    const response: AJAXResponse<unknown> = await this.ajax.delete<unknown>('/api/destroy');
-
-    switch (response.status) {
-      case OK: {
-        return Alive.of<DataSourceError>();
+  public delete(): Superposition<unknown, AJAXError> {
+    return Superposition.playground<AJAXResponse<unknown>, AJAXError>(() => {
+      return this.ajax.delete<unknown>('/api/destroy');
+    }).map<unknown, AJAXError>((response: AJAXResponse<unknown>) => {
+      switch (response.status) {
+        case OK: {
+          return null;
+        }
+        default: {
+          throw new AJAXError('UNKNOWN ERROR', response.status);
+        }
       }
-      default: {
-        return Dead.of<AJAXError>(new AJAXError('UNKNOWN ERROR', response.status));
-      }
-    }
+    });
   }
 }
