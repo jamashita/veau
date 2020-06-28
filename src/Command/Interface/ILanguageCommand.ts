@@ -7,7 +7,7 @@ import { ICommand } from './ICommand';
 export interface ILanguageCommand extends ICommand {
   readonly noun: 'LanguageCommand';
 
-  insertAll(languages: Languages): Promise<Superposition<unknown, DataSourceError>>;
+  insertAll(languages: Languages): Superposition<unknown, DataSourceError>;
 
-  deleteAll(): Promise<Superposition<unknown, DataSourceError>>;
+  deleteAll(): Superposition<unknown, DataSourceError>;
 }

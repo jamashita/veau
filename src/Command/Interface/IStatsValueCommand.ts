@@ -9,7 +9,7 @@ import { ICommand } from './ICommand';
 export interface IStatsValueCommand extends ICommand {
   readonly noun: 'StatsValueCommand';
 
-  create(statsItemID: StatsItemID, statsValue: StatsValue): Promise<Superposition<unknown, DataSourceError>>;
+  create(statsItemID: StatsItemID, statsValue: StatsValue): Superposition<unknown, DataSourceError>;
 
-  deleteByStatsID(statsID: StatsID): Promise<Superposition<unknown, DataSourceError>>;
+  deleteByStatsID(statsID: StatsID): Superposition<unknown, DataSourceError>;
 }

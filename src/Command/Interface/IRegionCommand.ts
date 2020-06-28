@@ -7,7 +7,7 @@ import { ICommand } from './ICommand';
 export interface IRegionCommand extends ICommand {
   readonly noun: 'RegionCommand';
 
-  insertAll(regions: Regions): Promise<Superposition<unknown, DataSourceError>>;
+  insertAll(regions: Regions): Superposition<unknown, DataSourceError>;
 
-  deleteAll(): Promise<Superposition<unknown, DataSourceError>>;
+  deleteAll(): Superposition<unknown, DataSourceError>;
 }
