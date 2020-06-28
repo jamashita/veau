@@ -1,12 +1,14 @@
-import { Collection, ImmutableSequence, Sequence } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
+} from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { Quantum } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
-import { Mapper } from '@jamashita/publikum-type';
+import { Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { StatsItemName } from './StatsItemName';
 
-export class StatsItemNames extends Objet<StatsItemNames> implements Collection<number, StatsItemName>, JSONable {
+// TODO TESTS UNDONE
+export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemName, 'StatsItemNames'>
+  implements JSONable<Array<string>> {
   public readonly noun: 'StatsItemNames' = 'StatsItemNames';
   private readonly names: Sequence<StatsItemName>;
 
@@ -37,7 +39,7 @@ export class StatsItemNames extends Objet<StatsItemNames> implements Collection<
     this.names = names;
   }
 
-  public get(index: number): Quantum<StatsItemName> {
+  public get(index: number): Nullable<StatsItemName> {
     return this.names.get(index);
   }
 
@@ -49,8 +51,24 @@ export class StatsItemNames extends Objet<StatsItemNames> implements Collection<
     return this.names.size();
   }
 
+  public forEach(iteration: CancellableEnumerator<number, StatsItemName>): void {
+    this.names.forEach(iteration);
+  }
+
   public map<U>(mapper: Mapper<StatsItemName, U>): Array<U> {
-    return this.names.toArray().map<U>(mapper);
+    const array: Array<U> = [];
+    let i: number = 0;
+
+    this.forEach((item: StatsItemName) => {
+      array.push(mapper(item, i));
+      i++;
+    });
+
+    return array;
+  }
+
+  public iterator(): Iterator<Pair<number, StatsItemName>> {
+    return this.names.iterator();
   }
 
   public isEmpty(): boolean {
