@@ -1,10 +1,12 @@
-import { Collection, ImmutableSequence, Sequence } from '@jamashita/publikum-collection';
-import { Quantum } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
+import {
+    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
+} from '@jamashita/publikum-collection';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { NumericalValue } from './NumericalValue';
 
-export class NumericalValues extends Objet<NumericalValues> implements Collection<number, NumericalValue> {
+// TODO TESTS
+export class NumericalValues extends Quantity<NumericalValues, number, NumericalValue, 'NumericalValues'> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
   private readonly values: Sequence<NumericalValue>;
 
@@ -43,7 +45,7 @@ export class NumericalValues extends Objet<NumericalValues> implements Collectio
     return NumericalValues.of(this.values.add(...values));
   }
 
-  public get(index: number): Quantum<NumericalValue> {
+  public get(index: number): Nullable<NumericalValue> {
     return this.values.get(index);
   }
 
@@ -59,6 +61,14 @@ export class NumericalValues extends Objet<NumericalValues> implements Collectio
 
   public size(): number {
     return this.values.size();
+  }
+
+  public forEach(iteration: CancellableEnumerator<number, NumericalValue>): void {
+    this.values.forEach(iteration);
+  }
+
+  public iterator(): Iterator<Pair<number, NumericalValue>> {
+    return this.values.iterator();
   }
 
   public isEmpty(): boolean {
