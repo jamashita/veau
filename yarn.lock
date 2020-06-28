@@ -376,31 +376,31 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@jamashita/publikum-ajax@2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-ajax/-/publikum-ajax-2.1.3.tgz#285ca0ddc309f3d5fdf334b6fa0f32265cf5ef3c"
-  integrity sha512-a+KXjiQihuUZdzApwtknrJlsBGms5VD3s6zMqROHI3K5TZlaLCTzczo5V9FWemivvbi4WTVy9oNXMLxdFbyYCg==
+"@jamashita/publikum-ajax@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-ajax/-/publikum-ajax-2.1.4.tgz#8b85686eb7426a1651be000c468e39d10b610c94"
+  integrity sha512-bvsqE3b9YKzqKE3X8E9kvic6J3qke48zy8mA4reA9TBeAtLZ1cpidkNDFGNPiJabBoApaUJKG+RhkNqryfOwHQ==
   dependencies:
-    "@jamashita/publikum-error" "^2.1.3"
-    "@jamashita/publikum-type" "^2.1.3"
+    "@jamashita/publikum-error" "^2.1.4"
+    "@jamashita/publikum-type" "^2.1.4"
     axios "0.19.2"
 
-"@jamashita/publikum-cache@2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-cache/-/publikum-cache-2.1.3.tgz#b7449a4b623fd31c504246c6467c45865b42cec6"
-  integrity sha512-tZdkP/AFyxkMeS1nS8DCFfk8fcC1lj5EsvEY4BRxEU568t4L0UFZkyeXfM0zN31eSbsRpE0sJmvmAXwgrxsNLQ==
+"@jamashita/publikum-cache@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-cache/-/publikum-cache-2.1.4.tgz#c8b18d9e9d6f1468555afb822e8b39094edfe601"
+  integrity sha512-4IQ4fStNyV7D6ej3mzukZb5BPmsNqh55T8xyqv7ebKkp/oIng3QYGFwivZjgJhYLzDeh56wQahAjPhhnYA+xjQ==
   dependencies:
-    "@jamashita/publikum-error" "^2.1.3"
-    "@jamashita/publikum-type" "^2.1.3"
+    "@jamashita/publikum-error" "^2.1.4"
+    "@jamashita/publikum-type" "^2.1.4"
 
-"@jamashita/publikum-collection@2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-collection/-/publikum-collection-2.1.3.tgz#4732f0eedf34c1fe117fbb3e16da534beef24277"
-  integrity sha512-tf1VOGO7vNJb7SUL2glfta0QfKl6GNBq+0VdJc7CA26Tr7xf1S+z+XkzwAGLQHHyTICYWvlhTxpGI3O7sKdEEQ==
+"@jamashita/publikum-collection@2.1.5":
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-collection/-/publikum-collection-2.1.5.tgz#225fd2c1bd28ef5390916631fd1937913e5201ce"
+  integrity sha512-+DuRtUjlY+jLS22+AKpqckyiF6Y0kaD8LQdIzNhDEN9XHjaGeYXvczefzyTa6a7TpUMzNiTxJbUN0JZbRGwY1A==
   dependencies:
-    "@jamashita/publikum-interface" "^2.1.3"
-    "@jamashita/publikum-object" "^2.1.3"
-    "@jamashita/publikum-type" "^2.1.3"
+    "@jamashita/publikum-interface" "^2.1.4"
+    "@jamashita/publikum-object" "^2.1.4"
+    "@jamashita/publikum-type" "^2.1.4"
 
 "@jamashita/publikum-digest@2.1.3":
   version "2.1.3"
@@ -409,56 +409,56 @@
   dependencies:
     bcrypt "5.0.0"
 
-"@jamashita/publikum-error@2.1.3", "@jamashita/publikum-error@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-error/-/publikum-error-2.1.3.tgz#35d23824ff81e1e3e6ecca300a6d828b146939ad"
-  integrity sha512-Y8Mr9Ld0i0FmDWlTuTykehppvcHNXoNuy8tYkv6VQxL1Hm7vl4w3JQPSpQxl5s1Fp/5T+Oxdo3HqHxGTbzamKQ==
+"@jamashita/publikum-error@2.1.4", "@jamashita/publikum-error@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-error/-/publikum-error-2.1.4.tgz#6e9d255ae04f2432398d05a680d96d8e6d02fe5f"
+  integrity sha512-g8TXyp8Lbw2EXgVLSOfmMZ/MhO3hWFkZ2zzhoU6p4Qw+433cc3rFkgL6hKV2FlZPdboLWbMN2oss01dhALxUew==
   dependencies:
-    "@jamashita/publikum-interface" "^2.1.3"
+    "@jamashita/publikum-interface" "^2.1.4"
     make-error-cause "2.3.0"
 
-"@jamashita/publikum-interface@2.1.3", "@jamashita/publikum-interface@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-interface/-/publikum-interface-2.1.3.tgz#f15a9401d305e7c16c9670897f2a15bac19c175c"
-  integrity sha512-6n3R1Jt5yi45gcpUxjkv0OpBv4RQaFGHfwkOGw2mFdC0Shf7PKmxHYKMFBr9ReFkwpAw1rpDB1HcbLBBY1zu8Q==
+"@jamashita/publikum-interface@2.1.4", "@jamashita/publikum-interface@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-interface/-/publikum-interface-2.1.4.tgz#ac98d0d6e7b000bc4870c662d25b53ad35bd148c"
+  integrity sha512-EojgxmU9mDI24eCdxjDCCbNs5SyrEIYci4/RotrXqnWKzfxVH5Aq+d5nBpf8/qVAltc0w7tdLEFT0wW5A1rDgw==
   dependencies:
-    "@jamashita/publikum-type" "^2.1.3"
+    "@jamashita/publikum-type" "^2.1.4"
 
-"@jamashita/publikum-json@2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-json/-/publikum-json-2.1.3.tgz#780f584dc5cca0f04211b932f4d8b73e1aa7168e"
-  integrity sha512-hB8QhThPTgf5r9fpHO7u2ZF0mym9LYeD/FDT1LlPVScv5kGx6wLm4cPx3aDiOOfLeVI1n4FxrRyxs1NrgbUcWQ==
+"@jamashita/publikum-json@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-json/-/publikum-json-2.1.4.tgz#ec22986c5ae247883648de193babef33493d3190"
+  integrity sha512-Y8qZ1WJYhmJfTGgbrEFcDEfK4OhH27sFmQD/TBc0FtpsrL64JFcraRpCrVOcYzLl+areBo4JwYyLhwMDvy6sxg==
   dependencies:
-    "@jamashita/publikum-error" "^2.1.3"
-    "@jamashita/publikum-type" "^2.1.3"
+    "@jamashita/publikum-error" "^2.1.4"
+    "@jamashita/publikum-type" "^2.1.4"
 
-"@jamashita/publikum-monad@2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-monad/-/publikum-monad-2.1.3.tgz#875b9d0e255f4fdd0276f0e4030fa5fa9ce2b095"
-  integrity sha512-uZNFjicUW4ByV49CPw0epYLPvJGJ71x9GwiG99MWZnjR66DSHPpDKMJ4Y8SmqThAkhUt5uOrJmL8xutTUJhvgQ==
+"@jamashita/publikum-monad@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-monad/-/publikum-monad-2.1.4.tgz#791b8246930d75e5256341f192c8a146bd3d2184"
+  integrity sha512-Nq6H1I4tx9NjLWyOOlHbiiJHk8XyC+2aDXhOLd2Ibfg4kSz4qZcrQMqE18fD4+pFjlo6/JKb4B5D8kEQL7Dg1Q==
   dependencies:
-    "@jamashita/publikum-error" "^2.1.3"
-    "@jamashita/publikum-interface" "^2.1.3"
-    "@jamashita/publikum-type" "^2.1.3"
+    "@jamashita/publikum-error" "^2.1.4"
+    "@jamashita/publikum-interface" "^2.1.4"
+    "@jamashita/publikum-type" "^2.1.4"
 
-"@jamashita/publikum-mysql@2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-mysql/-/publikum-mysql-2.1.3.tgz#5a76a8127a356745a8707f9558f284f34d8fac34"
-  integrity sha512-eY4p1R2GJs1jhm3RcyObS15aIeBoIAhyK2f0AlqwmTxu8hcnXUx/KStCgCajHIb66Z6e7k5vWEYWAr7CkV3NgQ==
+"@jamashita/publikum-mysql@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-mysql/-/publikum-mysql-2.1.4.tgz#163af85914ced8be9cf6be54f4c5801650c52c53"
+  integrity sha512-UWvKJc6xQEnjW/0jonvZCKNKfFHxCLm3qndJ0ePpRmp86QWImf1srTERub0GL5eIIorqC3d31aKGMmh5qEX1eA==
   dependencies:
-    "@jamashita/publikum-error" "^2.1.3"
-    "@jamashita/publikum-interface" "^2.1.3"
-    "@jamashita/publikum-type" "^2.1.3"
+    "@jamashita/publikum-error" "^2.1.4"
+    "@jamashita/publikum-interface" "^2.1.4"
+    "@jamashita/publikum-type" "^2.1.4"
     mysql "2.18.1"
 
-"@jamashita/publikum-object@2.1.3", "@jamashita/publikum-object@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-object/-/publikum-object-2.1.3.tgz#4c95f621ae654b4f26bf96070a21683f8cc9e229"
-  integrity sha512-HS2VNn6djZ9Upw2A4hFCgllma6FFznycol1mH/S1KTPjZ3Iug2IfJq+/y93f7uEoOhFhRxc2kxR6un5+JmJK7w==
+"@jamashita/publikum-object@2.1.4", "@jamashita/publikum-object@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-object/-/publikum-object-2.1.4.tgz#45c2545ccb52614285118cf5abf970191e8cab09"
+  integrity sha512-K1+fC12whVv7a/2Ls6L5/VPKXRBGW9WsiBwJnj2hhUh5KswTbMoP58575ZXJTztBRfOEE+iaxqdLUQZaH5jAIw==
   dependencies:
-    "@jamashita/publikum-error" "^2.1.3"
-    "@jamashita/publikum-interface" "^2.1.3"
-    "@jamashita/publikum-type" "^2.1.3"
+    "@jamashita/publikum-error" "^2.1.4"
+    "@jamashita/publikum-interface" "^2.1.4"
+    "@jamashita/publikum-type" "^2.1.4"
     object-hash "2.0.3"
 
 "@jamashita/publikum-random@2.1.3":
@@ -468,38 +468,38 @@
   dependencies:
     chance "1.1.6"
 
-"@jamashita/publikum-redis@2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-redis/-/publikum-redis-2.1.3.tgz#4045f2cb5382e509165c4de20413506b33be046e"
-  integrity sha512-TrfSFOL96HIabGbXMAOuc+h2PQS3QbpoAa+Ncj6mbN0O57TTYa1xq1aKFupySzrFOmpIs7JrQm2bXLoaR/uOkA==
+"@jamashita/publikum-redis@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-redis/-/publikum-redis-2.1.4.tgz#8e947eaa768f2f07e6555ff26b691b1f9d2c998a"
+  integrity sha512-B8qyTA8annXf4bCpYUcXOq/EvTMF16RUj/WSPTzmR62aqsvCkTYANRVxVpMOA76QNzSGt4JcxFxnGdO6yfAfIA==
   dependencies:
-    "@jamashita/publikum-error" "^2.1.3"
-    "@jamashita/publikum-type" "^2.1.3"
+    "@jamashita/publikum-error" "^2.1.4"
+    "@jamashita/publikum-type" "^2.1.4"
     ioredis "4.17.3"
 
-"@jamashita/publikum-type@2.1.3", "@jamashita/publikum-type@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-type/-/publikum-type-2.1.3.tgz#a0941800a5885e1b1895040c0d9dbc6b74f08a27"
-  integrity sha512-Kx3u/o8DQXIDYgW24/+OmRVYcvJoKZ94hg622QBhfDsN8+6fVhoQl+b6Yy0QxPrA74cA+d6UXEf+fbCUIr/yPw==
+"@jamashita/publikum-type@2.1.4", "@jamashita/publikum-type@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-type/-/publikum-type-2.1.4.tgz#db9320413eeb47a39292982c35a8abb99414fd64"
+  integrity sha512-0UZzA32bTkObq6X91gdZyVufmj8AcoGhtPjFhKh2vHPgabqnqcyAsP97npa/WaF/J1KhxlST9HBVTtpA/5raTg==
   dependencies:
-    "@jamashita/publikum-error" "^2.1.3"
+    "@jamashita/publikum-error" "^2.1.4"
 
-"@jamashita/publikum-uuid@2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-uuid/-/publikum-uuid-2.1.3.tgz#5aa735c165398cbec520aa3660ed64832e3ffa74"
-  integrity sha512-0eVnqHkMZ2pojh1ejW+ZSJkmX6uAY5XjzQZDwkg/P5asljNWLQ3teRdNf65LrZakFS74Q6XJAu44Wsr6A0aYYw==
+"@jamashita/publikum-uuid@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-uuid/-/publikum-uuid-2.1.4.tgz#c8a0a5cc2c1148a9bf6c0dda27a6dd06c00fb14a"
+  integrity sha512-H4zq2UTeOVUmBCBp6xLxD0QwmSRaJvtCdIBsh64ODrebMvspgaTQ8s2eN+5ulfJf+9n1s0syOY4FTFctFZu1uw==
   dependencies:
-    "@jamashita/publikum-error" "^2.1.3"
-    "@jamashita/publikum-object" "^2.1.3"
+    "@jamashita/publikum-error" "^2.1.4"
+    "@jamashita/publikum-object" "^2.1.4"
     chance "1.1.6"
 
-"@jamashita/publikum-zeit@2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-zeit/-/publikum-zeit-2.1.3.tgz#3a6428ed07e5c2d092013e361b759fdaf0c6167f"
-  integrity sha512-rXvGiWqkL22rHNyjk7z6JbpUZ7montEeIuhDsZxXggjRdEG/Ko2YUC2ZUmUrygXk8QRm4rXYVG8U7Uf0L2Kc+A==
+"@jamashita/publikum-zeit@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-zeit/-/publikum-zeit-2.1.4.tgz#3b7c057a218ce2f6bc1c54539041c56c23306cf8"
+  integrity sha512-Cjex5VF2vflr77j9Sd3NIgGYBFnC9Zp1jdhqgs75xpwBi7+KZkFhmy40pg11fAaC88rmtiyu6Va+0zKuPYQsfg==
   dependencies:
-    "@jamashita/publikum-error" "^2.1.3"
-    "@jamashita/publikum-object" "^2.1.3"
+    "@jamashita/publikum-error" "^2.1.4"
+    "@jamashita/publikum-object" "^2.1.4"
     dayjs "1.8.28"
 
 "@jest/console@^26.1.0":
