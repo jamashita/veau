@@ -1,5 +1,5 @@
 import { JSONable } from '@jamashita/publikum-interface';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -18,7 +18,7 @@ export type StatsValueRow = Readonly<{
   value: number;
 }>;
 
-export class StatsValue extends ValueObject<StatsValue> implements JSONable {
+export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements JSONable<StatsValueJSON> {
   public readonly noun: 'StatsValue' = 'StatsValue';
   private readonly asOf: AsOf;
   private readonly value: NumericalValue;
@@ -30,10 +30,10 @@ export class StatsValue extends ValueObject<StatsValue> implements JSONable {
   public static ofJSON(json: StatsValueJSON): Superposition<StatsValue, StatsValueError> {
     return AsOf.ofString(json.asOf).transform<StatsValue, StatsValueError>(
       (asOf: AsOf) => {
-        return Alive.of<StatsValue, StatsValueError>(StatsValue.of(asOf, NumericalValue.of(json.value)));
+        return StatsValue.of(asOf, NumericalValue.of(json.value));
       },
       (err: AsOfError) => {
-        return Dead.of<StatsValue, StatsValueError>(new StatsValueError('StatsValue.ofRow()', err));
+        throw new StatsValueError('StatsValue.ofRow()', err);
       }
     );
   }
@@ -41,16 +41,16 @@ export class StatsValue extends ValueObject<StatsValue> implements JSONable {
   public static ofRow(row: StatsValueRow): Superposition<StatsValue, StatsValueError> {
     return AsOf.ofString(row.asOf).transform<StatsValue, StatsValueError>(
       (asOf: AsOf) => {
-        return Alive.of<StatsValue, StatsValueError>(StatsValue.of(asOf, NumericalValue.of(row.value)));
+        return StatsValue.of(asOf, NumericalValue.of(row.value));
       },
       (err: AsOfError) => {
-        return Dead.of<StatsValue, StatsValueError>(new StatsValueError('StatsValue.ofRow()', err));
+        throw new StatsValueError('StatsValue.ofRow()', err);
       }
     );
   }
 
   public static isJSON(n: unknown): n is StatsValueJSON {
-    if (!Kind.isPlainObject(n)) {
+    if (!Kind.isObject<StatsValueJSON>(n)) {
       return false;
     }
     if (!Kind.isString(n.asOf)) {

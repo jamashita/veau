@@ -1,8 +1,9 @@
-import { Collection, ImmutableProject, Project } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
+} from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { Alive, Dead, Quantum, Schrodinger, Superposition } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
-import { Enumerator, Kind } from '@jamashita/publikum-type';
+import { Superposition } from '@jamashita/publikum-monad';
+import { Kind, Nullable } from '@jamashita/publikum-type';
 
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfs } from '../AsOf/AsOfs';
@@ -10,8 +11,9 @@ import { StatsValueError } from './Error/StatsValueError';
 import { StatsValuesError } from './Error/StatsValuesError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
-export class StatsValues extends Objet<StatsValues>
-  implements Collection<AsOf, StatsValue>, Cloneable<StatsValues>, JSONable {
+// TODO TESTS UNDONE
+export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsValues'>
+  implements Cloneable<StatsValues>, JSONable<Array<StatsValueJSON>> {
   public readonly noun: 'StatsValues' = 'StatsValues';
   private readonly values: Project<AsOf, StatsValue>;
 
@@ -46,12 +48,12 @@ export class StatsValues extends Objet<StatsValues>
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsValue, StatsValueError>>
   ): Superposition<StatsValues, StatsValuesError> {
-    return Schrodinger.all<StatsValue, StatsValueError>(superpositions).transform<StatsValues, StatsValuesError>(
+    return Superposition.all<StatsValue, StatsValueError>(superpositions).transform<StatsValues, StatsValuesError>(
       (values: Array<StatsValue>) => {
-        return Alive.of<StatsValues, StatsValuesError>(StatsValues.ofArray(values));
+        return StatsValues.ofArray(values);
       },
       (err: StatsValueError) => {
-        return Dead.of<StatsValues, StatsValuesError>(new StatsValuesError('StatsValues.ofSuperposition()', err));
+        throw new StatsValuesError('StatsValues.ofSuperposition()', err);
       }
     );
   }
@@ -95,7 +97,7 @@ export class StatsValues extends Objet<StatsValues>
     this.values = values;
   }
 
-  public get(key: AsOf): Quantum<StatsValue> {
+  public get(key: AsOf): Nullable<StatsValue> {
     return this.values.get(key);
   }
 
@@ -115,10 +117,12 @@ export class StatsValues extends Objet<StatsValues>
     return this.values.size();
   }
 
-  public forEach(iteration: Enumerator<void, StatsValue>): void {
-    this.values.forEach((value: StatsValue) => {
-      iteration(value);
-    });
+  public forEach(iteration: CancellableEnumerator<AsOf, StatsValue>): void {
+    this.values.forEach(iteration);
+  }
+
+  public iterator(): Iterator<Pair<AsOf, StatsValue>> {
+    return this.values.iterator();
   }
 
   public getAsOfs(): AsOfs {
