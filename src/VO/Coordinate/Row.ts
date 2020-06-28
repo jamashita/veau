@@ -6,7 +6,7 @@ import { RowError } from './Error/RowError';
 
 const ORIGIN_VALUE: number = 0;
 
-export class Row extends ValueObject<Row> {
+export class Row extends ValueObject<Row, 'Row'> {
   public readonly noun: 'Row' = 'Row';
   private readonly row: number;
 
@@ -14,16 +14,16 @@ export class Row extends ValueObject<Row> {
 
   public static of(row: number): Superposition<Row, RowError> {
     if (row < 0) {
-      return Dead.of<Row, RowError>(new RowError(`ILLEGAL ROW SPECIFIED ${row}`));
+      return Superposition.ofSchrodinger<Row, RowError>(Dead.of<Row, RowError>(new RowError(`ILLEGAL ROW SPECIFIED ${row}`)));
     }
     if (row === ORIGIN_VALUE) {
-      return Alive.of<Row, RowError>(Row.origin());
+      return Superposition.ofSchrodinger<Row, RowError>(Alive.of<Row, RowError>(Row.origin()));
     }
     if (Kind.isInteger(row)) {
-      return Alive.of<Row, RowError>(new Row(row));
+      return Superposition.ofSchrodinger<Row, RowError>(Alive.of<Row, RowError>(new Row(row)));
     }
 
-    return Dead.of<Row, RowError>(new RowError('ILLEGAL ROW SPECIFIED'));
+    return Superposition.ofSchrodinger<Row, RowError>(Dead.of<Row, RowError>(new RowError('ILLEGAL ROW SPECIFIED')));
   }
 
   public static origin(): Row {

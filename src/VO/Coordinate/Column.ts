@@ -6,7 +6,7 @@ import { ColumnError } from './Error/ColumnError';
 
 const ORIGIN_VALUE: number = 0;
 
-export class Column extends ValueObject<Column> {
+export class Column extends ValueObject<Column, 'Column'> {
   public readonly noun: 'Column' = 'Column';
   private readonly column: number;
 
@@ -14,16 +14,16 @@ export class Column extends ValueObject<Column> {
 
   public static of(column: number): Superposition<Column, ColumnError> {
     if (column < 0) {
-      return Dead.of<Column, ColumnError>(new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`));
+      return Superposition.ofSchrodinger<Column, ColumnError>(Dead.of<Column, ColumnError>(new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`)));
     }
     if (column === ORIGIN_VALUE) {
-      return Alive.of<Column, ColumnError>(Column.origin());
+      return Superposition.ofSchrodinger<Column, ColumnError>(Alive.of<Column, ColumnError>(Column.origin()));
     }
     if (Kind.isInteger(column)) {
-      return Alive.of<Column, ColumnError>(new Column(column));
+      return Superposition.ofSchrodinger<Column, ColumnError>(Alive.of<Column, ColumnError>(new Column(column)));
     }
 
-    return Dead.of<Column, ColumnError>(new ColumnError('ILLEGAL COLUMN SPECIFIED'));
+    return Superposition.ofSchrodinger<Column, ColumnError>(Dead.of<Column, ColumnError>(new ColumnError('ILLEGAL COLUMN SPECIFIED')));
   }
 
   public static origin(): Column {

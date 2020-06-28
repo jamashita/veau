@@ -3,7 +3,7 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { Column } from './Column';
 import { Row } from './Row';
 
-export class Coordinate extends ValueObject<Coordinate> {
+export class Coordinate extends ValueObject<Coordinate, 'Coordinate'> {
   public readonly noun: 'Coordinate' = 'Coordinate';
   private readonly row: Row;
   private readonly column: Column;
