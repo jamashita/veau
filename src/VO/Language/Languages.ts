@@ -1,15 +1,18 @@
-import { Collection, ImmutableProject, Project } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
+} from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { Absent, Alive, Dead, Present, Quantum, Schrodinger, Superposition } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
-import { Mapper, Predicate } from '@jamashita/publikum-type';
+import { Superposition } from '@jamashita/publikum-monad';
+import { Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
 
 import { LanguageError } from './Error/LanguageError';
 import { LanguagesError } from './Error/LanguagesError';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 import { LanguageID } from './LanguageID';
 
-export class Languages extends Objet<Languages> implements Collection<LanguageID, Language>, JSONable {
+// TODO TESTS
+export class Languages extends Quantity<Languages, LanguageID, Language, 'Languages'>
+  implements JSONable<Array<LanguageJSON>> {
   public readonly noun: 'Languages' = 'Languages';
   private readonly languages: Project<LanguageID, Language>;
 
@@ -44,12 +47,12 @@ export class Languages extends Objet<Languages> implements Collection<LanguageID
   public static ofSuperposition(
     superpositions: Array<Superposition<Language, LanguageError>>
   ): Superposition<Languages, LanguagesError> {
-    return Schrodinger.all<Language, LanguageError>(superpositions).transform<Languages, LanguagesError>(
+    return Superposition.all<Language, LanguageError>(superpositions).transform<Languages, LanguagesError>(
       (regions: Array<Language>) => {
-        return Alive.of<Languages, LanguagesError>(Languages.ofArray(regions));
+        return Languages.ofArray(regions);
       },
       (err: LanguageError) => {
-        return Dead.of<Languages, LanguagesError>(new LanguagesError('Languages.ofSuperposition()', err));
+        throw new LanguagesError('Languages.ofSuperposition()', err);
       }
     );
   }
@@ -83,7 +86,7 @@ export class Languages extends Objet<Languages> implements Collection<LanguageID
     this.languages = languages;
   }
 
-  public get(key: LanguageID): Quantum<Language> {
+  public get(key: LanguageID): Nullable<Language> {
     return this.languages.get(key);
   }
 
@@ -95,11 +98,15 @@ export class Languages extends Objet<Languages> implements Collection<LanguageID
     return this.languages.size();
   }
 
+  public forEach(iteration: CancellableEnumerator<LanguageID, Language>): void {
+    this.languages.forEach(iteration);
+  }
+
   public map<U>(mapper: Mapper<Language, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;
 
-    this.languages.forEach((language: Language) => {
+    this.forEach((language: Language) => {
       array.push(mapper(language, i));
       i++;
     });
@@ -107,14 +114,18 @@ export class Languages extends Objet<Languages> implements Collection<LanguageID
     return array;
   }
 
-  public find(predicate: Predicate<Language>): Quantum<Language> {
+  public find(predicate: Predicate<Language>): Nullable<Language> {
     for (const language of this.languages.toMap().values()) {
       if (predicate(language)) {
-        return Present.of<Language>(language);
+        return language;
       }
     }
 
-    return Absent.of<Language>();
+    return null;
+  }
+
+  public iterator(): Iterator<Pair<LanguageID, Language>> {
+    return this.languages.iterator();
   }
 
   public isEmpty(): boolean {
