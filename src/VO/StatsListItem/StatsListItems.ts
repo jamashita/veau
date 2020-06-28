@@ -1,11 +1,12 @@
-import { Collection, ImmutableSequence, Sequence } from '@jamashita/publikum-collection';
-import { Quantum } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
-import { Mapper } from '@jamashita/publikum-type';
+import {
+    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
+} from '@jamashita/publikum-collection';
+import { Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { StatsListItem } from './StatsListItem';
 
-export class StatsListItems extends Objet<StatsListItems> implements Collection<number, StatsListItem> {
+// TODO TESTS UNDONE
+export class StatsListItems extends Quantity<StatsListItems, number, StatsListItem, 'StatsListItems'> {
   public readonly noun: 'StatsListItems' = 'StatsListItems';
   private readonly items: Sequence<StatsListItem>;
 
@@ -36,7 +37,7 @@ export class StatsListItems extends Objet<StatsListItems> implements Collection<
     this.items = items;
   }
 
-  public get(index: number): Quantum<StatsListItem> {
+  public get(index: number): Nullable<StatsListItem> {
     return this.items.get(index);
   }
 
@@ -48,8 +49,16 @@ export class StatsListItems extends Objet<StatsListItems> implements Collection<
     return this.items.size();
   }
 
+  public forEach(iteration: CancellableEnumerator<number, StatsListItem>): void {
+    this.items.forEach(iteration);
+  }
+
   public map<U>(mapper: Mapper<StatsListItem, U>): Array<U> {
     return this.items.toArray().map<U>(mapper);
+  }
+
+  public iterator(): Iterator<Pair<number, StatsListItem>> {
+    return this.items.iterator();
   }
 
   public isEmpty(): boolean {

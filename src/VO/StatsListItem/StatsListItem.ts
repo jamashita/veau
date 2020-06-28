@@ -5,8 +5,8 @@ import { Region } from '../Region/Region';
 import { StatsOutline } from '../StatsOutline/StatsOutline';
 import { Term } from '../Term/Term';
 
-export class StatsListItem extends ValueObject<StatsListItem> {
-  public readonly noun: 'StatsDisplay' = 'StatsDisplay';
+export class StatsListItem extends ValueObject<StatsListItem, 'StatsListItem'> {
+  public readonly noun: 'StatsListItem' = 'StatsListItem';
   private readonly outline: StatsOutline;
   private readonly language: Language;
   private readonly region: Region;
