@@ -1,10 +1,10 @@
 import { inject, injectable } from 'inversify';
 
-import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
+import { UnimplementedError } from '@jamashita/publikum-error';
 import { JSONA, JSONAError } from '@jamashita/publikum-json';
-import { Alive, Dead, Quantum, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { IRedis, RedisError } from '@jamashita/publikum-redis';
-import { Nullable } from '@jamashita/publikum-type';
+import { Kind, Nullable } from '@jamashita/publikum-type';
 
 import { Type } from '../../Container/Types';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
@@ -19,7 +19,7 @@ import { IRegionQuery } from '../Interface/IRegionQuery';
 import { IRedisQuery } from './Interface/IRedisQuery';
 
 @injectable()
-export class RegionQuery implements IRegionQuery, IRedisQuery {
+export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
@@ -28,75 +28,51 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
     this.redis = redis;
   }
 
-  public async all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
-    const superposition1: Superposition<Nullable<string>, RedisError> = await Schrodinger.sandbox<
-      Nullable<string>,
-      RedisError
-    >(() => {
+  public all(): Superposition<Regions, RegionsError | RedisError> {
+    return Superposition.playground<Nullable<string>, RedisError>(() => {
       return this.redis.getString().get(REDIS_REGION_KEY);
-    });
-
-    return superposition1.transform<Regions, RegionsError | DataSourceError>(
-      async (str: Nullable<string>) => {
-        if (str === null) {
-          return Dead.of<Regions, RedisError>(new RedisError('NO REGIONS FROM REDIS'));
-        }
-
-        const superposition2: Superposition<Array<RegionJSON>, JSONAError> = await Schrodinger.sandbox<
-          Array<RegionJSON>,
-          JSONAError
-        >(() => {
-          return JSONA.parse<Array<RegionJSON>>(str);
-        });
-
-        return superposition2.transform<Regions, RegionsError | DataSourceError>(
-          (json: Array<RegionJSON>) => {
-            return Regions.ofJSON(json);
-          },
-          (err: JSONAError) => {
-            return Dead.of<Regions, RedisError>(new RedisError('RegionQuery.all()', err));
-          }
-        );
-      },
-      (err: RedisError) => {
-        return Promise.resolve<Superposition<Regions, RedisError>>(Dead.of<Regions, RedisError>(err));
+    }).map((str: Nullable<string>) => {
+      if (str === null) {
+        throw new RedisError('NO REGIONS FROM REDIS');
       }
-    );
+
+      return Superposition.playground<Array<RegionJSON>, JSONAError>(() => {
+        return JSONA.parse<Array<RegionJSON>>(str);
+      }).transform<Regions, RegionsError | RedisError>(
+        (json: Array<RegionJSON>) => {
+          return Regions.ofJSON(json);
+        },
+        (err: JSONAError) => {
+          throw new RedisError('RegionQuery.all()', err);
+        }
+      );
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(regionID: RegionID): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(
-      new UnimplementedError()
-    );
+  public find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | RedisError> {
+    throw new UnimplementedError();
   }
 
-  public async findByISO3166(
-    iso3166: ISO3166
-  ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
-    const superposition: Superposition<Regions, RegionsError | DataSourceError> = await this.all();
-
-    return superposition.transform<Region, RegionError | NoSuchElementError | DataSourceError>(
+  public findByISO3166(iso3166: ISO3166): Superposition<Region, RegionError | NoSuchElementError | RedisError> {
+    return this.all().transform<Region, RegionError | NoSuchElementError | RedisError>(
       (regions: Regions) => {
-        const quantum: Quantum<Region> = regions.find((region: Region) => {
-          return region.getISO3166().equals(iso3166);
+        const region: Nullable<Region> = regions.find((r: Region) => {
+          return r.getISO3166().equals(iso3166);
         });
 
-        return quantum.toSuperposition().transform<Region, NoSuchElementError | DataSourceError>(
-          (region: Region) => {
-            return Alive.of<Region, DataSourceError>(region);
-          },
-          () => {
-            return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));
-          }
-        );
-      },
-      (err: RegionsError | DataSourceError) => {
-        if (err instanceof RegionsError) {
-          return Dead.of<Region, RegionError>(new RegionError('RegionQuery.findByISO3166()', err));
+        if (Kind.isNull(region)) {
+          throw new NoSuchElementError(iso3166.get());
         }
 
-        return Dead.of<Region, DataSourceError>(err);
+        return region;
+      },
+      (err: RegionsError | RedisError) => {
+        if (err instanceof RegionsError) {
+          throw new RegionError('RegionQuery.findByISO3166()', err);
+        }
+
+        throw err;
       }
     );
   }

@@ -1,7 +1,6 @@
 import { inject, injectable } from 'inversify';
 
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
 
 import { Type } from '../../Container/Types';
@@ -13,7 +12,7 @@ import { IAccountQuery } from '../Interface/IAccountQuery';
 import { IMySQLQuery } from './Interface/IMySQLQuery';
 
 @injectable()
-export class AccountQuery implements IAccountQuery, IMySQLQuery {
+export class AccountQuery implements IAccountQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
@@ -22,9 +21,7 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async findByAccount(
-    account: AccountName
-  ): Promise<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>> {
+  public findByAccount(account: AccountName): Superposition<Account, AccountError | NoSuchElementError | MySQLError> {
     const query: string = `SELECT
       R1.veau_account_id AS veauAccountID,
       R1.language_id AS languageID,
@@ -37,25 +34,17 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
       WHERE R1.account = :account
       AND R1.active = true;`;
 
-    const superposition: Superposition<Array<AccountRow>, MySQLError> = await Schrodinger.sandbox<
-      Array<AccountRow>,
-      MySQLError
-    >(() => {
+    return Superposition.playground<Array<AccountRow>, MySQLError>(() => {
       return this.mysql.execute<Array<AccountRow>>(query, {
         account: account.get()
       });
-    });
-
-    return superposition.transform<Account, AccountError | NoSuchElementError | DataSourceError>(
+    }).map<Account, AccountError | NoSuchElementError | MySQLError>(
       (rows: Array<AccountRow>) => {
         if (rows.length === 0) {
-          return Dead.of<Account, NoSuchElementError>(new NoSuchElementError(account.get()));
+          throw new NoSuchElementError(account.get());
         }
 
         return Account.ofRow(rows[0]);
-      },
-      (err: MySQLError) => {
-        return Dead.of<Account, MySQLError>(err);
       }
     );
   }

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
 
 import { Type } from '../../Container/Types';
@@ -17,7 +17,7 @@ import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
 import { IMySQLQuery } from './Interface/IMySQLQuery';
 
 @injectable()
-export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
+export class StatsOutlineQuery implements IStatsOutlineQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
@@ -26,9 +26,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async find(
-    statsID: StatsID
-  ): Promise<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>> {
+  public find(statsID: StatsID): Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | MySQLError> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
@@ -40,33 +38,23 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
       FROM stats R1
       WHERE R1.stats_id = :statsID;`;
 
-    const superposition: Superposition<Array<StatsOutlineRow>, MySQLError> = await Schrodinger.sandbox<
-      Array<StatsOutlineRow>,
-      MySQLError
-    >(() => {
+    return Superposition.playground<Array<StatsOutlineRow>, MySQLError>(() => {
       return this.mysql.execute<Array<StatsOutlineRow>>(query, {
         statsID: statsID.get().get()
       });
-    });
-
-    return superposition.transform<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(
-      (rows: Array<StatsOutlineRow>) => {
-        if (rows.length === 0) {
-          return Dead.of<StatsOutline, NoSuchElementError>(new NoSuchElementError(statsID.toString()));
-        }
-
-        return StatsOutline.ofRow(rows[0]);
-      },
-      (err: MySQLError) => {
-        return Dead.of<StatsOutline, MySQLError>(err);
+    }).map<StatsOutline, StatsOutlineError | NoSuchElementError | MySQLError>((rows: Array<StatsOutlineRow>) => {
+      if (rows.length === 0) {
+        throw new NoSuchElementError(statsID.toString());
       }
-    );
+
+      return StatsOutline.ofRow(rows[0]);
+    });
   }
 
-  public async findByVeauAccountID(
+  public findByVeauAccountID(
     veauAccountID: VeauAccountID,
     page: Page
-  ): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
+  ): Superposition<StatsOutlines, StatsOutlinesError | MySQLError> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
@@ -80,24 +68,14 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
       LIMIT :limit
       OFFSET :offset;`;
 
-    const superposition: Superposition<Array<StatsOutlineRow>, MySQLError> = await Schrodinger.sandbox<
-      Array<StatsOutlineRow>,
-      MySQLError
-    >(() => {
+    return Superposition.playground<Array<StatsOutlineRow>, MySQLError>(() => {
       return this.mysql.execute<Array<StatsOutlineRow>>(query, {
         veauAccountID: veauAccountID.get().get(),
         limit: page.getLimit().get(),
         offset: page.getOffset().get()
       });
+    }).map<StatsOutlines, StatsOutlinesError | MySQLError>((rows: Array<StatsOutlineRow>) => {
+      return StatsOutlines.ofRow(rows);
     });
-
-    return superposition.transform<StatsOutlines, StatsOutlinesError | DataSourceError>(
-      (rows: Array<StatsOutlineRow>) => {
-        return StatsOutlines.ofRow(rows);
-      },
-      (err: MySQLError) => {
-        return Dead.of<StatsOutlines, MySQLError>(err);
-      }
-    );
   }
 }
