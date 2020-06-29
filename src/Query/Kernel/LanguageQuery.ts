@@ -1,7 +1,8 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Alive, Dead, Quantum, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
+import { Kind, Nullable } from '@jamashita/publikum-type';
 
 import { ILanguageCommand } from '../../Command/Interface/ILanguageCommand';
 import { Type } from '../../Container/Types';
@@ -33,80 +34,40 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
     this.languageRedisCommand = languageRedisCommand;
   }
 
-  public async all(): Promise<Superposition<Languages, LanguagesError | DataSourceError>> {
-    const superposition1: Superposition<
-      Languages,
-      LanguagesError | DataSourceError
-    > = await this.languageRedisQuery.all();
-
-    return superposition1.transform<Languages, LanguagesError | DataSourceError>(
-      (languages: Languages, self: Alive<Languages, LanguagesError | DataSourceError>) => {
-        return Promise.resolve<Superposition<Languages, LanguagesError | DataSourceError>>(self);
-      },
-      async () => {
-        const superposition2: Superposition<
-          Languages,
-          LanguagesError | DataSourceError
-        > = await this.languageMySQLQuery.all();
-
-        return superposition2.transform<Languages, LanguagesError | DataSourceError>(
-          async (languages: Languages) => {
-            const superposition3: Superposition<unknown, DataSourceError> = await this.languageRedisCommand.insertAll(
-              languages
-            );
-
-            return superposition3.transform<Languages, DataSourceError>(
-              () => {
-                return Alive.of<Languages, DataSourceError>(languages);
-              },
-              (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
-                return self.transpose<Languages>();
-              }
-            );
-          },
-          (err: LanguagesError | DataSourceError, self: Dead<Languages, LanguagesError | DataSourceError>) => {
-            return Promise.resolve<Superposition<Languages, LanguagesError | DataSourceError>>(self);
-          }
-        );
-      }
-    );
+  public all(): Superposition<Languages, LanguagesError | DataSourceError> {
+    return this.languageRedisQuery.all().recover<Languages, LanguagesError | DataSourceError>(() => {
+      return this.languageMySQLQuery.all().map<Languages, LanguagesError | DataSourceError>((languages: Languages) => {
+        return this.languageRedisCommand.insertAll(languages).map<Languages, DataSourceError>(() => {
+          return languages;
+        });
+      });
+    });
   }
 
-  public find(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    languageID: LanguageID
-  ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(
-      new UnimplementedError()
-    );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
+    throw new UnimplementedError();
   }
 
-  public async findByISO639(
-    iso639: ISO639
-  ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
-    const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await this.all();
-
-    return superposition.transform<Language, LanguageError | NoSuchElementError | DataSourceError>(
+  public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
+    return this.all().transform<Language, LanguageError | NoSuchElementError | DataSourceError>(
       (languages: Languages) => {
-        const quantum: Quantum<Language> = languages.find((language: Language) => {
-          return language.getISO639().equals(iso639);
+        const language: Nullable<Language> = languages.find((l: Language) => {
+          return l.getISO639().equals(iso639);
         });
 
-        return quantum.toSuperposition().transform<Language, NoSuchElementError | DataSourceError>(
-          (language: Language) => {
-            return Alive.of<Language, DataSourceError>(language);
-          },
-          () => {
-            return Dead.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
-          }
-        );
+        if (Kind.isNull(language)) {
+          throw new NoSuchElementError(iso639.toString());
+        }
+
+        return language;
       },
       (err: LanguagesError | DataSourceError) => {
         if (err instanceof LanguagesError) {
-          return Dead.of<Language, LanguageError>(new LanguageError('LanguageQuery.findByISO639()', err));
+          throw new LanguageError('LanguageQuery.findByISO639()', err);
         }
 
-        return Dead.of<Language, DataSourceError>(err);
+        throw err;
       }
     );
   }

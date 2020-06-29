@@ -1,7 +1,8 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Alive, Dead, Quantum, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
+import { Kind, Nullable } from '@jamashita/publikum-type';
 
 import { IRegionCommand } from '../../Command/Interface/IRegionCommand';
 import { Type } from '../../Container/Types';
@@ -33,75 +34,40 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
     this.regionRedisCommand = regionRedisCommand;
   }
 
-  public async all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
-    const superposition1: Superposition<Regions, RegionsError | DataSourceError> = await this.regionRedisQuery.all();
-
-    return superposition1.transform<Regions, RegionsError | DataSourceError>(
-      (regions: Regions, self: Alive<Regions, RegionsError | DataSourceError>) => {
-        return Promise.resolve<Superposition<Regions, RegionsError | DataSourceError>>(self);
-      },
-      async () => {
-        const superposition2: Superposition<
-          Regions,
-          RegionsError | DataSourceError
-        > = await this.regionMySQLQuery.all();
-
-        return superposition2.transform<Regions, RegionsError | DataSourceError>(
-          async (regions: Regions) => {
-            const superposition3: Superposition<unknown, DataSourceError> = await this.regionRedisCommand.insertAll(
-              regions
-            );
-
-            return superposition3.transform<Regions, DataSourceError>(
-              () => {
-                return Alive.of<Regions, DataSourceError>(regions);
-              },
-              (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
-                return self.transpose<Regions>();
-              }
-            );
-          },
-          (err: RegionsError | DataSourceError, self: Dead<Regions, RegionsError | DataSourceError>) => {
-            return Promise.resolve<Superposition<Regions, RegionsError | DataSourceError>>(self);
-          }
-        );
-      }
-    );
+  public all(): Superposition<Regions, RegionsError | DataSourceError> {
+    return this.regionRedisQuery.all().recover<Regions, RegionsError | DataSourceError>(() => {
+      return this.regionMySQLQuery.all().map<Regions, RegionsError | DataSourceError>((regions: Regions) => {
+        return this.regionRedisCommand.insertAll(regions).map<Regions, DataSourceError>(() => {
+          return regions;
+        });
+      });
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(regionID: RegionID): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(
-      new UnimplementedError()
-    );
+  public find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
+    throw new UnimplementedError();
   }
 
-  public async findByISO3166(
-    iso3166: ISO3166
-  ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
-    const superposition: Superposition<Regions, RegionsError | DataSourceError> = await this.all();
-
-    return superposition.transform<Region, RegionError | NoSuchElementError | DataSourceError>(
+  public findByISO3166(iso3166: ISO3166): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
+    return this.all().transform<Region, RegionError | NoSuchElementError | DataSourceError>(
       (regions: Regions) => {
-        const quantum: Quantum<Region> = regions.find((region: Region) => {
-          return region.getISO3166().equals(iso3166);
+        const region: Nullable<Region> = regions.find((r: Region) => {
+          return r.getISO3166().equals(iso3166);
         });
 
-        return quantum.toSuperposition().transform<Region, NoSuchElementError | DataSourceError>(
-          (region: Region) => {
-            return Alive.of<Region, DataSourceError>(region);
-          },
-          () => {
-            return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
-          }
-        );
+        if (Kind.isNull(region)) {
+          throw new NoSuchElementError(iso3166.toString());
+        }
+
+        return region;
       },
       (err: RegionsError | DataSourceError) => {
         if (err instanceof RegionsError) {
-          return Dead.of<Region, RegionError>(new RegionError('RegionQuery.findByISO3166()', err));
+          throw new RegionError('RegionQuery.findByISO3166()', err);
         }
 
-        return Dead.of<Region, DataSourceError>(err);
+        throw err;
       }
     );
   }

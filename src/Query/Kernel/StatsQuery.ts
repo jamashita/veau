@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
@@ -46,98 +46,59 @@ export class StatsQuery implements IStatsQuery, IKernelQuery {
     this.regionQuery = regionQuery;
   }
 
-  public async findByStatsID(
-    statsID: StatsID
-  ): Promise<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>> {
-    const superposition1: Superposition<
-      StatsOutline,
-      StatsOutlineError | NoSuchElementError | DataSourceError
-    > = await this.statsOutlineQuery.find(statsID);
-
-    return superposition1.transform<Stats, StatsError | NoSuchElementError | DataSourceError>(
-      async (outline: StatsOutline) => {
-        const superposition2: Superposition<
-          StatsItems,
-          StatsItemsError | DataSourceError
-        > = await this.statsItemQuery.findByStatsID(statsID);
-
-        return superposition2.transform<Stats, StatsError | NoSuchElementError | DataSourceError>(
-          async (items: StatsItems) => {
-            const superposition3: Superposition<
-              Language,
-              LanguageError | NoSuchElementError | DataSourceError
-            > = await this.languageQuery.find(outline.getLanguageID());
-
-            return superposition3.transform<Stats, StatsError | NoSuchElementError | DataSourceError>(
-              async (language: Language) => {
-                const superposition4: Superposition<
-                  Region,
-                  RegionError | NoSuchElementError | DataSourceError
-                > = await this.regionQuery.find(outline.getRegionID());
-
-                return superposition4.transform<Stats, StatsError | NoSuchElementError | DataSourceError>(
-                  (region: Region) => {
-                    const superposition5: Superposition<Term, TermError> = Term.ofTermID(outline.getTermID());
-
-                    return superposition5.transform<Stats, StatsError | NoSuchElementError | DataSourceError>(
-                      (term: Term) => {
-                        return Alive.of<Stats, StatsError | NoSuchElementError | DataSourceError>(
-                          Stats.of(outline, language, region, term, items)
-                        );
-                      },
-                      (err: TermError) => {
-                        return Dead.of<Stats, StatsError | NoSuchElementError | DataSourceError>(
-                          new StatsError('StatsQuery.findByStatsID()', err)
-                        );
-                      }
-                    );
-                  },
-                  (err: RegionError | NoSuchElementError | DataSourceError) => {
-                    if (err instanceof RegionError) {
-                      return Dead.of<Stats, StatsError>(new StatsError('StatsQuery.findByStatsID()', err));
-                    }
-
-                    return Dead.of<Stats, NoSuchElementError | DataSourceError>(err);
+  public findByStatsID(statsID: StatsID): Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> {
+    return this.statsOutlineQuery
+      .find(statsID)
+      .map<
+        Stats,
+        | StatsOutlineError
+        | StatsItemsError
+        | LanguageError
+        | RegionError
+        | TermError
+        | NoSuchElementError
+        | DataSourceError
+      >((outline: StatsOutline) => {
+        return this.statsItemQuery
+          .findByStatsID(statsID)
+          .map<Stats, StatsItemsError | LanguageError | RegionError | TermError | NoSuchElementError | DataSourceError>(
+            (items: StatsItems) => {
+              return this.languageQuery
+                .find(outline.getLanguageID())
+                .map<Stats, LanguageError | RegionError | TermError | NoSuchElementError | DataSourceError>(
+                  (language: Language) => {
+                    return this.regionQuery
+                      .find(outline.getRegionID())
+                      .map<Stats, RegionError | TermError | NoSuchElementError | DataSourceError>((region: Region) => {
+                        return Term.ofTermID(outline.getTermID()).map<Stats, TermError>((term: Term) => {
+                          return Stats.of(outline, language, region, term, items);
+                        });
+                      });
                   }
                 );
-              },
-              (err: LanguageError | NoSuchElementError | DataSourceError) => {
-                if (err instanceof LanguageError) {
-                  return Promise.resolve<Superposition<Stats, StatsError>>(
-                    Dead.of<Stats, StatsError>(new StatsError('StatsQuery.findByStatsID()', err))
-                  );
-                }
-
-                return Promise.resolve<Superposition<Stats, NoSuchElementError | DataSourceError>>(
-                  Dead.of<Stats, NoSuchElementError | DataSourceError>(err)
-                );
-              }
-            );
-          },
-          (err: StatsItemsError | DataSourceError) => {
-            if (err instanceof StatsItemsError) {
-              return Promise.resolve<Superposition<Stats, StatsError>>(
-                Dead.of<Stats, StatsError>(new StatsError('StatsQuery.findByStatsID()', err))
-              );
             }
-
-            return Promise.resolve<Superposition<Stats, NoSuchElementError | DataSourceError>>(
-              Dead.of<Stats, NoSuchElementError | DataSourceError>(err)
-            );
-          }
-        );
-      },
-      (err: StatsOutlineError | NoSuchElementError | DataSourceError) => {
-        if (err instanceof StatsOutlineError) {
-          return Promise.resolve<Superposition<Stats, StatsError>>(
-            Dead.of<Stats, StatsError>(new StatsError('StatsQuery.findByStatsID()', err))
           );
-        }
+      })
+      .recover<Stats, StatsError | NoSuchElementError | DataSourceError>(
+        (
+          err:
+            | StatsOutlineError
+            | StatsItemsError
+            | LanguageError
+            | RegionError
+            | TermError
+            | NoSuchElementError
+            | DataSourceError
+        ) => {
+          if (err instanceof NoSuchElementError) {
+            throw err;
+          }
+          if (err instanceof DataSourceError) {
+            throw err;
+          }
 
-        return Promise.resolve<Superposition<Stats, NoSuchElementError | DataSourceError>>(
-          Dead.of<Stats, NoSuchElementError | DataSourceError>(err)
-        );
-      }
-    );
+          throw new StatsError('StatsQuery.findByStatsID()', err);
+        }
+      );
   }
 }
