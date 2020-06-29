@@ -1,5 +1,4 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ISQL, MySQLError } from '@jamashita/publikum-mysql';
 
 import { Stats } from '../../Entity/Stats/Stats';
@@ -17,7 +16,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
     this.sql = sql;
   }
 
-  public create(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<unknown, DataSourceError>> {
+  public create(stats: Stats, veauAccountID: VeauAccountID): Superposition<unknown, MySQLError> {
     const query: string = `INSERT INTO stats VALUES (
       :statsID,
       :languageID,
@@ -29,7 +28,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       :updatedAt
       );`;
 
-    return Schrodinger.sandbox<unknown, MySQLError>(() => {
+    return Superposition.playground<unknown, MySQLError>(() => {
       return this.sql.execute<unknown>(query, {
         statsID: stats.getStatsID().get().get(),
         languageID: stats.getLanguage().getLanguageID().get().get(),
@@ -43,12 +42,12 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
     });
   }
 
-  public deleteByStatsID(statsID: StatsID): Promise<Superposition<unknown, DataSourceError>> {
+  public deleteByStatsID(statsID: StatsID): Superposition<unknown, MySQLError> {
     const query: string = `DELETE R1
       FROM stats R1
       WHERE R1.stats_id = :statsID;`;
 
-    return Schrodinger.sandbox<unknown, MySQLError>(() => {
+    return Superposition.playground<unknown, MySQLError>(() => {
       return this.sql.execute<unknown>(query, {
         statsID: statsID.get().get()
       });
