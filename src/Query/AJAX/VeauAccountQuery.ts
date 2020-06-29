@@ -2,8 +2,7 @@ import { OK, UNAUTHORIZED } from 'http-status';
 import { inject, injectable } from 'inversify';
 
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';

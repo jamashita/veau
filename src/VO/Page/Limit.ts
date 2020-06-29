@@ -14,7 +14,9 @@ export class Limit extends ValueObject<Limit, 'Limit'> {
 
   public static of(limit: number): Superposition<Limit, LimitError> {
     if (limit <= 0) {
-      return Superposition.ofSchrodinger<Limit, LimitError>(Dead.of<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit}`)));
+      return Superposition.ofSchrodinger<Limit, LimitError>(
+        Dead.of<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit}`))
+      );
     }
     if (limit === DEFAULT_VALUE) {
       return Superposition.ofSchrodinger<Limit, LimitError>(Alive.of<Limit, LimitError>(Limit.default()));
@@ -23,7 +25,9 @@ export class Limit extends ValueObject<Limit, 'Limit'> {
       return Superposition.ofSchrodinger<Limit, LimitError>(Alive.of<Limit, LimitError>(new Limit(limit)));
     }
 
-    return Superposition.ofSchrodinger<Limit, LimitError>(Dead.of<Limit, LimitError>(new LimitError('ILLEGAL LIMIT SPECIFIED')));
+    return Superposition.ofSchrodinger<Limit, LimitError>(
+      Dead.of<Limit, LimitError>(new LimitError('ILLEGAL LIMIT SPECIFIED'))
+    );
   }
 
   public static default(): Limit {

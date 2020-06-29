@@ -10,13 +10,19 @@ export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
 
   public static of(size: number): Superposition<HeaderSize, HeaderSizeError> {
     if (size < 0) {
-      return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`)));
+      return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(
+        Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`))
+      );
     }
     if (Kind.isInteger(size)) {
-      return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(Alive.of<HeaderSize, HeaderSizeError>(new HeaderSize(size)));
+      return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(
+        Alive.of<HeaderSize, HeaderSizeError>(new HeaderSize(size))
+      );
     }
 
-    return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError('ILLEGAL SIZE SPECIFIED')));
+    return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(
+      Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError('ILLEGAL SIZE SPECIFIED'))
+    );
   }
 
   protected constructor(size: number) {

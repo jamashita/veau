@@ -1,14 +1,16 @@
-import { Collection, ImmutableSequence, Sequence } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
+} from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { Absent, Present, Quantum, Schrodinger } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
-import { Enumerator } from '@jamashita/publikum-type';
+import { Absent, Present, Superposition, Unscharferelation } from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
 
 import { Term } from '../Term/Term';
 import { AsOf } from './AsOf';
 
-export class AsOfs extends Objet<AsOfs> implements Collection<number, AsOf>, Cloneable<AsOfs>, JSONable {
+// TODO TESTS UNDONE
+export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Cloneable<AsOfs>, JSONable<Array<string>> {
   public readonly noun: 'AsOfs' = 'AsOfs';
   private readonly asOfs: Sequence<AsOf>;
 
@@ -81,7 +83,7 @@ export class AsOfs extends Objet<AsOfs> implements Collection<number, AsOf>, Clo
     return AsOfs.of(this.asOfs.add(...values));
   }
 
-  public get(index: number): Quantum<AsOf> {
+  public get(index: number): Nullable<AsOf> {
     return this.asOfs.get(index);
   }
 
@@ -89,60 +91,70 @@ export class AsOfs extends Objet<AsOfs> implements Collection<number, AsOf>, Clo
     return this.asOfs.contains(value);
   }
 
-  public min(): Quantum<AsOf> {
+  public min(): Unscharferelation<AsOf> {
     if (this.isEmpty()) {
-      return Absent.of<AsOf>();
+      return Unscharferelation.ofHeisenberg<AsOf>(Absent.of<AsOf>());
     }
     if (this.asOfs.size() === 1) {
-      return this.asOfs.get(0);
+      const asOf: Nullable<AsOf> = this.asOfs.get(0);
+
+      if (asOf === null) {
+        return Unscharferelation.ofHeisenberg<AsOf>(Absent.of<AsOf>());
+      }
+
+      return Unscharferelation.ofHeisenberg<AsOf>(Present.of<AsOf>(asOf));
     }
 
     const zeiten: Array<Zeit> = this.asOfs.toArray().map<Zeit>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    return Schrodinger.playground<Zeit, ZeitError>(() => {
+    return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.min(zeiten, AsOf.format());
-    }).transform<Quantum<AsOf>>(
-      (zeit: Zeit) => {
-        return Present.of<AsOf>(AsOf.of(zeit));
-      },
-      () => {
-        return Absent.of<AsOf>();
-      }
-    );
+    })
+      .map<AsOf, ZeitError>((zeit: Zeit) => {
+        return AsOf.of(zeit);
+      })
+      .toUnscharferelation();
   }
 
-  public max(): Quantum<AsOf> {
+  public max(): Unscharferelation<AsOf> {
     if (this.isEmpty()) {
-      return Absent.of<AsOf>();
+      return Unscharferelation.ofHeisenberg<AsOf>(Absent.of<AsOf>());
     }
     if (this.asOfs.size() === 1) {
-      return this.asOfs.get(0);
+      const asOf: Nullable<AsOf> = this.asOfs.get(0);
+
+      if (asOf === null) {
+        return Unscharferelation.ofHeisenberg<AsOf>(Absent.of<AsOf>());
+      }
+
+      return Unscharferelation.ofHeisenberg<AsOf>(Present.of<AsOf>(asOf));
     }
 
     const zeiten: Array<Zeit> = this.asOfs.toArray().map<Zeit>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    return Schrodinger.playground<Zeit, ZeitError>(() => {
+    return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.max(zeiten, AsOf.format());
-    }).transform<Quantum<AsOf>>(
-      (zeit: Zeit) => {
-        return Present.of<AsOf>(AsOf.of(zeit));
-      },
-      () => {
-        return Absent.of<AsOf>();
-      }
-    );
+    })
+      .map<AsOf, ZeitError>((zeit: Zeit) => {
+        return AsOf.of(zeit);
+      })
+      .toUnscharferelation();
   }
 
   public size(): number {
     return this.asOfs.size();
   }
 
-  public forEach(iteration: Enumerator<number, AsOf>): void {
+  public forEach(iteration: CancellableEnumerator<number, AsOf>): void {
     this.asOfs.forEach(iteration);
+  }
+
+  public iterator(): Iterator<Pair<number, AsOf>> {
+    return this.asOfs.iterator();
   }
 
   public isEmpty(): boolean {
