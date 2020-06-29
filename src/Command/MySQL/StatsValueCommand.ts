@@ -1,4 +1,3 @@
-import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
 import { ISQL, MySQLError } from '@jamashita/publikum-mysql';
 
@@ -8,7 +7,7 @@ import { StatsValue } from '../../VO/StatsValue/StatsValue';
 import { IStatsValueCommand } from '../Interface/IStatsValueCommand';
 import { IMySQLCommand } from './Interface/IMySQLCommand';
 
-export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
+export class StatsValueCommand implements IStatsValueCommand<MySQLError>, IMySQLCommand {
   public readonly noun: 'StatsValueCommand' = 'StatsValueCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly sql: ISQL;

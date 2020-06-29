@@ -1,8 +1,7 @@
 import { inject, injectable } from 'inversify';
 
-import { DataSourceError } from '@jamashita/publikum-error';
 import { JSONA, JSONAError } from '@jamashita/publikum-json';
-import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { IRedis, RedisError } from '@jamashita/publikum-redis';
 
 import { Type } from '../../Container/Types';
@@ -14,7 +13,7 @@ import { IRedisCommand } from './Interface/IRedisCommand';
 const DURATION: number = 3 * 60 * 60;
 
 @injectable()
-export class LanguageCommand implements ILanguageCommand, IRedisCommand {
+export class LanguageCommand implements ILanguageCommand<RedisError>, IRedisCommand {
   public readonly noun: 'LanguageCommand' = 'LanguageCommand';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
@@ -23,43 +22,32 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
     this.redis = redis;
   }
 
-  public async insertAll(languages: Languages): Promise<Superposition<unknown, DataSourceError>> {
-    const superposition: Superposition<string, JSONAError> = await Schrodinger.sandbox<string, JSONAError>(() => {
+  public insertAll(languages: Languages): Superposition<unknown, RedisError> {
+    return Superposition.playground<string, JSONAError>(() => {
       return JSONA.stringify(languages.toJSON());
-    });
-
-    return superposition.transform<unknown, RedisError>(
+    }).transform<unknown, RedisError>(
       (str: string) => {
-        return Schrodinger.sandbox<unknown, RedisError>(async () => {
+        return Superposition.playground<unknown, RedisError>(async () => {
           await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
 
           return this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
         });
       },
       (err: JSONAError) => {
-        return Promise.reject<Superposition<unknown, RedisError>>(
-          Dead.of<RedisError>(new RedisError('LanguageCommand.insertAll()', err))
-        );
+        throw new RedisError('LanguageCommand.insertAll()', err);
       }
     );
   }
 
-  public async deleteAll(): Promise<Superposition<unknown, DataSourceError>> {
-    const superposition: Superposition<boolean, RedisError> = await Schrodinger.sandbox<boolean, RedisError>(() => {
+  public deleteAll(): Superposition<unknown, RedisError> {
+    return Superposition.playground<boolean, RedisError>(() => {
       return this.redis.delete(REDIS_LANGUAGE_KEY);
-    });
-
-    return superposition.transform<unknown, RedisError>(
-      (ok: boolean) => {
-        if (ok) {
-          return Alive.of<RedisError>();
-        }
-
-        return Dead.of<RedisError>(new RedisError('FAIL TO DELETE CACHE'));
-      },
-      (err: RedisError) => {
-        return Dead.of<RedisError>(err);
+    }).map<unknown, RedisError>((ok: boolean) => {
+      if (ok) {
+        return null;
       }
-    );
+
+      throw new RedisError('FAIL TO DELETE CACHE');
+    });
   }
 }

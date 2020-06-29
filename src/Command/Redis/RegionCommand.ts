@@ -1,8 +1,7 @@
 import { inject, injectable } from 'inversify';
 
-import { DataSourceError } from '@jamashita/publikum-error';
 import { JSONA, JSONAError } from '@jamashita/publikum-json';
-import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { IRedis, RedisError } from '@jamashita/publikum-redis';
 
 import { Type } from '../../Container/Types';
@@ -14,7 +13,7 @@ import { IRedisCommand } from './Interface/IRedisCommand';
 const DURATION: number = 3 * 60 * 60;
 
 @injectable()
-export class RegionCommand implements IRegionCommand, IRedisCommand {
+export class RegionCommand implements IRegionCommand<RedisError>, IRedisCommand {
   public readonly noun: 'RegionCommand' = 'RegionCommand';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
@@ -23,43 +22,30 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
     this.redis = redis;
   }
 
-  public async insertAll(regions: Regions): Promise<Superposition<unknown, DataSourceError>> {
-    const superposition: Superposition<string, JSONAError> = await Schrodinger.sandbox<string, JSONAError>(() => {
+  public insertAll(regions: Regions): Superposition<unknown, RedisError> {
+    return Superposition.playground<string, JSONAError>(() => {
       return JSONA.stringify(regions.toJSON());
-    });
+    }).transform<unknown, RedisError>(
+      async (str: string) => {
+        await this.redis.getString().set(REDIS_REGION_KEY, str);
 
-    return superposition.transform<unknown, RedisError>(
-      (str: string) => {
-        return Schrodinger.sandbox<unknown, RedisError>(async () => {
-          await this.redis.getString().set(REDIS_REGION_KEY, str);
-
-          return this.redis.expires(REDIS_REGION_KEY, DURATION);
-        });
+        return this.redis.expires(REDIS_REGION_KEY, DURATION);
       },
       (err: JSONAError) => {
-        return Promise.resolve<Superposition<unknown, RedisError>>(
-          Dead.of<RedisError>(new RedisError('RegionCommand.insertAll()', err))
-        );
+        throw new RedisError('RegionCommand.insertAll()', err);
       }
     );
   }
 
-  public async deleteAll(): Promise<Superposition<unknown, DataSourceError>> {
-    const superposition: Superposition<boolean, RedisError> = await Schrodinger.sandbox<boolean, RedisError>(() => {
+  public deleteAll(): Superposition<unknown, RedisError> {
+    return Superposition.playground<boolean, RedisError>(() => {
       return this.redis.delete(REDIS_REGION_KEY);
-    });
-
-    return superposition.transform<unknown, RedisError>(
-      (ok: boolean) => {
-        if (ok) {
-          return Alive.of<RedisError>();
-        }
-
-        return Dead.of<RedisError>(new RedisError('FAIL TO DELETE CACHE'));
-      },
-      (err: RedisError) => {
-        return Dead.of<RedisError>(err);
+    }).map<unknown, RedisError>((ok: boolean) => {
+      if (ok) {
+        return null;
       }
-    );
+
+      throw new RedisError('FAIL TO DELETE CACHE');
+    });
   }
 }

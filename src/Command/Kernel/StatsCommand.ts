@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { IMySQL } from '@jamashita/publikum-mysql';
 
 import { Type } from '../../Container/Types';
@@ -23,29 +23,20 @@ export class StatsCommand implements IStatsCommand, IKernelCommand {
     this.mysql = mysql;
   }
 
-  public async create(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<unknown, DataSourceError>> {
+  public create(stats: Stats, veauAccountID: VeauAccountID): Superposition<unknown, DataSourceError> {
     const statsUpdateTransaction: StatsUpdateTransaction = new StatsUpdateTransaction(
       stats,
       veauAccountID,
       new StatsUpdateFactory()
     );
 
-    const superposition: Superposition<unknown, DataSourceError> = await this.mysql.transact<
-      Superposition<unknown, DataSourceError>
-    >(statsUpdateTransaction);
-
-    return superposition.transform<void, DataSourceError>(
-      () => {
-        return Alive.of<DataSourceError>();
-      },
-      (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
-        return self.transpose<void>();
-      }
-    );
+    return Superposition.playground<unknown, DataSourceError>(() => {
+      return this.mysql.transact<Superposition<unknown, DataSourceError>>(statsUpdateTransaction);
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public deleteByStatsID(statsID: StatsID): Promise<Superposition<unknown, DataSourceError>> {
-    return Promise.reject<Superposition<unknown, DataSourceError>>(new UnimplementedError());
+  public deleteByStatsID(statsID: StatsID): Superposition<unknown, DataSourceError> {
+    throw new UnimplementedError();
   }
 }
