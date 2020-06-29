@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 
-import { DataSourceError } from '@jamashita/publikum-error';
+import { CacheError } from '@jamashita/publikum-cache';
 import { Alive, Superposition } from '@jamashita/publikum-monad';
 
 import { TermsError } from '../../VO/Term/Error/TermsError';
@@ -9,11 +9,11 @@ import { ITermQuery } from '../Interface/ITermQuery';
 import { ICacheQuery } from './Interface/ICacheQuery';
 
 @injectable()
-export class TermQuery implements ITermQuery, ICacheQuery {
+export class TermQuery implements ITermQuery<CacheError>, ICacheQuery {
   public readonly noun: 'TermQuery' = 'TermQuery';
   public readonly source: 'Cache' = 'Cache';
 
-  public all(): Promise<Superposition<Terms, TermsError | DataSourceError>> {
-    return Promise.resolve<Superposition<Terms, TermsError>>(Alive.of<Terms, TermsError>(Terms.all()));
+  public all(): Superposition<Terms, TermsError | CacheError> {
+    return Superposition.ofSchrodinger<Terms, TermsError>(Alive.of<Terms, TermsError>(Terms.all()));
   }
 }
