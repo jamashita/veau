@@ -10,7 +10,7 @@ export class MockTermQuery implements ITermQuery, IMockQuery {
   public readonly noun: 'TermQuery' = 'TermQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public all(): Promise<Superposition<Terms, TermsError | DataSourceError>> {
-    return Promise.reject<Superposition<Terms, TermsError | DataSourceError>>(new UnimplementedError());
+  public all(): Superposition<Terms, TermsError | DataSourceError> {
+    throw new UnimplementedError();
   }
 }

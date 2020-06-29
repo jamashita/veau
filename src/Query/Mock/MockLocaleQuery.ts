@@ -9,7 +9,7 @@ export class MockLocaleQuery implements ILocaleQuery, IMockQuery {
   public readonly noun: 'LocaleQuery' = 'LocaleQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public all(): Promise<Superposition<Locale, DataSourceError>> {
-    return Promise.reject<Superposition<Locale, DataSourceError>>(new UnimplementedError());
+  public all(): Superposition<Locale, DataSourceError> {
+    throw new UnimplementedError();
   }
 }

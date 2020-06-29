@@ -13,13 +13,11 @@ export class MockStatsOutlineQuery implements IStatsOutlineQuery, IMockQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public find(): Promise<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>>(
-      new UnimplementedError()
-    );
+  public find(): Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError> {
+    throw new UnimplementedError();
   }
 
-  public findByVeauAccountID(): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
-    return Promise.reject<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>>(new UnimplementedError());
+  public findByVeauAccountID(): Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> {
+    throw new UnimplementedError();
   }
 }

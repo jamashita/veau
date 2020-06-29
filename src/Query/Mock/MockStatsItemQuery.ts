@@ -10,7 +10,7 @@ export class MockStatsItemQuery implements IStatsItemQuery, IMockQuery {
   public readonly noun: 'StatsItemQuery' = 'StatsItemQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public findByStatsID(): Promise<Superposition<StatsItems, StatsItemsError | DataSourceError>> {
-    return Promise.reject<Superposition<StatsItems, StatsItemsError | DataSourceError>>(new UnimplementedError());
+  public findByStatsID(): Superposition<StatsItems, StatsItemsError | DataSourceError> {
+    throw new UnimplementedError();
   }
 }

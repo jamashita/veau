@@ -12,11 +12,7 @@ export class MockStatsValueQuery implements IStatsValueQuery, IMockQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public findByStatsID(): Promise<
-    Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>
-  > {
-    return Promise.reject<Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>>(
-      new UnimplementedError()
-    );
+  public findByStatsID(): Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError> {
+    throw new UnimplementedError();
   }
 }

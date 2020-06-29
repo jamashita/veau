@@ -11,9 +11,7 @@ export class MockAccountQuery implements IAccountQuery, IMockQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public findByAccount(): Promise<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>>(
-      new UnimplementedError()
-    );
+  public findByAccount(): Superposition<Account, AccountError | NoSuchElementError | DataSourceError> {
+    throw new UnimplementedError();
   }
 }

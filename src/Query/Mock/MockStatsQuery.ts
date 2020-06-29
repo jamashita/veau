@@ -11,9 +11,7 @@ export class MockStatsQuery implements IStatsQuery, IMockQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public findByStatsID(): Promise<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>>(
-      new UnimplementedError()
-    );
+  public findByStatsID(): Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> {
+    throw new UnimplementedError();
   }
 }
