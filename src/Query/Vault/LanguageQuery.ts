@@ -1,7 +1,8 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Quantum, QuantumError, Superposition } from '@jamashita/publikum-monad';
+import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { Type } from '../../Container/Types';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
@@ -27,81 +28,67 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
     this.localeVaultQuery = localeVaultQuery;
   }
 
-  public async all(): Promise<Superposition<Languages, LanguagesError | DataSourceError>> {
-    const superposition: Superposition<Locale, LocaleError | DataSourceError> = await this.localeVaultQuery.all();
-
-    return superposition.transform<Languages, LanguagesError | DataSourceError>(
-      (locale: Locale) => {
-        return Alive.of<Languages, DataSourceError>(locale.getLanguages());
-      },
-      (err: LocaleError | DataSourceError) => {
+  public all(): Superposition<Languages, LanguagesError | DataSourceError> {
+    return this.localeVaultQuery
+      .all()
+      .map<Languages, LocaleError | DataSourceError>((locale: Locale) => {
+        return locale.getLanguages();
+      })
+      .recover<Languages, LanguagesError | DataSourceError>((err: LocaleError | DataSourceError) => {
         if (err instanceof LocaleError) {
-          return Dead.of<Languages, LanguagesError>(new LanguagesError('LanguageQuery.all()', err));
+          throw new LanguagesError('LanguageQuery.all()', err);
         }
 
-        return Dead.of<Languages, DataSourceError>(err);
-      }
-    );
+        throw err;
+      });
   }
 
   // TODO TESTS UNDONE
-  public async find(
-    languageID: LanguageID
-  ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
-    const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await this.all();
-
-    return superposition.transform<Language, LanguageError | NoSuchElementError | DataSourceError>(
-      (languages: Languages) => {
-        const quantum: Quantum<Language> = languages.find((language: Language) => {
-          return language.getLanguageID().equals(languageID);
+  public find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
+    return this.all()
+      .map<Language, LanguagesError | NoSuchElementError | DataSourceError>((languages: Languages) => {
+        const language: Nullable<Language> = languages.find((l: Language) => {
+          return l.getLanguageID().equals(languageID);
         });
 
-        return quantum.toSuperposition().transform<Language, NoSuchElementError | DataSourceError>(
-          (language: Language, self: Alive<Language, QuantumError>) => {
-            return self.transpose<DataSourceError>();
-          },
-          () => {
-            return Dead.of<Language, NoSuchElementError>(new NoSuchElementError(languageID.get().get()));
+        return Unscharferelation.maybe<Language>(language)
+          .toSuperposition()
+          .recover<Language, NoSuchElementError>(() => {
+            throw new NoSuchElementError(languageID.get().get());
+          });
+      })
+      .recover<Language, LanguageError | NoSuchElementError | DataSourceError>(
+        (err: LanguagesError | NoSuchElementError | DataSourceError) => {
+          if (err instanceof LanguagesError) {
+            throw new LanguageError('LanguageQuery.findByISO639()', err);
           }
-        );
-      },
-      (err: LanguagesError | DataSourceError) => {
-        if (err instanceof LanguagesError) {
-          return Dead.of<Language, LanguageError>(new LanguageError('LanguageQuery.findByISO639()', err));
-        }
 
-        return Dead.of<Language, DataSourceError>(err);
-      }
-    );
+          throw err;
+        }
+      );
   }
 
-  public async findByISO639(
-    iso639: ISO639
-  ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
-    const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await this.all();
-
-    return superposition.transform<Language, LanguageError | NoSuchElementError | DataSourceError>(
-      (languages: Languages) => {
-        const quantum: Quantum<Language> = languages.find((language: Language) => {
-          return language.getISO639().equals(iso639);
+  public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
+    return this.all()
+      .map<Language, LanguagesError | NoSuchElementError | DataSourceError>((languages: Languages) => {
+        const language: Nullable<Language> = languages.find((l: Language) => {
+          return l.getISO639().equals(iso639);
         });
 
-        return quantum.toSuperposition().transform<Language, NoSuchElementError | DataSourceError>(
-          (language: Language, self: Alive<Language, QuantumError>) => {
-            return self.transpose<DataSourceError>();
-          },
-          () => {
-            return Dead.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
+        return Unscharferelation.maybe<Language>(language)
+          .toSuperposition()
+          .recover<Language, NoSuchElementError>(() => {
+            throw new NoSuchElementError(iso639.get());
+          });
+      })
+      .recover<Language, LanguageError | NoSuchElementError | DataSourceError>(
+        (err: LanguagesError | NoSuchElementError | DataSourceError) => {
+          if (err instanceof LanguagesError) {
+            throw new LanguageError('LanguageQuery.findByISO639()', err);
           }
-        );
-      },
-      (err: LanguagesError | DataSourceError) => {
-        if (err instanceof LanguagesError) {
-          return Dead.of<Language, LanguageError>(new LanguageError('LanguageQuery.findByISO639()', err));
-        }
 
-        return Dead.of<Language, DataSourceError>(err);
-      }
-    );
+          throw err;
+        }
+      );
   }
 }

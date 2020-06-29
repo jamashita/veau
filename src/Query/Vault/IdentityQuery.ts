@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
@@ -38,113 +38,57 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
     this.regionQuery = regionQuery;
   }
 
-  public async find(): Promise<Superposition<Identity, IdentityError | DataSourceError>> {
-    const superposition1: Superposition<
-      VeauAccount,
-      VeauAccountError | DataSourceError
-    > = await this.veauAccountQuery.find();
-
-    return superposition1.transform<Superposition<Identity, IdentityError | DataSourceError>>(
-      async (veauAccount: VeauAccount) => {
-        const [superposition2, superposition3]: [
-          Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
-          Superposition<Region, RegionError | NoSuchElementError | DataSourceError>
-        ] = await Promise.all([
-          this.languageQuery.find(veauAccount.getLanguageID()),
-          this.regionQuery.find(veauAccount.getRegionID())
-        ]);
-
-        return superposition2.transform<Superposition<Identity, IdentityError | DataSourceError>>(
-          (language: Language) => {
-            return superposition3.transform<Superposition<Identity, IdentityError | DataSourceError>>(
-              (region: Region) => {
-                return Alive.of<Identity, DataSourceError>(
-                  Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region)
-                );
-              },
-              (err: RegionError | NoSuchElementError | DataSourceError) => {
-                if (err instanceof DataSourceError) {
-                  return Dead.of<Identity, DataSourceError>(err);
-                }
-
-                return Dead.of<Identity, IdentityError>(new IdentityError('IdentityQuery.find()', err));
-              }
-            );
-          },
-          (err: LanguageError | NoSuchElementError | DataSourceError) => {
-            if (err instanceof DataSourceError) {
-              return Dead.of<Identity, DataSourceError>(err);
-            }
-
-            return Dead.of<Identity, IdentityError>(new IdentityError('IdentityQuery.find()', err));
+  public find(): Superposition<Identity, IdentityError | DataSourceError> {
+    return this.veauAccountQuery
+      .find()
+      .map<Identity, LanguageError | RegionError | NoSuchElementError | DataSourceError>((veauAccount: VeauAccount) => {
+        return this.languageQuery
+          .find(veauAccount.getLanguageID())
+          .map<Identity, LanguageError | RegionError | NoSuchElementError | DataSourceError>((language: Language) => {
+            return this.regionQuery
+              .find(veauAccount.getRegionID())
+              .map<Identity, RegionError | NoSuchElementError | DataSourceError>((region: Region) => {
+                return Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region);
+              });
+          });
+      })
+      .recover<Identity, IdentityError | DataSourceError>(
+        (err: VeauAccountError | LanguageError | RegionError | NoSuchElementError | DataSourceError) => {
+          if (err instanceof DataSourceError) {
+            throw err;
           }
-        );
-      },
-      (err: VeauAccountError | DataSourceError) => {
-        if (err instanceof VeauAccountError) {
-          return Promise.resolve<Superposition<Identity, IdentityError>>(
-            Dead.of<Identity, IdentityError>(new IdentityError('IdentityQuery.find()', err))
-          );
-        }
 
-        return Promise.resolve<Superposition<Identity, DataSourceError>>(Dead.of<Identity, DataSourceError>(err));
-      }
-    );
+          throw new IdentityError('IdentityQuery.find()', err);
+        }
+      );
   }
 
-  public async findByEntranceInfo(
+  public findByEntranceInfo(
     entranceInformation: EntranceInformation
-  ): Promise<Superposition<Identity, IdentityError | DataSourceError>> {
-    const superposition1: Superposition<
-      VeauAccount,
-      VeauAccountError | DataSourceError
-    > = await this.veauAccountQuery.findByEntranceInfo(entranceInformation);
-
-    return superposition1.transform<Superposition<Identity, IdentityError | DataSourceError>>(
-      async (veauAccount: VeauAccount) => {
-        const [superposition2, superposition3]: [
-          Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
-          Superposition<Region, RegionError | NoSuchElementError | DataSourceError>
-        ] = await Promise.all([
-          this.languageQuery.find(veauAccount.getLanguageID()),
-          this.regionQuery.find(veauAccount.getRegionID())
-        ]);
-
-        return superposition2.transform<Superposition<Identity, IdentityError | DataSourceError>>(
-          (language: Language) => {
-            return superposition3.transform<Superposition<Identity, IdentityError | DataSourceError>>(
-              (region: Region) => {
-                return Alive.of<Identity, DataSourceError>(
-                  Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region)
-                );
-              },
-              (err: RegionError | NoSuchElementError | DataSourceError) => {
-                if (err instanceof DataSourceError) {
-                  return Dead.of<Identity, DataSourceError>(err);
-                }
-
-                return Dead.of<Identity, IdentityError>(new IdentityError('IdentityQuery.find()', err));
-              }
-            );
-          },
-          (err: LanguageError | NoSuchElementError | DataSourceError) => {
-            if (err instanceof DataSourceError) {
-              return Dead.of<Identity, DataSourceError>(err);
-            }
-
-            return Dead.of<Identity, IdentityError>(new IdentityError('IdentityQuery.find()', err));
-          }
-        );
-      },
-      (err: VeauAccountError | DataSourceError) => {
-        if (err instanceof VeauAccountError) {
-          return Promise.resolve<Superposition<Identity, IdentityError>>(
-            Dead.of<Identity, IdentityError>(new IdentityError('IdentityQuery.find()', err))
-          );
+  ): Superposition<Identity, IdentityError | DataSourceError> {
+    return this.veauAccountQuery
+      .findByEntranceInfo(entranceInformation)
+      .map<Identity, VeauAccountError | LanguageError | RegionError | NoSuchElementError | DataSourceError>(
+        (veauAccount: VeauAccount) => {
+          return this.languageQuery
+            .find(veauAccount.getLanguageID())
+            .map<Identity, LanguageError | RegionError | NoSuchElementError | DataSourceError>((language: Language) => {
+              return this.regionQuery
+                .find(veauAccount.getRegionID())
+                .map<Identity, RegionError | NoSuchElementError | DataSourceError>((region: Region) => {
+                  return Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region);
+                });
+            });
         }
+      )
+      .recover<Identity, IdentityError | DataSourceError>(
+        (err: VeauAccountError | LanguageError | RegionError | NoSuchElementError | DataSourceError) => {
+          if (err instanceof DataSourceError) {
+            throw err;
+          }
 
-        return Promise.resolve<Superposition<Identity, DataSourceError>>(Dead.of<Identity, DataSourceError>(err));
-      }
-    );
+          throw new IdentityError('IdentityQuery.find()', err);
+        }
+      );
   }
 }
