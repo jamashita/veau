@@ -2,9 +2,11 @@ import { inject, injectable } from 'inversify';
 
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { JSONA, JSONAError } from '@jamashita/publikum-json';
-import { Superposition } from '@jamashita/publikum-monad';
+import {
+    Superposition, Unscharferelation, UnscharferelationError
+} from '@jamashita/publikum-monad';
 import { IRedis, RedisError } from '@jamashita/publikum-redis';
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { Type } from '../../Container/Types';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
@@ -31,22 +33,29 @@ export class LanguageQuery implements ILanguageQuery<RedisError>, IRedisQuery {
   public all(): Superposition<Languages, LanguagesError | RedisError> {
     return Superposition.playground<Nullable<string>, RedisError>(() => {
       return this.redis.getString().get(REDIS_LANGUAGE_KEY);
-    }).map<Languages, LanguagesError | RedisError>((str: Nullable<string>) => {
-      if (str === null) {
-        throw new RedisError('NO LANGUAGES FROM REDIS');
-      }
+    })
+      .map<Languages, LanguagesError | JSONAError | RedisError | UnscharferelationError>((str: Nullable<string>) => {
+        return Unscharferelation.maybe<string>(str)
+          .toSuperposition()
+          .map<Array<LanguageJSON>, JSONAError | UnscharferelationError>((j: string) => {
+            return JSONA.parse<Array<LanguageJSON>>(j);
+          })
+          .map<Languages, LanguagesError | JSONAError | UnscharferelationError>((json: Array<LanguageJSON>) => {
+            return Languages.ofJSON(json);
+          });
+      })
+      .recover<Languages, LanguagesError | RedisError>(
+        (err: LanguagesError | JSONAError | RedisError | UnscharferelationError) => {
+          if (err instanceof JSONAError) {
+            throw new LanguagesError('LanguageQuery.all()', err);
+          }
+          if (err instanceof UnscharferelationError) {
+            throw new LanguagesError('LanguageQuery.all()', err);
+          }
 
-      return Superposition.playground<Array<LanguageJSON>, JSONAError>(() => {
-        return JSONA.parse<Array<LanguageJSON>>(str);
-      }).transform<Languages, LanguagesError | RedisError>(
-        (json: Array<LanguageJSON>) => {
-          return Languages.ofJSON(json);
-        },
-        (err: JSONAError) => {
-          throw new RedisError('LanguageQuery.all()', err);
+          throw err;
         }
       );
-    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -55,25 +64,25 @@ export class LanguageQuery implements ILanguageQuery<RedisError>, IRedisQuery {
   }
 
   public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | RedisError> {
-    return this.all().transform<Language, LanguageError | NoSuchElementError | RedisError>(
-      (languages: Languages) => {
+    return this.all()
+      .map<Language, LanguagesError | RedisError | UnscharferelationError>((languages: Languages) => {
         const language: Nullable<Language> = languages.find((l: Language) => {
           return l.getISO639().equals(iso639);
         });
 
-        if (Kind.isNull(language)) {
-          throw new NoSuchElementError(iso639.get());
-        }
+        return Unscharferelation.maybe<Language>(language).toSuperposition();
+      })
+      .recover<Language, LanguageError | NoSuchElementError | RedisError>(
+        (err: LanguagesError | RedisError | UnscharferelationError) => {
+          if (err instanceof LanguagesError) {
+            throw new LanguageError('LanguageQuery.findByISO639()', err);
+          }
+          if (err instanceof UnscharferelationError) {
+            throw new NoSuchElementError(iso639.get());
+          }
 
-        return language;
-      },
-      (err: LanguagesError | RedisError) => {
-        if (err instanceof LanguagesError) {
-          throw new LanguageError('LanguageQuery.findByISO639()', err);
+          throw err;
         }
-
-        throw err;
-      }
-    );
+      );
   }
 }

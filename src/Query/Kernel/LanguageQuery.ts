@@ -1,8 +1,10 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import {
+    Superposition, Unscharferelation, UnscharferelationError
+} from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { ILanguageCommand } from '../../Command/Interface/ILanguageCommand';
 import { Type } from '../../Container/Types';
@@ -50,25 +52,25 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
   }
 
   public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
-    return this.all().transform<Language, LanguageError | NoSuchElementError | DataSourceError>(
-      (languages: Languages) => {
+    return this.all()
+      .map<Language, LanguagesError | DataSourceError | UnscharferelationError>((languages: Languages) => {
         const language: Nullable<Language> = languages.find((l: Language) => {
           return l.getISO639().equals(iso639);
         });
 
-        if (Kind.isNull(language)) {
-          throw new NoSuchElementError(iso639.toString());
-        }
+        return Unscharferelation.maybe(language).toSuperposition();
+      })
+      .recover<Language, LanguageError | NoSuchElementError | DataSourceError>(
+        (err: LanguagesError | DataSourceError | UnscharferelationError) => {
+          if (err instanceof LanguagesError) {
+            throw new LanguageError('LanguageQuery.findByISO639()', err);
+          }
+          if (err instanceof UnscharferelationError) {
+            throw new NoSuchElementError(iso639.toString());
+          }
 
-        return language;
-      },
-      (err: LanguagesError | DataSourceError) => {
-        if (err instanceof LanguagesError) {
-          throw new LanguageError('LanguageQuery.findByISO639()', err);
+          throw err;
         }
-
-        throw err;
-      }
-    );
+      );
   }
 }

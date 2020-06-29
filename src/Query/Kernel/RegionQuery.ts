@@ -1,8 +1,10 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import {
+    Superposition, Unscharferelation, UnscharferelationError
+} from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { IRegionCommand } from '../../Command/Interface/IRegionCommand';
 import { Type } from '../../Container/Types';
@@ -50,25 +52,24 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   }
 
   public findByISO3166(iso3166: ISO3166): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
-    return this.all().transform<Region, RegionError | NoSuchElementError | DataSourceError>(
-      (regions: Regions) => {
+    return this.all()
+      .map<Region, RegionsError | DataSourceError | UnscharferelationError>((regions: Regions) => {
         const region: Nullable<Region> = regions.find((r: Region) => {
           return r.getISO3166().equals(iso3166);
         });
 
-        if (Kind.isNull(region)) {
-          throw new NoSuchElementError(iso3166.toString());
-        }
-
-        return region;
-      },
-      (err: RegionsError | DataSourceError) => {
+        return Unscharferelation.maybe<Region>(region).toSuperposition();
+      })
+      .recover<Region, RegionError | NoSuchElementError | DataSourceError>((err: RegionsError | DataSourceError | UnscharferelationError) => {
         if (err instanceof RegionsError) {
           throw new RegionError('RegionQuery.findByISO3166()', err);
         }
+        if (err instanceof UnscharferelationError) {
+          throw new NoSuchElementError(iso3166.toString());
+        }
+
 
         throw err;
-      }
-    );
+      });
   }
 }

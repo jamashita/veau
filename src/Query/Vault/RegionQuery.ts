@@ -1,7 +1,10 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Quantum, QuantumError, Superposition } from '@jamashita/publikum-monad';
+import {
+    Superposition, Unscharferelation, UnscharferelationError
+} from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { Type } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
@@ -27,81 +30,65 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
     this.localeVaultQuery = localeVaultQuery;
   }
 
-  public async all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
-    const superposition: Superposition<Locale, LocaleError | DataSourceError> = await this.localeVaultQuery.all();
-
-    return superposition.transform<Regions, RegionsError | DataSourceError>(
-      (locale: Locale) => {
-        return Alive.of<Regions, DataSourceError>(locale.getRegions());
-      },
-      (err: LocaleError | DataSourceError) => {
+  public all(): Superposition<Regions, RegionsError | DataSourceError> {
+    return this.localeVaultQuery
+      .all()
+      .map<Regions, LocaleError | DataSourceError>((locale: Locale) => {
+        return locale.getRegions();
+      })
+      .recover<Regions, RegionsError | DataSourceError>((err: LocaleError | DataSourceError) => {
         if (err instanceof LocaleError) {
-          return Dead.of<Regions, RegionsError>(new RegionsError('RegionQuery.all()', err));
+          throw new RegionsError('RegionQuery.all()', err);
         }
 
-        return Dead.of<Regions, DataSourceError>(err);
-      }
-    );
+        throw err;
+      });
   }
 
   // TODO TEST UNDONE
-  public async find(
-    regionID: RegionID
-  ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
-    const superposition: Superposition<Regions, RegionsError | DataSourceError> = await this.all();
-
-    return superposition.transform<Region, RegionError | NoSuchElementError | DataSourceError>(
-      (regions: Regions) => {
-        const quantum: Quantum<Region> = regions.find((region: Region) => {
-          return region.getRegionID().equals(regionID);
+  public find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
+    return this.all()
+      .map<Region, RegionsError | DataSourceError | UnscharferelationError>((regions: Regions) => {
+        const region: Nullable<Region> = regions.find((r: Region) => {
+          return r.getRegionID().equals(regionID);
         });
 
-        return quantum.toSuperposition().transform<Region, NoSuchElementError | DataSourceError>(
-          (region: Region, self: Alive<Region, QuantumError>) => {
-            return self.transpose<DataSourceError>();
-          },
-          () => {
-            return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(regionID.get().get()));
+        return Unscharferelation.maybe<Region>(region).toSuperposition();
+      })
+      .recover<Region, RegionError | NoSuchElementError | DataSourceError>(
+        (err: RegionsError | DataSourceError | UnscharferelationError) => {
+          if (err instanceof RegionsError) {
+            throw new RegionError('RegionQuery.findByISO3166()', err);
           }
-        );
-      },
-      (err: RegionsError | DataSourceError) => {
-        if (err instanceof RegionsError) {
-          return Dead.of<Region, RegionError>(new RegionError('RegionQuery.findByISO3166()', err));
-        }
+          if (err instanceof UnscharferelationError) {
+            throw new NoSuchElementError(regionID.get().get());
+          }
 
-        return Dead.of<Region, DataSourceError>(err);
-      }
-    );
+          throw err;
+        }
+      );
   }
 
-  public async findByISO3166(
-    iso3166: ISO3166
-  ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
-    const superposition: Superposition<Regions, RegionsError | DataSourceError> = await this.all();
-
-    return superposition.transform<Region, RegionError | NoSuchElementError | DataSourceError>(
-      (regions: Regions) => {
-        const quantum: Quantum<Region> = regions.find((region: Region) => {
-          return region.getISO3166().equals(iso3166);
+  public findByISO3166(iso3166: ISO3166): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
+    return this.all()
+      .map<Region, RegionsError | DataSourceError | UnscharferelationError>((regions: Regions) => {
+        const region: Nullable<Region> = regions.find((r: Region) => {
+          return r.getISO3166().equals(iso3166);
         });
 
-        return quantum.toSuperposition().transform<Region, NoSuchElementError | DataSourceError>(
-          (region: Region, self: Alive<Region, QuantumError>) => {
-            return self.transpose<DataSourceError>();
-          },
-          () => {
-            return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));
+        return Unscharferelation.maybe<Region>(region).toSuperposition();
+      })
+      .recover<Region, RegionError | NoSuchElementError | DataSourceError>(
+        (err: RegionsError | DataSourceError | UnscharferelationError) => {
+          if (err instanceof RegionsError) {
+            throw new RegionError('RegionQuery.findByISO3166()', err);
           }
-        );
-      },
-      (err: RegionsError | DataSourceError) => {
-        if (err instanceof RegionsError) {
-          return Dead.of<Region, RegionError>(new RegionError('RegionQuery.findByISO3166()', err));
-        }
+          if (err instanceof UnscharferelationError) {
+            throw new NoSuchElementError(iso3166.get());
+          }
 
-        return Dead.of<Region, DataSourceError>(err);
-      }
-    );
+          throw err;
+        }
+      );
   }
 }

@@ -1,7 +1,9 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
+import {
+    Superposition, Unscharferelation, UnscharferelationError
+} from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 
 import { Type } from '../../Container/Types';
@@ -46,21 +48,20 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
   // TODO TESTS UNDONE
   public find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
     return this.all()
-      .map<Language, LanguagesError | NoSuchElementError | DataSourceError>((languages: Languages) => {
+      .map<Language, LanguagesError | DataSourceError | UnscharferelationError>((languages: Languages) => {
         const language: Nullable<Language> = languages.find((l: Language) => {
           return l.getLanguageID().equals(languageID);
         });
 
-        return Unscharferelation.maybe<Language>(language)
-          .toSuperposition()
-          .recover<Language, NoSuchElementError>(() => {
-            throw new NoSuchElementError(languageID.get().get());
-          });
+        return Unscharferelation.maybe<Language>(language).toSuperposition();
       })
       .recover<Language, LanguageError | NoSuchElementError | DataSourceError>(
-        (err: LanguagesError | NoSuchElementError | DataSourceError) => {
+        (err: LanguagesError | DataSourceError | UnscharferelationError) => {
           if (err instanceof LanguagesError) {
             throw new LanguageError('LanguageQuery.findByISO639()', err);
+          }
+          if (err instanceof UnscharferelationError) {
+            throw new NoSuchElementError(languageID.get().get());
           }
 
           throw err;
@@ -70,21 +71,20 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
 
   public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
     return this.all()
-      .map<Language, LanguagesError | NoSuchElementError | DataSourceError>((languages: Languages) => {
+      .map<Language, LanguagesError | DataSourceError | UnscharferelationError>((languages: Languages) => {
         const language: Nullable<Language> = languages.find((l: Language) => {
           return l.getISO639().equals(iso639);
         });
 
-        return Unscharferelation.maybe<Language>(language)
-          .toSuperposition()
-          .recover<Language, NoSuchElementError>(() => {
-            throw new NoSuchElementError(iso639.get());
-          });
+        return Unscharferelation.maybe<Language>(language).toSuperposition();
       })
       .recover<Language, LanguageError | NoSuchElementError | DataSourceError>(
-        (err: LanguagesError | NoSuchElementError | DataSourceError) => {
+        (err: LanguagesError | DataSourceError | UnscharferelationError) => {
           if (err instanceof LanguagesError) {
             throw new LanguageError('LanguageQuery.findByISO639()', err);
+          }
+          if (err instanceof UnscharferelationError) {
+            throw new NoSuchElementError(iso639.get());
           }
 
           throw err;

@@ -44,19 +44,22 @@ export class StatsItemQuery implements IStatsItemQuery<MySQLError>, IMySQLQuery 
       return this.mysql.execute<Array<StatsItemRow>>(query, {
         statsID: statsID.get().get()
       });
-    }).map<StatsItems, StatsItemsError | MySQLError>((rows: Array<StatsItemRow>) => {
-      return this.statsValueQuery.findByStatsID(statsID).transform<StatsItems, StatsItemsError | MySQLError>(
-        (values: Project<StatsItemID, StatsValues>) => {
-          return StatsItems.ofRow(rows, values);
-        },
-        (err: StatsValuesError | DataSourceError) => {
-          if (err instanceof MySQLError) {
-            throw err;
-          }
-
-          throw new StatsItemsError('STATS VALUES ERROR', err);
+    })
+      .map<StatsItems, StatsValuesError | StatsItemsError | MySQLError | DataSourceError>((rows: Array<StatsItemRow>) => {
+        return this.statsValueQuery
+          .findByStatsID(statsID)
+          .map<StatsItems, StatsValuesError | StatsItemsError | MySQLError | DataSourceError>(
+            (values: Project<StatsItemID, StatsValues>) => {
+              return StatsItems.ofRow(rows, values);
+            }
+          );
+      })
+      .recover<StatsItems, StatsItemsError | MySQLError>((err: StatsValuesError | StatsItemsError | MySQLError | DataSourceError) => {
+        if (err instanceof MySQLError) {
+          throw err;
         }
-      );
-    });
+
+        throw new StatsItemsError('STATS VALUES ERROR', err);
+      });
   }
 }
