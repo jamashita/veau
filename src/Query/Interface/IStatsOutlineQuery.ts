@@ -11,15 +11,10 @@ import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IQuery } from './IQuery';
 
-export interface IStatsOutlineQuery extends IQuery {
+export interface IStatsOutlineQuery<E extends DataSourceError = DataSourceError> extends IQuery<'StatsOutlineQuery'> {
   readonly noun: 'StatsOutlineQuery';
 
-  find(
-    statsID: StatsID
-  ): Promise<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>>;
+  find(statsID: StatsID): Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | E>;
 
-  findByVeauAccountID(
-    veauAccountID: VeauAccountID,
-    page: Page
-  ): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>>;
+  findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, StatsOutlinesError | E>;
 }

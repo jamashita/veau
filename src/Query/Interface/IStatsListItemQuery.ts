@@ -7,11 +7,8 @@ import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import { IQuery } from './IQuery';
 
-export interface IStatsListItemQuery extends IQuery {
+export interface IStatsListItemQuery<E extends DataSourceError = DataSourceError> extends IQuery<'StatsListItemQuery'> {
   readonly noun: 'StatsListItemQuery';
 
-  findByVeauAccountID(
-    veauAccountID: VeauAccountID,
-    page: Page
-  ): Promise<Superposition<StatsListItems, StatsListItemsError | DataSourceError>>;
+  findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsListItems, StatsListItemsError | E>;
 }

@@ -6,8 +6,8 @@ import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { IQuery } from './IQuery';
 
-export interface IStatsItemQuery extends IQuery {
+export interface IStatsItemQuery<E extends DataSourceError = DataSourceError> extends IQuery<'StatsItemQuery'> {
   readonly noun: 'StatsItemQuery';
 
-  findByStatsID(statsID: StatsID): Promise<Superposition<StatsItems, StatsItemsError | DataSourceError>>;
+  findByStatsID(statsID: StatsID): Superposition<StatsItems, StatsItemsError | E>;
 }

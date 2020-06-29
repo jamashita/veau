@@ -6,12 +6,10 @@ import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import { IQuery } from './IQuery';
 
-export interface IVeauAccountQuery extends IQuery {
+export interface IVeauAccountQuery<E extends DataSourceError = DataSourceError> extends IQuery<'VeauAccountQuery'> {
   readonly noun: 'VeauAccountQuery';
 
-  find(): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>;
+  find(): Superposition<VeauAccount, VeauAccountError | E>;
 
-  findByEntranceInfo(
-    entranceInformation: EntranceInformation
-  ): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>;
+  findByEntranceInfo(entranceInformation: EntranceInformation): Superposition<VeauAccount, VeauAccountError | E>;
 }

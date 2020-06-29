@@ -7,8 +7,8 @@ import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IQuery } from './IQuery';
 
-export interface IStatsQuery extends IQuery {
+export interface IStatsQuery<E extends DataSourceError = DataSourceError> extends IQuery<'StatsQuery'> {
   readonly noun: 'StatsQuery';
 
-  findByStatsID(statsID: StatsID): Promise<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>>;
+  findByStatsID(statsID: StatsID): Superposition<Stats, StatsError | NoSuchElementError | E>;
 }

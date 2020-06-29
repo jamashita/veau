@@ -7,10 +7,10 @@ import { AccountError } from '../../VO/Account/Error/AccountError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IQuery } from './IQuery';
 
-export interface IAccountQuery extends IQuery {
+export interface IAccountQuery<E extends DataSourceError = DataSourceError> extends IQuery<'AccountQuery'> {
   readonly noun: 'AccountQuery';
 
   findByAccount(
     account: AccountName
-  ): Promise<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>>;
+  ): Superposition<Account, AccountError | NoSuchElementError | E>;
 }

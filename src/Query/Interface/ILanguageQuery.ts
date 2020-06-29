@@ -10,12 +10,12 @@ import { Languages } from '../../VO/Language/Languages';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IQuery } from './IQuery';
 
-export interface ILanguageQuery extends IQuery {
+export interface ILanguageQuery<E extends DataSourceError = DataSourceError> extends IQuery<'LanguageQuery'> {
   readonly noun: 'LanguageQuery';
 
-  all(): Promise<Superposition<Languages, LanguagesError | DataSourceError>>;
+  all(): Superposition<Languages, LanguagesError | E>;
 
-  find(languageID: LanguageID): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>;
+  find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | E>;
 
-  findByISO639(iso639: ISO639): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>;
+  findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | E>;
 }

@@ -6,12 +6,10 @@ import { IdentityError } from '../../VO/Identity/Error/IdentityError';
 import { Identity } from '../../VO/Identity/Identity';
 import { IQuery } from './IQuery';
 
-export interface IIdentityQuery extends IQuery {
+export interface IIdentityQuery<E extends DataSourceError = DataSourceError> extends IQuery<'IdentityQuery'> {
   readonly noun: 'IdentityQuery';
 
-  find(): Promise<Superposition<Identity, IdentityError | DataSourceError>>;
+  find(): Superposition<Identity, IdentityError | E>;
 
-  findByEntranceInfo(
-    entranceInformation: EntranceInformation
-  ): Promise<Superposition<Identity, IdentityError | DataSourceError>>;
+  findByEntranceInfo(entranceInformation: EntranceInformation): Superposition<Identity, IdentityError | E>;
 }

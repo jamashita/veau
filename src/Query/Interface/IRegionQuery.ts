@@ -10,12 +10,12 @@ import { Regions } from '../../VO/Region/Regions';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IQuery } from './IQuery';
 
-export interface IRegionQuery extends IQuery {
+export interface IRegionQuery<E extends DataSourceError = DataSourceError> extends IQuery<'RegionQuery'> {
   readonly noun: 'RegionQuery';
 
-  all(): Promise<Superposition<Regions, RegionsError | DataSourceError>>;
+  all(): Superposition<Regions, RegionsError | E>;
 
-  find(regionID: RegionID): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>;
+  find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | E>;
 
-  findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>;
+  findByISO3166(iso3166: ISO3166): Superposition<Region, RegionError | NoSuchElementError | E>;
 }

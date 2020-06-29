@@ -8,10 +8,10 @@ import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { IQuery } from './IQuery';
 
-export interface IStatsValueQuery extends IQuery {
+export interface IStatsValueQuery<E extends DataSourceError = DataSourceError> extends IQuery<'StatsValueQuery'> {
   readonly noun: 'StatsValueQuery';
 
   findByStatsID(
     statsID: StatsID
-  ): Promise<Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>>;
+  ): Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | E>;
 }
