@@ -8,11 +8,11 @@ export class MockStatsItemCommand implements IStatsItemCommand, IMockCommand {
   public readonly noun: 'StatsItemCommand' = 'StatsItemCommand';
   public readonly source: 'Mock' = 'Mock';
 
-  public create(): Promise<Superposition<void, DataSourceError>> {
-    return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
+  public create(): Superposition<void, DataSourceError> {
+    throw new UnimplementedError();
   }
 
-  public deleteByStatsID(): Promise<Superposition<void, DataSourceError>> {
-    return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
+  public deleteByStatsID(): Superposition<void, DataSourceError> {
+    throw new UnimplementedError();
   }
 }

@@ -8,11 +8,11 @@ export class MockLanguageCommand implements ILanguageCommand, IMockCommand {
   public readonly noun: 'LanguageCommand' = 'LanguageCommand';
   public readonly source: 'Mock' = 'Mock';
 
-  public insertAll(): Promise<Superposition<void, DataSourceError>> {
-    return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
+  public insertAll(): Superposition<void, DataSourceError> {
+    throw new UnimplementedError();
   }
 
-  public deleteAll(): Promise<Superposition<void, DataSourceError>> {
-    return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
+  public deleteAll(): Superposition<void, DataSourceError> {
+    throw new UnimplementedError();
   }
 }

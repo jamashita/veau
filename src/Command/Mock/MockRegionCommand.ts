@@ -8,11 +8,11 @@ export class MockRegionCommand implements IRegionCommand, IMockCommand {
   public readonly noun: 'RegionCommand' = 'RegionCommand';
   public readonly source: 'Mock' = 'Mock';
 
-  public insertAll(): Promise<Superposition<void, DataSourceError>> {
-    return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
+  public insertAll(): Superposition<void, DataSourceError> {
+    throw new UnimplementedError();
   }
 
-  public deleteAll(): Promise<Superposition<void, DataSourceError>> {
-    return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
+  public deleteAll(): Superposition<void, DataSourceError> {
+    throw new UnimplementedError();
   }
 }
