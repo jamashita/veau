@@ -6,10 +6,10 @@ import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import { ICommand } from './ICommand';
 
-export interface IStatsCommand extends ICommand {
+export interface IStatsCommand<E extends DataSourceError = DataSourceError> extends ICommand<'StatsCommand'> {
   readonly noun: 'StatsCommand';
 
-  create(stats: Stats, veauAccountID: VeauAccountID): Superposition<unknown, DataSourceError>;
+  create(stats: Stats, veauAccountID: VeauAccountID): Superposition<unknown, E>;
 
-  deleteByStatsID(statsID: StatsID): Superposition<unknown, DataSourceError>;
+  deleteByStatsID(statsID: StatsID): Superposition<unknown, E>;
 }

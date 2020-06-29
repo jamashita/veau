@@ -2,7 +2,7 @@ import { CREATED } from 'http-status';
 import { inject, injectable } from 'inversify';
 
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
-import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
+import { UnimplementedError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
@@ -12,7 +12,7 @@ import { IStatsCommand } from '../Interface/IStatsCommand';
 import { IAJAXCommand } from './Interface/IAJAXCommand';
 
 @injectable()
-export class StatsCommand implements IStatsCommand, IAJAXCommand {
+export class StatsCommand implements IStatsCommand<AJAXError>, IAJAXCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'AJAX' = 'AJAX';
   private readonly ajax: IAJAX;
@@ -37,7 +37,7 @@ export class StatsCommand implements IStatsCommand, IAJAXCommand {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public deleteByStatsID(statsID: StatsID): Superposition<unknown, DataSourceError> {
+  public deleteByStatsID(statsID: StatsID): Superposition<unknown, AJAXError> {
     throw new UnimplementedError();
   }
 }

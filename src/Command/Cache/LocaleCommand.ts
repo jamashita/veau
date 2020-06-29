@@ -1,7 +1,6 @@
 import { inject, injectable } from 'inversify';
 
 import { CacheError, ICache } from '@jamashita/publikum-cache';
-import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
@@ -11,7 +10,7 @@ import { ILocaleCommand } from '../Interface/ILocaleCommand';
 import { ICacheCommand } from './Interface/ICacheCommand';
 
 @injectable()
-export class LocaleCommand implements ILocaleCommand, ICacheCommand {
+export class LocaleCommand implements ILocaleCommand<CacheError>, ICacheCommand {
   public readonly noun: 'LocaleCommand' = 'LocaleCommand';
   public readonly source: 'Cache' = 'Cache';
   private readonly cache: ICache;
@@ -20,7 +19,7 @@ export class LocaleCommand implements ILocaleCommand, ICacheCommand {
     this.cache = cache;
   }
 
-  public create(locale: Locale): Superposition<unknown, DataSourceError> {
+  public create(locale: Locale): Superposition<unknown, CacheError> {
     return Superposition.playground<unknown, CacheError>(() => {
       return this.cache.set(VAULT_LOCALE_KEY, locale);
     });

@@ -4,10 +4,10 @@ import { Superposition } from '@jamashita/publikum-monad';
 import { Languages } from '../../VO/Language/Languages';
 import { ICommand } from './ICommand';
 
-export interface ILanguageCommand extends ICommand {
+export interface ILanguageCommand<E extends DataSourceError = DataSourceError> extends ICommand<'LanguageCommand'> {
   readonly noun: 'LanguageCommand';
 
-  insertAll(languages: Languages): Superposition<unknown, DataSourceError>;
+  insertAll(languages: Languages): Superposition<unknown, E>;
 
-  deleteAll(): Superposition<unknown, DataSourceError>;
+  deleteAll(): Superposition<unknown, E>;
 }
