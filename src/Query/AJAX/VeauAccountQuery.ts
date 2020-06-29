@@ -13,7 +13,7 @@ import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
 import { IAJAXQuery } from './Interface/IAJAXQuery';
 
 @injectable()
-export class VeauAccountQuery implements IVeauAccountQuery, IAJAXQuery {
+export class VeauAccountQuery implements IVeauAccountQuery<AJAXError>, IAJAXQuery {
   public readonly noun: 'VeauAccountQuery' = 'VeauAccountQuery';
   public readonly source: 'AJAX' = 'AJAX';
   private readonly ajax: IAJAX;
@@ -22,61 +22,38 @@ export class VeauAccountQuery implements IVeauAccountQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  public async find(): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> {
-    const response: AJAXResponse<VeauAccountJSON> = await this.ajax.get<VeauAccountJSON>('/api/accounts');
-    // prettier-ignore
-    const {
-      status,
-      body
-    } = response;
-
-    switch (status) {
-      case OK: {
-        return VeauAccount.ofJSON(body).transform<VeauAccount, VeauAccountError | DataSourceError>(
-          (veauAccount: VeauAccount) => {
-            return Alive.of<VeauAccount, DataSourceError>(veauAccount);
-          },
-          (err: VeauAccountError, self: Dead<VeauAccount, VeauAccountError>) => {
-            return self;
-          }
-        );
+  public find(): Superposition<VeauAccount, VeauAccountError | AJAXError> {
+    return Superposition.playground<AJAXResponse<VeauAccountJSON>, AJAXError>(() => {
+      return this.ajax.get<VeauAccountJSON>('/api/accounts');
+    }).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<VeauAccountJSON>) => {
+      switch (status) {
+        case OK: {
+          return VeauAccount.ofJSON(body);
+        }
+        default: {
+          throw new AJAXError('IDENTITY DID NOT RETURN OK', status);
+        }
       }
-      default: {
-        return Dead.of<VeauAccount, AJAXError>(new AJAXError('IDENTITY DID NOT RETURN OK', status));
-      }
-    }
+    });
   }
 
-  public async findByEntranceInfo(
+  public findByEntranceInfo(
     entranceInformation: EntranceInformation
-  ): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> {
-    const response: AJAXResponse<VeauAccountJSON> = await this.ajax.post<VeauAccountJSON>(
-      '/api/auth',
-      entranceInformation.toJSON()
-    );
-    // prettier-ignore
-    const {
-      status,
-      body
-    } = response;
-
-    switch (status) {
-      case OK: {
-        return VeauAccount.ofJSON(body).transform<VeauAccount, VeauAccountError | DataSourceError>(
-          (veauAccount: VeauAccount) => {
-            return Alive.of<VeauAccount, DataSourceError>(veauAccount);
-          },
-          (err: VeauAccountError, self: Dead<VeauAccount, VeauAccountError>) => {
-            return self;
-          }
-        );
+  ): Superposition<VeauAccount, VeauAccountError | AJAXError> {
+    return Superposition.playground<AJAXResponse<VeauAccountJSON>, AJAXError>(() => {
+      return this.ajax.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
+    }).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<VeauAccountJSON>) => {
+      switch (status) {
+        case OK: {
+          return VeauAccount.ofJSON(body);
+        }
+        case UNAUTHORIZED: {
+          throw new AJAXError('UNAUTHORIZED', UNAUTHORIZED);
+        }
+        default: {
+          throw new AJAXError('UNKNOWN ERROR', status);
+        }
       }
-      case UNAUTHORIZED: {
-        return Dead.of<VeauAccount, AJAXError>(new AJAXError('UNAUTHORIZED', UNAUTHORIZED));
-      }
-      default: {
-        return Dead.of<VeauAccount, AJAXError>(new AJAXError('UNKNOWN ERROR', status));
-      }
-    }
+    });
   }
 }

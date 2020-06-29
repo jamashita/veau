@@ -2,8 +2,8 @@ import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
-import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Dead, Superposition } from '@jamashita/publikum-monad';
+import { UnimplementedError } from '@jamashita/publikum-error';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { Page } from '../../VO/Page/Page';
@@ -18,7 +18,7 @@ import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
 import { IAJAXQuery } from './Interface/IAJAXQuery';
 
 @injectable()
-export class StatsOutlineQuery implements IStatsOutlineQuery, IAJAXQuery {
+export class StatsOutlineQuery implements IStatsOutlineQuery<AJAXError>, IAJAXQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'AJAX' = 'AJAX';
   private readonly ajax: IAJAX;
@@ -27,35 +27,26 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  public find(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    statsID: StatsID
-  ): Promise<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>>(
-      new UnimplementedError()
-    );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public find(statsID: StatsID): Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | AJAXError> {
+    throw new UnimplementedError();
   }
 
-  public async findByVeauAccountID(
+  public findByVeauAccountID(
     veauAccountID: VeauAccountID,
     page: Page
-  ): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
-    const response: AJAXResponse<Array<StatsOutlineJSON>> = await this.ajax.get<Array<StatsOutlineJSON>>(
-      `/api/stats/page/${page.get()}`
-    );
-    // prettier-ignore
-    const {
-      status,
-      body
-    } = response;
-
-    switch (status) {
-      case OK: {
-        return StatsOutlines.ofJSON(body);
+  ): Superposition<StatsOutlines, StatsOutlinesError | AJAXError> {
+    return Superposition.playground<AJAXResponse<Array<StatsOutlineJSON>>, AJAXError>(() => {
+      return this.ajax.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page.get()}`);
+    }).map<StatsOutlines, StatsOutlinesError | AJAXError>(({ status, body }: AJAXResponse<Array<StatsOutlineJSON>>) => {
+      switch (status) {
+        case OK: {
+          return StatsOutlines.ofJSON(body);
+        }
+        default: {
+          throw new AJAXError('UNKNOWN ERROR', status);
+        }
       }
-      default: {
-        return Dead.of<StatsOutlines, AJAXError>(new AJAXError('UNKNOWN ERROR', status));
-      }
-    }
+    });
   }
 }

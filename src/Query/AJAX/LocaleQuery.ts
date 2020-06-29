@@ -2,8 +2,7 @@ import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
@@ -12,7 +11,7 @@ import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IAJAXQuery } from './Interface/IAJAXQuery';
 
 @injectable()
-export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
+export class LocaleQuery implements ILocaleQuery<AJAXError>, IAJAXQuery {
   public readonly noun: 'LocaleQuery' = 'LocaleQuery';
   public readonly source: 'AJAX' = 'AJAX';
   private readonly ajax: IAJAX;
@@ -21,21 +20,18 @@ export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  public async all(): Promise<Superposition<Locale, LocaleError | DataSourceError>> {
-    const response: AJAXResponse<LocaleJSON> = await this.ajax.get<LocaleJSON>('/api/locale');
-    // prettier-ignore
-    const {
-      status,
-      body
-    } = response;
-
-    switch (status) {
-      case OK: {
-        return Locale.ofJSON(body);
+  public all(): Superposition<Locale, LocaleError | AJAXError> {
+    return Superposition.playground<AJAXResponse<LocaleJSON>, AJAXError>(() => {
+      return this.ajax.get<LocaleJSON>('/api/locale');
+    }).map<Locale, LocaleError | AJAXError>(({ status, body }: AJAXResponse<LocaleJSON>) => {
+      switch (status) {
+        case OK: {
+          return Locale.ofJSON(body);
+        }
+        default: {
+          throw new AJAXError('GET LOCALE FAILED', status);
+        }
       }
-      default: {
-        return Dead.of<Locale, AJAXError>(new AJAXError('GET LOCALE FAILED', status));
-      }
-    }
+    });
   }
 }
