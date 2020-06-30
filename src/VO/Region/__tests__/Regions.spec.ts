@@ -1,7 +1,7 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { ImmutableProject } from '@jamashita/publikum-collection';
-import { Absent, Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -285,10 +285,10 @@ describe('Regions', () => {
       }
     });
 
-    it('returns Absent when the index is out of range', () => {
+    it('returns null when the index is out of range', () => {
       const regions: Regions = Regions.empty();
 
-      expect(regions.get(new MockRegionID())).toBeInstanceOf(Absent);
+      expect(regions.get(new MockRegionID())).toBe(null);
     });
   });
 

@@ -320,7 +320,7 @@ describe('StatsOutline', () => {
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
       const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
 
-      expect(schrodigner.isDead()).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
       await superposition
         .transform<void>(
           () => {

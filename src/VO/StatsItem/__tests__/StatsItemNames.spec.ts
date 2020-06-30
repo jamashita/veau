@@ -1,5 +1,4 @@
 import { ImmutableSequence } from '@jamashita/publikum-collection';
-import { Absent } from '@jamashita/publikum-monad';
 
 import { MockStatsItemName } from '../Mock/MockStatsItemName';
 import { StatsItemName } from '../StatsItemName';
@@ -92,15 +91,15 @@ describe('StatsItemNames', () => {
       }
     });
 
-    it('returns Absent if the index is out of range', () => {
+    it('returns null if the index is out of range', () => {
       const names: StatsItemNames = StatsItemNames.ofArray([
         new MockStatsItemName(),
         new MockStatsItemName(),
         new MockStatsItemName()
       ]);
 
-      expect(names.get(-1)).toBeInstanceOf(Absent);
-      expect(names.get(3)).toBeInstanceOf(Absent);
+      expect(names.get(-1)).toBe(null);
+      expect(names.get(3)).toBe(null);
     });
   });
 

@@ -540,7 +540,7 @@ describe('StatsValues', () => {
   });
 
   describe('get', () => {
-    it('always returns Absent', () => {
+    it('returns true if the the instanse exists', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1

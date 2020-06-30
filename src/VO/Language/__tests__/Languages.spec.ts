@@ -1,7 +1,7 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { ImmutableProject } from '@jamashita/publikum-collection';
-import { Absent, Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -288,10 +288,10 @@ describe('Languages', () => {
       }
     });
 
-    it('returns Absent when the index is out of range', () => {
+    it('returns null when the index is out of range', () => {
       const languages: Languages = Languages.empty();
 
-      expect(languages.get(new MockLanguageID())).toBeInstanceOf(Absent);
+      expect(languages.get(new MockLanguageID())).toBe(null);
     });
   });
 

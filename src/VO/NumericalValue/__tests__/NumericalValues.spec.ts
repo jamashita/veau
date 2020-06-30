@@ -1,5 +1,4 @@
 import { ImmutableSequence } from '@jamashita/publikum-collection';
-import { Absent } from '@jamashita/publikum-monad';
 
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { NumericalValue } from '../NumericalValue';
@@ -136,15 +135,15 @@ describe('NumericalValues', () => {
       }
     });
 
-    it('returns Absent when the index is out of range', () => {
+    it('returns null when the index is out of range', () => {
       const values: NumericalValues = NumericalValues.ofArray([
         new MockNumericalValue(),
         new MockNumericalValue(),
         new MockNumericalValue()
       ]);
 
-      expect(values.get(-1)).toBeInstanceOf(Absent);
-      expect(values.get(3)).toBeInstanceOf(Absent);
+      expect(values.get(-1)).toBe(null);
+      expect(values.get(3)).toBe(null);
     });
   });
 

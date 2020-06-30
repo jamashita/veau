@@ -1,5 +1,4 @@
 import { ImmutableSequence } from '@jamashita/publikum-collection';
-import { Absent } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { ISO639 } from '../../Language/ISO639';
@@ -106,11 +105,11 @@ describe('StatsListItems', () => {
       }
     });
 
-    it('returns Absent if the index is out of range', () => {
+    it('returns null if the index is out of range', () => {
       const items: StatsListItems = StatsListItems.ofSpread();
 
-      expect(items.get(-1)).toBeInstanceOf(Absent);
-      expect(items.get(0)).toBeInstanceOf(Absent);
+      expect(items.get(-1)).toBe(null);
+      expect(items.get(0)).toBe(null);
     });
   });
 

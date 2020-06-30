@@ -1,7 +1,8 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { ImmutableProject } from '@jamashita/publikum-collection';
-import { Absent, Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { LanguageID } from '../../Language/LanguageID';
@@ -34,93 +35,105 @@ describe('StatsOutlines', () => {
 
       expect(outlines.size()).toBe(array.length);
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(array[i].getStatsID()).get()).toBe(array[i]);
+        expect(outlines.get(array[i].getStatsID())).toBe(array[i]);
       }
     });
   });
 
   describe('ofSuperposition', () => {
-    it('when empty Array given, returns Alive, and StatsOutlines.empty()', () => {
+    it('when empty Array given, returns Alive, and StatsOutlines.empty()', async () => {
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([]);
+      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(StatsOutlines.empty());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(StatsOutlines.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const array: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
 
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
-        Alive.of<StatsOutline, StatsOutlineError>(array[0]),
-        Alive.of<StatsOutline, StatsOutlineError>(array[1])
+        Superposition.ofSchrodinger<StatsOutline, StatsOutlineError>(Alive.of<StatsOutline, StatsOutlineError>(array[0])),
+        Superposition.ofSchrodinger<StatsOutline, StatsOutlineError>(Alive.of<StatsOutline, StatsOutlineError>(array[1]))
       ]);
+      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const outlines: StatsOutlines = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const outlines: StatsOutlines = schrodinger.get();
 
       expect(outlines.size()).toBe(2);
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(array[i].getStatsID()).get()).toBe(array[i]);
+        expect(outlines.get(array[i].getStatsID())).toBe(array[i]);
       }
     });
 
-    it('contains failure', () => {
+    it('contains failure', async () => {
       const statsOutline1: MockStatsOutline = new MockStatsOutline();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Alive.of<StatsOutline, StatsOutlineError>(
-        statsOutline1
-      );
-      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Dead.of<StatsOutline, StatsOutlineError>(
-        new StatsOutlineError('test failed')
-      );
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.ofSchrodinger<
+        StatsOutline,
+        StatsOutlineError
+      >(Alive.of<StatsOutline, StatsOutlineError>(statsOutline1));
+      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.ofSchrodinger<
+        StatsOutline,
+        StatsOutlineError
+      >(Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed')));
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
         superposition1,
         superposition2
       ]);
+      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsOutlinesError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsOutlinesError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: StatsOutlinesError) => {
+            spy2();
+            expect(err).toBeInstanceOf(StatsOutlinesError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('contains 2 failures', () => {
+    it('contains 2 failures', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Dead.of<StatsOutline, StatsOutlineError>(
-        new StatsOutlineError('test failed 1')
-      );
-      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Dead.of<StatsOutline, StatsOutlineError>(
-        new StatsOutlineError('test failed 2')
-      );
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.ofSchrodinger<
+        StatsOutline,
+        StatsOutlineError
+      >(Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 1')));
+      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.ofSchrodinger<
+        StatsOutline,
+        StatsOutlineError
+      >(Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 2')));
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
         superposition1,
         superposition2
       ]);
+      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsOutlinesError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsOutlinesError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: StatsOutlinesError) => {
+            spy2();
+            expect(err).toBeInstanceOf(StatsOutlinesError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -128,7 +141,7 @@ describe('StatsOutlines', () => {
   });
 
   describe('ofJSON', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const json: Array<StatsOutlineJSON> = [
         {
           statsID: UUID.v4().get(),
@@ -151,12 +164,19 @@ describe('StatsOutlines', () => {
       ];
 
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
+      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const outlines: StatsOutlines = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const outlines: StatsOutlines = schrodinger.get();
 
       for (let i: number = 0; i < 2; i++) {
-        const outline: StatsOutline = outlines.get(StatsID.ofString(json[i].statsID).get()).get();
+        const outline: Nullable<StatsOutline> = outlines.get(await StatsID.ofString(json[i].statsID).get());
+
+        if (outline === null) {
+          fail();
+
+          return;
+        }
 
         expect(outline.getStatsID().get().get()).toBe(json[i].statsID);
         expect(outline.getLanguageID().get().get()).toBe(json[i].languageID);
@@ -168,7 +188,7 @@ describe('StatsOutlines', () => {
       }
     });
 
-    it('has malformat StatsID', () => {
+    it('has malformat StatsID', async () => {
       const json: Array<StatsOutlineJSON> = [
         {
           statsID: 'malformat',
@@ -191,13 +211,14 @@ describe('StatsOutlines', () => {
       ];
 
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
+      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
     });
   });
 
   describe('ofRow', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const rows: Array<StatsOutlineRow> = [
         {
           statsID: UUID.v4().get(),
@@ -220,12 +241,19 @@ describe('StatsOutlines', () => {
       ];
 
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
+      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const outlines: StatsOutlines = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const outlines: StatsOutlines = schrodinger.get();
 
       for (let i: number = 0; i < 2; i++) {
-        const outline: StatsOutline = outlines.get(StatsID.ofString(rows[i].statsID).get()).get();
+        const outline: Nullable<StatsOutline> = outlines.get(await StatsID.ofString(rows[i].statsID).get());
+
+        if (outline === null) {
+          fail();
+
+          return;
+        }
 
         expect(outline.getStatsID().get().get()).toBe(rows[i].statsID);
         expect(outline.getLanguageID().get().get()).toBe(rows[i].languageID);
@@ -237,7 +265,7 @@ describe('StatsOutlines', () => {
       }
     });
 
-    it('has malformat StatsID', () => {
+    it('has malformat StatsID', async () => {
       const rows: Array<StatsOutlineRow> = [
         {
           statsID: 'malformat',
@@ -260,8 +288,9 @@ describe('StatsOutlines', () => {
       ];
 
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
+      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
     });
   });
 
@@ -277,7 +306,7 @@ describe('StatsOutlines', () => {
 
       expect(statsOutlines.size()).toBe(outlines.length);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
-        expect(statsOutlines.get(outlines[i].getStatsID()).get()).toBe(outlines[i]);
+        expect(statsOutlines.get(outlines[i].getStatsID())).toBe(outlines[i]);
       }
     });
   });
@@ -294,8 +323,8 @@ describe('StatsOutlines', () => {
       const statsOutlines: StatsOutlines = StatsOutlines.ofSpread(statsOutline1, statsOutline2);
 
       expect(statsOutlines.size()).toBe(2);
-      expect(statsOutlines.get(statsOutline1.getStatsID()).get()).toBe(statsOutline1);
-      expect(statsOutlines.get(statsOutline2.getStatsID()).get()).toBe(statsOutline2);
+      expect(statsOutlines.get(statsOutline1.getStatsID())).toBe(statsOutline1);
+      expect(statsOutlines.get(statsOutline2.getStatsID())).toBe(statsOutline2);
     });
   });
 
@@ -317,14 +346,14 @@ describe('StatsOutlines', () => {
 
       expect(outlines.size()).toBe(3);
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(array[i].getStatsID()).get()).toBe(array[i]);
+        expect(outlines.get(array[i].getStatsID())).toBe(array[i]);
       }
     });
 
-    it('returns Absent if the index is out of range', () => {
+    it('returns null if the index is out of range', () => {
       const outlines: StatsOutlines = StatsOutlines.empty();
 
-      expect(outlines.get(new MockStatsID())).toBeInstanceOf(Absent);
+      expect(outlines.get(new MockStatsID())).toBe(null);
     });
   });
 
@@ -427,8 +456,21 @@ describe('StatsOutlines', () => {
       expect(outlines.size()).toBe(duplicated.size());
       for (let i: number = 0; i < outlines.size(); i++) {
         const statsID: StatsID = array[i].getStatsID();
+        const o: Nullable<StatsOutline> = outlines.get(statsID);
+        const d: Nullable<StatsOutline> = duplicated.get(statsID);
 
-        expect(outlines.get(statsID).get()).toBe(duplicated.get(statsID).get());
+        if (o === null) {
+          fail();
+
+          return;
+        }
+        if (d === null) {
+          fail();
+
+          return;
+        }
+
+        expect(o).toBe(d);
       }
     });
 
@@ -440,7 +482,7 @@ describe('StatsOutlines', () => {
   });
 
   describe('toJSON', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -456,7 +498,7 @@ describe('StatsOutlines', () => {
         TermID.of(uuid4),
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
+        await UpdatedAt.ofString('2000-01-01 00:00:00').get()
       );
       const outline2: StatsOutline = StatsOutline.of(
         StatsID.of(uuid5),
@@ -465,7 +507,7 @@ describe('StatsOutlines', () => {
         TermID.of(uuid8),
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
+        await UpdatedAt.ofString('2000-01-01 00:00:00').get()
       );
 
       const outlines: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
@@ -494,7 +536,7 @@ describe('StatsOutlines', () => {
   });
 
   describe('toString', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -508,7 +550,7 @@ describe('StatsOutlines', () => {
       const unit1: string = 'stats unit 1';
       const unit2: string = 'stats unit 2';
       const at: string = '2000-01-01 00:00:00';
-      const updatedAt: UpdatedAt = UpdatedAt.ofString(at).get();
+      const updatedAt: UpdatedAt = await UpdatedAt.ofString(at).get();
 
       const outlines: StatsOutlines = StatsOutlines.ofArray([
         StatsOutline.of(

@@ -1,7 +1,5 @@
 import sinon, { SinonStub } from 'sinon';
 
-import { Absent } from '@jamashita/publikum-monad';
-
 import { MockTerm } from '../Mock/MockTerm';
 import { MockTermID } from '../Mock/MockTermID';
 import { Term } from '../Term';
@@ -29,10 +27,10 @@ describe('Terms', () => {
       expect(terms.get(Term.ANNUAL.getTermID())).toBe(Term.ANNUAL);
     });
 
-    it('returns Absent when the index is out of range', () => {
+    it('returns null when the index is out of range', () => {
       const terms: Terms = Terms.all();
 
-      expect(terms.get(new MockTermID())).toBeInstanceOf(Absent);
+      expect(terms.get(new MockTermID())).toBe(null);
     });
   });
 
