@@ -23,7 +23,7 @@ describe('NumericalValues', () => {
 
       expect(values.size()).toBe(sequence.size());
       for (let i: number = 0; i < values.size(); i++) {
-        expect(values.get(i).get()).toBe(sequence.get(i).get());
+        expect(values.get(i)).toBe(sequence.get(i));
       }
     });
   });
@@ -46,7 +46,7 @@ describe('NumericalValues', () => {
 
       expect(numericalValues.size()).toBe(values.length);
       for (let i: number = 0; i < numericalValues.size(); i++) {
-        expect(numericalValues.get(i).get()).toBe(values[i]);
+        expect(numericalValues.get(i)).toBe(values[i]);
       }
     });
   });
@@ -66,9 +66,9 @@ describe('NumericalValues', () => {
       const numericalValues: NumericalValues = NumericalValues.ofSpread(value1, value2, value3);
 
       expect(numericalValues.size()).toBe(3);
-      expect(numericalValues.get(0).get()).toBe(value1);
-      expect(numericalValues.get(1).get()).toBe(value2);
-      expect(numericalValues.get(2).get()).toBe(value3);
+      expect(numericalValues.get(0)).toBe(value1);
+      expect(numericalValues.get(1)).toBe(value2);
+      expect(numericalValues.get(2)).toBe(value3);
     });
   });
 
@@ -92,13 +92,13 @@ describe('NumericalValues', () => {
       const values2: NumericalValues = values1.add(value3);
 
       expect(values1.size()).toBe(2);
-      expect(values1.get(0).get()).toBe(value1);
-      expect(values1.get(1).get()).toBe(value2);
+      expect(values1.get(0)).toBe(value1);
+      expect(values1.get(1)).toBe(value2);
 
       expect(values2.size()).toBe(3);
-      expect(values2.get(0).get()).toBe(value1);
-      expect(values2.get(1).get()).toBe(value2);
-      expect(values2.get(2).get()).toBe(value3);
+      expect(values2.get(0)).toBe(value1);
+      expect(values2.get(1)).toBe(value2);
+      expect(values2.get(2)).toBe(value3);
     });
 
     it('inserts by spread syntax', () => {
@@ -111,9 +111,9 @@ describe('NumericalValues', () => {
 
       expect(values1.size()).toBe(0);
       expect(values2.size()).toBe(3);
-      expect(values2.get(0).get()).toBe(value1);
-      expect(values2.get(1).get()).toBe(value2);
-      expect(values2.get(2).get()).toBe(value3);
+      expect(values2.get(0)).toBe(value1);
+      expect(values2.get(1)).toBe(value2);
+      expect(values2.get(2)).toBe(value3);
     });
 
     it('returns itself when the argument is 0', () => {
@@ -132,7 +132,7 @@ describe('NumericalValues', () => {
 
       expect(values.size()).toBe(3);
       for (let i: number = 0; i < values.size(); i++) {
-        expect(values.get(i).get()).toBe(vs[i]);
+        expect(values.get(i)).toBe(vs[i]);
       }
     });
 

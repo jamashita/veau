@@ -1,7 +1,8 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { ImmutableProject } from '@jamashita/publikum-collection';
-import { Absent, Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Absent, Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { LanguageError } from '../Error/LanguageError';
@@ -31,91 +32,106 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(array.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(array[i].getLanguageID()).get()).toBe(array[i]);
+        // eslint-disable-next-line no-await-in-loop
+        expect(languages.get(array[i].getLanguageID())).toBe(array[i]);
       }
     });
   });
 
   describe('ofSuperposition', () => {
-    it('when empty Array given, returns Alive, and Languages.empty()', () => {
+    it('when empty Array given, returns Alive, and Languages.empty()', async () => {
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([]);
+      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(Languages.empty());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(Languages.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const array: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
 
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
-        Alive.of<Language, LanguageError>(array[0]),
-        Alive.of<Language, LanguageError>(array[1])
+        Superposition.ofSchrodinger<Language, LanguageError>(Alive.of<Language, LanguageError>(array[0])),
+        Superposition.ofSchrodinger<Language, LanguageError>(Alive.of<Language, LanguageError>(array[1]))
       ]);
+      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const languages: Languages = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const languages: Languages = schrodinger.get();
 
       expect(languages.size()).toBe(array.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(array[i].getLanguageID()).get()).toBe(array[i]);
+        expect(languages.get(array[i].getLanguageID())).toBe(array[i]);
       }
     });
 
-    it('contains failure', () => {
+    it('contains failure', async () => {
       const region1: MockLanguage = new MockLanguage();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<Language, LanguageError> = Alive.of<Language, LanguageError>(region1);
-      const superposition2: Superposition<Language, LanguageError> = Dead.of<Language, LanguageError>(
-        new LanguageError('test failed')
-      );
+      const superposition1: Superposition<Language, LanguageError> = Superposition.ofSchrodinger<
+        Language,
+        LanguageError
+      >(Alive.of<Language, LanguageError>(region1));
+      const superposition2: Superposition<Language, LanguageError> = Superposition.ofSchrodinger<
+        Language,
+        LanguageError
+      >(Dead.of<Language, LanguageError>(new LanguageError('test failed')));
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
         superposition1,
         superposition2
       ]);
+      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguagesError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LanguagesError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: LanguagesError) => {
+            spy2();
+            expect(err).toBeInstanceOf(LanguagesError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('contains 2 failures', () => {
+    it('contains 2 failures', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<Language, LanguageError> = Dead.of<Language, LanguageError>(
-        new LanguageError('test failed 1')
-      );
-      const superposition2: Superposition<Language, LanguageError> = Dead.of<Language, LanguageError>(
-        new LanguageError('test failed 2')
-      );
+      const superposition1: Superposition<Language, LanguageError> = Superposition.ofSchrodinger<
+        Language,
+        LanguageError
+      >(Dead.of<Language, LanguageError>(new LanguageError('test failed 1')));
+      const superposition2: Superposition<Language, LanguageError> = Superposition.ofSchrodinger<
+        Language,
+        LanguageError
+      >(Dead.of<Language, LanguageError>(new LanguageError('test failed 2')));
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
         superposition1,
         superposition2
       ]);
+      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguagesError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LanguagesError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: LanguagesError) => {
+            spy2();
+            expect(err).toBeInstanceOf(LanguagesError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -123,16 +139,17 @@ describe('Languages', () => {
   });
 
   describe('ofJSON', () => {
-    it('when empty Array given, returns Languages.empty()', () => {
+    it('when empty Array given, returns Languages.empty()', async () => {
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofJSON([]);
+      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const regions: Languages = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const regions: Languages = schrodinger.get();
 
       expect(regions).toBe(Languages.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const json: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -143,13 +160,19 @@ describe('Languages', () => {
       ];
 
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofJSON(json);
+      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const languages: Languages = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const languages: Languages = schrodinger.get();
 
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        const language: Language = languages.get(LanguageID.ofString(json[i].languageID).get()).get();
+        const language: Nullable<Language> = languages.get(await LanguageID.ofString(json[i].languageID).get());
+
+        if (language === null) {
+          fail();
+          return;
+        }
 
         expect(language.getLanguageID().get().get()).toBe(json[i].languageID);
         expect(language.getName().get()).toBe(json[i].name);
@@ -160,16 +183,17 @@ describe('Languages', () => {
   });
 
   describe('ofRow', () => {
-    it('when empty Array given, returns Languages.empty()', () => {
+    it('when empty Array given, returns Languages.empty()', async () => {
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofRow([]);
+      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const regions: Languages = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const regions: Languages = schrodinger.get();
 
       expect(regions).toBe(Languages.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const rows: Array<LanguageRow> = [
         {
           languageID: UUID.v4().get(),
@@ -180,13 +204,19 @@ describe('Languages', () => {
       ];
 
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofJSON(rows);
+      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const languages: Languages = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const languages: Languages = schrodinger.get();
 
       expect(languages.size()).toBe(rows.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        const language: Language = languages.get(LanguageID.ofString(rows[i].languageID).get()).get();
+        const language: Nullable<Language> = languages.get(await LanguageID.ofString(rows[i].languageID).get());
+
+        if (language === null) {
+          fail();
+          return;
+        }
 
         expect(language.getLanguageID().get().get()).toBe(rows[i].languageID);
         expect(language.getName().get()).toBe(rows[i].name);
@@ -210,7 +240,7 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(langs.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(langs[i].getLanguageID()).get()).toBe(langs[i]);
+        expect(languages.get(langs[i].getLanguageID())).toBe(langs[i]);
       }
     });
   });
@@ -231,7 +261,7 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(langs.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(langs[i].getLanguageID()).get()).toBe(langs[i]);
+        expect(languages.get(langs[i].getLanguageID())).toBe(langs[i]);
       }
     });
   });
@@ -254,7 +284,7 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(3);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(langs[i].getLanguageID()).get()).toBe(langs[i]);
+        expect(languages.get(langs[i].getLanguageID())).toBe(langs[i]);
       }
     });
 
@@ -313,33 +343,25 @@ describe('Languages', () => {
       const languages: Languages = Languages.ofArray([language1, language2]);
 
       expect(
-        languages
-          .find((language: Language) => {
-            return language1.equals(language);
-          })
-          .isPresent()
-      ).toBe(true);
+        languages.find((language: Language) => {
+          return language1.equals(language);
+        })
+      ).toBe(language1);
       expect(
-        languages
-          .find((language: Language) => {
-            return language2.equals(language);
-          })
-          .isPresent()
-      ).toBe(true);
+        languages.find((language: Language) => {
+          return language2.equals(language);
+        })
+      ).toBe(language2);
       expect(
-        languages
-          .find((language: Language) => {
-            return language3.equals(language);
-          })
-          .isPresent()
-      ).toBe(true);
+        languages.find((language: Language) => {
+          return language3.equals(language);
+        })
+      ).toBe(language3);
       expect(
-        languages
-          .find((language: Language) => {
-            return language4.equals(language);
-          })
-          .isPresent()
-      ).toBe(false);
+        languages.find((language: Language) => {
+          return language4.equals(language);
+        })
+      ).toBe(null);
     });
   });
 

@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { RegionIDError } from '../Error/RegionIDError';
@@ -28,22 +28,24 @@ describe('RegionID', () => {
   });
 
   describe('ofString', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const uuid: UUID = UUID.v4();
 
       const superposition: Superposition<RegionID, RegionIDError> = RegionID.ofString(uuid.get());
+      const schrodinger: Schrodinger<RegionID, RegionIDError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
-    it('returns Dead when uuid length string is not given', () => {
+    it('returns Dead when uuid length string is not given', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<RegionID, RegionIDError> = RegionID.ofString('quasi');
+      const schrodinger: Schrodinger<RegionID, RegionIDError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition.transform<void>(
         () => {
           spy1();
         },
@@ -51,7 +53,7 @@ describe('RegionID', () => {
           spy2();
           expect(err).toBeInstanceOf(RegionIDError);
         }
-      );
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

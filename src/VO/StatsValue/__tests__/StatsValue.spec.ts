@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
@@ -11,22 +11,23 @@ import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 
 describe('StatsValue', () => {
   describe('ofJSON', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const json: StatsValueJSON = {
         asOf: '2000-01-01',
         value: -1.1
       };
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofJSON(json);
+      const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const statsValue: StatsValue = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const statsValue: StatsValue = schrodinger.get();
 
       expect(statsValue.getAsOf().toString()).toBe(json.asOf);
       expect(statsValue.getValue().get()).toBe(json.value);
     });
 
-    it('asOf is malformat', () => {
+    it('asOf is malformat', async () => {
       const json: StatsValueJSON = {
         asOf: 'illegal datetime',
         value: -1.1
@@ -36,17 +37,20 @@ describe('StatsValue', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofJSON(json);
+      const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsValueError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsValueError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: StatsValueError) => {
+            spy2();
+            expect(err).toBeInstanceOf(StatsValueError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -54,7 +58,7 @@ describe('StatsValue', () => {
   });
 
   describe('ofRow', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const row: StatsValueRow = {
         statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
         asOf: '2000-01-01',
@@ -62,15 +66,16 @@ describe('StatsValue', () => {
       };
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
+      const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const statsValue: StatsValue = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const statsValue: StatsValue = schrodinger.get();
 
       expect(statsValue.getAsOf().toString()).toBe(row.asOf);
       expect(statsValue.getValue().get()).toBe(row.value);
     });
 
-    it('statsItemID is malformat', () => {
+    it('statsItemID is malformat', async () => {
       const row: StatsValueRow = {
         statsItemID: 'illegal uuid',
         asOf: '2000-01-01',
@@ -81,23 +86,26 @@ describe('StatsValue', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
+      const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsValueError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsValueError);
-        }
-      );
+      expect(schrodinger.isAlive()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: StatsValueError) => {
+            spy2();
+            expect(err).toBeInstanceOf(StatsValueError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
     });
 
-    it('asOf is malformat', () => {
+    it('asOf is malformat', async () => {
       const row: StatsValueRow = {
         statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
         asOf: 'illegal asOf format',
@@ -108,17 +116,20 @@ describe('StatsValue', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
+      const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsValueError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsValueError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: StatsValueError) => {
+            spy2();
+            expect(err).toBeInstanceOf(StatsValueError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -220,8 +231,8 @@ describe('StatsValue', () => {
   });
 
   describe('toJSON', () => {
-    it('normal case', () => {
-      const statsValue: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
+    it('normal case', async () => {
+      const statsValue: StatsValue = StatsValue.of(await AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
 
       expect(statsValue.toJSON()).toEqual({
         asOf: '2000-01-01',
@@ -231,10 +242,10 @@ describe('StatsValue', () => {
   });
 
   describe('toString', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const asOf: string = '2000-01-01';
       const value: number = 1;
-      const statsValue: StatsValue = StatsValue.of(AsOf.ofString(asOf).get(), NumericalValue.of(value));
+      const statsValue: StatsValue = StatsValue.of(await AsOf.ofString(asOf).get(), NumericalValue.of(value));
 
       expect(statsValue.toString()).toBe(`${asOf} ${value}`);
     });

@@ -1,7 +1,7 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { ImmutableProject } from '@jamashita/publikum-collection';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
@@ -49,14 +49,15 @@ describe('StatsValues', () => {
   });
 
   describe('ofSuperposition', () => {
-    it('when empty Array given, returns Alive, and StatsValues.empty()', () => {
+    it('when empty Array given, returns Alive, and StatsValues.empty()', async () => {
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([]);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(StatsValues.empty());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(StatsValues.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -73,19 +74,22 @@ describe('StatsValues', () => {
         })
       });
 
-      const superposition1: Superposition<StatsValue, StatsValueError> = Alive.of<StatsValue, StatsValueError>(
-        statsValue1
-      );
-      const superposition2: Superposition<StatsValue, StatsValueError> = Alive.of<StatsValue, StatsValueError>(
-        statsValue2
-      );
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.ofSchrodinger<
+        StatsValue,
+        StatsValueError
+      >(Alive.of<StatsValue, StatsValueError>(statsValue1));
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.ofSchrodinger<
+        StatsValue,
+        StatsValueError
+      >(Alive.of<StatsValue, StatsValueError>(statsValue2));
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
       ]);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const values: StatsValues = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const values: StatsValues = schrodinger.get();
 
       expect(values.size()).toBe(2);
       expect(values.contains(statsValue1)).toBe(true);
@@ -93,61 +97,71 @@ describe('StatsValues', () => {
       expect(values.contains(statsValue3)).toBe(false);
     });
 
-    it('contains failure', () => {
+    it('contains failure', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<StatsValue, StatsValueError> = Alive.of<StatsValue, StatsValueError>(
-        new MockStatsValue()
-      );
-      const superposition2: Superposition<StatsValue, StatsValueError> = Dead.of<StatsValue, StatsValueError>(
-        new StatsValueError('test failed')
-      );
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.ofSchrodinger<
+        StatsValue,
+        StatsValueError
+      >(Alive.of<StatsValue, StatsValueError>(new MockStatsValue()));
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.ofSchrodinger<
+        StatsValue,
+        StatsValueError
+      >(Dead.of<StatsValue, StatsValueError>(new StatsValueError('test failed')));
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
       ]);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsValuesError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsValuesError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: StatsValuesError) => {
+            spy2();
+            expect(err).toBeInstanceOf(StatsValuesError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('will be multiple failures', () => {
+    it('will be multiple failures', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<StatsValue, StatsValueError> = Dead.of<StatsValue, StatsValueError>(
-        new StatsValueError('test failed1')
-      );
-      const superposition2: Superposition<StatsValue, StatsValueError> = Dead.of<StatsValue, StatsValueError>(
-        new StatsValueError('test failed2')
-      );
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.ofSchrodinger<
+        StatsValue,
+        StatsValueError
+      >(Dead.of<StatsValue, StatsValueError>(new StatsValueError('test failed1')));
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.ofSchrodinger<
+        StatsValue,
+        StatsValueError
+      >(Dead.of<StatsValue, StatsValueError>(new StatsValueError('test failed2')));
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
       ]);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsValuesError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsValuesError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: StatsValuesError) => {
+            spy2();
+            expect(err).toBeInstanceOf(StatsValuesError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -155,14 +169,15 @@ describe('StatsValues', () => {
   });
 
   describe('ofJSON', () => {
-    it('when empty Array given, returns StatsValues.empty()', () => {
-      const superpositions: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON([]);
+    it('when empty Array given, returns StatsValues.empty()', async () => {
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON([]);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superpositions.isAlive()).toBe(true);
-      expect(superpositions.get()).toBe(StatsValues.empty());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(StatsValues.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const json: Array<StatsValueJSON> = [
         {
           asOf: '2000-01-01',
@@ -173,20 +188,21 @@ describe('StatsValues', () => {
           value: 2
         }
       ];
-      const statsValue1: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
+      const statsValue1: StatsValue = StatsValue.of(await AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(await AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
 
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(json);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const values: StatsValues = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const values: StatsValues = schrodinger.get();
 
       expect(values.size()).toBe(json.length);
       expect(values.contains(statsValue1)).toBe(true);
       expect(values.contains(statsValue2)).toBe(true);
     });
 
-    it('contains malformat asOf', () => {
+    it('contains malformat asOf', async () => {
       const json: Array<StatsValueJSON> = [
         {
           asOf: '2000-01-01 00:00:00',
@@ -202,23 +218,26 @@ describe('StatsValues', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(json);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsValuesError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsValuesError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: StatsValuesError) => {
+            spy2();
+            expect(err).toBeInstanceOf(StatsValuesError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('will be multiple malformat asOfs', () => {
+    it('will be multiple malformat asOfs', async () => {
       const json: Array<StatsValueJSON> = [
         {
           asOf: '2000-01-01 00:00:00',
@@ -234,17 +253,20 @@ describe('StatsValues', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(json);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsValuesError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsValuesError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: StatsValuesError) => {
+            spy2();
+            expect(err).toBeInstanceOf(StatsValuesError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -252,14 +274,15 @@ describe('StatsValues', () => {
   });
 
   describe('ofRow', () => {
-    it('when empty Array given, returns StatsValues.empty()', () => {
-      const superpositions: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow([]);
+    it('when empty Array given, returns StatsValues.empty()', async () => {
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow([]);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superpositions.isAlive()).toBe(true);
-      expect(superpositions.get()).toBe(StatsValues.empty());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(StatsValues.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const row: Array<StatsValueRow> = [
         {
           statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
@@ -272,20 +295,21 @@ describe('StatsValues', () => {
           value: 2
         }
       ];
-      const statsValue1: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
+      const statsValue1: StatsValue = StatsValue.of(await AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(await AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
 
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const values: StatsValues = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const values: StatsValues = schrodinger.get();
 
       expect(values.size()).toBe(row.length);
       expect(values.contains(statsValue1)).toBe(true);
       expect(values.contains(statsValue2)).toBe(true);
     });
 
-    it('contains malformat statsItemID', () => {
+    it('contains malformat statsItemID', async () => {
       const row: Array<StatsValueRow> = [
         {
           statsItemID: 'illegal uuid',
@@ -303,23 +327,26 @@ describe('StatsValues', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsValuesError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsValuesError);
-        }
-      );
+      expect(schrodinger.isAlive()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: StatsValuesError) => {
+            spy2();
+            expect(err).toBeInstanceOf(StatsValuesError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
     });
 
-    it('contains malformat asOf', () => {
+    it('contains malformat asOf', async () => {
       const row: Array<StatsValueRow> = [
         {
           statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
@@ -337,17 +364,20 @@ describe('StatsValues', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
+      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsValuesError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsValuesError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: StatsValuesError) => {
+            spy2();
+            expect(err).toBeInstanceOf(StatsValuesError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -861,15 +891,15 @@ describe('StatsValues', () => {
   });
 
   describe('toString', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const asOf1: string = '2000-01-01';
       const asOf2: string = '2000-01-02';
       const value1: number = 1;
       const value2: number = 2;
 
       const statsValues: StatsValues = StatsValues.ofArray([
-        StatsValue.of(AsOf.ofString(asOf1).get(), NumericalValue.of(value1)),
-        StatsValue.of(AsOf.ofString(asOf2).get(), NumericalValue.of(value2))
+        StatsValue.of(await AsOf.ofString(asOf1).get(), NumericalValue.of(value1)),
+        StatsValue.of(await AsOf.ofString(asOf2).get(), NumericalValue.of(value2))
       ]);
 
       expect(statsValues.toString()).toBe(`${asOf1} ${value1}, ${asOf2} ${value2}`);

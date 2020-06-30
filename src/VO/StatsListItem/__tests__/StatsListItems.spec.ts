@@ -35,7 +35,7 @@ describe('StatsListItems', () => {
       expect(StatsListItems.of(ImmutableSequence.empty<StatsListItem>())).toBe(StatsListItems.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const sequence: ImmutableSequence<MockStatsListItem> = ImmutableSequence.of<MockStatsListItem>([
         new MockStatsListItem(),
         new MockStatsListItem()
@@ -45,7 +45,7 @@ describe('StatsListItems', () => {
 
       expect(items.size()).toBe(sequence.size());
       for (let i: number = 0; i < items.size(); i++) {
-        expect(items.get(i).get()).toBe(sequence.get(i).get());
+        expect(await items.get(i)).toBe(await sequence.get(i));
       }
     });
   });
@@ -55,14 +55,14 @@ describe('StatsListItems', () => {
       expect(StatsListItems.ofArray([])).toBe(StatsListItems.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const is: Array<StatsListItem> = [new MockStatsListItem(), new MockStatsListItem()];
 
       const items: StatsListItems = StatsListItems.ofArray(is);
 
       expect(items.size()).toBe(is.length);
       for (let i: number = 0; i < items.size(); i++) {
-        expect(items.get(i).get()).toBe(is[i]);
+        expect(await items.get(i)).toBe(is[i]);
       }
     });
   });
@@ -72,15 +72,15 @@ describe('StatsListItems', () => {
       expect(StatsListItems.ofSpread()).toBe(StatsListItems.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const statsListItem1: MockStatsListItem = new MockStatsListItem();
       const statsListItem2: MockStatsListItem = new MockStatsListItem();
 
       const statsListItems: StatsListItems = StatsListItems.ofSpread(statsListItem1, statsListItem2);
 
       expect(statsListItems.size()).toBe(2);
-      expect(statsListItems.get(0).get()).toBe(statsListItem1);
-      expect(statsListItems.get(1).get()).toBe(statsListItem2);
+      expect(await statsListItems.get(0)).toBe(statsListItem1);
+      expect(await statsListItems.get(1)).toBe(statsListItem2);
     });
   });
 
@@ -95,14 +95,14 @@ describe('StatsListItems', () => {
   });
 
   describe('get', () => {
-    it('returns StatsListItem of index-th item', () => {
+    it('returns StatsListItem of index-th item', async () => {
       const is: Array<StatsListItem> = [new MockStatsListItem(), new MockStatsListItem(), new MockStatsListItem()];
 
       const items: StatsListItems = StatsListItems.ofArray(is);
 
       expect(items.size()).toBe(3);
       for (let i: number = 0; i < items.size(); i++) {
-        expect(items.get(i).get()).toBe(is[i]);
+        expect(await items.get(i)).toBe(is[i]);
       }
     });
 
@@ -247,7 +247,7 @@ describe('StatsListItems', () => {
   });
 
   describe('toString', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -261,7 +261,7 @@ describe('StatsListItems', () => {
       const unit1: string = 'stats unit 1';
       const unit2: string = 'stats unit 2';
       const at: string = '2000-01-01 00:00:00';
-      const updatedAt: UpdatedAt = UpdatedAt.ofString(at).get();
+      const updatedAt: UpdatedAt = await UpdatedAt.ofString(at).get();
       const languageName1: string = 'language1';
       const languageName2: string = 'language2';
       const languageName3: string = 'language3';

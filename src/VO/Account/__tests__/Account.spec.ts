@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { Password } from '../../EntranceInformation/Password';
@@ -32,7 +32,7 @@ describe('Account', () => {
   });
 
   describe('ofRow', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const row: AccountRow = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -42,9 +42,10 @@ describe('Account', () => {
       };
 
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
+      const schrodinger: Schrodinger<Account, AccountError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const account: Account = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const account: Account = schrodinger.get();
 
       expect(account.getVeauAccountID().get().get()).toBe(row.veauAccountID);
       expect(account.getLanguageID().get().get()).toBe(row.languageID);
@@ -53,7 +54,7 @@ describe('Account', () => {
       expect(account.getHash().get()).toBe(row.hash);
     });
 
-    it('contains malformat veauAccountID', () => {
+    it('contains malformat veauAccountID', async () => {
       const row: AccountRow = {
         veauAccountID: 'malformat',
         languageID: UUID.v4().get(),
@@ -66,9 +67,10 @@ describe('Account', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
+      const schrodinger: Schrodinger<Account, AccountError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition.transform<void>(
         () => {
           spy1();
         },
@@ -76,13 +78,13 @@ describe('Account', () => {
           spy2();
           expect(err).toBeInstanceOf(AccountError);
         }
-      );
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('contains malformat languageID', () => {
+    it('contains malformat languageID', async () => {
       const row: AccountRow = {
         veauAccountID: UUID.v4().get(),
         languageID: 'malformat',
@@ -95,9 +97,10 @@ describe('Account', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
+      const schrodinger: Schrodinger<Account, AccountError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition.transform<void>(
         () => {
           spy1();
         },
@@ -105,13 +108,13 @@ describe('Account', () => {
           spy2();
           expect(err).toBeInstanceOf(AccountError);
         }
-      );
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('contains malformat regionID', () => {
+    it('contains malformat regionID', async () => {
       const row: AccountRow = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -124,9 +127,10 @@ describe('Account', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
+      const schrodinger: Schrodinger<Account, AccountError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition.transform<void>(
         () => {
           spy1();
         },
@@ -134,7 +138,7 @@ describe('Account', () => {
           spy2();
           expect(err).toBeInstanceOf(AccountError);
         }
-      );
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

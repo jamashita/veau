@@ -1,4 +1,4 @@
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { TermError } from '../Error/TermError';
@@ -15,11 +15,13 @@ describe('Term', () => {
       expect(Term.of(UUID.of('96f0d8a0-a136-4fb1-bc07-22dad6b8a21c')).get()).toBe(Term.ANNUAL);
     });
 
-    it('returns Dead when the id is out of range', () => {
+    it('returns Dead when the id is out of range', async () => {
       for (let i: number = 0; i < 100; i++) {
         const superposition: Superposition<Term, TermError> = Term.of(UUID.v4());
+        // eslint-disable-next-line no-await-in-loop
+        const schrodinger: Schrodinger<Term, TermError> = await superposition.terminate();
 
-        expect(superposition.isDead()).toBe(true);
+        expect(schrodinger.isDead()).toBe(true);
       }
     });
   });
@@ -33,11 +35,13 @@ describe('Term', () => {
       expect(Term.ofTermID(Term.ANNUAL.getTermID()).get()).toBe(Term.ANNUAL);
     });
 
-    it('returns Dead when else', () => {
+    it('returns Dead when else', async () => {
       for (let i: number = 0; i < 100; i++) {
         const superposition: Superposition<Term, TermError> = Term.ofTermID(TermID.of(UUID.v4()));
+        // eslint-disable-next-line no-await-in-loop
+        const schrodinger: Schrodinger<Term, TermError> = await superposition.terminate();
 
-        expect(superposition.isDead()).toBe(true);
+        expect(schrodinger.isDead()).toBe(true);
       }
     });
   });
@@ -51,9 +55,12 @@ describe('Term', () => {
       expect(Term.ofString('96f0d8a0-a136-4fb1-bc07-22dad6b8a21c').get()).toBe(Term.ANNUAL);
     });
 
-    it('returns Dead when else', () => {
-      expect(Term.ofString('deux').isDead()).toBe(true);
-      expect(Term.ofString('six').isDead()).toBe(true);
+    it('returns Dead when else', async () => {
+      const schrodinger1: Schrodinger<Term, TermError> = await Term.ofString('deux').terminate();
+      const schrodinger2: Schrodinger<Term, TermError> = await Term.ofString('six').terminate();
+
+      expect(schrodinger1.isDead()).toBe(true);
+      expect(schrodinger2.isDead()).toBe(true);
     });
   });
 

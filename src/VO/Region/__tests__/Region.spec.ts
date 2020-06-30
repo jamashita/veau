@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { RegionError } from '../Error/RegionError';
@@ -46,7 +46,7 @@ describe('Region', () => {
   });
 
   describe('ofJSON', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const json: RegionJSON = {
         regionID: UUID.v4().get(),
         name: 'Albania',
@@ -54,16 +54,17 @@ describe('Region', () => {
       };
 
       const superposition: Superposition<Region, RegionError> = Region.ofJSON(json);
+      const schrodinger: Schrodinger<Region, RegionError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const region: Region = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const region: Region = schrodinger.get();
 
       expect(region.getRegionID().get().get()).toBe(json.regionID);
       expect(region.getName().get()).toBe(json.name);
       expect(region.getISO3166().get()).toBe(json.iso3166);
     });
 
-    it('returns Dead if regionID is malformat', () => {
+    it('returns Dead if regionID is malformat', async () => {
       const json: RegionJSON = {
         regionID: 'puente',
         name: 'Albania',
@@ -74,9 +75,10 @@ describe('Region', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<Region, RegionError> = Region.ofJSON(json);
+      const schrodinger: Schrodinger<Region, RegionError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition.transform<void>(
         () => {
           spy1();
         },
@@ -84,7 +86,7 @@ describe('Region', () => {
           spy2();
           expect(err).toBeInstanceOf(RegionError);
         }
-      );
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -92,7 +94,7 @@ describe('Region', () => {
   });
 
   describe('ofRow', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const row: RegionRow = {
         regionID: UUID.v4().get(),
         name: 'Albania',
@@ -100,16 +102,17 @@ describe('Region', () => {
       };
 
       const superposition: Superposition<Region, RegionError> = Region.ofRow(row);
+      const schrodinger: Schrodinger<Region, RegionError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const region: Region = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const region: Region = schrodinger.get();
 
       expect(region.getRegionID().get().get()).toBe(row.regionID);
       expect(region.getName().get()).toBe(row.name);
       expect(region.getISO3166().get()).toBe(row.iso3166);
     });
 
-    it('returns Dead if regionID is malformat', () => {
+    it('returns Dead if regionID is malformat', async () => {
       const row: RegionRow = {
         regionID: 'puente',
         name: 'Albania',
@@ -120,9 +123,10 @@ describe('Region', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<Region, RegionError> = Region.ofRow(row);
+      const schrodinger: Schrodinger<Region, RegionError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition.transform<void>(
         () => {
           spy1();
         },
@@ -130,7 +134,7 @@ describe('Region', () => {
           spy2();
           expect(err).toBeInstanceOf(RegionError);
         }
-      );
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

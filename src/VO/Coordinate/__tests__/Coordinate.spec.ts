@@ -22,10 +22,10 @@ describe('Coordinate', () => {
   });
 
   describe('toString', () => {
-    it('returns the original string', () => {
+    it('returns the original string', async () => {
       const row: number = 1;
       const column: number = 2;
-      const coordinate: Coordinate = Coordinate.of(Row.of(row).get(), Column.of(column).get());
+      const coordinate: Coordinate = Coordinate.of(await Row.of(row).get(), await Column.of(column).get());
 
       expect(coordinate.toString()).toBe(`${row} ${column}`);
     });

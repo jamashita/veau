@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { AccountName } from '../../Account/AccountName';
@@ -32,7 +32,7 @@ describe('VeauAccount', () => {
   });
 
   describe('ofJSON', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const json: VeauAccountJSON = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -41,9 +41,10 @@ describe('VeauAccount', () => {
       };
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
+      const schrodinger: Schrodinger<VeauAccount, VeauAccountError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const veauAccount: VeauAccount = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const veauAccount: VeauAccount = schrodinger.get();
 
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
@@ -51,7 +52,7 @@ describe('VeauAccount', () => {
       expect(veauAccount.getAccountName().get()).toBe(json.name);
     });
 
-    it('veauAccountID is malformat', () => {
+    it('veauAccountID is malformat', async () => {
       const json: VeauAccountJSON = {
         veauAccountID: 'illegal one',
         languageID: UUID.v4().get(),
@@ -64,21 +65,23 @@ describe('VeauAccount', () => {
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: VeauAccountError) => {
-          spy2();
-          expect(err).toBeInstanceOf(VeauAccountError);
-        }
-      );
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: VeauAccountError) => {
+            spy2();
+            expect(err).toBeInstanceOf(VeauAccountError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('languageID is malformat', () => {
+    it('languageID is malformat', async () => {
       const json: VeauAccountJSON = {
         veauAccountID: UUID.v4().get(),
         languageID: 'illegal one',
@@ -91,21 +94,23 @@ describe('VeauAccount', () => {
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: VeauAccountError) => {
-          spy2();
-          expect(err).toBeInstanceOf(VeauAccountError);
-        }
-      );
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: VeauAccountError) => {
+            spy2();
+            expect(err).toBeInstanceOf(VeauAccountError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('regionID is malformat', () => {
+    it('regionID is malformat', async () => {
       const json: VeauAccountJSON = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -118,15 +123,17 @@ describe('VeauAccount', () => {
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: VeauAccountError) => {
-          spy2();
-          expect(err).toBeInstanceOf(VeauAccountError);
-        }
-      );
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: VeauAccountError) => {
+            spy2();
+            expect(err).toBeInstanceOf(VeauAccountError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

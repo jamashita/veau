@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { LanguageError } from '../Error/LanguageError';
@@ -74,7 +74,7 @@ describe('Language', () => {
   });
 
   describe('ofJSON', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const json: LanguageJSON = {
         languageID: UUID.v4().get(),
         name: 'Afaraf',
@@ -83,9 +83,10 @@ describe('Language', () => {
       };
 
       const superposition: Superposition<Language, LanguageError> = Language.ofJSON(json);
+      const schrodinger: Schrodinger<Language, LanguageError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const language: Language = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const language: Language = schrodinger.get();
 
       expect(language.getLanguageID().get().get()).toBe(json.languageID);
       expect(language.getName().get()).toBe(json.name);
@@ -93,7 +94,7 @@ describe('Language', () => {
       expect(language.getISO639().get()).toBe(json.iso639);
     });
 
-    it('returns Dead if languageID is malformat', () => {
+    it('returns Dead if languageID is malformat', async () => {
       const json: LanguageJSON = {
         languageID: 'puente',
         name: 'Afaraf',
@@ -105,9 +106,10 @@ describe('Language', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<Language, LanguageError> = Language.ofJSON(json);
+      const schrodinger: Schrodinger<Language, LanguageError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition.transform<void>(
         () => {
           spy1();
         },
@@ -115,7 +117,7 @@ describe('Language', () => {
           spy2();
           expect(err).toBeInstanceOf(LanguageError);
         }
-      );
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -123,7 +125,7 @@ describe('Language', () => {
   });
 
   describe('ofRow', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const row: LanguageRow = {
         languageID: UUID.v4().get(),
         name: 'Afaraf',
@@ -132,9 +134,10 @@ describe('Language', () => {
       };
 
       const superposition: Superposition<Language, LanguageError> = Language.ofRow(row);
+      const schrodinger: Schrodinger<Language, LanguageError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const language: Language = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const language: Language = schrodinger.get();
 
       expect(language.getLanguageID().get().get()).toBe(row.languageID);
       expect(language.getName().get()).toBe(row.name);
@@ -142,7 +145,7 @@ describe('Language', () => {
       expect(language.getISO639().get()).toBe(row.iso639);
     });
 
-    it('returns Dead if languageID is malformat', () => {
+    it('returns Dead if languageID is malformat', async () => {
       const row: LanguageRow = {
         languageID: 'puente',
         name: 'Afaraf',
@@ -154,9 +157,10 @@ describe('Language', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<Language, LanguageError> = Language.ofRow(row);
+      const schrodinger: Schrodinger<Language, LanguageError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition.transform<void>(
         () => {
           spy1();
         },
@@ -164,7 +168,7 @@ describe('Language', () => {
           spy2();
           expect(err).toBeInstanceOf(LanguageError);
         }
-      );
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

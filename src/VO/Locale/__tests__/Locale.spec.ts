@@ -1,6 +1,7 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { ISO639 } from '../../Language/ISO639';
@@ -37,7 +38,7 @@ describe('Locale', () => {
   });
 
   describe('ofJSON', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const languages: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -58,13 +59,21 @@ describe('Locale', () => {
         languages,
         regions
       });
+      const schrodinger: Schrodinger<Locale, LocaleError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const locale: Locale = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const locale: Locale = schrodinger.get();
 
       expect(locale.getLanguages().size()).toBe(languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
-        const language: Language = locale.getLanguages().get(LanguageID.ofString(languages[i].languageID).get()).get();
+        const language: Nullable<Language> = locale
+          .getLanguages()
+          .get(await LanguageID.ofString(languages[i].languageID).get());
+
+        if (language === null) {
+          fail();
+          return;
+        }
 
         expect(language.getLanguageID().get().get()).toBe(languages[i].languageID);
         expect(language.getName().get()).toBe(languages[i].name);
@@ -73,7 +82,12 @@ describe('Locale', () => {
       }
       expect(locale.getRegions().size()).toBe(regions.length);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
-        const region: Region = locale.getRegions().get(RegionID.ofString(regions[i].regionID).get()).get();
+        const region: Nullable<Region> = locale.getRegions().get(await RegionID.ofString(regions[i].regionID).get());
+
+        if (region === null) {
+          fail();
+          return;
+        }
 
         expect(region.getRegionID().get().get()).toBe(regions[i].regionID);
         expect(region.getName().get()).toBe(regions[i].name);
@@ -81,7 +95,7 @@ describe('Locale', () => {
       }
     });
 
-    it('has malformat languageID ', () => {
+    it('has malformat languageID ', async () => {
       const languages: Array<LanguageJSON> = [
         {
           languageID: 'cinque',
@@ -105,23 +119,26 @@ describe('Locale', () => {
         languages,
         regions
       });
+      const schrodinger: Schrodinger<Locale, LocaleError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LocaleError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LocaleError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: LocaleError) => {
+            spy2();
+            expect(err).toBeInstanceOf(LocaleError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('has malformat regionID ', () => {
+    it('has malformat regionID ', async () => {
       const languages: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -145,17 +162,20 @@ describe('Locale', () => {
         languages,
         regions
       });
+      const schrodinger: Schrodinger<Locale, LocaleError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LocaleError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LocaleError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: LocaleError) => {
+            spy2();
+            expect(err).toBeInstanceOf(LocaleError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -254,7 +274,7 @@ describe('Locale', () => {
   });
 
   describe('toJSON', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const languages: Array<LanguageJSON> = [
@@ -277,9 +297,10 @@ describe('Locale', () => {
         languages,
         regions
       });
+      const schrodinger: Schrodinger<Locale, LocaleError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const locale: Locale = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const locale: Locale = schrodinger.get();
 
       expect(locale.toJSON()).toEqual({
         languages: [

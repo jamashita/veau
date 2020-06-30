@@ -1,7 +1,8 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { ImmutableProject } from '@jamashita/publikum-collection';
-import { Absent, Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Absent, Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { RegionError } from '../Error/RegionError';
@@ -33,91 +34,101 @@ describe('Regions', () => {
       for (let i: number = 0; i < regions.size(); i++) {
         const mock: MockRegion = array[i];
 
-        expect(regions.get(mock.getRegionID()).get()).toBe(mock);
+        expect(regions.get(mock.getRegionID())).toBe(mock);
       }
     });
   });
 
   describe('ofSuperposition', () => {
-    it('when empty Array given, returns Alive, and Regions.empty()', () => {
+    it('when empty Array given, returns Alive, and Regions.empty()', async () => {
       const superposition: Superposition<Regions, RegionsError> = Regions.ofSuperposition([]);
+      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(Regions.empty());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(Regions.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const regionArray: Array<MockRegion> = [new MockRegion(), new MockRegion()];
 
       const superposition: Superposition<Regions, RegionsError> = Regions.ofSuperposition([
-        Alive.of<Region, RegionError>(regionArray[0]),
-        Alive.of<Region, RegionError>(regionArray[1])
+        Superposition.ofSchrodinger<Region, RegionError>(Alive.of<Region, RegionError>(regionArray[0])),
+        Superposition.ofSchrodinger<Region, RegionError>(Alive.of<Region, RegionError>(regionArray[1]))
       ]);
+      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const regions: Regions = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const regions: Regions = schrodinger.get();
 
       expect(regions.size()).toBe(regionArray.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(regionArray[i].getRegionID()).get()).toBe(regionArray[i]);
+        expect(regions.get(regionArray[i].getRegionID())).toBe(regionArray[i]);
       }
     });
 
-    it('contains failure', () => {
+    it('contains failure', async () => {
       const region1: MockRegion = new MockRegion();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<Region, RegionError> = Alive.of<Region, RegionError>(region1);
-      const superposition2: Superposition<Region, RegionError> = Dead.of<Region, RegionError>(
-        new RegionError('test failed')
+      const superposition1: Superposition<Region, RegionError> = Superposition.ofSchrodinger<Region, RegionError>(
+        Alive.of<Region, RegionError>(region1)
+      );
+      const superposition2: Superposition<Region, RegionError> = Superposition.ofSchrodinger<Region, RegionError>(
+        Dead.of<Region, RegionError>(new RegionError('test failed'))
       );
       const superposition: Superposition<Regions, RegionsError> = Regions.ofSuperposition([
         superposition1,
         superposition2
       ]);
+      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionsError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RegionsError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: RegionsError) => {
+            spy2();
+            expect(err).toBeInstanceOf(RegionsError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('contains 2 failures', () => {
+    it('contains 2 failures', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<Region, RegionError> = Dead.of<Region, RegionError>(
-        new RegionError('test failed 1')
+      const superposition1: Superposition<Region, RegionError> = Superposition.ofSchrodinger<Region, RegionError>(
+        Dead.of<Region, RegionError>(new RegionError('test failed 1'))
       );
-      const superposition2: Superposition<Region, RegionError> = Dead.of<Region, RegionError>(
-        new RegionError('test failed 2')
+      const superposition2: Superposition<Region, RegionError> = Superposition.ofSchrodinger<Region, RegionError>(
+        Dead.of<Region, RegionError>(new RegionError('test failed 2'))
       );
       const superposition: Superposition<Regions, RegionsError> = Regions.ofSuperposition([
         superposition1,
         superposition2
       ]);
+      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionsError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RegionsError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      await superposition
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: RegionsError) => {
+            spy2();
+            expect(err).toBeInstanceOf(RegionsError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -125,16 +136,17 @@ describe('Regions', () => {
   });
 
   describe('ofJSON', () => {
-    it('when empty Array given, returns Regions.empty()', () => {
+    it('when empty Array given, returns Regions.empty()', async () => {
       const superposition: Superposition<Regions, RegionsError> = Regions.ofJSON([]);
+      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const regions: Regions = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const regions: Regions = schrodinger.get();
 
       expect(regions).toBe(Regions.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const json: Array<RegionJSON> = [
         {
           regionID: UUID.v4().get(),
@@ -144,14 +156,21 @@ describe('Regions', () => {
       ];
 
       const superposition: Superposition<Regions, RegionsError> = Regions.ofJSON(json);
+      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const regions: Regions = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const regions: Regions = schrodinger.get();
 
       expect(regions.size()).toBe(json.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        const regionID: RegionID = RegionID.ofString(json[i].regionID).get();
-        const region: Region = regions.get(regionID).get();
+        // eslint-disable-next-line no-await-in-loop
+        const regionID: RegionID = await RegionID.ofString(json[i].regionID).get();
+        const region: Nullable<Region> = regions.get(regionID);
+
+        if (region === null) {
+          fail();
+          return;
+        }
 
         expect(region.getRegionID().get().get()).toBe(json[i].regionID);
         expect(region.getName().get()).toBe(json[i].name);
@@ -161,16 +180,17 @@ describe('Regions', () => {
   });
 
   describe('ofRow', () => {
-    it('when empty Array given, returns Regions.empty()', () => {
+    it('when empty Array given, returns Regions.empty()', async () => {
       const superposition: Superposition<Regions, RegionsError> = Regions.ofRow([]);
+      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const regions: Regions = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const regions: Regions = schrodinger.get();
 
       expect(regions).toBe(Regions.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const rows: Array<RegionRow> = [
         {
           regionID: UUID.v4().get(),
@@ -180,14 +200,21 @@ describe('Regions', () => {
       ];
 
       const superposition: Superposition<Regions, RegionsError> = Regions.ofRow(rows);
+      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const regions: Regions = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const regions: Regions = schrodinger.get();
 
       expect(regions.size()).toBe(rows.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        const regionID: RegionID = RegionID.ofString(rows[i].regionID).get();
-        const region: Region = regions.get(regionID).get();
+        // eslint-disable-next-line no-await-in-loop
+        const regionID: RegionID = await RegionID.ofString(rows[i].regionID).get();
+        const region: Nullable<Region> = regions.get(regionID);
+
+        if (region === null) {
+          fail();
+          return;
+        }
 
         expect(region.getRegionID().get().get()).toBe(rows[i].regionID);
         expect(region.getName().get()).toBe(rows[i].name);
@@ -210,7 +237,7 @@ describe('Regions', () => {
 
       expect(regions.size()).toBe(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(regs[i].getRegionID()).get()).toBe(regs[i]);
+        expect(regions.get(regs[i].getRegionID())).toBe(regs[i]);
       }
     });
   });
@@ -231,7 +258,7 @@ describe('Regions', () => {
 
       expect(regions.size()).toBe(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(regs[i].getRegionID()).get()).toBe(regs[i]);
+        expect(regions.get(regs[i].getRegionID())).toBe(regs[i]);
       }
     });
   });
@@ -254,7 +281,7 @@ describe('Regions', () => {
 
       expect(regions.size()).toBe(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(regs[i].getRegionID()).get()).toBe(regs[i]);
+        expect(regions.get(regs[i].getRegionID())).toBe(regs[i]);
       }
     });
 
@@ -313,33 +340,25 @@ describe('Regions', () => {
       const regions: Regions = Regions.ofArray([region1, region2]);
 
       expect(
-        regions
-          .find((region: Region) => {
-            return region1.equals(region);
-          })
-          .isPresent()
-      ).toBe(true);
+        regions.find((region: Region) => {
+          return region1.equals(region);
+        })
+      ).toBe(region1);
       expect(
-        regions
-          .find((region: Region) => {
-            return region2.equals(region);
-          })
-          .isPresent()
-      ).toBe(true);
+        regions.find((region: Region) => {
+          return region2.equals(region);
+        })
+      ).toBe(region2);
       expect(
-        regions
-          .find((region: Region) => {
-            return region3.equals(region);
-          })
-          .isPresent()
-      ).toBe(true);
+        regions.find((region: Region) => {
+          return region3.equals(region);
+        })
+      ).toBe(region3);
       expect(
-        regions
-          .find((region: Region) => {
-            return region4.equals(region);
-          })
-          .isPresent()
-      ).toBe(false);
+        regions.find((region: Region) => {
+          return region4.equals(region);
+        })
+      ).toBe(null);
     });
   });
 

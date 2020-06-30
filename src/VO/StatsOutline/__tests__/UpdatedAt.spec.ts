@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Zeit } from '@jamashita/publikum-zeit';
 
 import { UpdatedAtError } from '../Error/UpdatedAtError';
@@ -8,7 +8,7 @@ import { UpdatedAt } from '../UpdatedAt';
 
 describe('UpdatedAt', () => {
   describe('ofString', () => {
-    it('returns Dead if the parameter is not date format', () => {
+    it('returns Dead if the parameter is not date format', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -16,9 +16,11 @@ describe('UpdatedAt', () => {
 
       const superposition1: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('this is not date');
       const superposition2: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01');
+      const schrodinger1: Schrodinger<UpdatedAt, UpdatedAtError> = await superposition1.terminate();
+      const schrodinger2: Schrodinger<UpdatedAt, UpdatedAtError> = await superposition2.terminate();
 
-      expect(superposition1.isDead()).toBe(true);
-      superposition1.transform<void>(
+      expect(schrodinger1.isDead()).toBe(true);
+      await superposition1.transform<void>(
         () => {
           spy1();
         },
@@ -26,9 +28,9 @@ describe('UpdatedAt', () => {
           spy2();
           expect(err).toBeInstanceOf(UpdatedAtError);
         }
-      );
-      expect(superposition2.isDead()).toBe(true);
-      superposition2.transform<void>(
+      ).terminate();
+      expect(schrodinger2.isDead()).toBe(true);
+      await superposition2.transform<void>(
         () => {
           spy3();
         },
@@ -36,7 +38,7 @@ describe('UpdatedAt', () => {
           spy4();
           expect(err).toBeInstanceOf(UpdatedAtError);
         }
-      );
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -44,10 +46,11 @@ describe('UpdatedAt', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const superposition: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01 00:00:00');
+      const schrodinger: Schrodinger<UpdatedAt, UpdatedAtError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
   });
 
@@ -70,9 +73,9 @@ describe('UpdatedAt', () => {
   });
 
   describe('toString', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const at: string = '2345-06-07 08:09:10';
-      const updatedAt: UpdatedAt = UpdatedAt.ofString(at).get();
+      const updatedAt: UpdatedAt = await UpdatedAt.ofString(at).get();
 
       expect(updatedAt.toString()).toBe(at);
     });

@@ -13,7 +13,7 @@ describe('StatsItemNames', () => {
       expect(statsItemNames).toBe(StatsItemNames.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const statsItemName1: MockStatsItemName = new MockStatsItemName();
       const statsItemName2: MockStatsItemName = new MockStatsItemName();
       const sequence: ImmutableSequence<MockStatsItemName> = ImmutableSequence.of<StatsItemName>([
@@ -25,7 +25,7 @@ describe('StatsItemNames', () => {
 
       expect(statsItemNames.size()).toBe(sequence.size());
       for (let i: number = 0; i < statsItemNames.size(); i++) {
-        expect(statsItemNames.get(i).get()).toBe(sequence.get(i).get());
+        expect(await statsItemNames.get(i)).toBe(await sequence.get(i));
       }
     });
   });
@@ -37,7 +37,7 @@ describe('StatsItemNames', () => {
       expect(statsItemNames).toBe(StatsItemNames.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const name1: MockStatsItemName = new MockStatsItemName();
       const name2: MockStatsItemName = new MockStatsItemName();
       const names: Array<StatsItemName> = [name1, name2];
@@ -46,7 +46,7 @@ describe('StatsItemNames', () => {
 
       expect(statsItemNames.size()).toBe(names.length);
       for (let i: number = 0; i < statsItemNames.size(); i++) {
-        expect(statsItemNames.get(i).get()).toBe(names[i]);
+        expect(await statsItemNames.get(i)).toBe(names[i]);
       }
     });
   });
@@ -58,15 +58,15 @@ describe('StatsItemNames', () => {
       expect(statsItemNames).toBe(StatsItemNames.empty());
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const name1: MockStatsItemName = new MockStatsItemName();
       const name2: MockStatsItemName = new MockStatsItemName();
 
       const statsItemNames: StatsItemNames = StatsItemNames.ofSpread(name1, name2);
 
       expect(statsItemNames.size()).toBe(2);
-      expect(statsItemNames.get(0).get()).toBe(name1);
-      expect(statsItemNames.get(1).get()).toBe(name2);
+      expect(await statsItemNames.get(0)).toBe(name1);
+      expect(await statsItemNames.get(1)).toBe(name2);
     });
   });
 
@@ -81,14 +81,14 @@ describe('StatsItemNames', () => {
   });
 
   describe('get', () => {
-    it('returns StatsItemName of index-th item', () => {
+    it('returns StatsItemName of index-th item', async () => {
       const names: Array<StatsItemName> = [new MockStatsItemName(), new MockStatsItemName(), new MockStatsItemName()];
 
       const statsItemNames: StatsItemNames = StatsItemNames.ofArray(names);
 
       expect(statsItemNames.size()).toBe(names.length);
       for (let i: number = 0; i < statsItemNames.size(); i++) {
-        expect(statsItemNames.get(i).get()).toBe(names[i]);
+        expect(await statsItemNames.get(i)).toBe(names[i]);
       }
     });
 

@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { LoadingCountError } from '../Error/LoadingCountError';
 import { LoadingCount } from '../LoadingCount';
@@ -17,19 +17,21 @@ describe('LoadingCount', () => {
   });
 
   describe('of', () => {
-    it('returns Dead when the argument is less than 1', () => {
+    it('returns Dead when the argument is less than 1', async () => {
       const superposition1: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(-1);
       const superposition2: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(-5.6);
+      const schrodinger1: Schrodinger<LoadingCount, LoadingCountError> = await superposition1.terminate();
+      const schrodinger2: Schrodinger<LoadingCount, LoadingCountError> = await superposition2.terminate();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isDead()).toBe(true);
-      expect(superposition2.isDead()).toBe(true);
+      expect(schrodinger1.isDead()).toBe(true);
+      expect(schrodinger2.isDead()).toBe(true);
 
-      superposition1.transform<void>(
+      await superposition1.transform<void>(
         () => {
           spy1();
         },
@@ -37,9 +39,9 @@ describe('LoadingCount', () => {
           spy2();
           expect(err).toBeInstanceOf(LoadingCountError);
         }
-      );
+      ).terminate();
 
-      superposition2.transform<void>(
+      await superposition2.transform<void>(
         () => {
           spy3();
         },
@@ -47,7 +49,7 @@ describe('LoadingCount', () => {
           spy4();
           expect(err).toBeInstanceOf(LoadingCountError);
         }
-      );
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -55,26 +57,29 @@ describe('LoadingCount', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('returns Alive and its value is LoadingCount.default() when the argument 0', () => {
+    it('returns Alive and its value is LoadingCount.default() when the argument 0', async () => {
       const superposition: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(0);
+      const schrodinger: Schrodinger<LoadingCount, LoadingCountError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(LoadingCount.default());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(LoadingCount.default());
     });
 
-    it('returns Dead when the argument is not integer', () => {
+    it('returns Dead when the argument is not integer', async () => {
       const superposition1: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(1.1);
       const superposition2: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(0.2);
+      const schrodinger1: Schrodinger<LoadingCount, LoadingCountError> = await superposition1.terminate();
+      const schrodinger2: Schrodinger<LoadingCount, LoadingCountError> = await superposition2.terminate();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isDead()).toBe(true);
-      expect(superposition2.isDead()).toBe(true);
+      expect(schrodinger1.isDead()).toBe(true);
+      expect(schrodinger2.isDead()).toBe(true);
 
-      superposition1.transform<void>(
+      await superposition1.transform<void>(
         () => {
           spy1();
         },
@@ -82,9 +87,9 @@ describe('LoadingCount', () => {
           spy2();
           expect(err).toBeInstanceOf(LoadingCountError);
         }
-      );
+      ).terminate();
 
-      superposition2.transform<void>(
+      await superposition2.transform<void>(
         () => {
           spy3();
         },
@@ -92,7 +97,7 @@ describe('LoadingCount', () => {
           spy4();
           expect(err).toBeInstanceOf(LoadingCountError);
         }
-      );
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -100,25 +105,27 @@ describe('LoadingCount', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('returns Alive when the argument is positive and integer', () => {
+    it('returns Alive when the argument is positive and integer', async () => {
       const value1: number = 6;
       const value2: number = 17;
       const superposition1: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(value1);
       const superposition2: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(value2);
+      const schrodinger1: Schrodinger<LoadingCount, LoadingCountError> = await superposition1.terminate();
+      const schrodinger2: Schrodinger<LoadingCount, LoadingCountError> = await superposition2.terminate();
 
-      expect(superposition1.isAlive()).toBe(true);
-      expect(superposition2.isAlive()).toBe(true);
+      expect(schrodinger1.isAlive()).toBe(true);
+      expect(schrodinger2.isAlive()).toBe(true);
 
-      expect(superposition1.get().get()).toBe(value1);
-      expect(superposition2.get().get()).toBe(value2);
+      expect(schrodinger1.get()).toBe(value1);
+      expect(schrodinger2.get()).toBe(value2);
     });
   });
 
   describe('equals', () => {
-    it('returns true if both properties are the same', () => {
-      const count1: LoadingCount = LoadingCount.of(1).get();
-      const count2: LoadingCount = LoadingCount.of(2).get();
-      const count3: LoadingCount = LoadingCount.of(1).get();
+    it('returns true if both properties are the same', async () => {
+      const count1: LoadingCount = await LoadingCount.of(1).get();
+      const count2: LoadingCount = await LoadingCount.of(2).get();
+      const count3: LoadingCount = await LoadingCount.of(1).get();
 
       expect(count1.equals(count1)).toBe(true);
       expect(count1.equals(count2)).toBe(false);
@@ -131,16 +138,20 @@ describe('LoadingCount', () => {
       expect(LoadingCount.default().isLoading()).toBe(false);
     });
 
-    it('normal case', () => {
-      expect(LoadingCount.of(0).get().isLoading()).toBe(false);
-      expect(LoadingCount.of(1).get().isLoading()).toBe(true);
-      expect(LoadingCount.of(2).get().isLoading()).toBe(true);
+    it('normal case', async () => {
+      const count1: LoadingCount = await LoadingCount.of(0).get();
+      const count2: LoadingCount = await LoadingCount.of(1).get();
+      const count3: LoadingCount = await LoadingCount.of(2).get();
+
+      expect(count1.isLoading()).toBe(false);
+      expect(count2.isLoading()).toBe(true);
+      expect(count3.isLoading()).toBe(true);
     });
   });
 
   describe('increment', () => {
-    it('normal case', () => {
-      const count1: LoadingCount = LoadingCount.of(1).get();
+    it('normal case', async () => {
+      const count1: LoadingCount = await LoadingCount.of(1).get();
       const count2: LoadingCount = count1.increment();
 
       expect(count2.get()).toBe(2);
@@ -149,8 +160,8 @@ describe('LoadingCount', () => {
   });
 
   describe('decrement', () => {
-    it('normal case', () => {
-      const count1: LoadingCount = LoadingCount.of(1).get();
+    it('normal case', async () => {
+      const count1: LoadingCount = await LoadingCount.of(1).get();
       const count2: LoadingCount = count1.decrement();
       const count3: LoadingCount = count2.decrement();
 
@@ -163,9 +174,9 @@ describe('LoadingCount', () => {
   });
 
   describe('toString', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const num: number = 1;
-      const count: LoadingCount = LoadingCount.of(num).get();
+      const count: LoadingCount = await LoadingCount.of(num).get();
 
       expect(count.toString()).toBe(num.toString());
     });

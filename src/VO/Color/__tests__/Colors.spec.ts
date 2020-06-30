@@ -16,7 +16,7 @@ describe('Colors', () => {
 
       expect(colors.size()).toBe(sequence.size());
       for (let i: number = 0; i < colors.size(); i++) {
-        expect(colors.get(i).get()).toBe(sequence.get(i).get());
+        expect(colors.get(i)).toBe(sequence.get(i));
       }
     });
   });
@@ -29,7 +29,7 @@ describe('Colors', () => {
 
       expect(colours.size()).toBe(colors.length);
       for (let i: number = 0; i < colours.size(); i++) {
-        expect(colours.get(i).get()).toBe(colors[i]);
+        expect(colours.get(i)).toBe(colors[i]);
       }
     });
   });
@@ -43,9 +43,9 @@ describe('Colors', () => {
       const colours: Colors = Colors.ofSpread(color1, color2, color3);
 
       expect(colours.size()).toBe(3);
-      expect(colours.get(0).get()).toBe(color1);
-      expect(colours.get(1).get()).toBe(color2);
-      expect(colours.get(2).get()).toBe(color3);
+      expect(colours.get(0)).toBe(color1);
+      expect(colours.get(1)).toBe(color2);
+      expect(colours.get(2)).toBe(color3);
     });
   });
 
@@ -61,10 +61,10 @@ describe('Colors', () => {
     it('when index is over the length of Colors, loops and returns the element of first', () => {
       const colors: Colors = Colors.ofArray([new MockColor('#ffffff'), new MockColor('#000000')]);
 
-      expect(colors.get(0).get().toString()).toBe('#ffffff');
-      expect(colors.get(1).get().toString()).toBe('#000000');
-      expect(colors.get(2).get().toString()).toBe('#ffffff');
-      expect(colors.get(3).get().toString()).toBe('#000000');
+      expect(colors.get(0)?.toString()).toBe('#ffffff');
+      expect(colors.get(1)?.toString()).toBe('#000000');
+      expect(colors.get(2)?.toString()).toBe('#ffffff');
+      expect(colors.get(3)?.toString()).toBe('#000000');
     });
   });
 

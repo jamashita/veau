@@ -22,11 +22,11 @@ describe('Terms', () => {
     it('returns Term instance at the correct index', () => {
       const terms: Terms = Terms.all();
 
-      expect(terms.get(Term.DAILY.getTermID()).get()).toBe(Term.DAILY);
-      expect(terms.get(Term.WEEKLY.getTermID()).get()).toBe(Term.WEEKLY);
-      expect(terms.get(Term.MONTHLY.getTermID()).get()).toBe(Term.MONTHLY);
-      expect(terms.get(Term.QUARTERLY.getTermID()).get()).toBe(Term.QUARTERLY);
-      expect(terms.get(Term.ANNUAL.getTermID()).get()).toBe(Term.ANNUAL);
+      expect(terms.get(Term.DAILY.getTermID())).toBe(Term.DAILY);
+      expect(terms.get(Term.WEEKLY.getTermID())).toBe(Term.WEEKLY);
+      expect(terms.get(Term.MONTHLY.getTermID())).toBe(Term.MONTHLY);
+      expect(terms.get(Term.QUARTERLY.getTermID())).toBe(Term.QUARTERLY);
+      expect(terms.get(Term.ANNUAL.getTermID())).toBe(Term.ANNUAL);
     });
 
     it('returns Absent when the index is out of range', () => {
