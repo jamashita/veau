@@ -1,7 +1,7 @@
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
 import { Action } from 'redux';
 
-import { Present, Quantum } from '@jamashita/publikum-monad';
+import { Present, Unscharferelation } from '@jamashita/publikum-monad';
 
 import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
@@ -309,7 +309,7 @@ export interface StatsEditItemSaveAction extends Action {
 
 export interface StatsEditSelectItemAction extends Action {
   readonly type: typeof STATS_EDIT_SELECT_ITEM;
-  readonly statsItem: Quantum<StatsItem>;
+  readonly statsItem: Unscharferelation<StatsItem>;
   readonly row: Row;
 }
 

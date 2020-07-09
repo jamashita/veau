@@ -3,19 +3,13 @@ import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
-import { Superposition } from '@jamashita/publikum-monad';
-
 import { Type } from '../../Container/Types';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
 import { Identity } from '../../VO/Identity/Identity';
 import {
-  ENTRANCE_ACCOUNT_NAME_TYPED,
-  ENTRANCE_PASSWORD_TYPED,
-  EntranceAccountNameTypedAction,
-  EntrancePasswordTypedAction,
-  IDENTITY_AUTHENTICATE,
-  VeauAction
+    ENTRANCE_ACCOUNT_NAME_TYPED, ENTRANCE_PASSWORD_TYPED, EntranceAccountNameTypedAction,
+    EntrancePasswordTypedAction, IDENTITY_AUTHENTICATE, VeauAction
 } from '../Action';
 import { updateEntranceInformation } from '../ActionCreator/EntranceActionCreator';
 import { identified, identityAuthenticated } from '../ActionCreator/IdentityActionCreator';
@@ -70,21 +64,23 @@ export class EntranceEpic {
 
         return concat<VeauAction>(
           of<VeauAction>(loading()),
-          from<Promise<Superposition<Identity, Error>>>(
-            this.identityQuery.findByEntranceInfo(entranceInformation)
-          ).pipe<VeauAction>(
-            mergeMap<Superposition<Identity, Error>, Observable<VeauAction>>(
-              (superposition: Superposition<Identity, Error>) => {
-                return superposition.transform<Observable<VeauAction>>(
-                  (identity: Identity) => {
-                    return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
-                  },
-                  () => {
-                    return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
-                  }
-                );
-              }
-            )
+          from<Promise<Observable<VeauAction>>>(
+            this.identityQuery
+              .findByEntranceInfo(entranceInformation)
+              .transform<Observable<VeauAction>, Error>(
+                (identity: Identity) => {
+                  return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
+                },
+                () => {
+                  return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
+                },
+                Error
+              )
+              .get()
+          ).pipe<Observable<VeauAction>>(
+            map<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
+              return observable;
+            })
           ),
           of<VeauAction>(loaded())
         );

@@ -21,7 +21,7 @@ export class SessionCommand implements ISessionCommand<AJAXError>, IAJAXCommand 
   public delete(): Superposition<unknown, AJAXError> {
     return Superposition.playground<AJAXResponse<unknown>, AJAXError>(() => {
       return this.ajax.delete<unknown>('/api/destroy');
-    }).map<unknown, AJAXError>((response: AJAXResponse<unknown>) => {
+    }, AJAXError).map<unknown, AJAXError>((response: AJAXResponse<unknown>) => {
       switch (response.status) {
         case OK: {
           return null;
@@ -30,6 +30,6 @@ export class SessionCommand implements ISessionCommand<AJAXError>, IAJAXCommand 
           throw new AJAXError('UNKNOWN ERROR', response.status);
         }
       }
-    });
+    }, AJAXError);
   }
 }
