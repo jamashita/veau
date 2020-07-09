@@ -1,4 +1,4 @@
-FROM node:14.0.0 as build-image
+FROM node:14.5.0 as build-image
 
 USER root
 WORKDIR /root
@@ -13,7 +13,7 @@ COPY yarn.lock yarn.lock
 RUN yarn install --production=false --frozen-lockfile
 RUN yarn build
 
-FROM node:14.0.0
+FROM node:14.5.0
 
 USER root
 
