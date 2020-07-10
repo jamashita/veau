@@ -33,28 +33,30 @@ export class LanguageQuery implements ILanguageQuery<RedisError>, IRedisQuery {
   public all(): Superposition<Languages, LanguagesError | RedisError> {
     return Superposition.playground<Nullable<string>, RedisError>(() => {
       return this.redis.getString().get(REDIS_LANGUAGE_KEY);
-    })
+    }, RedisError)
       .map<Languages, LanguagesError | JSONAError | RedisError | UnscharferelationError>((str: Nullable<string>) => {
         return Unscharferelation.maybe<string>(str)
           .toSuperposition()
           .map<Array<LanguageJSON>, JSONAError | UnscharferelationError>((j: string) => {
             return JSONA.parse<Array<LanguageJSON>>(j);
-          })
+          }, JSONAError)
           .map<Languages, LanguagesError | JSONAError | UnscharferelationError>((json: Array<LanguageJSON>) => {
             return Languages.ofJSON(json);
-          });
+          }, LanguagesError);
       })
       .recover<Languages, LanguagesError | RedisError>(
         (err: LanguagesError | JSONAError | RedisError | UnscharferelationError) => {
           if (err instanceof JSONAError) {
-            throw new LanguagesError('LanguageQuery.all()', err);
+            throw new RedisError('LanguageQuery.all()', err);
           }
           if (err instanceof UnscharferelationError) {
             throw new LanguagesError('LanguageQuery.all()', err);
           }
 
           throw err;
-        }
+        },
+        LanguagesError,
+        RedisError
       );
   }
 
@@ -82,7 +84,10 @@ export class LanguageQuery implements ILanguageQuery<RedisError>, IRedisQuery {
           }
 
           throw err;
-        }
+        },
+        LanguageError,
+        NoSuchElementError,
+        RedisError
       );
   }
 }

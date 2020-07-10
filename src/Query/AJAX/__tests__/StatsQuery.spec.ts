@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 
 import { INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { Type } from '../../../Container/Types';
@@ -68,14 +68,14 @@ describe('StatsQuery', () => {
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
       > = await statsQuery.findByStatsID(statsID);
 
       expect(stub.withArgs(`/api/stats/${statsID.get().get()}`).called).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const stats: Stats = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const stats: Stats = schrodinger.get();
 
       expect(stats.getStatsID().get().get()).toBe(json.outline.statsID);
       expect(stats.getName().get()).toBe(json.outline.name);
@@ -102,28 +102,17 @@ describe('StatsQuery', () => {
         status: NO_CONTENT,
         body: {}
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
 
     it('doesn not return OK', async () => {
@@ -137,28 +126,17 @@ describe('StatsQuery', () => {
         status: INTERNAL_SERVER_ERROR,
         body: {}
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
   });
 });

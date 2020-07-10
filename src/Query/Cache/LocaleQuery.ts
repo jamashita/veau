@@ -23,6 +23,6 @@ export class LocaleQuery implements ILocaleQuery<CacheError>, ICacheQuery {
   public all(): Superposition<Locale, LocaleError | CacheError> {
     return Superposition.playground<Locale, CacheError>(() => {
       return this.cache.get<Locale>(VAULT_LOCALE_KEY);
-    });
+    }, CacheError);
   }
 }

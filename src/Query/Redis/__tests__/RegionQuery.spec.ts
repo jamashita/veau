@@ -1,10 +1,11 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
+import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { kernel } from '../../../Container/Kernel';
@@ -56,18 +57,27 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const regions: Regions = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const regions: Regions = schrodinger.get();
 
       expect(regions.size()).toBe(json.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        const regionID: RegionID = RegionID.ofString(json[i].regionID).get();
+        // eslint-disable-next-line no-await-in-loop
+        const regionID: RegionID = await RegionID.ofString(json[i].regionID).get();
+        const region: Nullable<Region> = regions.get(regionID);
 
-        expect(regions.get(regionID).get().getRegionID().get().get()).toBe(json[i].regionID);
-        expect(regions.get(regionID).get().getName().get()).toBe(json[i].name);
-        expect(regions.get(regionID).get().getISO3166().get()).toBe(json[i].iso3166);
+        if (region === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
+          fail();
+
+          return;
+        }
+
+        expect(region.getRegionID().get().get()).toBe(json[i].regionID);
+        expect(region.getName().get()).toBe(json[i].name);
+        expect(region.getISO3166().get()).toBe(json[i].iso3166);
       }
     });
 
@@ -85,10 +95,10 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get().size()).toBe(json.length);
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get().size()).toBe(json.length);
     });
 
     it('returns Dead when Redis returns null', async () => {
@@ -100,25 +110,14 @@ describe('RegionQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('Redis returns RedisError', async () => {
@@ -130,25 +129,14 @@ describe('RegionQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('Redis returns JSONAError', async () => {
@@ -160,25 +148,14 @@ describe('RegionQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
   });
 
@@ -208,13 +185,13 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const region: Region = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const region: Region = schrodinger.get();
 
       expect(region.getRegionID().get().get()).toBe(json[1].regionID);
       expect(region.getName().get()).toBe(json[1].name);
@@ -233,28 +210,17 @@ describe('RegionQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
 
     it('returns Dead because Redis returns null', async () => {
@@ -266,28 +232,17 @@ describe('RegionQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('no match results', async () => {
@@ -313,28 +268,53 @@ describe('RegionQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('OOP'));
+      > = await regionQuery.findByISO3166(ISO3166.of('OOP')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
+    });
+
+    it('malformat regionID', async () => {
+      const json: Array<RegionJSON> = [
+        {
+          regionID: 'piu',
+          name: 'Afghanistan',
+          iso3166: 'AFG'
         },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
+        {
+          regionID: 'meno',
+          name: 'Albania',
+          iso3166: 'ALB'
         }
-      );
+      ];
+      const jsonStr: string = JSON.stringify(json);
 
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+
+      string.get = stub;
+      stub.resolves(jsonStr);
+      const redis: MockRedis = new MockRedis({
+        string
+      });
+
+      const regionQuery: RegionQuery = new RegionQuery(redis);
+      const schrodinger: Schrodinger<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.findByISO3166(ISO3166.of('OOP')).terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RegionError);
     });
 
     it('Redis returns RedisError', async () => {
@@ -346,28 +326,17 @@ describe('RegionQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('Redis returns JSONAError', async () => {
@@ -379,28 +348,17 @@ describe('RegionQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
   });
 });

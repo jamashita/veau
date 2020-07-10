@@ -24,7 +24,7 @@ export class VeauAccountQuery implements IVeauAccountQuery<AJAXError>, IAJAXQuer
   public find(): Superposition<VeauAccount, VeauAccountError | AJAXError> {
     return Superposition.playground<AJAXResponse<VeauAccountJSON>, AJAXError>(() => {
       return this.ajax.get<VeauAccountJSON>('/api/accounts');
-    }).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<VeauAccountJSON>) => {
+    }, AJAXError).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<VeauAccountJSON>) => {
       switch (status) {
         case OK: {
           return VeauAccount.ofJSON(body);
@@ -33,7 +33,7 @@ export class VeauAccountQuery implements IVeauAccountQuery<AJAXError>, IAJAXQuer
           throw new AJAXError('IDENTITY DID NOT RETURN OK', status);
         }
       }
-    });
+    }, AJAXError);
   }
 
   public findByEntranceInfo(
@@ -41,7 +41,7 @@ export class VeauAccountQuery implements IVeauAccountQuery<AJAXError>, IAJAXQuer
   ): Superposition<VeauAccount, VeauAccountError | AJAXError> {
     return Superposition.playground<AJAXResponse<VeauAccountJSON>, AJAXError>(() => {
       return this.ajax.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
-    }).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<VeauAccountJSON>) => {
+    }, AJAXError).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<VeauAccountJSON>) => {
       switch (status) {
         case OK: {
           return VeauAccount.ofJSON(body);
@@ -53,6 +53,6 @@ export class VeauAccountQuery implements IVeauAccountQuery<AJAXError>, IAJAXQuer
           throw new AJAXError('UNKNOWN ERROR', status);
         }
       }
-    });
+    }, AJAXError);
   }
 }

@@ -1,10 +1,11 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
+import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { kernel } from '../../../Container/Kernel';
@@ -57,19 +58,31 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
+      const schrodinger: Schrodinger<
+        Languages,
+        LanguagesError | DataSourceError
+      > = await languageQuery.all().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const languages: Languages = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const languages: Languages = schrodinger.get();
 
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        const languageID: LanguageID = LanguageID.ofString(json[i].languageID).get();
+        // eslint-disable-next-line no-await-in-loop
+        const languageID: LanguageID = await LanguageID.ofString(json[i].languageID).get();
+        const language: Nullable<Language> = languages.get(languageID);
 
-        expect(languages.get(languageID).get().getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(languages.get(languageID).get().getName().get()).toBe(json[i].name);
-        expect(languages.get(languageID).get().getEnglishName().get()).toBe(json[i].englishName);
-        expect(languages.get(languageID).get().getISO639().get()).toBe(json[i].iso639);
+        if (language === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
+          fail();
+
+          return;
+        }
+
+        expect(language.getLanguageID().get().get()).toBe(json[i].languageID);
+        expect(language.getName().get()).toBe(json[i].name);
+        expect(language.getEnglishName().get()).toBe(json[i].englishName);
+        expect(language.getISO639().get()).toBe(json[i].iso639);
       }
     });
 
@@ -87,10 +100,13 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
+      const schrodinger: Schrodinger<
+        Languages,
+        LanguagesError | DataSourceError
+      > = await languageQuery.all().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get().size()).toBe(json.length);
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get().size()).toBe(json.length);
     });
 
     it('returns Dead when Redis returns null', async () => {
@@ -102,25 +118,17 @@ describe('LanguageQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
+      const schrodinger: Schrodinger<
+        Languages,
+        LanguagesError | DataSourceError
+      > = await languageQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguagesError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('Redis returns RedisError', async () => {
@@ -132,25 +140,17 @@ describe('LanguageQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
+      const schrodinger: Schrodinger<
+        Languages,
+        LanguagesError | DataSourceError
+      > = await languageQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguagesError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('Redis returns JSONAError', async () => {
@@ -162,25 +162,17 @@ describe('LanguageQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
+      const schrodinger: Schrodinger<
+        Languages,
+        LanguagesError | DataSourceError
+      > = await languageQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguagesError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
   });
 
@@ -212,13 +204,13 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa'));
+      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const language: Language = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const language: Language = schrodinger.get();
 
       expect(language.getLanguageID().get().get()).toBe(json[1].languageID);
       expect(language.getName().get()).toBe(json[1].name);
@@ -238,28 +230,17 @@ describe('LanguageQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa'));
+      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguageError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
 
     it('returns Dead because Redis returns null', async () => {
@@ -271,28 +252,17 @@ describe('LanguageQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa'));
+      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguageError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('no match results', async () => {
@@ -320,28 +290,17 @@ describe('LanguageQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('oop'));
+      > = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguageError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
 
     it('malformat languageID', async () => {
@@ -369,28 +328,17 @@ describe('LanguageQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('oop'));
+      > = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguageError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LanguageError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(LanguageError);
     });
 
     it('Redis returns RedisError', async () => {
@@ -402,28 +350,17 @@ describe('LanguageQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa'));
+      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguageError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('Redis returns JSONAError', async () => {
@@ -435,28 +372,17 @@ describe('LanguageQuery', () => {
       const redis: MockRedis = new MockRedis({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa'));
+      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguageError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
   });
 });

@@ -1,17 +1,19 @@
 import 'reflect-metadata';
 
 import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
-import { MockEntranceInformation } from '../../../VO/EntranceInformation/Mock/MockEntranceInformation';
+import {
+    MockEntranceInformation
+} from '../../../VO/EntranceInformation/Mock/MockEntranceInformation';
 import { MockPassword } from '../../../VO/EntranceInformation/Mock/MockPassword';
 import { VeauAccountError } from '../../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount, VeauAccountJSON } from '../../../VO/VeauAccount/VeauAccount';
@@ -47,14 +49,14 @@ describe('VeauAccountQuery', () => {
       });
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         VeauAccount,
         VeauAccountError | DataSourceError
-      > = await veauAccountQuery.find();
+      > = await veauAccountQuery.find().terminate();
 
       expect(stub.withArgs('/api/accounts').called).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const veauAccount: VeauAccount = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const veauAccount: VeauAccount = schrodinger.get();
 
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
@@ -78,28 +80,17 @@ describe('VeauAccountQuery', () => {
         status: OK,
         body: json
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         VeauAccount,
         VeauAccountError | DataSourceError
-      > = await veauAccountQuery.find();
+      > = await veauAccountQuery.find().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: VeauAccountError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(VeauAccountError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(VeauAccountError);
     });
 
     it('does not return OK', async () => {
@@ -111,28 +102,17 @@ describe('VeauAccountQuery', () => {
         status: INTERNAL_SERVER_ERROR,
         body: {}
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         VeauAccount,
         VeauAccountError | DataSourceError
-      > = await veauAccountQuery.find();
+      > = await veauAccountQuery.find().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: VeauAccountError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(DataSourceError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(DataSourceError);
     });
   });
 
@@ -159,10 +139,10 @@ describe('VeauAccountQuery', () => {
         password: new MockPassword('password')
       });
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         VeauAccount,
         VeauAccountError | DataSourceError
-      > = await veauAccountQuery.findByEntranceInfo(info);
+      > = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
       expect(
         stub.withArgs('/api/auth', {
@@ -170,8 +150,8 @@ describe('VeauAccountQuery', () => {
           password: 'password'
         }).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const veauAccount: VeauAccount = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const veauAccount: VeauAccount = schrodinger.get();
 
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
@@ -195,29 +175,18 @@ describe('VeauAccountQuery', () => {
         status: OK,
         body: json
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         VeauAccount,
         VeauAccountError | DataSourceError
-      > = await veauAccountQuery.findByEntranceInfo(info);
+      > = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: VeauAccountError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(VeauAccountError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(VeauAccountError);
     });
 
     it('returns UNAUTHORIZED', async () => {
@@ -229,29 +198,18 @@ describe('VeauAccountQuery', () => {
         status: UNAUTHORIZED,
         body: {}
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         VeauAccount,
         VeauAccountError | DataSourceError
-      > = await veauAccountQuery.findByEntranceInfo(info);
+      > = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: VeauAccountError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(DataSourceError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(DataSourceError);
     });
 
     it('does not return OK nor UNAUTHORIZED', async () => {
@@ -263,29 +221,18 @@ describe('VeauAccountQuery', () => {
         status: INTERNAL_SERVER_ERROR,
         body: {}
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         VeauAccount,
         VeauAccountError | DataSourceError
-      > = await veauAccountQuery.findByEntranceInfo(info);
+      > = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: VeauAccountError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
   });
 });

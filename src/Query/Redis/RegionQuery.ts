@@ -33,16 +33,16 @@ export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {
   public all(): Superposition<Regions, RegionsError | RedisError> {
     return Superposition.playground<Nullable<string>, RedisError>(() => {
       return this.redis.getString().get(REDIS_REGION_KEY);
-    })
+    }, RedisError)
       .map<Regions, RegionsError | JSONAError | RedisError | UnscharferelationError>((str: Nullable<string>) => {
         return Unscharferelation.maybe(str)
           .toSuperposition()
           .map<Array<RegionJSON>, JSONAError | UnscharferelationError>((j: string) => {
             return JSONA.parse<Array<RegionJSON>>(j);
-          })
+          }, JSONAError)
           .map<Regions, RegionsError | JSONAError | UnscharferelationError>((json: Array<RegionJSON>) => {
             return Regions.ofJSON(json);
-          });
+          }, RegionsError);
       })
       .recover<Regions, RegionsError | RedisError>(
         (err: RegionsError | JSONAError | RedisError | UnscharferelationError) => {
@@ -50,11 +50,13 @@ export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {
             throw new RedisError('RegionQuery.all()', err);
           }
           if (err instanceof UnscharferelationError) {
-            throw new RedisError('RegionQuery.all()', err);
+            throw new RegionsError('RegionQuery.all()', err);
           }
 
           throw err;
-        }
+        },
+        RegionsError,
+        RedisError
       );
   }
 
@@ -82,7 +84,10 @@ export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {
           }
 
           throw err;
-        }
+        },
+        RegionError,
+        NoSuchElementError,
+        RedisError
       );
   }
 }

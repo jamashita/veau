@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
@@ -23,10 +23,10 @@ describe('TermQuery', () => {
   describe('all', () => {
     it('returns singleton Terms', async () => {
       const termQuery: TermQuery = new TermQuery();
-      const superposition: Superposition<Terms, TermsError | DataSourceError> = await termQuery.all();
+      const schrodinger: Schrodinger<Terms, TermsError | DataSourceError> = await termQuery.all().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(Terms.all());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(Terms.all());
     });
   });
 });

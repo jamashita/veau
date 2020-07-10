@@ -1,19 +1,21 @@
 import 'reflect-metadata';
 
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { MockPage } from '../../../VO/Page/Mock/MockPage';
+import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
 import { StatsID } from '../../../VO/StatsOutline/StatsID';
-import { StatsOutlineJSON } from '../../../VO/StatsOutline/StatsOutline';
+import { StatsOutline, StatsOutlineJSON } from '../../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../../VO/StatsOutline/StatsOutlines';
 import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
@@ -55,26 +57,35 @@ describe('StatsOutlineQuery', () => {
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsOutlines,
         StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
+      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
 
       expect(stub.withArgs('/api/stats/page/3').called).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const outlines: StatsOutlines = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const outlines: StatsOutlines = schrodinger.get();
 
       expect(outlines.size()).toBe(1);
       for (let i: number = 0; i < outlines.size(); i++) {
-        const statsID: StatsID = StatsID.ofString(json[i].statsID).get();
+        // eslint-disable-next-line no-await-in-loop
+        const statsID: StatsID = await StatsID.ofString(json[i].statsID).get();
+        const outline: Nullable<StatsOutline> = outlines.get(statsID);
 
-        expect(outlines.get(statsID).get().getStatsID().get().get()).toBe(json[i].statsID);
-        expect(outlines.get(statsID).get().getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(outlines.get(statsID).get().getRegionID().get().get()).toBe(json[i].regionID);
-        expect(outlines.get(statsID).get().getTermID().get().get()).toBe(json[i].termID);
-        expect(outlines.get(statsID).get().getName().get()).toBe(json[i].name);
-        expect(outlines.get(statsID).get().getUnit().get()).toBe(json[i].unit);
-        expect(outlines.get(statsID).get().getUpdatedAt().toString()).toBe(json[i].updatedAt);
+        if (outline === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
+          fail();
+
+          return;
+        }
+
+        expect(outline.getStatsID().get().get()).toBe(json[i].statsID);
+        expect(outline.getLanguageID().get().get()).toBe(json[i].languageID);
+        expect(outline.getRegionID().get().get()).toBe(json[i].regionID);
+        expect(outline.getTermID().get().get()).toBe(json[i].termID);
+        expect(outline.getName().get()).toBe(json[i].name);
+        expect(outline.getUnit().get()).toBe(json[i].unit);
+        expect(outline.getUpdatedAt().toString()).toBe(json[i].updatedAt);
       }
     });
 
@@ -101,28 +112,17 @@ describe('StatsOutlineQuery', () => {
         status: OK,
         body: json
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsOutlines,
         StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
+      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsOutlinesError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsOutlinesError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlineError);
     });
 
     it('doesn not return OK', async () => {
@@ -137,28 +137,17 @@ describe('StatsOutlineQuery', () => {
         status: INTERNAL_SERVER_ERROR,
         body: []
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsOutlines,
         StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
+      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsOutlinesError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
   });
 });

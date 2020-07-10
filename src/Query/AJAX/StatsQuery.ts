@@ -25,7 +25,7 @@ export class StatsQuery implements IStatsQuery<AJAXError>, IAJAXQuery {
   public findByStatsID(statsID: StatsID): Superposition<Stats, StatsError | NoSuchElementError | AJAXError> {
     return Superposition.playground<AJAXResponse<StatsJSON>, AJAXError>(() => {
       return this.ajax.get<StatsJSON>(`/api/stats/${statsID.get().get()}`);
-    }).map<Stats, StatsError | NoSuchElementError | AJAXError>(({ status, body }: AJAXResponse<StatsJSON>) => {
+    }, AJAXError).map<Stats, StatsError | NoSuchElementError | AJAXError>(({ status, body }: AJAXResponse<StatsJSON>) => {
       switch (status) {
         case OK: {
           return Stats.ofJSON(body);
@@ -37,6 +37,6 @@ export class StatsQuery implements IStatsQuery<AJAXError>, IAJAXQuery {
           throw new AJAXError('UNKNOWN ERROR', status);
         }
       }
-    });
+    }, AJAXError);
   }
 }
