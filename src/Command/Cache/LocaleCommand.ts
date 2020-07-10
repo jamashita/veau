@@ -22,6 +22,6 @@ export class LocaleCommand implements ILocaleCommand<CacheError>, ICacheCommand 
   public create(locale: Locale): Superposition<unknown, CacheError> {
     return Superposition.playground<unknown, CacheError>(() => {
       return this.cache.set(VAULT_LOCALE_KEY, locale);
-    });
+    }, CacheError);
   }
 }

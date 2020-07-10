@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 
 import { kernel } from '../../../Container/Kernel';
@@ -32,12 +32,14 @@ describe('StatsCommand', () => {
       const stub: SinonStub = sinon.stub();
 
       mysql.transact = stub;
-      stub.resolves(Alive.of<DataSourceError>());
+      stub.resolves(Superposition.alive<unknown, MySQLError>(null, MySQLError));
 
       const statsCommand: StatsCommand = new StatsCommand(mysql);
-      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats, accountID);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
+        .create(stats, accountID)
+        .terminate();
 
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead when Mysql.transact returns Dead<unknown, DataSourceError>', async () => {
@@ -48,25 +50,17 @@ describe('StatsCommand', () => {
       const stub: SinonStub = sinon.stub();
 
       mysql.transact = stub;
-      stub.resolves(Dead.of<unknown, DataSourceError>(new MySQLError('test failed')));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.resolves(Superposition.dead<unknown, MySQLError>(new MySQLError('test failed'), MySQLError));
 
       const statsCommand: StatsCommand = new StatsCommand(mysql);
-      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats, accountID);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
+        .create(stats, accountID)
+        .terminate();
 
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 });

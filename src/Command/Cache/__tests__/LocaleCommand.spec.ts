@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { CacheError, MockCache } from '@jamashita/publikum-cache';
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
@@ -35,10 +35,10 @@ describe('LocaleCommand', () => {
       stub.returns(locale);
 
       const localeCommand: LocaleCommand = new LocaleCommand(cache);
-      const superposition: Superposition<unknown, DataSourceError> = await localeCommand.create(locale);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await localeCommand.create(locale).terminate();
 
       expect(stub.withArgs(VAULT_LOCALE_KEY, locale).called).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead when Cache throws CacheError', async () => {
@@ -49,25 +49,14 @@ describe('LocaleCommand', () => {
 
       cache.set = stub;
       stub.throws(new CacheError('test failed'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const localeCommand: LocaleCommand = new LocaleCommand(cache);
-      const superposition: Superposition<unknown, DataSourceError> = await localeCommand.create(locale);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await localeCommand.create(locale).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(CacheError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(CacheError);
     });
   });
 });

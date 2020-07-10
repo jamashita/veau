@@ -25,7 +25,7 @@ export class LanguageCommand implements ILanguageCommand<RedisError>, IRedisComm
   public insertAll(languages: Languages): Superposition<unknown, RedisError> {
     return Superposition.playground<string, JSONAError>(() => {
       return JSONA.stringify(languages.toJSON());
-    }).transform<unknown, RedisError>(
+    }, JSONAError).transform<unknown, RedisError>(
       (str: string) => {
         return Superposition.playground<unknown, RedisError>(async () => {
           await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
@@ -35,19 +35,20 @@ export class LanguageCommand implements ILanguageCommand<RedisError>, IRedisComm
       },
       (err: JSONAError) => {
         throw new RedisError('LanguageCommand.insertAll()', err);
-      }
+      },
+      RedisError
     );
   }
 
   public deleteAll(): Superposition<unknown, RedisError> {
     return Superposition.playground<boolean, RedisError>(() => {
       return this.redis.delete(REDIS_LANGUAGE_KEY);
-    }).map<unknown, RedisError>((ok: boolean) => {
+    }, RedisError).map<unknown, RedisError>((ok: boolean) => {
       if (ok) {
         return null;
       }
 
       throw new RedisError('FAIL TO DELETE CACHE');
-    });
+    }, RedisError);
   }
 }

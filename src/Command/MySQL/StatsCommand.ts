@@ -39,7 +39,7 @@ export class StatsCommand implements IStatsCommand<MySQLError>, IMySQLCommand {
         unit: stats.getUnit().get(),
         updatedAt: stats.getUpdatedAt().toString()
       });
-    });
+    }, MySQLError);
   }
 
   public deleteByStatsID(statsID: StatsID): Superposition<unknown, MySQLError> {
@@ -51,6 +51,6 @@ export class StatsCommand implements IStatsCommand<MySQLError>, IMySQLCommand {
       return this.sql.execute<unknown>(query, {
         statsID: statsID.get().get()
       });
-    });
+    }, MySQLError);
   }
 }

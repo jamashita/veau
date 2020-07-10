@@ -1,7 +1,7 @@
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockSQL, MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -53,7 +53,9 @@ describe('StatsCommand', () => {
       sql.execute = stub;
 
       const statsCommand: StatsCommand = new StatsCommand(sql);
-      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats, accountID);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
+        .create(stats, accountID)
+        .terminate();
 
       expect(
         stub.withArgs(
@@ -79,7 +81,7 @@ describe('StatsCommand', () => {
           }
         ).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
@@ -91,25 +93,16 @@ describe('StatsCommand', () => {
 
       sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = new StatsCommand(sql);
-      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats, accountID);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
+        .create(stats, accountID)
+        .terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 
@@ -124,7 +117,9 @@ describe('StatsCommand', () => {
       sql.execute = stub;
 
       const statsCommand: StatsCommand = new StatsCommand(sql);
-      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.deleteByStatsID(statsID);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
+        .deleteByStatsID(statsID)
+        .terminate();
 
       expect(
         stub.withArgs(
@@ -136,7 +131,7 @@ describe('StatsCommand', () => {
           }
         ).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
@@ -147,25 +142,16 @@ describe('StatsCommand', () => {
 
       sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = new StatsCommand(sql);
-      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.deleteByStatsID(statsID);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
+        .deleteByStatsID(statsID)
+        .terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 });

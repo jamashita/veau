@@ -1,7 +1,7 @@
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockSQL, MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -30,11 +30,9 @@ describe('StatsItemCommand', () => {
       sql.execute = stub;
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const superposition: Superposition<unknown, DataSourceError> = await statsItemCommand.create(
-        statsID,
-        statsItem,
-        seq
-      );
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand
+        .create(statsID, statsItem, seq)
+        .terminate();
 
       expect(
         stub.withArgs(
@@ -52,7 +50,7 @@ describe('StatsItemCommand', () => {
           }
         ).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
@@ -65,29 +63,16 @@ describe('StatsItemCommand', () => {
 
       sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const superposition: Superposition<unknown, DataSourceError> = await statsItemCommand.create(
-        statsID,
-        statsItem,
-        seq
-      );
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand
+        .create(statsID, statsItem, seq)
+        .terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 
@@ -102,7 +87,9 @@ describe('StatsItemCommand', () => {
       sql.execute = stub;
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const superposition: Superposition<unknown, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand
+        .deleteByStatsID(statsID)
+        .terminate();
 
       expect(
         stub.withArgs(
@@ -116,7 +103,7 @@ describe('StatsItemCommand', () => {
           }
         ).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
@@ -127,25 +114,16 @@ describe('StatsItemCommand', () => {
 
       sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const superposition: Superposition<unknown, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand
+        .deleteByStatsID(statsID)
+        .terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 });

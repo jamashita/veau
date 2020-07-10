@@ -24,7 +24,7 @@ export class StatsCommand implements IStatsCommand<AJAXError>, IAJAXCommand {
   public create(stats: Stats): Superposition<unknown, AJAXError> {
     return Superposition.playground<AJAXResponse<unknown>, AJAXError>(() => {
       return this.ajax.post<unknown>('/api/stats', stats.toJSON());
-    }).map<unknown, AJAXError>((response: AJAXResponse<unknown>) => {
+    }, AJAXError).map<unknown, AJAXError>((response: AJAXResponse<unknown>) => {
       switch (response.status) {
         case CREATED: {
           return null;
@@ -33,7 +33,7 @@ export class StatsCommand implements IStatsCommand<AJAXError>, IAJAXCommand {
           throw new AJAXError('UNKNOWN ERROR', response.status);
         }
       }
-    });
+    }, AJAXError);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

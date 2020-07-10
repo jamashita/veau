@@ -32,7 +32,7 @@ export class StatsCommand implements IStatsCommand, IKernelCommand {
 
     return Superposition.playground<unknown, DataSourceError>(() => {
       return this.mysql.transact<Superposition<unknown, DataSourceError>>(statsUpdateTransaction);
-    });
+    }, DataSourceError);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

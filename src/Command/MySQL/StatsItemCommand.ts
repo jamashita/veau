@@ -30,7 +30,7 @@ export class StatsItemCommand implements IStatsItemCommand<MySQLError>, IMySQLCo
         name: statsItem.getName().get(),
         seq
       });
-    });
+    }, MySQLError);
   }
 
   public deleteByStatsID(statsID: StatsID): Superposition<unknown, MySQLError> {
@@ -44,6 +44,6 @@ export class StatsItemCommand implements IStatsItemCommand<MySQLError>, IMySQLCo
       return this.sql.execute<unknown>(query, {
         statsID: statsID.get().get()
       });
-    });
+    }, MySQLError);
   }
 }

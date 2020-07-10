@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
 
 import { kernel } from '../../../Container/Kernel';
@@ -53,11 +53,11 @@ describe('RegionCommand', () => {
       stub2.resolves();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.insertAll(regions);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.insertAll(regions).terminate();
 
       expect(stub1.withArgs('REGIONS', JSON.stringify(regions.toJSON())).called).toBe(true);
       expect(stub2.withArgs('REGIONS', 3 * 60 * 60).called).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead because the client throws RedisError by MockRedisString.set', async () => {
@@ -76,25 +76,14 @@ describe('RegionCommand', () => {
 
       redis.expires = stub2;
       stub2.resolves();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.insertAll(regions);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.insertAll(regions).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('returns Dead because the client throws RedisError by MockRedis.expires', async () => {
@@ -113,25 +102,14 @@ describe('RegionCommand', () => {
 
       redis.expires = stub2;
       stub2.rejects(new RedisError('test failed'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.insertAll(regions);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.insertAll(regions).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
   });
 
@@ -144,10 +122,10 @@ describe('RegionCommand', () => {
       stub.resolves(true);
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.deleteAll();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.deleteAll().terminate();
 
       expect(stub.withArgs('REGIONS').called).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead with CacheError because Redis.delete fails', async () => {
@@ -156,25 +134,14 @@ describe('RegionCommand', () => {
 
       redis.delete = stub;
       stub.resolves(false);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.deleteAll();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.deleteAll().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('returns Dead because the client throws RedisError', async () => {
@@ -183,25 +150,14 @@ describe('RegionCommand', () => {
 
       redis.delete = stub;
       stub.rejects(new RedisError('test failed'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.deleteAll();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.deleteAll().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
   });
 });

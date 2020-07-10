@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 
 import { BAD_REQUEST, CREATED } from 'http-status';
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { Type } from '../../../Container/Types';
@@ -72,7 +72,7 @@ describe('StatsCommand', () => {
       });
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
-      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats).terminate();
 
       expect(
         stub.withArgs('/api/stats', {
@@ -99,7 +99,7 @@ describe('StatsCommand', () => {
           items: []
         }).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('throws AJAXError', async () => {
@@ -113,25 +113,14 @@ describe('StatsCommand', () => {
         status: BAD_REQUEST,
         body: {}
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
-      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
   });
 });

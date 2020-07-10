@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
 
 import { kernel } from '../../../Container/Kernel';
@@ -53,11 +53,11 @@ describe('LanguageCommand', () => {
       stub2.resolves();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.insertAll(languages);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.insertAll(languages).terminate();
 
       expect(stub1.withArgs('LANGUAGES', JSON.stringify(languages.toJSON())).called).toBe(true);
       expect(stub2.withArgs('LANGUAGES', 3 * 60 * 60).called).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead because the client throws RedisError by MockRedisString.set', async () => {
@@ -77,25 +77,13 @@ describe('LanguageCommand', () => {
       redis.expires = stub2;
       stub2.resolves();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.insertAll(languages);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.insertAll(languages).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('returns Dead because the client throws RedisError by MockRedis.expires', async () => {
@@ -115,25 +103,13 @@ describe('LanguageCommand', () => {
       redis.expires = stub2;
       stub2.rejects(new RedisError('test failed'));
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.insertAll(languages);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.insertAll(languages).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
   });
 
@@ -146,10 +122,10 @@ describe('LanguageCommand', () => {
       stub.resolves(true);
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.deleteAll();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.deleteAll().terminate();
 
       expect(stub.withArgs('LANGUAGES').called).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead with CacheError because Redis.delete fails', async () => {
@@ -159,25 +135,13 @@ describe('LanguageCommand', () => {
       redis.delete = stub;
       stub.resolves(false);
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.deleteAll();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.deleteAll().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
 
     it('returns Dead because the client throws RedisError', async () => {
@@ -187,25 +151,13 @@ describe('LanguageCommand', () => {
       redis.delete = stub;
       stub.rejects(new RedisError('test failed'));
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.deleteAll();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.deleteAll().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
   });
 });
