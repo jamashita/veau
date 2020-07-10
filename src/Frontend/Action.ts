@@ -31,6 +31,8 @@ export type NotificationVPosition = 'top' | 'bottom';
 export const LOCATION_CHANGE: '@@router/LOCATION_CHANGE' = '@@router/LOCATION_CHANGE';
 export const CALL_HISTORY_METHOD: '@@router/CALL_HISTORY_METHOD' = '@@router/CALL_HISTORY_METHOD';
 
+export const NOTHING: '@@veau/NOTHING' = '@@veau/NOTHING';
+
 export const ON_LOAD: '@@veau/ON_LOAD' = '@@veau/ON_LOAD';
 
 export const MODAL_RAISE: '@@veau/MODAL_RAISE' = '@@veau/MODAL_RAISE';
@@ -118,6 +120,10 @@ export interface ChangeAction extends LocationChangeAction, Action {
 
 export interface CallHistoryAction extends CallHistoryMethodAction, Action {
   readonly type: typeof CALL_HISTORY_METHOD;
+}
+
+export interface NothingAction extends Action {
+  readonly type: typeof NOTHING;
 }
 
 export interface OnLoadAction extends Action {
@@ -401,6 +407,7 @@ export interface StatsItemResetAction extends Action {
 export type VeauAction =
   | ChangeAction
   | CallHistoryAction
+  | NothingAction
   | OnLoadAction
   | ModalRaiseAction
   | ModalCloseAction
