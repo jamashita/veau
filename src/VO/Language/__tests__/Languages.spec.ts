@@ -66,14 +66,14 @@ describe('Languages', () => {
     it('contains failure', async () => {
       const language: MockLanguage = new MockLanguage();
 
-      const superposition1: Superposition<Language, LanguageError> = Superposition.alive<
-        Language,
+      const superposition1: Superposition<Language, LanguageError> = Superposition.alive<Language, LanguageError>(
+        language,
         LanguageError
-      >(language, LanguageError);
-      const superposition2: Superposition<Language, LanguageError> = Superposition.dead<
-        Language,
+      );
+      const superposition2: Superposition<Language, LanguageError> = Superposition.dead<Language, LanguageError>(
+        new LanguageError('test failed'),
         LanguageError
-      >(new LanguageError('test failed'), LanguageError);
+      );
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
         superposition1,
         superposition2
@@ -87,14 +87,14 @@ describe('Languages', () => {
     });
 
     it('contains 2 failures', async () => {
-      const superposition1: Superposition<Language, LanguageError> = Superposition.dead<
-        Language,
+      const superposition1: Superposition<Language, LanguageError> = Superposition.dead<Language, LanguageError>(
+        new LanguageError('test failed 1'),
         LanguageError
-      >(new LanguageError('test failed 1'), LanguageError);
-      const superposition2: Superposition<Language, LanguageError> = Superposition.dead<
-        Language,
+      );
+      const superposition2: Superposition<Language, LanguageError> = Superposition.dead<Language, LanguageError>(
+        new LanguageError('test failed 2'),
         LanguageError
-      >(new LanguageError('test failed 2'), LanguageError);
+      );
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
         superposition1,
         superposition2
