@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -71,25 +69,13 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<Region, RegionError> = Region.ofJSON(json);
       const schrodinger: Schrodinger<Region, RegionError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RegionError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RegionError);
     });
   });
 
@@ -119,25 +105,13 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<Region, RegionError> = Region.ofRow(row);
       const schrodinger: Schrodinger<Region, RegionError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RegionError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RegionError);
     });
   });
 
