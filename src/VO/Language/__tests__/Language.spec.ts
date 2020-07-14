@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -102,25 +100,13 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<Language, LanguageError> = Language.ofJSON(json);
       const schrodinger: Schrodinger<Language, LanguageError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguageError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LanguageError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(LanguageError);
     });
   });
 
@@ -153,25 +139,13 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<Language, LanguageError> = Language.ofRow(row);
       const schrodinger: Schrodinger<Language, LanguageError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguageError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LanguageError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(LanguageError);
     });
   });
 

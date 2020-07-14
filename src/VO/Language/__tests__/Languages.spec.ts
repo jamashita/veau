@@ -1,7 +1,5 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { ImmutableProject } from '@jamashita/publikum-collection';
-import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -51,8 +49,8 @@ describe('Languages', () => {
       const array: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
 
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
-        Superposition.ofSchrodinger<Language, LanguageError>(Alive.of<Language, LanguageError>(array[0])),
-        Superposition.ofSchrodinger<Language, LanguageError>(Alive.of<Language, LanguageError>(array[1]))
+        Superposition.alive<Language, LanguageError>(array[0]),
+        Superposition.alive<Language, LanguageError>(array[1])
       ]);
       const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
@@ -66,19 +64,16 @@ describe('Languages', () => {
     });
 
     it('contains failure', async () => {
-      const region1: MockLanguage = new MockLanguage();
+      const language: MockLanguage = new MockLanguage();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      const superposition1: Superposition<Language, LanguageError> = Superposition.ofSchrodinger<
+      const superposition1: Superposition<Language, LanguageError> = Superposition.alive<
         Language,
         LanguageError
-      >(Alive.of<Language, LanguageError>(region1));
-      const superposition2: Superposition<Language, LanguageError> = Superposition.ofSchrodinger<
+      >(language, LanguageError);
+      const superposition2: Superposition<Language, LanguageError> = Superposition.dead<
         Language,
         LanguageError
-      >(Dead.of<Language, LanguageError>(new LanguageError('test failed')));
+      >(new LanguageError('test failed'), LanguageError);
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
         superposition1,
         superposition2
@@ -86,34 +81,20 @@ describe('Languages', () => {
       const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: LanguagesError) => {
-            spy2();
-            expect(err).toBeInstanceOf(LanguagesError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(LanguagesError);
     });
 
     it('contains 2 failures', async () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      const superposition1: Superposition<Language, LanguageError> = Superposition.ofSchrodinger<
+      const superposition1: Superposition<Language, LanguageError> = Superposition.dead<
         Language,
         LanguageError
-      >(Dead.of<Language, LanguageError>(new LanguageError('test failed 1')));
-      const superposition2: Superposition<Language, LanguageError> = Superposition.ofSchrodinger<
+      >(new LanguageError('test failed 1'), LanguageError);
+      const superposition2: Superposition<Language, LanguageError> = Superposition.dead<
         Language,
         LanguageError
-      >(Dead.of<Language, LanguageError>(new LanguageError('test failed 2')));
+      >(new LanguageError('test failed 2'), LanguageError);
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
         superposition1,
         superposition2
@@ -121,20 +102,9 @@ describe('Languages', () => {
       const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: LanguagesError) => {
-            spy2();
-            expect(err).toBeInstanceOf(LanguagesError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(LanguagesError);
     });
   });
 
@@ -144,9 +114,9 @@ describe('Languages', () => {
       const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
-      const regions: Languages = schrodinger.get();
+      const languages: Languages = schrodinger.get();
 
-      expect(regions).toBe(Languages.empty());
+      expect(languages).toBe(Languages.empty());
     });
 
     it('normal case', async () => {
@@ -167,10 +137,13 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
+        // eslint-disable-next-line no-await-in-loop
         const language: Nullable<Language> = languages.get(await LanguageID.ofString(json[i].languageID).get());
 
         if (language === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
           fail();
+
           return;
         }
 
@@ -188,9 +161,9 @@ describe('Languages', () => {
       const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
-      const regions: Languages = schrodinger.get();
+      const languages: Languages = schrodinger.get();
 
-      expect(regions).toBe(Languages.empty());
+      expect(languages).toBe(Languages.empty());
     });
 
     it('normal case', async () => {
@@ -211,10 +184,13 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(rows.length);
       for (let i: number = 0; i < languages.size(); i++) {
+        // eslint-disable-next-line no-await-in-loop
         const language: Nullable<Language> = languages.get(await LanguageID.ofString(rows[i].languageID).get());
 
         if (language === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
           fail();
+
           return;
         }
 
@@ -323,7 +299,7 @@ describe('Languages', () => {
   });
 
   describe('find', () => {
-    it('returns Present if the element exists', () => {
+    it('returns Language if the element exists', () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -356,7 +332,7 @@ describe('Languages', () => {
         languages.find((language: Language) => {
           return language3.equals(language);
         })
-      ).toBe(language3);
+      ).toBe(language1);
       expect(
         languages.find((language: Language) => {
           return language4.equals(language);

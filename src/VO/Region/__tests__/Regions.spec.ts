@@ -142,7 +142,9 @@ describe('Regions', () => {
         const region: Nullable<Region> = regions.get(regionID);
 
         if (region === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
           fail();
+
           return;
         }
 
@@ -186,7 +188,9 @@ describe('Regions', () => {
         const region: Nullable<Region> = regions.get(regionID);
 
         if (region === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
           fail();
+
           return;
         }
 
