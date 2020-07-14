@@ -19,15 +19,17 @@ describe('HeaderSize', () => {
       expect(schrodinger1.isAlive()).toBe(true);
       expect(schrodinger2.isDead()).toBe(true);
 
-      await superposition2.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: HeaderSizeError) => {
-          spy2();
-          expect(err).toBeInstanceOf(HeaderSizeError);
-        }
-      ).terminate();
+      await superposition2
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: HeaderSizeError) => {
+            spy2();
+            expect(err).toBeInstanceOf(HeaderSizeError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -47,25 +49,29 @@ describe('HeaderSize', () => {
       expect(schrodinger1.isDead()).toBe(true);
       expect(schrodinger2.isDead()).toBe(true);
 
-      await superposition1.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: HeaderSizeError) => {
-          spy2();
-          expect(err).toBeInstanceOf(HeaderSizeError);
-        }
-      ).terminate();
+      await superposition1
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: HeaderSizeError) => {
+            spy2();
+            expect(err).toBeInstanceOf(HeaderSizeError);
+          }
+        )
+        .terminate();
 
-      await superposition2.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: HeaderSizeError) => {
-          spy4();
-          expect(err).toBeInstanceOf(HeaderSizeError);
-        }
-      ).terminate();
+      await superposition2
+        .transform<void>(
+          () => {
+            spy3();
+          },
+          (err: HeaderSizeError) => {
+            spy4();
+            expect(err).toBeInstanceOf(HeaderSizeError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

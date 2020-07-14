@@ -11,16 +11,15 @@ export class Offset extends ValueObject<Offset, 'Offset'> {
   public static of(offset: number): Superposition<Offset, OffsetError> {
     if (offset < 0) {
       return Superposition.dead<Offset, OffsetError>(
-        new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`), OffsetError
+        new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`),
+        OffsetError
       );
     }
     if (Kind.isInteger(offset)) {
       return Superposition.alive<Offset, OffsetError>(new Offset(offset), OffsetError);
     }
 
-    return Superposition.dead<Offset, OffsetError>(
-      new OffsetError('ILLEGAL OFFSET SPECIFIED'), OffsetError
-    );
+    return Superposition.dead<Offset, OffsetError>(new OffsetError('ILLEGAL OFFSET SPECIFIED'), OffsetError);
   }
 
   protected constructor(offset: number) {

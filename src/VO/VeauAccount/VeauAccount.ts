@@ -36,16 +36,20 @@ export class VeauAccount extends ValueObject<VeauAccount, 'VeauAccount'> impleme
 
   public static ofJSON(json: VeauAccountJSON): Superposition<VeauAccount, VeauAccountError> {
     return VeauAccountID.ofString(json.veauAccountID)
-      .map<VeauAccount, VeauAccountIDError | LanguageIDError | RegionIDError>((veauAccountID: VeauAccountID) => {
-        return LanguageID.ofString(json.languageID).map<VeauAccount, LanguageIDError | RegionIDError>(
-          (languageID: LanguageID) => {
-            return RegionID.ofString(json.regionID).map<VeauAccount, RegionIDError>((regionID: RegionID) => {
-              return VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(json.name));
-            });
-          },
-          RegionIDError
-        );
-      }, LanguageIDError, RegionIDError)
+      .map<VeauAccount, VeauAccountIDError | LanguageIDError | RegionIDError>(
+        (veauAccountID: VeauAccountID) => {
+          return LanguageID.ofString(json.languageID).map<VeauAccount, LanguageIDError | RegionIDError>(
+            (languageID: LanguageID) => {
+              return RegionID.ofString(json.regionID).map<VeauAccount, RegionIDError>((regionID: RegionID) => {
+                return VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(json.name));
+              });
+            },
+            RegionIDError
+          );
+        },
+        LanguageIDError,
+        RegionIDError
+      )
       .recover<VeauAccount, VeauAccountError>((err: VeauAccountIDError | LanguageIDError | RegionIDError) => {
         throw new VeauAccountError('VeauAccount.ofJSON()', err);
       }, VeauAccountError);

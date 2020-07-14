@@ -1,6 +1,4 @@
-import {
-    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
-} from '@jamashita/publikum-collection';
+import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
 import { Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { StatsListItem } from './StatsListItem';

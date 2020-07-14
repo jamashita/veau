@@ -14,7 +14,10 @@ export class Column extends ValueObject<Column, 'Column'> {
 
   public static of(column: number): Superposition<Column, ColumnError> {
     if (column < 0) {
-      return Superposition.dead<Column, ColumnError>(new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`), ColumnError);
+      return Superposition.dead<Column, ColumnError>(
+        new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`),
+        ColumnError
+      );
     }
     if (column === ORIGIN_VALUE) {
       return Superposition.alive<Column, ColumnError>(Column.origin(), ColumnError);

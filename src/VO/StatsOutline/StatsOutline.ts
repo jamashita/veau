@@ -84,13 +84,15 @@ export class StatsOutline extends ValueObject<StatsOutline, 'StatsOutline'> impl
                         );
                       }
                     );
-                  }, UpdatedAtError
+                  },
+                  UpdatedAtError
                 );
-              }, TermIDError
+              },
+              TermIDError
             );
-          }, RegionIDError
-          );
-        }, LanguageIDError
+          }, RegionIDError);
+        },
+        LanguageIDError
       )
       .recover((err: StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError) => {
         throw new StatsOutlineError('StatsOutline.ofJSON()', err);
@@ -120,15 +122,18 @@ export class StatsOutline extends ValueObject<StatsOutline, 'StatsOutline'> impl
                     );
                   });
                 }, UpdatedAtError);
-              }
-            , TermIDError);
+              },
+              TermIDError
+            );
           }, RegionIDError);
-        }, LanguageIDError
+        },
+        LanguageIDError
       )
       .recover<StatsOutline, StatsOutlineError>(
         (err: StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError) => {
           throw new StatsOutlineError('StatsOutline.ofRow()', err);
-        }, StatsOutlineError
+        },
+        StatsOutlineError
       );
   }
 

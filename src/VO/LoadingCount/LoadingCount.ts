@@ -14,7 +14,10 @@ export class LoadingCount extends ValueObject<LoadingCount, 'LoadingCount'> {
 
   public static of(count: number): Superposition<LoadingCount, LoadingCountError> {
     if (count < 0) {
-      return Superposition.dead<LoadingCount, LoadingCountError>(new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`), LoadingCountError);
+      return Superposition.dead<LoadingCount, LoadingCountError>(
+        new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`),
+        LoadingCountError
+      );
     }
     if (count === DEFAULT_COUNT) {
       return Superposition.alive<LoadingCount, LoadingCountError>(LoadingCount.default(), LoadingCountError);
@@ -23,7 +26,10 @@ export class LoadingCount extends ValueObject<LoadingCount, 'LoadingCount'> {
       return Superposition.alive<LoadingCount, LoadingCountError>(new LoadingCount(count), LoadingCountError);
     }
 
-    return Superposition.dead<LoadingCount, LoadingCountError>(new LoadingCountError('ILLEGAL COUNT SPECIFIED'), LoadingCountError);
+    return Superposition.dead<LoadingCount, LoadingCountError>(
+      new LoadingCountError('ILLEGAL COUNT SPECIFIED'),
+      LoadingCountError
+    );
   }
 
   public static default(): LoadingCount {

@@ -1,6 +1,4 @@
-import {
-    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
-} from '@jamashita/publikum-collection';
+import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
 import { Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
@@ -47,7 +45,10 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   public static ofSuperposition(
     superpositions: Array<Superposition<Language, LanguageError>>
   ): Superposition<Languages, LanguagesError> {
-    return Superposition.all<Language, LanguageError>(superpositions, LanguageError).transform<Languages, LanguagesError>(
+    return Superposition.all<Language, LanguageError>(superpositions, LanguageError).transform<
+      Languages,
+      LanguagesError
+    >(
       (regions: Array<Language>) => {
         return Languages.ofArray(regions);
       },

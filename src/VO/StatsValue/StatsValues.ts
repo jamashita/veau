@@ -1,6 +1,4 @@
-import {
-    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
-} from '@jamashita/publikum-collection';
+import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
 import { Kind, Nullable } from '@jamashita/publikum-type';
@@ -48,7 +46,10 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsValue, StatsValueError>>
   ): Superposition<StatsValues, StatsValuesError> {
-    return Superposition.all<StatsValue, StatsValueError>(superpositions, StatsValueError).transform<StatsValues, StatsValuesError>(
+    return Superposition.all<StatsValue, StatsValueError>(superpositions, StatsValueError).transform<
+      StatsValues,
+      StatsValuesError
+    >(
       (values: Array<StatsValue>) => {
         return StatsValues.ofArray(values);
       },

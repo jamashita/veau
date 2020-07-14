@@ -1,6 +1,4 @@
-import {
-    Superposition, Unscharferelation, UnscharferelationError
-} from '@jamashita/publikum-monad';
+import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Ambiguous } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';

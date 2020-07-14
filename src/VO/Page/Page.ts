@@ -17,9 +17,7 @@ export class Page extends ValueObject<Page, 'Page'> {
 
   public static of(page: number): Superposition<Page, PageError> {
     if (page <= 0) {
-      return Superposition.dead<Page, PageError>(
-        new PageError(`ILLEGAL PAGE SPECIFIED ${page}`), PageError
-      );
+      return Superposition.dead<Page, PageError>(new PageError(`ILLEGAL PAGE SPECIFIED ${page}`), PageError);
     }
     if (page === MIN_PAGE) {
       return Superposition.alive<Page, PageError>(Page.MIN, PageError);
@@ -28,9 +26,7 @@ export class Page extends ValueObject<Page, 'Page'> {
       return Superposition.alive<Page, PageError>(new Page(page), PageError);
     }
 
-    return Superposition.dead<Page, PageError>(
-      new PageError('ILLEGAL PAGE SPECIFIED'), PageError
-    );
+    return Superposition.dead<Page, PageError>(new PageError('ILLEGAL PAGE SPECIFIED'), PageError);
   }
 
   public static min(): Page {
