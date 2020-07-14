@@ -42,12 +42,13 @@ export class VeauAccount extends ValueObject<VeauAccount, 'VeauAccount'> impleme
             return RegionID.ofString(json.regionID).map<VeauAccount, RegionIDError>((regionID: RegionID) => {
               return VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(json.name));
             });
-          }
+          },
+          RegionIDError
         );
-      })
+      }, LanguageIDError, RegionIDError)
       .recover<VeauAccount, VeauAccountError>((err: VeauAccountIDError | LanguageIDError | RegionIDError) => {
         throw new VeauAccountError('VeauAccount.ofJSON()', err);
-      });
+      }, VeauAccountError);
   }
 
   public static empty(): VeauAccount {

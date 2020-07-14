@@ -34,7 +34,8 @@ export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements
       },
       (err: AsOfError) => {
         throw new StatsValueError('StatsValue.ofRow()', err);
-      }
+      },
+      StatsValueError
     );
   }
 
@@ -45,7 +46,8 @@ export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements
       },
       (err: AsOfError) => {
         throw new StatsValueError('StatsValue.ofRow()', err);
-      }
+      },
+      StatsValueError
     );
   }
 

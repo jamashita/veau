@@ -15,13 +15,14 @@ export class StatsItemID extends ValueObject<StatsItemID, 'StatsItemID'> {
   public static ofString(id: string): Superposition<StatsItemID, StatsItemIDError> {
     return Superposition.playground<UUID, UUIDError>(() => {
       return UUID.of(id);
-    }).transform<StatsItemID, StatsItemIDError>(
+    }, UUIDError).transform<StatsItemID, StatsItemIDError>(
       (uuid: UUID) => {
         return StatsItemID.of(uuid);
       },
       (err: UUIDError) => {
         throw new StatsItemIDError('StatsItemID.ofString()', err);
-      }
+      },
+      StatsItemIDError
     );
   }
 

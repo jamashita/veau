@@ -28,14 +28,14 @@ export class Locale extends ValueObject<Locale, 'Locale'> implements JSONable<Lo
 
   public static ofJSON(json: LocaleJSON): Superposition<Locale, LocaleError> {
     return Languages.ofJSON(json.languages)
-      .map<Locale, RegionsError>((languages: Languages) => {
+      .map<Locale, LanguagesError | RegionsError>((languages: Languages) => {
         return Regions.ofJSON(json.regions).map<Locale, RegionsError>((regions: Regions) => {
           return Locale.of(languages, regions);
         });
-      })
+      }, RegionsError)
       .recover<Locale, LocaleError>((err: LanguagesError | RegionsError) => {
         throw new LocaleError('Locale.ofJSON()', err);
-      });
+      }, LocaleError);
   }
 
   public static empty(): Locale {

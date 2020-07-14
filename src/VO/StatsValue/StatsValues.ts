@@ -48,13 +48,14 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsValue, StatsValueError>>
   ): Superposition<StatsValues, StatsValuesError> {
-    return Superposition.all<StatsValue, StatsValueError>(superpositions).transform<StatsValues, StatsValuesError>(
+    return Superposition.all<StatsValue, StatsValueError>(superpositions, StatsValueError).transform<StatsValues, StatsValuesError>(
       (values: Array<StatsValue>) => {
         return StatsValues.ofArray(values);
       },
       (err: StatsValueError) => {
         throw new StatsValuesError('StatsValues.ofSuperposition()', err);
-      }
+      },
+      StatsValuesError
     );
   }
 

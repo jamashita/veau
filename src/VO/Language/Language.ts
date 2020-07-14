@@ -65,7 +65,8 @@ export class Language extends ValueObject<Language, 'Language'> implements JSONa
       },
       (err: LanguageIDError) => {
         throw new LanguageError('Language.ofJSON()', err);
-      }
+      },
+      LanguageError
     );
   }
 
@@ -81,7 +82,8 @@ export class Language extends ValueObject<Language, 'Language'> implements JSONa
       },
       (err: LanguageIDError) => {
         throw new LanguageError('Language.ofRow()', err);
-      }
+      },
+      LanguageError
     );
   }
 
@@ -90,7 +92,7 @@ export class Language extends ValueObject<Language, 'Language'> implements JSONa
   }
 
   public static isJSON(n: unknown): n is LanguageJSON {
-    if (!Kind.isPlainObject(n)) {
+    if (!Kind.isObject<LanguageJSON>(n)) {
       return false;
     }
     if (!Kind.isString(n.languageID)) {

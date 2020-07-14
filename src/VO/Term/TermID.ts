@@ -15,13 +15,14 @@ export class TermID extends ValueObject<TermID, 'TermID'> {
   public static ofString(id: string): Superposition<TermID, TermIDError> {
     return Superposition.playground<UUID, UUIDError>(() => {
       return UUID.of(id);
-    }).transform<TermID, TermIDError>(
+    }, UUIDError).transform<TermID, TermIDError>(
       (uuid: UUID) => {
         return TermID.of(uuid);
       },
       (err: UUIDError) => {
         throw new TermIDError('TermID.ofString()', err);
-      }
+      },
+      TermIDError
     );
   }
 

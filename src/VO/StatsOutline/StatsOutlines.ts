@@ -47,7 +47,7 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>
   ): Superposition<StatsOutlines, StatsOutlinesError> {
-    return Superposition.all<StatsOutline, StatsOutlineError>(superpositions).transform<
+    return Superposition.all<StatsOutline, StatsOutlineError>(superpositions, StatsOutlineError).transform<
       StatsOutlines,
       StatsOutlinesError
     >(
@@ -56,7 +56,8 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
       },
       (err: StatsOutlineError) => {
         throw new StatsOutlinesError('StatsOutlines.ofSuperposition()', err);
-      }
+      },
+      StatsOutlinesError
     );
   }
 

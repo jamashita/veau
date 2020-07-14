@@ -46,13 +46,14 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
   public static ofSuperposition(
     superpositions: Array<Superposition<Region, RegionError>>
   ): Superposition<Regions, RegionsError> {
-    return Superposition.all<Region, RegionError>(superpositions).transform<Regions, RegionsError>(
+    return Superposition.all<Region, RegionError>(superpositions, RegionError).transform<Regions, RegionsError>(
       (regions: Array<Region>) => {
         return Regions.ofArray(regions);
       },
       (err: RegionError) => {
         throw new RegionsError('Regions.ofSuperposition()', err);
-      }
+      },
+      RegionsError
     );
   }
 

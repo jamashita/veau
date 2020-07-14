@@ -1,4 +1,6 @@
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import {
+    Superposition, Unscharferelation, UnscharferelationError
+} from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Ambiguous } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
@@ -48,11 +50,11 @@ export class Term extends ValueObject<Term, 'Term'> {
   public static ofString(id: string): Superposition<Term, TermError> {
     const term: Ambiguous<Term> = Term.all.get(id);
 
-    if (term === undefined) {
-      return Superposition.ofSchrodinger<Term, TermError>(Dead.of<Term, TermError>(new TermError(`${id}`)));
-    }
-
-    return Superposition.ofSchrodinger<Term, TermError>(Alive.of<Term, TermError>(term));
+    return Unscharferelation.maybe<Term>(term)
+      .toSuperposition()
+      .recover((err: UnscharferelationError) => {
+        throw new TermError(`${id}`, err);
+      }, TermError);
   }
 
   protected constructor(termID: TermID, key: TermKey) {

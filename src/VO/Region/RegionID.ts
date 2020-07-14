@@ -17,13 +17,14 @@ export class RegionID extends ValueObject<RegionID, 'RegionID'> {
   public static ofString(id: string): Superposition<RegionID, RegionIDError> {
     return Superposition.playground<UUID, UUIDError>(() => {
       return UUID.of(id);
-    }).transform<RegionID, RegionIDError>(
+    }, UUIDError).transform<RegionID, RegionIDError>(
       (uuid: UUID) => {
         return RegionID.of(uuid);
       },
       (err: UUIDError) => {
         throw new RegionIDError('RegionID.ofString()', err);
-      }
+      },
+      RegionIDError
     );
   }
 

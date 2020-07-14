@@ -84,16 +84,17 @@ export class StatsOutline extends ValueObject<StatsOutline, 'StatsOutline'> impl
                         );
                       }
                     );
-                  }
+                  }, UpdatedAtError
                 );
-              }
+              }, TermIDError
             );
-          });
-        }
+          }, RegionIDError
+          );
+        }, LanguageIDError
       )
       .recover((err: StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError) => {
         throw new StatsOutlineError('StatsOutline.ofJSON()', err);
-      });
+      }, StatsOutlineError);
   }
 
   public static ofRow(row: StatsOutlineRow): Superposition<StatsOutline, StatsOutlineError> {
@@ -118,16 +119,16 @@ export class StatsOutline extends ValueObject<StatsOutline, 'StatsOutline'> impl
                       updatedAt
                     );
                   });
-                });
+                }, UpdatedAtError);
               }
-            );
-          });
-        }
+            , TermIDError);
+          }, RegionIDError);
+        }, LanguageIDError
       )
       .recover<StatsOutline, StatsOutlineError>(
         (err: StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError) => {
           throw new StatsOutlineError('StatsOutline.ofRow()', err);
-        }
+        }, StatsOutlineError
       );
   }
 

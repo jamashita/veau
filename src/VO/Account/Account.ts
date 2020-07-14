@@ -42,12 +42,13 @@ export class Account extends ValueObject<Account, 'Account'> {
                 Hash.of(row.hash)
               );
             });
-          }
+          },
+          RegionIDError
         );
-      })
+      }, LanguageIDError, RegionIDError)
       .recover<Account, AccountError>((err: VeauAccountIDError | LanguageIDError | RegionIDError) => {
         throw new AccountError('Account.ofRow()', err);
-      });
+      }, AccountError);
   }
 
   protected constructor(account: VeauAccount, hash: Hash) {

@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -10,16 +10,16 @@ export class Offset extends ValueObject<Offset, 'Offset'> {
 
   public static of(offset: number): Superposition<Offset, OffsetError> {
     if (offset < 0) {
-      return Superposition.ofSchrodinger<Offset, OffsetError>(
-        Dead.of<Offset, OffsetError>(new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`))
+      return Superposition.dead<Offset, OffsetError>(
+        new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`), OffsetError
       );
     }
     if (Kind.isInteger(offset)) {
-      return Superposition.ofSchrodinger<Offset, OffsetError>(Alive.of<Offset, OffsetError>(new Offset(offset)));
+      return Superposition.alive<Offset, OffsetError>(new Offset(offset), OffsetError);
     }
 
-    return Superposition.ofSchrodinger<Offset, OffsetError>(
-      Dead.of<Offset, OffsetError>(new OffsetError('ILLEGAL OFFSET SPECIFIED'))
+    return Superposition.dead<Offset, OffsetError>(
+      new OffsetError('ILLEGAL OFFSET SPECIFIED'), OffsetError
     );
   }
 

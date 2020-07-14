@@ -17,13 +17,14 @@ export class LanguageID extends ValueObject<LanguageID, 'LanguageID'> {
   public static ofString(id: string): Superposition<LanguageID, LanguageIDError> {
     return Superposition.playground<UUID, UUIDError>(() => {
       return UUID.of(id);
-    }).transform<LanguageID, LanguageIDError>(
+    }, UUIDError).transform<LanguageID, LanguageIDError>(
       (uuid: UUID) => {
         return LanguageID.of(uuid);
       },
       (err: UUIDError) => {
         throw new LanguageIDError('LanguageID.ofString()', err);
-      }
+      },
+      LanguageIDError
     );
   }
 

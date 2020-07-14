@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -14,16 +14,16 @@ export class Column extends ValueObject<Column, 'Column'> {
 
   public static of(column: number): Superposition<Column, ColumnError> {
     if (column < 0) {
-      return Superposition.ofSchrodinger<Column, ColumnError>(Dead.of<Column, ColumnError>(new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`)));
+      return Superposition.dead<Column, ColumnError>(new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`), ColumnError);
     }
     if (column === ORIGIN_VALUE) {
-      return Superposition.ofSchrodinger<Column, ColumnError>(Alive.of<Column, ColumnError>(Column.origin()));
+      return Superposition.alive<Column, ColumnError>(Column.origin(), ColumnError);
     }
     if (Kind.isInteger(column)) {
-      return Superposition.ofSchrodinger<Column, ColumnError>(Alive.of<Column, ColumnError>(new Column(column)));
+      return Superposition.alive<Column, ColumnError>(new Column(column), ColumnError);
     }
 
-    return Superposition.ofSchrodinger<Column, ColumnError>(Dead.of<Column, ColumnError>(new ColumnError('ILLEGAL COLUMN SPECIFIED')));
+    return Superposition.dead<Column, ColumnError>(new ColumnError('ILLEGAL COLUMN SPECIFIED'), ColumnError);
   }
 
   public static origin(): Column {

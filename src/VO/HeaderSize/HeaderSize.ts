@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -10,18 +10,18 @@ export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
 
   public static of(size: number): Superposition<HeaderSize, HeaderSizeError> {
     if (size < 0) {
-      return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(
-        Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`))
+      return Superposition.dead<HeaderSize, HeaderSizeError>(
+        new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`),
+        HeaderSizeError
       );
     }
     if (Kind.isInteger(size)) {
-      return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(
-        Alive.of<HeaderSize, HeaderSizeError>(new HeaderSize(size))
-      );
+      return Superposition.alive<HeaderSize, HeaderSizeError>(new HeaderSize(size), HeaderSizeError);
     }
 
-    return Superposition.ofSchrodinger<HeaderSize, HeaderSizeError>(
-      Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError('ILLEGAL SIZE SPECIFIED'))
+    return Superposition.dead<HeaderSize, HeaderSizeError>(
+      new HeaderSizeError('ILLEGAL SIZE SPECIFIED'),
+      HeaderSizeError
     );
   }
 

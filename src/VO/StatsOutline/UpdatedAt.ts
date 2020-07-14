@@ -17,13 +17,14 @@ export class UpdatedAt extends ValueObject<UpdatedAt, 'UpdatedAt'> {
   public static ofString(at: string): Superposition<UpdatedAt, UpdatedAtError> {
     return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.ofString(at, TERM_FORMAT);
-    }).transform<UpdatedAt, UpdatedAtError>(
+    }, ZeitError).transform<UpdatedAt, UpdatedAtError>(
       (zeit: Zeit) => {
         return UpdatedAt.of(zeit);
       },
       (err: ZeitError) => {
         throw new UpdatedAtError('AT IS NOT DATE FORMAT', err);
-      }
+      },
+      UpdatedAtError
     );
   }
 

@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -14,19 +14,19 @@ export class Limit extends ValueObject<Limit, 'Limit'> {
 
   public static of(limit: number): Superposition<Limit, LimitError> {
     if (limit <= 0) {
-      return Superposition.ofSchrodinger<Limit, LimitError>(
-        Dead.of<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit}`))
+      return Superposition.dead<Limit, LimitError>(
+        new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit}`),LimitError
       );
     }
     if (limit === DEFAULT_VALUE) {
-      return Superposition.ofSchrodinger<Limit, LimitError>(Alive.of<Limit, LimitError>(Limit.default()));
+      return Superposition.alive<Limit, LimitError>(Limit.default(), LimitError);
     }
     if (Kind.isInteger(limit)) {
-      return Superposition.ofSchrodinger<Limit, LimitError>(Alive.of<Limit, LimitError>(new Limit(limit)));
+      return Superposition.alive<Limit, LimitError>(new Limit(limit), LimitError);
     }
 
-    return Superposition.ofSchrodinger<Limit, LimitError>(
-      Dead.of<Limit, LimitError>(new LimitError('ILLEGAL LIMIT SPECIFIED'))
+    return Superposition.dead<Limit, LimitError>(
+      new LimitError('ILLEGAL LIMIT SPECIFIED'), LimitError
     );
   }
 

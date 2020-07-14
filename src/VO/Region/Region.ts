@@ -49,7 +49,8 @@ export class Region extends ValueObject<Region, 'Region'> implements JSONable<Re
       },
       (err: RegionIDError) => {
         throw new RegionError('Region.ofJSON()', err);
-      }
+      },
+      RegionError
     );
   }
 
@@ -60,7 +61,8 @@ export class Region extends ValueObject<Region, 'Region'> implements JSONable<Re
       },
       (err: RegionIDError) => {
         throw new RegionError('Region.ofRow()', err);
-      }
+      },
+      RegionError
     );
   }
 
@@ -69,7 +71,7 @@ export class Region extends ValueObject<Region, 'Region'> implements JSONable<Re
   }
 
   public static isJSON(n: unknown): n is RegionJSON {
-    if (!Kind.isPlainObject(n)) {
+    if (!Kind.isObject<RegionJSON>(n)) {
       return false;
     }
     if (!Kind.isString(n.regionID)) {

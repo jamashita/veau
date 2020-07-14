@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -14,16 +14,16 @@ export class LoadingCount extends ValueObject<LoadingCount, 'LoadingCount'> {
 
   public static of(count: number): Superposition<LoadingCount, LoadingCountError> {
     if (count < 0) {
-      return Superposition.ofSchrodinger<LoadingCount, LoadingCountError>(Dead.of<LoadingCount, LoadingCountError>(new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`)));
+      return Superposition.dead<LoadingCount, LoadingCountError>(new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`), LoadingCountError);
     }
     if (count === DEFAULT_COUNT) {
-      return Superposition.ofSchrodinger<LoadingCount, LoadingCountError>(Alive.of<LoadingCount, LoadingCountError>(LoadingCount.default()));
+      return Superposition.alive<LoadingCount, LoadingCountError>(LoadingCount.default(), LoadingCountError);
     }
     if (Kind.isInteger(count)) {
-      return Superposition.ofSchrodinger<LoadingCount, LoadingCountError>(Alive.of<LoadingCount, LoadingCountError>(new LoadingCount(count)));
+      return Superposition.alive<LoadingCount, LoadingCountError>(new LoadingCount(count), LoadingCountError);
     }
 
-    return Superposition.ofSchrodinger<LoadingCount, LoadingCountError>(Dead.of<LoadingCount, LoadingCountError>(new LoadingCountError('ILLEGAL COUNT SPECIFIED')));
+    return Superposition.dead<LoadingCount, LoadingCountError>(new LoadingCountError('ILLEGAL COUNT SPECIFIED'), LoadingCountError);
   }
 
   public static default(): LoadingCount {

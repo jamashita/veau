@@ -15,13 +15,14 @@ export class VeauAccountID extends ValueObject<VeauAccountID, 'VeauAccountID'> {
   public static ofString(id: string): Superposition<VeauAccountID, VeauAccountIDError> {
     return Superposition.playground<UUID, UUIDError>(() => {
       return UUID.of(id);
-    }).transform<VeauAccountID, VeauAccountIDError>(
+    }, UUIDError).transform<VeauAccountID, VeauAccountIDError>(
       (uuid: UUID) => {
         return VeauAccountID.of(uuid);
       },
       (err: UUIDError) => {
         throw new VeauAccountIDError('VeauAccountID.ofString()', err);
-      }
+      },
+      VeauAccountIDError
     );
   }
 

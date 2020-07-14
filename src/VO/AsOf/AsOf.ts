@@ -18,13 +18,14 @@ export class AsOf extends ValueObject<AsOf, 'AsOf'> {
   public static ofString(asOf: string): Superposition<AsOf, AsOfError> {
     return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.ofString(asOf, TERM_FORMAT);
-    }).transform<AsOf, AsOfError>(
+    }, ZeitError).transform<AsOf, AsOfError>(
       (zeit: Zeit) => {
         return AsOf.of(zeit);
       },
       (err: ZeitError) => {
         throw new AsOfError('asOf is not suitable for date time', err);
-      }
+      },
+      AsOfError
     );
   }
 

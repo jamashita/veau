@@ -2,7 +2,7 @@ import {
     CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
 } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { Absent, Present, Superposition, Unscharferelation } from '@jamashita/publikum-monad';
+import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
 
@@ -93,16 +93,12 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
 
   public min(): Unscharferelation<AsOf> {
     if (this.isEmpty()) {
-      return Unscharferelation.ofHeisenberg<AsOf>(Absent.of<AsOf>());
+      return Unscharferelation.absent<AsOf>();
     }
     if (this.asOfs.size() === 1) {
       const asOf: Nullable<AsOf> = this.asOfs.get(0);
 
-      if (asOf === null) {
-        return Unscharferelation.ofHeisenberg<AsOf>(Absent.of<AsOf>());
-      }
-
-      return Unscharferelation.ofHeisenberg<AsOf>(Present.of<AsOf>(asOf));
+      return Unscharferelation.maybe<AsOf>(asOf);
     }
 
     const zeiten: Array<Zeit> = this.asOfs.toArray().map<Zeit>((asOf: AsOf) => {
@@ -111,7 +107,7 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
 
     return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.min(zeiten, AsOf.format());
-    })
+    }, ZeitError)
       .map<AsOf, ZeitError>((zeit: Zeit) => {
         return AsOf.of(zeit);
       })
@@ -120,16 +116,12 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
 
   public max(): Unscharferelation<AsOf> {
     if (this.isEmpty()) {
-      return Unscharferelation.ofHeisenberg<AsOf>(Absent.of<AsOf>());
+      return Unscharferelation.absent<AsOf>();
     }
     if (this.asOfs.size() === 1) {
       const asOf: Nullable<AsOf> = this.asOfs.get(0);
 
-      if (asOf === null) {
-        return Unscharferelation.ofHeisenberg<AsOf>(Absent.of<AsOf>());
-      }
-
-      return Unscharferelation.ofHeisenberg<AsOf>(Present.of<AsOf>(asOf));
+      return Unscharferelation.maybe<AsOf>(asOf);
     }
 
     const zeiten: Array<Zeit> = this.asOfs.toArray().map<Zeit>((asOf: AsOf) => {
@@ -138,7 +130,7 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
 
     return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.max(zeiten, AsOf.format());
-    })
+    }, ZeitError)
       .map<AsOf, ZeitError>((zeit: Zeit) => {
         return AsOf.of(zeit);
       })

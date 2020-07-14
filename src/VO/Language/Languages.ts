@@ -47,13 +47,14 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   public static ofSuperposition(
     superpositions: Array<Superposition<Language, LanguageError>>
   ): Superposition<Languages, LanguagesError> {
-    return Superposition.all<Language, LanguageError>(superpositions).transform<Languages, LanguagesError>(
+    return Superposition.all<Language, LanguageError>(superpositions, LanguageError).transform<Languages, LanguagesError>(
       (regions: Array<Language>) => {
         return Languages.ofArray(regions);
       },
       (err: LanguageError) => {
         throw new LanguagesError('Languages.ofSuperposition()', err);
-      }
+      },
+      LanguagesError
     );
   }
 
