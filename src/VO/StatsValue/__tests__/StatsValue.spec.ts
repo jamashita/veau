@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { AsOf } from '../../AsOf/AsOf';
@@ -33,27 +31,13 @@ describe('StatsValue', () => {
         value: -1.1
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofJSON(json);
       const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsValueError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsValueError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsValueError);
     });
   });
 
@@ -82,27 +66,10 @@ describe('StatsValue', () => {
         value: -1.1
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
       const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsValueError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsValueError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(false);
     });
 
     it('asOf is malformat', async () => {
@@ -112,27 +79,13 @@ describe('StatsValue', () => {
         value: -1.1
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
       const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsValueError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsValueError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsValueError);
     });
   });
 
