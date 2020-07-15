@@ -187,23 +187,23 @@ export class Stats extends Entity<StatsID, Stats> {
 
   public getColumns(): Unscharferelation<AsOfs> {
     return Unscharferelation.maybe<AsOfs>(this.columns).recover<AsOfs>(() => {
-      return this.startDate
-        .map<AsOfs>((asOf: AsOf) => {
-          return this.items.getAsOfs().add(asOf);
-        })
-        .map<AsOfs>((asOfs: AsOfs) => {
-          if (asOfs.isEmpty()) {
-            return AsOfs.empty();
-          }
+      let asOfs: AsOfs = this.items.getAsOfs();
 
-          return asOfs.min().map<AsOfs>((min: AsOf) => {
-            return asOfs.max().map<AsOfs>((max: AsOf) => {
-              this.columns = AsOfs.duration(min, max, this.term);
+      this.startDate.ifPresent((asOf: AsOf) => {
+        asOfs = asOfs.add(asOf);
+      });
 
-              return this.columns;
-            });
-          });
+      if (asOfs.isEmpty()) {
+        return AsOfs.empty();
+      }
+
+      return asOfs.min().map<AsOfs>((min: AsOf) => {
+        return asOfs.max().map<AsOfs>((max: AsOf) => {
+          this.columns = AsOfs.duration(min, max, this.term);
+
+          return this.columns;
         });
+      });
     });
   }
 
@@ -261,9 +261,8 @@ export class Stats extends Entity<StatsID, Stats> {
   }
 
   public getChart(): Unscharferelation<Array<Chart>> {
-    const chartItems: Map<string, Chart> = new Map<string, Chart>();
-
     return this.getColumns().map<Array<Chart>>((column: AsOfs) => {
+      const chartItems: Map<string, Chart> = new Map<string, Chart>();
       const asOfString: string = column.toString();
 
       chartItems.set(asOfString, {

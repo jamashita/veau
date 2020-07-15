@@ -1,4 +1,5 @@
-import { Present, Superposition } from '@jamashita/publikum-monad';
+import { Heisenberg, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { AsOf } from '../../../VO/AsOf/AsOf';
@@ -7,6 +8,7 @@ import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { Column } from '../../../VO/Coordinate/Column';
 import { Coordinate } from '../../../VO/Coordinate/Coordinate';
 import { Row } from '../../../VO/Coordinate/Row';
+import { HeaderSize } from '../../../VO/HeaderSize/HeaderSize';
 import { Language } from '../../../VO/Language/Language';
 import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
@@ -30,7 +32,6 @@ import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
 import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
-import { StatsValues } from '../../../VO/StatsValue/StatsValues';
 import { MockTerm } from '../../../VO/Term/Mock/MockTerm';
 import { MockTermID } from '../../../VO/Term/Mock/MockTermID';
 import { MockTermKey } from '../../../VO/Term/Mock/MockTermKey';
@@ -62,7 +63,7 @@ describe('Stats', () => {
   });
 
   describe('ofJSON', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const json: StatsJSON = {
         outline: {
           statsID: UUID.v4().get(),
@@ -113,9 +114,10 @@ describe('Stats', () => {
       };
 
       const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
+      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const stats: Stats = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const stats: Stats = schrodinger.get();
 
       expect(stats.getStatsID().get().get()).toBe(json.outline.statsID);
       expect(stats.getName().get()).toBe(json.outline.name);
@@ -130,19 +132,26 @@ describe('Stats', () => {
       expect(stats.getRegion().getISO3166().get()).toBe(json.region.iso3166);
       expect(stats.getTerm().getTermID().get().get()).toBe(json.outline.termID);
       expect(stats.getItems().size()).toBe(json.items.length);
-      for (let i: number = 0; i < stats.getItems().size(); i++) {
-        expect(stats.getItems().get(i).get().getStatsItemID().get().get()).toBe(json.items[i].statsItemID);
-        expect(stats.getItems().get(i).get().getName().get()).toBe(json.items[i].name);
-        expect(stats.getItems().get(i).get().getValues().size()).toBe(json.items[i].values.length);
-        for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
-          const asOf: AsOf = AsOf.ofString(json.items[i].values[j].asOf).get();
 
-          expect(stats.getItems().get(i).get().getValues().get(asOf).get().getAsOf().toString()).toBe(
-            json.items[i].values[j].asOf
-          );
-          expect(stats.getItems().get(i).get().getValues().get(asOf).get().getValue().get()).toBe(
-            json.items[i].values[j].value
-          );
+      for (let i: number = 0; i < stats.getItems().size(); i++) {
+        expect(stats.getItems().get(i)?.getStatsItemID().get().get()).toBe(json.items[i].statsItemID);
+        expect(stats.getItems().get(i)?.getName().get()).toBe(json.items[i].name);
+        expect(stats.getItems().get(i)?.getValues().size()).toBe(json.items[i].values.length);
+        const item: Nullable<StatsItem> = stats.getItems().get(i);
+
+        if (item === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
+          fail();
+
+          return;
+        }
+
+        for (let j: number = 0; j < item.getValues().size(); j++) {
+          // eslint-disable-next-line no-await-in-loop
+          const asOf: AsOf = await AsOf.ofString(json.items[i].values[j].asOf).get();
+
+          expect(item.getValues().get(asOf)?.getAsOf().toString()).toBe(json.items[i].values[j].asOf);
+          expect(item.getValues().get(asOf)?.getValue().get()).toBe(json.items[i].values[j].value);
         }
       }
     });
@@ -573,7 +582,7 @@ describe('Stats', () => {
   });
 
   describe('default', () => {
-    it('id will be generated, data are empty', () => {
+    it('id will be generated, data are empty', async () => {
       const stats: Stats = Stats.default();
 
       expect(stats.getStatsID().get().get().length).toBe(UUID.size());
@@ -583,7 +592,10 @@ describe('Stats', () => {
       expect(stats.getLanguage()).toBe(Language.empty());
       expect(stats.getRegion()).toBe(Region.empty());
       expect(stats.getTerm()).toBe(Term.DAILY);
-      expect(stats.getStartDate().isPresent()).toBe(false);
+
+      const heisenberg: Heisenberg<AsOf> = await stats.getStartDate().terminate();
+
+      expect(heisenberg.isAbsent()).toBe(true);
     });
   });
 
@@ -1064,7 +1076,7 @@ describe('Stats', () => {
   });
 
   describe('getColumns', () => {
-    it('asOfs are taken and their duplicated values are eliminated', () => {
+    it('asOfs are taken and their duplicated values are eliminated', async () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline(),
         new MockLanguage(),
@@ -1117,19 +1129,19 @@ describe('Stats', () => {
         )
       );
 
-      const columns: AsOfs = stats.getColumns();
+      const columns: AsOfs = await stats.getColumns().get();
 
       expect(columns.size()).toBe(7);
-      expect(columns.get(0).get().toString()).toBe('1999-12-31');
-      expect(columns.get(1).get().toString()).toBe('2000-01-01');
-      expect(columns.get(2).get().toString()).toBe('2000-01-02');
-      expect(columns.get(3).get().toString()).toBe('2000-01-03');
-      expect(columns.get(4).get().toString()).toBe('2000-01-04');
-      expect(columns.get(5).get().toString()).toBe('2000-01-05');
-      expect(columns.get(6).get().toString()).toBe('2000-01-06');
+      expect(columns.get(0)?.toString()).toBe('1999-12-31');
+      expect(columns.get(1)?.toString()).toBe('2000-01-01');
+      expect(columns.get(2)?.toString()).toBe('2000-01-02');
+      expect(columns.get(3)?.toString()).toBe('2000-01-03');
+      expect(columns.get(4)?.toString()).toBe('2000-01-04');
+      expect(columns.get(5)?.toString()).toBe('2000-01-05');
+      expect(columns.get(6)?.toString()).toBe('2000-01-06');
     });
 
-    it('startDate is present', () => {
+    it('startDate is present', async () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline(),
         new MockLanguage(),
@@ -1180,25 +1192,25 @@ describe('Stats', () => {
             )
           })
         ),
-        Present.of<AsOf>(AsOf.ofString('2000-01-08').get())
+        AsOf.ofString('2000-01-08').toUnscharferelation()
       );
 
-      const columns: AsOfs = stats.getColumns();
+      const columns: AsOfs = await stats.getColumns().get();
 
       expect(columns.size()).toBe(10);
-      expect(columns.get(0).get().toString()).toBe('1999-12-31');
-      expect(columns.get(1).get().toString()).toBe('2000-01-01');
-      expect(columns.get(2).get().toString()).toBe('2000-01-02');
-      expect(columns.get(3).get().toString()).toBe('2000-01-03');
-      expect(columns.get(4).get().toString()).toBe('2000-01-04');
-      expect(columns.get(5).get().toString()).toBe('2000-01-05');
-      expect(columns.get(6).get().toString()).toBe('2000-01-06');
-      expect(columns.get(7).get().toString()).toBe('2000-01-07');
-      expect(columns.get(8).get().toString()).toBe('2000-01-08');
-      expect(columns.get(9).get().toString()).toBe('2000-01-09');
+      expect(columns.get(0)?.toString()).toBe('1999-12-31');
+      expect(columns.get(1)?.toString()).toBe('2000-01-01');
+      expect(columns.get(2)?.toString()).toBe('2000-01-02');
+      expect(columns.get(3)?.toString()).toBe('2000-01-03');
+      expect(columns.get(4)?.toString()).toBe('2000-01-04');
+      expect(columns.get(5)?.toString()).toBe('2000-01-05');
+      expect(columns.get(6)?.toString()).toBe('2000-01-06');
+      expect(columns.get(7)?.toString()).toBe('2000-01-07');
+      expect(columns.get(8)?.toString()).toBe('2000-01-08');
+      expect(columns.get(9)?.toString()).toBe('2000-01-09');
     });
 
-    it('no AsOfs', () => {
+    it('no AsOfs', async () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline(),
         new MockLanguage(),
@@ -1207,14 +1219,14 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      const columns: AsOfs = stats.getColumns();
+      const columns: AsOfs = await stats.getColumns().get();
 
       expect(columns.isEmpty()).toBe(true);
     });
   });
 
   describe('getColumn', () => {
-    it('properly bring the very correct AsOf', () => {
+    it('properly bring the very correct AsOf', async () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline(),
         new MockLanguage(),
@@ -1267,18 +1279,26 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats.getColumn(Column.of(0).get()).get().toString()).toBe('1999-12-31');
-      expect(stats.getColumn(Column.of(1).get()).get().toString()).toBe('2000-01-01');
-      expect(stats.getColumn(Column.of(2).get()).get().toString()).toBe('2000-01-02');
-      expect(stats.getColumn(Column.of(3).get()).get().toString()).toBe('2000-01-03');
-      expect(stats.getColumn(Column.of(4).get()).get().toString()).toBe('2000-01-04');
-      expect(stats.getColumn(Column.of(5).get()).get().toString()).toBe('2000-01-05');
-      expect(stats.getColumn(Column.of(6).get()).get().toString()).toBe('2000-01-06');
+      const asOf1: AsOf = await stats.getColumn(await Column.of(0).get()).get();
+      const asOf2: AsOf = await stats.getColumn(await Column.of(1).get()).get();
+      const asOf3: AsOf = await stats.getColumn(await Column.of(2).get()).get();
+      const asOf4: AsOf = await stats.getColumn(await Column.of(3).get()).get();
+      const asOf5: AsOf = await stats.getColumn(await Column.of(4).get()).get();
+      const asOf6: AsOf = await stats.getColumn(await Column.of(5).get()).get();
+      const asOf7: AsOf = await stats.getColumn(await Column.of(6).get()).get();
+
+      expect(asOf1.toString()).toBe('1999-12-31');
+      expect(asOf2.toString()).toBe('2000-01-01');
+      expect(asOf3.toString()).toBe('2000-01-02');
+      expect(asOf4.toString()).toBe('2000-01-03');
+      expect(asOf5.toString()).toBe('2000-01-04');
+      expect(asOf6.toString()).toBe('2000-01-05');
+      expect(asOf7.toString()).toBe('2000-01-06');
     });
   });
 
   describe('getRow', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const statsItem1: MockStatsItem = new MockStatsItem({
         values: new MockStatsValues(
           new MockStatsValue({
@@ -1331,8 +1351,8 @@ describe('Stats', () => {
         new MockStatsItems(statsItem1, statsItem2)
       );
 
-      expect(stats.getRow(Row.of(0).get()).get()).toBe(statsItem1);
-      expect(stats.getRow(Row.of(1).get()).get()).toBe(statsItem2);
+      expect(await stats.getRow(await Row.of(0).get()).get()).toBe(statsItem1);
+      expect(await stats.getRow(await Row.of(1).get()).get()).toBe(statsItem2);
     });
   });
 
@@ -1397,13 +1417,13 @@ describe('Stats', () => {
       const rowHeaders: StatsItemNames = stats.getRowHeaders();
 
       expect(rowHeaders.size()).toBe(2);
-      expect(rowHeaders.get(0).get()).toBe(name1);
-      expect(rowHeaders.get(1).get()).toBe(name2);
+      expect(rowHeaders.get(0)).toBe(name1);
+      expect(rowHeaders.get(1)).toBe(name2);
     });
   });
 
   describe('getRowHeaderSize', () => {
-    it('normal case ', () => {
+    it('normal case ', async () => {
       const name1: MockStatsItemName = new MockStatsItemName('stats1');
       const name2: MockStatsItemName = new MockStatsItemName('stats1111');
       const stats: Stats = Stats.of(
@@ -1460,10 +1480,12 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats.getRowHeaderSize().get()).toBe(name2.length() * 14);
+      const headerSize: HeaderSize = await stats.getRowHeaderSize().get();
+
+      expect(headerSize.get()).toBe(name2.length() * 14);
     });
 
-    it('gives 1 * 14 when given stats', () => {
+    it('gives 1 * 14 when given stats', async () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline(),
         new MockLanguage(),
@@ -1472,12 +1494,14 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      expect(stats.getRowHeaderSize().get()).toBe(14);
+      const headerSize: HeaderSize = await stats.getRowHeaderSize().get();
+
+      expect(headerSize.get()).toBe(14);
     });
   });
 
   describe('getData', () => {
-    it('the matrix is made even if the value is not input', () => {
+    it('the matrix is made even if the value is not input', async () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline(),
         new MockLanguage(),
@@ -1530,7 +1554,7 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats.getData()).toEqual([
+      expect(await stats.getData().get()).toEqual([
         ['', '1', '', '2', '', '', ''],
         ['', '2', '4', '', '', '6', '']
       ]);
@@ -1828,9 +1852,9 @@ describe('Stats', () => {
   });
 
   describe('setData', () => {
-    it('update pattern', () => {
-      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
-      const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
+    it('update pattern', async () => {
+      const asOf1: AsOf = await AsOf.ofString('2000-01-01').get();
+      const asOf2: AsOf = await AsOf.ofString('2000-01-02').get();
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
@@ -1855,19 +1879,17 @@ describe('Stats', () => {
         )
       );
 
-      stats.setData(Coordinate.of(Row.of(0).get(), Column.of(2).get()), NumericalValue.of(4));
+      stats.setData(Coordinate.of(await Row.of(0).get(), await Column.of(2).get()), NumericalValue.of(4));
 
-      const values: StatsValues = stats.getItems().get(0).get().getValues();
-
-      expect(values.size()).toBe(2);
-      expect(values.get(asOf1).get().getValue().get()).toBe(1);
-      expect(values.get(asOf2).get().getValue().get()).toBe(4);
+      expect(stats.getItems().get(0)?.getValues().size()).toBe(2);
+      expect(stats.getItems().get(0)?.getValues().get(asOf1)?.getValue().get()).toBe(1);
+      expect(stats.getItems().get(0)?.getValues().get(asOf2)?.getValue().get()).toBe(4);
     });
 
-    it('insert pattern', () => {
-      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
-      const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
-      const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
+    it('insert pattern', async () => {
+      const asOf1: AsOf = await AsOf.ofString('2000-01-01').get();
+      const asOf2: AsOf = await AsOf.ofString('2000-01-02').get();
+      const asOf3: AsOf = await AsOf.ofString('2000-01-03').get();
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
@@ -1892,23 +1914,21 @@ describe('Stats', () => {
         )
       );
 
-      stats.setData(Coordinate.of(Row.of(0).get(), Column.of(2).get()), NumericalValue.of(2));
+      stats.setData(Coordinate.of(await Row.of(0).get(), await Column.of(2).get()), NumericalValue.of(2));
 
-      const item: StatsItem = stats.getItems().get(0).get();
-
-      expect(item.getValues().size()).toBe(3);
-      expect(item.getValues().get(asOf1).get().getValue().get()).toBe(1);
-      expect(item.getValues().get(asOf2).get().getValue().get()).toBe(2);
-      expect(item.getValues().get(asOf3).get().getValue().get()).toBe(3);
+      expect(stats.getItems().get(0)?.getValues().size()).toBe(3);
+      expect(stats.getItems().get(0)?.getValues().get(asOf1)?.getValue().get()).toBe(1);
+      expect(stats.getItems().get(0)?.getValues().get(asOf2)?.getValue().get()).toBe(2);
+      expect(stats.getItems().get(0)?.getValues().get(asOf3)?.getValue().get()).toBe(3);
     });
   });
 
   describe('deleteData', () => {
-    it('correctly deletes the specified StatsValue', () => {
-      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
-      const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
-      const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
-      const asOf4: AsOf = AsOf.ofString('2000-01-05').get();
+    it('correctly deletes the specified StatsValue', async () => {
+      const asOf1: AsOf = await AsOf.ofString('2000-01-01').get();
+      const asOf2: AsOf = await AsOf.ofString('2000-01-02').get();
+      const asOf3: AsOf = await AsOf.ofString('2000-01-03').get();
+      const asOf4: AsOf = await AsOf.ofString('2000-01-05').get();
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
@@ -1949,17 +1969,17 @@ describe('Stats', () => {
         )
       );
 
-      stats.deleteData(Coordinate.of(Row.of(0).get(), Column.of(1).get()));
+      stats.deleteData(Coordinate.of(await Row.of(0).get(), await Column.of(1).get()));
 
       const items: StatsItems = stats.getItems();
 
       expect(items.size()).toBe(2);
-      expect(items.get(0).get().getValues().size()).toBe(1);
-      expect(items.get(0).get().getValues().get(asOf3).get().getValue().get()).toBe(2);
-      expect(items.get(1).get().getValues().size()).toBe(3);
-      expect(items.get(1).get().getValues().get(asOf1).get().getValue().get()).toBe(2);
-      expect(items.get(1).get().getValues().get(asOf2).get().getValue().get()).toBe(4);
-      expect(items.get(1).get().getValues().get(asOf4).get().getValue().get()).toBe(6);
+      expect(items.get(0)?.getValues().size()).toBe(1);
+      expect(items.get(0)?.getValues().get(asOf3)?.getValue().get()).toBe(2);
+      expect(items.get(1)?.getValues().size()).toBe(3);
+      expect(items.get(1)?.getValues().get(asOf1)?.getValue().get()).toBe(2);
+      expect(items.get(1)?.getValues().get(asOf2)?.getValue().get()).toBe(4);
+      expect(items.get(1)?.getValues().get(asOf4)?.getValue().get()).toBe(6);
     });
   });
 
@@ -1985,7 +2005,7 @@ describe('Stats', () => {
   });
 
   describe('getChart', () => {
-    it('chart is output for recharts', () => {
+    it('chart is output for recharts', async () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
@@ -2043,7 +2063,7 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats.getChart()).toEqual([
+      expect(await stats.getChart().get()).toEqual([
         {
           name: '1999-12-31'
         },
@@ -2072,7 +2092,7 @@ describe('Stats', () => {
   });
 
   describe('isDetermined', () => {
-    it('has values , that means it already has some AsOfs', () => {
+    it('has values , that means it already has some AsOfs', async () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
@@ -2096,10 +2116,10 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats.isDetermined()).toBe(true);
+      expect(await stats.isDetermined().get()).toBe(true);
     });
 
-    it('even if it does not have values , if startDate is set, returns true', () => {
+    it('even if it does not have values , if startDate is set, returns true', async () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
@@ -2109,13 +2129,13 @@ describe('Stats', () => {
         new MockRegion(),
         Term.DAILY,
         new MockStatsItems(),
-        Present.of<AsOf>(AsOf.ofString('2000-01-01').get())
+        AsOf.ofString('2000-01-01').toUnscharferelation()
       );
 
-      expect(stats.isDetermined()).toBe(true);
+      expect(await stats.isDetermined().get()).toBe(true);
     });
 
-    it('returns false if stats does not have values nor startDate', () => {
+    it('returns false if stats does not have values nor startDate', async () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
@@ -2127,7 +2147,7 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      expect(stats.isDetermined()).toBe(false);
+      expect(await stats.isDetermined().get()).toBe(false);
     });
   });
 });

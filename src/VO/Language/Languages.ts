@@ -1,4 +1,6 @@
-import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
+} from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
 import { Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
@@ -8,7 +10,6 @@ import { LanguagesError } from './Error/LanguagesError';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 import { LanguageID } from './LanguageID';
 
-// TODO TESTS
 export class Languages extends Quantity<Languages, LanguageID, Language, 'Languages'>
   implements JSONable<Array<LanguageJSON>> {
   public readonly noun: 'Languages' = 'Languages';

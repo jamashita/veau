@@ -1,9 +1,10 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
+} from '@jamashita/publikum-collection';
 import { Nullable } from '@jamashita/publikum-type';
 
 import { NumericalValue } from './NumericalValue';
 
-// TODO TESTS
 export class NumericalValues extends Quantity<NumericalValues, number, NumericalValue, 'NumericalValues'> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
   private readonly values: Sequence<NumericalValue>;

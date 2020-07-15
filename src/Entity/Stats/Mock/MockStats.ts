@@ -1,4 +1,4 @@
-import { Absent, Quantum } from '@jamashita/publikum-monad';
+import { Unscharferelation } from '@jamashita/publikum-monad';
 
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { Language } from '../../../VO/Language/Language';
@@ -20,7 +20,7 @@ type StatsArgs = Partial<
     region: Region;
     term: Term;
     items: StatsItems;
-    startDate: Quantum<AsOf>;
+    startDate: Unscharferelation<AsOf>;
   }>
 >;
 
@@ -31,7 +31,7 @@ export class MockStats extends Stats {
     region = new MockRegion(),
     term = new MockTerm(),
     items = new MockStatsItems(),
-    startDate = Absent.of<AsOf>()
+    startDate = Unscharferelation.absent<AsOf>()
   }: StatsArgs = {}) {
     super(outline, language, region, term, items, startDate);
   }

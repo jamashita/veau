@@ -1,4 +1,6 @@
-import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
+} from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
 import { Kind, Nullable } from '@jamashita/publikum-type';
@@ -9,7 +11,6 @@ import { StatsValueError } from './Error/StatsValueError';
 import { StatsValuesError } from './Error/StatsValuesError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
-// TODO TESTS UNDONE
 export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsValues'>
   implements Cloneable<StatsValues>, JSONable<Array<StatsValueJSON>> {
   public readonly noun: 'StatsValues' = 'StatsValues';

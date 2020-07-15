@@ -1,5 +1,4 @@
 import { ImmutableSequence } from '@jamashita/publikum-collection';
-import { Heisenberg, Unscharferelation } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 
 import { Term } from '../../Term/Term';
@@ -238,7 +237,7 @@ describe('AsOfs', () => {
   });
 
   describe('min', () => {
-    it('returns minimal asOf', async () => {
+    it('returns minimal asOf', () => {
       const asOf1: MockAsOf = new MockAsOf({
         day: 3
       });
@@ -252,31 +251,30 @@ describe('AsOfs', () => {
         day: 1
       });
       const asOfs: AsOfs = AsOfs.ofArray([asOf1, asOf2, asOf3, asOf4]);
-      const a: AsOf = await asOfs.min().get();
+      const a: Nullable<AsOf> = asOfs.min();
 
-      expect(a.equals(asOf2)).toBe(true);
+      expect(a?.equals(asOf2)).toBe(true);
     });
 
-    it('returns asOf itself when the elements are only one', async () => {
+    it('returns asOf itself when the elements are only one', () => {
       const asOf: MockAsOf = new MockAsOf({
         day: 3
       });
       const asOfs: AsOfs = AsOfs.ofArray([asOf]);
-      const a: AsOf = await asOfs.min().get();
+      const a: Nullable<AsOf> = asOfs.min();
 
       expect(a).toBe(asOf);
     });
 
-    it('returns Absent when AsOfs are empty', async () => {
-      const unscharferelation: Unscharferelation<AsOf> = AsOfs.empty().min();
-      const heisenberg: Heisenberg<AsOf> = await unscharferelation.terminate();
+    it('returns null when AsOfs are empty', () => {
+      const asOf: Nullable<AsOf> = AsOfs.empty().min();
 
-      expect(heisenberg.isAbsent()).toBe(true);
+      expect(asOf).toBe(null);
     });
   });
 
   describe('max', () => {
-    it('returns minimal asOf', async () => {
+    it('returns minimal asOf', () => {
       const asOf1: MockAsOf = new MockAsOf({
         day: 3
       });
@@ -290,25 +288,25 @@ describe('AsOfs', () => {
         day: 3
       });
       const asOfs: AsOfs = AsOfs.ofArray([asOf1, asOf2, asOf3, asOf4]);
-      const a: AsOf = await asOfs.max().get();
+      const a: Nullable<AsOf> = asOfs.max();
 
-      expect(a.equals(asOf4)).toBe(true);
+      expect(a?.equals(asOf4)).toBe(true);
     });
 
-    it('returns asOf itself when the elements are only one', async () => {
+    it('returns asOf itself when the elements are only one', () => {
       const asOf: MockAsOf = new MockAsOf({
         day: 3
       });
       const asOfs: AsOfs = AsOfs.ofArray([asOf]);
+      const a: Nullable<AsOf> = asOfs.max();
 
-      expect(await asOfs.max().get()).toBe(asOf);
+      expect(a).toBe(asOf);
     });
 
-    it('returns Absent when AsOfs are empty', async () => {
-      const unscharferelation: Unscharferelation<AsOf> = AsOfs.empty().max();
-      const heisenberg: Heisenberg<AsOf> = await unscharferelation.terminate();
+    it('returns null when AsOfs are empty', () => {
+      const asOf: Nullable<AsOf> = AsOfs.empty().max();
 
-      expect(heisenberg.isAbsent()).toBe(true);
+      expect(asOf).toBe(null);
     });
   });
 

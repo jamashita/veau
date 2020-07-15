@@ -1,4 +1,6 @@
-import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
+} from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
 import { Mapper, Nullable } from '@jamashita/publikum-type';
@@ -8,7 +10,6 @@ import { StatsOutlinesError } from './Error/StatsOutlinesError';
 import { StatsID } from './StatsID';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
-// TODO TEST UNDONE
 export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline, 'StatsOutlines'>
   implements Cloneable<StatsOutlines>, JSONable<Array<StatsOutlineJSON>> {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';

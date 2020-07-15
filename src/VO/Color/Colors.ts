@@ -1,9 +1,10 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
+} from '@jamashita/publikum-collection';
 import { Nullable } from '@jamashita/publikum-type';
 
 import { Color } from './Color';
 
-// TODO TESTS UNDONE
 export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
   public readonly noun: 'Colors' = 'Colors';
   private readonly colors: Sequence<Color>;

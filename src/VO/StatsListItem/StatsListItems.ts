@@ -1,9 +1,10 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
+} from '@jamashita/publikum-collection';
 import { Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { StatsListItem } from './StatsListItem';
 
-// TODO TESTS UNDONE
 export class StatsListItems extends Quantity<StatsListItems, number, StatsListItem, 'StatsListItems'> {
   public readonly noun: 'StatsListItems' = 'StatsListItems';
   private readonly items: Sequence<StatsListItem>;

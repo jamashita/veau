@@ -1,10 +1,11 @@
-import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
+} from '@jamashita/publikum-collection';
 import { Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { Term } from './Term';
 import { TermID } from './TermID';
 
-// TODO TEST UNDONE
 export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
   public readonly noun: 'Terms' = 'Terms';
   private readonly terms: Project<TermID, Term>;

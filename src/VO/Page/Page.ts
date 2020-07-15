@@ -1,14 +1,14 @@
-import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
+import { OffsetError } from './Error/OffsetError';
 import { PageError } from './Error/PageError';
 import { Limit } from './Limit';
 import { Offset } from './Offset';
 
 const MIN_PAGE: number = 1;
 
-// TODO TESTS
 export class Page extends ValueObject<Page, 'Page'> {
   public readonly noun: 'Page' = 'Page';
   private readonly page: number;
@@ -46,10 +46,10 @@ export class Page extends ValueObject<Page, 'Page'> {
     return Limit.default();
   }
 
-  public getOffset(): Unscharferelation<Offset> {
+  public getOffset(): Superposition<Offset, OffsetError> {
     const offset: number = (this.page - 1) * this.getLimit().get();
 
-    return Offset.of(offset).toUnscharferelation();
+    return Offset.of(offset);
   }
 
   public equals(other: Page): boolean {

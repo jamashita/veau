@@ -1,10 +1,11 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
+} from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { StatsItemName } from './StatsItemName';
 
-// TODO TESTS UNDONE
 export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemName, 'StatsItemNames'>
   implements JSONable<Array<string>> {
   public readonly noun: 'StatsItemNames' = 'StatsItemNames';
