@@ -2,8 +2,9 @@ import {
     CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
 } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
+import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
-import { Zeit } from '@jamashita/publikum-zeit';
+import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
 
 import { Term } from '../Term/Term';
 import { AsOf } from './AsOf';
@@ -89,42 +90,46 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
     return this.asOfs.contains(value);
   }
 
-  public min(): Nullable<AsOf> {
+  public min(): Unscharferelation<AsOf> {
     if (this.isEmpty()) {
-      return null;
+      return Unscharferelation.absent<AsOf>();
     }
     if (this.asOfs.size() === 1) {
-      return this.asOfs.get(0);
+      return Unscharferelation.maybe<AsOf>(this.asOfs.get(0));
     }
 
     const zeiten: Array<Zeit> = this.asOfs.toArray().map<Zeit>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    if (zeiten.length === 0) {
-      return null;
-    }
-
-    return AsOf.of(Zeit.min(zeiten, AsOf.format()));
+    return Superposition.playground<Zeit, ZeitError>(() => {
+      return Zeit.min(zeiten, AsOf.format());
+    }, ZeitError)
+      .map<AsOf, ZeitError>((zeit: Zeit) => {
+        return AsOf.of(zeit);
+      })
+      .toUnscharferelation();
   }
 
-  public max(): Nullable<AsOf> {
+  public max(): Unscharferelation<AsOf> {
     if (this.isEmpty()) {
-      return null;
+      return Unscharferelation.absent<AsOf>();
     }
     if (this.asOfs.size() === 1) {
-      return this.asOfs.get(0);
+      return Unscharferelation.maybe<AsOf>(this.asOfs.get(0));
     }
 
     const zeiten: Array<Zeit> = this.asOfs.toArray().map<Zeit>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    if (zeiten.length === 0) {
-      return null;
-    }
-
-    return AsOf.of(Zeit.max(zeiten, AsOf.format()));
+    return Superposition.playground<Zeit, ZeitError>(() => {
+      return Zeit.max(zeiten, AsOf.format());
+    }, ZeitError)
+      .map<AsOf, ZeitError>((zeit: Zeit) => {
+        return AsOf.of(zeit);
+      })
+      .toUnscharferelation();
   }
 
   public size(): number {
