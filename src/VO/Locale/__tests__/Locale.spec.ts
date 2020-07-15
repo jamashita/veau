@@ -71,7 +71,7 @@ describe('Locale', () => {
         if (language === null) {
           // eslint-disable-next-line jest/no-jasmine-globals
           fail();
-          
+
           return;
         }
 
@@ -87,7 +87,7 @@ describe('Locale', () => {
         if (region === null) {
           // eslint-disable-next-line jest/no-jasmine-globals
           fail();
-          
+
           return;
         }
 

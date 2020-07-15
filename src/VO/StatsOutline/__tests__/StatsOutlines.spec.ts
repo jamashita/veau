@@ -51,12 +51,8 @@ describe('StatsOutlines', () => {
       const array: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
 
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
-        Superposition.alive<StatsOutline, StatsOutlineError>(
-          array[0], StatsOutlineError
-        ),
-        Superposition.alive<StatsOutline, StatsOutlineError>(
-          array[1], StatsOutlineError
-        )
+        Superposition.alive<StatsOutline, StatsOutlineError>(array[0], StatsOutlineError),
+        Superposition.alive<StatsOutline, StatsOutlineError>(array[1], StatsOutlineError)
       ]);
       const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
