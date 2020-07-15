@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
@@ -71,7 +69,9 @@ describe('Locale', () => {
           .get(await LanguageID.ofString(languages[i].languageID).get());
 
         if (language === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
           fail();
+          
           return;
         }
 
@@ -85,7 +85,9 @@ describe('Locale', () => {
         const region: Nullable<Region> = locale.getRegions().get(await RegionID.ofString(regions[i].regionID).get());
 
         if (region === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
           fail();
+          
           return;
         }
 
@@ -112,9 +114,6 @@ describe('Locale', () => {
         }
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<Locale, LocaleError> = Locale.ofJSON({
         languages,
         regions
@@ -122,20 +121,9 @@ describe('Locale', () => {
       const schrodinger: Schrodinger<Locale, LocaleError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: LocaleError) => {
-            spy2();
-            expect(err).toBeInstanceOf(LocaleError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(LocaleError);
     });
 
     it('has malformat regionID ', async () => {
@@ -155,9 +143,6 @@ describe('Locale', () => {
         }
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<Locale, LocaleError> = Locale.ofJSON({
         languages,
         regions
@@ -165,20 +150,9 @@ describe('Locale', () => {
       const schrodinger: Schrodinger<Locale, LocaleError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: LocaleError) => {
-            spy2();
-            expect(err).toBeInstanceOf(LocaleError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(LocaleError);
     });
   });
 
