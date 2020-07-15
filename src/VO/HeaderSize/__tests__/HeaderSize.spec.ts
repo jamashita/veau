@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { HeaderSizeError } from '../Error/HeaderSizeError';
@@ -13,26 +11,11 @@ describe('HeaderSize', () => {
       const schrodinger1: Schrodinger<HeaderSize, HeaderSizeError> = await superposition1.terminate();
       const schrodinger2: Schrodinger<HeaderSize, HeaderSizeError> = await superposition2.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       expect(schrodinger1.isAlive()).toBe(true);
       expect(schrodinger2.isDead()).toBe(true);
-
-      await superposition2
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: HeaderSizeError) => {
-            spy2();
-            expect(err).toBeInstanceOf(HeaderSizeError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(HeaderSizeError);
     });
 
     it('returns Dead when the argument is not integer', async () => {
@@ -41,42 +24,14 @@ describe('HeaderSize', () => {
       const schrodinger1: Schrodinger<HeaderSize, HeaderSizeError> = await superposition1.terminate();
       const schrodinger2: Schrodinger<HeaderSize, HeaderSizeError> = await superposition2.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-
       expect(schrodinger1.isDead()).toBe(true);
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(HeaderSizeError);
       expect(schrodinger2.isDead()).toBe(true);
-
-      await superposition1
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: HeaderSizeError) => {
-            spy2();
-            expect(err).toBeInstanceOf(HeaderSizeError);
-          }
-        )
-        .terminate();
-
-      await superposition2
-        .transform<void>(
-          () => {
-            spy3();
-          },
-          (err: HeaderSizeError) => {
-            spy4();
-            expect(err).toBeInstanceOf(HeaderSizeError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(HeaderSizeError);
     });
   });
 
