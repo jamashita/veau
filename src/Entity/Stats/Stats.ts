@@ -1,12 +1,13 @@
-import { Absent, Heisenberg, Superposition } from '@jamashita/publikum-monad';
+import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
-import { Ambiguous, Kind, Nullable } from '@jamashita/publikum-type';
+import { Ambiguous, Kind } from '@jamashita/publikum-type';
 
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
 import { Coordinate } from '../../VO/Coordinate/Coordinate';
 import { Row } from '../../VO/Coordinate/Row';
+import { HeaderSizeError } from '../../VO/HeaderSize/Error/HeaderSizeError';
 import { HeaderSize } from '../../VO/HeaderSize/HeaderSize';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Language, LanguageJSON } from '../../VO/Language/Language';
@@ -45,7 +46,7 @@ export class Stats extends Entity<StatsID, Stats> {
   private readonly region: Region;
   private readonly term: Term;
   private items: StatsItems;
-  private readonly startDate: Heisenberg<AsOf>;
+  private readonly startDate: Unscharferelation<AsOf>;
   private columns?: AsOfs;
 
   public static of(
@@ -54,7 +55,7 @@ export class Stats extends Entity<StatsID, Stats> {
     region: Region,
     term: Term,
     items: StatsItems,
-    startDate: Heisenberg<AsOf> = Absent.of<AsOf>()
+    startDate: Unscharferelation<AsOf> = Unscharferelation.absent<AsOf>()
   ): Stats {
     return new Stats(outline, language, region, term, items, startDate);
   }
@@ -125,7 +126,7 @@ export class Stats extends Entity<StatsID, Stats> {
     region: Region,
     term: Term,
     items: StatsItems,
-    startDate: Heisenberg<AsOf>
+    startDate: Unscharferelation<AsOf>
   ) {
     super();
     this.outline = outline;
@@ -172,7 +173,7 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.items;
   }
 
-  public getStartDate(): Heisenberg<AsOf> {
+  public getStartDate(): Unscharferelation<AsOf> {
     return this.startDate;
   }
 
@@ -180,35 +181,36 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.outline.getStatsID();
   }
 
-  public getRow(row: Row): Nullable<StatsItem> {
-    return this.items.get(row.get());
+  public getRow(row: Row): Unscharferelation<StatsItem> {
+    return Unscharferelation.maybe<StatsItem>(this.items.get(row.get()));
   }
 
-  public getColumns(): AsOfs {
-    if (this.columns !== undefined) {
-      return this.columns;
-    }
+  public getColumns(): Unscharferelation<AsOfs> {
+    return Unscharferelation.maybe<AsOfs>(this.columns).recover<AsOfs>(() => {
+      return this.startDate
+        .map<AsOfs>((asOf: AsOf) => {
+          return this.items.getAsOfs().add(asOf);
+        })
+        .map<AsOfs>((asOfs: AsOfs) => {
+          if (asOfs.isEmpty()) {
+            return AsOfs.empty();
+          }
 
-    let asOfs: AsOfs = this.items.getAsOfs();
+          return asOfs.min().map<AsOfs>((min: AsOf) => {
+            return asOfs.max().map<AsOfs>((max: AsOf) => {
+              this.columns = AsOfs.duration(min, max, this.term);
 
-    this.startDate.ifPresent((asOf: AsOf) => {
-      asOfs = asOfs.add(asOf);
+              return this.columns;
+            });
+          });
+        });
     });
-
-    if (asOfs.isEmpty()) {
-      return AsOfs.empty();
-    }
-
-    const min: AsOf = asOfs.min().get();
-    const max: AsOf = asOfs.max().get();
-
-    this.columns = AsOfs.duration(min, max, this.term);
-
-    return this.columns;
   }
 
-  public getColumn(column: Column): Nullable<AsOf> {
-    return this.getColumns().get(column.get());
+  public getColumn(column: Column): Unscharferelation<AsOf> {
+    return this.getColumns().map<AsOf>((asOfs: AsOfs) => {
+      return asOfs.get(column.get());
+    });
   }
 
   private recalculate(): void {
@@ -220,34 +222,32 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.items.getNames();
   }
 
-  public getRowHeaderSize(): HeaderSize {
+  public getRowHeaderSize(): Superposition<HeaderSize, HeaderSizeError> {
     const length: number = this.items.maxNameLength();
 
     if (length === 0) {
-      return HeaderSize.of(REVISED_VALUE).get();
+      return HeaderSize.of(REVISED_VALUE);
     }
 
-    return HeaderSize.of(length * REVISED_VALUE).get();
+    return HeaderSize.of(length * REVISED_VALUE);
   }
 
-  public getData(): Array<Array<string>> {
-    const columns: AsOfs = this.getColumns();
-
-    return this.items.map<Array<string>>((item: StatsItem) => {
-      return item.getValuesByColumn(columns).row();
+  public getData(): Unscharferelation<Array<Array<string>>> {
+    return this.getColumns().map<Array<Array<string>>>((columns: AsOfs) => {
+      return this.items.map<Array<string>>((item: StatsItem) => {
+        return item.getValuesByColumn(columns).row();
+      });
     });
   }
 
   public setData(coordinate: Coordinate, value: NumericalValue): void {
-    this.items.get(coordinate.getRow().get()).ifPresent((item: StatsItem) => {
-      this.getColumns()
-        .get(coordinate.getColumn().get())
-        .ifPresent((asOf: AsOf) => {
-          const statsValue: StatsValue = StatsValue.of(asOf, value);
+    Unscharferelation.maybe<StatsItem>(this.items.get(coordinate.getRow().get())).ifPresent((item: StatsItem) => {
+      this.getColumn(coordinate.getColumn()).ifPresent((asOf: AsOf) => {
+        const statsValue: StatsValue = StatsValue.of(asOf, value);
 
-          item.set(statsValue);
-          this.recalculate();
-        });
+        item.set(statsValue);
+        this.recalculate();
+      });
     });
   }
 
@@ -260,34 +260,34 @@ export class Stats extends Entity<StatsID, Stats> {
     });
   }
 
-  public getChart(): Array<Chart> {
+  public getChart(): Unscharferelation<Array<Chart>> {
     const chartItems: Map<string, Chart> = new Map<string, Chart>();
 
-    this.getColumns().forEach((column: AsOf) => {
+    return this.getColumns().map<Array<Chart>>((column: AsOfs) => {
       const asOfString: string = column.toString();
 
       chartItems.set(asOfString, {
         name: asOfString
       });
-    });
 
-    this.items.forEach((statsItem: StatsItem) => {
-      statsItem.getValues().forEach((statsValue: StatsValue) => {
-        const line: Ambiguous<Chart> = chartItems.get(statsValue.getAsOf().toString());
+      this.items.forEach((statsItem: StatsItem) => {
+        statsItem.getValues().forEach((statsValue: StatsValue) => {
+          const line: Ambiguous<Chart> = chartItems.get(statsValue.getAsOf().toString());
 
-        if (line !== undefined) {
-          line[statsItem.getName().get()] = statsValue.getValue().get();
-        }
+          if (line !== undefined) {
+            line[statsItem.getName().get()] = statsValue.getValue().get();
+          }
+        });
       });
+
+      const chart: Array<Chart> = [];
+
+      chartItems.forEach((value: Chart) => {
+        chart.push(value);
+      });
+
+      return chart;
     });
-
-    const chart: Array<Chart> = [];
-
-    chartItems.forEach((value: Chart) => {
-      chart.push(value);
-    });
-
-    return chart;
   }
 
   public getItemNames(): StatsItemNames {
@@ -298,15 +298,18 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.items.haveValues();
   }
 
-  public isDetermined(): boolean {
+  public isDetermined(): Unscharferelation<boolean> {
     if (this.hasValues()) {
-      return true;
-    }
-    if (this.startDate.isPresent()) {
-      return true;
+      return Unscharferelation.present<boolean>(true);
     }
 
-    return false;
+    return this.startDate
+      .map<boolean>(() => {
+        return true;
+      })
+      .recover<boolean>(() => {
+        return false;
+      });
   }
 
   public isFilled(): boolean {
