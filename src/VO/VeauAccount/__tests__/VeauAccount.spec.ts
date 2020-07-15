@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -60,25 +58,13 @@ describe('VeauAccount', () => {
         name: 'name'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
+      const schrodinger: Schrodinger<VeauAccount, VeauAccountError> = await superposition.terminate();
 
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: VeauAccountError) => {
-            spy2();
-            expect(err).toBeInstanceOf(VeauAccountError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(VeauAccountError);
     });
 
     it('languageID is malformat', async () => {
@@ -89,25 +75,13 @@ describe('VeauAccount', () => {
         name: 'name'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
+      const schrodinger: Schrodinger<VeauAccount, VeauAccountError> = await superposition.terminate();
 
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: VeauAccountError) => {
-            spy2();
-            expect(err).toBeInstanceOf(VeauAccountError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(VeauAccountError);
     });
 
     it('regionID is malformat', async () => {
@@ -118,25 +92,13 @@ describe('VeauAccount', () => {
         name: 'name'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
+      const schrodinger: Schrodinger<VeauAccount, VeauAccountError> = await superposition.terminate();
 
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: VeauAccountError) => {
-            spy2();
-            expect(err).toBeInstanceOf(VeauAccountError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(VeauAccountError);
     });
   });
 

@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -28,25 +26,13 @@ describe('VeauAccountID', () => {
     });
 
     it('returns Dead when uuid length string is not given', async () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString('cinq');
       const schrodinger: Schrodinger<VeauAccountID, VeauAccountIDError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: VeauAccountIDError) => {
-          spy2();
-          expect(err).toBeInstanceOf(VeauAccountIDError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(VeauAccountIDError);
     });
   });
 
