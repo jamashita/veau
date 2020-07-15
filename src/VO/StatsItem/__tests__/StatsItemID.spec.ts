@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -28,25 +26,13 @@ describe('StatsItemID', () => {
     });
 
     it('returns Dead when uuid length string is not given', async () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString('quatre');
       const schrodinger: Schrodinger<StatsItemID, StatsItemIDError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsItemIDError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsItemIDError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsItemIDError);
     });
   });
 

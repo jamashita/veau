@@ -1,7 +1,5 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { ImmutableProject } from '@jamashita/publikum-collection';
-import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -53,8 +51,12 @@ describe('StatsOutlines', () => {
       const array: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
 
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
-        Superposition.ofSchrodinger<StatsOutline, StatsOutlineError>(Alive.of<StatsOutline, StatsOutlineError>(array[0])),
-        Superposition.ofSchrodinger<StatsOutline, StatsOutlineError>(Alive.of<StatsOutline, StatsOutlineError>(array[1]))
+        Superposition.alive<StatsOutline, StatsOutlineError>(
+          array[0], StatsOutlineError
+        ),
+        Superposition.alive<StatsOutline, StatsOutlineError>(
+          array[1], StatsOutlineError
+        )
       ]);
       const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
@@ -70,17 +72,14 @@ describe('StatsOutlines', () => {
     it('contains failure', async () => {
       const statsOutline1: MockStatsOutline = new MockStatsOutline();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.ofSchrodinger<
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.alive<
         StatsOutline,
         StatsOutlineError
-      >(Alive.of<StatsOutline, StatsOutlineError>(statsOutline1));
-      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.ofSchrodinger<
+      >(statsOutline1, StatsOutlineError);
+      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<
         StatsOutline,
         StatsOutlineError
-      >(Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed')));
+      >(new StatsOutlineError('test failed'), StatsOutlineError);
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
         superposition1,
         superposition2
@@ -88,34 +87,20 @@ describe('StatsOutlines', () => {
       const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlinesError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlinesError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlinesError);
     });
 
     it('contains 2 failures', async () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.ofSchrodinger<
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<
         StatsOutline,
         StatsOutlineError
-      >(Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 1')));
-      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.ofSchrodinger<
+      >(new StatsOutlineError('test failed 1'), StatsOutlineError);
+      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<
         StatsOutline,
         StatsOutlineError
-      >(Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 2')));
+      >(new StatsOutlineError('test failed 2'), StatsOutlineError);
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
         superposition1,
         superposition2
@@ -123,20 +108,9 @@ describe('StatsOutlines', () => {
       const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlinesError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlinesError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlinesError);
     });
   });
 
@@ -250,6 +224,7 @@ describe('StatsOutlines', () => {
         const outline: Nullable<StatsOutline> = outlines.get(await StatsID.ofString(rows[i].statsID).get());
 
         if (outline === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
           fail();
 
           return;
@@ -460,11 +435,13 @@ describe('StatsOutlines', () => {
         const d: Nullable<StatsOutline> = duplicated.get(statsID);
 
         if (o === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
           fail();
 
           return;
         }
         if (d === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
           fail();
 
           return;

@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Zeit } from '@jamashita/publikum-zeit';
 
@@ -9,45 +7,19 @@ import { UpdatedAt } from '../UpdatedAt';
 describe('UpdatedAt', () => {
   describe('ofString', () => {
     it('returns Dead if the parameter is not date format', async () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-
       const superposition1: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('this is not date');
       const superposition2: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01');
       const schrodinger1: Schrodinger<UpdatedAt, UpdatedAtError> = await superposition1.terminate();
       const schrodinger2: Schrodinger<UpdatedAt, UpdatedAtError> = await superposition2.terminate();
 
       expect(schrodinger1.isDead()).toBe(true);
-      await superposition1
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: UpdatedAtError) => {
-            spy2();
-            expect(err).toBeInstanceOf(UpdatedAtError);
-          }
-        )
-        .terminate();
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(UpdatedAtError);
       expect(schrodinger2.isDead()).toBe(true);
-      await superposition2
-        .transform<void>(
-          () => {
-            spy3();
-          },
-          (err: UpdatedAtError) => {
-            spy4();
-            expect(err).toBeInstanceOf(UpdatedAtError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(UpdatedAtError);
     });
 
     it('normal case', async () => {

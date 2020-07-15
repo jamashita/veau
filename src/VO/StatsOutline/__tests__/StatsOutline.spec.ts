@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -82,27 +80,13 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
       const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlineError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlineError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlineError);
     });
 
     it('contains malformat languageID', async () => {
@@ -116,27 +100,13 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
       const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlineError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlineError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlineError);
     });
 
     it('contains malformat regionID', async () => {
@@ -150,27 +120,13 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
       const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlineError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlineError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlineError);
     });
 
     it('contains malformat termID', async () => {
@@ -184,27 +140,13 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
       const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlineError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlineError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlineError);
     });
 
     it('contains malformat updatedAt', async () => {
@@ -218,27 +160,13 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
       const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlineError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlineError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlineError);
     });
   });
 
@@ -280,27 +208,13 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
       const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlineError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlineError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlineError);
     });
 
     it('contains malformat languageID', async () => {
@@ -314,27 +228,13 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
       const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlineError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlineError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlineError);
     });
 
     it('contains malformat regionID', async () => {
@@ -348,27 +248,13 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
       const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlineError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlineError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlineError);
     });
 
     it('contains malformat termID', async () => {
@@ -382,27 +268,13 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
       const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlineError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlineError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlineError);
     });
 
     it('contains malformat updatedAt', async () => {
@@ -416,27 +288,13 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
       const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition
-        .transform<void>(
-          () => {
-            spy1();
-          },
-          (err: StatsOutlineError) => {
-            spy2();
-            expect(err).toBeInstanceOf(StatsOutlineError);
-          }
-        )
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsOutlineError);
     });
   });
 
