@@ -48,15 +48,8 @@ describe('StatsItems', () => {
       for (let i: number = 0; i < items.size(); i++) {
         const item: Nullable<StatsItem> = items.get(i);
 
-        if (item === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(item.getStatsItemID().get().get()).toBe(json[i].statsItemID);
-        expect(item.getName().get()).toBe(json[i].name);
+        expect(item?.getStatsItemID().get().get()).toBe(json[i].statsItemID);
+        expect(item?.getName().get()).toBe(json[i].name);
       }
     });
 

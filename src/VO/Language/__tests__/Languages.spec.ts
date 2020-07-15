@@ -140,17 +140,10 @@ describe('Languages', () => {
         // eslint-disable-next-line no-await-in-loop
         const language: Nullable<Language> = languages.get(await LanguageID.ofString(json[i].languageID).get());
 
-        if (language === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(language.getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(language.getName().get()).toBe(json[i].name);
-        expect(language.getEnglishName().get()).toBe(json[i].englishName);
-        expect(language.getISO639().get()).toBe(json[i].iso639);
+        expect(language?.getLanguageID().get().get()).toBe(json[i].languageID);
+        expect(language?.getName().get()).toBe(json[i].name);
+        expect(language?.getEnglishName().get()).toBe(json[i].englishName);
+        expect(language?.getISO639().get()).toBe(json[i].iso639);
       }
     });
   });
@@ -187,17 +180,10 @@ describe('Languages', () => {
         // eslint-disable-next-line no-await-in-loop
         const language: Nullable<Language> = languages.get(await LanguageID.ofString(rows[i].languageID).get());
 
-        if (language === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(language.getLanguageID().get().get()).toBe(rows[i].languageID);
-        expect(language.getName().get()).toBe(rows[i].name);
-        expect(language.getEnglishName().get()).toBe(rows[i].englishName);
-        expect(language.getISO639().get()).toBe(rows[i].iso639);
+        expect(language?.getLanguageID().get().get()).toBe(rows[i].languageID);
+        expect(language?.getName().get()).toBe(rows[i].name);
+        expect(language?.getEnglishName().get()).toBe(rows[i].englishName);
+        expect(language?.getISO639().get()).toBe(rows[i].iso639);
       }
     });
   });

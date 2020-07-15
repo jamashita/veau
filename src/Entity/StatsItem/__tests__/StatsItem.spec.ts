@@ -65,28 +65,14 @@ describe('StatsItem', () => {
       expect(statsItem.getName().get()).toBe(json.name);
       expect(statsItem.getValues().size()).toBe(json.values.length);
       const statsValue1: Nullable<StatsValue> = statsItem.getValues().get(await AsOf.ofString(asOf1).get());
-
-      if (statsValue1 === null) {
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail();
-
-        return;
-      }
-
-      expect(statsValue1.getAsOf().toString()).toBe(json.values[0].asOf);
-      expect(statsValue1.getValue().get()).toBe(json.values[0].value);
+      
+      expect(statsValue1?.getAsOf().toString()).toBe(json.values[0].asOf);
+      expect(statsValue1?.getValue().get()).toBe(json.values[0].value);
 
       const statsValue2: Nullable<StatsValue> = statsItem.getValues().get(await AsOf.ofString(asOf2).get());
 
-      if (statsValue2 === null) {
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail();
-
-        return;
-      }
-
-      expect(statsValue2.getAsOf().toString()).toBe(json.values[1].asOf);
-      expect(statsValue2.getValue().get()).toBe(json.values[1].value);
+      expect(statsValue2?.getAsOf().toString()).toBe(json.values[1].asOf);
+      expect(statsValue2?.getValue().get()).toBe(json.values[1].value);
     });
 
     it('statsItemID is malformat', async () => {
@@ -231,67 +217,22 @@ describe('StatsItem', () => {
       expect(statsItem.getName().get()).toBe(row.name);
 
       const statsValue1: Nullable<StatsValue> = statsItem.getValues().get(asOf1);
-
-      if (statsValue1 === null) {
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail();
-
-        return;
-      }
-
       const v1: Nullable<StatsValue> = statsItem.getValues().get(asOf1);
 
-      if (v1 === null) {
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail();
-
-        return;
-      }
-
-      expect(statsValue1.getAsOf()).toBe(v1.getAsOf());
-      expect(statsValue1.getValue()).toBe(v1.getValue());
+      expect(statsValue1?.getAsOf()).toBe(v1?.getAsOf());
+      expect(statsValue1?.getValue()).toBe(v1?.getValue());
 
       const statsValue2: Nullable<StatsValue> = statsItem.getValues().get(asOf2);
-
-      if (statsValue2 === null) {
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail();
-
-        return;
-      }
-
       const v2: Nullable<StatsValue> = statsItem.getValues().get(asOf2);
 
-      if (v2 === null) {
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail();
-
-        return;
-      }
-
-      expect(statsValue2.getAsOf()).toBe(v2.getAsOf());
-      expect(statsValue2.getValue()).toBe(v2.getValue());
+      expect(statsValue2?.getAsOf()).toBe(v2?.getAsOf());
+      expect(statsValue2?.getValue()).toBe(v2?.getValue());
 
       const statsValue3: Nullable<StatsValue> = statsItem.getValues().get(asOf3);
-
-      if (statsValue3 === null) {
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail();
-
-        return;
-      }
-
       const v3: Nullable<StatsValue> = statsItem.getValues().get(asOf3);
 
-      if (v3 === null) {
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail();
-
-        return;
-      }
-
-      expect(statsValue3.getAsOf()).toBe(v3.getAsOf());
-      expect(statsValue3.getValue()).toBe(v3.getValue());
+      expect(statsValue3?.getAsOf()).toBe(v3?.getAsOf());
+      expect(statsValue3?.getValue()).toBe(v3?.getValue());
     });
 
     it('does not have values of that StatsItemID', async () => {
@@ -663,36 +604,15 @@ describe('StatsItem', () => {
       expect(values.size()).toBe(3);
       const value1: Nullable<NumericalValue> = values.get(0);
 
-      if (value1 === null) {
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail();
-
-        return;
-      }
-
-      expect(value1.toString()).toBe('1');
+      expect(value1?.toString()).toBe('1');
 
       const value2: Nullable<NumericalValue> = values.get(1);
 
-      if (value2 === null) {
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail();
-
-        return;
-      }
-
-      expect(value2.toString()).toBe('');
+      expect(value2?.toString()).toBe('');
 
       const value3: Nullable<NumericalValue> = values.get(2);
 
-      if (value3 === null) {
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail();
-
-        return;
-      }
-
-      expect(value3.toString()).toBe('3');
+      expect(value3?.toString()).toBe('3');
     });
   });
 

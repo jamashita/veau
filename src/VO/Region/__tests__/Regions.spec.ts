@@ -141,16 +141,9 @@ describe('Regions', () => {
         const regionID: RegionID = await RegionID.ofString(json[i].regionID).get();
         const region: Nullable<Region> = regions.get(regionID);
 
-        if (region === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(region.getRegionID().get().get()).toBe(json[i].regionID);
-        expect(region.getName().get()).toBe(json[i].name);
-        expect(region.getISO3166().get()).toBe(json[i].iso3166);
+        expect(region?.getRegionID().get().get()).toBe(json[i].regionID);
+        expect(region?.getName().get()).toBe(json[i].name);
+        expect(region?.getISO3166().get()).toBe(json[i].iso3166);
       }
     });
   });
@@ -187,16 +180,9 @@ describe('Regions', () => {
         const regionID: RegionID = await RegionID.ofString(rows[i].regionID).get();
         const region: Nullable<Region> = regions.get(regionID);
 
-        if (region === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(region.getRegionID().get().get()).toBe(rows[i].regionID);
-        expect(region.getName().get()).toBe(rows[i].name);
-        expect(region.getISO3166().get()).toBe(rows[i].iso3166);
+        expect(region?.getRegionID().get().get()).toBe(rows[i].regionID);
+        expect(region?.getName().get()).toBe(rows[i].name);
+        expect(region?.getISO3166().get()).toBe(rows[i].iso3166);
       }
     });
   });

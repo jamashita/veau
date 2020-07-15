@@ -68,32 +68,18 @@ describe('Locale', () => {
           .getLanguages()
           .get(await LanguageID.ofString(languages[i].languageID).get());
 
-        if (language === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(language.getLanguageID().get().get()).toBe(languages[i].languageID);
-        expect(language.getName().get()).toBe(languages[i].name);
-        expect(language.getEnglishName().get()).toBe(languages[i].englishName);
-        expect(language.getISO639().get()).toBe(languages[i].iso639);
+        expect(language?.getLanguageID().get().get()).toBe(languages[i].languageID);
+        expect(language?.getName().get()).toBe(languages[i].name);
+        expect(language?.getEnglishName().get()).toBe(languages[i].englishName);
+        expect(language?.getISO639().get()).toBe(languages[i].iso639);
       }
       expect(locale.getRegions().size()).toBe(regions.length);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
         const region: Nullable<Region> = locale.getRegions().get(await RegionID.ofString(regions[i].regionID).get());
 
-        if (region === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(region.getRegionID().get().get()).toBe(regions[i].regionID);
-        expect(region.getName().get()).toBe(regions[i].name);
-        expect(region.getISO3166().get()).toBe(regions[i].iso3166);
+        expect(region?.getRegionID().get().get()).toBe(regions[i].regionID);
+        expect(region?.getName().get()).toBe(regions[i].name);
+        expect(region?.getISO3166().get()).toBe(regions[i].iso3166);
       }
     });
 

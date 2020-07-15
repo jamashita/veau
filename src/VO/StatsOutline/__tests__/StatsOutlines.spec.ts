@@ -142,19 +142,13 @@ describe('StatsOutlines', () => {
       for (let i: number = 0; i < 2; i++) {
         const outline: Nullable<StatsOutline> = outlines.get(await StatsID.ofString(json[i].statsID).get());
 
-        if (outline === null) {
-          fail();
-
-          return;
-        }
-
-        expect(outline.getStatsID().get().get()).toBe(json[i].statsID);
-        expect(outline.getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(outline.getRegionID().get().get()).toBe(json[i].regionID);
-        expect(outline.getTermID().get().get()).toBe(json[i].termID);
-        expect(outline.getName().get()).toBe(json[i].name);
-        expect(outline.getUnit().get()).toBe(json[i].unit);
-        expect(outline.getUpdatedAt().toString()).toBe(json[i].updatedAt);
+        expect(outline?.getStatsID().get().get()).toBe(json[i].statsID);
+        expect(outline?.getLanguageID().get().get()).toBe(json[i].languageID);
+        expect(outline?.getRegionID().get().get()).toBe(json[i].regionID);
+        expect(outline?.getTermID().get().get()).toBe(json[i].termID);
+        expect(outline?.getName().get()).toBe(json[i].name);
+        expect(outline?.getUnit().get()).toBe(json[i].unit);
+        expect(outline?.getUpdatedAt().toString()).toBe(json[i].updatedAt);
       }
     });
 
@@ -219,20 +213,13 @@ describe('StatsOutlines', () => {
       for (let i: number = 0; i < 2; i++) {
         const outline: Nullable<StatsOutline> = outlines.get(await StatsID.ofString(rows[i].statsID).get());
 
-        if (outline === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(outline.getStatsID().get().get()).toBe(rows[i].statsID);
-        expect(outline.getLanguageID().get().get()).toBe(rows[i].languageID);
-        expect(outline.getRegionID().get().get()).toBe(rows[i].regionID);
-        expect(outline.getTermID().get().get()).toBe(rows[i].termID);
-        expect(outline.getName().get()).toBe(rows[i].name);
-        expect(outline.getUnit().get()).toBe(rows[i].unit);
-        expect(outline.getUpdatedAt().toString()).toBe(rows[i].updatedAt);
+        expect(outline?.getStatsID().get().get()).toBe(rows[i].statsID);
+        expect(outline?.getLanguageID().get().get()).toBe(rows[i].languageID);
+        expect(outline?.getRegionID().get().get()).toBe(rows[i].regionID);
+        expect(outline?.getTermID().get().get()).toBe(rows[i].termID);
+        expect(outline?.getName().get()).toBe(rows[i].name);
+        expect(outline?.getUnit().get()).toBe(rows[i].unit);
+        expect(outline?.getUpdatedAt().toString()).toBe(rows[i].updatedAt);
       }
     });
 
