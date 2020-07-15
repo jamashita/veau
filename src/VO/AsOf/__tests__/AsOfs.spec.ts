@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '@jamashita/publikum-collection';
-import { Absent } from '@jamashita/publikum-monad';
+import { Heisenberg, Unscharferelation } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 
 import { Term } from '../../Term/Term';
@@ -206,11 +206,11 @@ describe('AsOfs', () => {
       expect(asOfs.get(2)).toBe(asOf3);
     });
 
-    it('returns Absent when the index is out of range', () => {
+    it('returns null when the index is out of range', () => {
       const asOfs: AsOfs = AsOfs.empty();
 
-      expect(asOfs.get(-1)).toBeInstanceOf(Absent);
-      expect(asOfs.get(0)).toBeInstanceOf(Absent);
+      expect(asOfs.get(-1)).toBe(null);
+      expect(asOfs.get(0)).toBe(null);
     });
   });
 
@@ -264,11 +264,14 @@ describe('AsOfs', () => {
       const asOfs: AsOfs = AsOfs.ofArray([asOf]);
       const a: AsOf = await asOfs.min().get();
 
-      expect(a.get()).toBe(asOf);
+      expect(a).toBe(asOf);
     });
 
-    it('returns Absent when AsOfs are empty', () => {
-      expect(AsOfs.empty().min()).toBeInstanceOf(Absent);
+    it('returns Absent when AsOfs are empty', async () => {
+      const unscharferelation: Unscharferelation<AsOf> = AsOfs.empty().min();
+      const heisenberg: Heisenberg<AsOf> = await unscharferelation.terminate();
+
+      expect(heisenberg.isAbsent()).toBe(true);
     });
   });
 
@@ -301,8 +304,11 @@ describe('AsOfs', () => {
       expect(await asOfs.max().get()).toBe(asOf);
     });
 
-    it('returns Absent when AsOfs are empty', () => {
-      expect(AsOfs.empty().max()).toBeInstanceOf(Absent);
+    it('returns Absent when AsOfs are empty', async () => {
+      const unscharferelation: Unscharferelation<AsOf> = AsOfs.empty().max();
+      const heisenberg: Heisenberg<AsOf> = await unscharferelation.terminate();
+
+      expect(heisenberg.isAbsent()).toBe(true);
     });
   });
 
@@ -393,7 +399,7 @@ describe('AsOfs', () => {
 
           return;
         }
-        
+
         expect(a1.equals(a2)).toBe(true);
       }
     });

@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 
@@ -29,52 +27,18 @@ describe('AsOf', () => {
       const schrodinger2: Schrodinger<AsOf, AsOfError> = await superposition2.terminate();
       const schrodinger3: Schrodinger<AsOf, AsOfError> = await superposition3.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-      const spy5: SinonSpy = sinon.spy();
-      const spy6: SinonSpy = sinon.spy();
-
       expect(schrodinger1.isDead()).toBe(true);
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(AsOfError);
       expect(schrodinger2.isDead()).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(AsOfError);
       expect(schrodinger3.isDead()).toBe(true);
-      await superposition1.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: AsOfError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AsOfError);
-        }
-      ).terminate();
-
-      await superposition2.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: AsOfError) => {
-          spy4();
-          expect(err).toBeInstanceOf(AsOfError);
-        }
-      ).terminate();
-
-      await superposition3.transform<void>(
-        () => {
-          spy5();
-        },
-        (err: AsOfError) => {
-          spy6();
-          expect(err).toBeInstanceOf(AsOfError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
-      expect(spy5.called).toBe(false);
-      expect(spy6.called).toBe(true);
+      expect(() => {
+        schrodinger3.get();
+      }).toThrow(AsOfError);
     });
   });
 
@@ -167,12 +131,12 @@ describe('AsOf', () => {
 
       allTerm.map<void>((term: Term) => {
         expect(() => {
-          const t: Nullable<Term> = allTerm.get(term.getTermID())
-          
+          const t: Nullable<Term> = allTerm.get(term.getTermID());
+
           if (t === null) {
             // eslint-disable-next-line jest/no-jasmine-globals
             fail();
-            
+
             return;
           }
 
@@ -243,7 +207,7 @@ describe('AsOf', () => {
           if (t === null) {
             // eslint-disable-next-line jest/no-jasmine-globals
             fail();
-            
+
             return;
           }
 
@@ -265,7 +229,7 @@ describe('AsOf', () => {
   describe('toString', () => {
     it('normal case', async () => {
       const asOf: string = '2000-01-01';
-      const a : AsOf = await AsOf.ofString(asOf).get();
+      const a: AsOf = await AsOf.ofString(asOf).get();
 
       expect(a.toString()).toBe(asOf);
     });
