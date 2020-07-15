@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { Column } from '../Column';
@@ -23,38 +21,14 @@ describe('Column', () => {
       const schrodinger1: Schrodinger<Column, ColumnError> = await superposition1.terminate();
       const schrodinger2: Schrodinger<Column, ColumnError> = await superposition2.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-
       expect(schrodinger1.isDead()).toBe(true);
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(ColumnError);
       expect(schrodinger2.isDead()).toBe(true);
-
-      await superposition2.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: ColumnError) => {
-          spy2();
-          expect(err).toBeInstanceOf(ColumnError);
-        }
-      ).terminate();
-
-      await superposition2.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: ColumnError) => {
-          spy4();
-          expect(err).toBeInstanceOf(ColumnError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(ColumnError);
     });
 
     it('returns Alive and its value is Column.origin() when the argument 0', async () => {
@@ -71,38 +45,14 @@ describe('Column', () => {
       const schrodinger1: Schrodinger<Column, ColumnError> = await superposition1.terminate();
       const schrodinger2: Schrodinger<Column, ColumnError> = await superposition2.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-
       expect(schrodinger1.isDead()).toBe(true);
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(ColumnError);
       expect(schrodinger2.isDead()).toBe(true);
-
-      await superposition1.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: ColumnError) => {
-          spy2();
-          expect(err).toBeInstanceOf(ColumnError);
-        }
-      ).terminate();
-
-      await superposition2.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: ColumnError) => {
-          spy4();
-          expect(err).toBeInstanceOf(ColumnError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(ColumnError);
     });
 
     it('returns Alive when the argument is positive and integer', async () => {
@@ -116,8 +66,8 @@ describe('Column', () => {
       expect(schrodinger1.isAlive()).toBe(true);
       expect(schrodinger2.isAlive()).toBe(true);
 
-      expect(schrodinger1.get()).toBe(value1);
-      expect(schrodinger2.get()).toBe(value2);
+      expect(schrodinger1.get().get()).toBe(value1);
+      expect(schrodinger2.get().get()).toBe(value2);
     });
   });
 
