@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -63,25 +61,13 @@ describe('Account', () => {
         hash: 'hash'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
       const schrodinger: Schrodinger<Account, AccountError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: AccountError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AccountError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AccountError);
     });
 
     it('contains malformat languageID', async () => {
@@ -93,25 +79,13 @@ describe('Account', () => {
         hash: 'hash'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
       const schrodinger: Schrodinger<Account, AccountError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: AccountError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AccountError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AccountError);
     });
 
     it('contains malformat regionID', async () => {
@@ -123,25 +97,13 @@ describe('Account', () => {
         hash: 'hash'
       };
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
       const schrodinger: Schrodinger<Account, AccountError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
-      await superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: AccountError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AccountError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AccountError);
     });
   });
 
