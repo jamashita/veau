@@ -20,25 +20,29 @@ describe('UpdatedAt', () => {
       const schrodinger2: Schrodinger<UpdatedAt, UpdatedAtError> = await superposition2.terminate();
 
       expect(schrodinger1.isDead()).toBe(true);
-      await superposition1.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: UpdatedAtError) => {
-          spy2();
-          expect(err).toBeInstanceOf(UpdatedAtError);
-        }
-      ).terminate();
+      await superposition1
+        .transform<void>(
+          () => {
+            spy1();
+          },
+          (err: UpdatedAtError) => {
+            spy2();
+            expect(err).toBeInstanceOf(UpdatedAtError);
+          }
+        )
+        .terminate();
       expect(schrodinger2.isDead()).toBe(true);
-      await superposition2.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: UpdatedAtError) => {
-          spy4();
-          expect(err).toBeInstanceOf(UpdatedAtError);
-        }
-      ).terminate();
+      await superposition2
+        .transform<void>(
+          () => {
+            spy3();
+          },
+          (err: UpdatedAtError) => {
+            spy4();
+            expect(err).toBeInstanceOf(UpdatedAtError);
+          }
+        )
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

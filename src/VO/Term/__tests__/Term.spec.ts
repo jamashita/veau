@@ -7,12 +7,12 @@ import { TermID } from '../TermID';
 
 describe('Term', () => {
   describe('of', () => {
-    it('normal case', () => {
-      expect(Term.of(UUID.of('34b53215-a990-44d7-926e-30d6a53611d9')).get()).toBe(Term.DAILY);
-      expect(Term.of(UUID.of('e194c8ed-f53b-4ac5-b506-a06900e7053c')).get()).toBe(Term.WEEKLY);
-      expect(Term.of(UUID.of('5a60eb2e-64f4-4d18-b8c1-34d3fa6a6262')).get()).toBe(Term.MONTHLY);
-      expect(Term.of(UUID.of('fbfe34f4-9757-4133-8353-c9a4bf3479d3')).get()).toBe(Term.QUARTERLY);
-      expect(Term.of(UUID.of('96f0d8a0-a136-4fb1-bc07-22dad6b8a21c')).get()).toBe(Term.ANNUAL);
+    it('normal case', async () => {
+      expect(await Term.of(UUID.of('34b53215-a990-44d7-926e-30d6a53611d9')).get()).toBe(Term.DAILY);
+      expect(await Term.of(UUID.of('e194c8ed-f53b-4ac5-b506-a06900e7053c')).get()).toBe(Term.WEEKLY);
+      expect(await Term.of(UUID.of('5a60eb2e-64f4-4d18-b8c1-34d3fa6a6262')).get()).toBe(Term.MONTHLY);
+      expect(await Term.of(UUID.of('fbfe34f4-9757-4133-8353-c9a4bf3479d3')).get()).toBe(Term.QUARTERLY);
+      expect(await Term.of(UUID.of('96f0d8a0-a136-4fb1-bc07-22dad6b8a21c')).get()).toBe(Term.ANNUAL);
     });
 
     it('returns Dead when the id is out of range', async () => {
@@ -27,12 +27,12 @@ describe('Term', () => {
   });
 
   describe('ofTermID', () => {
-    it('normal case', () => {
-      expect(Term.ofTermID(Term.DAILY.getTermID()).get()).toBe(Term.DAILY);
-      expect(Term.ofTermID(Term.WEEKLY.getTermID()).get()).toBe(Term.WEEKLY);
-      expect(Term.ofTermID(Term.MONTHLY.getTermID()).get()).toBe(Term.MONTHLY);
-      expect(Term.ofTermID(Term.QUARTERLY.getTermID()).get()).toBe(Term.QUARTERLY);
-      expect(Term.ofTermID(Term.ANNUAL.getTermID()).get()).toBe(Term.ANNUAL);
+    it('normal case', async () => {
+      expect(await Term.ofTermID(Term.DAILY.getTermID()).get()).toBe(Term.DAILY);
+      expect(await Term.ofTermID(Term.WEEKLY.getTermID()).get()).toBe(Term.WEEKLY);
+      expect(await Term.ofTermID(Term.MONTHLY.getTermID()).get()).toBe(Term.MONTHLY);
+      expect(await Term.ofTermID(Term.QUARTERLY.getTermID()).get()).toBe(Term.QUARTERLY);
+      expect(await Term.ofTermID(Term.ANNUAL.getTermID()).get()).toBe(Term.ANNUAL);
     });
 
     it('returns Dead when else', async () => {
@@ -47,12 +47,12 @@ describe('Term', () => {
   });
 
   describe('ofString', () => {
-    it('normal case', () => {
-      expect(Term.ofString('34b53215-a990-44d7-926e-30d6a53611d9').get()).toBe(Term.DAILY);
-      expect(Term.ofString('e194c8ed-f53b-4ac5-b506-a06900e7053c').get()).toBe(Term.WEEKLY);
-      expect(Term.ofString('5a60eb2e-64f4-4d18-b8c1-34d3fa6a6262').get()).toBe(Term.MONTHLY);
-      expect(Term.ofString('fbfe34f4-9757-4133-8353-c9a4bf3479d3').get()).toBe(Term.QUARTERLY);
-      expect(Term.ofString('96f0d8a0-a136-4fb1-bc07-22dad6b8a21c').get()).toBe(Term.ANNUAL);
+    it('normal case', async () => {
+      expect(await Term.ofString('34b53215-a990-44d7-926e-30d6a53611d9').get()).toBe(Term.DAILY);
+      expect(await Term.ofString('e194c8ed-f53b-4ac5-b506-a06900e7053c').get()).toBe(Term.WEEKLY);
+      expect(await Term.ofString('5a60eb2e-64f4-4d18-b8c1-34d3fa6a6262').get()).toBe(Term.MONTHLY);
+      expect(await Term.ofString('fbfe34f4-9757-4133-8353-c9a4bf3479d3').get()).toBe(Term.QUARTERLY);
+      expect(await Term.ofString('96f0d8a0-a136-4fb1-bc07-22dad6b8a21c').get()).toBe(Term.ANNUAL);
     });
 
     it('returns Dead when else', async () => {
