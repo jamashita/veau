@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { LimitError } from '../Error/LimitError';
@@ -25,39 +23,15 @@ describe('Limit', () => {
       const schrodinger2: Schrodinger<Limit, LimitError> = await superposition2.terminate();
       const schrodinger3: Schrodinger<Limit, LimitError> = await superposition3.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-
       expect(schrodinger1.isAlive()).toBe(true);
       expect(schrodinger2.isDead()).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(LimitError);
       expect(schrodinger3.isDead()).toBe(true);
-
-      await superposition2.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LimitError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LimitError);
-        }
-      ).terminate();
-
-      await superposition3.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: LimitError) => {
-          spy4();
-          expect(err).toBeInstanceOf(LimitError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
+      expect(() => {
+        schrodinger3.get();
+      }).toThrow(LimitError);
     });
 
     it('returns Dead when the argument is not integer', async () => {
@@ -66,38 +40,14 @@ describe('Limit', () => {
       const schrodinger1: Schrodinger<Limit, LimitError> = await superposition1.terminate();
       const schrodinger2: Schrodinger<Limit, LimitError> = await superposition2.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-
       expect(schrodinger1.isDead()).toBe(true);
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(LimitError);
       expect(schrodinger2.isDead()).toBe(true);
-
-      await superposition1.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LimitError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LimitError);
-        }
-      ).terminate();
-
-      await superposition2.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: LimitError) => {
-          spy4();
-          expect(err).toBeInstanceOf(LimitError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(LimitError);
     });
 
     it('returns Alive and its value is Limit.default() when the argument 0', async () => {

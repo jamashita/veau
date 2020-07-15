@@ -1,6 +1,4 @@
-import sinon, { SinonSpy } from 'sinon';
-
-import { Superposition } from '@jamashita/publikum-monad';
+import { Heisenberg, Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { PageError } from '../Error/PageError';
 import { Limit } from '../Limit';
@@ -19,108 +17,67 @@ describe('Page', () => {
   });
 
   describe('of', () => {
-    it('returns Dead when the argument is less than 1', () => {
+    it('returns Dead when the argument is less than 1', async () => {
       const superposition1: Superposition<Page, PageError> = Page.of(0);
       const superposition2: Superposition<Page, PageError> = Page.of(-1);
+      const schrodinger1: Schrodinger<Page, PageError> = await superposition1.terminate();
+      const schrodinger2: Schrodinger<Page, PageError> = await superposition2.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-
-      expect(superposition1.isDead()).toBe(true);
-      expect(superposition2.isDead()).toBe(true);
-
-      superposition1.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: PageError) => {
-          spy2();
-          expect(err).toBeInstanceOf(PageError);
-        }
-      );
-
-      superposition2.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: PageError) => {
-          spy4();
-          expect(err).toBeInstanceOf(PageError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
+      expect(schrodinger1.isDead()).toBe(true);
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(PageError);
+      expect(schrodinger2.isDead()).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(PageError);
     });
 
-    it('returns Alive and its value is Page.min() when the argument 1', () => {
+    it('returns Alive and its value is Page.min() when the argument 1', async () => {
       const superposition: Superposition<Page, PageError> = Page.of(1);
+      const schrodinger: Schrodinger<Page, PageError> = await superposition.terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(Page.min());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(Page.min());
     });
 
-    it('returns Dead when the argument is not integer', () => {
+    it('returns Dead when the argument is not integer', async () => {
       const superposition1: Superposition<Page, PageError> = Page.of(0.1);
       const superposition2: Superposition<Page, PageError> = Page.of(1.5);
+      const schrodinger1: Schrodinger<Page, PageError> = await superposition1.terminate();
+      const schrodinger2: Schrodinger<Page, PageError> = await superposition2.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-
-      expect(superposition1.isDead()).toBe(true);
-      expect(superposition2.isDead()).toBe(true);
-
-      superposition1.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: PageError) => {
-          spy2();
-          expect(err).toBeInstanceOf(PageError);
-        }
-      );
-
-      superposition2.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: PageError) => {
-          spy4();
-          expect(err).toBeInstanceOf(PageError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
+      expect(schrodinger1.isDead()).toBe(true);
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(PageError);
+      expect(schrodinger2.isDead()).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(PageError);
     });
 
-    it('normal case', () => {
+    it('normal case', async () => {
       const page1: number = 1;
       const page2: number = 4;
       const superposition1: Superposition<Page, PageError> = Page.of(page1);
       const superposition2: Superposition<Page, PageError> = Page.of(page2);
+      const schrodinger1: Schrodinger<Page, PageError> = await superposition1.terminate();
+      const schrodinger2: Schrodinger<Page, PageError> = await superposition2.terminate();
 
-      expect(superposition1.isAlive()).toBe(true);
-      expect(superposition2.isAlive()).toBe(true);
+      expect(schrodinger1.isAlive()).toBe(true);
+      expect(schrodinger2.isAlive()).toBe(true);
 
-      expect(superposition1.get().get()).toBe(page1);
-      expect(superposition2.get().get()).toBe(page2);
+      expect(schrodinger1.get().get()).toBe(page1);
+      expect(schrodinger2.get().get()).toBe(page2);
     });
   });
 
   describe('equals', () => {
-    it('returns true if both properties are the same', () => {
-      const page1: Page = Page.of(1).get();
-      const page2: Page = Page.of(2).get();
-      const page3: Page = Page.of(1).get();
+    it('returns true if both properties are the same', async () => {
+      const page1: Page = await Page.of(1).get();
+      const page2: Page = await Page.of(2).get();
+      const page3: Page = await Page.of(1).get();
 
       expect(page1.equals(page1)).toBe(true);
       expect(page1.equals(page2)).toBe(false);
@@ -129,9 +86,10 @@ describe('Page', () => {
   });
 
   describe('getLimit', () => {
-    it('always generates the same amount of limit', () => {
+    it('always generates the same amount of limit', async () => {
       for (let i: number = 1; i <= 10; i++) {
-        const page: Page = Page.of(i).get();
+        // eslint-disable-next-line no-await-in-loop
+        const page: Page = await Page.of(i).get();
         const limit: Limit = page.getLimit();
 
         expect(limit.get()).toBe(40);
@@ -140,21 +98,23 @@ describe('Page', () => {
   });
 
   describe('getOffset', () => {
-    it('depends the argument which generated Offset is', () => {
-      const page1: Page = Page.of(1).get();
-      const offset1: Offset = page1.getOffset();
-      const page2: Page = Page.of(2).get();
-      const offset2: Offset = page2.getOffset();
+    it('depends the argument which generated Offset is', async () => {
+      const page1: Page = await Page.of(1).get();
+      const heisenberg1: Heisenberg<Offset> = await page1.getOffset().terminate();
+      const page2: Page = await Page.of(2).get();
+      const heisenberg2: Heisenberg<Offset> = await page2.getOffset().terminate();
 
-      expect(offset1.get()).toBe(0);
-      expect(offset2.get()).toBe(40);
+      expect(heisenberg1.isPresent()).toBe(true);
+      expect(heisenberg1.get().get()).toBe(0);
+      expect(heisenberg2.isPresent()).toBe(true);
+      expect(heisenberg2.get().get()).toBe(40);
     });
   });
 
   describe('toString', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const num: number = 2;
-      const page: Page = Page.of(num).get();
+      const page: Page = await Page.of(num).get();
 
       expect(page.toString()).toBe(num.toString());
     });

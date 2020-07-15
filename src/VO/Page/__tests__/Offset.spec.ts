@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { OffsetError } from '../Error/OffsetError';
@@ -13,24 +11,11 @@ describe('Offset', () => {
       const schrodinger1: Schrodinger<Offset, OffsetError> = await superposition1.terminate();
       const schrodinger2: Schrodinger<Offset, OffsetError> = await superposition2.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       expect(schrodinger1.isAlive()).toBe(true);
       expect(schrodinger2.isDead()).toBe(true);
-
-      await superposition2.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: OffsetError) => {
-          spy2();
-          expect(err).toBeInstanceOf(OffsetError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(OffsetError);
     });
 
     it('returns Dead when the argument is not integer', async () => {
@@ -39,38 +24,14 @@ describe('Offset', () => {
       const schrodinger1: Schrodinger<Offset, OffsetError> = await superposition1.terminate();
       const schrodinger2: Schrodinger<Offset, OffsetError> = await superposition2.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-
       expect(schrodinger1.isDead()).toBe(true);
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(OffsetError);
       expect(schrodinger2.isDead()).toBe(true);
-
-      await superposition1.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: OffsetError) => {
-          spy2();
-          expect(err).toBeInstanceOf(OffsetError);
-        }
-      ).terminate();
-
-      await superposition2.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: OffsetError) => {
-          spy4();
-          expect(err).toBeInstanceOf(OffsetError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(OffsetError);
     });
   });
 
