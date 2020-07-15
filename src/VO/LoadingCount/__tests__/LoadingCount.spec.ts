@@ -1,5 +1,3 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { LoadingCountError } from '../Error/LoadingCountError';
@@ -23,38 +21,14 @@ describe('LoadingCount', () => {
       const schrodinger1: Schrodinger<LoadingCount, LoadingCountError> = await superposition1.terminate();
       const schrodinger2: Schrodinger<LoadingCount, LoadingCountError> = await superposition2.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-
       expect(schrodinger1.isDead()).toBe(true);
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(LoadingCountError);
       expect(schrodinger2.isDead()).toBe(true);
-
-      await superposition1.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LoadingCountError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LoadingCountError);
-        }
-      ).terminate();
-
-      await superposition2.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: LoadingCountError) => {
-          spy4();
-          expect(err).toBeInstanceOf(LoadingCountError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(LoadingCountError);
     });
 
     it('returns Alive and its value is LoadingCount.default() when the argument 0', async () => {
@@ -71,38 +45,14 @@ describe('LoadingCount', () => {
       const schrodinger1: Schrodinger<LoadingCount, LoadingCountError> = await superposition1.terminate();
       const schrodinger2: Schrodinger<LoadingCount, LoadingCountError> = await superposition2.terminate();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-
       expect(schrodinger1.isDead()).toBe(true);
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(LoadingCountError);
       expect(schrodinger2.isDead()).toBe(true);
-
-      await superposition1.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LoadingCountError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LoadingCountError);
-        }
-      ).terminate();
-
-      await superposition2.transform<void>(
-        () => {
-          spy3();
-        },
-        (err: LoadingCountError) => {
-          spy4();
-          expect(err).toBeInstanceOf(LoadingCountError);
-        }
-      ).terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
+      expect(() => {
+        schrodinger2.get();
+      }).toThrow(LoadingCountError);
     });
 
     it('returns Alive when the argument is positive and integer', async () => {
@@ -116,8 +66,8 @@ describe('LoadingCount', () => {
       expect(schrodinger1.isAlive()).toBe(true);
       expect(schrodinger2.isAlive()).toBe(true);
 
-      expect(schrodinger1.get()).toBe(value1);
-      expect(schrodinger2.get()).toBe(value2);
+      expect(schrodinger1.get().get()).toBe(value1);
+      expect(schrodinger2.get().get()).toBe(value2);
     });
   });
 
