@@ -1,8 +1,9 @@
-import { Collection, ImmutableSequence, Project, Sequence } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableSequence, Pair, Project, Quantity, Sequence
+} from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { Alive, Dead, Quantum, Schrodinger, Superposition } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
-import { Enumerator, Kind, Mapper } from '@jamashita/publikum-type';
+import { Superposition } from '@jamashita/publikum-monad';
+import { Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
@@ -15,8 +16,8 @@ import { StatsItemNames } from '../../VO/StatsItem/StatsItemNames';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 
-export class StatsItems extends Objet<StatsItems>
-  implements Collection<number, StatsItem>, Cloneable<StatsItems>, JSONable {
+export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsItems'>
+  implements Cloneable<StatsItems>, JSONable {
   public readonly noun: 'StatsItems' = 'StatsItems';
   private readonly items: Sequence<StatsItem>;
 
@@ -41,13 +42,14 @@ export class StatsItems extends Objet<StatsItems>
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsItem, StatsItemError>>
   ): Superposition<StatsItems, StatsItemsError> {
-    return Schrodinger.all<StatsItem, StatsItemError>(superpositions).transform<StatsItems, StatsItemsError>(
+    return Superposition.all<StatsItem, StatsItemError>(superpositions).transform<StatsItems, StatsItemsError>(
       (statsItems: Array<StatsItem>) => {
-        return Alive.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
+        return StatsItems.ofArray(statsItems);
       },
       (err: StatsItemError) => {
-        return Dead.of<StatsItems, StatsItemsError>(new StatsItemsError('StatsItems.ofSuperposition()', err));
-      }
+        throw new StatsItemsError('StatsItems.ofSuperposition()', err);
+      },
+      StatsItemsError
     );
   }
 
@@ -101,7 +103,7 @@ export class StatsItems extends Objet<StatsItems>
     return StatsItems.of(this.items.add(...statsItem));
   }
 
-  public get(index: number): Quantum<StatsItem> {
+  public get(index: number): Nullable<StatsItem> {
     return this.items.get(index);
   }
 
@@ -184,8 +186,12 @@ export class StatsItems extends Objet<StatsItems>
     return this.items.size();
   }
 
-  public forEach(iteration: Enumerator<number, StatsItem>): void {
+  public forEach(iteration: CancellableEnumerator<number, StatsItem>): void {
     this.items.forEach(iteration);
+  }
+
+  public iterator(): Iterator<Pair<number, StatsItem>> {
+    return this.items.iterator();
   }
 
   public map<U>(mapper: Mapper<StatsItem, U>): Array<U> {
@@ -248,9 +254,27 @@ export class StatsItems extends Objet<StatsItems>
       return false;
     }
 
-    return this.items.every((item: StatsItem, index: number) => {
-      return item.isSame(other.get(index).get());
-    });
+    const thisIterator: Iterator<Pair<number, StatsItem>> = this.iterator();
+    const otherIterator: Iterator<Pair<number, StatsItem>> = other.iterator();
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const thisRes: IteratorResult<Pair<number, StatsItem>> = thisIterator.next();
+      const otherRes: IteratorResult<Pair<number, StatsItem>> = otherIterator.next();
+
+      if (thisRes.done !== true && otherRes.done !== true) {
+        if (!thisRes.value.getValue().isSame(otherRes.value.getValue())) {
+          return false;
+        }
+
+        continue;
+      }
+      if (thisRes.done === true && otherRes.done === true) {
+        return true;
+      }
+
+      return false;
+    }
   }
 
   public toJSON(): Array<StatsItemJSON> {

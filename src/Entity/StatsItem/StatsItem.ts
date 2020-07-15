@@ -1,5 +1,7 @@
 import { Project } from '@jamashita/publikum-collection';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import {
+    Superposition, Unscharferelation, UnscharferelationError
+} from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -36,43 +38,42 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
   }
 
   public static ofJSON(json: StatsItemJSON): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(json.statsItemID).transform<StatsItem, StatsItemError>(
-      (statsItemID: StatsItemID) => {
-        return StatsValues.ofJSON(json.values).transform<StatsItem, StatsItemError>(
+    return StatsItemID.ofString(json.statsItemID)
+      .map<StatsItem, StatsItemIDError | StatsValuesError>((statsItemID: StatsItemID) => {
+        return StatsValues.ofJSON(json.values).map<StatsItem, StatsItemIDError | StatsValuesError>(
           (statsValues: StatsValues) => {
-            return Alive.of<StatsItem, StatsItemError>(
-              StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues)
-            );
+            return StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues);
           },
-          (err: StatsValuesError) => {
-            return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofJSON()', err));
-          }
+          StatsValuesError
         );
-      },
-      (err: StatsItemIDError) => {
-        return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofJSON()', err));
-      }
-    );
+      })
+      .recover((err: StatsItemIDError | StatsValuesError) => {
+        throw new StatsItemError('StatsItem.ofJSON()', err);
+      }, StatsItemError);
   }
 
   public static ofRow(
     row: StatsItemRow,
     project: Project<StatsItemID, StatsValues>
   ): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(row.statsItemID).transform<StatsItem, StatsItemError>(
-      (statsItemID: StatsItemID) => {
-        const values: StatsValues = project.get(statsItemID).getOrElse(StatsValues.empty());
-
-        return Alive.of<StatsItem, StatsItemError>(StatsItem.of(statsItemID, StatsItemName.of(row.name), values));
-      },
-      (err: StatsItemIDError) => {
-        return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofRow()', err));
-      }
-    );
+    return StatsItemID.ofString(row.statsItemID)
+      .map<StatsItem, StatsItemIDError>((statsItemID: StatsItemID) => {
+        return Unscharferelation.maybe<StatsValues>(project.get(statsItemID))
+          .toSuperposition()
+          .map<StatsItem, UnscharferelationError>((values: StatsValues) => {
+            return StatsItem.of(statsItemID, StatsItemName.of(row.name), values);
+          })
+          .recover<StatsItem, StatsItemIDError>(() => {
+            return StatsItem.of(statsItemID, StatsItemName.of(row.name), StatsValues.empty());
+          });
+      })
+      .recover<StatsItem, StatsItemError>((err: StatsItemIDError) => {
+        throw new StatsItemError('StatsItem.ofRow()', err);
+      }, StatsItemError);
   }
 
   public static isJSON(n: unknown): n is StatsItemJSON {
-    if (!Kind.isPlainObject(n)) {
+    if (!Kind.isObject<StatsItemJSON>(n)) {
       return false;
     }
     if (!Kind.isString(n.statsItemID)) {
