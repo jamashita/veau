@@ -1,5 +1,6 @@
-import { Heisenberg, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
+import { OffsetError } from '../Error/OffsetError';
 import { PageError } from '../Error/PageError';
 import { Limit } from '../Limit';
 import { Offset } from '../Offset';
@@ -100,14 +101,15 @@ describe('Page', () => {
   describe('getOffset', () => {
     it('depends the argument which generated Offset is', async () => {
       const page1: Page = await Page.of(1).get();
-      const heisenberg1: Heisenberg<Offset> = await page1.getOffset().terminate();
       const page2: Page = await Page.of(2).get();
-      const heisenberg2: Heisenberg<Offset> = await page2.getOffset().terminate();
 
-      expect(heisenberg1.isPresent()).toBe(true);
-      expect(heisenberg1.get().get()).toBe(0);
-      expect(heisenberg2.isPresent()).toBe(true);
-      expect(heisenberg2.get().get()).toBe(40);
+      const schrodinger1: Schrodinger<Offset, OffsetError> = await page1.getOffset().terminate();
+      const schrodinger2: Schrodinger<Offset, OffsetError> = await page2.getOffset().terminate();
+
+      expect(schrodinger1.isAlive()).toBe(true);
+      expect(schrodinger1.get().get()).toBe(0);
+      expect(schrodinger2.isAlive()).toBe(true);
+      expect(schrodinger2.get().get()).toBe(40);
     });
   });
 
