@@ -65,7 +65,7 @@ describe('StatsItem', () => {
       expect(statsItem.getName().get()).toBe(json.name);
       expect(statsItem.getValues().size()).toBe(json.values.length);
       const statsValue1: Nullable<StatsValue> = statsItem.getValues().get(await AsOf.ofString(asOf1).get());
-      
+
       expect(statsValue1?.getAsOf().toString()).toBe(json.values[0].asOf);
       expect(statsValue1?.getValue().get()).toBe(json.values[0].value);
 

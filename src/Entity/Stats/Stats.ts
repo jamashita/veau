@@ -1,6 +1,6 @@
-import { Absent, Alive, Dead, Quantum, Superposition } from '@jamashita/publikum-monad';
+import { Absent, Heisenberg, Superposition } from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
-import { Ambiguous, Kind } from '@jamashita/publikum-type';
+import { Ambiguous, Kind, Nullable } from '@jamashita/publikum-type';
 
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
@@ -45,7 +45,7 @@ export class Stats extends Entity<StatsID, Stats> {
   private readonly region: Region;
   private readonly term: Term;
   private items: StatsItems;
-  private readonly startDate: Quantum<AsOf>;
+  private readonly startDate: Heisenberg<AsOf>;
   private columns?: AsOfs;
 
   public static of(
@@ -54,52 +54,49 @@ export class Stats extends Entity<StatsID, Stats> {
     region: Region,
     term: Term,
     items: StatsItems,
-    startDate: Quantum<AsOf> = Absent.of<AsOf>()
+    startDate: Heisenberg<AsOf> = Absent.of<AsOf>()
   ): Stats {
     return new Stats(outline, language, region, term, items, startDate);
   }
 
   public static ofJSON(json: StatsJSON): Superposition<Stats, StatsError> {
-    return StatsOutline.ofJSON(json.outline).transform<Stats, StatsError>(
-      (outline: StatsOutline) => {
-        return Language.ofJSON(json.language).transform<Stats, StatsError>(
-          (language: Language) => {
-            return Region.ofJSON(json.region).transform<Stats, StatsError>(
-              (region: Region) => {
-                return Term.ofString(json.outline.termID).transform<Stats, StatsError>(
-                  (term: Term) => {
-                    return StatsItems.ofJSON(json.items).transform<Stats, StatsError>(
-                      (statsItems: StatsItems) => {
-                        return Alive.of<Stats, StatsError>(Stats.of(outline, language, region, term, statsItems));
-                      },
-                      (err: StatsItemsError) => {
-                        return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
-                      }
-                    );
-                  },
-                  (err: TermError) => {
-                    return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
-                  }
-                );
-              },
-              (err: RegionError) => {
-                return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
-              }
-            );
-          },
-          (err: LanguageError) => {
-            return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
-          }
-        );
-      },
-      (err: StatsOutlineError) => {
-        return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
-      }
-    );
+    return StatsOutline.ofJSON(json.outline)
+      .map<Stats, StatsOutlineError | LanguageError | RegionError | TermError | StatsItemsError>(
+        (outline: StatsOutline) => {
+          return Language.ofJSON(json.language).map<Stats, LanguageError | RegionError | TermError | StatsItemsError>(
+            (language: Language) => {
+              return Region.ofJSON(json.region).map<Stats, RegionError | TermError | StatsItemsError>(
+                (region: Region) => {
+                  return Term.ofString(json.outline.termID).map<Stats, TermError | StatsItemsError>((term: Term) => {
+                    return StatsItems.ofJSON(json.items).map<Stats, StatsItemsError>((statsItems: StatsItems) => {
+                      return Stats.of(outline, language, region, term, statsItems);
+                    });
+                  }, StatsItemsError);
+                },
+                TermError,
+                StatsItemsError
+              );
+            },
+            RegionError,
+            TermError,
+            StatsItemsError
+          );
+        },
+        LanguageError,
+        RegionError,
+        TermError,
+        StatsItemsError
+      )
+      .recover<Stats, StatsError>(
+        (err: StatsOutlineError | LanguageError | RegionError | TermError | StatsItemsError) => {
+          throw new StatsError('Stats.ofJSON()', err);
+        },
+        StatsError
+      );
   }
 
   public static isJSON(n: unknown): n is StatsJSON {
-    if (!Kind.isPlainObject(n)) {
+    if (!Kind.isObject<StatsJSON>(n)) {
       return false;
     }
     if (!StatsOutline.isJSON(n.outline)) {
@@ -128,7 +125,7 @@ export class Stats extends Entity<StatsID, Stats> {
     region: Region,
     term: Term,
     items: StatsItems,
-    startDate: Quantum<AsOf>
+    startDate: Heisenberg<AsOf>
   ) {
     super();
     this.outline = outline;
@@ -175,7 +172,7 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.items;
   }
 
-  public getStartDate(): Quantum<AsOf> {
+  public getStartDate(): Heisenberg<AsOf> {
     return this.startDate;
   }
 
@@ -183,7 +180,7 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.outline.getStatsID();
   }
 
-  public getRow(row: Row): Quantum<StatsItem> {
+  public getRow(row: Row): Nullable<StatsItem> {
     return this.items.get(row.get());
   }
 
@@ -210,7 +207,7 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.columns;
   }
 
-  public getColumn(column: Column): Quantum<AsOf> {
+  public getColumn(column: Column): Nullable<AsOf> {
     return this.getColumns().get(column.get());
   }
 

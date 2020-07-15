@@ -173,7 +173,7 @@ describe('StatsItems', () => {
       expect(items.get(1)?.getValues().get(asOf1)?.getValue().get()).toBe(0);
       expect(items.get(1)?.getValues().get(asOf2)).toBe(null);
       expect(items.get(1)?.getValues().get(asOf3)?.getValue().get()).toBe(3);
-    })
+    });
 
     it('contains malformat statsItemID', async () => {
       const row: Array<StatsItemRow> = [
@@ -388,8 +388,14 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
 
-      const superposition1: Superposition<StatsItem, StatsItemError> = Superposition.alive<StatsItem, StatsItemError>(statsItem1, StatsItemError);
-      const superposition2: Superposition<StatsItem, StatsItemError> = Superposition.alive<StatsItem, StatsItemError>(statsItem2, StatsItemError);
+      const superposition1: Superposition<StatsItem, StatsItemError> = Superposition.alive<StatsItem, StatsItemError>(
+        statsItem1,
+        StatsItemError
+      );
+      const superposition2: Superposition<StatsItem, StatsItemError> = Superposition.alive<StatsItem, StatsItemError>(
+        statsItem2,
+        StatsItemError
+      );
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofSuperposition([
         superposition1,
         superposition2
@@ -407,9 +413,13 @@ describe('StatsItems', () => {
     it('contains failure', async () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
 
-      const superposition1: Superposition<StatsItem, StatsItemError> = Superposition.alive<StatsItem, StatsItemError>(statsItem1, StatsItemError);
+      const superposition1: Superposition<StatsItem, StatsItemError> = Superposition.alive<StatsItem, StatsItemError>(
+        statsItem1,
+        StatsItemError
+      );
       const superposition2: Superposition<StatsItem, StatsItemError> = Superposition.dead<StatsItem, StatsItemError>(
-        new StatsItemError('test failed'), StatsItemError
+        new StatsItemError('test failed'),
+        StatsItemError
       );
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofSuperposition([
         superposition1,
@@ -425,10 +435,12 @@ describe('StatsItems', () => {
 
     it('will be multiple failures', async () => {
       const superposition1: Superposition<StatsItem, StatsItemError> = Superposition.dead<StatsItem, StatsItemError>(
-        new StatsItemError('test failed1'), StatsItemError
+        new StatsItemError('test failed1'),
+        StatsItemError
       );
       const superposition2: Superposition<StatsItem, StatsItemError> = Superposition.dead<StatsItem, StatsItemError>(
-        new StatsItemError('test failed2'), StatsItemError
+        new StatsItemError('test failed2'),
+        StatsItemError
       );
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofSuperposition([
         superposition1,

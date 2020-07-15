@@ -1,5 +1,10 @@
 import {
-    CancellableEnumerator, ImmutableSequence, Pair, Project, Quantity, Sequence
+  CancellableEnumerator,
+  ImmutableSequence,
+  Pair,
+  Project,
+  Quantity,
+  Sequence
 } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
