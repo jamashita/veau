@@ -1,6 +1,6 @@
 import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
-import { Ambiguous, Kind } from '@jamashita/publikum-type';
+import { Ambiguous, Kind, PlainObject } from '@jamashita/publikum-type';
 
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
@@ -94,6 +94,14 @@ export class Stats extends Entity<StatsID, Stats> {
         },
         StatsError
       );
+  }
+
+  public static ofObject(object: object): Superposition<Stats, StatsError> {
+    if (!Stats.isJSON(object)) {
+      return Superposition.dead<Stats, StatsError>(new StatsError('Stats.ofObject()'), StatsError);
+    }
+
+    return Stats.ofJSON(object);
   }
 
   public static isJSON(n: unknown): n is StatsJSON {

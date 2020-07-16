@@ -155,6 +155,410 @@ describe('Stats', () => {
         }
       }
     });
+
+    it('returns Dead if StatsOutline returns Dead', async () => {
+      const json: StatsJSON = {
+        outline: {
+          statsID: 'malformat',
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
+        items: [
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
+      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+    });
+
+    it('returns Dead if Language returns Dead', async () => {
+      const json: StatsJSON = {
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: 'malformat',
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
+        items: [
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
+      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+    });
+
+    it('returns Dead if Region returns Dead', async () => {
+      const json: StatsJSON = {
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: 'malformat',
+          name: 'region1',
+          iso3166: 'RGN'
+        },
+        items: [
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
+      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+    });
+
+    it('returns Dead if Term returns Dead', async () => {
+      const json: StatsJSON = {
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: 'malformat',
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
+        items: [
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
+      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+    });
+
+    it('returns Dead if StatsItem returns Dead', async () => {
+      const json: StatsJSON = {
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
+        items: [
+          {
+            statsItemID: 'malformat',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
+      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+    });
+  });
+
+  describe('ofObject', () => {
+    it('Stats.isJSON() and Stats.ofJSON() works proper, returns Alive', async () => {
+      const object: StatsJSON = {
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
+        items: [
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      const superposition: Superposition<Stats, StatsError> = Stats.ofObject(object);
+      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
+
+      expect(schrodinger.isAlive()).toBe(true);
+    });
+
+    it('Stats.isJSON() returns false, returns Dead', async () => {
+      const object: object = {};
+
+      const superposition: Superposition<Stats, StatsError> = Stats.ofObject(object);
+      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
+
+      console.log(schrodinger);
+      expect(schrodinger.isDead()).toBe(true);
+    });
+
+    it('Stats.ofJSON() returns false, returns Dead', async () => {
+      const object: StatsJSON = {
+        outline: {
+          statsID: 'malformat',
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
+        items: [
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: UUID.v4().get(),
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      const superposition: Superposition<Stats, StatsError> = Stats.ofObject(object);
+      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+    });
   });
 
   describe('isJSON', () => {
