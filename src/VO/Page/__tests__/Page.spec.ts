@@ -1,5 +1,6 @@
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
+import { LimitError } from '../Error/LimitError';
 import { OffsetError } from '../Error/OffsetError';
 import { PageError } from '../Error/PageError';
 import { Limit } from '../Limit';
@@ -91,9 +92,10 @@ describe('Page', () => {
       for (let i: number = 1; i <= 10; i++) {
         // eslint-disable-next-line no-await-in-loop
         const page: Page = await Page.of(i).get();
-        const limit: Limit = page.getLimit();
+        const schrodinger: Schrodinger<Limit, LimitError> = await page.getLimit().terminate();
 
-        expect(limit.get()).toBe(40);
+        expect(schrodinger.isAlive()).toBe(true);
+        expect(schrodinger.get().get()).toBe(40);
       }
     });
   });

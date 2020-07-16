@@ -2,6 +2,7 @@ import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
+import { LimitError } from './Error/LimitError';
 import { OffsetError } from './Error/OffsetError';
 import { PageError } from './Error/PageError';
 import { Limit } from './Limit';
@@ -42,14 +43,24 @@ export class Page extends ValueObject<Page, 'Page'> {
     return this.page;
   }
 
-  public getLimit(): Limit {
-    return Limit.default();
+  public getLimit(): Superposition<Limit, LimitError> {
+    return Superposition.alive<Limit, LimitError>(Limit.default());
   }
 
   public getOffset(): Superposition<Offset, OffsetError> {
-    const offset: number = (this.page - 1) * this.getLimit().get();
+    return this.getLimit()
+      .map<Offset, LimitError | OffsetError>((limit: Limit) => {
+        const offset: number = (this.page - 1) * limit.get();
 
-    return Offset.of(offset);
+        return Offset.of(offset);
+      })
+      .recover<Offset, OffsetError>((err: LimitError | OffsetError) => {
+        if (err instanceof LimitError) {
+          throw new OffsetError('Page.getOffset()', err);
+        }
+
+        throw err;
+      });
   }
 
   public equals(other: Page): boolean {
