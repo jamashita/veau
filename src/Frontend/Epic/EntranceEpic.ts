@@ -1,15 +1,19 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
-import { concat, from, merge, Observable, of } from 'rxjs';
-import { filter, map, mergeMap } from 'rxjs/operators';
+import { concat, merge, Observable, of } from 'rxjs';
+import { filter, flatMap, map } from 'rxjs/operators';
 
 import { Type } from '../../Container/Types';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
 import { Identity } from '../../VO/Identity/Identity';
 import {
-    ENTRANCE_ACCOUNT_NAME_TYPED, ENTRANCE_PASSWORD_TYPED, EntranceAccountNameTypedAction,
-    EntrancePasswordTypedAction, IDENTITY_AUTHENTICATE, VeauAction
+  ENTRANCE_ACCOUNT_NAME_TYPED,
+  ENTRANCE_PASSWORD_TYPED,
+  EntranceAccountNameTypedAction,
+  EntrancePasswordTypedAction,
+  IDENTITY_AUTHENTICATE,
+  VeauAction
 } from '../Action';
 import { updateEntranceInformation } from '../ActionCreator/EntranceActionCreator';
 import { identified, identityAuthenticated } from '../ActionCreator/IdentityActionCreator';
@@ -54,7 +58,7 @@ export class EntranceEpic {
 
         return entranceInformation.isAcceptable();
       }),
-      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+      flatMap<VeauAction, Observable<VeauAction>>(() => {
         // prettier-ignore
         const {
           value: {
@@ -64,24 +68,17 @@ export class EntranceEpic {
 
         return concat<VeauAction>(
           of<VeauAction>(loading()),
-          from<Promise<Observable<VeauAction>>>(
-            this.identityQuery
-              .findByEntranceInfo(entranceInformation)
-              .transform<Observable<VeauAction>, Error>(
-                (identity: Identity) => {
-                  return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
-                },
-                () => {
-                  return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
-                },
-                Error
-              )
-              .get()
-          ).pipe<Observable<VeauAction>>(
-            map<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
-              return observable;
-            })
-          ),
+          this.identityQuery
+            .findByEntranceInfo(entranceInformation)
+            .transform<Observable<VeauAction>, Error>(
+              (identity: Identity) => {
+                return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
+              },
+              () => {
+                return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
+              }
+            )
+            .get(),
           of<VeauAction>(loaded())
         );
       })

@@ -1,9 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
-import { concat, from, merge, Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
-
-import { Superposition } from '@jamashita/publikum-monad';
+import { concat, merge, Observable, of } from 'rxjs';
+import { flatMap, map } from 'rxjs/operators';
 
 import { Type } from '../../Container/Types';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
@@ -49,83 +47,72 @@ export class IdentityEpic {
   public initIdentity(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
     return action$.pipe<VeauAction, VeauAction>(
       ofType(ON_LOAD),
-      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+      flatMap<VeauAction, Observable<VeauAction>>(() => {
         return concat<VeauAction>(
           of<VeauAction>(loading()),
-          from<Promise<Superposition<Locale, Error>>>(this.localeQuery.all()).pipe<VeauAction>(
-            mergeMap<Superposition<Locale, Error>, Observable<VeauAction>>(
-              (superposition: Superposition<Locale, Error>) => {
-                return superposition.transform<Observable<VeauAction>>(
-                  (locale: Locale) => {
-                    return of<VeauAction>(defineLocale(locale));
-                  },
-                  () => {
-                    return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-                  }
-                );
+          this.localeQuery
+            .all()
+            .transform<Observable<VeauAction>, Error>(
+              (locale: Locale) => {
+                return of<VeauAction>(defineLocale(locale));
+              },
+              () => {
+                return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
               }
             )
-          ),
-          from<Promise<Superposition<Identity, Error>>>(this.identityQuery.find()).pipe<VeauAction>(
-            mergeMap<Superposition<Identity, Error>, Observable<VeauAction>>(
-              (superposition: Superposition<Identity, Error>) => {
-                return superposition.transform<Observable<VeauAction>>(
-                  (identity: Identity) => {
-                    const actions: Array<VeauAction> = [identityAuthenticated(identity), identified()];
+            .get(),
+          this.identityQuery
+            .find()
+            .transform(
+              (identity: Identity) => {
+                const actions: Array<VeauAction> = [identityAuthenticated(identity), identified()];
 
-                    if (location.pathname === Endpoints.ENTRANCE) {
-                      actions.push(pushToStatsList());
-                    }
+                if (location.pathname === Endpoints.ENTRANCE) {
+                  actions.push(pushToStatsList());
+                }
 
-                    return of<VeauAction>(...actions);
-                  },
-                  () => {
-                    return of<VeauAction>();
-                  }
-                );
+                return of<VeauAction>(...actions);
+              },
+              () => {
+                return of<VeauAction>();
               }
             )
-          ),
+            .get(),
           of<VeauAction>(loaded()),
-          mergeMap<VeauAction, Observable<VeauAction>>(() => {
+          flatMap<VeauAction, Promise<Observable<VeauAction>>>(() => {
             const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
               navigator.language
             );
             const iso639: ISO639 = ISO639.of(supportLanguage);
 
-            return from<Promise<Superposition<Language, Error>>>(this.languageQuery.findByISO639(iso639)).pipe<
-              VeauAction
-            >(
-              mergeMap<Superposition<Language, Error>, Observable<VeauAction>>(
-                (superposition: Superposition<Language, Error>) => {
-                  return superposition.transform<Observable<VeauAction>>(
-                    (language: Language) => {
-                      // prettier-ignore
-                      const {
-                        value: {
-                          identity
-                        }
-                      } = state$;
-
-                      return of<VeauAction>(
-                        identityAuthenticated(
-                          Identity.of(
-                            identity.getVeauAccountID(),
-                            identity.getAccountName(),
-                            language,
-                            identity.getRegion()
-                          )
-                        ),
-                        pushToEntrance()
-                      );
-                    },
-                    () => {
-                      return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+            return this.languageQuery
+              .findByISO639(iso639)
+              .transform<Observable<VeauAction>, Error>(
+                (language: Language) => {
+                  // prettier-ignore
+                  const {
+                    value: {
+                      identity
                     }
+                  } = state$;
+
+                  return of<VeauAction>(
+                    identityAuthenticated(
+                      Identity.of(
+                        identity.getVeauAccountID(),
+                        identity.getAccountName(),
+                        language,
+                        identity.getRegion()
+                      )
+                    ),
+                    pushToEntrance()
                   );
+                },
+                () => {
+                  return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
                 }
               )
-            );
+              .get();
           })
         );
       })

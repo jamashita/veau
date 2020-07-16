@@ -1,10 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
-import { filter, map, mergeMap } from 'rxjs/operators';
-
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { filter, flatMap, map } from 'rxjs/operators';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Type } from '../../Container/Types';
@@ -15,7 +12,6 @@ import { IStatsListItemQuery } from '../../Query/Interface/IStatsListItemQuery';
 import { Language } from '../../VO/Language/Language';
 import { Page } from '../../VO/Page/Page';
 import { Region } from '../../VO/Region/Region';
-import { StatsListItemsError } from '../../VO/StatsListItem/Error/StatsListItemsError';
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import {
@@ -35,6 +31,7 @@ import {
 } from '../Action';
 import { loaded, loading } from '../ActionCreator/LoadingActionCreator';
 import { raiseModal } from '../ActionCreator/ModalActionCreator';
+import { nothing } from '../ActionCreator/NothingActionCreator';
 import { appearNotification } from '../ActionCreator/NotificationActionCreator';
 import { pushToStatsEdit } from '../ActionCreator/RedirectActionCreator';
 import { resetStatsListItems, updateStatsListItems } from '../ActionCreator/StatsActionCreator';
@@ -75,7 +72,7 @@ export class StatsListEpic {
   public findStatsList(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
     return action$.pipe<VeauAction, VeauAction>(
       ofType<VeauAction, VeauAction>(STATS_LIST_INITIALIZE),
-      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+      flatMap<VeauAction, Observable<VeauAction>>(() => {
         // prettier-ignore
         const {
           value: {
@@ -83,24 +80,28 @@ export class StatsListEpic {
           }
         } = state$;
 
-        return from<Promise<Superposition<StatsListItems, StatsListItemsError | DataSourceError>>>(
-          this.statsListItemQuery.findByVeauAccountID(identity.getVeauAccountID(), Page.of(1).get())
+        return from<Promise<Observable<VeauAction>>>(
+          Page.of(1)
+            .map((page: Page) => {
+              return this.statsListItemQuery
+                .findByVeauAccountID(identity.getVeauAccountID(), page)
+                .transform<Observable<VeauAction>, Error>(
+                  (listItems: StatsListItems) => {
+                    return of<VeauAction>(updateStatsListItems(listItems));
+                  },
+                  () => {
+                    return of<VeauAction>(
+                      resetStatsListItems(),
+                      appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND')
+                    );
+                  }
+                );
+            })
+            .get()
         ).pipe<VeauAction>(
-          mergeMap<Superposition<StatsListItems, StatsListItemsError | DataSourceError>, Observable<VeauAction>>(
-            (superposition: Superposition<StatsListItems, StatsListItemsError | DataSourceError>) => {
-              return superposition.transform<Observable<VeauAction>>(
-                (listItems: StatsListItems) => {
-                  return of<VeauAction>(updateStatsListItems(listItems));
-                },
-                () => {
-                  return of<VeauAction>(
-                    resetStatsListItems(),
-                    appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND')
-                  );
-                }
-              );
-            }
-          )
+          flatMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
+            return observable;
+          })
         );
       })
     );
@@ -180,39 +181,40 @@ export class StatsListEpic {
   ): Observable<VeauAction> {
     return action$.pipe<StatsListISO639SelectedAction, VeauAction>(
       ofType<VeauAction, StatsListISO639SelectedAction>(STATS_LIST_ISO639_SELECTED),
-      mergeMap<StatsListISO639SelectedAction, Observable<VeauAction>>((action: StatsListISO639SelectedAction) => {
-        return from<Promise<Superposition<Language, Error>>>(this.languageQuery.findByISO639(action.iso639)).pipe<
-          VeauAction
-        >(
-          mergeMap<Superposition<Language, Error>, Observable<VeauAction>>(
-            (superposition: Superposition<Language, Error>) => {
-              return superposition.transform<Observable<VeauAction>>(
-                (language: Language) => {
-                  // prettier-ignore
-                  const {
-                    value: {
-                      statsList: {
-                        stats
-                      }
-                    }
-                  } = state$;
-
-                  const newStats: Stats = Stats.of(
-                    stats.getOutline(),
-                    language,
-                    stats.getRegion(),
-                    stats.getTerm(),
-                    stats.getItems()
-                  );
-
-                  return of<VeauAction>(updateNewStats(newStats));
-                },
-                () => {
-                  return of<VeauAction>();
-                }
-              );
+      flatMap<StatsListISO639SelectedAction, Observable<VeauAction>>((action: StatsListISO639SelectedAction) => {
+        // prettier-ignore
+        const {
+          value: {
+            statsList: {
+              stats
             }
-          )
+          }
+        } = state$;
+
+        return from<Promise<Observable<VeauAction>>>(
+          this.languageQuery
+            .findByISO639(action.iso639)
+            .transform<Observable<VeauAction>, Error>(
+              (language: Language) => {
+                const newStats: Stats = Stats.of(
+                  stats.getOutline(),
+                  language,
+                  stats.getRegion(),
+                  stats.getTerm(),
+                  stats.getItems()
+                );
+
+                return of<VeauAction>(updateNewStats(newStats));
+              },
+              () => {
+                return of<VeauAction>(nothing());
+              }
+            )
+            .get()
+        ).pipe(
+          flatMap((observable: Observable<VeauAction>) => {
+            return observable;
+          })
         );
       })
     );
@@ -224,39 +226,40 @@ export class StatsListEpic {
   ): Observable<VeauAction> {
     return action$.pipe<StatsListISO3166SelectedAction, VeauAction>(
       ofType<VeauAction, StatsListISO3166SelectedAction>(STATS_LIST_ISO3166_SELECTED),
-      mergeMap<StatsListISO3166SelectedAction, Observable<VeauAction>>((action: StatsListISO3166SelectedAction) => {
-        return from<Promise<Superposition<Region, Error>>>(this.regionQuery.findByISO3166(action.iso3166)).pipe<
-          VeauAction
-        >(
-          mergeMap<Superposition<Region, Error>, Observable<VeauAction>>(
-            (superposition: Superposition<Region, Error>) => {
-              return superposition.transform<Observable<VeauAction>>(
-                (region: Region) => {
-                  // prettier-ignore
-                  const {
-                    value: {
-                      statsList: {
-                        stats
-                      }
-                    }
-                  } = state$;
-
-                  const newStats: Stats = Stats.of(
-                    stats.getOutline(),
-                    stats.getLanguage(),
-                    region,
-                    stats.getTerm(),
-                    stats.getItems()
-                  );
-
-                  return of<VeauAction>(updateNewStats(newStats));
-                },
-                () => {
-                  return of<VeauAction>();
-                }
-              );
+      flatMap<StatsListISO3166SelectedAction, Observable<VeauAction>>((action: StatsListISO3166SelectedAction) => {
+        // prettier-ignore
+        const {
+          value: {
+            statsList: {
+              stats
             }
-          )
+          }
+        } = state$;
+
+        return from<Promise<Observable<VeauAction>>>(
+          this.regionQuery
+            .findByISO3166(action.iso3166)
+            .transform<Observable<VeauAction>, Error>(
+              (region: Region) => {
+                const newStats: Stats = Stats.of(
+                  stats.getOutline(),
+                  stats.getLanguage(),
+                  region,
+                  stats.getTerm(),
+                  stats.getItems()
+                );
+
+                return of<VeauAction>(updateNewStats(newStats));
+              },
+              () => {
+                return of<VeauAction>();
+              }
+            )
+            .get()
+        ).pipe(
+          flatMap((observable: Observable<VeauAction>) => {
+            return observable;
+          })
         );
       })
     );
@@ -303,40 +306,35 @@ export class StatsListEpic {
 
         return !stats.isFilled();
       }),
-      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+      flatMap<VeauAction, Observable<VeauAction>>(() => {
+        // prettier-ignore
+        const {
+          value: {
+            identity,
+            statsList: {
+              stats
+            }
+          }
+        } = state$;
+
         return concat<VeauAction>(
           of<VeauAction>(closeNewStatsModal(), loading()),
-          mergeMap(() => {
-            // prettier-ignore
-            const {
-              value: {
-                identity,
-                statsList: {
-                  stats
-                }
-              }
-            } = state$;
-
-            return from<Promise<Superposition<unknown, Error>>>(
-              this.statsCommand.create(stats, identity.getVeauAccountID())
-            ).pipe<VeauAction>(
-              mergeMap<Superposition<unknown, Error>, Observable<VeauAction>>(
-                (superposition: Superposition<unknown, Error>) => {
-                  return superposition.transform<Observable<VeauAction>>(
-                    () => {
-                      return of<VeauAction>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
-                    },
-                    () => {
-                      return of<VeauAction>(
-                        loaded(),
-                        raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
-                      );
-                    }
+          from<Promise<Observable<VeauAction>>>(
+            this.statsCommand
+              .create(stats, identity.getVeauAccountID())
+              .transform<Observable<VeauAction>, Error>(
+                () => {
+                  return of<VeauAction>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
+                },
+                () => {
+                  return of<VeauAction>(
+                    loaded(),
+                    raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
                   );
                 }
               )
-            );
-          }),
+              .get()
+          ),
           of<VeauAction>(loaded())
         );
       })
