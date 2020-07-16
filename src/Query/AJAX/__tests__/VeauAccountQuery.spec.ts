@@ -11,9 +11,7 @@ import { UUID } from '@jamashita/publikum-uuid';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
-import {
-    MockEntranceInformation
-} from '../../../VO/EntranceInformation/Mock/MockEntranceInformation';
+import { MockEntranceInformation } from '../../../VO/EntranceInformation/Mock/MockEntranceInformation';
 import { MockPassword } from '../../../VO/EntranceInformation/Mock/MockPassword';
 import { VeauAccountError } from '../../../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount, VeauAccountJSON } from '../../../VO/VeauAccount/VeauAccount';
