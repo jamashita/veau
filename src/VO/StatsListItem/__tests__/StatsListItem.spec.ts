@@ -1,13 +1,17 @@
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { MockLanguage } from '../../Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
+import { MockLocale } from '../../Locale/Mock/MockLocale';
 import { MockRegion } from '../../Region/Mock/MockRegion';
 import { MockRegionID } from '../../Region/Mock/MockRegionID';
 import { MockStatsID } from '../../StatsOutline/Mock/MockStatsID';
 import { MockStatsOutline } from '../../StatsOutline/Mock/MockStatsOutline';
 import { MockTerm } from '../../Term/Mock/MockTerm';
 import { MockTermID } from '../../Term/Mock/MockTermID';
+import { MockTerms } from '../../Term/Mock/MockTerms';
+import { StatsListItemError } from '../Error/StatsListItemError';
 import { StatsListItem } from '../StatsListItem';
 
 describe('StatsListItem', () => {
@@ -18,12 +22,262 @@ describe('StatsListItem', () => {
       const region: MockRegion = new MockRegion();
       const term: MockTerm = new MockTerm();
 
-      const statsOutline: StatsListItem = StatsListItem.of(outline, language, region, term);
+      const statsListItem: StatsListItem = StatsListItem.of(outline, language, region, term);
 
-      expect(statsOutline.getOutline()).toBe(outline);
-      expect(statsOutline.getLanguage()).toBe(language);
-      expect(statsOutline.getRegion()).toBe(region);
-      expect(statsOutline.getTerm()).toBe(term);
+      expect(statsListItem.getOutline()).toBe(outline);
+      expect(statsListItem.getLanguage()).toBe(language);
+      expect(statsListItem.getRegion()).toBe(region);
+      expect(statsListItem.getTerm()).toBe(term);
+    });
+  });
+
+  describe('ofOutline', () => {
+    it('normal case', async () => {
+      const languageID: MockLanguageID = new MockLanguageID();
+      const regionID: MockRegionID = new MockRegionID();
+      const termID: MockTermID = new MockTermID();
+      const outline: MockStatsOutline = new MockStatsOutline({
+        languageID,
+        regionID,
+        termID
+      });
+      const language: MockLanguage = new MockLanguage({
+        languageID
+      });
+      const region: MockRegion = new MockRegion({
+        regionID
+      });
+      const term: MockTerm = new MockTerm({
+        termID
+      });      
+      const locale: MockLocale = new MockLocale({
+        languages: [
+          new MockLanguage(),
+          new MockLanguage(),
+          language,
+          new MockLanguage(),
+          new MockLanguage(),
+          new MockLanguage()
+        ],
+        regions: [
+          new MockRegion(),
+          new MockRegion(),
+          new MockRegion(),
+          new MockRegion(),
+          region,
+          new MockRegion(),
+          new MockRegion()
+        ]
+      });
+      const terms: MockTerms = new MockTerms(
+        new MockTerm(),
+        term,
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm()
+      );
+
+      const superposition: Superposition<StatsListItem, StatsListItemError> = StatsListItem.ofOutline(
+        outline,
+        locale,
+        terms
+      );
+      const schrodinger: Schrodinger<StatsListItem, StatsListItemError> = await superposition.terminate();
+
+      expect(schrodinger.isAlive()).toBe(true);
+      const statsListItem: StatsListItem = schrodinger.get();
+
+      expect(statsListItem.getOutline()).toBe(outline);
+      expect(statsListItem.getLanguage()).toBe(language);
+      expect(statsListItem.getRegion()).toBe(region);
+      expect(statsListItem.getTerm()).toBe(term);
+    });
+
+    it('no match language', async () => {
+      const languageID: MockLanguageID = new MockLanguageID();
+      const regionID: MockRegionID = new MockRegionID();
+      const termID: MockTermID = new MockTermID();
+      const outline: MockStatsOutline = new MockStatsOutline({
+        languageID,
+        regionID,
+        termID
+      });
+      const language: MockLanguage = new MockLanguage({
+        languageID
+      });
+      const region: MockRegion = new MockRegion({
+        regionID
+      });
+      const term: MockTerm = new MockTerm({
+        termID
+      });      
+      const locale: MockLocale = new MockLocale({
+        languages: [
+          new MockLanguage(),
+          new MockLanguage(),
+          new MockLanguage(),
+          new MockLanguage(),
+          new MockLanguage()
+        ],
+        regions: [
+          new MockRegion(),
+          new MockRegion(),
+          new MockRegion(),
+          new MockRegion(),
+          region,
+          new MockRegion(),
+          new MockRegion()
+        ]
+      });
+      const terms: MockTerms = new MockTerms(
+        new MockTerm(),
+        term,
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm()
+      );
+
+      const superposition: Superposition<StatsListItem, StatsListItemError> = StatsListItem.ofOutline(
+        outline,
+        locale,
+        terms
+        );
+      const schrodinger: Schrodinger<StatsListItem, StatsListItemError> = await superposition.terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsListItemError);
+    });
+
+    it('no match region', async () => {
+      const languageID: MockLanguageID = new MockLanguageID();
+      const regionID: MockRegionID = new MockRegionID();
+      const termID: MockTermID = new MockTermID();
+      const outline: MockStatsOutline = new MockStatsOutline({
+        languageID,
+        regionID,
+        termID
+      });
+      const language: MockLanguage = new MockLanguage({
+        languageID
+      });
+      const region: MockRegion = new MockRegion({
+        regionID
+      });
+      const term: MockTerm = new MockTerm({
+        termID
+      });      
+      const locale: MockLocale = new MockLocale({
+        languages: [
+          new MockLanguage(),
+          new MockLanguage(),
+          language,
+          new MockLanguage(),
+          new MockLanguage(),
+          new MockLanguage()
+        ],
+        regions: [
+          new MockRegion(),
+          new MockRegion(),
+          new MockRegion(),
+          new MockRegion(),
+          new MockRegion(),
+          new MockRegion()
+        ]
+      });
+      const terms: MockTerms = new MockTerms(
+        new MockTerm(),
+        term,
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm()
+      );
+
+      const superposition: Superposition<StatsListItem, StatsListItemError> = StatsListItem.ofOutline(
+        outline,
+        locale,
+        terms
+        );
+      const schrodinger: Schrodinger<StatsListItem, StatsListItemError> = await superposition.terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsListItemError);
+    });
+
+    it('no match term', async () => {
+      const languageID: MockLanguageID = new MockLanguageID();
+      const regionID: MockRegionID = new MockRegionID();
+      const termID: MockTermID = new MockTermID();
+      const outline: MockStatsOutline = new MockStatsOutline({
+        languageID,
+        regionID,
+        termID
+      });
+      const language: MockLanguage = new MockLanguage({
+        languageID
+      });
+      const region: MockRegion = new MockRegion({
+        regionID
+      });
+      const term: MockTerm = new MockTerm({
+        termID
+      });      
+      const locale: MockLocale = new MockLocale({
+        languages: [
+          new MockLanguage(),
+          new MockLanguage(),
+          language,
+          new MockLanguage(),
+          new MockLanguage(),
+          new MockLanguage()
+        ],
+        regions: [
+          new MockRegion(),
+          new MockRegion(),
+          new MockRegion(),
+          new MockRegion(),
+          region,
+          new MockRegion(),
+          new MockRegion()
+        ]
+      });
+      const terms: MockTerms = new MockTerms(
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm(),
+        new MockTerm()
+      );
+
+      const superposition: Superposition<StatsListItem, StatsListItemError> = StatsListItem.ofOutline(
+        outline,
+        locale,
+        terms
+        );
+      const schrodinger: Schrodinger<StatsListItem, StatsListItemError> = await superposition.terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsListItemError);
     });
   });
 
@@ -37,7 +291,7 @@ describe('StatsListItem', () => {
       const uuid6: UUID = UUID.v4();
       const uuid7: UUID = UUID.v4();
       const uuid8: UUID = UUID.v4();
-      const statsOutline1: StatsListItem = StatsListItem.of(
+      const statsListItem1: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid3),
@@ -54,7 +308,7 @@ describe('StatsListItem', () => {
           termID: new MockTermID(uuid7)
         })
       );
-      const statsOutline2: StatsListItem = StatsListItem.of(
+      const statsListItem2: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid2),
           languageID: new MockLanguageID(uuid3),
@@ -71,7 +325,7 @@ describe('StatsListItem', () => {
           termID: new MockTermID(uuid7)
         })
       );
-      const statsOutline3: StatsListItem = StatsListItem.of(
+      const statsListItem3: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid4),
@@ -88,7 +342,7 @@ describe('StatsListItem', () => {
           termID: new MockTermID(uuid7)
         })
       );
-      const statsOutline4: StatsListItem = StatsListItem.of(
+      const statsListItem4: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid3),
@@ -105,7 +359,7 @@ describe('StatsListItem', () => {
           termID: new MockTermID(uuid7)
         })
       );
-      const statsOutline5: StatsListItem = StatsListItem.of(
+      const statsListItem5: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid3),
@@ -122,7 +376,7 @@ describe('StatsListItem', () => {
           termID: new MockTermID(uuid8)
         })
       );
-      const statsOutline6: StatsListItem = StatsListItem.of(
+      const statsListItem6: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid3),
@@ -140,12 +394,12 @@ describe('StatsListItem', () => {
         })
       );
 
-      expect(statsOutline1.equals(statsOutline1)).toBe(true);
-      expect(statsOutline1.equals(statsOutline2)).toBe(false);
-      expect(statsOutline1.equals(statsOutline3)).toBe(false);
-      expect(statsOutline1.equals(statsOutline4)).toBe(false);
-      expect(statsOutline1.equals(statsOutline5)).toBe(false);
-      expect(statsOutline1.equals(statsOutline6)).toBe(true);
+      expect(statsListItem1.equals(statsListItem1)).toBe(true);
+      expect(statsListItem1.equals(statsListItem2)).toBe(false);
+      expect(statsListItem1.equals(statsListItem3)).toBe(false);
+      expect(statsListItem1.equals(statsListItem4)).toBe(false);
+      expect(statsListItem1.equals(statsListItem5)).toBe(false);
+      expect(statsListItem1.equals(statsListItem6)).toBe(true);
     });
   });
 
@@ -155,7 +409,7 @@ describe('StatsListItem', () => {
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
       const uuid4: UUID = UUID.v4();
-      const statsOutline: StatsListItem = StatsListItem.of(
+      const statsListItem: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid2),
@@ -173,7 +427,7 @@ describe('StatsListItem', () => {
         })
       );
 
-      expect(statsOutline.toString()).toBe(
+      expect(statsListItem.toString()).toBe(
         `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()}   2000-01-02 01:02:03 ${uuid2.get()}    ${uuid3.get()}   ${uuid4.get()} `
       );
     });

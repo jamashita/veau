@@ -1,9 +1,15 @@
+import {
+    Superposition, Unscharferelation, UnscharferelationError
+} from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 
 import { Language } from '../Language/Language';
+import { Locale } from '../Locale/Locale';
 import { Region } from '../Region/Region';
 import { StatsOutline } from '../StatsOutline/StatsOutline';
 import { Term } from '../Term/Term';
+import { Terms } from '../Term/Terms';
+import { StatsListItemError } from './Error/StatsListItemError';
 
 export class StatsListItem extends ValueObject<StatsListItem, 'StatsListItem'> {
   public readonly noun: 'StatsListItem' = 'StatsListItem';
@@ -14,6 +20,27 @@ export class StatsListItem extends ValueObject<StatsListItem, 'StatsListItem'> {
 
   public static of(outline: StatsOutline, language: Language, region: Region, term: Term): StatsListItem {
     return new StatsListItem(outline, language, region, term);
+  }
+
+  public static ofOutline(
+    outline: StatsOutline,
+    locale: Locale,
+    terms: Terms
+  ): Superposition<StatsListItem, StatsListItemError> {
+    return Unscharferelation.maybe<Language>(locale.getLanguages().get(outline.getLanguageID()))
+      .map<StatsListItem>((language: Language) => {
+        return Unscharferelation.maybe<Region>(locale.getRegions().get(outline.getRegionID())).map<StatsListItem>(
+          (region: Region) => {
+            return Unscharferelation.maybe<Term>(terms.get(outline.getTermID())).map<StatsListItem>((term: Term) => {
+              return StatsListItem.of(outline, language, region, term);
+            });
+          }
+        );
+      })
+      .toSuperposition()
+      .recover<StatsListItem, StatsListItemError>((err: UnscharferelationError) => {
+        throw new StatsListItemError('StatsListItem.ofOutline()', err);
+      }, StatsListItemError);
   }
 
   protected constructor(outline: StatsOutline, language: Language, region: Region, term: Term) {
