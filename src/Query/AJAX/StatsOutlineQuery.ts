@@ -38,15 +38,17 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<AJAXError>, IAJAXQu
   ): Superposition<StatsOutlines, StatsOutlinesError | AJAXError> {
     return Superposition.playground<AJAXResponse<Array<StatsOutlineJSON>>, AJAXError>(() => {
       return this.ajax.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page.get()}`);
-    }, AJAXError).map<StatsOutlines, StatsOutlinesError | AJAXError>(({ status, body }: AJAXResponse<Array<StatsOutlineJSON>>) => {
-      switch (status) {
-        case OK: {
-          return StatsOutlines.ofJSON(body);
-        }
-        default: {
-          throw new AJAXError('UNKNOWN ERROR', status);
+    }, AJAXError).map<StatsOutlines, StatsOutlinesError | AJAXError>(
+      ({ status, body }: AJAXResponse<Array<StatsOutlineJSON>>) => {
+        switch (status) {
+          case OK: {
+            return StatsOutlines.ofJSON(body);
+          }
+          default: {
+            throw new AJAXError('UNKNOWN ERROR', status);
+          }
         }
       }
-    }, AJAXError);
+    );
   }
 }

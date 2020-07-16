@@ -72,34 +72,21 @@ describe('LocaleQuery', () => {
         const languageID: LanguageID = await LanguageID.ofString(json.languages[i].languageID).get();
         const language: Nullable<Language> = locale.getLanguages().get(languageID);
 
-        if (language === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(language.getLanguageID().get().get()).toBe(json.languages[i].languageID);
-        expect(language.getName().get()).toBe(json.languages[i].name);
-        expect(language.getEnglishName().get()).toBe(json.languages[i].englishName);
-        expect(language.getISO639().get()).toBe(json.languages[i].iso639);
+        expect(language?.getLanguageID().get().get()).toBe(json.languages[i].languageID);
+        expect(language?.getName().get()).toBe(json.languages[i].name);
+        expect(language?.getEnglishName().get()).toBe(json.languages[i].englishName);
+        expect(language?.getISO639().get()).toBe(json.languages[i].iso639);
       }
+
       expect(locale.getRegions().size()).toBe(1);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
         // eslint-disable-next-line no-await-in-loop
         const regionID: RegionID = await RegionID.ofString(json.regions[i].regionID).get();
         const region: Nullable<Region> = locale.getRegions().get(regionID);
 
-        if (region === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(region.getRegionID().get().get()).toBe(json.regions[i].regionID);
-        expect(region.getName().get()).toBe(json.regions[i].name);
-        expect(region.getISO3166().get()).toBe(json.regions[i].iso3166);
+        expect(region?.getRegionID().get().get()).toBe(json.regions[i].regionID);
+        expect(region?.getName().get()).toBe(json.regions[i].name);
+        expect(region?.getISO3166().get()).toBe(json.regions[i].iso3166);
       }
     });
 
@@ -114,7 +101,7 @@ describe('LocaleQuery', () => {
       });
 
       const localeQuery: LocaleQuery = new LocaleQuery(ajax);
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all();
+      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

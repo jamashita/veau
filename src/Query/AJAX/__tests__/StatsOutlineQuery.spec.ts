@@ -12,7 +12,6 @@ import { UUID } from '@jamashita/publikum-uuid';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { MockPage } from '../../../VO/Page/Mock/MockPage';
-import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
 import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { StatsOutline, StatsOutlineJSON } from '../../../VO/StatsOutline/StatsOutline';
@@ -72,20 +71,13 @@ describe('StatsOutlineQuery', () => {
         const statsID: StatsID = await StatsID.ofString(json[i].statsID).get();
         const outline: Nullable<StatsOutline> = outlines.get(statsID);
 
-        if (outline === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(outline.getStatsID().get().get()).toBe(json[i].statsID);
-        expect(outline.getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(outline.getRegionID().get().get()).toBe(json[i].regionID);
-        expect(outline.getTermID().get().get()).toBe(json[i].termID);
-        expect(outline.getName().get()).toBe(json[i].name);
-        expect(outline.getUnit().get()).toBe(json[i].unit);
-        expect(outline.getUpdatedAt().toString()).toBe(json[i].updatedAt);
+        expect(outline?.getStatsID().get().get()).toBe(json[i].statsID);
+        expect(outline?.getLanguageID().get().get()).toBe(json[i].languageID);
+        expect(outline?.getRegionID().get().get()).toBe(json[i].regionID);
+        expect(outline?.getTermID().get().get()).toBe(json[i].termID);
+        expect(outline?.getName().get()).toBe(json[i].name);
+        expect(outline?.getUnit().get()).toBe(json[i].unit);
+        expect(outline?.getUpdatedAt().toString()).toBe(json[i].updatedAt);
       }
     });
 
@@ -122,7 +114,7 @@ describe('StatsOutlineQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(StatsOutlineError);
+      }).toThrow(StatsOutlinesError);
     });
 
     it('doesn not return OK', async () => {

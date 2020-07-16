@@ -112,7 +112,7 @@ describe('VeauAccountQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(DataSourceError);
+      }).toThrow(AJAXError);
     });
   });
 
@@ -209,7 +209,7 @@ describe('VeauAccountQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(DataSourceError);
+      }).toThrow(AJAXError);
     });
 
     it('does not return OK nor UNAUTHORIZED', async () => {

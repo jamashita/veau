@@ -33,7 +33,7 @@ export class VeauAccountQuery implements IVeauAccountQuery<AJAXError>, IAJAXQuer
           throw new AJAXError('IDENTITY DID NOT RETURN OK', status);
         }
       }
-    }, AJAXError);
+    });
   }
 
   public findByEntranceInfo(
@@ -53,6 +53,6 @@ export class VeauAccountQuery implements IVeauAccountQuery<AJAXError>, IAJAXQuer
           throw new AJAXError('UNKNOWN ERROR', status);
         }
       }
-    }, AJAXError);
+    });
   }
 }

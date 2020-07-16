@@ -71,7 +71,7 @@ describe('StatsQuery', () => {
       const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(stub.withArgs(`/api/stats/${statsID.get().get()}`).called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);

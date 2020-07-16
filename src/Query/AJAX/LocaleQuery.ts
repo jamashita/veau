@@ -32,6 +32,6 @@ export class LocaleQuery implements ILocaleQuery<AJAXError>, IAJAXQuery {
           throw new AJAXError('GET LOCALE FAILED', status);
         }
       }
-    }, AJAXError);
+    });
   }
 }
