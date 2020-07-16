@@ -38,12 +38,16 @@ export class AccountQuery implements IAccountQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<AccountRow>>(query, {
         account: account.get()
       });
-    }).map<Account, AccountError | NoSuchElementError | MySQLError>((rows: Array<AccountRow>) => {
-      if (rows.length === 0) {
-        throw new NoSuchElementError(account.get());
-      }
+    }, MySQLError).map<Account, AccountError | NoSuchElementError | MySQLError>(
+      (rows: Array<AccountRow>) => {
+        if (rows.length === 0) {
+          throw new NoSuchElementError(account.get());
+        }
 
-      return Account.ofRow(rows[0]);
-    });
+        return Account.ofRow(rows[0]);
+      },
+      AccountError,
+      NoSuchElementError
+    );
   }
 }

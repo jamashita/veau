@@ -36,13 +36,13 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
 
     return Superposition.playground<Array<LanguageRow>, MySQLError>(() => {
       return this.mysql.execute<Array<LanguageRow>>(query);
-    }).map<Languages, LanguagesError | MySQLError>((rows: Array<LanguageRow>) => {
+    }, MySQLError).map<Languages, LanguagesError | MySQLError>((rows: Array<LanguageRow>) => {
       if (rows.length === 0) {
         throw new MySQLError('NO LANGUAGES FROM MYSQL');
       }
 
       return Languages.ofRow(rows);
-    });
+    }, LanguagesError);
   }
 
   public find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | MySQLError> {
@@ -58,13 +58,17 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<LanguageRow>>(query, {
         languageID: languageID.get().get()
       });
-    }).map<Language, LanguageError | NoSuchElementError | MySQLError>((rows: Array<LanguageRow>) => {
-      if (rows.length === 0) {
-        throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
-      }
+    }, MySQLError).map<Language, LanguageError | NoSuchElementError | MySQLError>(
+      (rows: Array<LanguageRow>) => {
+        if (rows.length === 0) {
+          throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
+        }
 
-      return Language.ofRow(rows[0]);
-    });
+        return Language.ofRow(rows[0]);
+      },
+      LanguageError,
+      NoSuchElementError
+    );
   }
 
   public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | MySQLError> {
@@ -80,12 +84,16 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<LanguageRow>>(query, {
         iso639: iso639.get()
       });
-    }).map<Language, LanguageError | NoSuchElementError | MySQLError>((rows: Array<LanguageRow>) => {
-      if (rows.length === 0) {
-        throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
-      }
+    }, MySQLError).map<Language, LanguageError | NoSuchElementError | MySQLError>(
+      (rows: Array<LanguageRow>) => {
+        if (rows.length === 0) {
+          throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
+        }
 
-      return Language.ofRow(rows[0]);
-    });
+        return Language.ofRow(rows[0]);
+      },
+      LanguageError,
+      NoSuchElementError
+    );
   }
 }

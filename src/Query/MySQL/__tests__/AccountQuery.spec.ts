@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -46,10 +46,10 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Account,
         AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(accountName);
+      > = await accountQuery.findByAccount(accountName).terminate();
 
       expect(
         stub.withArgs(
@@ -69,8 +69,8 @@ describe('AccountQuery', () => {
           }
         ).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const account: Account = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const account: Account = schrodinger.get();
 
       expect(account.getVeauAccountID().get().get()).toBe(rows[0].veauAccountID);
       expect(account.getLanguageID().get().get()).toBe(rows[0].languageID);
@@ -87,28 +87,17 @@ describe('AccountQuery', () => {
 
       mysql.execute = stub;
       stub.resolves([]);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Account,
         AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name);
+      > = await accountQuery.findByAccount(name).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: AccountError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
 
     it('returns Dead because veauAccountID is malformat', async () => {
@@ -128,28 +117,17 @@ describe('AccountQuery', () => {
 
       mysql.execute = stub;
       stub.resolves(rows);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Account,
         AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name);
+      > = await accountQuery.findByAccount(name).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: AccountError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AccountError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AccountError);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
@@ -160,28 +138,17 @@ describe('AccountQuery', () => {
 
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faield'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Account,
         AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name);
+      > = await accountQuery.findByAccount(name).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: AccountError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 });
