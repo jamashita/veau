@@ -43,20 +43,20 @@ export class Page extends ValueObject<Page, 'Page'> {
     return this.page;
   }
 
-  public getLimit(): Superposition<Limit, LimitError> {
-    return Superposition.alive<Limit, LimitError>(Limit.default());
+  public getLimit(): Superposition<Limit, PageError> {
+    return Superposition.alive<Limit, PageError>(Limit.default());
   }
 
-  public getOffset(): Superposition<Offset, OffsetError> {
+  public getOffset(): Superposition<Offset, PageError> {
     return this.getLimit()
-      .map<Offset, LimitError | OffsetError>((limit: Limit) => {
+      .map<Offset, OffsetError>((limit: Limit) => {
         const offset: number = (this.page - 1) * limit.get();
 
         return Offset.of(offset);
-      })
-      .recover<Offset, OffsetError>((err: LimitError | OffsetError) => {
-        if (err instanceof LimitError) {
-          throw new OffsetError('Page.getOffset()', err);
+      }, OffsetError)
+      .recover<Offset, PageError>((err: PageError | OffsetError) => {
+        if (err instanceof OffsetError) {
+          throw new PageError('Page.getOffset()', err);
         }
 
         throw err;

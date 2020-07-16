@@ -1,7 +1,5 @@
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
-import { LimitError } from '../Error/LimitError';
-import { OffsetError } from '../Error/OffsetError';
 import { PageError } from '../Error/PageError';
 import { Limit } from '../Limit';
 import { Offset } from '../Offset';
@@ -92,7 +90,7 @@ describe('Page', () => {
       for (let i: number = 1; i <= 10; i++) {
         // eslint-disable-next-line no-await-in-loop
         const page: Page = await Page.of(i).get();
-        const schrodinger: Schrodinger<Limit, LimitError> = await page.getLimit().terminate();
+        const schrodinger: Schrodinger<Limit, PageError> = await page.getLimit().terminate();
 
         expect(schrodinger.isAlive()).toBe(true);
         expect(schrodinger.get().get()).toBe(40);
@@ -105,8 +103,8 @@ describe('Page', () => {
       const page1: Page = await Page.of(1).get();
       const page2: Page = await Page.of(2).get();
 
-      const schrodinger1: Schrodinger<Offset, OffsetError> = await page1.getOffset().terminate();
-      const schrodinger2: Schrodinger<Offset, OffsetError> = await page2.getOffset().terminate();
+      const schrodinger1: Schrodinger<Offset, PageError> = await page1.getOffset().terminate();
+      const schrodinger2: Schrodinger<Offset, PageError> = await page2.getOffset().terminate();
 
       expect(schrodinger1.isAlive()).toBe(true);
       expect(schrodinger1.get().get()).toBe(0);
