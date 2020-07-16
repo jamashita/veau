@@ -14,8 +14,8 @@ export class TermQuery implements ITermQuery<CacheError>, ICacheQuery {
   public readonly source: 'Cache' = 'Cache';
 
   public all(): Superposition<Terms, TermsError | CacheError> {
-    return Superposition.playground<Terms, TermsError>(() => {
+    return Superposition.playground<Terms, CacheError>(() => {
       return Terms.all();
-    }, TermsError);
+    }, CacheError);
   }
 }
