@@ -18,26 +18,45 @@ import { Language } from '../../VO/Language/Language';
 import { Region } from '../../VO/Region/Region';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
-    STATS_EDIT_DATA_DELETED, STATS_EDIT_DATA_FILLED, STATS_EDIT_INITIALIZATION_FAILURE,
-    STATS_EDIT_INITIALIZE, STATS_EDIT_INVALID_DATE_INPUT, STATS_EDIT_INVALID_VALUE_INPUT,
-    STATS_EDIT_ISO3166_SELECTED, STATS_EDIT_ISO639_SELECTED, STATS_EDIT_ITEM_NAME_TYPED,
-    STATS_EDIT_ITEM_SAVE, STATS_EDIT_NAME_TYPED, STATS_EDIT_REMOVE_SELECTING_ITEM,
-    STATS_EDIT_ROW_MOVED, STATS_EDIT_ROW_SELECTED, STATS_EDIT_SAVE_STATS,
-    STATS_EDIT_SELECTING_ITEM_NAME_TYPED, STATS_EDIT_START_DATE_DETERMINED, STATS_EDIT_UNIT_TYPED,
-    StatsEditDataDeletedAction, StatsEditDataFilledAction, StatsEditInitializeAction,
-    StatsEditISO3166SelectedAction, StatsEditISO639SelectedAction, StatsEditItemNameTypedAction,
-    StatsEditNameTypedAction, StatsEditRemoveSelectingItemAction, StatsEditRowMovedAction,
-    StatsEditRowSelectedAction, StatsEditSelectingItemNameTypedAction,
-    StatsEditStartDateDeterminedAction, StatsEditUnitTypedAction, VeauAction
+  STATS_EDIT_DATA_DELETED,
+  STATS_EDIT_DATA_FILLED,
+  STATS_EDIT_INITIALIZATION_FAILURE,
+  STATS_EDIT_INITIALIZE,
+  STATS_EDIT_INVALID_DATE_INPUT,
+  STATS_EDIT_INVALID_VALUE_INPUT,
+  STATS_EDIT_ISO3166_SELECTED,
+  STATS_EDIT_ISO639_SELECTED,
+  STATS_EDIT_ITEM_NAME_TYPED,
+  STATS_EDIT_ITEM_SAVE,
+  STATS_EDIT_NAME_TYPED,
+  STATS_EDIT_REMOVE_SELECTING_ITEM,
+  STATS_EDIT_ROW_MOVED,
+  STATS_EDIT_ROW_SELECTED,
+  STATS_EDIT_SAVE_STATS,
+  STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
+  STATS_EDIT_START_DATE_DETERMINED,
+  STATS_EDIT_UNIT_TYPED,
+  StatsEditDataDeletedAction,
+  StatsEditDataFilledAction,
+  StatsEditInitializeAction,
+  StatsEditISO3166SelectedAction,
+  StatsEditISO639SelectedAction,
+  StatsEditItemNameTypedAction,
+  StatsEditNameTypedAction,
+  StatsEditRemoveSelectingItemAction,
+  StatsEditRowMovedAction,
+  StatsEditRowSelectedAction,
+  StatsEditSelectingItemNameTypedAction,
+  StatsEditStartDateDeterminedAction,
+  StatsEditUnitTypedAction,
+  VeauAction
 } from '../Action';
 import { loaded, loading } from '../ActionCreator/LoadingActionCreator';
 import { raiseModal } from '../ActionCreator/ModalActionCreator';
 import { appearNotification } from '../ActionCreator/NotificationActionCreator';
 import { pushToStatsList } from '../ActionCreator/RedirectActionCreator';
 import { resetStatsItem, updateStats, updateStatsItem } from '../ActionCreator/StatsActionCreator';
-import {
-    clearSelectingItem, selectItem, updateSelectingItem
-} from '../ActionCreator/StatsEditActionCreator';
+import { clearSelectingItem, selectItem, updateSelectingItem } from '../ActionCreator/StatsEditActionCreator';
 import { State } from '../State';
 
 export class StatsEditSaga {

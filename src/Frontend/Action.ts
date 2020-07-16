@@ -1,7 +1,7 @@
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
 import { Action } from 'redux';
 
-import { Present, Unscharferelation } from '@jamashita/publikum-monad';
+import { Unscharferelation } from '@jamashita/publikum-monad';
 
 import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
@@ -326,7 +326,7 @@ export interface StatsEditSelectingItemNameTypedAction extends Action {
 
 export interface StatsEditUpdateSelectingItemAction extends Action {
   readonly type: typeof STATS_EDIT_UPDATE_SELECTING_ITEM;
-  readonly statsItem: Present<StatsItem>;
+  readonly statsItem: Unscharferelation<StatsItem>;
 }
 
 export interface StatsEditRemoveSelectingItemAction extends Action {
