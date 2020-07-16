@@ -1,15 +1,18 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
+import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
+import { Limit } from '../../../VO/Page/Limit';
 import { MockPage } from '../../../VO/Page/Mock/MockPage';
+import { Offset } from '../../../VO/Page/Offset';
 import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
@@ -53,10 +56,10 @@ describe('StatsOutlineQuery', () => {
       stub.resolves(rows);
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsOutline,
         StatsOutlineError | NoSuchElementError | DataSourceError
-      > = await statsOutlineQuery.find(statsID);
+      > = await statsOutlineQuery.find(statsID).terminate();
 
       expect(
         stub.withArgs(
@@ -75,8 +78,8 @@ describe('StatsOutlineQuery', () => {
           }
         ).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const statsOutline: StatsOutline = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const statsOutline: StatsOutline = schrodinger.get();
 
       expect(statsOutline.getStatsID().get().get()).toBe(rows[0].statsID);
       expect(statsOutline.getLanguageID().get().get()).toBe(rows[0].languageID);
@@ -96,28 +99,17 @@ describe('StatsOutlineQuery', () => {
 
       mysql.execute = stub;
       stub.resolves(rows);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsOutline,
         StatsOutlineError | NoSuchElementError | DataSourceError
-      > = await statsOutlineQuery.find(statsID);
+      > = await statsOutlineQuery.find(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsOutlineError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
@@ -128,28 +120,17 @@ describe('StatsOutlineQuery', () => {
 
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsOutline,
         StatsOutlineError | NoSuchElementError | DataSourceError
-      > = await statsOutlineQuery.find(statsID);
+      > = await statsOutlineQuery.find(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsOutlineError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 
@@ -185,10 +166,12 @@ describe('StatsOutlineQuery', () => {
       stub.resolves(rows);
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsOutlines,
         StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(accountID, page);
+      > = await statsOutlineQuery.findByVeauAccountID(accountID, page).terminate();
+      const limit: Limit = await page.getLimit().get();
+      const offset: Offset = await page.getOffset().get();
 
       expect(
         stub.withArgs(
@@ -206,25 +189,26 @@ describe('StatsOutlineQuery', () => {
       OFFSET :offset;`,
           {
             veauAccountID: accountID.get().get(),
-            limit: page.getLimit().get(),
-            offset: page.getOffset().get()
+            limit: limit.get(),
+            offset: offset.get()
           }
         ).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const statsOutlines: StatsOutlines = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const statsOutlines: StatsOutlines = schrodinger.get();
 
       expect(statsOutlines.size()).toBe(2);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
-        const statsOutline: StatsOutline = statsOutlines.get(StatsID.ofString(rows[i].statsID).get()).get();
+        // eslint-disable-next-line no-await-in-loop
+        const statsOutline: Nullable<StatsOutline> = statsOutlines.get(await StatsID.ofString(rows[i].statsID).get());
 
-        expect(statsOutline.getStatsID().get().get()).toBe(rows[i].statsID);
-        expect(statsOutline.getLanguageID().get().get()).toBe(rows[i].languageID);
-        expect(statsOutline.getRegionID().get().get()).toBe(rows[i].regionID);
-        expect(statsOutline.getTermID().get().get()).toBe(rows[i].termID);
-        expect(statsOutline.getName().get()).toBe(rows[i].name);
-        expect(statsOutline.getUnit().get()).toBe(rows[i].unit);
-        expect(statsOutline.getUpdatedAt().toString()).toBe(rows[i].updatedAt);
+        expect(statsOutline?.getStatsID().get().get()).toBe(rows[i].statsID);
+        expect(statsOutline?.getLanguageID().get().get()).toBe(rows[i].languageID);
+        expect(statsOutline?.getRegionID().get().get()).toBe(rows[i].regionID);
+        expect(statsOutline?.getTermID().get().get()).toBe(rows[i].termID);
+        expect(statsOutline?.getName().get()).toBe(rows[i].name);
+        expect(statsOutline?.getUnit().get()).toBe(rows[i].unit);
+        expect(statsOutline?.getUpdatedAt().toString()).toBe(rows[i].updatedAt);
       }
     });
 
@@ -237,28 +221,17 @@ describe('StatsOutlineQuery', () => {
 
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsOutlines,
         StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(accountID, page);
+      > = await statsOutlineQuery.findByVeauAccountID(accountID, page).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsOutlinesError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 });
