@@ -24,7 +24,7 @@
     "watch:webpack": "webpack-dev-server --hot --config webpack.development.config.js"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "5.13.1",
+    "@fortawesome/fontawesome-free": "5.14.0",
     "@handsontable/react": "3.1.3",
     "@jamashita/publikum-ajax": "2.3.1",
     "@jamashita/publikum-cache": "2.3.1",
@@ -63,7 +63,7 @@
     "pug": "3.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-intl": "5.3.0",
+    "react-intl": "5.3.1",
     "react-redux": "7.2.0",
     "react-router-dom": "5.2.0",
     "recharts": "2.0.0-beta.3",
