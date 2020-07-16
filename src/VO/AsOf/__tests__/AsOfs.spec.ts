@@ -254,7 +254,6 @@ describe('AsOfs', () => {
       const asOfs: AsOfs = AsOfs.ofArray([asOf1, asOf2, asOf3, asOf4]);
       const a: AsOf = await asOfs.min().get();
 
-
       expect(a.equals(asOf2)).toBe(true);
     });
 

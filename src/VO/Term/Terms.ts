@@ -1,6 +1,4 @@
-import {
-    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
-} from '@jamashita/publikum-collection';
+import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { Term } from './Term';

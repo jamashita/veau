@@ -1,6 +1,4 @@
-import {
-    CancellableEnumerator, ImmutableProject, Pair, Project, Quantity
-} from '@jamashita/publikum-collection';
+import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
 import { Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
