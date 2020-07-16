@@ -1,10 +1,9 @@
 import { inject, injectable } from 'inversify';
 
 import { ImmutableProject, Project } from '@jamashita/publikum-collection';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Epoque, Superposition } from '@jamashita/publikum-monad';
 import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
-import { Ambiguous } from '@jamashita/publikum-type';
+import { Ambiguous, Kind } from '@jamashita/publikum-type';
 
 import { Type } from '../../Container/Types';
 import { StatsItemIDError } from '../../VO/StatsItem/Error/StatsItemIDError';
@@ -17,7 +16,7 @@ import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
 import { IMySQLQuery } from './Interface/IMySQLQuery';
 
 @injectable()
-export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
+export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
@@ -26,9 +25,9 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async findByStatsID(
+  public findByStatsID(
     statsID: StatsID
-  ): Promise<Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>> {
+  ): Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | MySQLError> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,
@@ -38,73 +37,67 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
       USING(stats_item_id)
       WHERE R2.stats_id = :statsID;`;
 
-    const superposition: Superposition<Array<StatsValueRow>, MySQLError> = await Schrodinger.sandbox<
-      Array<StatsValueRow>,
-      MySQLError
-    >(() => {
+    return Superposition.playground<Array<StatsValueRow>, MySQLError>(() => {
       return this.mysql.execute<Array<StatsValueRow>>(query, {
         statsID: statsID.get().get()
       });
-    });
-
-    return superposition.transform<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(
-      (rows: Array<StatsValueRow>) => {
-        const map1: Map<string, Array<StatsValueRow>> = new Map<string, Array<StatsValueRow>>();
-
-        rows.forEach((row: StatsValueRow) => {
-          const value: Ambiguous<Array<StatsValueRow>> = map1.get(row.statsItemID);
-
-          if (value === undefined) {
-            map1.set(row.statsItemID, [row]);
-
-            return;
-          }
-
-          value.push(row);
-        });
-
-        const map2: Map<
-          Superposition<StatsItemID, StatsItemIDError>,
-          Superposition<StatsValues, StatsValuesError>
-        > = new Map<Superposition<StatsItemID, StatsItemIDError>, Superposition<StatsValues, StatsValuesError>>();
-
-        map1.forEach((values: Array<StatsValueRow>, id: string) => {
-          map2.set(StatsItemID.ofString(id), StatsValues.ofRow(values));
-        });
-
-        const superpositions1: Superposition<Array<StatsItemID>, StatsItemIDError> = Schrodinger.all<
-          StatsItemID,
-          StatsItemIDError
-        >([...map2.keys()]);
-        const superpositions2: Superposition<Array<StatsValues>, StatsValuesError> = Schrodinger.all<
-          StatsValues,
-          StatsValuesError
-        >([...map2.values()]);
-
-        if (superpositions1.isDead()) {
-          return Dead.of<Project<StatsItemID, StatsValues>, StatsValuesError>(
-            new StatsValuesError('StatsValueQuery.findByStatsID()', superpositions1.getError())
-          );
-        }
-        if (superpositions2.isDead()) {
-          return superpositions2.transpose<Project<StatsItemID, StatsValues>>();
-        }
-
-        let project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.empty<StatsItemID, StatsValues>();
-
-        map2.forEach(
-          (
-            superposition1: Superposition<StatsValues, StatsValuesError>,
-            superposition2: Superposition<StatsItemID, StatsItemIDError>
-          ) => {
-            project = project.set(superposition2.get(), superposition1.get());
+    }, MySQLError)
+      .map<Project<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>((rows: Array<StatsValueRow>) => {
+        return this.engage(rows).map<Project<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>(
+          (map: Map<StatsItemID, StatsValues>) => {
+            return ImmutableProject.of(map);
           }
         );
+      })
+      .recover<Project<StatsItemID, StatsValues>, StatsValuesError | MySQLError>(
+        (err: StatsItemIDError | StatsValuesError | MySQLError) => {
+          if (err instanceof StatsItemIDError) {
+            throw new StatsValuesError('StatsValueQuery.findByStatsID()', err);
+          }
 
-        return Alive.of<Project<StatsItemID, StatsValues>, DataSourceError>(project);
-      },
-      (err: MySQLError) => {
-        return Dead.of<Project<StatsItemID, StatsValues>, MySQLError>(err);
+          throw err;
+        },
+        StatsValuesError,
+        MySQLError
+      );
+  }
+
+  private engage(
+    rows: Array<StatsValueRow>
+  ): Superposition<Map<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError> {
+    const map1: Map<string, Array<StatsValueRow>> = new Map<string, Array<StatsValueRow>>();
+
+    rows.forEach((row: StatsValueRow) => {
+      const value: Ambiguous<Array<StatsValueRow>> = map1.get(row.statsItemID);
+
+      if (Kind.isUndefined(value)) {
+        map1.set(row.statsItemID, [row]);
+
+        return;
+      }
+
+      value.push(row);
+    });
+
+    const map2: Map<StatsItemID, StatsValues> = new Map<StatsItemID, StatsValues>();
+
+    return Superposition.of<Map<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>(
+      (epoque: Epoque<Map<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>) => {
+        map1.forEach((r: Array<StatsValueRow>, id: string) => {
+          StatsItemID.ofString(id)
+            .map<void, StatsItemIDError | StatsValuesError>((itemID: StatsItemID) => {
+              return StatsValues.ofRow(r).map<void, StatsValuesError>((values: StatsValues) => {
+                map2.set(itemID, values);
+
+                if (map1.size === map2.size) {
+                  epoque.accept(map2);
+                }
+              });
+            }, StatsValuesError)
+            .recover<void, Error>((err: StatsItemIDError | StatsValuesError) => {
+              epoque.decline(err);
+            });
+        });
       }
     );
   }

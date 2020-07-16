@@ -1,11 +1,12 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { Project } from '@jamashita/publikum-collection';
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Absent, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
@@ -71,10 +72,10 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Project<StatsItemID, StatsValues>,
         StatsValuesError | DataSourceError
-      > = await statsValueQuery.findByStatsID(statsID);
+      > = await statsValueQuery.findByStatsID(statsID).terminate();
 
       expect(
         stub.withArgs(
@@ -91,17 +92,17 @@ describe('StatsValueQuery', () => {
           }
         ).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const project: Project<StatsItemID, StatsValues> = superposition.get();
-      const statsValues1: StatsValues = project.get(StatsItemID.ofString(statsItemID1).get()).get();
-      const statsValues2: StatsValues = project.get(StatsItemID.ofString(statsItemID2).get()).get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const project: Project<StatsItemID, StatsValues> = schrodinger.get();
+      const statsValues1: Nullable<StatsValues> = project.get(await StatsItemID.ofString(statsItemID1).get());
+      const statsValues2: Nullable<StatsValues> = project.get(await StatsItemID.ofString(statsItemID2).get());
 
-      expect(statsValues1.get(AsOf.ofString(asOf1).get()).get().getValue().get()).toBe(1);
-      expect(statsValues1.get(AsOf.ofString(asOf2).get()).get().getValue().get()).toBe(2);
-      expect(statsValues1.get(AsOf.ofString(asOf3).get()).get().getValue().get()).toBe(3);
-      expect(statsValues2.get(AsOf.ofString(asOf1).get()).get().getValue().get()).toBe(11);
-      expect(statsValues2.get(AsOf.ofString(asOf2).get()).get().getValue().get()).toBe(12);
-      expect(statsValues2.get(AsOf.ofString(asOf3).get())).toBeInstanceOf(Absent);
+      expect(statsValues1?.get(await AsOf.ofString(asOf1).get())?.getValue().get()).toBe(1);
+      expect(statsValues1?.get(await AsOf.ofString(asOf2).get())?.getValue().get()).toBe(2);
+      expect(statsValues1?.get(await AsOf.ofString(asOf3).get())?.getValue().get()).toBe(3);
+      expect(statsValues2?.get(await AsOf.ofString(asOf1).get())?.getValue().get()).toBe(11);
+      expect(statsValues2?.get(await AsOf.ofString(asOf2).get())?.getValue().get()).toBe(12);
+      expect(statsValues2?.get(await AsOf.ofString(asOf3).get())).toBe(null);
     });
 
     it('returns Dead when statsItemID is malformat', async () => {
@@ -139,28 +140,17 @@ describe('StatsValueQuery', () => {
 
       mysql.execute = stub;
       stub.resolves(rows);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Project<StatsItemID, StatsValues>,
         StatsValuesError | DataSourceError
-      > = await statsValueQuery.findByStatsID(statsID);
+      > = await statsValueQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsValuesError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsValuesError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsValuesError);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
@@ -171,28 +161,17 @@ describe('StatsValueQuery', () => {
 
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Project<StatsItemID, StatsValues>,
         StatsValuesError | DataSourceError
-      > = await statsValueQuery.findByStatsID(statsID);
+      > = await statsValueQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsValuesError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 });
