@@ -263,7 +263,7 @@ export class Stats extends Entity<StatsID, Stats> {
   public getChart(): Unscharferelation<Array<Chart>> {
     return this.getColumns().map<Array<Chart>>((columns: AsOfs) => {
       const chartItems: Map<string, Chart> = new Map<string, Chart>();
-      
+
       columns.forEach((column: AsOf) => {
         const asOfString: string = column.toString();
 
