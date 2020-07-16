@@ -1,14 +1,13 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType } from 'redux-observable';
 import { from, merge, Observable, of } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
-
-import { Superposition } from '@jamashita/publikum-monad';
+import { flatMap } from 'rxjs/operators';
 
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { Type } from '../../Container/Types';
-import { LOGOUT, LogoutAction, VeauAction } from '../Action';
+import { LOGOUT, VeauAction } from '../Action';
 import { initializeIdentity } from '../ActionCreator/IdentityActionCreator';
+import { nothing } from '../ActionCreator/NothingActionCreator';
 import { closeProvider } from '../ActionCreator/PageProviderActionCreator';
 import { pushToEntrance } from '../ActionCreator/RedirectActionCreator';
 
@@ -25,12 +24,24 @@ export class LogoutEpic {
   }
 
   public logout(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
-    return action$.pipe<LogoutAction, VeauAction>(
-      ofType<VeauAction, LogoutAction>(LOGOUT),
-      mergeMap<VeauAction, Observable<VeauAction>>(() => {
-        return from<Promise<Superposition<unknown, Error>>>(this.sessionCommand.delete()).pipe<VeauAction>(
-          mergeMap<unknown, Observable<VeauAction>>(() => {
-            return of<VeauAction>(initializeIdentity(), closeProvider(), pushToEntrance());
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(LOGOUT),
+      flatMap<VeauAction, Observable<VeauAction>>(() => {
+        return from<Promise<Observable<VeauAction>>>(
+          this.sessionCommand
+            .delete()
+            .transform<Observable<VeauAction>, Error>(
+              () => {
+                return of<VeauAction>(initializeIdentity(), closeProvider(), pushToEntrance());
+              },
+              () => {
+                return of<VeauAction>(nothing());
+              }
+            )
+            .get()
+        ).pipe<VeauAction>(
+          flatMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
+            return observable;
           })
         );
       })
