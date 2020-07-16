@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -52,7 +52,7 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
       expect(
         stub.withArgs(`SELECT
@@ -63,16 +63,17 @@ describe('RegionQuery', () => {
       FORCE INDEX(iso3166)
       ORDER BY R1.iso3166;`).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const regions: Regions = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const regions: Regions = schrodinger.get();
 
       expect(regions.size()).toBe(2);
       for (let i: number = 0; i < regions.size(); i++) {
-        const regionID: RegionID = RegionID.ofString(rows[i].regionID).get();
+        // eslint-disable-next-line no-await-in-loop
+        const regionID: RegionID = await RegionID.ofString(rows[i].regionID).get();
 
-        expect(regions.get(regionID).get().getRegionID().get().get()).toBe(rows[i].regionID);
-        expect(regions.get(regionID).get().getName().get()).toBe(rows[i].name);
-        expect(regions.get(regionID).get().getISO3166().get()).toBe(rows[i].iso3166);
+        expect(regions.get(regionID)?.getRegionID().get().get()).toBe(rows[i].regionID);
+        expect(regions.get(regionID)?.getName().get()).toBe(rows[i].name);
+        expect(regions.get(regionID)?.getISO3166().get()).toBe(rows[i].iso3166);
       }
     });
 
@@ -82,25 +83,14 @@ describe('RegionQuery', () => {
 
       mysql.execute = stub;
       stub.resolves([]);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
@@ -109,25 +99,14 @@ describe('RegionQuery', () => {
 
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 
@@ -149,10 +128,10 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.find(RegionID.of(uuid));
+      > = await regionQuery.find(RegionID.of(uuid)).terminate();
 
       expect(
         stub.withArgs(
@@ -167,8 +146,8 @@ describe('RegionQuery', () => {
           }
         ).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const region: Region = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const region: Region = schrodinger.get();
 
       expect(region.getRegionID().get().get()).toBe(rows[0].regionID);
       expect(region.getName().get()).toBe(rows[0].name);
@@ -181,28 +160,17 @@ describe('RegionQuery', () => {
 
       mysql.execute = stub;
       stub.resolves([]);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.find(new MockRegionID());
+      > = await regionQuery.find(new MockRegionID()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
@@ -211,28 +179,17 @@ describe('RegionQuery', () => {
 
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.find(new MockRegionID());
+      > = await regionQuery.find(new MockRegionID()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 
@@ -253,10 +210,10 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(
         stub.withArgs(
@@ -271,8 +228,8 @@ describe('RegionQuery', () => {
           }
         ).called
       ).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const region: Region = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const region: Region = schrodinger.get();
 
       expect(region.getRegionID().get().get()).toBe(rows[0].regionID);
       expect(region.getName().get()).toBe(rows[0].name);
@@ -285,28 +242,17 @@ describe('RegionQuery', () => {
 
       mysql.execute = stub;
       stub.resolves([]);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
@@ -315,28 +261,17 @@ describe('RegionQuery', () => {
 
       mysql.execute = stub;
       stub.rejects(new MySQLError('test faied'));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
   });
 });

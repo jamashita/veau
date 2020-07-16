@@ -35,13 +35,13 @@ export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
 
     return Superposition.playground<Array<RegionRow>, MySQLError>(() => {
       return this.mysql.execute<Array<RegionRow>>(query);
-    }).map<Regions, RegionsError | MySQLError>((rows: Array<RegionRow>) => {
+    }, MySQLError).map<Regions, RegionsError | MySQLError>((rows: Array<RegionRow>) => {
       if (rows.length === 0) {
         throw new MySQLError('NO REGIONS FROM MYSQL');
       }
 
       return Regions.ofRow(rows);
-    });
+    }, RegionsError);
   }
 
   public find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | MySQLError> {
@@ -56,13 +56,17 @@ export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<RegionRow>>(query, {
         regionID: regionID.get().get()
       });
-    }).map<Region, RegionError | NoSuchElementError | MySQLError>((rows: Array<RegionRow>) => {
-      if (rows.length === 0) {
-        throw new NoSuchElementError('NO REGIONS FROM MYSQL');
-      }
+    }, MySQLError).map<Region, RegionError | NoSuchElementError | MySQLError>(
+      (rows: Array<RegionRow>) => {
+        if (rows.length === 0) {
+          throw new NoSuchElementError('NO REGIONS FROM MYSQL');
+        }
 
-      return Region.ofRow(rows[0]);
-    });
+        return Region.ofRow(rows[0]);
+      },
+      RegionError,
+      NoSuchElementError
+    );
   }
 
   public findByISO3166(iso3166: ISO3166): Superposition<Region, RegionError | NoSuchElementError | MySQLError> {
@@ -77,12 +81,16 @@ export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<RegionRow>>(query, {
         iso3166: iso3166.get()
       });
-    }).map<Region, RegionError | NoSuchElementError | MySQLError>((rows: Array<RegionRow>) => {
-      if (rows.length === 0) {
-        throw new NoSuchElementError('NO REGIONS FROM MYSQL');
-      }
+    }, MySQLError).map<Region, RegionError | NoSuchElementError | MySQLError>(
+      (rows: Array<RegionRow>) => {
+        if (rows.length === 0) {
+          throw new NoSuchElementError('NO REGIONS FROM MYSQL');
+        }
 
-      return Region.ofRow(rows[0]);
-    });
+        return Region.ofRow(rows[0]);
+      },
+      RegionError,
+      NoSuchElementError
+    );
   }
 }
