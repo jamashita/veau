@@ -49,7 +49,7 @@ describe('StatsListItem', () => {
       });
       const term: MockTerm = new MockTerm({
         termID
-      });      
+      });
       const locale: MockLocale = new MockLocale({
         languages: [
           new MockLanguage(),
@@ -114,15 +114,9 @@ describe('StatsListItem', () => {
       });
       const term: MockTerm = new MockTerm({
         termID
-      });      
+      });
       const locale: MockLocale = new MockLocale({
-        languages: [
-          new MockLanguage(),
-          new MockLanguage(),
-          new MockLanguage(),
-          new MockLanguage(),
-          new MockLanguage()
-        ],
+        languages: [new MockLanguage(), new MockLanguage(), new MockLanguage(), new MockLanguage(), new MockLanguage()],
         regions: [
           new MockRegion(),
           new MockRegion(),
@@ -149,7 +143,7 @@ describe('StatsListItem', () => {
         outline,
         locale,
         terms
-        );
+      );
       const schrodinger: Schrodinger<StatsListItem, StatsListItemError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -175,7 +169,7 @@ describe('StatsListItem', () => {
       });
       const term: MockTerm = new MockTerm({
         termID
-      });      
+      });
       const locale: MockLocale = new MockLocale({
         languages: [
           new MockLanguage(),
@@ -210,7 +204,7 @@ describe('StatsListItem', () => {
         outline,
         locale,
         terms
-        );
+      );
       const schrodinger: Schrodinger<StatsListItem, StatsListItemError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -236,7 +230,7 @@ describe('StatsListItem', () => {
       });
       const term: MockTerm = new MockTerm({
         termID
-      });      
+      });
       const locale: MockLocale = new MockLocale({
         languages: [
           new MockLanguage(),
@@ -271,7 +265,7 @@ describe('StatsListItem', () => {
         outline,
         locale,
         terms
-        );
+      );
       const schrodinger: Schrodinger<StatsListItem, StatsListItemError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
