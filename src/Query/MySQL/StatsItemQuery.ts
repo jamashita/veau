@@ -44,22 +44,29 @@ export class StatsItemQuery implements IStatsItemQuery<MySQLError>, IMySQLQuery 
       return this.mysql.execute<Array<StatsItemRow>>(query, {
         statsID: statsID.get().get()
       });
-    })
-      .map<StatsItems, StatsValuesError | StatsItemsError | MySQLError | DataSourceError>((rows: Array<StatsItemRow>) => {
-        return this.statsValueQuery
-          .findByStatsID(statsID)
-          .map<StatsItems, StatsValuesError | StatsItemsError | MySQLError | DataSourceError>(
-            (values: Project<StatsItemID, StatsValues>) => {
-              return StatsItems.ofRow(rows, values);
-            }
-          );
-      })
-      .recover<StatsItems, StatsItemsError | MySQLError>((err: StatsValuesError | StatsItemsError | MySQLError | DataSourceError) => {
-        if (err instanceof MySQLError) {
-          throw err;
+    }, MySQLError)
+      .map<StatsItems, StatsValuesError | StatsItemsError | MySQLError | DataSourceError>(
+        (rows: Array<StatsItemRow>) => {
+          return this.statsValueQuery
+            .findByStatsID(statsID)
+            .map<StatsItems, StatsValuesError | StatsItemsError | MySQLError | DataSourceError>(
+              (values: Project<StatsItemID, StatsValues>) => {
+                return StatsItems.ofRow(rows, values);
+              },
+              StatsItemsError
+            );
         }
+      )
+      .recover<StatsItems, StatsItemsError | MySQLError>(
+        (err: StatsValuesError | StatsItemsError | MySQLError | DataSourceError) => {
+          if (err instanceof MySQLError) {
+            throw err;
+          }
 
-        throw new StatsItemsError('STATS VALUES ERROR', err);
-      });
+          throw new StatsItemsError('STATS VALUES ERROR', err);
+        },
+        StatsItemsError,
+        MySQLError
+      );
   }
 }
