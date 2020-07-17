@@ -33,11 +33,11 @@ export class StatsCommand implements IStatsCommand<AJAXError>, IAJAXCommand {
           throw new AJAXError('UNKNOWN ERROR', response.status);
         }
       }
-    }, AJAXError);
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public deleteByStatsID(statsID: StatsID): Superposition<unknown, AJAXError> {
+  public deleteByStatsID(_statsID: StatsID): Superposition<unknown, AJAXError> {
     throw new UnimplementedError();
   }
 }

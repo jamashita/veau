@@ -30,6 +30,6 @@ export class SessionCommand implements ISessionCommand<AJAXError>, IAJAXCommand 
           throw new AJAXError('UNKNOWN ERROR', response.status);
         }
       }
-    }, AJAXError);
+    });
   }
 }
