@@ -2,10 +2,9 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     /* Basic Options */
-    "module": "es2020",
+    "module": "esnext",
     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
     "lib": [
-      "es2020",
       "dom"
     ],
     /* Specify library files to be included in the compilation. */
