@@ -28,12 +28,12 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<AJAXError>, IAJAXQu
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(statsID: StatsID): Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | AJAXError> {
+  public find(_statsID: StatsID): Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | AJAXError> {
     throw new UnimplementedError();
   }
 
   public findByVeauAccountID(
-    veauAccountID: VeauAccountID,
+    _veauAccountID: VeauAccountID,
     page: Page
   ): Superposition<StatsOutlines, StatsOutlinesError | AJAXError> {
     return Superposition.playground<AJAXResponse<Array<StatsOutlineJSON>>, AJAXError>(() => {
