@@ -2,7 +2,6 @@ import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
-import { LimitError } from './Error/LimitError';
 import { OffsetError } from './Error/OffsetError';
 import { PageError } from './Error/PageError';
 import { Limit } from './Limit';

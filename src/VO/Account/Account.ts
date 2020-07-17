@@ -1,5 +1,5 @@
 import { Digest } from '@jamashita/publikum-digest';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 
 import { Password } from '../EntranceInformation/Password';

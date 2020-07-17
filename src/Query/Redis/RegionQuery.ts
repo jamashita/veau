@@ -50,7 +50,7 @@ export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {
             throw new RedisError('RegionQuery.all()', err);
           }
           if (err instanceof UnscharferelationError) {
-            throw new RegionsError('RegionQuery.all()', err);
+            throw new RedisError('RegionQuery.all()', err);
           }
 
           throw err;
@@ -61,7 +61,7 @@ export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | RedisError> {
+  public find(_regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | RedisError> {
     throw new UnimplementedError();
   }
 

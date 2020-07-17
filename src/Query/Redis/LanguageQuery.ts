@@ -50,7 +50,7 @@ export class LanguageQuery implements ILanguageQuery<RedisError>, IRedisQuery {
             throw new RedisError('LanguageQuery.all()', err);
           }
           if (err instanceof UnscharferelationError) {
-            throw new LanguagesError('LanguageQuery.all()', err);
+            throw new RedisError('LanguageQuery.all()', err);
           }
 
           throw err;
@@ -61,7 +61,7 @@ export class LanguageQuery implements ILanguageQuery<RedisError>, IRedisQuery {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | RedisError> {
+  public find(_languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | RedisError> {
     throw new UnimplementedError();
   }
 
