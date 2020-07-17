@@ -49,6 +49,6 @@ export class LanguageCommand implements ILanguageCommand<RedisError>, IRedisComm
       }
 
       throw new RedisError('FAIL TO DELETE CACHE');
-    }, RedisError);
+    });
   }
 }

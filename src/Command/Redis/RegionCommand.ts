@@ -47,6 +47,6 @@ export class RegionCommand implements IRegionCommand<RedisError>, IRedisCommand 
       }
 
       throw new RedisError('FAIL TO DELETE CACHE');
-    }, RedisError);
+    });
   }
 }

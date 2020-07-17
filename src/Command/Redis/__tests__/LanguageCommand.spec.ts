@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import sinon, { SinonStub } from 'sinon';
 
-import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
 
@@ -53,7 +52,7 @@ describe('LanguageCommand', () => {
       stub2.resolves();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.insertAll(languages).terminate();
+      const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.insertAll(languages).terminate();
 
       expect(stub1.withArgs('LANGUAGES', JSON.stringify(languages.toJSON())).called).toBe(true);
       expect(stub2.withArgs('LANGUAGES', 3 * 60 * 60).called).toBe(true);
@@ -78,7 +77,7 @@ describe('LanguageCommand', () => {
       stub2.resolves();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.insertAll(languages).terminate();
+      const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.insertAll(languages).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -104,7 +103,7 @@ describe('LanguageCommand', () => {
       stub2.rejects(new RedisError('test failed'));
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.insertAll(languages).terminate();
+      const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.insertAll(languages).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -122,7 +121,7 @@ describe('LanguageCommand', () => {
       stub.resolves(true);
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.deleteAll().terminate();
+      const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.deleteAll().terminate();
 
       expect(stub.withArgs('LANGUAGES').called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
@@ -136,7 +135,7 @@ describe('LanguageCommand', () => {
       stub.resolves(false);
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.deleteAll().terminate();
+      const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.deleteAll().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -152,7 +151,7 @@ describe('LanguageCommand', () => {
       stub.rejects(new RedisError('test failed'));
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await languageCommand.deleteAll().terminate();
+      const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.deleteAll().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
