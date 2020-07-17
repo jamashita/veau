@@ -1,6 +1,6 @@
 import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
-import { Ambiguous, Kind, PlainObject } from '@jamashita/publikum-type';
+import { Ambiguous, Kind } from '@jamashita/publikum-type';
 
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
