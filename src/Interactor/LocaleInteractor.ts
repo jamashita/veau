@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
-import { Alive, Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';
@@ -17,7 +17,7 @@ import { RegionsError } from '../VO/Region/Error/RegionsError';
 import { Regions } from '../VO/Region/Regions';
 
 @injectable()
-export class LocaleInteractor implements Noun {
+export class LocaleInteractor implements Noun<'LocaleInteractor'> {
   public readonly noun: 'LocaleInteractor' = 'LocaleInteractor';
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;
@@ -36,45 +36,29 @@ export class LocaleInteractor implements Noun {
     this.regionCommand = regionCommand;
   }
 
-  public async all(): Promise<Superposition<Locale, LocaleError | DataSourceError>> {
-    const [superposition1, superposition2]: [
-      Superposition<Languages, LanguagesError | DataSourceError>,
-      Superposition<Regions, RegionsError | DataSourceError>
-    ] = await Promise.all<
-      Superposition<Languages, LanguagesError | DataSourceError>,
-      Superposition<Regions, RegionsError | DataSourceError>
-    >([this.languageQuery.all(), this.regionQuery.all()]);
-
-    return superposition1.transform<Locale, LocaleError | DataSourceError>(
-      (languages: Languages) => {
-        return superposition2.transform<Locale, LocaleError | DataSourceError>(
-          (regions: Regions) => {
-            return Alive.of<Locale, DataSourceError>(Locale.of(languages, regions));
-          },
-          (err: RegionsError | DataSourceError) => {
-            if (err instanceof RegionsError) {
-              return Dead.of<Locale, LocaleError>(new LocaleError('LocaleInteradtor.all()', err));
-            }
-
-            return Dead.of<Locale, DataSourceError>(err);
-          }
-        );
-      },
-      (err: LanguagesError | DataSourceError) => {
-        if (err instanceof LanguagesError) {
-          return Dead.of<Locale, LocaleError>(new LocaleError('LocaleInteradtor.all()', err));
+  public all(): Superposition<Locale, LocaleError | DataSourceError> {
+    return this.languageQuery
+      .all()
+      .map<Locale, LanguagesError | RegionsError | DataSourceError>((languages: Languages) => {
+        return this.regionQuery.all().map<Locale, RegionsError | DataSourceError>((regions: Regions) => {
+          return Locale.of(languages, regions);
+        });
+      })
+      .recover<Locale, LocaleError>((err: LanguagesError | RegionsError | DataSourceError) => {
+        if (err instanceof DataSourceError) {
+          throw err;
         }
-
-        return Dead.of<Locale, DataSourceError>(err);
-      }
-    );
+        
+        throw new LocaleError('LocaleInteradtor.all()', err);
+      }, LocaleError, DataSourceError);
   }
 
-  public async delete(): Promise<Superposition<unknown, DataSourceError>> {
-    const superpositions: Array<Superposition<unknown, DataSourceError>> = await Promise.all<
-      Superposition<unknown, DataSourceError>
-    >([this.languageCommand.deleteAll(), this.regionCommand.deleteAll()]);
+  public delete(): Superposition<unknown, DataSourceError> {
+    const superpositions: Array<Superposition<unknown, DataSourceError>> = [
+      this.languageCommand.deleteAll(),
+      this.regionCommand.deleteAll()
+    ];
 
-    return Schrodinger.all<unknown, DataSourceError>(superpositions);
+    return Superposition.all<unknown, DataSourceError>(superpositions);
   }
 }

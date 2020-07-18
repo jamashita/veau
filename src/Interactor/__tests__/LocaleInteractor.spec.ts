@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MySQLError } from '@jamashita/publikum-mysql';
 import { RedisError } from '@jamashita/publikum-redis';
 
@@ -11,7 +11,6 @@ import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';
 import { MockRegionCommand } from '../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
-import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { MockLanguageQuery } from '../../Query/Mock/MockLanguageQuery';
 import { MockRegionQuery } from '../../Query/Mock/MockRegionQuery';
 import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
@@ -41,15 +40,18 @@ describe('LocaleInteractor', () => {
       const regions: MockRegions = new MockRegions();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
+      
       const stub1: SinonStub = sinon.stub();
 
       languageKernelQuery.all = stub1;
-      stub1.resolves(Alive.of<Languages, NoSuchElementError>(languages));
+      stub1.returns(Superposition.alive<Languages, DataSourceError>(languages, DataSourceError));
+      
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionKernelQuery.all = stub2;
-      stub2.resolves(Alive.of<Regions, NoSuchElementError>(regions));
+      stub2.returns(Superposition.alive<Regions, DataSourceError>(regions, DataSourceError));
+      
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
@@ -59,11 +61,11 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
+      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeInteractor.all().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get().getLanguages()).toBe(languages);
-      expect(superposition.get().getRegions()).toBe(regions);
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get().getLanguages()).toBe(languages);
+      expect(schrodinger.get().getRegions()).toBe(regions);
     });
 
     it('LanguageQuery.all returns Dead by LanguagesError', async () => {
@@ -73,16 +75,16 @@ describe('LocaleInteractor', () => {
       const stub1: SinonStub = sinon.stub();
 
       languageKernelQuery.all = stub1;
-      stub1.resolves(Dead.of<Languages, LanguagesError>(new LanguagesError('test failed')));
+      stub1.returns(Superposition.dead<Languages, LanguagesError>(new LanguagesError('test failed'), LanguagesError));
+      
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionKernelQuery.all = stub2;
-      stub2.resolves(Alive.of<Regions, NoSuchElementError>(regions));
+      stub2.returns(Superposition.alive<Regions, DataSourceError>(regions, DataSourceError));
+      
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(
         languageKernelQuery,
@@ -90,21 +92,12 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
+      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeInteractor.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LocaleError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LocaleError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(LocaleError);
     });
 
     it('LanguageQuery.all returns Dead by DataSourceError', async () => {
@@ -114,16 +107,16 @@ describe('LocaleInteractor', () => {
       const stub1: SinonStub = sinon.stub();
 
       languageKernelQuery.all = stub1;
-      stub1.resolves(Dead.of<Languages, DataSourceError>(new MySQLError('test faied')));
+      stub1.returns(Superposition.dead<Languages, DataSourceError>(new MySQLError('test faied'), DataSourceError));
+      
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionKernelQuery.all = stub2;
-      stub2.resolves(Alive.of<Regions, NoSuchElementError>(regions));
+      stub2.returns(Superposition.alive<Regions, DataSourceError>(regions, DataSourceError));
+      
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(
         languageKernelQuery,
@@ -131,21 +124,12 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
+      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeInteractor.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LocaleError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
 
     it('RegionQuery.all returns Dead by RegionsError', async () => {
@@ -155,16 +139,16 @@ describe('LocaleInteractor', () => {
       const stub1: SinonStub = sinon.stub();
 
       languageKernelQuery.all = stub1;
-      stub1.resolves(Alive.of<Languages, NoSuchElementError>(languages));
+      stub1.returns(Superposition.alive<Languages, DataSourceError>(languages, DataSourceError));
+      
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionKernelQuery.all = stub2;
-      stub2.resolves(Dead.of<Languages, RegionsError>(new RegionsError('test failed')));
+      stub2.returns(Superposition.dead<Languages, RegionsError>(new RegionsError('test failed'), RegionsError));
+      
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(
         languageKernelQuery,
@@ -172,21 +156,12 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
+      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeInteractor.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LocaleError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LocaleError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(LocaleError);
     });
 
     it('RegionQuery.all returns Dead by NoSuchElementError', async () => {
@@ -196,16 +171,16 @@ describe('LocaleInteractor', () => {
       const stub1: SinonStub = sinon.stub();
 
       languageKernelQuery.all = stub1;
-      stub1.resolves(Alive.of<Languages, NoSuchElementError>(languages));
+      stub1.returns(Superposition.alive<Languages, DataSourceError>(languages, DataSourceError));
+      
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionKernelQuery.all = stub2;
-      stub2.resolves(Dead.of<Languages, DataSourceError>(new MySQLError('test faied')));
+      stub2.returns(Superposition.dead<Languages, DataSourceError>(new MySQLError('test faied'), DataSourceError));
+      
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(
         languageKernelQuery,
@@ -213,21 +188,12 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
+      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeInteractor.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LocaleError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(DataSourceError);
     });
   });
 
@@ -239,12 +205,12 @@ describe('LocaleInteractor', () => {
       const stub1: SinonStub = sinon.stub();
 
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Alive.of<DataSourceError>());
+      stub1.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
 
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Alive.of<DataSourceError>());
+      stub2.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(
         languageKernelQuery,
@@ -252,11 +218,9 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<unknown, DataSourceError> = await localeInteractor.delete();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await localeInteractor.delete().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(stub1.called).toBe(true);
-      expect(stub2.called).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('LanguageCommand.deleteAll returns Dead by DataSourceError', async () => {
@@ -266,38 +230,26 @@ describe('LocaleInteractor', () => {
       const stub1: SinonStub = sinon.stub();
 
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Dead.of<DataSourceError>(new RedisError('test failed')));
+      stub1.returns(Superposition.dead<unknown, DataSourceError>(new RedisError('test failed'), DataSourceError));
+      
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
 
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Alive.of<DataSourceError>());
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
+      stub2.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+      
       const localeInteractor: LocaleInteractor = new LocaleInteractor(
         languageKernelQuery,
         regionKernelQuery,
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<unknown, DataSourceError> = await localeInteractor.delete();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await localeInteractor.delete().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      expect(stub1.called).toBe(true);
-      expect(stub2.called).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(DataSourceError);
     });
 
     it('RegionCommand.deleteAll returns Dead by DataSourceError', async () => {
@@ -307,14 +259,13 @@ describe('LocaleInteractor', () => {
       const stub1: SinonStub = sinon.stub();
 
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Alive.of<DataSourceError>());
+      stub1.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
 
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Dead.of<DataSourceError>(new RedisError('test failed')));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub2.returns(Superposition.dead<unknown, DataSourceError>(new RedisError('test failed'), DataSourceError));
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(
         languageKernelQuery,
@@ -322,23 +273,12 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<unknown, DataSourceError> = await localeInteractor.delete();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await localeInteractor.delete().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      expect(stub1.called).toBe(true);
-      expect(stub2.called).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(DataSourceError);
     });
   });
 });

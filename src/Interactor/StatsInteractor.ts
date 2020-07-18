@@ -18,7 +18,7 @@ import { StatsOutlines } from '../VO/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../VO/VeauAccount/VeauAccountID';
 
 @injectable()
-export class StatsInteractor implements Noun {
+export class StatsInteractor implements Noun<'StatsInteractor'> {
   public readonly noun: 'StatsInteractor' = 'StatsInteractor';
   private readonly statsQuery: IStatsQuery;
   private readonly statsOutlineQuery: IStatsOutlineQuery;
@@ -34,20 +34,18 @@ export class StatsInteractor implements Noun {
     this.statsCommand = statsCommand;
   }
 
-  public findByStatsID(
-    statsID: StatsID
-  ): Promise<Superposition<Stats, NoSuchElementError | StatsError | DataSourceError>> {
+  public findByStatsID(statsID: StatsID): Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> {
     return this.statsQuery.findByStatsID(statsID);
   }
 
   public findByVeauAccountID(
     veauAccountID: VeauAccountID,
     page: Page
-  ): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
+  ): Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> {
     return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
   }
 
-  public save(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<unknown, DataSourceError>> {
+  public save(stats: Stats, veauAccountID: VeauAccountID): Superposition<unknown, DataSourceError> {
     return this.statsCommand.create(stats, veauAccountID);
   }
 }

@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { kernel } from '../../Container/Kernel';
@@ -44,16 +44,16 @@ describe('StatsInteractor', () => {
       const stub: SinonStub = sinon.stub();
 
       statsQuery.findByStatsID = stub;
-      stub.resolves(Alive.of<Stats, NoSuchElementError>(stats));
+      stub.returns(Superposition.alive<Stats, DataSourceError>(stats, DataSourceError));
 
       const statsInteractor: StatsInteractor = new StatsInteractor(statsQuery, statsOutlineQuery, statsCommand);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         NoSuchElementError | StatsError | DataSourceError
-      > = await statsInteractor.findByStatsID(statsID);
+      > = await statsInteractor.findByStatsID(statsID).terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get().equals(stats)).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get().equals(stats)).toBe(true);
     });
   });
 
@@ -69,15 +69,16 @@ describe('StatsInteractor', () => {
       const stub: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub;
-      stub.resolves(Alive.of<StatsOutlines, StatsOutlinesError>(outlines));
+      stub.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
 
       const statsInteractor: StatsInteractor = new StatsInteractor(statsQuery, statsOutlineQuery, statsCommand);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsOutlines,
         StatsOutlinesError | DataSourceError
-      > = await statsInteractor.findByVeauAccountID(accountID, page);
+      > = await statsInteractor.findByVeauAccountID(accountID, page).terminate();
 
-      expect(superposition.get()).toBe(outlines);
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(outlines);
     });
   });
 
@@ -92,11 +93,11 @@ describe('StatsInteractor', () => {
       const stub: SinonStub = sinon.stub();
 
       statsCommand.create = stub;
-      stub.resolves(Alive.of<unknown, DataSourceError>('something'));
+      stub.returns(Superposition.alive<unknown, DataSourceError>('something', DataSourceError));
 
       const statsInteractor: StatsInteractor = new StatsInteractor(statsQuery, statsOutlineQuery, statsCommand);
 
-      await statsInteractor.save(stats, accountID);
+      await statsInteractor.save(stats, accountID).terminate();
 
       expect(stub.called).toBe(true);
     });

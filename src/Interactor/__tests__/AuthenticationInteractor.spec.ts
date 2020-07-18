@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import sinon, { SinonStub } from 'sinon';
 
-import { Alive, Dead } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
@@ -38,11 +38,12 @@ describe('AuthenticationInteractor', () => {
       const stub1: SinonStub = sinon.stub();
 
       accountQuery.findByAccount = stub1;
-      stub1.resolves(Alive.of<Account, NoSuchElementError>(account));
+      stub1.returns(Superposition.alive<Account, NoSuchElementError>(account, NoSuchElementError));
+      
       const stub2: SinonStub = sinon.stub();
 
       account.verify = stub2;
-      stub2.resolves(true);
+      stub2.returns(true);
 
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
 
@@ -61,7 +62,7 @@ describe('AuthenticationInteractor', () => {
       const stub: SinonStub = sinon.stub();
 
       accountQuery.findByAccount = stub;
-      stub.resolves(Dead.of<Account, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub.returns(Superposition.dead<Account, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError));
 
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
 
@@ -81,11 +82,12 @@ describe('AuthenticationInteractor', () => {
       const stub1: SinonStub = sinon.stub();
 
       accountQuery.findByAccount = stub1;
-      stub1.resolves(Alive.of<Account, NoSuchElementError>(account));
+      stub1.returns(Superposition.alive<Account, NoSuchElementError>(account, NoSuchElementError));
+      
       const stub2: SinonStub = sinon.stub();
 
       account.verify = stub2;
-      stub2.resolves(false);
+      stub2.returns(false);
 
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
 

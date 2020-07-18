@@ -4,7 +4,6 @@ import { VerifyFunction } from 'passport-local';
 import { Digest } from '@jamashita/publikum-digest';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../Container/Types';
 import { logger } from '../Infrastructure/Logger';
@@ -19,7 +18,7 @@ const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
 const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';
 
 @injectable()
-export class AuthenticationInteractor implements Noun {
+export class AuthenticationInteractor implements Noun<'AuthenticationInteractor'> {
   public readonly noun: 'AuthenticationInteractor' = 'AuthenticationInteractor';
   public readonly accountQuery: IAccountQuery;
 
@@ -28,13 +27,8 @@ export class AuthenticationInteractor implements Noun {
   }
 
   public review(): VerifyFunction {
-    return async (name: string, pass: string, callback: (error: unknown, account?: unknown) => void): Promise<void> => {
-      const superposition: Superposition<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await this.accountQuery.findByAccount(AccountName.of(name));
-
-      superposition.transform<void>(
+    return (name: string, pass: string, callback: (error: unknown, account?: unknown) => void): unknown => {
+      return this.accountQuery.findByAccount(AccountName.of(name)).transform<unknown, Error>(
         async (account: Account) => {
           const correct: boolean = await account.verify(Password.of(pass));
 
