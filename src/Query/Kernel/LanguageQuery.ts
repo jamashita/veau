@@ -43,11 +43,11 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
           return languages;
         });
       });
-    });
+    }, DataSourceError);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
+  public find(_languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
     throw new UnimplementedError();
   }
 
@@ -70,7 +70,10 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
           }
 
           throw err;
-        }
+        },
+        LanguageError,
+        NoSuchElementError,
+        DataSourceError
       );
   }
 }

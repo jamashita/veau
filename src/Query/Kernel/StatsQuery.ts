@@ -98,7 +98,10 @@ export class StatsQuery implements IStatsQuery, IKernelQuery {
           }
 
           throw new StatsError('StatsQuery.findByStatsID()', err);
-        }
+        },
+        StatsError,
+        NoSuchElementError,
+        DataSourceError
       );
   }
 }

@@ -43,11 +43,11 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
           return regions;
         });
       });
-    });
+    }, DataSourceError);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
+  public find(_regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
     throw new UnimplementedError();
   }
 
@@ -60,16 +60,20 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
 
         return Unscharferelation.maybe<Region>(region).toSuperposition();
       })
-      .recover<Region, RegionError | NoSuchElementError | DataSourceError>((err: RegionsError | DataSourceError | UnscharferelationError) => {
-        if (err instanceof RegionsError) {
-          throw new RegionError('RegionQuery.findByISO3166()', err);
-        }
-        if (err instanceof UnscharferelationError) {
-          throw new NoSuchElementError(iso3166.toString());
-        }
+      .recover<Region, RegionError | NoSuchElementError | DataSourceError>(
+        (err: RegionsError | DataSourceError | UnscharferelationError) => {
+          if (err instanceof RegionsError) {
+            throw new RegionError('RegionQuery.findByISO3166()', err);
+          }
+          if (err instanceof UnscharferelationError) {
+            throw new NoSuchElementError(iso3166.toString());
+          }
 
-
-        throw err;
-      });
+          throw err;
+        },
+        RegionError,
+        NoSuchElementError,
+        DataSourceError
+      );
   }
 }

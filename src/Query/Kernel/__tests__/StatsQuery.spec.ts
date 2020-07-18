@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -66,33 +66,36 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
-
+      
       statsOutlineQuery.find = stub1;
-      stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
+      stub1.returns(Superposition.alive<StatsOutline, DataSourceError>(outline, DataSourceError));
+
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
-
+      
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
+      stub2.returns(Superposition.alive<StatsItems, DataSourceError>(items, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
-
+      
       languageQuery.find = stub3;
-      stub3.resolves(Alive.of<Language, LanguageError | NoSuchElementError | DataSourceError>(language));
+      stub3.returns(Superposition.alive<Language, DataSourceError>(language, DataSourceError));
+      
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub4: SinonStub = sinon.stub();
-
+      
       regionQuery.find = stub4;
-      stub4.resolves(Alive.of<Region, RegionError | NoSuchElementError | DataSourceError>(region));
+      stub4.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const stats: Stats = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const stats: Stats = schrodinger.get();
 
       expect(stats.getStatsID()).toBe(statsID);
       expect(stats.getName()).toBe(name);
@@ -109,35 +112,24 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
-
+      
       statsOutlineQuery.find = stub1;
-      stub1.resolves(Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed')));
+      stub1.returns(Superposition.dead<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed'), StatsOutlineError));
+      
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsError);
     });
 
     it('returns Dead because StatsOutlineQuery returns Dead with NoSuchElementError', async () => {
@@ -145,35 +137,24 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
-
+      
       statsOutlineQuery.find = stub1;
-      stub1.resolves(Dead.of<StatsOutline, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub1.returns(Superposition.dead<StatsOutline, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError));
+      
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
 
     it('returns Dead because StatsItemQuery returns Dead with StatsItemsError', async () => {
@@ -182,39 +163,29 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
-
+      
       statsOutlineQuery.find = stub1;
-      stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
+      stub1.returns(Superposition.alive<StatsOutline, DataSourceError>(outline, DataSourceError));
+      
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
-
+      
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Dead.of<StatsItems, StatsItemsError | DataSourceError>(new StatsItemsError('test failed')));
+      stub2.returns(Superposition.dead<StatsItems, StatsItemsError>(new StatsItemsError('test failed'), StatsItemsError));
+      
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsError);
     });
 
     it('returns Dead because StatsItemQuery returns Dead with MySQLError', async () => {
@@ -223,39 +194,29 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
-
+      
       statsOutlineQuery.find = stub1;
-      stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
+      stub1.returns(Superposition.alive<StatsOutline, DataSourceError>(outline, DataSourceError));
+      
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
-
+      
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Dead.of<StatsItems, StatsItemsError | DataSourceError>(new MySQLError('test failed')));
+      stub2.returns(Superposition.dead<StatsItems, MySQLError>(new MySQLError('test failed'), MySQLError));
+      
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
 
     it('returns Dead because LanguageQuery returns Dead with LanguageError', async () => {
@@ -265,45 +226,35 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
-
+      
       statsOutlineQuery.find = stub1;
-      stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
+      stub1.returns(Superposition.alive<StatsOutline, DataSourceError>(outline, DataSourceError));
+      
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
-
+      
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
+      stub2.returns(Superposition.alive<StatsItems, DataSourceError>(items, DataSourceError));
+      
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
 
       languageQuery.find = stub3;
-      stub3.resolves(
-        Dead.of<Language, LanguageError | NoSuchElementError | DataSourceError>(new LanguageError('test failed'))
+      stub3.returns(
+        Superposition.dead<Language, LanguageError>(new LanguageError('test failed'), LanguageError)
       );
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsError);
     });
 
     it('returns Dead because LanguageQuery returns Dead with NoSuchElementError', async () => {
@@ -313,45 +264,35 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
-
+      
       statsOutlineQuery.find = stub1;
-      stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
+      stub1.returns(Superposition.alive<StatsOutline, DataSourceError>(outline, DataSourceError));
+      
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
-
+      
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
+      stub2.returns(Superposition.alive<StatsItems, DataSourceError>(items, DataSourceError));
+      
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
 
       languageQuery.find = stub3;
-      stub3.resolves(
-        Dead.of<Language, LanguageError | NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed'))
+      stub3.returns(
+        Superposition.dead<Language, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError)
       );
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
 
     it('returns Dead because RegionQuery returns Dead with RegionError', async () => {
@@ -362,49 +303,40 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
-
+      
       statsOutlineQuery.find = stub1;
-      stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
+      stub1.returns(Superposition.alive<StatsOutline, DataSourceError>(outline, DataSourceError));
+      
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
-
+      
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
+      stub2.returns(Superposition.alive<StatsItems, DataSourceError>(items, DataSourceError));
+      
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
-
+      
       languageQuery.find = stub3;
-      stub3.resolves(Alive.of<Language, LanguageError | NoSuchElementError | DataSourceError>(language));
+      stub3.returns(Superposition.alive<Language, DataSourceError>(language, DataSourceError));
+      
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub4: SinonStub = sinon.stub();
-
+      
       regionQuery.find = stub4;
-      stub4.resolves(
-        Dead.of<Region, RegionError | NoSuchElementError | DataSourceError>(new RegionError('test failed'))
+      stub4.returns(
+        Superposition.dead<Region, RegionError>(new RegionError('test failed'), RegionError)
       );
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsError);
     });
 
     it('returns Dead because RegionQuery returns Dead with NoSuchElementError', async () => {
@@ -415,49 +347,40 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
-
+      
       statsOutlineQuery.find = stub1;
-      stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
+      stub1.returns(Superposition.alive<StatsOutline, DataSourceError>(outline, DataSourceError));
+      
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
-
+      
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
+      stub2.returns(Superposition.alive<StatsItems, DataSourceError>(items, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
-
+      
       languageQuery.find = stub3;
-      stub3.resolves(Alive.of<Language, LanguageError | NoSuchElementError | DataSourceError>(language));
+      stub3.returns(Superposition.alive<Language, DataSourceError>(language, DataSourceError));
+      
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub4: SinonStub = sinon.stub();
-
+      
       regionQuery.find = stub4;
-      stub4.resolves(
-        Dead.of<Region, RegionError | NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed'))
+      stub4.returns(
+        Superposition.dead<Region, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError)
       );
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
 
     it('returns Dead becuase TermID does not exist', async () => {
@@ -471,47 +394,38 @@ describe('StatsQuery', () => {
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const stub1: SinonStub = sinon.stub();
-
+      
       statsOutlineQuery.find = stub1;
-      stub1.resolves(Alive.of<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>(outline));
+      stub1.returns(Superposition.alive<StatsOutline, DataSourceError>(outline, DataSourceError));
+      
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
-
+      
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
+      stub2.returns(Superposition.alive<StatsItems, DataSourceError>(items, DataSourceError));
+      
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
-
+      
       languageQuery.find = stub3;
-      stub3.resolves(Alive.of<Language, LanguageError | NoSuchElementError | DataSourceError>(language));
+      stub3.returns(Superposition.alive<Language, DataSourceError>(language, DataSourceError));
+      
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub4: SinonStub = sinon.stub();
-
+      
       regionQuery.find = stub4;
-      stub4.resolves(Alive.of<Region, RegionError | NoSuchElementError | DataSourceError>(region));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub4.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Stats,
         StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID);
+      > = await statsQuery.findByStatsID(statsID).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsError);
     });
   });
 });

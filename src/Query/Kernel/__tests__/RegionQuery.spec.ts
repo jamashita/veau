@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MySQLError } from '@jamashita/publikum-mysql';
 import { RedisError } from '@jamashita/publikum-redis';
 
@@ -41,15 +41,15 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       regionRedisQuery.all = stub;
-      stub.resolves(Alive.of<Regions, NoSuchElementError>(regions));
+      stub.returns(Superposition.alive<Regions, DataSourceError>(regions, DataSourceError));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(regions);
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(regions);
     });
 
     it('RegionMySQLQuery returns Alive', async () => {
@@ -59,23 +59,23 @@ describe('RegionQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       regionRedisQuery.all = stub1;
-      stub1.resolves(Dead.of<Regions, DataSourceError>(new MySQLError('test faied')));
+      stub1.returns(Superposition.dead<Regions, MySQLError>(new MySQLError('test faied'), MySQLError));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionMySQLQuery.all = stub2;
-      stub2.resolves(Alive.of<Regions, NoSuchElementError>(regions));
+      stub2.returns(Superposition.alive<Regions, DataSourceError>(regions, DataSourceError));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
 
       regionRedisCommand.insertAll = stub3;
-      stub3.resolves(Alive.of<DataSourceError>());
+      stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(regions);
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(regions);
     });
 
     it('RegionRedisQuery nor RegionMySQLQuery returns Dead', async () => {
@@ -83,36 +83,25 @@ describe('RegionQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       regionRedisQuery.all = stub1;
-      stub1.resolves(Dead.of<Regions, RedisError>(new RedisError('test failed')));
+      stub1.returns(Superposition.dead<Regions, RedisError>(new RedisError('test failed'), RedisError));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionMySQLQuery.all = stub2;
-      stub2.resolves(Dead.of<Regions, MySQLError>(new MySQLError('test failed')));
+      stub2.returns(Superposition.dead<Regions, MySQLError>(new MySQLError('test failed'), MySQLError));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
 
       regionRedisCommand.insertAll = stub3;
-      stub3.resolves(Alive.of<DataSourceError>());
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
 
     it('RegionCommand returns Dead', async () => {
@@ -122,36 +111,25 @@ describe('RegionQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       regionRedisQuery.all = stub1;
-      stub1.resolves(Dead.of<Regions, RedisError>(new RedisError('test failed')));
+      stub1.returns(Superposition.dead<Regions, RedisError>(new RedisError('test failed'), RedisError));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionMySQLQuery.all = stub2;
-      stub2.resolves(Alive.of<Regions, NoSuchElementError>(regions));
+      stub2.returns(Superposition.alive<Regions, DataSourceError>(regions, DataSourceError));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
 
       regionRedisCommand.insertAll = stub3;
-      stub3.resolves(Dead.of<DataSourceError>(new RedisError('test faied')));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.dead<unknown, RedisError>(new RedisError('test faied'), RedisError));
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RedisError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RedisError);
     });
   });
 
@@ -169,18 +147,18 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       regionRedisQuery.all = stub;
-      stub.resolves(Alive.of<Regions, NoSuchElementError>(regions));
+      stub.returns(Superposition.alive<Regions, DataSourceError>(regions, DataSourceError));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(regions.get(region2.getRegionID()).get());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(regions.get(region2.getRegionID()));
     });
 
     it('RegionQuery.all returns Dead, MySQLError', async () => {
@@ -188,35 +166,24 @@ describe('RegionQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       regionRedisQuery.all = stub1;
-      stub1.resolves(Dead.of<Regions, RegionError>(new RegionError('test failed')));
+      stub1.returns(Superposition.dead<Regions, RegionError>(new RegionError('test failed'), RegionError));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionMySQLQuery.all = stub2;
-      stub2.resolves(Dead.of<Regions, MySQLError>(new MySQLError('test failed')));
+      stub2.returns(Superposition.dead<Regions, MySQLError>(new MySQLError('test failed'), MySQLError));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
     });
 
     it('RegionQuery.all returns Dead, RegionsError', async () => {
@@ -224,35 +191,24 @@ describe('RegionQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       regionRedisQuery.all = stub1;
-      stub1.resolves(Dead.of<Regions, RegionError>(new RegionError('test failed')));
+      stub1.returns(Superposition.dead<Regions, RegionError>(new RegionError('test failed'), RegionError));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionMySQLQuery.all = stub2;
-      stub2.resolves(Dead.of<Regions, RegionsError>(new RegionsError('test failed')));
+      stub2.returns(Superposition.dead<Regions, RegionsError>(new RegionsError('test failed'), RegionsError));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RegionError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RegionError);
     });
 
     it('no match results', async () => {
@@ -269,31 +225,20 @@ describe('RegionQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       regionRedisQuery.all = stub1;
-      stub1.resolves(Alive.of<Regions, NoSuchElementError>(regions));
+      stub1.returns(Superposition.alive<Regions, DataSourceError>(regions, DataSourceError));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('AIO'));
+      > = await regionQuery.findByISO3166(ISO3166.of('AIO')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
   });
 });
