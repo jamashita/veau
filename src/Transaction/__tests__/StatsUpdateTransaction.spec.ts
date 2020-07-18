@@ -1,7 +1,7 @@
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MockSQL, MySQLError } from '@jamashita/publikum-mysql';
 
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
@@ -65,33 +65,38 @@ describe('StatsUpdateTransaction', () => {
       });
       const accountID: VeauAccountID = new MockVeauAccountID();
 
-      const statsCommand: MockStatsCommand = new MockStatsCommand();
+      const statsCommand: MockStatsCommand<MySQLError> = new MockStatsCommand<MySQLError>();
       const stub1: SinonStub = sinon.stub();
 
       statsCommand.deleteByStatsID = stub1;
-      stub1.resolves(Alive.of<DataSourceError>());
-      const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
+      stub1.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsItemCommand: MockStatsItemCommand<MySQLError> = new MockStatsItemCommand<MySQLError>();
       const stub2: SinonStub = sinon.stub();
 
       statsItemCommand.deleteByStatsID = stub2;
-      stub2.resolves(Alive.of<DataSourceError>());
-      const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
+      stub2.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsValueCommand: MockStatsValueCommand<MySQLError> = new MockStatsValueCommand<MySQLError>();
       const stub3: SinonStub = sinon.stub();
 
       statsValueCommand.deleteByStatsID = stub3;
-      stub3.resolves(Alive.of<DataSourceError>());
+      stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
       const stub4: SinonStub = sinon.stub();
 
       statsCommand.create = stub4;
-      stub4.resolves(Alive.of<DataSourceError>());
+      stub4.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
       const stub5: SinonStub = sinon.stub();
 
       statsItemCommand.create = stub5;
-      stub5.resolves(Alive.of<DataSourceError>());
+      stub5.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
       const stub6: SinonStub = sinon.stub();
 
       statsValueCommand.create = stub6;
-      stub6.resolves(Alive.of<DataSourceError>());
+      stub6.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
         statsCommand,
@@ -105,9 +110,9 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isAlive()).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(true);
@@ -129,23 +134,23 @@ describe('StatsUpdateTransaction', () => {
       });
       const accountID: VeauAccountID = new MockVeauAccountID();
 
-      const statsCommand: MockStatsCommand = new MockStatsCommand();
+      const statsCommand: MockStatsCommand<MySQLError> = new MockStatsCommand<MySQLError>();
       const stub1: SinonStub = sinon.stub();
 
       statsCommand.deleteByStatsID = stub1;
-      stub1.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
-      const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
+      stub1.returns(Superposition.dead<unknown, MySQLError>(new MySQLError('test failed'), MySQLError));
+
+      const statsItemCommand: MockStatsItemCommand<MySQLError> = new MockStatsItemCommand<MySQLError>();
       const stub2: SinonStub = sinon.stub();
 
       statsItemCommand.deleteByStatsID = stub2;
-      stub2.resolves(Alive.of<DataSourceError>());
-      const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
+      stub2.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsValueCommand: MockStatsValueCommand<MySQLError> = new MockStatsValueCommand<MySQLError>();
       const stub3: SinonStub = sinon.stub();
 
       statsValueCommand.deleteByStatsID = stub3;
-      stub3.resolves(Alive.of<DataSourceError>());
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
         statsCommand,
@@ -159,24 +164,16 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(true);
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
     });
 
     it('StatsItemCommand.deleteByStatsID() returns Dead', async () => {
@@ -192,23 +189,23 @@ describe('StatsUpdateTransaction', () => {
       });
       const accountID: VeauAccountID = new MockVeauAccountID();
 
-      const statsCommand: MockStatsCommand = new MockStatsCommand();
+      const statsCommand: MockStatsCommand<MySQLError> = new MockStatsCommand<MySQLError>();
       const stub1: SinonStub = sinon.stub();
 
       statsCommand.deleteByStatsID = stub1;
-      stub1.resolves(Alive.of<DataSourceError>());
-      const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
+      stub1.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsItemCommand: MockStatsItemCommand<MySQLError> = new MockStatsItemCommand<MySQLError>();
       const stub2: SinonStub = sinon.stub();
 
       statsItemCommand.deleteByStatsID = stub2;
-      stub2.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
-      const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
+      stub2.returns(Superposition.dead<unknown, MySQLError>(new MySQLError('test failed'), MySQLError));
+
+      const statsValueCommand: MockStatsValueCommand<MySQLError> = new MockStatsValueCommand<MySQLError>();
       const stub3: SinonStub = sinon.stub();
 
       statsValueCommand.deleteByStatsID = stub3;
-      stub3.resolves(Alive.of<DataSourceError>());
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
         statsCommand,
@@ -222,24 +219,16 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(true);
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
     });
 
     it('StatsValueCommand.deleteByStatsID() returns Dead', async () => {
@@ -255,23 +244,23 @@ describe('StatsUpdateTransaction', () => {
       });
       const accountID: VeauAccountID = new MockVeauAccountID();
 
-      const statsCommand: MockStatsCommand = new MockStatsCommand();
+      const statsCommand: MockStatsCommand<MySQLError> = new MockStatsCommand<MySQLError>();
       const stub1: SinonStub = sinon.stub();
 
       statsCommand.deleteByStatsID = stub1;
-      stub1.resolves(Alive.of<DataSourceError>());
-      const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
+      stub1.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsItemCommand: MockStatsItemCommand<MySQLError> = new MockStatsItemCommand<MySQLError>();
       const stub2: SinonStub = sinon.stub();
 
       statsItemCommand.deleteByStatsID = stub2;
-      stub2.resolves(Alive.of<DataSourceError>());
-      const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
+      stub2.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsValueCommand: MockStatsValueCommand<MySQLError> = new MockStatsValueCommand<MySQLError>();
       const stub3: SinonStub = sinon.stub();
 
       statsValueCommand.deleteByStatsID = stub3;
-      stub3.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.dead<unknown, MySQLError>(new MySQLError('test failed'), MySQLError));
 
       const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
         statsCommand,
@@ -285,24 +274,16 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(true);
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
     });
 
     it('StatsCommand.create() returns Dead', async () => {
@@ -318,35 +299,38 @@ describe('StatsUpdateTransaction', () => {
       });
       const accountID: VeauAccountID = new MockVeauAccountID();
 
-      const statsCommand: MockStatsCommand = new MockStatsCommand();
+      const statsCommand: MockStatsCommand<MySQLError> = new MockStatsCommand<MySQLError>();
       const stub1: SinonStub = sinon.stub();
 
       statsCommand.deleteByStatsID = stub1;
-      stub1.resolves(Alive.of<DataSourceError>());
-      const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
+      stub1.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsItemCommand: MockStatsItemCommand<MySQLError> = new MockStatsItemCommand<MySQLError>();
       const stub2: SinonStub = sinon.stub();
 
       statsItemCommand.deleteByStatsID = stub2;
-      stub2.resolves(Alive.of<DataSourceError>());
-      const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
+      stub2.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsValueCommand: MockStatsValueCommand<MySQLError> = new MockStatsValueCommand<MySQLError>();
       const stub3: SinonStub = sinon.stub();
 
       statsValueCommand.deleteByStatsID = stub3;
-      stub3.resolves(Alive.of<DataSourceError>());
+      stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
       const stub4: SinonStub = sinon.stub();
 
       statsCommand.create = stub4;
-      stub4.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
+      stub4.returns(Superposition.dead<unknown, MySQLError>(new MySQLError('test failed'), MySQLError));
+
       const stub5: SinonStub = sinon.stub();
 
       statsItemCommand.create = stub5;
-      stub5.resolves(Alive.of<DataSourceError>());
+      stub5.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
       const stub6: SinonStub = sinon.stub();
 
       statsValueCommand.create = stub6;
-      stub6.resolves(Alive.of<DataSourceError>());
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub6.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
         statsCommand,
@@ -360,18 +344,12 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -379,8 +357,6 @@ describe('StatsUpdateTransaction', () => {
       expect(stub4.called).toBe(true);
       expect(stub5.called).toBe(true);
       expect(stub6.called).toBe(true);
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
     });
 
     it('StatsItemCommand.create() returns Dead', async () => {
@@ -396,35 +372,38 @@ describe('StatsUpdateTransaction', () => {
       });
       const accountID: VeauAccountID = new MockVeauAccountID();
 
-      const statsCommand: MockStatsCommand = new MockStatsCommand();
+      const statsCommand: MockStatsCommand<MySQLError> = new MockStatsCommand<MySQLError>();
       const stub1: SinonStub = sinon.stub();
 
       statsCommand.deleteByStatsID = stub1;
-      stub1.resolves(Alive.of<DataSourceError>());
-      const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
+      stub1.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsItemCommand: MockStatsItemCommand<MySQLError> = new MockStatsItemCommand<MySQLError>();
       const stub2: SinonStub = sinon.stub();
 
       statsItemCommand.deleteByStatsID = stub2;
-      stub2.resolves(Alive.of<DataSourceError>());
-      const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
+      stub2.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsValueCommand: MockStatsValueCommand<MySQLError> = new MockStatsValueCommand<MySQLError>();
       const stub3: SinonStub = sinon.stub();
 
       statsValueCommand.deleteByStatsID = stub3;
-      stub3.resolves(Alive.of<DataSourceError>());
+      stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
       const stub4: SinonStub = sinon.stub();
 
       statsCommand.create = stub4;
-      stub4.resolves(Alive.of<DataSourceError>());
+      stub4.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
       const stub5: SinonStub = sinon.stub();
 
       statsItemCommand.create = stub5;
-      stub5.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
+      stub5.returns(Superposition.dead<unknown, MySQLError>(new MySQLError('test failed'), MySQLError));
+
       const stub6: SinonStub = sinon.stub();
 
       statsValueCommand.create = stub6;
-      stub6.resolves(Alive.of<DataSourceError>());
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub6.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
         statsCommand,
@@ -438,18 +417,12 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -457,8 +430,6 @@ describe('StatsUpdateTransaction', () => {
       expect(stub4.called).toBe(true);
       expect(stub5.called).toBe(true);
       expect(stub6.called).toBe(true);
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
     });
 
     it('StatsValueCommand.create() returns Dead', async () => {
@@ -474,35 +445,38 @@ describe('StatsUpdateTransaction', () => {
       });
       const accountID: VeauAccountID = new MockVeauAccountID();
 
-      const statsCommand: MockStatsCommand = new MockStatsCommand();
+      const statsCommand: MockStatsCommand<MySQLError> = new MockStatsCommand<MySQLError>();
       const stub1: SinonStub = sinon.stub();
 
       statsCommand.deleteByStatsID = stub1;
-      stub1.resolves(Alive.of<DataSourceError>());
-      const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
+      stub1.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsItemCommand: MockStatsItemCommand<MySQLError> = new MockStatsItemCommand<MySQLError>();
       const stub2: SinonStub = sinon.stub();
 
       statsItemCommand.deleteByStatsID = stub2;
-      stub2.resolves(Alive.of<DataSourceError>());
-      const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
+      stub2.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
+      const statsValueCommand: MockStatsValueCommand<MySQLError> = new MockStatsValueCommand<MySQLError>();
       const stub3: SinonStub = sinon.stub();
 
       statsValueCommand.deleteByStatsID = stub3;
-      stub3.resolves(Alive.of<DataSourceError>());
+      stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
       const stub4: SinonStub = sinon.stub();
 
       statsCommand.create = stub4;
-      stub4.resolves(Alive.of<DataSourceError>());
+      stub4.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
       const stub5: SinonStub = sinon.stub();
 
       statsItemCommand.create = stub5;
-      stub5.resolves(Alive.of<DataSourceError>());
+      stub5.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+
       const stub6: SinonStub = sinon.stub();
 
       statsValueCommand.create = stub6;
-      stub6.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub6.returns(Superposition.dead<unknown, MySQLError>(new MySQLError('test failed'), MySQLError));
 
       const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
         statsCommand,
@@ -516,18 +490,12 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(MySQLError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MySQLError);
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -535,8 +503,6 @@ describe('StatsUpdateTransaction', () => {
       expect(stub4.called).toBe(true);
       expect(stub5.called).toBe(true);
       expect(stub6.called).toBe(true);
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
     });
   });
 });

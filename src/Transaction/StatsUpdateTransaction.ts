@@ -1,6 +1,5 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Dead, Schrodinger, Superposition } from '@jamashita/publikum-monad';
-import { ISQL, ITransaction } from '@jamashita/publikum-mysql';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { ISQL, ITransaction, MySQLError } from '@jamashita/publikum-mysql';
 
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../Command/Interface/IStatsItemCommand';
@@ -12,7 +11,8 @@ import { StatsID } from '../VO/StatsOutline/StatsID';
 import { StatsValue } from '../VO/StatsValue/StatsValue';
 import { VeauAccountID } from '../VO/VeauAccount/VeauAccountID';
 
-export class StatsUpdateTransaction implements ITransaction<Superposition<unknown, DataSourceError>> {
+export class StatsUpdateTransaction
+  implements ITransaction<Schrodinger<unknown, MySQLError>, 'StatsUpdateTransaction'> {
   public readonly noun: 'StatsUpdateTransaction' = 'StatsUpdateTransaction';
   private readonly stats: Stats;
   private readonly veauAccountID: VeauAccountID;
@@ -24,56 +24,38 @@ export class StatsUpdateTransaction implements ITransaction<Superposition<unknow
     this.statsUpdateFactory = statsUpdateFactory;
   }
 
-  public async with(sql: ISQL): Promise<Superposition<unknown, DataSourceError>> {
-    const statsCommand: IStatsCommand = this.statsUpdateFactory.forgeStatsCommand(sql);
-    const statsItemCommand: IStatsItemCommand = this.statsUpdateFactory.forgeStatsItemCommand(sql);
-    const statsValueCommand: IStatsValueCommand = this.statsUpdateFactory.forgeStatsValueCommand(sql);
+  public with(sql: ISQL): Promise<Schrodinger<unknown, MySQLError>> {
+    const statsCommand: IStatsCommand<MySQLError> = this.statsUpdateFactory.forgeStatsCommand(sql);
+    const statsItemCommand: IStatsItemCommand<MySQLError> = this.statsUpdateFactory.forgeStatsItemCommand(sql);
+    const statsValueCommand: IStatsValueCommand<MySQLError> = this.statsUpdateFactory.forgeStatsValueCommand(sql);
 
     const statsID: StatsID = this.stats.getStatsID();
 
-    const superpositions: Array<Superposition<unknown, DataSourceError>> = [
-      await statsValueCommand.deleteByStatsID(statsID),
-      await statsItemCommand.deleteByStatsID(statsID),
-      await statsCommand.deleteByStatsID(statsID)
+    const superpositions: Array<Superposition<unknown, MySQLError>> = [
+      statsValueCommand.deleteByStatsID(statsID),
+      statsItemCommand.deleteByStatsID(statsID),
+      statsCommand.deleteByStatsID(statsID)
     ];
 
-    const deleteCompletion: Superposition<unknown, DataSourceError> = Schrodinger.all<unknown, DataSourceError>(
-      superpositions
-    );
-
-    return deleteCompletion.transform<unknown, DataSourceError>(
-      async () => {
-        const itemPromises: Array<Promise<Superposition<unknown, DataSourceError>>> = [];
-        const valuePromises: Array<Promise<Superposition<unknown, DataSourceError>>> = [];
+    return Superposition.all<unknown, MySQLError>(superpositions)
+      .map<unknown, MySQLError>(() => {
+        const items: Array<Superposition<unknown, MySQLError>> = [];
+        const values: Array<Superposition<unknown, MySQLError>> = [];
 
         this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
-          itemPromises.push(statsItemCommand.create(statsID, statsItem, index + 1));
+          items.push(statsItemCommand.create(statsID, statsItem, index + 1));
 
           statsItem.getValues().forEach((statsValue: StatsValue) => {
-            valuePromises.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
+            values.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
           });
         });
 
-        const statsInsertSuperposition: Superposition<unknown, DataSourceError> = await statsCommand.create(
-          this.stats,
-          this.veauAccountID
-        );
-        const statsItemInsertSuperposition: Array<Superposition<unknown, DataSourceError>> = await Promise.all<
-          Superposition<unknown, DataSourceError>
-        >(itemPromises);
-        const statsValueInsertSuperposition: Array<Superposition<unknown, DataSourceError>> = await Promise.all<
-          Superposition<unknown, DataSourceError>
-        >(valuePromises);
-
-        return Schrodinger.all<unknown, DataSourceError>([
-          statsInsertSuperposition,
-          ...statsItemInsertSuperposition,
-          ...statsValueInsertSuperposition
-        ]);
-      },
-      (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
-        return Promise.resolve<Superposition<unknown, DataSourceError>>(self);
-      }
-    );
+        return statsCommand.create(this.stats, this.veauAccountID).map<unknown, MySQLError>(() => {
+          return Superposition.all<unknown, MySQLError>(items).map(() => {
+            return Superposition.all<unknown, MySQLError>(values);
+          });
+        });
+      })
+      .terminate();
   }
 }
