@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { AJAXError } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
@@ -40,13 +40,13 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(locale.getRegions());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(locale.getRegions());
     });
 
     it('LocaleQuery returns Dead', async () => {
@@ -54,26 +54,22 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Dead.of<Locale, DataSourceError>(new AJAXError('test failed', 500)));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test failed', 500), AJAXError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
+      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
+    });
+  });
 
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+  // TODO DODODODO!
+  describe('find', () => {
+    it('normal case', () => {
+      //
     });
   });
 
@@ -93,16 +89,16 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(locale.getRegions().get(region2.getRegionID()).get());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(locale.getRegions().get(region2.getRegionID()));
     });
 
     it('LocaleQuery.all returns Dead, AJAXError', async () => {
@@ -110,29 +106,18 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Dead.of<Locale, DataSourceError>(new AJAXError('test failed', 100)));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test failed', 100), AJAXError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
 
     it('LocaleQuery.all returns Dead, RegionError', async () => {
@@ -140,29 +125,18 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Dead.of<Locale, RegionsError>(new RegionsError('test failed')));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.returns(Superposition.dead<Locale, RegionsError>(new RegionsError('test failed'), RegionsError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(RegionError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RegionError);
     });
 
     it('no match results', async () => {
@@ -181,29 +155,18 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Alive.of<Locale, DataSourceError>(locale));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Region,
         RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('OOP'));
+      > = await regionQuery.findByISO3166(ISO3166.of('OOP')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: RegionError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
   });
 });

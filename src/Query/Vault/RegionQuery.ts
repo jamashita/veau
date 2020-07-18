@@ -42,7 +42,10 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
         }
 
         throw err;
-      });
+      },
+      RegionsError,
+      DataSourceError
+    );
   }
 
   // TODO TEST UNDONE
@@ -65,7 +68,10 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
           }
 
           throw err;
-        }
+        },
+        RegionError,
+        NoSuchElementError,
+        DataSourceError,
       );
   }
 
@@ -88,7 +94,10 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
           }
 
           throw err;
-        }
+        },
+        RegionError,
+        NoSuchElementError,
+        DataSourceError,
       );
   }
 }
