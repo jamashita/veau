@@ -115,7 +115,7 @@ describe('LanguageQuery', () => {
       const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-        > = await languageQuery.find(languageID).terminate();
+      > = await languageQuery.find(languageID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

@@ -67,12 +67,12 @@ describe('LocaleQuery', () => {
 
       localeCacheQuery.all = stub1;
       stub1.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
-      
+
       const stub2: SinonStub = sinon.stub();
 
       localeAJAXQuery.all = stub2;
       stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
-      
+
       const stub3: SinonStub = sinon.stub();
 
       localeCommand.create = stub3;
@@ -96,7 +96,7 @@ describe('LocaleQuery', () => {
 
       localeCacheQuery.all = stub1;
       stub1.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
-      
+
       const stub2: SinonStub = sinon.stub();
 
       localeAJAXQuery.all = stub2;
@@ -128,12 +128,12 @@ describe('LocaleQuery', () => {
 
       localeCacheQuery.all = stub1;
       stub1.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
-      
+
       const stub2: SinonStub = sinon.stub();
 
       localeAJAXQuery.all = stub2;
       stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
-      
+
       const stub3: SinonStub = sinon.stub();
 
       localeCommand.create = stub3;

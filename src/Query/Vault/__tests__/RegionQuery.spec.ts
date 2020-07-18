@@ -98,7 +98,7 @@ describe('RegionQuery', () => {
 
     it('LocaleQuery.all returns Dead, AJAXError', async () => {
       const regionID: MockRegionID = new MockRegionID();
-      
+
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 

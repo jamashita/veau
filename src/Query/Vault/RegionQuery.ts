@@ -1,9 +1,7 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import {
-    Superposition, Unscharferelation, UnscharferelationError
-} from '@jamashita/publikum-monad';
+import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 
 import { Type } from '../../Container/Types';
@@ -36,16 +34,17 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
       .map<Regions, LocaleError | DataSourceError>((locale: Locale) => {
         return locale.getRegions();
       })
-      .recover<Regions, RegionsError | DataSourceError>((err: LocaleError | DataSourceError) => {
-        if (err instanceof LocaleError) {
-          throw new RegionsError('RegionQuery.all()', err);
-        }
+      .recover<Regions, RegionsError | DataSourceError>(
+        (err: LocaleError | DataSourceError) => {
+          if (err instanceof LocaleError) {
+            throw new RegionsError('RegionQuery.all()', err);
+          }
 
-        throw err;
-      },
-      RegionsError,
-      DataSourceError
-    );
+          throw err;
+        },
+        RegionsError,
+        DataSourceError
+      );
   }
 
   public find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
@@ -70,7 +69,7 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
         },
         RegionError,
         NoSuchElementError,
-        DataSourceError,
+        DataSourceError
       );
   }
 
@@ -96,7 +95,7 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
         },
         RegionError,
         NoSuchElementError,
-        DataSourceError,
+        DataSourceError
       );
   }
 }

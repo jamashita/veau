@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { AJAXError } from '@jamashita/publikum-ajax';
 import { CacheError } from '@jamashita/publikum-cache';
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
@@ -94,34 +94,36 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
+      stub1.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
+
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
+      stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsListItems,
         StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
+      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const listItems: StatsListItems = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const listItems: StatsListItems = schrodinger.get();
 
       expect(listItems.size()).toBe(outlines.size());
-      expect(listItems.get(0).get().getOutline()).toBe(outline1);
-      expect(listItems.get(0).get().getLanguage()).toBe(language1);
-      expect(listItems.get(0).get().getRegion()).toBe(region1);
-      expect(listItems.get(0).get().getTerm()).toBe(term1);
-      expect(listItems.get(1).get().getOutline()).toBe(outline2);
-      expect(listItems.get(1).get().getLanguage()).toBe(language2);
-      expect(listItems.get(1).get().getRegion()).toBe(region2);
-      expect(listItems.get(1).get().getTerm()).toBe(term2);
+      expect(listItems.get(0)?.getOutline()).toBe(outline1);
+      expect(listItems.get(0)?.getLanguage()).toBe(language1);
+      expect(listItems.get(0)?.getRegion()).toBe(region1);
+      expect(listItems.get(0)?.getTerm()).toBe(term1);
+      expect(listItems.get(1)?.getOutline()).toBe(outline2);
+      expect(listItems.get(1)?.getLanguage()).toBe(language2);
+      expect(listItems.get(1)?.getRegion()).toBe(region2);
+      expect(listItems.get(1)?.getTerm()).toBe(term2);
     });
 
     it('StatsOutlineQuery returns Dead.StatsOutlinesError', async () => {
@@ -134,38 +136,30 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.resolves(Dead.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed')));
+      stub1.returns(
+        Superposition.dead<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed'), StatsOutlinesError)
+      );
+
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsListItems,
         StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
+      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsListItemsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsListItemsError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsListItemsError);
     });
 
     it('StatsOutlineQuery returns Dead.AJAXError', async () => {
@@ -178,38 +172,28 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.resolves(Dead.of<StatsOutlines, AJAXError>(new AJAXError('test failed', 500)));
+      stub1.returns(Superposition.dead<StatsOutlines, AJAXError>(new AJAXError('test failed', 500), AJAXError));
+
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsListItems,
         StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
+      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsListItemsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
 
     it('LocaleQuery returns Dead.LocaleError', async () => {
@@ -222,38 +206,29 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
+      stub1.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
+
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.resolves(Dead.of<Locale, LocaleError>(new LocaleError('test faield')));
+      stub2.returns(Superposition.dead<Locale, LocaleError>(new LocaleError('test faield'), LocaleError));
+
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsListItems,
         StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
+      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsListItemsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsListItemsError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsListItemsError);
     });
 
     it('LocaleQuery returns Dead.AJAXError', async () => {
@@ -266,38 +241,28 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
+      stub1.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
+
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.resolves(Dead.of<Locale, AJAXError>(new AJAXError('test faield', 500)));
+      stub2.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test faield', 500), AJAXError));
+
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsListItems,
         StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
+      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsListItemsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
 
     it('TermQuery returns Dead.TermsError', async () => {
@@ -310,38 +275,28 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
+      stub1.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
+
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.resolves(Dead.of<Terms, TermsError>(new TermsError('test failed')));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.dead<Terms, TermsError>(new TermsError('test failed'), TermsError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsListItems,
         StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
+      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsListItemsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsListItemsError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsListItemsError);
     });
 
     it('TermQuery returns Dead.CacheError', async () => {
@@ -354,38 +309,28 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
+      stub1.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
+
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.resolves(Dead.of<Terms, CacheError>(new CacheError('test failed')));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.dead<Terms, CacheError>(new CacheError('test failed'), CacheError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsListItems,
         StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
+      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsListItemsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(CacheError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(CacheError);
     });
 
     it('returns Dead.StatsListItemsError because there is no such LanguageID', async () => {
@@ -409,38 +354,28 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
+      stub1.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
+
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsListItems,
         StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
+      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsListItemsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsListItemsError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsListItemsError);
     });
 
     it('returns Dead.StatsListItemsError because there is no such RegionID', async () => {
@@ -470,38 +405,28 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
+      stub1.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
+
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsListItems,
         StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
+      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsListItemsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsListItemsError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsListItemsError);
     });
 
     it('returns Dead.StatsListItemsError because there is no such TermID', async () => {
@@ -536,38 +461,28 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.resolves(Alive.of<StatsOutlines, DataSourceError>(outlines));
+      stub1.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
+
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.resolves(Alive.of<Terms, DataSourceError>(terms));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         StatsListItems,
         StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage());
+      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: StatsListItemsError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(StatsListItemsError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsListItemsError);
     });
   });
 });
