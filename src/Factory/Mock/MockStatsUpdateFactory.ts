@@ -25,7 +25,7 @@ export class MockStatsUpdateFactory implements IStatsUpdateFactory {
     return this.statsCommand;
   }
 
-  public forgeStatsItemCommand(): IStatsItemCommand<MySQLError>{
+  public forgeStatsItemCommand(): IStatsItemCommand<MySQLError> {
     return this.statsItemCommand;
   }
 
