@@ -5,7 +5,6 @@ import { Controller, Delete, Get, Res, UseBefore } from 'routing-controllers';
 
 import { DataSourceError } from '@jamashita/publikum-error';
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../Container/Types';
 import { logger } from '../../Infrastructure/Logger';
@@ -24,34 +23,36 @@ export class LocaleController {
 
   @Get('/')
   public async all(@Res() res: Response): Promise<Response> {
-    const superposition: Superposition<JSONable, LocaleError | DataSourceError> = await this.localeInteractor.all();
+    return this.localeInteractor
+      .all()
+      .transform<Response, Error>(
+        (locale: JSONable) => {
+          return res.status(OK).send(locale.toJSON());
+        },
+        (err: LocaleError | DataSourceError) => {
+          logger.error(err);
 
-    return superposition.transform<Response>(
-      (locale: JSONable) => {
-        return res.status(OK).send(locale.toJSON());
-      },
-      (err: LocaleError | DataSourceError) => {
-        logger.error(err);
-
-        return res.sendStatus(INTERNAL_SERVER_ERROR);
-      }
-    );
+          return res.sendStatus(INTERNAL_SERVER_ERROR);
+        }
+      )
+      .get();
   }
 
   @Delete('/')
   @UseBefore(AuthenticationMiddleware)
   public async delete(@Res() res: Response): Promise<Response> {
-    const superposition: Superposition<unknown, DataSourceError> = await this.localeInteractor.delete();
+    return this.localeInteractor
+      .delete()
+      .transform<Response, Error>(
+        () => {
+          return res.sendStatus(OK);
+        },
+        (err: DataSourceError) => {
+          logger.error(err);
 
-    return superposition.transform<Response>(
-      () => {
-        return res.sendStatus(OK);
-      },
-      (err: DataSourceError) => {
-        logger.error(err);
-
-        return res.sendStatus(INTERNAL_SERVER_ERROR);
-      }
-    );
+          return res.sendStatus(INTERNAL_SERVER_ERROR);
+        }
+      )
+      .get();
   }
 }

@@ -8,7 +8,7 @@ import supertest from 'supertest';
 import { kernel } from '../../../Container/Kernel';
 import { SessionController } from '../SessionController';
 
-const dummy = (req: Request, res: Response, next: NextFunction): void => {
+const dummy = (req: Request, _res: Response, next: NextFunction): void => {
   req.logout = () => {
     // NOOP
   };

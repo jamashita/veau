@@ -7,7 +7,7 @@ import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { RedisError } from '@jamashita/publikum-redis';
 
 import { kernel } from '../../../Container/Kernel';
@@ -27,7 +27,7 @@ import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
 import { MockVeauAccount } from '../../../VO/VeauAccount/Mock/MockVeauAccount';
 import { LocaleController } from '../LocaleController';
 
-const fakeAccount = (req: Request, res: Response, next: NextFunction): void => {
+const fakeAccount = (req: Request, _res: Response, next: NextFunction): void => {
   req.user = new MockVeauAccount();
   next();
 };
@@ -57,7 +57,7 @@ describe('LocaleController', () => {
       const stub: SinonStub = sinon.stub();
 
       localeInteractor.all = stub;
-      stub.resolves(Alive.of<Locale, NoSuchElementError | DataSourceError>(locale));
+      stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const app: Express = express();
 
@@ -77,7 +77,9 @@ describe('LocaleController', () => {
       const stub: SinonStub = sinon.stub();
 
       localeInteractor.all = stub;
-      stub.resolves(Dead.of<Locale, NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed')));
+      stub.returns(
+        Superposition.dead<Locale, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError)
+      );
 
       const app: Express = express();
 
@@ -96,7 +98,7 @@ describe('LocaleController', () => {
       const stub: SinonStub = sinon.stub();
 
       localeInteractor.all = stub;
-      stub.resolves(Dead.of<Locale, NoSuchElementError | DataSourceError>(new RedisError('test failed')));
+      stub.returns(Superposition.dead<Locale, DataSourceError>(new RedisError('test failed'), DataSourceError));
 
       const app: Express = express();
 
@@ -117,7 +119,7 @@ describe('LocaleController', () => {
       const stub: SinonStub = sinon.stub();
 
       localeInteractor.delete = stub;
-      stub.resolves(Alive.of<DataSourceError>());
+      stub.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const app: Express = express();
 
@@ -137,7 +139,7 @@ describe('LocaleController', () => {
       const stub: SinonStub = sinon.stub();
 
       localeInteractor.delete = stub;
-      stub.resolves(Dead.of<DataSourceError>(new RedisError('test failed')));
+      stub.returns(Superposition.dead<unknown, DataSourceError>(new RedisError('test failed'), DataSourceError));
 
       const app: Express = express();
 

@@ -5,7 +5,6 @@ import { Body, Controller, Get, Param, Post, Res, UseBefore } from 'routing-cont
 
 import { DataSourceError } from '@jamashita/publikum-error';
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { PlainObject } from '@jamashita/publikum-type';
 
 import { Type } from '../../Container/Types';
@@ -33,97 +32,80 @@ export class StatsController {
   @Get('/page/:page(\\d+)')
   @UseBefore(AuthenticationMiddleware)
   public list(@Param('page') pg: number, @Res() res: Response): Promise<Response> {
-    return Page.of(pg).transform<Promise<Response>>(
-      async (page: Page) => {
-        const superposition: Superposition<
-          JSONable,
-          StatsOutlinesError | DataSourceError
-        > = await this.statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), page);
-
-        return superposition.transform<Response>(
-          (outlines: JSONable) => {
-            return res.status(OK).send(outlines.toJSON());
-          },
-          (err: StatsOutlinesError | DataSourceError) => {
-            logger.fatal(err);
-
-            return res.sendStatus(INTERNAL_SERVER_ERROR);
-          }
-        );
-      },
-      (err: PageError) => {
+    return Page.of(pg)
+      .map<Response, PageError | StatsOutlinesError | DataSourceError>(
+        (page: Page) => {
+          return this.statsInteractor
+            .findByVeauAccountID(res.locals.account.getVeauAccountID(), page)
+            .map<Response, StatsOutlinesError | DataSourceError>((outlines: JSONable) => {
+              return res.status(OK).send(outlines.toJSON());
+            });
+        },
+        StatsOutlinesError,
+        DataSourceError
+      )
+      .recover<Response, Error>((err: PageError | StatsOutlinesError | DataSourceError) => {
         logger.fatal(err);
 
-        return Promise.resolve<Response>(res.sendStatus(BAD_REQUEST));
-      }
-    );
+        if (err instanceof PageError) {
+          return res.sendStatus(BAD_REQUEST);
+        }
+
+        return res.sendStatus(INTERNAL_SERVER_ERROR);
+      })
+      .get();
   }
 
   @Get('/:statsID([0-9a-f-]{36})')
   @UseBefore(AuthenticationMiddleware)
   public refer(@Param('statsID') id: string, @Res() res: Response): Promise<Response> {
-    return StatsID.ofString(id).transform<Promise<Response>>(
-      async (statsID: StatsID) => {
-        const superposition: Superposition<
-          JSONable,
-          StatsError | NoSuchElementError | DataSourceError
-        > = await this.statsInteractor.findByStatsID(statsID);
+    return StatsID.ofString(id)
+      .map<Response, StatsIDError | StatsError | NoSuchElementError | DataSourceError>(
+        (statsID: StatsID) => {
+          return this.statsInteractor
+            .findByStatsID(statsID)
+            .map<Response, StatsError | NoSuchElementError | DataSourceError>((stats: JSONable) => {
+              return res.status(OK).send(stats.toJSON());
+            });
+        },
+        StatsError,
+        NoSuchElementError,
+        DataSourceError
+      )
+      .recover<Response, Error>((err: StatsIDError | StatsError | NoSuchElementError | DataSourceError) => {
+        if (err instanceof NoSuchElementError) {
+          logger.warn(err);
 
-        return superposition.transform<Response>(
-          (stats: JSONable) => {
-            return res.status(OK).send(stats.toJSON());
-          },
-          (err: StatsError | NoSuchElementError | DataSourceError) => {
-            if (err instanceof NoSuchElementError) {
-              logger.warn(err);
+          return res.sendStatus(NO_CONTENT);
+        }
 
-              return res.sendStatus(NO_CONTENT);
-            }
-
-            logger.fatal(err);
-
-            return res.sendStatus(INTERNAL_SERVER_ERROR);
-          }
-        );
-      },
-      (err: StatsIDError) => {
         logger.fatal(err);
 
-        return Promise.resolve<Response>(res.sendStatus(INTERNAL_SERVER_ERROR));
-      }
-    );
+        return res.sendStatus(INTERNAL_SERVER_ERROR);
+      })
+      .get();
   }
 
   @Post('/')
   @UseBefore(AuthenticationMiddleware)
   public register(@Body({ required: true }) body: PlainObject, @Res() res: Response): Promise<Response> {
-    if (!Stats.isJSON(body)) {
-      return Promise.resolve<Response>(res.sendStatus(BAD_REQUEST));
-    }
-
-    return Stats.ofJSON(body).transform<Promise<Response>>(
-      async (stats: Stats) => {
-        const superposition: Superposition<unknown, DataSourceError> = await this.statsInteractor.save(
-          stats,
-          res.locals.account.getVeauAccountID()
-        );
-
-        return superposition.transform<Response>(
-          () => {
+    return Stats.ofObject(body)
+      .map<Response, StatsError | DataSourceError>((stats: Stats) => {
+        return this.statsInteractor
+          .save(stats, res.locals.account.getVeauAccountID())
+          .map<Response, DataSourceError>(() => {
             return res.sendStatus(CREATED);
-          },
-          (err: DataSourceError) => {
-            logger.warn(err);
-
-            return res.sendStatus(INTERNAL_SERVER_ERROR);
-          }
-        );
-      },
-      (err: StatsError) => {
+          });
+      }, DataSourceError)
+      .recover<Response, Error>((err: StatsError | DataSourceError) => {
         logger.warn(err);
 
-        return Promise.resolve<Response>(res.sendStatus(BAD_REQUEST));
-      }
-    );
+        if (err instanceof StatsError) {
+          return res.sendStatus(BAD_REQUEST);
+        }
+
+        return res.sendStatus(INTERNAL_SERVER_ERROR);
+      })
+      .get();
   }
 }

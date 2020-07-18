@@ -8,7 +8,7 @@ import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 import { MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -27,7 +27,7 @@ import { Term } from '../../../VO/Term/Term';
 import { MockVeauAccount } from '../../../VO/VeauAccount/Mock/MockVeauAccount';
 import { StatsController } from '../StatsController';
 
-const fakeAccount = (req: Request, res: Response, next: NextFunction): void => {
+const fakeAccount = (req: Request, _res: Response, next: NextFunction): void => {
   req.user = new MockVeauAccount();
   next();
 };
@@ -47,7 +47,7 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByVeauAccountID = stub;
-      stub.resolves(Alive.of<StatsOutlines, StatsOutlinesError>(outlines));
+      stub.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
 
       const app: express.Express = express();
 
@@ -82,7 +82,9 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByVeauAccountID = stub;
-      stub.resolves(Dead.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed')));
+      stub.returns(
+        Superposition.dead<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed'), StatsOutlinesError)
+      );
 
       const app: express.Express = express();
 
@@ -106,7 +108,7 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByStatsID = stub;
-      stub.resolves(Alive.of<Stats, NoSuchElementError>(stats));
+      stub.returns(Superposition.alive<Stats, DataSourceError>(stats, DataSourceError));
 
       const app: express.Express = express();
 
@@ -127,7 +129,9 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByStatsID = stub;
-      stub.resolves(Dead.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub.returns(
+        Superposition.dead<Stats, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError)
+      );
 
       const app: express.Express = express();
 
@@ -147,7 +151,7 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByStatsID = stub;
-      stub.resolves(Dead.of<Stats, NoSuchElementError | StatsError>(new StatsError('test failed')));
+      stub.returns(Superposition.dead<Stats, StatsError>(new StatsError('test failed'), StatsError));
 
       const app: express.Express = express();
 
@@ -175,7 +179,7 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.save = stub;
-      stub.resolves(Alive.of<DataSourceError>());
+      stub.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const app: express.Express = express();
 
@@ -233,7 +237,7 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.save = stub;
-      stub.resolves(Alive.of<unknown, DataSourceError>(4));
+      stub.returns(Superposition.alive<unknown, DataSourceError>(4, DataSourceError));
 
       const app: express.Express = express();
 
@@ -289,7 +293,7 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.save = stub;
-      stub.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
+      stub.returns(Superposition.dead<unknown, DataSourceError>(new MySQLError('test failed'), DataSourceError));
 
       const app: express.Express = express();
 

@@ -15,7 +15,7 @@ import { VeauAccount } from '../../../VO/VeauAccount/VeauAccount';
 import { AccountController } from '../AccountController';
 
 const setAccount = (account: VeauAccount) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request, _res: Response, next: NextFunction) => {
     req.user = account;
     next();
   };
