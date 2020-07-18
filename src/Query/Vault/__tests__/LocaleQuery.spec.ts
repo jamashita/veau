@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { AJAXError } from '@jamashita/publikum-ajax';
 import { CacheError } from '@jamashita/publikum-cache';
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
 import { Type } from '../../../Container/Types';
@@ -37,22 +37,24 @@ describe('LocaleQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       localeCacheQuery.all = stub1;
-      stub1.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub1.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
       const stub2: SinonStub = sinon.stub();
 
       localeAJAXQuery.all = stub2;
+
       const stub3: SinonStub = sinon.stub();
 
       localeCommand.create = stub3;
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
-      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
+      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(false);
       expect(stub3.called).toBe(false);
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(locale);
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(locale);
     });
 
     it('returns Alive because AJAX has', async () => {
@@ -64,26 +66,26 @@ describe('LocaleQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       localeCacheQuery.all = stub1;
-      stub1.resolves(Dead.of<Locale, DataSourceError>(new CacheError('test failed')));
+      stub1.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
+      
       const stub2: SinonStub = sinon.stub();
 
       localeAJAXQuery.all = stub2;
-      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+      
       const stub3: SinonStub = sinon.stub();
 
       localeCommand.create = stub3;
-      stub3.resolves(Alive.of<DataSourceError>());
+      stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
-      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
+      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const loc: Locale = superposition.get();
-
-      expect(loc).toBe(locale);
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(locale);
     });
 
     it('returns Dead Cache nor AJAX returned nothing', async () => {
@@ -93,36 +95,27 @@ describe('LocaleQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       localeCacheQuery.all = stub1;
-      stub1.resolves(Dead.of<Locale, DataSourceError>(new CacheError('test failed')));
+      stub1.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
+      
       const stub2: SinonStub = sinon.stub();
 
       localeAJAXQuery.all = stub2;
-      stub2.resolves(Dead.of<Locale, DataSourceError>(new AJAXError('test failed', 500)));
+      stub2.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test failed', 500), AJAXError));
+
       const stub3: SinonStub = sinon.stub();
 
       localeCommand.create = stub3;
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
-      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
+      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(false);
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LocaleError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
 
     it('returns Dead Cache because saving Cache failure', async () => {
@@ -134,37 +127,28 @@ describe('LocaleQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       localeCacheQuery.all = stub1;
-      stub1.resolves(Dead.of<Locale, DataSourceError>(new CacheError('test failed')));
+      stub1.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
+      
       const stub2: SinonStub = sinon.stub();
 
       localeAJAXQuery.all = stub2;
-      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+      
       const stub3: SinonStub = sinon.stub();
 
       localeCommand.create = stub3;
-      stub3.resolves(Dead.of<Locale, DataSourceError>(new CacheError('test failed')));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
-      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
+      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(true);
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LocaleError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(CacheError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(CacheError);
     });
   });
 });

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/publikum-monad';
 
 import { ILocaleCommand } from '../../Command/Interface/ILocaleCommand';
 import { Type } from '../../Container/Types';
@@ -28,36 +28,17 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
     this.localeCommand = localeCommand;
   }
 
-  public async all(): Promise<Superposition<Locale, LocaleError | DataSourceError>> {
-    const superposition1: Superposition<Locale, LocaleError | DataSourceError> = await this.localeCacheQuery.all();
-
-    return superposition1.transform<Locale, LocaleError | DataSourceError>(
-      (locale: Locale) => {
-        return Promise.resolve<Superposition<Locale, LocaleError | DataSourceError>>(
-          Alive.of<Locale, DataSourceError>(locale)
-        );
+  public all(): Superposition<Locale, LocaleError | DataSourceError> {
+    return this.localeCacheQuery.all().recover<Locale, LocaleError | DataSourceError>(
+      () => {
+        return this.localeAJAXQuery.all().map<Locale, LocaleError | DataSourceError>((locale: Locale) => {
+          return this.localeCommand.create(locale).map<Locale, DataSourceError>(() => {
+            return locale;
+          });
+        });
       },
-      async () => {
-        const superposition2: Superposition<Locale, LocaleError | DataSourceError> = await this.localeAJAXQuery.all();
-
-        return superposition2.transform<Locale, LocaleError | DataSourceError>(
-          async (locale: Locale) => {
-            const superposition3: Superposition<unknown, DataSourceError> = await this.localeCommand.create(locale);
-
-            return superposition3.transform<Locale, DataSourceError>(
-              () => {
-                return Alive.of<Locale, DataSourceError>(locale);
-              },
-              (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
-                return self.transpose<Locale>();
-              }
-            );
-          },
-          (err: LocaleError | DataSourceError, self: Dead<Locale, LocaleError | DataSourceError>) => {
-            return Promise.resolve<Superposition<Locale, LocaleError | DataSourceError>>(self);
-          }
-        );
-      }
+      LocaleError,
+      DataSourceError
     );
   }
 }
