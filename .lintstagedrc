@@ -1,5 +1,5 @@
 {
-  "packages/**/src/**/*.{ts,tsx}": "eslint --fix --quiet",
+  "src/**/src/**/*.{ts,tsx}": "eslint --fix --quiet",
   "package.json": [
     "sort-package-json",
     "git add"
