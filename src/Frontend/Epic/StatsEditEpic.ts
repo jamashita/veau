@@ -4,7 +4,7 @@ import { concat, from, merge, Observable, of } from 'rxjs';
 import { flatMap, map, mapTo } from 'rxjs/operators';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Present, Unscharferelation } from '@jamashita/publikum-monad';
+import { Unscharferelation } from '@jamashita/publikum-monad';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Type } from '../../Container/Types';
@@ -437,7 +437,7 @@ export class StatsEditEpic {
                   duplicated.replaceItem(newSelectingItem, selectingRow);
 
                   return of<VeauAction>(
-                    updateSelectingItem(Present.of<StatsItem>(newSelectingItem)),
+                    updateSelectingItem(Unscharferelation.present<StatsItem>(newSelectingItem)),
                     updateStats(duplicated)
                   );
                 },
