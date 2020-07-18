@@ -44,13 +44,17 @@ export class LocaleInteractor implements Noun<'LocaleInteractor'> {
           return Locale.of(languages, regions);
         });
       })
-      .recover<Locale, LocaleError>((err: LanguagesError | RegionsError | DataSourceError) => {
-        if (err instanceof DataSourceError) {
-          throw err;
-        }
-        
-        throw new LocaleError('LocaleInteradtor.all()', err);
-      }, LocaleError, DataSourceError);
+      .recover<Locale, LocaleError>(
+        (err: LanguagesError | RegionsError | DataSourceError) => {
+          if (err instanceof DataSourceError) {
+            throw err;
+          }
+
+          throw new LocaleError('LocaleInteradtor.all()', err);
+        },
+        LocaleError,
+        DataSourceError
+      );
   }
 
   public delete(): Superposition<unknown, DataSourceError> {

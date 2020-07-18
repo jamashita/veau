@@ -39,7 +39,7 @@ describe('AuthenticationInteractor', () => {
 
       accountQuery.findByAccount = stub1;
       stub1.returns(Superposition.alive<Account, NoSuchElementError>(account, NoSuchElementError));
-      
+
       const stub2: SinonStub = sinon.stub();
 
       account.verify = stub2;
@@ -62,7 +62,9 @@ describe('AuthenticationInteractor', () => {
       const stub: SinonStub = sinon.stub();
 
       accountQuery.findByAccount = stub;
-      stub.returns(Superposition.dead<Account, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError));
+      stub.returns(
+        Superposition.dead<Account, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError)
+      );
 
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
 
@@ -83,7 +85,7 @@ describe('AuthenticationInteractor', () => {
 
       accountQuery.findByAccount = stub1;
       stub1.returns(Superposition.alive<Account, NoSuchElementError>(account, NoSuchElementError));
-      
+
       const stub2: SinonStub = sinon.stub();
 
       account.verify = stub2;

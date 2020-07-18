@@ -40,18 +40,18 @@ describe('LocaleInteractor', () => {
       const regions: MockRegions = new MockRegions();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
-      
+
       const stub1: SinonStub = sinon.stub();
 
       languageKernelQuery.all = stub1;
       stub1.returns(Superposition.alive<Languages, DataSourceError>(languages, DataSourceError));
-      
+
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionKernelQuery.all = stub2;
       stub2.returns(Superposition.alive<Regions, DataSourceError>(regions, DataSourceError));
-      
+
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
@@ -76,13 +76,13 @@ describe('LocaleInteractor', () => {
 
       languageKernelQuery.all = stub1;
       stub1.returns(Superposition.dead<Languages, LanguagesError>(new LanguagesError('test failed'), LanguagesError));
-      
+
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionKernelQuery.all = stub2;
       stub2.returns(Superposition.alive<Regions, DataSourceError>(regions, DataSourceError));
-      
+
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
@@ -108,13 +108,13 @@ describe('LocaleInteractor', () => {
 
       languageKernelQuery.all = stub1;
       stub1.returns(Superposition.dead<Languages, DataSourceError>(new MySQLError('test faied'), DataSourceError));
-      
+
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionKernelQuery.all = stub2;
       stub2.returns(Superposition.alive<Regions, DataSourceError>(regions, DataSourceError));
-      
+
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
@@ -140,13 +140,13 @@ describe('LocaleInteractor', () => {
 
       languageKernelQuery.all = stub1;
       stub1.returns(Superposition.alive<Languages, DataSourceError>(languages, DataSourceError));
-      
+
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionKernelQuery.all = stub2;
       stub2.returns(Superposition.dead<Languages, RegionsError>(new RegionsError('test failed'), RegionsError));
-      
+
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
@@ -172,13 +172,13 @@ describe('LocaleInteractor', () => {
 
       languageKernelQuery.all = stub1;
       stub1.returns(Superposition.alive<Languages, DataSourceError>(languages, DataSourceError));
-      
+
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
 
       regionKernelQuery.all = stub2;
       stub2.returns(Superposition.dead<Languages, DataSourceError>(new MySQLError('test faied'), DataSourceError));
-      
+
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
@@ -231,13 +231,13 @@ describe('LocaleInteractor', () => {
 
       languageRedisCommand.deleteAll = stub1;
       stub1.returns(Superposition.dead<unknown, DataSourceError>(new RedisError('test failed'), DataSourceError));
-      
+
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
 
       regionRedisCommand.deleteAll = stub2;
       stub2.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
-      
+
       const localeInteractor: LocaleInteractor = new LocaleInteractor(
         languageKernelQuery,
         regionKernelQuery,
