@@ -48,7 +48,6 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
     );
   }
 
-  // TODO TEST UNDONE
   public find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
     return this.all()
       .map<Region, RegionsError | DataSourceError | UnscharferelationError>((regions: Regions) => {

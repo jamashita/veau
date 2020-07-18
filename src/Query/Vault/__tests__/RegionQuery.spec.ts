@@ -15,6 +15,7 @@ import { RegionsError } from '../../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
 import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
+import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { Region } from '../../../VO/Region/Region';
 import { Regions } from '../../../VO/Region/Regions';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
@@ -66,10 +67,105 @@ describe('RegionQuery', () => {
     });
   });
 
-  // TODO DODODODO!
   describe('find', () => {
-    it('normal case', () => {
-      //
+    it('normal case', async () => {
+      const regionID: MockRegionID = new MockRegionID();
+      const region1: MockRegion = new MockRegion({
+        regionID
+      });
+      const region2: MockRegion = new MockRegion({
+        regionID: new MockRegionID()
+      });
+      const locale: MockLocale = new MockLocale({
+        regions: [region1, region2]
+      });
+
+      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const stub: SinonStub = sinon.stub();
+
+      localeVaultQuery.all = stub;
+      stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
+      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const schrodinger: Schrodinger<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.find(regionID).terminate();
+
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(region1);
+    });
+
+    it('LocaleQuery.all returns Dead, AJAXError', async () => {
+      const regionID: MockRegionID = new MockRegionID();
+      
+      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const stub: SinonStub = sinon.stub();
+
+      localeVaultQuery.all = stub;
+      stub.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test failed', 100), AJAXError));
+
+      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const schrodinger: Schrodinger<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.find(regionID).terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
+    });
+
+    it('LocaleQuery.all returns Dead, RegionError', async () => {
+      const regionID: MockRegionID = new MockRegionID();
+
+      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const stub: SinonStub = sinon.stub();
+
+      localeVaultQuery.all = stub;
+      stub.returns(Superposition.dead<Locale, RegionsError>(new RegionsError('test failed'), RegionsError));
+
+      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const schrodinger: Schrodinger<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.find(regionID).terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(RegionError);
+    });
+
+    it('no match results', async () => {
+      const regionID: MockRegionID = new MockRegionID();
+      const region1: MockRegion = new MockRegion({
+        regionID: new MockRegionID()
+      });
+      const region2: MockRegion = new MockRegion({
+        regionID: new MockRegionID()
+      });
+      const locale: MockLocale = new MockLocale({
+        regions: [region1, region2]
+      });
+
+      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const stub: SinonStub = sinon.stub();
+
+      localeVaultQuery.all = stub;
+      stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
+      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const schrodinger: Schrodinger<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.find(regionID).terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
   });
 
@@ -98,7 +194,7 @@ describe('RegionQuery', () => {
       > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
-      expect(schrodinger.get()).toBe(locale.getRegions().get(region2.getRegionID()));
+      expect(schrodinger.get()).toBe(region2);
     });
 
     it('LocaleQuery.all returns Dead, AJAXError', async () => {

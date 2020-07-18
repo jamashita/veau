@@ -15,6 +15,7 @@ import { Language } from '../../../VO/Language/Language';
 import { Languages } from '../../../VO/Language/Languages';
 import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
+import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
 import { Locale } from '../../../VO/Locale/Locale';
 import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
@@ -72,10 +73,105 @@ describe('LanguageQuery', () => {
     });
   });
 
-  // TODO DODODODO!
   describe('find', () => {
-    it('normal case', () => {
-      //
+    it('normal case', async () => {
+      const languageID: MockLanguageID = new MockLanguageID();
+      const language1: MockLanguage = new MockLanguage({
+        languageID
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: new MockLanguageID()
+      });
+      const locale: MockLocale = new MockLocale({
+        languages: [language1, language2]
+      });
+
+      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const stub: SinonStub = sinon.stub();
+
+      localeVaultQuery.all = stub;
+      stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
+      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
+      const schrodinger: Schrodinger<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.find(languageID).terminate();
+
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(language1);
+    });
+
+    it('LocaleQuery.all returns Dead, AJAXError', async () => {
+      const languageID: MockLanguageID = new MockLanguageID();
+
+      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const stub: SinonStub = sinon.stub();
+
+      localeVaultQuery.all = stub;
+      stub.returns(Superposition.dead<Locale, DataSourceError>(new AJAXError('test failed', 500), AJAXError));
+
+      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
+      const schrodinger: Schrodinger<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+        > = await languageQuery.find(languageID).terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
+    });
+
+    it('LocaleQuery.all returns Dead, LanguageError', async () => {
+      const languageID: MockLanguageID = new MockLanguageID();
+
+      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const stub: SinonStub = sinon.stub();
+
+      localeVaultQuery.all = stub;
+      stub.returns(Superposition.dead<Locale, LanguagesError>(new LanguagesError('test failed'), LanguagesError));
+
+      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
+      const schrodinger: Schrodinger<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.find(languageID).terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(LanguageError);
+    });
+
+    it('no match results', async () => {
+      const languageID: MockLanguageID = new MockLanguageID();
+      const language1: MockLanguage = new MockLanguage({
+        languageID: new MockLanguageID()
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: new MockLanguageID()
+      });
+      const locale: MockLocale = new MockLocale({
+        languages: [language1, language2]
+      });
+
+      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const stub: SinonStub = sinon.stub();
+
+      localeVaultQuery.all = stub;
+      stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+
+      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
+      const schrodinger: Schrodinger<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.find(languageID).terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
   });
 
@@ -104,7 +200,7 @@ describe('LanguageQuery', () => {
       > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
-      expect(schrodinger.get()).toBe(locale.getLanguages().get(language2.getLanguageID()));
+      expect(schrodinger.get()).toBe(language2);
     });
 
     it('LocaleQuery.all returns Dead, AJAXError', async () => {

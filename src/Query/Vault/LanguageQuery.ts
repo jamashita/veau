@@ -49,7 +49,6 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
       );
   }
 
-  // TODO TESTS UNDONE
   public find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
     return this.all()
       .map<Language, LanguagesError | DataSourceError | UnscharferelationError>((languages: Languages) => {
