@@ -2,9 +2,7 @@ import 'reflect-metadata';
 
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { OK, UNAUTHORIZED } from 'http-status';
-import {
-    Controller, Delete, Get, Post, Put, Res, UseBefore, useExpressServer
-} from 'routing-controllers';
+import { Controller, Delete, Get, Post, Put, Res, UseBefore, useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
 
 import { AuthenticationMiddleware } from '../AuthenticationMiddleware';

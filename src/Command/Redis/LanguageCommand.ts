@@ -26,12 +26,10 @@ export class LanguageCommand implements ILanguageCommand<RedisError>, IRedisComm
     return Superposition.playground<string, JSONAError>(() => {
       return JSONA.stringify(languages.toJSON());
     }, JSONAError).transform<unknown, RedisError>(
-      (str: string) => {
-        return Superposition.playground<unknown, RedisError>(async () => {
-          await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
+      async (str: string) => {
+        await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
 
-          return this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
-        });
+        return this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
       },
       (err: JSONAError) => {
         throw new RedisError('LanguageCommand.insertAll()', err);

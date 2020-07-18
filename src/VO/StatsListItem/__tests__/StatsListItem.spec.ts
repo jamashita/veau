@@ -106,9 +106,6 @@ describe('StatsListItem', () => {
         regionID,
         termID
       });
-      const language: MockLanguage = new MockLanguage({
-        languageID
-      });
       const region: MockRegion = new MockRegion({
         regionID
       });
@@ -163,9 +160,6 @@ describe('StatsListItem', () => {
       });
       const language: MockLanguage = new MockLanguage({
         languageID
-      });
-      const region: MockRegion = new MockRegion({
-        regionID
       });
       const term: MockTerm = new MockTerm({
         termID
@@ -227,9 +221,6 @@ describe('StatsListItem', () => {
       });
       const region: MockRegion = new MockRegion({
         regionID
-      });
-      const term: MockTerm = new MockTerm({
-        termID
       });
       const locale: MockLocale = new MockLocale({
         languages: [
