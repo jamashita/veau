@@ -1,9 +1,7 @@
 import { inject, injectable } from 'inversify';
 
 import { DataSourceError } from '@jamashita/publikum-error';
-import {
-    Superposition, Unscharferelation, UnscharferelationError
-} from '@jamashita/publikum-monad';
+import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 
 import { Type } from '../../Container/Types';
@@ -36,13 +34,17 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
       .map<Languages, LocaleError | DataSourceError>((locale: Locale) => {
         return locale.getLanguages();
       })
-      .recover<Languages, LanguagesError | DataSourceError>((err: LocaleError | DataSourceError) => {
-        if (err instanceof LocaleError) {
-          throw new LanguagesError('LanguageQuery.all()', err);
-        }
+      .recover<Languages, LanguagesError | DataSourceError>(
+        (err: LocaleError | DataSourceError) => {
+          if (err instanceof LocaleError) {
+            throw new LanguagesError('LanguageQuery.all()', err);
+          }
 
-        throw err;
-      });
+          throw err;
+        },
+        LanguagesError,
+        DataSourceError
+      );
   }
 
   // TODO TESTS UNDONE
@@ -88,7 +90,10 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
           }
 
           throw err;
-        }
+        },
+        LanguageError,
+        NoSuchElementError,
+        DataSourceError
       );
   }
 }

@@ -97,11 +97,36 @@ describe('StatsValueQuery', () => {
       const statsValues1: Nullable<StatsValues> = project.get(await StatsItemID.ofString(statsItemID1).get());
       const statsValues2: Nullable<StatsValues> = project.get(await StatsItemID.ofString(statsItemID2).get());
 
-      expect(statsValues1?.get(await AsOf.ofString(asOf1).get())?.getValue().get()).toBe(1);
-      expect(statsValues1?.get(await AsOf.ofString(asOf2).get())?.getValue().get()).toBe(2);
-      expect(statsValues1?.get(await AsOf.ofString(asOf3).get())?.getValue().get()).toBe(3);
-      expect(statsValues2?.get(await AsOf.ofString(asOf1).get())?.getValue().get()).toBe(11);
-      expect(statsValues2?.get(await AsOf.ofString(asOf2).get())?.getValue().get()).toBe(12);
+      expect(
+        statsValues1
+          ?.get(await AsOf.ofString(asOf1).get())
+          ?.getValue()
+          .get()
+      ).toBe(1);
+      expect(
+        statsValues1
+          ?.get(await AsOf.ofString(asOf2).get())
+          ?.getValue()
+          .get()
+      ).toBe(2);
+      expect(
+        statsValues1
+          ?.get(await AsOf.ofString(asOf3).get())
+          ?.getValue()
+          .get()
+      ).toBe(3);
+      expect(
+        statsValues2
+          ?.get(await AsOf.ofString(asOf1).get())
+          ?.getValue()
+          .get()
+      ).toBe(11);
+      expect(
+        statsValues2
+          ?.get(await AsOf.ofString(asOf2).get())
+          ?.getValue()
+          .get()
+      ).toBe(12);
       expect(statsValues2?.get(await AsOf.ofString(asOf3).get())).toBe(null);
     });
 

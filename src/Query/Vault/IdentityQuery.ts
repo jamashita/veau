@@ -59,7 +59,9 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
           }
 
           throw new IdentityError('IdentityQuery.find()', err);
-        }
+        },
+        IdentityError,
+        DataSourceError
       );
   }
 
@@ -88,7 +90,9 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
           }
 
           throw new IdentityError('IdentityQuery.find()', err);
-        }
+        },
+        IdentityError,
+        DataSourceError
       );
   }
 }

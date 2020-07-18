@@ -113,7 +113,9 @@ describe('StatsItemQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       statsValueQuery.findByStatsID = stub2;
-      stub2.returns(Superposition.alive<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(project));
+      stub2.returns(
+        Superposition.alive<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(project)
+      );
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
       const schrodinger: Schrodinger<
@@ -224,7 +226,12 @@ describe('StatsItemQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       statsValueQuery.findByStatsID = stub2;
-      stub2.returns(Superposition.dead<StatsValues, StatsValuesError | DataSourceError>(new StatsValuesError('test failed'), StatsValuesError));
+      stub2.returns(
+        Superposition.dead<StatsValues, StatsValuesError | DataSourceError>(
+          new StatsValuesError('test failed'),
+          StatsValuesError
+        )
+      );
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
       const schrodinger: Schrodinger<
@@ -264,7 +271,9 @@ describe('StatsItemQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       statsValueQuery.findByStatsID = stub2;
-      stub2.returns(Superposition.dead<StatsValues, StatsValuesError | DataSourceError>(new MySQLError('test faied'), MySQLError));
+      stub2.returns(
+        Superposition.dead<StatsValues, StatsValuesError | DataSourceError>(new MySQLError('test faied'), MySQLError)
+      );
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
       const schrodinger: Schrodinger<

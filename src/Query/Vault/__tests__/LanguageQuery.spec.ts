@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { AJAXError } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
@@ -40,13 +40,16 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
+      const schrodinger: Schrodinger<
+        Languages,
+        LanguagesError | DataSourceError
+      > = await languageQuery.all().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(locale.getLanguages());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(locale.getLanguages());
     });
 
     it('LocaleQuery returns Dead', async () => {
@@ -54,26 +57,25 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Dead.of<Locale, DataSourceError>(new AJAXError('test failed', 500)));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test failed', 500), AJAXError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
+      const schrodinger: Schrodinger<
+        Languages,
+        LanguagesError | DataSourceError
+      > = await languageQuery.all().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguagesError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
+    });
+  });
 
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+  // TODO DODODODO!
+  describe('find', () => {
+    it('normal case', () => {
+      //
     });
   });
 
@@ -93,16 +95,16 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Alive.of<Locale, DataSourceError>(locale));
+      stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa'));
+      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(locale.getLanguages().get(language2.getLanguageID()).get());
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(locale.getLanguages().get(language2.getLanguageID()));
     });
 
     it('LocaleQuery.all returns Dead, AJAXError', async () => {
@@ -110,29 +112,18 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Dead.of<Locale, DataSourceError>(new AJAXError('test failed', 500)));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.returns(Superposition.dead<Locale, DataSourceError>(new AJAXError('test failed', 500), AJAXError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa'));
+      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguageError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
 
     it('LocaleQuery.all returns Dead, LanguageError', async () => {
@@ -140,29 +131,18 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Dead.of<Locale, LanguagesError>(new LanguagesError('test failed')));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.returns(Superposition.dead<Locale, LanguagesError>(new LanguagesError('test failed'), LanguagesError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa'));
+      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguageError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(LanguageError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(LanguageError);
     });
 
     it('no match results', async () => {
@@ -181,29 +161,18 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.resolves(Alive.of<Locale, DataSourceError>(locale));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Language,
         LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('oop'));
+      > = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: LanguageError | NoSuchElementError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(NoSuchElementError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(NoSuchElementError);
     });
   });
 });

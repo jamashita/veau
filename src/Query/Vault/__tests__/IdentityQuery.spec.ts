@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 
 import { AJAXError } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
-import { Alive, Dead, Superposition } from '@jamashita/publikum-monad';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
@@ -53,23 +53,28 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.find = stub1;
-      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      stub1.returns(Superposition.alive<VeauAccount, DataSourceError>(veauAccount, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      stub2.returns(Superposition.alive<Language, DataSourceError>(language, DataSourceError));
+
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.resolves(Alive.of<Region, DataSourceError>(region));
+      stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+      const schrodinger: Schrodinger<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.find().terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const identity: Identity = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const identity: Identity = schrodinger.get();
 
       expect(identity.getVeauAccountID()).toBe(veauAccountID);
       expect(identity.getAccountName()).toBe(account);
@@ -82,29 +87,23 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.find = stub1;
-      stub1.resolves(Dead.of<VeauAccount, VeauAccountError>(new VeauAccountError('test failed')));
+      stub1.returns(
+        Superposition.dead<VeauAccount, VeauAccountError>(new VeauAccountError('test failed'), VeauAccountError)
+      );
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+      const schrodinger: Schrodinger<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.find().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(IdentityError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(IdentityError);
     });
 
     it('returns Dead when VeauAccountQuery returns Dead AJAXError', async () => {
@@ -112,29 +111,21 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.find = stub1;
-      stub1.resolves(Dead.of<VeauAccount, AJAXError>(new AJAXError('test failed', 500)));
+      stub1.returns(Superposition.dead<VeauAccount, AJAXError>(new AJAXError('test failed', 500), AJAXError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+      const schrodinger: Schrodinger<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.find().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
 
     it('returns Dead when LanguageQuery returns Dead LanguageError', async () => {
@@ -145,37 +136,30 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.find = stub1;
-      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      stub1.returns(Superposition.alive<VeauAccount, DataSourceError>(veauAccount, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.resolves(Dead.of<Language, LanguageError>(new LanguageError('test faield')));
+      stub2.returns(Superposition.dead<Language, LanguageError>(new LanguageError('test faield'), LanguageError));
+
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.resolves(Alive.of<Region, DataSourceError>(region));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+      const schrodinger: Schrodinger<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.find().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(IdentityError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(IdentityError);
     });
 
     it('returns Dead when LanguageQuery returns Dead AJAXError', async () => {
@@ -186,37 +170,30 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.find = stub1;
-      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      stub1.returns(Superposition.alive<VeauAccount, DataSourceError>(veauAccount, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.resolves(Dead.of<Language, AJAXError>(new AJAXError('test faield', 500)));
+      stub2.returns(Superposition.dead<Language, AJAXError>(new AJAXError('test faield', 500), AJAXError));
+
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.resolves(Alive.of<Region, DataSourceError>(region));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+      const schrodinger: Schrodinger<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.find().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
 
     it('returns Dead when RegionQuery returns Dead RegionError', async () => {
@@ -227,37 +204,30 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.find = stub1;
-      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      stub1.returns(Superposition.alive<VeauAccount, DataSourceError>(veauAccount, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      stub2.returns(Superposition.alive<Language, DataSourceError>(language, DataSourceError));
+
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.resolves(Dead.of<Region, RegionError>(new RegionError('test failed')));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.dead<Region, RegionError>(new RegionError('test failed'), RegionError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+      const schrodinger: Schrodinger<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.find().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(IdentityError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(IdentityError);
     });
 
     it('returns Dead when RegionQuery returns Dead AJAXError', async () => {
@@ -268,37 +238,30 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.find = stub1;
-      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      stub1.returns(Superposition.alive<VeauAccount, DataSourceError>(veauAccount, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      stub2.returns(Superposition.alive<Language, DataSourceError>(language, DataSourceError));
+
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.resolves(Dead.of<Region, AJAXError>(new AJAXError('test failed', 500)));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.dead<Region, AJAXError>(new AJAXError('test failed', 500), AJAXError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+      const schrodinger: Schrodinger<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.find().terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
   });
 
@@ -317,26 +280,28 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.findByEntranceInfo = stub1;
-      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      stub1.returns(Superposition.alive<VeauAccount, DataSourceError>(veauAccount, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      stub2.returns(Superposition.alive<Language, DataSourceError>(language, DataSourceError));
+
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.resolves(Alive.of<Region, DataSourceError>(region));
+      stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Identity,
         IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
-      expect(superposition.isAlive()).toBe(true);
-      const identity: Identity = superposition.get();
+      expect(schrodinger.isAlive()).toBe(true);
+      const identity: Identity = schrodinger.get();
 
       expect(identity.getVeauAccountID()).toBe(veauAccountID);
       expect(identity.getAccountName()).toBe(account);
@@ -349,32 +314,22 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.findByEntranceInfo = stub1;
-      stub1.resolves(Dead.of<VeauAccount, VeauAccountError>(new VeauAccountError('test failed')));
+      stub1.returns(
+        Superposition.dead<VeauAccount, VeauAccountError>(new VeauAccountError('test failed'), VeauAccountError)
+      );
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Identity,
         IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(IdentityError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(IdentityError);
     });
 
     it('returns Dead when VeauAccountQuery returns Dead AJAXError', async () => {
@@ -382,32 +337,21 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.findByEntranceInfo = stub1;
-      stub1.resolves(Dead.of<VeauAccount, AJAXError>(new AJAXError('test failed', 500)));
+      stub1.returns(Superposition.dead<VeauAccount, AJAXError>(new AJAXError('test failed', 500), AJAXError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Identity,
         IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
 
     it('returns Dead when LanguageQuery returns Dead LanguageError', async () => {
@@ -418,40 +362,30 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.findByEntranceInfo = stub1;
-      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      stub1.returns(Superposition.alive<VeauAccount, DataSourceError>(veauAccount, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.resolves(Dead.of<Language, LanguageError>(new LanguageError('test faield')));
+      stub2.returns(Superposition.dead<Language, LanguageError>(new LanguageError('test faield'), LanguageError));
+
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.resolves(Alive.of<Region, DataSourceError>(region));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Identity,
         IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(IdentityError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(IdentityError);
     });
 
     it('returns Dead when LanguageQuery returns Dead AJAXError', async () => {
@@ -462,40 +396,30 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.findByEntranceInfo = stub1;
-      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      stub1.returns(Superposition.alive<VeauAccount, DataSourceError>(veauAccount, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.resolves(Dead.of<Language, AJAXError>(new AJAXError('test faield', 500)));
+      stub2.returns(Superposition.dead<Language, AJAXError>(new AJAXError('test faield', 500), AJAXError));
+
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.resolves(Alive.of<Region, DataSourceError>(region));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Identity,
         IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
 
     it('returns Dead when RegionQuery returns Dead RegionError', async () => {
@@ -506,40 +430,30 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.findByEntranceInfo = stub1;
-      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      stub1.returns(Superposition.alive<VeauAccount, DataSourceError>(veauAccount, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      stub2.returns(Superposition.alive<Language, DataSourceError>(language, DataSourceError));
+
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.resolves(Dead.of<Region, RegionError>(new RegionError('test failed')));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.dead<Region, RegionError>(new RegionError('test failed'), RegionError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Identity,
         IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(IdentityError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(IdentityError);
     });
 
     it('returns Dead when RegionQuery returns Dead AJAXError', async () => {
@@ -550,40 +464,30 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.findByEntranceInfo = stub1;
-      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      stub1.returns(Superposition.alive<VeauAccount, DataSourceError>(veauAccount, DataSourceError));
+
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      stub2.returns(Superposition.alive<Language, DataSourceError>(language, DataSourceError));
+
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.resolves(Dead.of<Region, AJAXError>(new AJAXError('test failed', 500)));
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub3.returns(Superposition.dead<Region, AJAXError>(new AJAXError('test failed', 500), AJAXError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const superposition: Superposition<
+      const schrodinger: Schrodinger<
         Identity,
         IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: IdentityError | DataSourceError) => {
-          spy2();
-          expect(err).toBeInstanceOf(AJAXError);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(AJAXError);
     });
   });
 });

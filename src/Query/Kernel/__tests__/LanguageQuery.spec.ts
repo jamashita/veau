@@ -50,7 +50,10 @@ describe('LanguageQuery', () => {
         languageRedisQuery,
         languageRedisCommand
       );
-      const superposition: Schrodinger<Languages, LanguagesError | DataSourceError> = await languageQuery.all().terminate();
+      const superposition: Schrodinger<
+        Languages,
+        LanguagesError | DataSourceError
+      > = await languageQuery.all().terminate();
 
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(languages);
@@ -80,7 +83,10 @@ describe('LanguageQuery', () => {
         languageRedisQuery,
         languageRedisCommand
       );
-      const superposition: Schrodinger<Languages, LanguagesError | DataSourceError> = await languageQuery.all().terminate();
+      const superposition: Schrodinger<
+        Languages,
+        LanguagesError | DataSourceError
+      > = await languageQuery.all().terminate();
 
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(languages);
@@ -104,7 +110,10 @@ describe('LanguageQuery', () => {
         languageRedisQuery,
         languageRedisCommand
       );
-      const schrodinger: Schrodinger<Languages, LanguagesError | DataSourceError> = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<
+        Languages,
+        LanguagesError | DataSourceError
+      > = await languageQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -136,7 +145,10 @@ describe('LanguageQuery', () => {
         languageRedisQuery,
         languageRedisCommand
       );
-      const schrodinger: Schrodinger<Languages, LanguagesError | DataSourceError> = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<
+        Languages,
+        LanguagesError | DataSourceError
+      > = await languageQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
