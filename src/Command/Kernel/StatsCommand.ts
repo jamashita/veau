@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify';
 
-import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
-import { IMySQL } from '@jamashita/publikum-mysql';
+import { UnimplementedError } from '@jamashita/publikum-error';
+import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
 
 import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
@@ -14,7 +14,7 @@ import { IStatsCommand } from '../Interface/IStatsCommand';
 import { IKernelCommand } from './Interface/IKernelCommand';
 
 @injectable()
-export class StatsCommand implements IStatsCommand, IKernelCommand {
+export class StatsCommand implements IStatsCommand<MySQLError>, IKernelCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'Kernel' = 'Kernel';
   private readonly mysql: IMySQL;
@@ -23,20 +23,24 @@ export class StatsCommand implements IStatsCommand, IKernelCommand {
     this.mysql = mysql;
   }
 
-  public create(stats: Stats, veauAccountID: VeauAccountID): Superposition<unknown, DataSourceError> {
+  public create(stats: Stats, veauAccountID: VeauAccountID): Superposition<unknown, MySQLError> {
     const statsUpdateTransaction: StatsUpdateTransaction = new StatsUpdateTransaction(
       stats,
       veauAccountID,
       new StatsUpdateFactory()
     );
 
-    return Superposition.playground<unknown, DataSourceError>(() => {
-      return this.mysql.transact<Superposition<unknown, DataSourceError>>(statsUpdateTransaction);
-    }, DataSourceError);
+    return Superposition.playground<unknown, MySQLError>(async () => {
+      const schrodinger: Schrodinger<unknown, MySQLError> = await this.mysql.transact<Schrodinger<unknown, MySQLError>>(
+        statsUpdateTransaction
+      );
+
+      return schrodinger.get();
+    }, MySQLError);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public deleteByStatsID(statsID: StatsID): Superposition<unknown, DataSourceError> {
+  public deleteByStatsID(_statsID: StatsID): Superposition<unknown, MySQLError> {
     throw new UnimplementedError();
   }
 }
