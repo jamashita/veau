@@ -1,8 +1,6 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { Ambiguous, Nullable } from '@jamashita/publikum-type';
 
-import { StatsItem } from '../../Entity/StatsItem/StatsItem';
-import { StatsItems } from '../../Entity/StatsItem/StatsItems';
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfs } from '../AsOf/AsOfs';
 import { Column } from '../Coordinate/Column';
@@ -18,6 +16,8 @@ import { StatsUnit } from '../StatsOutline/StatsUnit';
 import { UpdatedAt } from '../StatsOutline/UpdatedAt';
 import { StatsValue } from '../StatsValue/StatsValue';
 import { Term } from '../Term/Term';
+import { StatsItemDisplay } from './StatsItemDisplay';
+import { StatsItemsDisplay } from './StatsItemsDisplay';
 
 type Chart = Record<string, string | number>;
 
@@ -27,7 +27,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
   private readonly language: Language;
   private readonly region: Region;
   private readonly term: Term;
-  private readonly items: StatsItems;
+  private readonly items: StatsItemsDisplay;
   private readonly startDate: AsOf;
   private readonly columns: AsOfs;
   private readonly headerSize: HeaderSize;
@@ -37,7 +37,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     language: Language,
     region: Region,
     term: Term,
-    items: StatsItems,
+    items: StatsItemsDisplay,
     startDate: AsOf,
     columns: AsOfs,
     headerSize: HeaderSize
@@ -50,7 +50,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     language: Language,
     region: Region,
     term: Term,
-    items: StatsItems,
+    items: StatsItemsDisplay,
     startDate: AsOf,
     columns: AsOfs,
     headerSize: HeaderSize
@@ -98,7 +98,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     return this.outline;
   }
 
-  public getItems(): StatsItems {
+  public getItems(): StatsItemsDisplay {
     return this.items;
   }
 
@@ -110,7 +110,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     return this.outline.getStatsID();
   }
 
-  public getRow(row: Row): Nullable<StatsItem> {
+  public getRow(row: Row): Nullable<StatsItemDisplay> {
     return this.items.get(row.get());
   }
 
@@ -131,7 +131,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
   }
 
   public getData(): Array<Array<string>> {
-    return this.items.map<Array<string>>((item: StatsItem) => {
+    return this.items.map<Array<string>>((item: StatsItemDisplay) => {
       return item.getValuesByColumn(this.getColumns()).row();
     });
   }
@@ -147,7 +147,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
       });
     });
 
-    this.items.forEach((statsItem: StatsItem) => {
+    this.items.forEach((statsItem: StatsItemDisplay) => {
       statsItem.getValues().forEach((statsValue: StatsValue) => {
         const line: Ambiguous<Chart> = chartItems.get(statsValue.getAsOf().toString());
 
@@ -195,7 +195,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     if (!this.isFilled()) {
       return false;
     }
-    if (!this.items.areValid()) {
+    if (!this.items.areFilled()) {
       return false;
     }
 
@@ -218,7 +218,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     if (!this.term.equals(other.term)) {
       return false;
     }
-    if (!this.items.areSame(other.items)) {
+    if (!this.items.equals(other.items)) {
       return false;
     }
     if (!this.startDate.equals(other.startDate)) {
