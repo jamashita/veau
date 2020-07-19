@@ -1,9 +1,10 @@
 import { Reducer } from 'redux';
 
 import { Stats } from '../../Entity/Stats/Stats';
+import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import { STATS_RESET, STATS_UPDATE, VeauAction } from '../Action';
 
-const initialState: Stats = Stats.default();
+const initialState: StatsDisplay = Stats.default();
 
 export const stats: Reducer<Stats, VeauAction> = (state: Stats = initialState, action: VeauAction) => {
   switch (action.type) {

@@ -1,9 +1,9 @@
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
 import { Action } from 'redux';
+import { StatsDisplay } from 'src/VO/Display/StatsDisplay';
 
 import { Heisenberg } from '@jamashita/publikum-monad';
 
-import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
 import { AccountName } from '../VO/Account/AccountName';
 import { AsOf } from '../VO/AsOf/AsOf';
@@ -264,7 +264,7 @@ export interface StatsListTermSelectedAction extends Action {
 
 export interface StatsListUpdateNewStatsAction extends Action {
   readonly type: typeof STATS_LIST_UPDATE_NEW_STATS;
-  readonly stats: Stats;
+  readonly stats: StatsDisplay;
 }
 
 export interface StatsListResetNewStatsAction extends Action {
@@ -388,7 +388,7 @@ export interface StatsListItemResetAction extends Action {
 
 export interface StatsUpdateAction extends Action {
   readonly type: typeof STATS_UPDATE;
-  readonly stats: Stats;
+  readonly stats: StatsDisplay;
 }
 
 export interface StatsResetAction extends Action {
