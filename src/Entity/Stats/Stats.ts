@@ -1,6 +1,6 @@
 import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
-import { Ambiguous, Kind } from '@jamashita/publikum-type';
+import { Kind } from '@jamashita/publikum-type';
 
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
@@ -35,7 +35,6 @@ export type StatsJSON = Readonly<{
   region: RegionJSON;
   items: Array<StatsItemJSON>;
 }>;
-type Chart = Record<string, string | number>;
 
 const REVISED_VALUE: number = 14;
 
@@ -215,7 +214,7 @@ export class Stats extends Entity<StatsID, Stats> {
     });
   }
 
-  public getColumn(column: Column): Unscharferelation<AsOf> {
+  private getColumn(column: Column): Unscharferelation<AsOf> {
     return this.getColumns().map<AsOf>((asOfs: AsOfs) => {
       return asOfs.get(column.get());
     });
@@ -226,10 +225,6 @@ export class Stats extends Entity<StatsID, Stats> {
     this.getColumns();
   }
 
-  public getRowHeaders(): StatsItemNames {
-    return this.items.getNames();
-  }
-
   public getRowHeaderSize(): Superposition<HeaderSize, HeaderSizeError> {
     const length: number = this.items.maxNameLength();
 
@@ -238,14 +233,6 @@ export class Stats extends Entity<StatsID, Stats> {
     }
 
     return HeaderSize.of(length * REVISED_VALUE);
-  }
-
-  public getData(): Unscharferelation<Array<Array<string>>> {
-    return this.getColumns().map<Array<Array<string>>>((columns: AsOfs) => {
-      return this.items.map<Array<string>>((item: StatsItem) => {
-        return item.getValuesByColumn(columns).row();
-      });
-    });
   }
 
   public setData(coordinate: Coordinate, value: NumericalValue): void {
@@ -265,38 +252,6 @@ export class Stats extends Entity<StatsID, Stats> {
         item.delete(asOf);
         this.recalculate();
       });
-    });
-  }
-
-  public getChart(): Unscharferelation<Array<Chart>> {
-    return this.getColumns().map<Array<Chart>>((columns: AsOfs) => {
-      const chartItems: Map<string, Chart> = new Map<string, Chart>();
-
-      columns.forEach((column: AsOf) => {
-        const asOfString: string = column.toString();
-
-        chartItems.set(asOfString, {
-          name: asOfString
-        });
-      });
-
-      this.items.forEach((statsItem: StatsItem) => {
-        statsItem.getValues().forEach((statsValue: StatsValue) => {
-          const line: Ambiguous<Chart> = chartItems.get(statsValue.getAsOf().toString());
-
-          if (line !== undefined) {
-            line[statsItem.getName().get()] = statsValue.getValue().get();
-          }
-        });
-      });
-
-      const chart: Array<Chart> = [];
-
-      chartItems.forEach((value: Chart) => {
-        chart.push(value);
-      });
-
-      return chart;
     });
   }
 
@@ -320,34 +275,6 @@ export class Stats extends Entity<StatsID, Stats> {
       .recover<boolean>(() => {
         return false;
       });
-  }
-
-  public isFilled(): boolean {
-    if (this.language.isEmpty()) {
-      return false;
-    }
-    if (this.region.isEmpty()) {
-      return false;
-    }
-    if (this.outline.getName().isEmpty()) {
-      return false;
-    }
-    if (this.outline.getUnit().isEmpty()) {
-      return false;
-    }
-
-    return true;
-  }
-
-  public isValid(): boolean {
-    if (!this.isFilled()) {
-      return false;
-    }
-    if (!this.items.areValid()) {
-      return false;
-    }
-
-    return true;
   }
 
   public replaceItem(statsItem: StatsItem, to: Row): void {
