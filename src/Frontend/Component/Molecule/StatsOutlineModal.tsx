@@ -6,7 +6,7 @@ import {
     MenuItem, Select
 } from '@material-ui/core';
 
-import { Stats } from '../../../Entity/Stats/Stats';
+import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Language } from '../../../VO/Language/Language';
 import { Locale } from '../../../VO/Locale/Locale';
@@ -20,7 +20,7 @@ import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
   open: boolean;
-  stats: Stats;
+  stats: StatsDisplay;
   locale: Locale;
   closeNewStatsModal(): void;
   nameTyped(name: StatsName): void;
@@ -44,7 +44,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
     if (open !== nextProps.open) {
       return true;
     }
-    if (!stats.isSame(nextProps.stats)) {
+    if (!stats.equals(nextProps.stats)) {
       return true;
     }
     if (!locale.equals(nextProps.locale)) {
@@ -173,8 +173,8 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               ) => {
                 const termID: string = event.target.value as string;
 
-                Term.ofString(termID).toUnscharferelation()
-                  .ifPresent((term: Term) => {
+                Term.ofString(termID)
+                  .map<void, Error>((term: Term) => {
                     termSelected(term);
                   });
               }}

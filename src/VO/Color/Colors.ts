@@ -1,4 +1,6 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
+import {
+    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
+} from '@jamashita/publikum-collection';
 import { Nullable } from '@jamashita/publikum-type';
 
 import { Color } from './Color';
@@ -52,9 +54,7 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
   }
 
   public get(index: number): Nullable<Color> {
-    const length: number = this.colors.size();
-
-    return this.colors.get(index % length);
+    return this.colors.get(index % this.colors.size());
   }
 
   public contains(value: Color): boolean {

@@ -3,7 +3,7 @@ import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 import { Button, Icon } from '@material-ui/core';
 
-import { Stats } from '../../../Entity/Stats/Stats';
+import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Locale } from '../../../VO/Locale/Locale';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
@@ -19,7 +19,7 @@ import { StatsOutlineModal } from '../Molecule/StatsOutlineModal';
 export type StateProps = Readonly<{
   statsListItems: StatsListItems;
   open: boolean;
-  stats: Stats;
+  stats: StatsDisplay;
   locale: Locale;
 }>;
 export type DispatchProps = Readonly<{
@@ -63,7 +63,7 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
     if (open !== nextProps.open) {
       return true;
     }
-    if (!stats.isSame(nextProps.stats)) {
+    if (!stats.equals(nextProps.stats)) {
       return true;
     }
     if (!locale.equals(nextProps.locale)) {

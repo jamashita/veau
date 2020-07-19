@@ -1,9 +1,11 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import {
+    Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select
+} from '@material-ui/core';
 
-import { Stats } from '../../../Entity/Stats/Stats';
+import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Language } from '../../../VO/Language/Language';
 import { Locale } from '../../../VO/Locale/Locale';
@@ -14,7 +16,7 @@ import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
-  stats: Stats;
+  stats: StatsDisplay;
   locale: Locale;
   nameTyped(name: StatsName): void;
   unitTyped(unit: StatsUnit): void;
@@ -31,7 +33,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
       locale
     } = this.props;
 
-    if (!stats.isSame(nextProps.stats)) {
+    if (!stats.equals(nextProps.stats)) {
       return true;
     }
     if (!locale.equals(nextProps.locale)) {

@@ -3,13 +3,15 @@ import {
     CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis
 } from 'recharts';
 
-import { Stats } from '../../../Entity/Stats/Stats';
+import { Nullable } from '@jamashita/publikum-type';
+
+import { Color } from '../../../VO/Color/Color';
 import { Colors } from '../../../VO/Color/Colors';
+import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 
 type Props = Readonly<{
-  stats: Stats;
-  chart: Record<string, Array<string | number>>;
+  stats: StatsDisplay;
 }>;
 type State = Readonly<{}>;
 
@@ -23,7 +25,7 @@ export class Chart extends React.Component<Props, State> {
       stats
     } = this.props;
 
-    if (stats.isSame(nextProps.stats)) {
+    if (stats.equals(nextProps.stats)) {
       return false;
     }
 
@@ -33,8 +35,7 @@ export class Chart extends React.Component<Props, State> {
   public render(): React.ReactNode {
     // prettier-ignore
     const {
-      stats,
-      chart
+      stats
     } = this.props;
 
     return (
@@ -46,7 +47,7 @@ export class Chart extends React.Component<Props, State> {
             left: MARGIN,
             right: MARGIN
           }}
-          data={chart}
+          data={stats.getChart()}
         >
           <XAxis dataKey='name' />
           <YAxis domain={['dataMin', 'dataMax']} />
@@ -54,13 +55,27 @@ export class Chart extends React.Component<Props, State> {
           <Legend />
           <Tooltip />
           {stats.getItemNames().map<React.ReactNode>((item: StatsItemName, index: number) => {
+            const color: Nullable<Color> = Colors.chartScheme().get(index);
+
+            if (color === null) {
+              return (
+                <Line
+                type='monotone'
+                connectNulls={true}
+                key={item.get()}
+                dataKey={item.get()}
+                stroke='#000000'
+              />
+              );
+            }
+
             return (
               <Line
                 type='monotone'
                 connectNulls={true}
                 key={item.get()}
                 dataKey={item.get()}
-                stroke={Colors.chartScheme().get(index)}
+                stroke={color.get()}
               />
             );
           })}
