@@ -1,4 +1,6 @@
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
+import {
+    Superposition, Unscharferelation, UnscharferelationError
+} from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -261,25 +263,6 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.items.getNames();
   }
 
-  public hasValues(): boolean {
-    return this.items.haveValues();
-  }
-
-  // TODO DELETE?
-  public isDetermined(): Unscharferelation<boolean> {
-    if (this.hasValues()) {
-      return Unscharferelation.present<boolean>(true);
-    }
-
-    return this.startDate
-      .map<boolean>(() => {
-        return true;
-      })
-      .recover<boolean>(() => {
-        return false;
-      });
-  }
-
   public replaceItem(statsItem: StatsItem, to: Row): void {
     this.items = this.items.replace(statsItem, to);
   }
@@ -290,29 +273,6 @@ export class Stats extends Entity<StatsID, Stats> {
 
   public removeItem(statsItem: StatsItem): void {
     this.items = this.items.remove(statsItem);
-  }
-
-  public isSame(other: Stats): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!this.outline.equals(other.outline)) {
-      return false;
-    }
-    if (!this.language.equals(other.language)) {
-      return false;
-    }
-    if (!this.region.equals(other.region)) {
-      return false;
-    }
-    if (!this.term.equals(other.term)) {
-      return false;
-    }
-    if (!this.items.areSame(other.items)) {
-      return false;
-    }
-
-    return true;
   }
 
   public duplicate(): Stats {
@@ -341,6 +301,7 @@ export class Stats extends Entity<StatsID, Stats> {
                 this.language,
                 this.region,
                 this.term,
+                // TODO display
                 this.items,
                 startDate,
                 columns,
