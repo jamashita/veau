@@ -3,7 +3,7 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { match } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { Nullable } from '@jamashita/publikum-type';
+import { Kind, Nullable } from '@jamashita/publikum-type';
 
 import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
 import { AsOf } from '../../../VO/AsOf/AsOf';
@@ -19,26 +19,14 @@ import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { VeauAction } from '../../Action';
 import {
-  initFailed,
-  initStatsEdit,
-  invalidDateInput,
-  invalidValueInput,
-  itemNameTyped,
-  removeItem,
-  rowMoved,
-  rowSelected,
-  saveItem,
-  saveStats,
-  selectingItemNameTyped,
-  startDateDetermined,
-  statsDataDeleted,
-  statsDataFilled,
-  statsISO3166Selected,
-  statsISO639Selected,
-  statsNameTyped,
-  statsUnitTyped
+    initFailed, initStatsEdit, invalidDateInput, invalidValueInput, itemNameTyped, removeItem,
+    rowMoved, rowSelected, saveItem, saveStats, selectingItemNameTyped, startDateDetermined,
+    statsDataDeleted, statsDataFilled, statsISO3166Selected, statsISO639Selected, statsNameTyped,
+    statsUnitTyped
 } from '../../ActionCreator/StatsEditActionCreator';
-import { DispatchProps, OwnProps, StateProps, StatsEdit as Component } from '../../Component/Page/StatsEdit';
+import {
+    DispatchProps, OwnProps, StateProps, StatsEdit as Component
+} from '../../Component/Page/StatsEdit';
 import { Endpoints } from '../../Endpoints';
 import { State } from '../../State';
 
@@ -63,7 +51,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   );
   const matchParam: Nullable<match<MatchParam>> = selector(state);
 
-  if (matchParam === null) {
+  if (Kind.isNull(matchParam)) {
     return {
       stats,
       statsItem,

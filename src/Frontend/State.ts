@@ -1,7 +1,7 @@
 import { RouterState } from 'connected-react-router';
 
-import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
+import { StatsDisplay } from '../VO/Display/StatsDisplay';
 import { EntranceInformation } from '../VO/EntranceInformation/EntranceInformation';
 import { Identity } from '../VO/Identity/Identity';
 import { LoadingCount } from '../VO/LoadingCount/LoadingCount';
@@ -21,7 +21,7 @@ export type State = Readonly<{
   modal: Modal;
   notification: Notification;
   pageProvider: PageProvider;
-  stats: Stats;
+  stats: StatsDisplay;
   statsEdit: StatsEdit;
   statsItem: StatsItem;
   statsList: StatsList;

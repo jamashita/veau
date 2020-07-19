@@ -1,7 +1,7 @@
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
 import { Action } from 'redux';
 
-import { Unscharferelation } from '@jamashita/publikum-monad';
+import { Heisenberg } from '@jamashita/publikum-monad';
 
 import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
@@ -315,7 +315,7 @@ export interface StatsEditItemSaveAction extends Action {
 
 export interface StatsEditSelectItemAction extends Action {
   readonly type: typeof STATS_EDIT_SELECT_ITEM;
-  readonly statsItem: Unscharferelation<StatsItem>;
+  readonly statsItem: Heisenberg<StatsItem>;
   readonly row: Row;
 }
 
@@ -326,7 +326,7 @@ export interface StatsEditSelectingItemNameTypedAction extends Action {
 
 export interface StatsEditUpdateSelectingItemAction extends Action {
   readonly type: typeof STATS_EDIT_UPDATE_SELECTING_ITEM;
-  readonly statsItem: Unscharferelation<StatsItem>;
+  readonly statsItem: Heisenberg<StatsItem>;
 }
 
 export interface StatsEditRemoveSelectingItemAction extends Action {

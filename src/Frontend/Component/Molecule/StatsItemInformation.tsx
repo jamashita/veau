@@ -1,7 +1,7 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import { Quantum } from '@jamashita/publikum-monad';
+import { Heisenberg } from '@jamashita/publikum-monad';
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 
 import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
@@ -9,7 +9,7 @@ import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
-  selecting: Quantum<StatsItem>;
+  selecting: Heisenberg<StatsItem>;
   nameTyped(name: StatsItemName): void;
   removeItem(statsItem: StatsItem): void;
 }>;

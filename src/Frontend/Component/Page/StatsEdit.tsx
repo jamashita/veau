@@ -1,17 +1,17 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import { Absent, Quantum, Superposition } from '@jamashita/publikum-monad';
+import { Absent, Heisenberg, Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { Button, Icon } from '@material-ui/core';
 
-import { Stats } from '../../../Entity/Stats/Stats';
 import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { AsOfError } from '../../../VO/AsOf/Error/AsOfError';
 import { Column } from '../../../VO/Coordinate/Column';
 import { Coordinate } from '../../../VO/Coordinate/Coordinate';
 import { Row } from '../../../VO/Coordinate/Row';
+import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Locale } from '../../../VO/Locale/Locale';
 import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
@@ -29,9 +29,9 @@ import { StatsItemInformation } from '../Molecule/StatsItemInformation';
 import { StatsItemModal } from '../Molecule/StatsItemModal';
 
 export type StateProps = Readonly<{
-  stats: Stats;
+  stats: StatsDisplay;
   statsItem: StatsItem;
-  selectingItem: Quantum<StatsItem>;
+  selectingItem: Heisenberg<StatsItem>;
   locale: Locale;
   id: Nullable<string>;
 }>;
@@ -60,7 +60,7 @@ type Props = StateProps & DispatchProps & OwnProps;
 type State = Readonly<{
   openNewStatsItemModal: boolean;
   openStartDateModal: boolean;
-  startDate: Quantum<AsOf>;
+  startDate: Heisenberg<AsOf>;
 }>;
 
 export class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State> {
@@ -88,7 +88,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       return;
     }
 
-    StatsID.ofString(id).transform<void>(
+    StatsID.ofString(id).transform<void, Error>(
       (statsID: StatsID) => {
         initialize(statsID);
       },
@@ -113,7 +113,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       startDate
     } = this.state;
 
-    if (!stats.isSame(nextProps.stats)) {
+    if (!stats.equals(nextProps.stats)) {
       return true;
     }
     if (!statsItem.isSame(nextProps.statsItem)) {
