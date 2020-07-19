@@ -1761,8 +1761,10 @@ describe('Stats', () => {
       expect(display.getLanguage()).toBe(language);
       expect(display.getRegion()).toBe(region);
       expect(display.getTerm()).toBe(term);
-      expect(display.getItems()).toBe(items);
       expect(display.getItems().size()).toBe(items.size());
+      expect(display.getItems().get(0)?.getStatsItemID()).toBe(items.get(0)?.getStatsItemID());
+      expect(display.getItems().get(0)?.getName()).toBe(items.get(0)?.getName());
+      expect(display.getItems().get(0)?.getValues()).toBe(items.get(0)?.getValues());
     });
 
     it('no startDate', async () => {
