@@ -7,6 +7,7 @@ import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { MockColumn } from '../../../VO/Coordinate/Mock/MockColumn';
 import { MockRow } from '../../../VO/Coordinate/Mock/MockRow';
+import { StatsItemsDisplay } from '../../../VO/Display/StatsItemsDisplay';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemsError } from '../../../VO/StatsItem/Error/StatsItemsError';
@@ -930,146 +931,6 @@ describe('StatsItems', () => {
     });
   });
 
-  describe('areSame', () => {
-    it('returns true if all the properties are the same', () => {
-      const statsItemID1: MockStatsItemID = new MockStatsItemID();
-      const statsItemID2: MockStatsItemID = new MockStatsItemID();
-      const name1: string = 'stats item 1';
-      const name2: string = 'stats item 2';
-      const name3: string = 'stats item 3';
-      const name4: string = 'stats item 4';
-      const statsItems1: StatsItems = StatsItems.ofArray([
-        new MockStatsItem({
-          statsItemID: statsItemID1,
-          name: new MockStatsItemName(name1)
-        }),
-        new MockStatsItem({
-          statsItemID: statsItemID2,
-          name: new MockStatsItemName(name2)
-        })
-      ]);
-      const statsItems2: StatsItems = StatsItems.ofArray([
-        new MockStatsItem({
-          statsItemID: statsItemID1,
-          name: new MockStatsItemName(name1)
-        })
-      ]);
-      const statsItems3: StatsItems = StatsItems.ofArray([
-        new MockStatsItem({
-          statsItemID: statsItemID2,
-          name: new MockStatsItemName(name2)
-        })
-      ]);
-      const statsItems4: StatsItems = StatsItems.ofArray([
-        new MockStatsItem({
-          statsItemID: statsItemID2,
-          name: new MockStatsItemName(name2)
-        }),
-        new MockStatsItem({
-          statsItemID: statsItemID1,
-          name: new MockStatsItemName(name1)
-        })
-      ]);
-      const statsItems5: StatsItems = StatsItems.ofArray([
-        new MockStatsItem({
-          statsItemID: statsItemID1,
-          name: new MockStatsItemName(name1)
-        }),
-        new MockStatsItem({
-          statsItemID: statsItemID2,
-          name: new MockStatsItemName(name2)
-        })
-      ]);
-      const statsItems6: StatsItems = StatsItems.ofArray([
-        new MockStatsItem({
-          statsItemID: statsItemID1,
-          name: new MockStatsItemName(name3)
-        }),
-        new MockStatsItem({
-          statsItemID: statsItemID2,
-          name: new MockStatsItemName(name2)
-        })
-      ]);
-      const statsItems7: StatsItems = StatsItems.ofArray([
-        new MockStatsItem({
-          statsItemID: statsItemID1,
-          name: new MockStatsItemName(name1)
-        }),
-        new MockStatsItem({
-          statsItemID: statsItemID2,
-          name: new MockStatsItemName(name4)
-        })
-      ]);
-      const statsItems8: StatsItems = StatsItems.ofArray([
-        new MockStatsItem({
-          statsItemID: statsItemID1,
-          name: new MockStatsItemName(name1),
-          values: new MockStatsValues(
-            new MockStatsValue({
-              asOf: new MockAsOf({
-                day: 2
-              })
-            })
-          )
-        }),
-        new MockStatsItem({
-          name: new MockStatsItemName(name2)
-        })
-      ]);
-      const statsItems9: StatsItems = StatsItems.ofArray([
-        new MockStatsItem({
-          name: new MockStatsItemName(name1)
-        }),
-        new MockStatsItem({
-          statsItemID: statsItemID2,
-          name: new MockStatsItemName(name2),
-          values: new MockStatsValues(
-            new MockStatsValue({
-              asOf: new MockAsOf({
-                day: 2
-              })
-            })
-          )
-        })
-      ]);
-      const statsItems10: StatsItems = StatsItems.ofArray([
-        new MockStatsItem({
-          statsItemID: statsItemID1,
-          name: new MockStatsItemName(name1),
-          values: new MockStatsValues(
-            new MockStatsValue({
-              asOf: new MockAsOf({
-                day: 2
-              })
-            })
-          )
-        }),
-        new MockStatsItem({
-          statsItemID: statsItemID2,
-          name: new MockStatsItemName(name2),
-          values: new MockStatsValues(
-            new MockStatsValue({
-              asOf: new MockAsOf({
-                day: 2
-              })
-            })
-          )
-        })
-      ]);
-
-      expect(statsItems1.areSame(statsItems1)).toBe(true);
-      expect(statsItems1.areSame(statsItems2)).toBe(false);
-      expect(statsItems1.areSame(statsItems3)).toBe(false);
-      expect(statsItems1.areSame(statsItems4)).toBe(false);
-      expect(statsItems1.areSame(statsItems5)).toBe(true);
-      expect(statsItems1.areSame(statsItems6)).toBe(false);
-      expect(statsItems1.areSame(statsItems7)).toBe(false);
-      expect(statsItems1.areSame(statsItems8)).toBe(false);
-      expect(statsItems1.areSame(statsItems9)).toBe(false);
-      expect(statsItems1.areSame(statsItems10)).toBe(false);
-    });
-  });
-
   describe('toJSON', () => {
     it('normal case', async () => {
       const statsItems: StatsItems = StatsItems.ofArray([
@@ -1097,6 +958,35 @@ describe('StatsItems', () => {
           values: []
         }
       ]);
+    });
+  });
+
+  describe('display', () => {
+    it('normal case', () => {
+      const statsItemID1: MockStatsItemID = new MockStatsItemID();
+      const statsItemID2: MockStatsItemID = new MockStatsItemID();
+      const statsItemID3: MockStatsItemID = new MockStatsItemID();
+      const statsItem1: MockStatsItem = new MockStatsItem({
+        statsItemID: statsItemID1
+      });
+      const statsItem2: MockStatsItem = new MockStatsItem({
+        statsItemID: statsItemID2
+      });
+      const statsItem3: MockStatsItem = new MockStatsItem({
+        statsItemID: statsItemID3
+      });
+      
+      const statsItems: StatsItems = StatsItems.ofArray([
+        statsItem1,
+        statsItem2,
+        statsItem3
+      ]);
+      const display: StatsItemsDisplay = statsItems.display();
+
+      expect(display.size()).toBe(statsItems.size());
+      for (let i: number = 0; i < display.size(); i++) {
+        expect(display.get(i)?.getStatsItemID()).toBe(statsItems.get(i)?.getStatsItemID());
+      }
     });
   });
 

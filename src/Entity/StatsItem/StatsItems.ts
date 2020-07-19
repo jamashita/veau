@@ -1,10 +1,5 @@
 import {
-  CancellableEnumerator,
-  ImmutableSequence,
-  Pair,
-  Project,
-  Quantity,
-  Sequence
+    CancellableEnumerator, ImmutableSequence, Pair, Project, Quantity, Sequence
 } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
@@ -13,6 +8,8 @@ import { Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
 import { Row } from '../../VO/Coordinate/Row';
+import { StatsItemDisplay } from '../../VO/Display/StatsItemDisplay';
+import { StatsItemsDisplay } from '../../VO/Display/StatsItemsDisplay';
 import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
@@ -203,16 +200,19 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     return this.items.toArray().map<U>(mapper);
   }
 
+  // TODO MAYBE UNNECESSARY
   public areFilled(): boolean {
     return this.items.every((statsItem: StatsItem) => {
       return statsItem.isFilled();
     });
   }
 
+  // TODO MAYBE UNNECESSARY
   public areValid(): boolean {
     return this.areFilled();
   }
 
+  // TODO MAYBE UNNECESSARY
   public haveValues(): boolean {
     if (this.items.isEmpty()) {
       return false;
@@ -251,41 +251,16 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     return this.items.equals(other.items);
   }
 
-  public areSame(other: StatsItems): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (this.items.size() !== other.size()) {
-      return false;
-    }
-
-    const thisIterator: Iterator<Pair<number, StatsItem>> = this.iterator();
-    const otherIterator: Iterator<Pair<number, StatsItem>> = other.iterator();
-
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const thisRes: IteratorResult<Pair<number, StatsItem>> = thisIterator.next();
-      const otherRes: IteratorResult<Pair<number, StatsItem>> = otherIterator.next();
-
-      if (thisRes.done !== true && otherRes.done !== true) {
-        if (!thisRes.value.getValue().isSame(otherRes.value.getValue())) {
-          return false;
-        }
-
-        continue;
-      }
-      if (thisRes.done === true && otherRes.done === true) {
-        return true;
-      }
-
-      return false;
-    }
-  }
-
   public toJSON(): Array<StatsItemJSON> {
     return this.items.toArray().map<StatsItemJSON>((item: StatsItem) => {
       return item.toJSON();
     });
+  }
+
+  public display(): StatsItemsDisplay {
+    return StatsItemsDisplay.of(this.items.map<StatsItemDisplay>((item: StatsItem) => {
+      return item.display();
+    }));
   }
 
   public serialize(): string {
