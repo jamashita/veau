@@ -2,8 +2,16 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 import {
-    Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Icon, InputLabel,
-    MenuItem, Select
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  Icon,
+  InputLabel,
+  MenuItem,
+  Select
 } from '@material-ui/core';
 
 import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
@@ -173,10 +181,9 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               ) => {
                 const termID: string = event.target.value as string;
 
-                Term.ofString(termID)
-                  .map<void, Error>((term: Term) => {
-                    termSelected(term);
-                  });
+                Term.ofString(termID).map<void, Error>((term: Term) => {
+                  termSelected(term);
+                });
               }}
             >
               {Terms.all().map<React.ReactNode>(

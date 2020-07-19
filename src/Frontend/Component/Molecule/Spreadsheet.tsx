@@ -91,43 +91,40 @@ export class Spreadsheet extends React.Component<Props, State> {
             return;
           }
           changes.forEach((change: CellChange) => {
-            Row.of(change[0])
-            .map<void, Error>((row: Row) => {
-                Column.of(Number(change[1]))
-                  .map<void, Error>((column: Column) => {
-                    const coordinate: Coordinate = Coordinate.of(row, column);
-                    // eslint-disable-next-line prefer-destructuring
-                    const str: Nullable<string> = change[3];
+            Row.of(change[0]).map<void, Error>((row: Row) => {
+              Column.of(Number(change[1])).map<void, Error>((column: Column) => {
+                const coordinate: Coordinate = Coordinate.of(row, column);
+                // eslint-disable-next-line prefer-destructuring
+                const str: Nullable<string> = change[3];
 
-                    if (Kind.isNull(str)) {
-                      dataDeleted(coordinate);
+                if (Kind.isNull(str)) {
+                  dataDeleted(coordinate);
 
-                      return;
-                    }
-                    if (str.trim() === '') {
-                      dataDeleted(coordinate);
+                  return;
+                }
+                if (str.trim() === '') {
+                  dataDeleted(coordinate);
 
-                      return;
-                    }
-                    if (Kind.isNumericalString(str)) {
-                      const value: NumericalValue = NumericalValue.of(Number(str));
+                  return;
+                }
+                if (Kind.isNumericalString(str)) {
+                  const value: NumericalValue = NumericalValue.of(Number(str));
 
-                      dataFilled(coordinate, value);
-                      
-                      return;
-                    }
+                  dataFilled(coordinate, value);
 
-                    invalidValueInput();
-                  });
+                  return;
+                }
+
+                invalidValueInput();
               });
+            });
           });
         }}
         afterSelection={(row1: number, _col1: number, row2: number) => {
           if (row1 === row2) {
-            Row.of(row1)
-              .map((row: Row) => {
-                rowSelected(row);
-              });
+            Row.of(row1).map((row: Row) => {
+              rowSelected(row);
+            });
           }
         }}
         beforeRowMove={(columns: Array<number>, target: number) => {
@@ -136,20 +133,17 @@ export class Spreadsheet extends React.Component<Props, State> {
               return;
             }
 
-            Column.of(column)
-              .map<void, Error>((col1: Column) => {
-                if (column < target) {
-                  return Column.of(target - 1)
-                    .map<void, Error>((col2: Column) => {
-                      rowMoved(col1, col2);
-                    });
-                }
+            Column.of(column).map<void, Error>((col1: Column) => {
+              if (column < target) {
+                return Column.of(target - 1).map<void, Error>((col2: Column) => {
+                  rowMoved(col1, col2);
+                });
+              }
 
-                return Column.of(target)
-                  .map<void, Error>((col2: Column) => {
-                    rowMoved(col1, col2);
-                  });
+              return Column.of(target).map<void, Error>((col2: Column) => {
+                rowMoved(col1, col2);
               });
+            });
           });
 
           return true;

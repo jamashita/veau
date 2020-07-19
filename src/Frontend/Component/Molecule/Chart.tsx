@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-    CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis
-} from 'recharts';
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { Nullable } from '@jamashita/publikum-type';
 
@@ -59,24 +57,12 @@ export class Chart extends React.Component<Props, State> {
 
             if (color === null) {
               return (
-                <Line
-                type='monotone'
-                connectNulls={true}
-                key={item.get()}
-                dataKey={item.get()}
-                stroke='#000000'
-              />
+                <Line type='monotone' connectNulls={true} key={item.get()} dataKey={item.get()} stroke='#000000' />
               );
             }
 
             return (
-              <Line
-                type='monotone'
-                connectNulls={true}
-                key={item.get()}
-                dataKey={item.get()}
-                stroke={color.get()}
-              />
+              <Line type='monotone' connectNulls={true} key={item.get()} dataKey={item.get()} stroke={color.get()} />
             );
           })}
         </LineChart>
