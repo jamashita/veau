@@ -20,16 +20,16 @@ describe('StatsItemDisplay', () => {
     it('returns StatsItem.empty() when the empty Sequence given', () => {
       expect(StatsItemsDisplay.of(ImmutableSequence.empty<StatsItemDisplay>())).toBe(StatsItemsDisplay.empty());
     });
-  
+
     it('normal case', () => {
       const statsItems: StatsItemsDisplay = StatsItemsDisplay.of(
         ImmutableSequence.of<StatsItemDisplay>([new MockStatsItemDisplay(), new MockStatsItemDisplay()])
       );
-  
+
       expect(statsItems).not.toBe(StatsItemsDisplay.empty());
     });
   });
-  
+
   describe('ofArray', () => {
     it('normal case', () => {
       const items: Array<StatsItemDisplay> = [
@@ -37,63 +37,63 @@ describe('StatsItemDisplay', () => {
         new MockStatsItemDisplay(),
         new MockStatsItemDisplay()
       ];
-  
+
       const statsItems: StatsItemsDisplay = StatsItemsDisplay.ofArray(items);
-  
+
       expect(statsItems.size()).toBe(items.length);
       for (let i: number = 0; i < statsItems.size(); i++) {
         expect(statsItems.get(i)).toBe(items[i]);
       }
     });
   });
-  
+
   describe('ofSpread', () => {
     it('normal case', () => {
       const item1: MockStatsItemDisplay = new MockStatsItemDisplay();
       const item2: MockStatsItemDisplay = new MockStatsItemDisplay();
       const item3: MockStatsItemDisplay = new MockStatsItemDisplay();
-  
+
       const statsItems: StatsItemsDisplay = StatsItemsDisplay.ofSpread(item1, item2, item3);
-  
+
       expect(statsItems.size()).toBe(3);
       expect(statsItems.get(0)).toBe(item1);
       expect(statsItems.get(1)).toBe(item2);
       expect(statsItems.get(2)).toBe(item3);
     });
   });
-  
+
   describe('empty', () => {
     it('gives 0-length StatsItemsDisplay', () => {
       expect(StatsItemsDisplay.empty().isEmpty()).toBe(true);
     });
   });
-  
+
   describe('get', () => {
     it('returns Language instance at the correct index', () => {
       const items: Array<MockStatsItemDisplay> = [new MockStatsItemDisplay(), new MockStatsItemDisplay()];
-  
+
       const statsItems: StatsItemsDisplay = StatsItemsDisplay.ofArray(items);
-  
+
       expect(statsItems.size()).toBe(items.length);
       for (let i: number = 0; i < statsItems.size(); i++) {
         expect(statsItems.get(i)).toBe(items[i]);
       }
     });
-  
+
     it('returns null when the index is out of range', () => {
       const items: StatsItemsDisplay = StatsItemsDisplay.empty();
-  
+
       expect(items.get(-1)).toBe(null);
       expect(items.get(0)).toBe(null);
     });
   });
-  
+
   describe('maxNameLength', () => {
     it('normal case', () => {
       const name1: MockStatsItemName = new MockStatsItemName('stats name 1');
       const name2: MockStatsItemName = new MockStatsItemName('stats name 11');
       const name3: MockStatsItemName = new MockStatsItemName('stats name 111');
-  
+
       const statsItems: StatsItemsDisplay = StatsItemsDisplay.ofArray([
         new MockStatsItemDisplay({
           name: name1
@@ -105,17 +105,17 @@ describe('StatsItemDisplay', () => {
           name: name3
         })
       ]);
-  
+
       expect(statsItems.maxNameLength()).toBe(name3.length());
     });
-  
+
     it('should give 0 when items are 0', () => {
       const statsItems: StatsItemsDisplay = StatsItemsDisplay.ofArray([]);
-  
+
       expect(statsItems.maxNameLength()).toBe(0);
     });
   });
-  
+
   describe('getAsOfs', () => {
     it('collects all AsOfs even if the date is same', () => {
       const statsItem1: MockStatsItemDisplay = new MockStatsItemDisplay({
@@ -171,9 +171,9 @@ describe('StatsItemDisplay', () => {
         )
       });
       const statsItems: StatsItemsDisplay = StatsItemsDisplay.ofArray([statsItem1, statsItem2, statsItem3]);
-  
+
       const asOfs: AsOfs = statsItems.getAsOfs();
-  
+
       expect(asOfs.size()).toBe(8);
       expect(asOfs.get(0)?.toString()).toBe('2000-01-01');
       expect(asOfs.get(1)?.toString()).toBe('2000-01-02');
@@ -185,13 +185,13 @@ describe('StatsItemDisplay', () => {
       expect(asOfs.get(7)?.toString()).toBe('2000-01-05');
     });
   });
-  
+
   describe('getNames', () => {
     it('normal case', () => {
       const name1: MockStatsItemName = new MockStatsItemName('stats name 1');
       const name2: MockStatsItemName = new MockStatsItemName('stats name 11');
       const name3: MockStatsItemName = new MockStatsItemName('stats name 111');
-  
+
       const statsItems: StatsItemsDisplay = StatsItemsDisplay.ofArray([
         new MockStatsItemDisplay({
           name: name1
@@ -203,16 +203,16 @@ describe('StatsItemDisplay', () => {
           name: name3
         })
       ]);
-  
+
       const names: StatsItemNames = statsItems.getNames();
-  
+
       expect(names.size()).toBe(3);
       expect(names.get(0)).toBe(name1);
       expect(names.get(1)).toBe(name2);
       expect(names.get(2)).toBe(name3);
     });
   });
-  
+
   describe('areFilled', () => {
     it('returns true if the all items are filled', () => {
       const statsItems1: StatsItemsDisplay = StatsItemsDisplay.ofArray([
@@ -231,19 +231,19 @@ describe('StatsItemDisplay', () => {
           name: StatsItemName.empty()
         })
       ]);
-  
+
       expect(statsItems1.areFilled()).toBe(true);
       expect(statsItems2.areFilled()).toBe(false);
     });
   });
-  
+
   describe('haveValues', () => {
     it('no items', () => {
       const statsItems: StatsItemsDisplay = StatsItemsDisplay.ofArray([]);
-  
+
       expect(statsItems.haveValues()).toBe(false);
     });
-  
+
     it('no values', () => {
       const statsItems1: StatsItemsDisplay = StatsItemsDisplay.ofArray([
         new MockStatsItemDisplay({
@@ -254,11 +254,11 @@ describe('StatsItemDisplay', () => {
         new MockStatsItemDisplay(),
         new MockStatsItemDisplay()
       ]);
-  
+
       expect(statsItems1.haveValues()).toBe(false);
       expect(statsItems2.haveValues()).toBe(false);
     });
-  
+
     it('have values', () => {
       const statsItems: StatsItemsDisplay = StatsItemsDisplay.ofArray([
         new MockStatsItemDisplay({
@@ -269,11 +269,11 @@ describe('StatsItemDisplay', () => {
           )
         })
       ]);
-  
+
       expect(statsItems.haveValues()).toBe(true);
     });
   });
-  
+
   describe('contains', () => {
     it('returns true if the element exists', () => {
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
@@ -292,14 +292,14 @@ describe('StatsItemDisplay', () => {
         statsItemID: statsItemID1
       });
       const statsItems: StatsItemsDisplay = StatsItemsDisplay.ofArray([statsItem1, statsItem2]);
-  
+
       expect(statsItems.contains(statsItem1)).toBe(true);
       expect(statsItems.contains(statsItem2)).toBe(true);
       expect(statsItems.contains(statsItem3)).toBe(false);
       expect(statsItems.contains(statsItem4)).toBe(true);
     });
   });
-  
+
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
       const statsItems1: StatsItemsDisplay = StatsItemsDisplay.ofArray([
@@ -307,12 +307,12 @@ describe('StatsItemDisplay', () => {
         new MockStatsItemDisplay()
       ]);
       const statsItems2: StatsItemsDisplay = StatsItemsDisplay.ofArray([]);
-  
+
       expect(statsItems1.isEmpty()).toBe(false);
       expect(statsItems2.isEmpty()).toBe(true);
     });
   });
-  
+
   describe('equals', () => {
     it('returns true if all the properties are the same', () => {
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
@@ -439,7 +439,7 @@ describe('StatsItemDisplay', () => {
           )
         })
       ]);
-  
+
       expect(statsItems1.equals(statsItems1)).toBe(true);
       expect(statsItems1.equals(statsItems2)).toBe(false);
       expect(statsItems1.equals(statsItems3)).toBe(false);
@@ -452,7 +452,7 @@ describe('StatsItemDisplay', () => {
       expect(statsItems1.equals(statsItems10)).toBe(false);
     });
   });
-  
+
   describe('toString', () => {
     it('normal case', async () => {
       const id1: string = '8f7b1783-b09c-4010-aac1-dca1292ee700';
@@ -463,8 +463,8 @@ describe('StatsItemDisplay', () => {
         StatsItemDisplay.of(await StatsItemID.ofString(id1).get(), StatsItemName.of(name1), StatsValues.empty()),
         StatsItemDisplay.of(await StatsItemID.ofString(id2).get(), StatsItemName.of(name2), StatsValues.empty())
       ]);
-  
+
       expect(statsItems.toString()).toBe(`${id1} ${name1} , ${id2} ${name2} `);
     });
-  });  
+  });
 });

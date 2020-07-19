@@ -1,5 +1,10 @@
 import {
-    CancellableEnumerator, ImmutableSequence, Pair, Project, Quantity, Sequence
+  CancellableEnumerator,
+  ImmutableSequence,
+  Pair,
+  Project,
+  Quantity,
+  Sequence
 } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
@@ -258,9 +263,11 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
   }
 
   public display(): StatsItemsDisplay {
-    return StatsItemsDisplay.of(this.items.map<StatsItemDisplay>((item: StatsItem) => {
-      return item.display();
-    }));
+    return StatsItemsDisplay.of(
+      this.items.map<StatsItemDisplay>((item: StatsItem) => {
+        return item.display();
+      })
+    );
   }
 
   public serialize(): string {

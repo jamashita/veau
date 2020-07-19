@@ -1,6 +1,4 @@
-import {
-    Superposition, Unscharferelation, UnscharferelationError
-} from '@jamashita/publikum-monad';
+import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -301,8 +299,7 @@ export class Stats extends Entity<StatsID, Stats> {
                 this.language,
                 this.region,
                 this.term,
-                // TODO display
-                this.items,
+                this.items.display(),
                 startDate,
                 columns,
                 headerSize

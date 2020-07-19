@@ -975,12 +975,8 @@ describe('StatsItems', () => {
       const statsItem3: MockStatsItem = new MockStatsItem({
         statsItemID: statsItemID3
       });
-      
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2,
-        statsItem3
-      ]);
+
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
       const display: StatsItemsDisplay = statsItems.display();
 
       expect(display.size()).toBe(statsItems.size());

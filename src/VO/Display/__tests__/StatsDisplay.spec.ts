@@ -905,8 +905,8 @@ describe('StatsDisplay', () => {
         new MockStatsItemsDisplay(
           new MockStatsItemDisplay({
             name: StatsItemName.empty()
-          }
-        )),
+          })
+        ),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()

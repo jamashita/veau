@@ -1,6 +1,4 @@
-import {
-    Heisenberg, Schrodinger, Superposition, Unscharferelation
-} from '@jamashita/publikum-monad';
+import { Heisenberg, Schrodinger, Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -25,6 +23,7 @@ import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
 import { Region } from '../../../VO/Region/Region';
+import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { MockStatsName } from '../../../VO/StatsOutline/Mock/MockStatsName';
@@ -1738,15 +1737,14 @@ describe('Stats', () => {
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
       const term: Term = Term.DAILY;
+      const statsItemID: MockStatsItemID = new MockStatsItemID();
+      const name: MockStatsItemName = new MockStatsItemName();
+      const values: MockStatsValues = new MockStatsValues();
       const items: MockStatsItems = new MockStatsItems(
         new MockStatsItem({
-          values: new MockStatsValues(
-            new MockStatsValue({
-              asOf: new MockAsOf({
-                day: 2
-              })
-            })
-          )
+          statsItemID,
+          name,
+          values
         })
       );
       const startDate: Unscharferelation<AsOf> = Unscharferelation.present<AsOf>(new MockAsOf());
@@ -1764,6 +1762,7 @@ describe('Stats', () => {
       expect(display.getRegion()).toBe(region);
       expect(display.getTerm()).toBe(term);
       expect(display.getItems()).toBe(items);
+      expect(display.getItems().size()).toBe(items.size());
     });
 
     it('no startDate', async () => {
