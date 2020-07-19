@@ -1,6 +1,7 @@
 import { Reducer } from 'redux';
 
 import { Stats } from '../../Entity/Stats/Stats';
+import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import {
   STATS_LIST_CLOSE_STATS_MODAL,
   STATS_LIST_OPEN_STATS_MODAL,
@@ -11,7 +12,7 @@ import {
 
 export type StatsList = Readonly<{
   open: boolean;
-  stats: Stats;
+  stats: StatsDisplay;
 }>;
 
 const initialState: StatsList = {

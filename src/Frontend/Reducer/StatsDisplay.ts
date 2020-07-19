@@ -7,7 +7,10 @@ import { STATS_DISPLAY_RESET, STATS_DISPLAY_UPDATE, VeauAction } from '../Action
 
 const initialState: Heisenberg<StatsDisplay> = Absent.of<StatsDisplay>();
 
-export const display: Reducer<Heisenberg<StatsDisplay>, VeauAction> = (state: Heisenberg<StatsDisplay> = initialState, action: VeauAction) => {
+export const display: Reducer<Heisenberg<StatsDisplay>, VeauAction> = (
+  state: Heisenberg<StatsDisplay> = initialState,
+  action: VeauAction
+) => {
   switch (action.type) {
     case STATS_DISPLAY_UPDATE: {
       return Present.of<StatsDisplay>(action.stats);

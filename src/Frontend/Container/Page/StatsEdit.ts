@@ -20,14 +20,26 @@ import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { VeauAction } from '../../Action';
 import {
-    initFailed, initStatsEdit, invalidDateInput, invalidValueInput, itemNameTyped, removeItem,
-    rowMoved, rowSelected, saveItem, saveStats, selectingItemNameTyped, startDateDetermined,
-    statsDataDeleted, statsDataFilled, statsISO3166Selected, statsISO639Selected, statsNameTyped,
-    statsUnitTyped
+  initFailed,
+  initStatsEdit,
+  invalidDateInput,
+  invalidValueInput,
+  itemNameTyped,
+  removeItem,
+  rowMoved,
+  rowSelected,
+  saveItem,
+  saveStats,
+  selectingItemNameTyped,
+  startDateDetermined,
+  statsDataDeleted,
+  statsDataFilled,
+  statsISO3166Selected,
+  statsISO639Selected,
+  statsNameTyped,
+  statsUnitTyped
 } from '../../ActionCreator/StatsEditActionCreator';
-import {
-    DispatchProps, OwnProps, StateProps, StatsEdit as Component
-} from '../../Component/Page/StatsEdit';
+import { DispatchProps, OwnProps, StateProps, StatsEdit as Component } from '../../Component/Page/StatsEdit';
 import { Endpoints } from '../../Endpoints';
 import { State } from '../../State';
 

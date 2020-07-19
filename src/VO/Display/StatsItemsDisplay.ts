@@ -1,6 +1,4 @@
-import {
-    CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence
-} from '@jamashita/publikum-collection';
+import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
 import { Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { AsOfs } from '../AsOf/AsOfs';
@@ -20,6 +18,14 @@ export class StatsItemsDisplay extends Quantity<StatsItemsDisplay, number, Stats
     }
 
     return new StatsItemsDisplay(items);
+  }
+
+  public static ofArray(items: Array<StatsItemDisplay>): StatsItemsDisplay {
+    return StatsItemsDisplay.of(ImmutableSequence.of<StatsItemDisplay>(items));
+  }
+
+  public static ofSpread(...items: Array<StatsItemDisplay>): StatsItemsDisplay {
+    return StatsItemsDisplay.ofArray(items);
   }
 
   public static empty(): StatsItemsDisplay {

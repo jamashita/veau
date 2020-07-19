@@ -3,10 +3,22 @@ import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
 import {
-    STATS_DISPLAY_RESET, STATS_DISPLAY_UPDATE, STATS_ITEM_RESET, STATS_ITEM_UPDATE,
-    STATS_LIST_ITEM_RESET, STATS_LIST_ITEM_UPDATE, STATS_RESET, STATS_UPDATE,
-    StatsDisplayResetAction, StatsDisplayUpdateAction, StatsItemResetAction, StatsItemUpdateAction,
-    StatsListItemResetAction, StatsListItemUpdateAction, StatsResetAction, StatsUpdateAction
+  STATS_DISPLAY_RESET,
+  STATS_DISPLAY_UPDATE,
+  STATS_ITEM_RESET,
+  STATS_ITEM_UPDATE,
+  STATS_LIST_ITEM_RESET,
+  STATS_LIST_ITEM_UPDATE,
+  STATS_RESET,
+  STATS_UPDATE,
+  StatsDisplayResetAction,
+  StatsDisplayUpdateAction,
+  StatsItemResetAction,
+  StatsItemUpdateAction,
+  StatsListItemResetAction,
+  StatsListItemUpdateAction,
+  StatsResetAction,
+  StatsUpdateAction
 } from '../Action';
 
 export const updateStatsListItems = (statsListItems: StatsListItems): StatsListItemUpdateAction => {

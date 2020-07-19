@@ -33,8 +33,16 @@ describe('StatsItemDisplay', () => {
     it('returns true if all the properties are the same', () => {
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
       const statsItemID2: MockStatsItemID = new MockStatsItemID();
-      const statsItem1: StatsItemDisplay = StatsItemDisplay.of(statsItemID1, new MockStatsItemName(), new MockStatsValues());
-      const statsItem2: StatsItemDisplay = StatsItemDisplay.of(statsItemID2, new MockStatsItemName(), new MockStatsValues());
+      const statsItem1: StatsItemDisplay = StatsItemDisplay.of(
+        statsItemID1,
+        new MockStatsItemName(),
+        new MockStatsValues()
+      );
+      const statsItem2: StatsItemDisplay = StatsItemDisplay.of(
+        statsItemID2,
+        new MockStatsItemName(),
+        new MockStatsValues()
+      );
       const statsItem3: StatsItemDisplay = StatsItemDisplay.of(
         statsItemID1,
         new MockStatsItemName('name 3'),
@@ -56,7 +64,11 @@ describe('StatsItemDisplay', () => {
           })
         )
       );
-      const statsItem6: StatsItemDisplay = StatsItemDisplay.of(statsItemID1, new MockStatsItemName(), new MockStatsValues());
+      const statsItem6: StatsItemDisplay = StatsItemDisplay.of(
+        statsItemID1,
+        new MockStatsItemName(),
+        new MockStatsValues()
+      );
 
       expect(statsItem1.equals(statsItem1)).toBe(true);
       expect(statsItem1.equals(statsItem2)).toBe(false);
@@ -145,7 +157,11 @@ describe('StatsItemDisplay', () => {
 
   describe('isFilled', () => {
     it('returns true if the name is filled', () => {
-      const statsItem1: StatsItemDisplay = StatsItemDisplay.of(new MockStatsItemID(), StatsItemName.empty(), new MockStatsValues());
+      const statsItem1: StatsItemDisplay = StatsItemDisplay.of(
+        new MockStatsItemID(),
+        StatsItemName.empty(),
+        new MockStatsValues()
+      );
       const statsItem2: StatsItemDisplay = StatsItemDisplay.of(
         new MockStatsItemID(),
         StatsItemName.of('name'),
