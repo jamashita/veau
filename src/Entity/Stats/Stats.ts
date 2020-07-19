@@ -1,4 +1,6 @@
-import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
+import {
+    Superposition, Unscharferelation, UnscharferelationError
+} from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -7,6 +9,8 @@ import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
 import { Coordinate } from '../../VO/Coordinate/Coordinate';
 import { Row } from '../../VO/Coordinate/Row';
+import { StatsDisplayError } from '../../VO/Display/Error/StatsDisplayError';
+import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import { HeaderSizeError } from '../../VO/HeaderSize/Error/HeaderSizeError';
 import { HeaderSize } from '../../VO/HeaderSize/HeaderSize';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
@@ -263,6 +267,7 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.items.haveValues();
   }
 
+  // TODO DELETE?
   public isDetermined(): Unscharferelation<boolean> {
     if (this.hasValues()) {
       return Unscharferelation.present<boolean>(true);
@@ -323,6 +328,32 @@ export class Stats extends Entity<StatsID, Stats> {
       region: this.region.toJSON(),
       items: this.items.toJSON()
     };
+  }
+
+  public display(): Superposition<StatsDisplay, StatsDisplayError> {
+    return this.startDate
+      .toSuperposition()
+      .map<StatsDisplay, HeaderSizeError | UnscharferelationError>((startDate: AsOf) => {
+        return this.getColumns()
+          .toSuperposition()
+          .map<StatsDisplay, HeaderSizeError | UnscharferelationError>((columns: AsOfs) => {
+            return this.getRowHeaderSize().map<StatsDisplay, HeaderSizeError>((headerSize: HeaderSize) => {
+              return StatsDisplay.of(
+                this.outline,
+                this.language,
+                this.region,
+                this.term,
+                this.items,
+                startDate,
+                columns,
+                headerSize
+              );
+            });
+          }, HeaderSizeError);
+      }, HeaderSizeError)
+      .recover<StatsDisplay, StatsDisplayError>((err: HeaderSizeError | UnscharferelationError) => {
+        throw new StatsDisplayError('Stats.toStatsDisplay()', err);
+      }, StatsDisplayError);
   }
 
   public serialize(): string {

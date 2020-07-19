@@ -1,4 +1,6 @@
-import { Heisenberg, Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import {
+    Heisenberg, Schrodinger, Superposition, Unscharferelation
+} from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
@@ -8,6 +10,8 @@ import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { Column } from '../../../VO/Coordinate/Column';
 import { Coordinate } from '../../../VO/Coordinate/Coordinate';
 import { Row } from '../../../VO/Coordinate/Row';
+import { StatsDisplayError } from '../../../VO/Display/Error/StatsDisplayError';
+import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { HeaderSize } from '../../../VO/HeaderSize/HeaderSize';
 import { Language } from '../../../VO/Language/Language';
 import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
@@ -1975,6 +1979,69 @@ describe('Stats', () => {
       );
 
       expect(await stats.isDetermined().get()).toBe(false);
+    });
+  });
+
+  describe('display', () => {
+    it('normal case', async () => {
+      const outline: MockStatsOutline = new MockStatsOutline();
+      const language: MockLanguage = new MockLanguage();
+      const region: MockRegion = new MockRegion();
+      const term: Term = Term.DAILY;
+      const items: MockStatsItems = new MockStatsItems(
+        new MockStatsItem({
+          values: new MockStatsValues(
+            new MockStatsValue({
+              asOf: new MockAsOf({
+                day: 2
+              })
+            })
+          )
+        })
+      );
+      const startDate: Unscharferelation<AsOf> = Unscharferelation.present<AsOf>(new MockAsOf());
+
+      const stats: Stats = Stats.of(outline, language, region, term, items, startDate);
+
+      const superposition: Superposition<StatsDisplay, StatsDisplayError> = stats.display();
+      const schrodinger: Schrodinger<StatsDisplay, StatsDisplayError> = await superposition.terminate();
+
+      expect(schrodinger.isAlive()).toBe(true);
+      const display: StatsDisplay = schrodinger.get();
+
+      expect(display.getOutline()).toBe(outline);
+      expect(display.getLanguage()).toBe(language);
+      expect(display.getRegion()).toBe(region);
+      expect(display.getTerm()).toBe(term);
+      expect(display.getItems()).toBe(items);
+    });
+
+    it('no startDate', async () => {
+      const outline: MockStatsOutline = new MockStatsOutline();
+      const language: MockLanguage = new MockLanguage();
+      const region: MockRegion = new MockRegion();
+      const term: Term = Term.DAILY;
+      const items: MockStatsItems = new MockStatsItems(
+        new MockStatsItem({
+          values: new MockStatsValues(
+            new MockStatsValue({
+              asOf: new MockAsOf({
+                day: 2
+              })
+            })
+          )
+        })
+      );
+
+      const stats: Stats = Stats.of(outline, language, region, term, items);
+
+      const superposition: Superposition<StatsDisplay, StatsDisplayError> = stats.display();
+      const schrodinger: Schrodinger<StatsDisplay, StatsDisplayError> = await superposition.terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(StatsDisplayError);
     });
   });
 });

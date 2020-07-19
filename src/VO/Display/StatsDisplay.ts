@@ -1,15 +1,12 @@
-import { Superposition, UnscharferelationError } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Ambiguous, Nullable } from '@jamashita/publikum-type';
 
-import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { StatsItems } from '../../Entity/StatsItem/StatsItems';
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfs } from '../AsOf/AsOfs';
 import { Column } from '../Coordinate/Column';
 import { Row } from '../Coordinate/Row';
-import { HeaderSizeError } from '../HeaderSize/Error/HeaderSizeError';
 import { HeaderSize } from '../HeaderSize/HeaderSize';
 import { Language } from '../Language/Language';
 import { Region } from '../Region/Region';
@@ -21,7 +18,6 @@ import { StatsUnit } from '../StatsOutline/StatsUnit';
 import { UpdatedAt } from '../StatsOutline/UpdatedAt';
 import { StatsValue } from '../StatsValue/StatsValue';
 import { Term } from '../Term/Term';
-import { StatsDisplayError } from './Error/StatsDisplayError';
 
 type Chart = Record<string, string | number>;
 
@@ -47,34 +43,6 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     headerSize: HeaderSize
   ): StatsDisplay {
     return new StatsDisplay(outline, language, region, term, items, startDate, columns, headerSize);
-  }
-
-  public static ofStats(stats: Stats): Superposition<StatsDisplay, StatsDisplayError> {
-    return stats
-      .getStartDate()
-      .toSuperposition()
-      .map<StatsDisplay, HeaderSizeError | UnscharferelationError>((startDate: AsOf) => {
-        return stats
-          .getColumns()
-          .toSuperposition()
-          .map<StatsDisplay, HeaderSizeError | UnscharferelationError>((columns: AsOfs) => {
-            return stats.getRowHeaderSize().map<StatsDisplay, HeaderSizeError>((headerSize: HeaderSize) => {
-              return StatsDisplay.of(
-                stats.getOutline(),
-                stats.getLanguage(),
-                stats.getRegion(),
-                stats.getTerm(),
-                stats.getItems(),
-                startDate,
-                columns,
-                headerSize
-              );
-            });
-          });
-      })
-      .recover<StatsDisplay, StatsDisplayError>((err: HeaderSizeError | UnscharferelationError) => {
-        throw new StatsDisplayError('StatsDisplay.ofStats()', err);
-      }, StatsDisplayError);
   }
 
   protected constructor(
