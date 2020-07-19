@@ -1,10 +1,13 @@
 import { Project } from '@jamashita/publikum-collection';
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
+import {
+    Superposition, Unscharferelation, UnscharferelationError
+} from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
+import { StatsItemDisplay } from '../../VO/Display/StatsItemDisplay';
 import { NoValue } from '../../VO/NumericalValue/NoValue';
 import { NumericalValues } from '../../VO/NumericalValue/NumericalValues';
 import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
@@ -118,6 +121,7 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     return this.values.getAsOfs();
   }
 
+  // TODO MAYBE UNNECESSARY
   public getValuesByColumn(columns: AsOfs): NumericalValues {
     let valuesByColumn: NumericalValues = NumericalValues.empty();
 
@@ -149,14 +153,17 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     this.values = this.values.delete(asOf);
   }
 
+  // TODO MAYBE UNNECESSARY
   public isFilled(): boolean {
     return !this.name.isEmpty();
   }
 
+  // TODO MAYBE UNNECESSARY
   public isValid(): boolean {
     return this.isFilled();
   }
 
+  // TODO MAYBE UNNECESSARY
   public isSame(other: StatsItem): boolean {
     if (this === other) {
       return true;
@@ -184,6 +191,10 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
       name: this.name.get(),
       values: this.values.toJSON()
     };
+  }
+
+  public display(): StatsItemDisplay {
+    return StatsItemDisplay.of(this.statsItemID, this.name, this.values);
   }
 
   public serialize(): string {

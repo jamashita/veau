@@ -6,6 +6,7 @@ import { UUID } from '@jamashita/publikum-uuid';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { MockAsOfs } from '../../../VO/AsOf/Mock/MockAsOfs';
+import { StatsItemDisplay } from '../../../VO/Display/StatsItemDisplay';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
 import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
 import { NumericalValues } from '../../../VO/NumericalValue/NumericalValues';
@@ -700,6 +701,21 @@ describe('StatsItem', () => {
       const statsItem: StatsItem = StatsItem.of(statsItemID, statsItemName, statsValues);
 
       expect(statsItem.toString()).toBe(`${id} ${name} `);
+    });
+  });
+
+  describe('display', () => {
+    it('normal case', () => {
+      const statsItemID: MockStatsItemID = new MockStatsItemID();
+      const name: MockStatsItemName = new MockStatsItemName();
+      const statsValues: MockStatsValues = new MockStatsValues();
+
+      const statsItem: StatsItem = StatsItem.of(statsItemID, name, statsValues);
+      const display: StatsItemDisplay = statsItem.display();
+
+      expect(display.getStatsItemID()).toBe(statsItemID);
+      expect(display.getName()).toBe(name);
+      expect(display.getValues()).toBe(statsValues);
     });
   });
 });
