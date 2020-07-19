@@ -48,7 +48,7 @@ export class TextField extends React.Component<Props, State> {
     const {
       onKeyUp
     } = this.props;
-    
+
     if (onKeyUp) {
       onKeyUp(value);
     }
@@ -59,7 +59,7 @@ export class TextField extends React.Component<Props, State> {
     const {
       onEnterUp
     } = this.props;
-    
+
     if (onEnterUp) {
       onEnterUp();
     }
