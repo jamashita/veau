@@ -1,6 +1,4 @@
-import {
-    Superposition, Unscharferelation, UnscharferelationError
-} from '@jamashita/publikum-monad';
+import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 

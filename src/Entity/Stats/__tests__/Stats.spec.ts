@@ -1,6 +1,4 @@
-import {
-    Heisenberg, Schrodinger, Superposition, Unscharferelation
-} from '@jamashita/publikum-monad';
+import { Heisenberg, Schrodinger, Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 
