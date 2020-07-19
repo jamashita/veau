@@ -43,6 +43,28 @@ export class TextField extends React.Component<Props, State> {
     return false;
   }
 
+  private keyUp(value: string): void {
+    // prettier-ignore
+    const {
+      onKeyUp
+    } = this.props;
+    
+    if (onKeyUp) {
+      onKeyUp(value);
+    }
+  }
+
+  private enterUp(): void {
+    // prettier-ignore
+    const {
+      onEnterUp
+    } = this.props;
+    
+    if (onEnterUp) {
+      onEnterUp();
+    }
+  }
+
   public render(): React.ReactNode {
     // prettier-ignore
     const {
@@ -50,9 +72,7 @@ export class TextField extends React.Component<Props, State> {
       disabled,
       type,
       value,
-      defaultValue,
-      onKeyUp,
-      onEnterUp
+      defaultValue
     } = this.props;
 
     return (
@@ -64,16 +84,12 @@ export class TextField extends React.Component<Props, State> {
         value={value}
         defaultValue={defaultValue}
         onChange={(e1: React.ChangeEvent<HTMLInputElement>) => {
-          if (onKeyUp !== undefined) {
-            onKeyUp(e1.target.value);
-            e1.target.onkeydown = (e2: KeyboardEvent) => {
-              if (e2.key === 'Enter') {
-                if (onEnterUp !== undefined) {
-                  onEnterUp();
-                }
-              }
-            };
-          }
+          this.keyUp(e1.target.value);
+          e1.target.onkeydown = (e2: KeyboardEvent) => {
+            if (e2.key === 'Enter') {
+              this.enterUp();
+            }
+          };
         }}
       />
     );

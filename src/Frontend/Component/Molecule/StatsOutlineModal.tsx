@@ -2,16 +2,8 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  Icon,
-  InputLabel,
-  MenuItem,
-  Select
+    Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Icon, InputLabel,
+    MenuItem, Select
 } from '@material-ui/core';
 
 import { Stats } from '../../../Entity/Stats/Stats';
@@ -181,8 +173,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               ) => {
                 const termID: string = event.target.value as string;
 
-                Term.ofString(termID)
-                  .toQuantum()
+                Term.ofString(termID).toUnscharferelation()
                   .ifPresent((term: Term) => {
                     termSelected(term);
                   });

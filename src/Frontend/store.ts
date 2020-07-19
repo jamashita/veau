@@ -26,3 +26,5 @@ const rootEpic: RootEpic = vault.get<RootEpic>(Type.RootEpic);
 epic.run(rootEpic.init());
 
 store.dispatch(onload());
+
+// TODO rename to Store.ts

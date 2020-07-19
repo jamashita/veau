@@ -1,5 +1,7 @@
 import React from 'react';
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+    CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis
+} from 'recharts';
 
 import { Stats } from '../../../Entity/Stats/Stats';
 import { Colors } from '../../../VO/Color/Colors';
@@ -7,6 +9,7 @@ import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 
 type Props = Readonly<{
   stats: Stats;
+  chart: Record<string, Array<string | number>>;
 }>;
 type State = Readonly<{}>;
 
@@ -30,7 +33,8 @@ export class Chart extends React.Component<Props, State> {
   public render(): React.ReactNode {
     // prettier-ignore
     const {
-      stats
+      stats,
+      chart
     } = this.props;
 
     return (
@@ -42,7 +46,7 @@ export class Chart extends React.Component<Props, State> {
             left: MARGIN,
             right: MARGIN
           }}
-          data={stats.getChart()}
+          data={chart}
         >
           <XAxis dataKey='name' />
           <YAxis domain={['dataMin', 'dataMax']} />
@@ -56,7 +60,7 @@ export class Chart extends React.Component<Props, State> {
                 connectNulls={true}
                 key={item.get()}
                 dataKey={item.get()}
-                stroke={Colors.chartScheme().get(index).get().get()}
+                stroke={Colors.chartScheme().get(index)}
               />
             );
           })}
