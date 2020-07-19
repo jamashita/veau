@@ -1,10 +1,12 @@
+import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
 import {
-    STATS_ITEM_RESET, STATS_ITEM_UPDATE, STATS_LIST_ITEM_RESET, STATS_LIST_ITEM_UPDATE, STATS_RESET,
-    STATS_UPDATE, StatsItemResetAction, StatsItemUpdateAction, StatsListItemResetAction,
-    StatsListItemUpdateAction, StatsResetAction, StatsUpdateAction
+    STATS_DISPLAY_RESET, STATS_DISPLAY_UPDATE, STATS_ITEM_RESET, STATS_ITEM_UPDATE,
+    STATS_LIST_ITEM_RESET, STATS_LIST_ITEM_UPDATE, STATS_RESET, STATS_UPDATE,
+    StatsDisplayResetAction, StatsDisplayUpdateAction, StatsItemResetAction, StatsItemUpdateAction,
+    StatsListItemResetAction, StatsListItemUpdateAction, StatsResetAction, StatsUpdateAction
 } from '../Action';
 
 export const updateStatsListItems = (statsListItems: StatsListItems): StatsListItemUpdateAction => {
@@ -20,7 +22,7 @@ export const resetStatsListItems = (): StatsListItemResetAction => {
   };
 };
 
-export const updateStats = (stats: StatsDisplay): StatsUpdateAction => {
+export const updateStats = (stats: Stats): StatsUpdateAction => {
   return {
     type: STATS_UPDATE,
     stats
@@ -43,5 +45,18 @@ export const updateStatsItem = (statsItem: StatsItem): StatsItemUpdateAction => 
 export const resetStatsItem = (): StatsItemResetAction => {
   return {
     type: STATS_ITEM_RESET
+  };
+};
+
+export const updateStatsDisplay = (stats: StatsDisplay): StatsDisplayUpdateAction => {
+  return {
+    type: STATS_DISPLAY_UPDATE,
+    stats
+  };
+};
+
+export const resetStatsDisplay = (): StatsDisplayResetAction => {
+  return {
+    type: STATS_DISPLAY_RESET
   };
 };

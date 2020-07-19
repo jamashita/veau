@@ -12,6 +12,7 @@ import { modal } from './Modal';
 import { notification } from './Notification';
 import { pageProvider } from './PageProvider';
 import { stats } from './Stats';
+import { display } from './StatsDisplay';
 import { statsEdit } from './StatsEdit';
 import { statsItem } from './StatsItem';
 import { statsList } from './StatsList';
@@ -26,6 +27,7 @@ export const reducers: Reducer<State, VeauAction> = combineReducers<State, VeauA
   notification,
   pageProvider,
   stats,
+  display,
   statsEdit,
   statsItem,
   statsList,

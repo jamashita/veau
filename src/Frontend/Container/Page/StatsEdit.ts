@@ -3,6 +3,7 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { match } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
+import { Absent, Present } from '@jamashita/publikum-monad';
 import { Kind, Nullable } from '@jamashita/publikum-type';
 
 import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
@@ -37,7 +38,7 @@ type MatchParam = Readonly<{
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   // prettier-ignore
   const {
-    stats,
+    display: stats,
     statsItem,
     // prettier-ignore
     statsEdit: {
@@ -57,7 +58,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
       statsItem,
       selectingItem,
       locale,
-      id: null
+      id: Absent.of<string>()
     };
   }
 
@@ -66,7 +67,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     statsItem,
     selectingItem,
     locale,
-    id: matchParam.params.id
+    id: Present.of<string>(matchParam.params.id)
   };
 };
 

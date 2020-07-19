@@ -1,5 +1,8 @@
 import { RouterState } from 'connected-react-router';
 
+import { Heisenberg } from '@jamashita/publikum-monad';
+
+import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
 import { StatsDisplay } from '../VO/Display/StatsDisplay';
 import { EntranceInformation } from '../VO/EntranceInformation/EntranceInformation';
@@ -17,11 +20,13 @@ export type State = Readonly<{
   entranceInformation: EntranceInformation;
   identity: Identity;
   loadingCount: LoadingCount;
+  // TODO DELETE -> in cache of indexDB
   locale: Locale;
   modal: Modal;
   notification: Notification;
   pageProvider: PageProvider;
-  stats: StatsDisplay;
+  stats: Stats;
+  display: Heisenberg<StatsDisplay>;
   statsEdit: StatsEdit;
   statsItem: StatsItem;
   statsList: StatsList;

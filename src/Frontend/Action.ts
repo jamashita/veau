@@ -4,6 +4,7 @@ import { StatsDisplay } from 'src/VO/Display/StatsDisplay';
 
 import { Heisenberg } from '@jamashita/publikum-monad';
 
+import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
 import { AccountName } from '../VO/Account/AccountName';
 import { AsOf } from '../VO/AsOf/AsOf';
@@ -111,6 +112,8 @@ export const STATS_LIST_ITEM_UPDATE: '@@veau/STATS_LIST_ITEM_UPDATE' = '@@veau/S
 export const STATS_LIST_ITEM_RESET: '@@veau/STATS_LIST_ITEM_RESET' = '@@veau/STATS_LIST_ITEM_RESET';
 export const STATS_UPDATE: '@@veau/STATS_UPDATE' = '@@veau/STATS_UPDATE';
 export const STATS_RESET: '@@veau/STATS_RESET' = '@@veau/STATS_RESET';
+export const STATS_DISPLAY_UPDATE: '@@veau/STATS_DISPLAY_UPDATE' = '@@veau/STATS_DISPLAY_UPDATE';
+export const STATS_DISPLAY_RESET: '@@veau/STATS_DISPLAY_RESET' = '@@veau/STATS_DISPLAY_RESET';
 export const STATS_ITEM_UPDATE: '@@veau/STATS_ITEM_UPDATE' = '@@veau/STATS_ITEM_UPDATE';
 export const STATS_ITEM_RESET: '@@veau/STATS_ITEM_RESET' = '@@veau/STATS_ITEM_RESET';
 
@@ -388,11 +391,20 @@ export interface StatsListItemResetAction extends Action {
 
 export interface StatsUpdateAction extends Action {
   readonly type: typeof STATS_UPDATE;
-  readonly stats: StatsDisplay;
+  readonly stats: Stats;
 }
 
 export interface StatsResetAction extends Action {
   readonly type: typeof STATS_RESET;
+}
+
+export interface StatsDisplayUpdateAction extends Action {
+  readonly type: typeof STATS_DISPLAY_UPDATE;
+  readonly stats: StatsDisplay;
+}
+
+export interface StatsDisplayResetAction extends Action {
+  readonly type: typeof STATS_DISPLAY_RESET;
 }
 
 export interface StatsItemUpdateAction extends Action {
@@ -465,5 +477,7 @@ export type VeauAction =
   | StatsListItemResetAction
   | StatsUpdateAction
   | StatsResetAction
+  | StatsDisplayUpdateAction
+  | StatsDisplayResetAction
   | StatsItemUpdateAction
   | StatsItemResetAction;

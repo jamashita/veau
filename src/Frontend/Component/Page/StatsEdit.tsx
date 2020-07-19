@@ -1,7 +1,9 @@
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import { Absent, Heisenberg, Superposition, Unscharferelation } from '@jamashita/publikum-monad';
+import {
+    Absent, Heisenberg, Superposition, UnscharferelationError
+} from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { Button, Icon } from '@material-ui/core';
 
@@ -17,6 +19,7 @@ import { Locale } from '../../../VO/Locale/Locale';
 import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
+import { StatsIDError } from '../../../VO/StatsOutline/Error/StatsIDError';
 import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
@@ -29,11 +32,11 @@ import { StatsItemInformation } from '../Molecule/StatsItemInformation';
 import { StatsItemModal } from '../Molecule/StatsItemModal';
 
 export type StateProps = Readonly<{
-  stats: StatsDisplay;
+  stats: Heisenberg<StatsDisplay>;
   statsItem: StatsItem;
   selectingItem: Heisenberg<StatsItem>;
   locale: Locale;
-  id: Nullable<string>;
+  id: Heisenberg<string>;
 }>;
 export type DispatchProps = Readonly<{
   initialize(statsID: StatsID): void;
@@ -88,14 +91,19 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       return;
     }
 
-    StatsID.ofString(id).transform<void, Error>(
-      (statsID: StatsID) => {
+    // TODO UNSCHARFERELATION UPDATE REQUIRED
+    Superposition.playground<string, UnscharferelationError>(() => {
+      return id.get();
+    }, UnscharferelationError)
+      .map<StatsID, StatsIDError | UnscharferelationError>((str: string) => {
+        return StatsID.ofString(str);
+      }, StatsIDError)
+      .map<void, Error>((statsID: StatsID) => {
         initialize(statsID);
-      },
-      () => {
+      })
+      .recover<void, Error>(() => {
         invalidIDInput();
-      }
-    );
+      });
   }
 
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps, nextState: State): boolean {
