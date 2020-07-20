@@ -1,7 +1,7 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
-import { Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { StatsOutlineError } from './Error/StatsOutlineError';
 import { StatsOutlinesError } from './Error/StatsOutlinesError';
@@ -39,10 +39,8 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>
   ): Superposition<StatsOutlines, StatsOutlinesError> {
-    return Superposition.all<StatsOutline, StatsOutlineError>(superpositions, StatsOutlineError).transform<
-      StatsOutlines,
-      StatsOutlinesError
-    >(
+    return Superposition.all<StatsOutline, StatsOutlineError>(superpositions, StatsOutlineError).transform<StatsOutlines,
+      StatsOutlinesError>(
       (outlines: Array<StatsOutline>) => {
         return StatsOutlines.ofArray(outlines);
       },
@@ -54,9 +52,7 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
   }
 
   public static ofJSON(json: Array<StatsOutlineJSON>): Superposition<StatsOutlines, StatsOutlinesError> {
-    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = json.map<
-      Superposition<StatsOutline, StatsOutlineError>
-    >((outline: StatsOutlineJSON) => {
+    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = json.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineJSON) => {
       return StatsOutline.ofJSON(outline);
     });
 
@@ -64,9 +60,7 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
   }
 
   public static ofRow(rows: Array<StatsOutlineRow>): Superposition<StatsOutlines, StatsOutlinesError> {
-    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = rows.map<
-      Superposition<StatsOutline, StatsOutlineError>
-    >((outline: StatsOutlineRow) => {
+    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = rows.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineRow) => {
       return StatsOutline.ofRow(outline);
     });
 
@@ -148,7 +142,15 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
     return array;
   }
 
-  public iterator(): Iterator<Pair<StatsID, StatsOutline>> {
-    return this.outlines.iterator();
+  public [Symbol.iterator](): Iterator<Pair<StatsID, StatsOutline>> {
+    return this.outlines[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<StatsOutline, StatsID>): boolean {
+    return this.outlines.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<StatsOutline, StatsID>): boolean {
+    return this.outlines.some(predicate);
   }
 }

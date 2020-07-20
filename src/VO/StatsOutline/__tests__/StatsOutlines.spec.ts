@@ -1,18 +1,17 @@
-import { ImmutableProject } from '@jamashita/publikum-collection';
+import { ImmutableProject, MockAProject } from '@jamashita/publikum-collection';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
+import sinon, { SinonSpy } from 'sinon';
 
 import { LanguageID } from '../../Language/LanguageID';
-import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
-import { MockRegionID } from '../../Region/Mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
-import { MockTermID } from '../../Term/Mock/MockTermID';
 import { TermID } from '../../Term/TermID';
 import { StatsOutlineError } from '../Error/StatsOutlineError';
 import { StatsOutlinesError } from '../Error/StatsOutlinesError';
 import { MockStatsID } from '../Mock/MockStatsID';
 import { MockStatsOutline } from '../Mock/MockStatsOutline';
+import { MockStatsOutlines } from '../Mock/MockStatsOutlines';
 import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
@@ -68,14 +67,10 @@ describe('StatsOutlines', () => {
     it('contains failure', async () => {
       const statsOutline1: MockStatsOutline = new MockStatsOutline();
 
-      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.alive<
-        StatsOutline,
-        StatsOutlineError
-      >(statsOutline1, StatsOutlineError);
-      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<
-        StatsOutline,
-        StatsOutlineError
-      >(new StatsOutlineError('test failed'), StatsOutlineError);
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.alive<StatsOutline,
+        StatsOutlineError>(statsOutline1, StatsOutlineError);
+      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<StatsOutline,
+        StatsOutlineError>(new StatsOutlineError('test failed'), StatsOutlineError);
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
         superposition1,
         superposition2
@@ -89,14 +84,10 @@ describe('StatsOutlines', () => {
     });
 
     it('contains 2 failures', async () => {
-      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<
-        StatsOutline,
-        StatsOutlineError
-      >(new StatsOutlineError('test failed 1'), StatsOutlineError);
-      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<
-        StatsOutline,
-        StatsOutlineError
-      >(new StatsOutlineError('test failed 2'), StatsOutlineError);
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<StatsOutline,
+        StatsOutlineError>(new StatsOutlineError('test failed 1'), StatsOutlineError);
+      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<StatsOutline,
+        StatsOutlineError>(new StatsOutlineError('test failed 2'), StatsOutlineError);
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
         superposition1,
         superposition2
@@ -297,109 +288,193 @@ describe('StatsOutlines', () => {
   });
 
   describe('get', () => {
-    it('returns StatsOutline of index-th item', () => {
-      const array: Array<StatsOutline> = [new MockStatsOutline(), new MockStatsOutline(), new MockStatsOutline()];
-
-      const outlines: StatsOutlines = StatsOutlines.ofArray(array);
-
-      expect(outlines.size()).toBe(3);
-      for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(array[i].getStatsID())).toBe(array[i]);
-      }
-    });
-
-    it('returns null if the index is out of range', () => {
-      const outlines: StatsOutlines = StatsOutlines.empty();
-
-      expect(outlines.get(new MockStatsID())).toBe(null);
-    });
-  });
-
-  describe('contains', () => {
-    it('returns true if the element exists', () => {
-      const uuid1: UUID = UUID.v4();
-      const uuid2: UUID = UUID.v4();
-      const uuid3: UUID = UUID.v4();
-      const uuid4: UUID = UUID.v4();
-      const uuid5: UUID = UUID.v4();
-      const uuid6: UUID = UUID.v4();
-      const outline1: MockStatsOutline = new MockStatsOutline({
-        statsID: new MockStatsID(uuid1),
-        languageID: new MockLanguageID(uuid4),
-        regionID: new MockRegionID(uuid5),
-        termID: new MockTermID(uuid6)
-      });
-      const outline2: MockStatsOutline = new MockStatsOutline({
-        statsID: new MockStatsID(uuid2),
-        languageID: new MockLanguageID(uuid4),
-        regionID: new MockRegionID(uuid5),
-        termID: new MockTermID(uuid6)
-      });
-      const outline3: MockStatsOutline = new MockStatsOutline({
-        statsID: new MockStatsID(uuid3),
-        languageID: new MockLanguageID(uuid4),
-        regionID: new MockRegionID(uuid5),
-        termID: new MockTermID(uuid6)
-      });
-      const outline4: MockStatsOutline = new MockStatsOutline({
-        statsID: new MockStatsID(uuid1),
-        languageID: new MockLanguageID(uuid4),
-        regionID: new MockRegionID(uuid5),
-        termID: new MockTermID(uuid6)
-      });
-
-      const outlines: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
-
-      expect(outlines.contains(outline1)).toBe(true);
-      expect(outlines.contains(outline2)).toBe(true);
-      expect(outlines.contains(outline3)).toBe(false);
-      expect(outlines.contains(outline4)).toBe(true);
-    });
-  });
-
-  describe('isEmpty', () => {
-    it('returns true if the elements are 0', () => {
-      const outlines1: StatsOutlines = StatsOutlines.ofArray([]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([new MockStatsOutline(), new MockStatsOutline()]);
-
-      expect(outlines1.isEmpty()).toBe(true);
-      expect(outlines2.isEmpty()).toBe(false);
-    });
-  });
-
-  describe('equals', () => {
-    it('returns false if the lengths are different', () => {
+    it('delegates its inner collection instance', async () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const outlines1: StatsOutlines = StatsOutlines.ofArray([outline1, outline2, outline3]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
+        [
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ]
+      ));
 
-      expect(outlines1.equals(outlines1)).toBe(true);
-      expect(outlines1.equals(outlines2)).toBe(false);
+      const spy: SinonSpy = sinon.spy();
+
+      project.get = spy;
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      statsOutlines.get(new MockStatsID());
+
+      expect(spy.called).toBe(true);
     });
+  });
 
-    it('returns true even if the sequences are different', () => {
+  describe('contains', () => {
+    it('delegates its inner collection instance', async () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
+        [
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ]
+      ));
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.contains = spy;
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      statsOutlines.contains(outline1);
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('delegates its inner collection instance', async () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
+        [
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ]
+      ));
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.isEmpty = spy;
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      statsOutlines.isEmpty();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('size', () => {
+    it('delegates its inner collection instance', async () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
+        [
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ]
+      ));
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.size = spy;
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      statsOutlines.size();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('forEach', () => {
+    it('delegates its inner collection instance', async () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
+        [
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ]
+      ));
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.forEach = spy;
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      statsOutlines.forEach(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('map', () => {
+    it('delegates its inner collection instance', async () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
+        [
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ]
+      ));
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      const arr: Array<StatsID> = statsOutlines.map<StatsID>((outline: StatsOutline) => {
+        return outline.getStatsID();
+      });
+
+      expect(arr.length).toBe(3);
+    });
+  });
+
+  describe('equals', () => {
+    it('same instance', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
 
-      const outlines1: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([outline2, outline1]);
+      const outlines: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
 
-      expect(outlines1.equals(outlines1)).toBe(true);
-      expect(outlines1.equals(outlines2)).toBe(true);
+      expect(outlines.equals(outlines)).toBe(true);
     });
 
-    it('returns true if the size and the sequence are the same', () => {
+    it('delegates its inner collection instance', async () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const outlines1: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
+        [
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ]
+      ));
 
-      expect(outlines1.equals(outlines1)).toBe(true);
-      expect(outlines1.equals(outlines2)).toBe(true);
+      const spy: SinonSpy = sinon.spy();
+
+      project.equals = spy;
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      statsOutlines.equals(new MockStatsOutlines());
+
+      expect(spy.called).toBe(true);
     });
   });
 
@@ -417,19 +492,8 @@ describe('StatsOutlines', () => {
         const o: Nullable<StatsOutline> = outlines.get(statsID);
         const d: Nullable<StatsOutline> = duplicated.get(statsID);
 
-        if (o === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-        if (d === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
+        expect(o).not.toBe(null);
+        expect(d).not.toBe(null);
         expect(o).toBe(d);
       }
     });
@@ -496,46 +560,110 @@ describe('StatsOutlines', () => {
   });
 
   describe('toString', () => {
-    it('normal case', async () => {
-      const uuid1: UUID = UUID.v4();
-      const uuid2: UUID = UUID.v4();
-      const uuid3: UUID = UUID.v4();
-      const uuid4: UUID = UUID.v4();
-      const uuid5: UUID = UUID.v4();
-      const uuid6: UUID = UUID.v4();
-      const uuid7: UUID = UUID.v4();
-      const uuid8: UUID = UUID.v4();
-      const name1: string = 'stats name 1';
-      const name2: string = 'stats name 2';
-      const unit1: string = 'stats unit 1';
-      const unit2: string = 'stats unit 2';
-      const at: string = '2000-01-01 00:00:00';
-      const updatedAt: UpdatedAt = await UpdatedAt.ofString(at).get();
+    it('delegates its inner collection instance', async () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const outlines: StatsOutlines = StatsOutlines.ofArray([
-        StatsOutline.of(
-          StatsID.of(uuid1),
-          LanguageID.of(uuid2),
-          RegionID.of(uuid3),
-          TermID.of(uuid4),
-          StatsName.of(name1),
-          StatsUnit.of(unit1),
-          updatedAt
-        ),
-        StatsOutline.of(
-          StatsID.of(uuid5),
-          LanguageID.of(uuid6),
-          RegionID.of(uuid7),
-          TermID.of(uuid8),
-          StatsName.of(name2),
-          StatsUnit.of(unit2),
-          updatedAt
-        )
-      ]);
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
+        [
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ]
+      ));
 
-      expect(outlines.toString()).toBe(
-        `{${uuid1.get()}: ${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name1} ${unit1} ${at}}, {${uuid5.get()}: ${uuid5.get()} ${uuid6.get()} ${uuid7.get()} ${uuid8.get()} ${name2} ${unit2} ${at}}`
-      );
+      const spy: SinonSpy = sinon.spy();
+
+      project.toString = spy;
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      statsOutlines.toString();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('iterator', () => {
+    it('delegates its inner collection instance', async () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const arr: Array<MockStatsOutline> = [outline1, outline2, outline3];
+
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
+        [
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ]
+      ));
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+      let i: number = 0;
+
+      for (const pair of statsOutlines) {
+        expect(pair.getValue()).toBe(arr[i]);
+        i++;
+      }
+    });
+  });
+
+  describe('every', () => {
+    it('delegates its inner collection instance', async () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
+        [
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ]
+      ));
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.every = spy;
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      statsOutlines.every(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('some', () => {
+    it('delegates its inner collection instance', async () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
+        [
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ]
+      ));
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.some = spy;
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      statsOutlines.some(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
     });
   });
 });
