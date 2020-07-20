@@ -8,7 +8,7 @@ import {
 } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
-import { Kind, Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
@@ -223,43 +223,8 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     return StatsItems.of(items);
   }
 
-  public iterator(): Iterator<Pair<number, StatsItem>> {
-    return this.items.iterator();
-  }
-
   public map<U>(mapper: Mapper<StatsItem, U>): Array<U> {
     return this.items.toArray().map<U>(mapper);
-  }
-
-  // TODO MAYBE UNNECESSARY
-  public areFilled(): boolean {
-    return this.items.every((statsItem: StatsItem) => {
-      return statsItem.isFilled();
-    });
-  }
-
-  // TODO MAYBE UNNECESSARY
-  public areValid(): boolean {
-    return this.areFilled();
-  }
-
-  // TODO MAYBE UNNECESSARY
-  public haveValues(): boolean {
-    if (this.items.isEmpty()) {
-      return false;
-    }
-
-    const rowLengths: Array<number> = this.items.toArray().map<number>((item: StatsItem) => {
-      return item.getValues().size();
-    });
-
-    const values: number = Math.max(...rowLengths);
-
-    if (values === 0) {
-      return false;
-    }
-
-    return true;
   }
 
   public display(): StatsItemsDisplay {
@@ -268,5 +233,17 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
         return item.display();
       })
     );
+  }
+
+  public [Symbol.iterator](): Iterator<Pair<number, StatsItem>> {
+    return this.items[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<StatsItem, number>): boolean {
+    return this.items.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<StatsItem, number>): boolean {
+    return this.items.some(predicate);
   }
 }
