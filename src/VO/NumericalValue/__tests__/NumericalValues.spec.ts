@@ -1,8 +1,10 @@
-import { ImmutableSequence } from '@jamashita/publikum-collection';
+import { ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
+import { SinonSpy } from 'sinon';
 
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';
+import sinon from 'sinon';
 
 describe('NumericalValues', () => {
   describe('of', () => {
@@ -124,90 +126,86 @@ describe('NumericalValues', () => {
   });
 
   describe('get', () => {
-    it('returns NumericalValue instance at the correct index', () => {
-      const vs: Array<NumericalValue> = [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()];
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
+        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
+      );
 
-      const values: NumericalValues = NumericalValues.ofArray(vs);
+      const spy: SinonSpy = sinon.spy();
 
-      expect(values.size()).toBe(3);
-      for (let i: number = 0; i < values.size(); i++) {
-        expect(values.get(i)).toBe(vs[i]);
-      }
-    });
+      sequence.get = spy;
 
-    it('returns null when the index is out of range', () => {
-      const values: NumericalValues = NumericalValues.ofArray([
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
-      ]);
+      const values: NumericalValues = NumericalValues.of(sequence);
 
-      expect(values.get(-1)).toBe(null);
-      expect(values.get(3)).toBe(null);
+      values.get(0);
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('contains', () => {
-    it('returns true if the element exists in the NumericalValues', () => {
-      const value1: MockNumericalValue = new MockNumericalValue(1);
-      const value2: MockNumericalValue = new MockNumericalValue(2);
-      const value3: MockNumericalValue = new MockNumericalValue(3);
-      const value4: MockNumericalValue = new MockNumericalValue(1);
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
+        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
+      );
 
-      const values: NumericalValues = NumericalValues.ofArray([value1, value2]);
+      const spy: SinonSpy = sinon.spy();
 
-      expect(values.contains(value1)).toBe(true);
-      expect(values.contains(value2)).toBe(true);
-      expect(values.contains(value3)).toBe(false);
-      expect(values.contains(value4)).toBe(true);
+      sequence.contains = spy;
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      values.contains(new MockNumericalValue(1));
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('isEmpty', () => {
-    it('returns true if the elements a re 0', () => {
-      const value1: MockNumericalValue = new MockNumericalValue();
-      const value2: MockNumericalValue = new MockNumericalValue();
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
+        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
+      );
 
-      const values1: NumericalValues = NumericalValues.empty();
-      const values2: NumericalValues = NumericalValues.ofArray([value1, value2]);
+      const spy: SinonSpy = sinon.spy();
 
-      expect(values1.isEmpty()).toBe(true);
-      expect(values2.isEmpty()).toBe(false);
+      sequence.isEmpty = spy;
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      values.isEmpty();
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('equals', () => {
-    it('returns false if the length is different', () => {
+    it('same instance', () => {
       const value1: MockNumericalValue = new MockNumericalValue(1);
       const value2: MockNumericalValue = new MockNumericalValue(2);
 
-      const values1: NumericalValues = NumericalValues.ofArray([value1]);
-      const values2: NumericalValues = NumericalValues.ofArray([value1, value2]);
+      const values: NumericalValues = NumericalValues.ofArray([value1, value2]);
 
-      expect(values1.equals(values1)).toBe(true);
-      expect(values1.equals(values2)).toBe(false);
+      expect(values.equals(values)).toBe(true);
     });
 
-    it('returns false if the sequence is different', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
+        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
+      );
+
       const value1: MockNumericalValue = new MockNumericalValue(1);
       const value2: MockNumericalValue = new MockNumericalValue(2);
 
-      const values1: NumericalValues = NumericalValues.ofArray([value2, value1]);
-      const values2: NumericalValues = NumericalValues.ofArray([value1, value2]);
+      const spy: SinonSpy = sinon.spy();
 
-      expect(values1.equals(values1)).toBe(true);
-      expect(values1.equals(values2)).toBe(false);
-    });
+      sequence.equals = spy;
 
-    it('returns true if the length and the sequence are the same', () => {
-      const value1: MockNumericalValue = new MockNumericalValue(1);
-      const value2: MockNumericalValue = new MockNumericalValue(2);
+      const values: NumericalValues = NumericalValues.of(sequence);
 
-      const values1: NumericalValues = NumericalValues.ofArray([value1, value2]);
-      const values2: NumericalValues = NumericalValues.ofArray([value1, value2]);
+      values.equals(NumericalValues.ofArray([value2, value1]));
 
-      expect(values1.equals(values1)).toBe(true);
-      expect(values1.equals(values2)).toBe(true);
+      expect(spy.called).toBe(true);
     });
   });
 
@@ -232,16 +230,81 @@ describe('NumericalValues', () => {
   });
 
   describe('toString', () => {
-    it('returns the original string', () => {
-      const num1: number = 1;
-      const num2: number = 2;
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
+        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
+      );
 
-      const values: NumericalValues = NumericalValues.ofArray([
-        new MockNumericalValue(num1),
-        new MockNumericalValue(num2)
-      ]);
+      const spy: SinonSpy = sinon.spy();
 
-      expect(values.toString()).toBe(`${num1}, ${num2}`);
+      sequence.toString = spy;
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      values.toString();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('iterator', () => {
+    it('normal case', async () => {
+      const value1: MockNumericalValue = new MockNumericalValue();
+      const value2: MockNumericalValue = new MockNumericalValue();
+      const value3: MockNumericalValue = new MockNumericalValue();
+      const arr: Array<MockNumericalValue> = [value1, value2, value3];
+
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
+        arr
+      );
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      let i: number = 0;
+      for (const pair of values) {
+        expect(pair.getValue()).toBe(arr[i]);
+        i++;
+      }
+    });
+  });
+
+  describe('every', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
+        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.every = spy;
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      values.every(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('some', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
+        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.some = spy;
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      values.some(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
     });
   });
 });

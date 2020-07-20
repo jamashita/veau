@@ -1,5 +1,5 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
-import { Nullable } from '@jamashita/publikum-type';
+import { Nullable, BinaryPredicate } from '@jamashita/publikum-type';
 
 import { NumericalValue } from './NumericalValue';
 
@@ -79,7 +79,15 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
     });
   }
 
-  public iterator(): Iterator<Pair<number, NumericalValue>> {
-    return this.values.iterator();
+  public [Symbol.iterator](): Iterator<Pair<number, NumericalValue>> {
+    return this.values[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<NumericalValue, number>): boolean {
+    return this.values.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<NumericalValue, number>): boolean {
+    return this.values.some(predicate);
   }
 }
