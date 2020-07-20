@@ -1,4 +1,4 @@
-import { ImmutableSequence } from '@jamashita/publikum-collection';
+import { ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
 import { Heisenberg, Unscharferelation } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 
@@ -6,6 +6,7 @@ import { Term } from '../../Term/Term';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 import { MockAsOf } from '../Mock/MockAsOf';
+import sinon, { SinonSpy } from 'sinon';
 
 describe('AsOfs', () => {
   describe('of', () => {
@@ -188,52 +189,43 @@ describe('AsOfs', () => {
   });
 
   describe('get', () => {
-    it('returns AsOf instance at the correct index', () => {
-      const asOf1: MockAsOf = new MockAsOf({
-        day: 1
-      });
-      const asOf2: MockAsOf = new MockAsOf({
-        day: 2
-      });
-      const asOf3: MockAsOf = new MockAsOf({
-        day: 3
-      });
-      const asOfs: AsOfs = AsOfs.ofArray([asOf1, asOf2, asOf3]);
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<AsOf> = new MockASequence<AsOf>([
+        await AsOf.ofString('2000-01-01').get(),
+        await AsOf.ofString('2000-01-02').get(),
+        await AsOf.ofString('2000-01-03').get()
+      ]);
 
-      expect(asOfs.size()).toBe(3);
-      expect(asOfs.get(0)).toBe(asOf1);
-      expect(asOfs.get(1)).toBe(asOf2);
-      expect(asOfs.get(2)).toBe(asOf3);
-    });
+      const spy: SinonSpy = sinon.spy();
 
-    it('returns null when the index is out of range', () => {
-      const asOfs: AsOfs = AsOfs.empty();
+      sequence.get = spy;
 
-      expect(asOfs.get(-1)).toBe(null);
-      expect(asOfs.get(0)).toBe(null);
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      asOfs.get(0);
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('contains', () => {
-    it('returns true if the element exists in the AsOfs', () => {
-      const asOf1: MockAsOf = new MockAsOf({
-        day: 1
-      });
-      const asOf2: MockAsOf = new MockAsOf({
-        day: 2
-      });
-      const asOf3: MockAsOf = new MockAsOf({
-        day: 3
-      });
-      const asOf4: MockAsOf = new MockAsOf({
-        day: 2
-      });
-      const asOfs: AsOfs = AsOfs.ofArray([asOf1, asOf2]);
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<AsOf> = new MockASequence<AsOf>([
+        await AsOf.ofString('2000-01-01').get(),
+        await AsOf.ofString('2000-01-02').get(),
+        await AsOf.ofString('2000-01-03').get()
+      ]);
+      const asOf: MockAsOf = new MockAsOf();
 
-      expect(asOfs.contains(asOf1)).toBe(true);
-      expect(asOfs.contains(asOf2)).toBe(true);
-      expect(asOfs.contains(asOf3)).toBe(false);
-      expect(asOfs.contains(asOf4)).toBe(true);
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.contains = spy;
+
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      asOfs.contains(asOf)
+
+      expect(spy.called).toBe(true);
     });
   });
 
@@ -314,62 +306,61 @@ describe('AsOfs', () => {
   });
 
   describe('isEmpty', () => {
-    it('returns true if the elements are 0', () => {
-      const asOf1: MockAsOf = new MockAsOf({
-        day: 1
-      });
-      const asOf2: MockAsOf = new MockAsOf({
-        day: 2
-      });
-      const asOfs1: AsOfs = AsOfs.empty();
-      const asOfs2: AsOfs = AsOfs.ofArray([asOf1, asOf2]);
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<AsOf> = new MockASequence<AsOf>([
+        await AsOf.ofString('2000-01-01').get(),
+        await AsOf.ofString('2000-01-02').get(),
+        await AsOf.ofString('2000-01-03').get()
+      ]);
 
-      expect(asOfs1.isEmpty()).toBe(true);
-      expect(asOfs2.isEmpty()).toBe(false);
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.isEmpty = spy;
+
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      asOfs.isEmpty();
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('equals', () => {
-    it('returns false if the length is different', () => {
+    it('same instance', () => {
       const asOf1: MockAsOf = new MockAsOf({
         day: 1
       });
       const asOf2: MockAsOf = new MockAsOf({
         day: 2
       });
-      const asOfs1: AsOfs = AsOfs.ofArray([asOf1]);
-      const asOfs2: AsOfs = AsOfs.ofArray([asOf1, asOf2]);
+      const asOfs: AsOfs = AsOfs.ofArray([asOf1, asOf2]);
 
-      expect(asOfs1.equals(asOfs1)).toBe(true);
-      expect(asOfs1.equals(asOfs2)).toBe(false);
+      expect(asOfs.equals(asOfs)).toBe(true);
     });
 
-    it('returns false if the sequence is different', () => {
+
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<AsOf> = new MockASequence<AsOf>([
+        await AsOf.ofString('2000-01-01').get(),
+        await AsOf.ofString('2000-01-02').get(),
+        await AsOf.ofString('2000-01-03').get()
+      ]);
       const asOf1: MockAsOf = new MockAsOf({
         day: 1
       });
       const asOf2: MockAsOf = new MockAsOf({
         day: 2
       });
-      const asOfs1: AsOfs = AsOfs.ofArray([asOf2, asOf1]);
-      const asOfs2: AsOfs = AsOfs.ofArray([asOf1, asOf2]);
 
-      expect(asOfs1.equals(asOfs1)).toBe(true);
-      expect(asOfs1.equals(asOfs2)).toBe(false);
-    });
+      const spy: SinonSpy = sinon.spy();
 
-    it('returns true if the length is the same and the sequence is the same', () => {
-      const asOf1: MockAsOf = new MockAsOf({
-        day: 1
-      });
-      const asOf2: MockAsOf = new MockAsOf({
-        day: 2
-      });
-      const asOfs1: AsOfs = AsOfs.ofArray([asOf1, asOf2]);
-      const asOfs2: AsOfs = AsOfs.ofArray([asOf1, asOf2]);
+      sequence.equals = spy;
 
-      expect(asOfs1.equals(asOfs1)).toBe(true);
-      expect(asOfs1.equals(asOfs2)).toBe(true);
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      asOfs.equals(AsOfs.ofArray([asOf1, asOf2]));
+
+      expect(spy.called).toBe(true);
     });
   });
 
@@ -425,14 +416,85 @@ describe('AsOfs', () => {
   });
 
   describe('toString', () => {
-    it('normal case', async () => {
-      const asOfs: AsOfs = AsOfs.ofArray([
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<AsOf> = new MockASequence<AsOf>([
         await AsOf.ofString('2000-01-01').get(),
         await AsOf.ofString('2000-01-02').get(),
         await AsOf.ofString('2000-01-03').get()
       ]);
 
-      expect(asOfs.toString()).toBe('2000-01-01, 2000-01-02, 2000-01-03');
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.toString = spy;
+
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      asOfs.toString();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('iterator', () => {
+    it('normal case', async () => {
+      const sequence: MockASequence<AsOf> = new MockASequence<AsOf>([
+        await AsOf.ofString('2000-01-01').get(),
+        await AsOf.ofString('2000-01-02').get(),
+        await AsOf.ofString('2000-01-03').get()
+      ]);
+
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      let i: number = 0;
+
+      for (const pair of asOfs) {
+        expect(pair.getValue()).toBe(sequence.get(i));
+        i++;
+      }
+    });
+  });
+
+  describe('every', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<AsOf> = new MockASequence<AsOf>([
+        await AsOf.ofString('2000-01-01').get(),
+        await AsOf.ofString('2000-01-02').get(),
+        await AsOf.ofString('2000-01-03').get()
+      ]);
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.every = spy;
+
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      asOfs.every(() => {
+        return true;
+      })
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('some', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<AsOf> = new MockASequence<AsOf>([
+        await AsOf.ofString('2000-01-01').get(),
+        await AsOf.ofString('2000-01-02').get(),
+        await AsOf.ofString('2000-01-03').get()
+      ]);
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.some = spy;
+
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      asOfs.some(() => {
+        return true;
+      })
+
+      expect(spy.called).toBe(true);
     });
   });
 });

@@ -1,7 +1,7 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
-import { Nullable } from '@jamashita/publikum-type';
+import { Nullable, BinaryPredicate } from '@jamashita/publikum-type';
 import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
 
 import { Term } from '../Term/Term';
@@ -53,7 +53,6 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
     return AsOfs.ofArray(merged);
   }
 
-  // TODO to normal method
   public static duration(min: AsOf, max: AsOf, term: Term): AsOfs {
     let asOfs: AsOfs = AsOfs.empty();
 
@@ -163,7 +162,15 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
     }).toUnscharferelation();
   }
 
-  public iterator(): Iterator<Pair<number, AsOf>> {
-    return this.asOfs.iterator();
+  public [Symbol.iterator](): Iterator<Pair<number, AsOf>> {
+    return this.asOfs[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<AsOf, number>): boolean {
+    return this.asOfs.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<AsOf, number>): boolean {
+    return this.asOfs.some(predicate);
   }
 }
