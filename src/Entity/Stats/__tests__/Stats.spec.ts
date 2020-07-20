@@ -1,12 +1,15 @@
 import { Heisenberg, Schrodinger, Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
+import sinon, { SinonStub } from 'sinon';
 
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { Column } from '../../../VO/Coordinate/Column';
 import { Coordinate } from '../../../VO/Coordinate/Coordinate';
+import { MockColumn } from '../../../VO/Coordinate/Mock/MockColumn';
+import { MockRow } from '../../../VO/Coordinate/Mock/MockRow';
 import { Row } from '../../../VO/Coordinate/Row';
 import { StatsDisplayError } from '../../../VO/Display/Error/StatsDisplayError';
 import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
@@ -1731,6 +1734,67 @@ describe('Stats', () => {
     });
   });
 
+
+  describe('replaceItem', () => {
+    it('delegates its inner StatsItems instance', async () => {
+      const outline: MockStatsOutline = new MockStatsOutline();
+      const language: MockLanguage = new MockLanguage();
+      const region: MockRegion = new MockRegion();
+      const term: MockTerm = new MockTerm();
+      const items: MockStatsItems = new MockStatsItems();
+
+      const stub: SinonStub = sinon.stub();
+      items.replace = stub;
+      stub.returns(new MockStatsItems());
+
+      const stats: Stats = Stats.of(outline, language, region, term, items);
+
+      stats.replaceItem(new MockStatsItem(), new MockRow());
+
+      expect(stub.called).toBe(true);
+    });
+  });
+
+  describe('moveItem', () => {
+    it('delegates its inner StatsItems instance', async () => {
+      const outline: MockStatsOutline = new MockStatsOutline();
+      const language: MockLanguage = new MockLanguage();
+      const region: MockRegion = new MockRegion();
+      const term: MockTerm = new MockTerm();
+      const items: MockStatsItems = new MockStatsItems();
+
+      const stub: SinonStub = sinon.stub();
+      items.move = stub;
+      stub.returns(new MockStatsItems());
+
+      const stats: Stats = Stats.of(outline, language, region, term, items);
+
+      stats.moveItem(new MockColumn(), new MockColumn());
+
+      expect(stub.called).toBe(true);
+    });
+  });
+
+  describe('removeItem', () => {
+    it('delegates its inner StatsItems instance', async () => {
+      const outline: MockStatsOutline = new MockStatsOutline();
+      const language: MockLanguage = new MockLanguage();
+      const region: MockRegion = new MockRegion();
+      const term: MockTerm = new MockTerm();
+      const items: MockStatsItems = new MockStatsItems();
+
+      const stub: SinonStub = sinon.stub();
+      items.remove = stub;
+      stub.returns(new MockStatsItems());
+
+      const stats: Stats = Stats.of(outline, language, region, term, items);
+
+      stats.removeItem(new MockStatsItem());
+
+      expect(stub.called).toBe(true);
+    });
+  });
+
   describe('display', () => {
     it('normal case', async () => {
       const outline: MockStatsOutline = new MockStatsOutline();
@@ -1795,4 +1859,5 @@ describe('Stats', () => {
       }).toThrow(StatsDisplayError);
     });
   });
-});
+})
+;

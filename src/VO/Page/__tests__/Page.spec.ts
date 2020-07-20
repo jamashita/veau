@@ -1,5 +1,7 @@
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import sinon, { SinonStub } from 'sinon';
 
+import { OffsetError } from '../Error/OffsetError';
 import { PageError } from '../Error/PageError';
 import { Limit } from '../Limit';
 import { Offset } from '../Offset';
@@ -75,9 +77,9 @@ describe('Page', () => {
 
   describe('equals', () => {
     it('returns true if both properties are the same', async () => {
-      const page1: Page = await Page.of(1).get();
-      const page2: Page = await Page.of(2).get();
-      const page3: Page = await Page.of(1).get();
+      const page1: Page = await Page.of(2).get();
+      const page2: Page = await Page.of(3).get();
+      const page3: Page = await Page.of(2).get();
 
       expect(page1.equals(page1)).toBe(true);
       expect(page1.equals(page2)).toBe(false);
@@ -110,6 +112,38 @@ describe('Page', () => {
       expect(schrodinger1.get().get()).toBe(0);
       expect(schrodinger2.isAlive()).toBe(true);
       expect(schrodinger2.get().get()).toBe(40);
+    });
+
+    it('throws PageError', async () => {
+      const page: Page = await Page.of(1).get();
+
+      const stub: SinonStub = sinon.stub();
+
+      page.getLimit = stub;
+      stub.returns(Superposition.dead<Limit, PageError>(new PageError('test failed'), PageError));
+
+      const schrodinger: Schrodinger<Offset, PageError> = await page.getOffset().terminate();
+
+      console.log(schrodinger);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(PageError);
+    });
+
+    it('throws OffsetError', async () => {
+      const page: Page = await Page.of(1).get();
+
+      const stub: SinonStub = sinon.stub();
+      Offset.of = stub;
+      stub.returns(Superposition.dead<Offset, OffsetError>(new OffsetError('test failed'), OffsetError));
+
+      const schrodinger: Schrodinger<Offset, PageError> = await page.getOffset().terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(PageError);
     });
   });
 

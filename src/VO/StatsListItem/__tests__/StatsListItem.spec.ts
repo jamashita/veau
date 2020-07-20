@@ -369,6 +369,57 @@ describe('StatsListItem', () => {
           termID: new MockTermID(uuid7)
         }),
         new MockLanguage({
+          languageID: new MockLanguageID(uuid4)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        })
+      );
+      const statsListItem7: StatsListItem = StatsListItem.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7)
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid6)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        })
+      );
+      const statsListItem8: StatsListItem = StatsListItem.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7)
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid8)
+        })
+      );
+      const statsListItem9: StatsListItem = StatsListItem.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7)
+        }),
+        new MockLanguage({
           languageID: new MockLanguageID(uuid3)
         }),
         new MockRegion({
@@ -384,7 +435,10 @@ describe('StatsListItem', () => {
       expect(statsListItem1.equals(statsListItem3)).toBe(false);
       expect(statsListItem1.equals(statsListItem4)).toBe(false);
       expect(statsListItem1.equals(statsListItem5)).toBe(false);
-      expect(statsListItem1.equals(statsListItem6)).toBe(true);
+      expect(statsListItem1.equals(statsListItem6)).toBe(false);
+      expect(statsListItem1.equals(statsListItem7)).toBe(false);
+      expect(statsListItem1.equals(statsListItem8)).toBe(false);
+      expect(statsListItem1.equals(statsListItem9)).toBe(true);
     });
   });
 

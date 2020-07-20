@@ -31,9 +31,6 @@ export class PageProvider extends ValueObject<PageProvider, 'PageProvider'> {
     if (this === other) {
       return true;
     }
-    if (this.open === other.open) {
-      return true;
-    }
 
     return false;
   }

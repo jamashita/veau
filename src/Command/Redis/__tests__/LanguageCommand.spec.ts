@@ -1,9 +1,9 @@
+import { JSONA, JSONAError } from '@jamashita/publikum-json';
+import { Schrodinger } from '@jamashita/publikum-monad';
+import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
 import 'reflect-metadata';
 
 import sinon, { SinonStub } from 'sinon';
-
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
@@ -85,22 +85,14 @@ describe('LanguageCommand', () => {
       }).toThrow(RedisError);
     });
 
-    it('returns Dead because the client throws RedisError by MockRedis.expires', async () => {
+    it('returns Dead because the client throws JSONAError', async () => {
       const languages: MockLanguages = new MockLanguages();
 
-      const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
 
-      string.set = stub1;
-      stub1.resolves();
-      const redis: MockRedis = new MockRedis({
-        string
-      });
-
-      const stub2: SinonStub = sinon.stub();
-
-      redis.expires = stub2;
-      stub2.rejects(new RedisError('test failed'));
+      JSONA.stringify = stub1;
+      stub1.throws(new JSONAError());
+      const redis: MockRedis = new MockRedis();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
       const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.insertAll(languages).terminate();

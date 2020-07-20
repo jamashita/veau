@@ -1,16 +1,16 @@
-import 'reflect-metadata';
-
-import bodyParser from 'body-parser';
-import express, { Express, NextFunction, Request, Response } from 'express';
-import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { useContainer, useExpressServer } from 'routing-controllers';
-import sinon, { SinonStub } from 'sinon';
-import supertest from 'supertest';
-
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
 import { MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
+
+import bodyParser from 'body-parser';
+import express, { Express, NextFunction, Request, Response } from 'express';
+import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
+import 'reflect-metadata';
+import { useContainer, useExpressServer } from 'routing-controllers';
+import sinon, { SinonStub } from 'sinon';
+import supertest from 'supertest';
+
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
@@ -146,7 +146,27 @@ describe('StatsController', () => {
       expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
 
-    it('replies INTERNAL_SERVER_ERROR becuase StatsIteractor.findByStatsID() returns Dead', async () => {
+    it('replies NO_CONTENT because StatsIteractor.findByStatsID() returns Dead NoSuchElementError', async () => {
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const stub: SinonStub = sinon.stub();
+
+      statsInteractor.findByStatsID = stub;
+      stub.returns(Superposition.dead<Stats, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError));
+
+      const app: express.Express = express();
+
+      useContainer(kernel);
+      app.use(fakeAccount);
+      useExpressServer<Express>(app, {
+        controllers: [StatsController]
+      });
+
+      const response: supertest.Response = await supertest(app).get(`/stats/${UUID.v4().get()}`);
+
+      expect(response.status).toBe(NO_CONTENT);
+    });
+
+    it('replies INTERNAL_SERVER_ERROR because StatsIteractor.findByStatsID() returns Dead', async () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
@@ -215,19 +235,17 @@ describe('StatsController', () => {
         controllers: [StatsController]
       });
 
-      const response: supertest.Response = await supertest(app)
-        .post('/stats')
-        .send({
-          outline: {
-            statsID: UUID.v4().get(),
-            languageID: UUID.v4().get(),
-            regionID: UUID.v4().get(),
-            termID: UUID.v4().get(),
-            name: 'name',
-            unit: 'unit',
-            updatedAt: '2000-01-01 00:00:00'
-          }
-        });
+      const response: supertest.Response = await supertest(app).post('/stats').send({
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: UUID.v4().get(),
+          name: 'name',
+          unit: 'unit',
+          updatedAt: '2000-01-01 00:00:00'
+        }
+      });
 
       expect(response.status).toBe(BAD_REQUEST);
     });
@@ -253,31 +271,29 @@ describe('StatsController', () => {
         controllers: [StatsController]
       });
 
-      const response: supertest.Response = await supertest(app)
-        .post('/stats')
-        .send({
-          outline: {
-            statsID: 'illgal',
-            languageID: 'illgal',
-            regionID: 'illgal',
-            termID: 'illgal',
-            name: 'name',
-            unit: 'unit',
-            updatedAt: '2000-01-01 00:00:00'
-          },
-          language: {
-            languageID: 'illgal',
-            name: 'language',
-            englishName: 'english language',
-            iso639: 'DU'
-          },
-          region: {
-            regionID: 'illgal',
-            name: 'region',
-            iso3166: 'IDE'
-          },
-          items: []
-        });
+      const response: supertest.Response = await supertest(app).post('/stats').send({
+        outline: {
+          statsID: 'illgal',
+          languageID: 'illgal',
+          regionID: 'illgal',
+          termID: 'illgal',
+          name: 'name',
+          unit: 'unit',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: 'illgal',
+          name: 'language',
+          englishName: 'english language',
+          iso639: 'DU'
+        },
+        region: {
+          regionID: 'illgal',
+          name: 'region',
+          iso3166: 'IDE'
+        },
+        items: []
+      });
 
       expect(response.status).toBe(BAD_REQUEST);
     });

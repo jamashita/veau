@@ -1,6 +1,8 @@
-import { ImmutableSequence } from '@jamashita/publikum-collection';
+import { ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
+import sinon, { SinonSpy } from 'sinon';
 
 import { MockStatsItemName } from '../Mock/MockStatsItemName';
+import { MockStatsItemNames } from '../Mock/MockStatsItemNames';
 import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';
 
@@ -80,88 +82,193 @@ describe('StatsItemNames', () => {
   });
 
   describe('get', () => {
-    it('returns StatsItemName of index-th item', async () => {
-      const names: Array<StatsItemName> = [new MockStatsItemName(), new MockStatsItemName(), new MockStatsItemName()];
+    it('delegates its inner collection instance', async () => {
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
 
-      const statsItemNames: StatsItemNames = StatsItemNames.ofArray(names);
+      const sequence: MockASequence<MockStatsItemName> = new MockASequence<MockStatsItemName>(
+        [
+          name1,
+          name2,
+          name3
+        ]
+      );
 
-      expect(statsItemNames.size()).toBe(names.length);
-      for (let i: number = 0; i < statsItemNames.size(); i++) {
-        expect(await statsItemNames.get(i)).toBe(names[i]);
-      }
-    });
+      const spy: SinonSpy = sinon.spy();
 
-    it('returns null if the index is out of range', () => {
-      const names: StatsItemNames = StatsItemNames.ofArray([
-        new MockStatsItemName(),
-        new MockStatsItemName(),
-        new MockStatsItemName()
-      ]);
+      sequence.get = spy;
 
-      expect(names.get(-1)).toBe(null);
-      expect(names.get(3)).toBe(null);
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      names.get(0);
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('contains', () => {
-    it('returns true if the element exists in the StatsItemNames', () => {
-      const name1: MockStatsItemName = new MockStatsItemName('item 1');
-      const name2: MockStatsItemName = new MockStatsItemName('item 2');
-      const name3: MockStatsItemName = new MockStatsItemName('item 3');
-      const name4: MockStatsItemName = new MockStatsItemName('item 1');
+    it('delegates its inner collection instance', async () => {
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
 
-      const names: StatsItemNames = StatsItemNames.ofArray([name1, name2]);
+      const sequence: MockASequence<MockStatsItemName> = new MockASequence<MockStatsItemName>(
+        [
+          name1,
+          name2,
+          name3
+        ]
+      );
 
-      expect(names.contains(name1)).toBe(true);
-      expect(names.contains(name2)).toBe(true);
-      expect(names.contains(name3)).toBe(false);
-      expect(names.contains(name4)).toBe(true);
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.contains = spy;
+
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      names.contains(name2);
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('size', () => {
+    it('delegates its inner collection instance', async () => {
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
+
+      const sequence: MockASequence<MockStatsItemName> = new MockASequence<MockStatsItemName>(
+        [
+          name1,
+          name2,
+          name3
+        ]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.size = spy;
+
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      names.size();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('forEach', () => {
+    it('delegates its inner collection instance', async () => {
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
+
+      const sequence: MockASequence<MockStatsItemName> = new MockASequence<MockStatsItemName>(
+        [
+          name1,
+          name2,
+          name3
+        ]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.forEach = spy;
+
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      names.forEach(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('isEmpty', () => {
-    it('returns true if hte elements are 0', () => {
-      const names1: StatsItemNames = StatsItemNames.ofArray([]);
-      const names2: StatsItemNames = StatsItemNames.ofArray([new MockStatsItemName(), new MockStatsItemName()]);
+    it('delegates its inner collection instance', async () => {
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
 
-      expect(names1.isEmpty()).toBe(true);
-      expect(names2.isEmpty()).toBe(false);
+      const sequence: MockASequence<MockStatsItemName> = new MockASequence<MockStatsItemName>(
+        [
+          name1,
+          name2,
+          name3
+        ]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.isEmpty = spy;
+
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      names.isEmpty();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('map', () => {
+    it('delegates its inner collection instance', async () => {
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
+
+      const sequence: MockASequence<MockStatsItemName> = new MockASequence<MockStatsItemName>(
+        [
+          name1,
+          name2,
+          name3
+        ]
+      );
+
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      const arr: Array<string> = names.map<string>((name: StatsItemName) => {
+        return name.get();
+      });
+
+      expect(arr.length).toBe(3);
     });
   });
 
   describe('equals', () => {
-    it('returns false if the lengths are different', () => {
+    it('same instance', () => {
       const name1: MockStatsItemName = new MockStatsItemName('item 1');
       const name2: MockStatsItemName = new MockStatsItemName('item 2');
-      const name3: MockStatsItemName = new MockStatsItemName('item 3');
 
-      const names1: StatsItemNames = StatsItemNames.ofArray([name1, name2, name3]);
-      const names2: StatsItemNames = StatsItemNames.ofArray([name1]);
+      const names: StatsItemNames = StatsItemNames.ofArray([name1, name2]);
 
-      expect(names1.equals(names1)).toBe(true);
-      expect(names1.equals(names2)).toBe(false);
+      expect(names.equals(names)).toBe(true);
     });
 
-    it('returns false if the sequences are different', () => {
-      const name1: MockStatsItemName = new MockStatsItemName('item 1');
-      const name2: MockStatsItemName = new MockStatsItemName('item 2');
+    it('delegates its inner collection instance', async () => {
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
 
-      const names1: StatsItemNames = StatsItemNames.ofArray([name1, name2]);
-      const names2: StatsItemNames = StatsItemNames.ofArray([name2, name1]);
+      const sequence: MockASequence<MockStatsItemName> = new MockASequence<MockStatsItemName>(
+        [
+          name1,
+          name2,
+          name3
+        ]
+      );
 
-      expect(names1.equals(names1)).toBe(true);
-      expect(names1.equals(names2)).toBe(false);
-    });
+      const spy: SinonSpy = sinon.spy();
 
-    it('returns true if the size and the sequence are the same', () => {
-      const name1: MockStatsItemName = new MockStatsItemName('item 1');
-      const name2: MockStatsItemName = new MockStatsItemName('item 2');
+      sequence.equals = spy;
 
-      const names1: StatsItemNames = StatsItemNames.ofArray([name1, name2]);
-      const names2: StatsItemNames = StatsItemNames.ofArray([name1, name2]);
+      const names: StatsItemNames = StatsItemNames.of(sequence);
 
-      expect(names1.equals(names1)).toBe(true);
-      expect(names1.equals(names2)).toBe(true);
+      names.equals(new MockStatsItemNames());
+
+      expect(spy.called).toBe(true);
     });
   });
 
@@ -174,13 +281,110 @@ describe('StatsItemNames', () => {
   });
 
   describe('toString', () => {
-    it('normal case', () => {
-      const name1: string = 'item 1';
-      const name2: string = 'item 2';
+    it('delegates its inner collection instance', async () => {
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
 
-      const statsItemNames: StatsItemNames = StatsItemNames.ofArray([StatsItemName.of(name1), StatsItemName.of(name2)]);
+      const sequence: MockASequence<MockStatsItemName> = new MockASequence<MockStatsItemName>(
+        [
+          name1,
+          name2,
+          name3
+        ]
+      );
 
-      expect(statsItemNames.toString()).toBe(`${name1}, ${name2}`);
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.toString = spy;
+
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      names.toString();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('toString', () => {
+    it('delegates its inner collection instance', async () => {
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
+
+      const arr: Array<MockStatsItemName> = [
+        name1,
+        name2,
+        name3
+      ];
+
+      const sequence: MockASequence<MockStatsItemName> = new MockASequence<MockStatsItemName>(
+        arr
+      );
+
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+      let i: number = 0;
+
+      for (const pair of names) {
+        expect(pair.getValue()).toBe(arr[i]);
+        i++;
+      }
+    });
+  });
+
+  describe('every', () => {
+    it('delegates its inner collection instance', async () => {
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
+
+      const sequence: MockASequence<MockStatsItemName> = new MockASequence<MockStatsItemName>(
+        [
+          name1,
+          name2,
+          name3
+        ]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.every = spy;
+
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      names.every(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('some', () => {
+    it('delegates its inner collection instance', async () => {
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
+
+      const sequence: MockASequence<MockStatsItemName> = new MockASequence<MockStatsItemName>(
+        [
+          name1,
+          name2,
+          name3
+        ]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.some = spy;
+
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      names.some(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
     });
   });
 });
