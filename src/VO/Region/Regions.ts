@@ -1,7 +1,7 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
-import { Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
 
 import { RegionError } from './Error/RegionError';
 import { RegionsError } from './Error/RegionsError';
@@ -146,7 +146,15 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return null;
   }
 
-  public iterator(): Iterator<Pair<RegionID, Region>> {
-    return this.regions.iterator();
+  public [Symbol.iterator](): Iterator<Pair<RegionID, Region>> {
+    return this.regions[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<Region, RegionID>): boolean {
+    return this.regions.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<Region, RegionID>): boolean {
+    return this.regions.some(predicate);
   }
 }
