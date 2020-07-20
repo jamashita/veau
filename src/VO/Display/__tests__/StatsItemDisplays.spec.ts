@@ -1,8 +1,9 @@
 import { ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
-import { SinonSpy } from 'sinon';
+import sinon, { SinonSpy } from 'sinon';
 
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
+import { StatsItemDisplays } from '../../../VO/Display/StatsItemDisplays';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
@@ -12,9 +13,6 @@ import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
 import { MockStatsItemDisplay } from '../Mock/MockStatsItemDisplay';
 import { StatsItemDisplay } from '../StatsItemDisplay';
 
-import { StatsItemDisplays } from '../../../VO/Display/StatsItemDisplays';
-import sinon from 'sinon';
-
 describe('StatsItemDisplays', () => {
   describe('of', () => {
     it('returns StatsItem.empty() when the empty Sequence given', () => {
@@ -22,11 +20,11 @@ describe('StatsItemDisplays', () => {
     });
 
     it('normal case', () => {
-      const display: StatsItemDisplays = StatsItemDisplays.of(
+      const displays: StatsItemDisplays = StatsItemDisplays.of(
         ImmutableSequence.of<StatsItemDisplay>([new MockStatsItemDisplay(), new MockStatsItemDisplay()])
       );
 
-      expect(display).not.toBe(StatsItemDisplays.empty());
+      expect(displays).not.toBe(StatsItemDisplays.empty());
     });
   });
 
@@ -38,27 +36,27 @@ describe('StatsItemDisplays', () => {
         new MockStatsItemDisplay()
       ];
 
-      const display: StatsItemDisplays = StatsItemDisplays.ofArray(items);
+      const displays: StatsItemDisplays = StatsItemDisplays.ofArray(items);
 
-      expect(display.size()).toBe(items.length);
-      for (let i: number = 0; i < display.size(); i++) {
-        expect(display.get(i)).toBe(items[i]);
+      expect(displays.size()).toBe(items.length);
+      for (let i: number = 0; i < displays.size(); i++) {
+        expect(displays.get(i)).toBe(items[i]);
       }
     });
   });
 
   describe('ofSpread', () => {
     it('normal case', () => {
-      const item1: MockStatsItemDisplay = new MockStatsItemDisplay();
-      const item2: MockStatsItemDisplay = new MockStatsItemDisplay();
-      const item3: MockStatsItemDisplay = new MockStatsItemDisplay();
+      const display1: MockStatsItemDisplay = new MockStatsItemDisplay();
+      const display2: MockStatsItemDisplay = new MockStatsItemDisplay();
+      const display3: MockStatsItemDisplay = new MockStatsItemDisplay();
 
-      const display: StatsItemDisplays = StatsItemDisplays.ofSpread(item1, item2, item3);
+      const displays: StatsItemDisplays = StatsItemDisplays.ofSpread(display1, display2, display3);
 
-      expect(display.size()).toBe(3);
-      expect(display.get(0)).toBe(item1);
-      expect(display.get(1)).toBe(item2);
-      expect(display.get(2)).toBe(item3);
+      expect(displays.size()).toBe(3);
+      expect(displays.get(0)).toBe(display1);
+      expect(displays.get(1)).toBe(display2);
+      expect(displays.get(2)).toBe(display3);
     });
   });
 
@@ -79,9 +77,9 @@ describe('StatsItemDisplays', () => {
 
       sequence.get = spy;
 
-      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displays.get(0);
+      displayss.get(0);
 
       expect(spy.called).toBe(true);
     });
@@ -93,7 +91,7 @@ describe('StatsItemDisplays', () => {
       const name2: MockStatsItemName = new MockStatsItemName('stats name 11');
       const name3: MockStatsItemName = new MockStatsItemName('stats name 111');
 
-      const display: StatsItemDisplays = StatsItemDisplays.ofArray([
+      const displays: StatsItemDisplays = StatsItemDisplays.ofArray([
         new MockStatsItemDisplay({
           name: name1
         }),
@@ -105,13 +103,13 @@ describe('StatsItemDisplays', () => {
         })
       ]);
 
-      expect(display.maxNameLength()).toBe(name3.length());
+      expect(displays.maxNameLength()).toBe(name3.length());
     });
 
     it('should give 0 when items are 0', () => {
-      const display: StatsItemDisplays = StatsItemDisplays.ofArray([]);
+      const displays: StatsItemDisplays = StatsItemDisplays.ofArray([]);
 
-      expect(display.maxNameLength()).toBe(0);
+      expect(displays.maxNameLength()).toBe(0);
     });
   });
 
@@ -169,9 +167,9 @@ describe('StatsItemDisplays', () => {
           })
         )
       });
-      const display: StatsItemDisplays = StatsItemDisplays.ofArray([statsItem1, statsItem2, statsItem3]);
+      const displays: StatsItemDisplays = StatsItemDisplays.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      const asOfs: AsOfs = display.getAsOfs();
+      const asOfs: AsOfs = displays.getAsOfs();
 
       expect(asOfs.size()).toBe(8);
       expect(asOfs.get(0)?.toString()).toBe('2000-01-01');
@@ -191,7 +189,7 @@ describe('StatsItemDisplays', () => {
       const name2: MockStatsItemName = new MockStatsItemName('stats name 11');
       const name3: MockStatsItemName = new MockStatsItemName('stats name 111');
 
-      const display: StatsItemDisplays = StatsItemDisplays.ofArray([
+      const displays: StatsItemDisplays = StatsItemDisplays.ofArray([
         new MockStatsItemDisplay({
           name: name1
         }),
@@ -203,7 +201,7 @@ describe('StatsItemDisplays', () => {
         })
       ]);
 
-      const names: StatsItemNames = display.getNames();
+      const names: StatsItemNames = displays.getNames();
 
       expect(names.size()).toBe(3);
       expect(names.get(0)).toBe(name1);
@@ -214,7 +212,7 @@ describe('StatsItemDisplays', () => {
 
   describe('areFilled', () => {
     it('returns true if the all items are filled', () => {
-      const display1: StatsItemDisplays = StatsItemDisplays.ofArray([
+      const displays1: StatsItemDisplays = StatsItemDisplays.ofArray([
         new MockStatsItemDisplay({
           name: new MockStatsItemName('stats item 1')
         }),
@@ -222,7 +220,7 @@ describe('StatsItemDisplays', () => {
           name: new MockStatsItemName('stats item 2')
         })
       ]);
-      const display2: StatsItemDisplays = StatsItemDisplays.ofArray([
+      const displays2: StatsItemDisplays = StatsItemDisplays.ofArray([
         new MockStatsItemDisplay({
           name: new MockStatsItemName('stats item 3')
         }),
@@ -231,35 +229,35 @@ describe('StatsItemDisplays', () => {
         })
       ]);
 
-      expect(display1.areFilled()).toBe(true);
-      expect(display2.areFilled()).toBe(false);
+      expect(displays1.areFilled()).toBe(true);
+      expect(displays2.areFilled()).toBe(false);
     });
   });
 
   describe('haveValues', () => {
     it('no items', () => {
-      const display: StatsItemDisplays = StatsItemDisplays.ofArray([]);
+      const displays: StatsItemDisplays = StatsItemDisplays.ofArray([]);
 
-      expect(display.haveValues()).toBe(false);
+      expect(displays.haveValues()).toBe(false);
     });
 
     it('no values', () => {
-      const display1: StatsItemDisplays = StatsItemDisplays.ofArray([
+      const displays1: StatsItemDisplays = StatsItemDisplays.ofArray([
         new MockStatsItemDisplay({
           values: new MockStatsValues()
         })
       ]);
-      const display2: StatsItemDisplays = StatsItemDisplays.ofArray([
+      const displays2: StatsItemDisplays = StatsItemDisplays.ofArray([
         new MockStatsItemDisplay(),
         new MockStatsItemDisplay()
       ]);
 
-      expect(display1.haveValues()).toBe(false);
-      expect(display2.haveValues()).toBe(false);
+      expect(displays1.haveValues()).toBe(false);
+      expect(displays2.haveValues()).toBe(false);
     });
 
     it('have values', () => {
-      const display: StatsItemDisplays = StatsItemDisplays.ofArray([
+      const displays: StatsItemDisplays = StatsItemDisplays.ofArray([
         new MockStatsItemDisplay({
           values: new MockStatsValues(
             new MockStatsValue({
@@ -269,7 +267,7 @@ describe('StatsItemDisplays', () => {
         })
       ]);
 
-      expect(display.haveValues()).toBe(true);
+      expect(displays.haveValues()).toBe(true);
     });
   });
 
@@ -284,9 +282,9 @@ describe('StatsItemDisplays', () => {
 
       sequence.contains = spy;
 
-      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displays.contains(new MockStatsItemDisplay());
+      displayss.contains(new MockStatsItemDisplay());
 
       expect(spy.called).toBe(true);
     });
@@ -303,19 +301,19 @@ describe('StatsItemDisplays', () => {
 
       sequence.isEmpty = spy;
 
-      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displays.isEmpty();
+      displayss.isEmpty();
 
       expect(spy.called).toBe(true);
     });
   });
 
   describe('equals', () => {
-    it('same isntance', () => {
-      const display1: StatsItemDisplays = StatsItemDisplays.empty();
+    it('same instance', () => {
+      const displays1: StatsItemDisplays = StatsItemDisplays.empty();
 
-      expect(display1.equals(display1)).toBe(true);
+      expect(displays1.equals(displays1)).toBe(true);
     });
 
     it('delegates its inner collection instance', async () => {
@@ -328,9 +326,9 @@ describe('StatsItemDisplays', () => {
 
       sequence.equals = spy;
 
-      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displays.equals(StatsItemDisplays.empty());
+      displayss.equals(StatsItemDisplays.empty());
 
       expect(spy.called).toBe(true);
     });
@@ -347,9 +345,68 @@ describe('StatsItemDisplays', () => {
 
       sequence.toString = spy;
 
-      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displays.toString();
+      displayss.toString();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('iterator', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<MockStatsItemDisplay> = new MockASequence<MockStatsItemDisplay>([
+        new MockStatsItemDisplay(),
+        new MockStatsItemDisplay()
+      ]);
+
+      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      let i: number = 0;
+
+      for (const pair of displayss) {
+        expect(pair.getValue()).toBe(displayss.get(i));
+        i++;
+      }
+    });
+  });
+
+  describe('every', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<MockStatsItemDisplay> = new MockASequence<MockStatsItemDisplay>([
+        new MockStatsItemDisplay(),
+        new MockStatsItemDisplay()
+      ]);
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.every = spy;
+
+      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
+
+      displayss.every(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('some', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<MockStatsItemDisplay> = new MockASequence<MockStatsItemDisplay>([
+        new MockStatsItemDisplay(),
+        new MockStatsItemDisplay()
+      ]);
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.some = spy;
+
+      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
+
+      displayss.some(() => {
+        return true;
+      });
 
       expect(spy.called).toBe(true);
     });
