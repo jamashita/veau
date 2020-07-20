@@ -5,11 +5,9 @@ import { UUID } from '@jamashita/publikum-uuid';
 
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
-import { MockAsOfs } from '../../../VO/AsOf/Mock/MockAsOfs';
 import { StatsItemDisplay } from '../../../VO/Display/StatsItemDisplay';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
 import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
-import { NumericalValues } from '../../../VO/NumericalValue/NumericalValues';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
@@ -19,7 +17,6 @@ import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
 import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
 import { StatsValue } from '../../../VO/StatsValue/StatsValue';
 import { StatsValues } from '../../../VO/StatsValue/StatsValues';
-import { MockStatsItem } from '../Mock/MockStatsItem';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
 
 describe('StatsItem', () => {
@@ -476,44 +473,6 @@ describe('StatsItem', () => {
     });
   });
 
-  describe('isSame', () => {
-    it('returns true if all the properties are the same', () => {
-      const statsItemID1: MockStatsItemID = new MockStatsItemID();
-      const statsItemID2: MockStatsItemID = new MockStatsItemID();
-      const statsItem1: StatsItem = StatsItem.of(statsItemID1, new MockStatsItemName(), new MockStatsValues());
-      const statsItem2: StatsItem = StatsItem.of(statsItemID2, new MockStatsItemName(), new MockStatsValues());
-      const statsItem3: StatsItem = StatsItem.of(
-        statsItemID1,
-        new MockStatsItemName('name 3'),
-        new MockStatsValues(new MockStatsValue())
-      );
-      const statsItem4: StatsItem = StatsItem.of(
-        statsItemID1,
-        new MockStatsItemName(),
-        new MockStatsValues(new MockStatsValue(), new MockStatsValue())
-      );
-      const statsItem5: StatsItem = StatsItem.of(
-        statsItemID2,
-        new MockStatsItemName(),
-        new MockStatsValues(
-          new MockStatsValue({
-            asOf: new MockAsOf({
-              day: 2
-            })
-          })
-        )
-      );
-      const statsItem6: StatsItem = StatsItem.of(statsItemID1, new MockStatsItemName(), new MockStatsValues());
-
-      expect(statsItem1.isSame(statsItem1)).toBe(true);
-      expect(statsItem1.isSame(statsItem2)).toBe(false);
-      expect(statsItem1.isSame(statsItem3)).toBe(false);
-      expect(statsItem1.isSame(statsItem4)).toBe(false);
-      expect(statsItem1.isSame(statsItem5)).toBe(false);
-      expect(statsItem1.isSame(statsItem6)).toBe(true);
-    });
-  });
-
   describe('toJSON', () => {
     it('normal case', async () => {
       const statsItemID: StatsItemID = await StatsItemID.ofString('b5f208c3-f171-488f-a8dc-f3798db5f9f4').get();
@@ -570,53 +529,6 @@ describe('StatsItem', () => {
     });
   });
 
-  describe('getValuesByColumn', () => {
-    it('returns empty string when the date is empty ', () => {
-      const column: MockAsOfs = new MockAsOfs(
-        new MockAsOf({
-          day: 1
-        }),
-        new MockAsOf({
-          day: 2
-        }),
-        new MockAsOf({
-          day: 3
-        })
-      );
-      const statsItem: MockStatsItem = new MockStatsItem({
-        values: new MockStatsValues(
-          new MockStatsValue({
-            asOf: new MockAsOf({
-              day: 1
-            }),
-            value: new MockNumericalValue(1)
-          }),
-          new MockStatsValue({
-            asOf: new MockAsOf({
-              day: 3
-            }),
-            value: new MockNumericalValue(3)
-          })
-        )
-      });
-
-      const values: NumericalValues = statsItem.getValuesByColumn(column);
-
-      expect(values.size()).toBe(3);
-      const value1: Nullable<NumericalValue> = values.get(0);
-
-      expect(value1?.toString()).toBe('1');
-
-      const value2: Nullable<NumericalValue> = values.get(1);
-
-      expect(value2?.toString()).toBe('');
-
-      const value3: Nullable<NumericalValue> = values.get(2);
-
-      expect(value3?.toString()).toBe('3');
-    });
-  });
-
   describe('delete', () => {
     it('normal case', () => {
       const asOf1: MockAsOf = new MockAsOf({
@@ -643,34 +555,6 @@ describe('StatsItem', () => {
 
       expect(values.size()).toBe(1);
       expect(values.get(asOf1)).toBe(null);
-    });
-  });
-
-  describe('isFilled', () => {
-    it('returns true if the name is filled', () => {
-      const statsItem1: StatsItem = StatsItem.of(new MockStatsItemID(), StatsItemName.empty(), new MockStatsValues());
-      const statsItem2: StatsItem = StatsItem.of(
-        new MockStatsItemID(),
-        StatsItemName.of('name'),
-        new MockStatsValues()
-      );
-
-      expect(statsItem1.isFilled()).toBe(false);
-      expect(statsItem2.isFilled()).toBe(true);
-    });
-  });
-
-  describe('isValid', () => {
-    it('returns true if the name is filled', () => {
-      const statsItem1: StatsItem = StatsItem.of(new MockStatsItemID(), StatsItemName.empty(), new MockStatsValues());
-      const statsItem2: StatsItem = StatsItem.of(
-        new MockStatsItemID(),
-        StatsItemName.of('name'),
-        new MockStatsValues()
-      );
-
-      expect(statsItem1.isValid()).toBe(false);
-      expect(statsItem2.isValid()).toBe(true);
     });
   });
 

@@ -9,7 +9,7 @@ import { StatsItemName } from '../StatsItem/StatsItemName';
 import { StatsValue } from '../StatsValue/StatsValue';
 import { StatsValues } from '../StatsValue/StatsValues';
 
-export class StatsItemDisplay extends ValueObject<StatsItemDisplay> {
+export class StatsItemDisplay extends ValueObject<StatsItemDisplay, 'StatsItemDisplay'> {
   public readonly noun: 'StatsItemDisplay' = 'StatsItemDisplay';
   private readonly statsItemID: StatsItemID;
   private readonly name: StatsItemName;

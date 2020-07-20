@@ -21,8 +21,8 @@ import { StatsItemDisplays } from './StatsItemDisplays';
 
 type Chart = Record<string, string | number>;
 
-export class StatsDisplay extends ValueObject<StatsDisplay> {
-  public readonly noun: 'Stats' = 'Stats';
+export class StatsDisplay extends ValueObject<StatsDisplay, 'StatsDisplay'> {
+  public readonly noun: 'StatsDisplay' = 'StatsDisplay';
   private readonly outline: StatsOutline;
   private readonly language: Language;
   private readonly region: Region;

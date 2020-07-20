@@ -6,8 +6,6 @@ import { Kind } from '@jamashita/publikum-type';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { StatsItemDisplay } from '../../VO/Display/StatsItemDisplay';
-import { NoValue } from '../../VO/NumericalValue/NoValue';
-import { NumericalValues } from '../../VO/NumericalValue/NumericalValues';
 import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemIDError } from '../../VO/StatsItem/Error/StatsItemIDError';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
@@ -37,38 +35,31 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
   }
 
   public static ofJSON(json: StatsItemJSON): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(json.statsItemID)
-      .map<StatsItem, StatsItemIDError | StatsValuesError>((statsItemID: StatsItemID) => {
-        return StatsValues.ofJSON(json.values).map<StatsItem, StatsItemIDError | StatsValuesError>(
-          (statsValues: StatsValues) => {
-            return StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues);
-          },
-          StatsValuesError
-        );
-      })
-      .recover((err: StatsItemIDError | StatsValuesError) => {
-        throw new StatsItemError('StatsItem.ofJSON()', err);
-      }, StatsItemError);
+    return StatsItemID.ofString(json.statsItemID).map<StatsItem, StatsItemIDError | StatsValuesError>((statsItemID: StatsItemID) => {
+      return StatsValues.ofJSON(json.values).map<StatsItem, StatsItemIDError | StatsValuesError>(
+        (statsValues: StatsValues) => {
+          return StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues);
+        },
+        StatsValuesError
+      );
+    }).recover((err: StatsItemIDError | StatsValuesError) => {
+      throw new StatsItemError('StatsItem.ofJSON()', err);
+    }, StatsItemError);
   }
 
   public static ofRow(
     row: StatsItemRow,
     project: Project<StatsItemID, StatsValues>
   ): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(row.statsItemID)
-      .map<StatsItem, StatsItemIDError>((statsItemID: StatsItemID) => {
-        return Unscharferelation.maybe<StatsValues>(project.get(statsItemID))
-          .toSuperposition()
-          .map<StatsItem, UnscharferelationError>((values: StatsValues) => {
-            return StatsItem.of(statsItemID, StatsItemName.of(row.name), values);
-          })
-          .recover<StatsItem, StatsItemIDError>(() => {
-            return StatsItem.of(statsItemID, StatsItemName.of(row.name), StatsValues.empty());
-          });
-      })
-      .recover<StatsItem, StatsItemError>((err: StatsItemIDError) => {
-        throw new StatsItemError('StatsItem.ofRow()', err);
-      }, StatsItemError);
+    return StatsItemID.ofString(row.statsItemID).map<StatsItem, StatsItemIDError>((statsItemID: StatsItemID) => {
+      return Unscharferelation.maybe<StatsValues>(project.get(statsItemID)).toSuperposition().map<StatsItem, UnscharferelationError>((values: StatsValues) => {
+        return StatsItem.of(statsItemID, StatsItemName.of(row.name), values);
+      }).recover<StatsItem, StatsItemIDError>(() => {
+        return StatsItem.of(statsItemID, StatsItemName.of(row.name), StatsValues.empty());
+      });
+    }).recover<StatsItem, StatsItemError>((err: StatsItemIDError) => {
+      throw new StatsItemError('StatsItem.ofRow()', err);
+    }, StatsItemError);
   }
 
   public static isJSON(n: unknown): n is StatsItemJSON {
@@ -141,64 +132,12 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     return this.values.getAsOfs();
   }
 
-  // TODO MAYBE UNNECESSARY
-  public getValuesByColumn(columns: AsOfs): NumericalValues {
-    let valuesByColumn: NumericalValues = NumericalValues.empty();
-
-    columns.forEach((column: AsOf) => {
-      let alreadyInput: boolean = false;
-
-      this.values.forEach((statsValue: StatsValue) => {
-        if (alreadyInput) {
-          return;
-        }
-        if (column.equals(statsValue.getAsOf())) {
-          valuesByColumn = valuesByColumn.add(statsValue.getValue());
-          alreadyInput = true;
-        }
-      });
-      if (!alreadyInput) {
-        valuesByColumn = valuesByColumn.add(NoValue.of());
-      }
-    });
-
-    return valuesByColumn;
-  }
-
   public set(statsValue: StatsValue): void {
     this.values = this.values.set(statsValue);
   }
 
   public delete(asOf: AsOf): void {
     this.values = this.values.delete(asOf);
-  }
-
-  // TODO MAYBE UNNECESSARY
-  public isFilled(): boolean {
-    return !this.name.isEmpty();
-  }
-
-  // TODO MAYBE UNNECESSARY
-  public isValid(): boolean {
-    return this.isFilled();
-  }
-
-  // TODO MAYBE UNNECESSARY
-  public isSame(other: StatsItem): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!this.statsItemID.equals(other.statsItemID)) {
-      return false;
-    }
-    if (!this.name.equals(other.name)) {
-      return false;
-    }
-    if (!this.values.equals(other.values)) {
-      return false;
-    }
-
-    return true;
   }
 
   public display(): StatsItemDisplay {
