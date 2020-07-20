@@ -161,6 +161,44 @@ describe('NumericalValues', () => {
     });
   });
 
+  describe('size', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
+        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.size = spy;
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      values.size();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('forEach', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
+        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.forEach = spy;
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      values.forEach(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('isEmpty', () => {
     it('delegates its inner collection instance', async () => {
       const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
