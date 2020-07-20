@@ -13,7 +13,7 @@ export class StatsItemDisplay extends ValueObject<StatsItemDisplay> {
   public readonly noun: 'StatsItemDisplay' = 'StatsItemDisplay';
   private readonly statsItemID: StatsItemID;
   private readonly name: StatsItemName;
-  private values: StatsValues;
+  private readonly values: StatsValues;
 
   public static of(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues): StatsItemDisplay {
     return new StatsItemDisplay(statsItemID, name, values);

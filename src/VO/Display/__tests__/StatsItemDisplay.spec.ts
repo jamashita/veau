@@ -1,9 +1,6 @@
-import { Nullable } from '@jamashita/publikum-type';
-
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
 import { MockAsOfs } from '../../AsOf/Mock/MockAsOfs';
 import { MockNumericalValue } from '../../NumericalValue/Mock/MockNumericalValue';
-import { NumericalValue } from '../../NumericalValue/NumericalValue';
 import { NumericalValues } from '../../NumericalValue/NumericalValues';
 import { MockStatsItemID } from '../../StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../StatsItem/Mock/MockStatsItemName';
@@ -21,11 +18,11 @@ describe('StatsItemDisplay', () => {
       const name: MockStatsItemName = new MockStatsItemName();
       const statsValue: MockStatsValue = new MockStatsValue();
 
-      const statsItem: StatsItemDisplay = StatsItemDisplay.of(statsItemID, name, new MockStatsValues(statsValue));
+      const display: StatsItemDisplay = StatsItemDisplay.of(statsItemID, name, new MockStatsValues(statsValue));
 
-      expect(statsItem.getStatsItemID()).toBe(statsItemID);
-      expect(statsItem.getName()).toBe(name);
-      expect(statsItem.getValues().contains(statsValue)).toBe(true);
+      expect(display.getStatsItemID()).toBe(statsItemID);
+      expect(display.getName()).toBe(name);
+      expect(display.getValues().contains(statsValue)).toBe(true);
     });
   });
 
@@ -33,27 +30,27 @@ describe('StatsItemDisplay', () => {
     it('returns true if all the properties are the same', () => {
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
       const statsItemID2: MockStatsItemID = new MockStatsItemID();
-      const statsItem1: StatsItemDisplay = StatsItemDisplay.of(
+      const display1: StatsItemDisplay = StatsItemDisplay.of(
         statsItemID1,
         new MockStatsItemName(),
         new MockStatsValues()
       );
-      const statsItem2: StatsItemDisplay = StatsItemDisplay.of(
+      const display2: StatsItemDisplay = StatsItemDisplay.of(
         statsItemID2,
         new MockStatsItemName(),
         new MockStatsValues()
       );
-      const statsItem3: StatsItemDisplay = StatsItemDisplay.of(
+      const display3: StatsItemDisplay = StatsItemDisplay.of(
         statsItemID1,
         new MockStatsItemName('name 3'),
         new MockStatsValues(new MockStatsValue())
       );
-      const statsItem4: StatsItemDisplay = StatsItemDisplay.of(
+      const display4: StatsItemDisplay = StatsItemDisplay.of(
         statsItemID1,
         new MockStatsItemName(),
         new MockStatsValues(new MockStatsValue(), new MockStatsValue())
       );
-      const statsItem5: StatsItemDisplay = StatsItemDisplay.of(
+      const display5: StatsItemDisplay = StatsItemDisplay.of(
         statsItemID2,
         new MockStatsItemName(),
         new MockStatsValues(
@@ -64,18 +61,18 @@ describe('StatsItemDisplay', () => {
           })
         )
       );
-      const statsItem6: StatsItemDisplay = StatsItemDisplay.of(
+      const display6: StatsItemDisplay = StatsItemDisplay.of(
         statsItemID1,
         new MockStatsItemName(),
         new MockStatsValues()
       );
 
-      expect(statsItem1.equals(statsItem1)).toBe(true);
-      expect(statsItem1.equals(statsItem2)).toBe(false);
-      expect(statsItem1.equals(statsItem3)).toBe(false);
-      expect(statsItem1.equals(statsItem4)).toBe(false);
-      expect(statsItem1.equals(statsItem5)).toBe(false);
-      expect(statsItem1.equals(statsItem6)).toBe(true);
+      expect(display1.equals(display1)).toBe(true);
+      expect(display1.equals(display2)).toBe(false);
+      expect(display1.equals(display3)).toBe(false);
+      expect(display1.equals(display4)).toBe(false);
+      expect(display1.equals(display5)).toBe(false);
+      expect(display1.equals(display6)).toBe(true);
     });
   });
 
@@ -87,7 +84,7 @@ describe('StatsItemDisplay', () => {
       const asOf2: MockAsOf = new MockAsOf({
         day: 3
       });
-      const statsItem: StatsItemDisplay = StatsItemDisplay.of(
+      const display: StatsItemDisplay = StatsItemDisplay.of(
         new MockStatsItemID(),
         new MockStatsItemName(),
         new MockStatsValues(
@@ -100,9 +97,9 @@ describe('StatsItemDisplay', () => {
         )
       );
 
-      expect(statsItem.getAsOfs().size()).toBe(2);
-      expect(statsItem.getAsOfs().get(0)).toBe(asOf1);
-      expect(statsItem.getAsOfs().get(1)).toBe(asOf2);
+      expect(display.getAsOfs().size()).toBe(2);
+      expect(display.getAsOfs().get(0)).toBe(asOf1);
+      expect(display.getAsOfs().get(1)).toBe(asOf2);
     });
   });
 
@@ -119,7 +116,7 @@ describe('StatsItemDisplay', () => {
           day: 3
         })
       );
-      const statsItem: StatsItemDisplay = StatsItemDisplay.of(
+      const display: StatsItemDisplay = StatsItemDisplay.of(
         new MockStatsItemID(),
         new MockStatsItemName(),
         new MockStatsValues(
@@ -138,38 +135,30 @@ describe('StatsItemDisplay', () => {
         )
       );
 
-      const values: NumericalValues = statsItem.getValuesByColumn(column);
+      const values: NumericalValues = display.getValuesByColumn(column);
 
       expect(values.size()).toBe(3);
-      const value1: Nullable<NumericalValue> = values.get(0);
-
-      expect(value1?.toString()).toBe('1');
-
-      const value2: Nullable<NumericalValue> = values.get(1);
-
-      expect(value2?.toString()).toBe('');
-
-      const value3: Nullable<NumericalValue> = values.get(2);
-
-      expect(value3?.toString()).toBe('3');
+      expect(values.get(0)?.toString()).toBe('1');
+      expect(values.get(1)?.toString()).toBe('');
+      expect(values.get(2)?.toString()).toBe('3');
     });
   });
 
   describe('isFilled', () => {
     it('returns true if the name is filled', () => {
-      const statsItem1: StatsItemDisplay = StatsItemDisplay.of(
+      const display1: StatsItemDisplay = StatsItemDisplay.of(
         new MockStatsItemID(),
         StatsItemName.empty(),
         new MockStatsValues()
       );
-      const statsItem2: StatsItemDisplay = StatsItemDisplay.of(
+      const display2: StatsItemDisplay = StatsItemDisplay.of(
         new MockStatsItemID(),
         StatsItemName.of('name'),
         new MockStatsValues()
       );
 
-      expect(statsItem1.isFilled()).toBe(false);
-      expect(statsItem2.isFilled()).toBe(true);
+      expect(display1.isFilled()).toBe(false);
+      expect(display2.isFilled()).toBe(true);
     });
   });
 
@@ -181,9 +170,9 @@ describe('StatsItemDisplay', () => {
       const statsItemName: StatsItemName = StatsItemName.of(name);
       const statsValues: StatsValues = StatsValues.empty();
 
-      const statsItem: StatsItemDisplay = StatsItemDisplay.of(statsItemID, statsItemName, statsValues);
+      const display: StatsItemDisplay = StatsItemDisplay.of(statsItemID, statsItemName, statsValues);
 
-      expect(statsItem.toString()).toBe(`${id} ${name} `);
+      expect(display.toString()).toBe(`${id} ${name} `);
     });
   });
 });
