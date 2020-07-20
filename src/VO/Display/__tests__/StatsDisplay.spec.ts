@@ -32,7 +32,7 @@ import { MockTermID } from '../../Term/Mock/MockTermID';
 import { MockTermKey } from '../../Term/Mock/MockTermKey';
 import { Term } from '../../Term/Term';
 import { MockStatsItemDisplay } from '../Mock/MockStatsItemDisplay';
-import { MockStatsItemDisplays } from 'src/VO/Display/Mock/MockStatsItemDisplays';
+import { MockStatsItemDisplays } from '../Mock/MockStatsItemDisplays';
 import { StatsDisplay } from '../StatsDisplay';
 
 describe('StatsDisplay', () => {
@@ -70,6 +70,7 @@ describe('StatsDisplay', () => {
       const uuid6: UUID = UUID.v4();
       const uuid7: UUID = UUID.v4();
       const uuid8: UUID = UUID.v4();
+
       const display1: StatsDisplay = StatsDisplay.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
@@ -322,6 +323,102 @@ describe('StatsDisplay', () => {
         }),
         new MockStatsItemDisplays(),
         new MockAsOf({
+          day: 3
+        }),
+        new MockAsOfs(
+          new MockAsOf({
+            day: 3
+          }),
+          new MockAsOf({
+            day: 4
+          })
+        ),
+        new MockHeaderSize(1)
+      );
+      const display9: StatsDisplay = StatsDisplay.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        }),
+        new MockStatsItemDisplays(),
+        new MockAsOf({
+          day: 2
+        }),
+        new MockAsOfs(
+          new MockAsOf({
+            day: 3
+          })
+        ),
+        new MockHeaderSize(1)
+      );
+      const display10: StatsDisplay = StatsDisplay.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        }),
+        new MockStatsItemDisplays(),
+        new MockAsOf({
+          day: 2
+        }),
+        new MockAsOfs(
+          new MockAsOf({
+            day: 3
+          }),
+          new MockAsOf({
+            day: 4
+          })
+        ),
+        new MockHeaderSize(10)
+      );
+      const display11: StatsDisplay = StatsDisplay.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        }),
+        new MockStatsItemDisplays(),
+        new MockAsOf({
           day: 2
         }),
         new MockAsOfs(
@@ -342,7 +439,10 @@ describe('StatsDisplay', () => {
       expect(display1.equals(display5)).toBe(false);
       expect(display1.equals(display6)).toBe(false);
       expect(display1.equals(display7)).toBe(false);
-      expect(display1.equals(display8)).toBe(true);
+      expect(display1.equals(display8)).toBe(false);
+      expect(display1.equals(display9)).toBe(false);
+      expect(display1.equals(display10)).toBe(false);
+      expect(display1.equals(display11)).toBe(true);
     });
   });
 

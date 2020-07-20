@@ -17,7 +17,7 @@ import { UpdatedAt } from '../StatsOutline/UpdatedAt';
 import { StatsValue } from '../StatsValue/StatsValue';
 import { Term } from '../Term/Term';
 import { StatsItemDisplay } from './StatsItemDisplay';
-import { StatsItemDisplays } from 'src/VO/Display/StatsItemDisplays';
+import { StatsItemDisplays } from './StatsItemDisplays';
 
 type Chart = Record<string, string | number>;
 
@@ -245,10 +245,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     if (!this.isFilled()) {
       return false;
     }
-    if (!this.items.areFilled()) {
-      return false;
-    }
 
-    return true;
+    return this.items.areFilled();
   }
 }

@@ -1,17 +1,17 @@
 import { ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
 import sinon, { SinonSpy } from 'sinon';
 
-import { AsOfs } from '../../../VO/AsOf/AsOfs';
-import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
-import { StatsItemDisplays } from '../../../VO/Display/StatsItemDisplays';
-import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
-import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
-import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
-import { StatsItemNames } from '../../../VO/StatsItem/StatsItemNames';
-import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
-import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
+import { AsOfs } from '../../AsOf/AsOfs';
+import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
+import { MockNumericalValue } from '../../NumericalValue/Mock/MockNumericalValue';
+import { MockStatsItemName } from '../../StatsItem/Mock/MockStatsItemName';
+import { StatsItemName } from '../../StatsItem/StatsItemName';
+import { StatsItemNames } from '../../StatsItem/StatsItemNames';
+import { MockStatsValue } from '../../StatsValue/Mock/MockStatsValue';
+import { MockStatsValues } from '../../StatsValue/Mock/MockStatsValues';
 import { MockStatsItemDisplay } from '../Mock/MockStatsItemDisplay';
 import { StatsItemDisplay } from '../StatsItemDisplay';
+import { StatsItemDisplays } from '../StatsItemDisplays';
 
 describe('StatsItemDisplays', () => {
   describe('of', () => {
@@ -77,9 +77,9 @@ describe('StatsItemDisplays', () => {
 
       sequence.get = spy;
 
-      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displayss.get(0);
+      displays.get(0);
 
       expect(spy.called).toBe(true);
     });
@@ -282,9 +282,9 @@ describe('StatsItemDisplays', () => {
 
       sequence.contains = spy;
 
-      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displayss.contains(new MockStatsItemDisplay());
+      displays.contains(new MockStatsItemDisplay());
 
       expect(spy.called).toBe(true);
     });
@@ -301,9 +301,9 @@ describe('StatsItemDisplays', () => {
 
       sequence.isEmpty = spy;
 
-      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displayss.isEmpty();
+      displays.isEmpty();
 
       expect(spy.called).toBe(true);
     });
@@ -326,9 +326,9 @@ describe('StatsItemDisplays', () => {
 
       sequence.equals = spy;
 
-      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displayss.equals(StatsItemDisplays.empty());
+      displays.equals(StatsItemDisplays.empty());
 
       expect(spy.called).toBe(true);
     });
@@ -345,9 +345,9 @@ describe('StatsItemDisplays', () => {
 
       sequence.toString = spy;
 
-      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displayss.toString();
+      displays.toString();
 
       expect(spy.called).toBe(true);
     });
@@ -360,11 +360,11 @@ describe('StatsItemDisplays', () => {
         new MockStatsItemDisplay()
       ]);
 
-      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
       let i: number = 0;
 
-      for (const pair of displayss) {
-        expect(pair.getValue()).toBe(displayss.get(i));
+      for (const pair of displays) {
+        expect(pair.getValue()).toBe(displays.get(i));
         i++;
       }
     });
@@ -381,9 +381,9 @@ describe('StatsItemDisplays', () => {
 
       sequence.every = spy;
 
-      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displayss.every(() => {
+      displays.every(() => {
         return true;
       });
 
@@ -402,9 +402,9 @@ describe('StatsItemDisplays', () => {
 
       sequence.some = spy;
 
-      const displayss: StatsItemDisplays = StatsItemDisplays.of(sequence);
+      const displays: StatsItemDisplays = StatsItemDisplays.of(sequence);
 
-      displayss.some(() => {
+      displays.some(() => {
         return true;
       });
 
