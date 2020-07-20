@@ -8,12 +8,14 @@ import { VeauAccount } from '../VeauAccount';
 import { VeauAccountID } from '../VeauAccountID';
 import { MockVeauAccountID } from './MockVeauAccountID';
 
-type VeauAccountArgs = Partial<Readonly<{
-  veauAccountID: VeauAccountID;
-  languageID: LanguageID;
-  regionID: RegionID;
-  account: AccountName;
-}>>;
+type VeauAccountArgs = Partial<
+  Readonly<{
+    veauAccountID: VeauAccountID;
+    languageID: LanguageID;
+    regionID: RegionID;
+    account: AccountName;
+  }>
+>;
 
 export class MockVeauAccount extends VeauAccount {
   public constructor({

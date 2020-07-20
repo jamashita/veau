@@ -223,7 +223,7 @@ describe('AsOfs', () => {
 
       const asOfs: AsOfs = AsOfs.of(sequence);
 
-      asOfs.contains(asOf)
+      asOfs.contains(asOf);
 
       expect(spy.called).toBe(true);
     });
@@ -265,7 +265,7 @@ describe('AsOfs', () => {
 
       asOfs.forEach(() => {
         // NOOP
-      })
+      });
 
       expect(spy.called).toBe(true);
     });
@@ -379,7 +379,6 @@ describe('AsOfs', () => {
 
       expect(asOfs.equals(asOfs)).toBe(true);
     });
-
 
     it('delegates its inner collection instance', async () => {
       const sequence: MockASequence<AsOf> = new MockASequence<AsOf>([
@@ -512,7 +511,7 @@ describe('AsOfs', () => {
 
       asOfs.every(() => {
         return true;
-      })
+      });
 
       expect(spy.called).toBe(true);
     });
@@ -534,7 +533,7 @@ describe('AsOfs', () => {
 
       asOfs.some(() => {
         return true;
-      })
+      });
 
       expect(spy.called).toBe(true);
     });

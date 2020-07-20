@@ -8,12 +8,14 @@ import { MockVeauAccountID } from '../../VeauAccount/Mock/MockVeauAccountID';
 import { VeauAccountID } from '../../VeauAccount/VeauAccountID';
 import { Identity } from '../Identity';
 
-type VeauAccountArgs = Partial<Readonly<{
-  veauAccountID: VeauAccountID;
-  account: AccountName;
-  language: Language;
-  region: Region;
-}>>;
+type VeauAccountArgs = Partial<
+  Readonly<{
+    veauAccountID: VeauAccountID;
+    account: AccountName;
+    language: Language;
+    region: Region;
+  }>
+>;
 
 export class MockIdentity extends Identity {
   public constructor({

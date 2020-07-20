@@ -60,9 +60,10 @@ describe('Colors', () => {
 
   describe('get', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>(
-        [new MockColor('#ffffff'), new MockColor('#000000')]
-      );
+      const sequence: MockASequence<Color> = new MockASequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -78,9 +79,10 @@ describe('Colors', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>(
-        [new MockColor('#ffffff'), new MockColor('#000000')]
-      );
+      const sequence: MockASequence<Color> = new MockASequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -96,9 +98,10 @@ describe('Colors', () => {
 
   describe('size', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>(
-        [new MockColor('#ffffff'), new MockColor('#000000')]
-      );
+      const sequence: MockASequence<Color> = new MockASequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -114,9 +117,10 @@ describe('Colors', () => {
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>(
-        [new MockColor('#ffffff'), new MockColor('#000000')]
-      );
+      const sequence: MockASequence<Color> = new MockASequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -140,9 +144,10 @@ describe('Colors', () => {
     });
 
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>(
-        [new MockColor('#ffffff'), new MockColor('#000000')]
-      );
+      const sequence: MockASequence<Color> = new MockASequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -158,9 +163,10 @@ describe('Colors', () => {
 
   describe('toString', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>(
-        [new MockColor('#ffffff'), new MockColor('#000000')]
-      );
+      const sequence: MockASequence<Color> = new MockASequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -180,9 +186,7 @@ describe('Colors', () => {
       const color2: MockColor = new MockColor('#000000');
       const arr: Array<MockColor> = [color1, color2];
 
-      const sequence: MockASequence<Color> = new MockASequence<Color>(
-        arr
-      );
+      const sequence: MockASequence<Color> = new MockASequence<Color>(arr);
 
       const colors: Colors = Colors.of(sequence);
 
@@ -197,9 +201,10 @@ describe('Colors', () => {
 
   describe('forEach', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>(
-        [new MockColor('#ffffff'), new MockColor('#000000')]
-      );
+      const sequence: MockASequence<Color> = new MockASequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -217,9 +222,10 @@ describe('Colors', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>(
-        [new MockColor('#ffffff'), new MockColor('#000000')]
-      );
+      const sequence: MockASequence<Color> = new MockASequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -237,9 +243,10 @@ describe('Colors', () => {
 
   describe('some', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>(
-        [new MockColor('#ffffff'), new MockColor('#000000')]
-      );
+      const sequence: MockASequence<Color> = new MockASequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 

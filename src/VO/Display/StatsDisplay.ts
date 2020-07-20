@@ -17,7 +17,7 @@ import { UpdatedAt } from '../StatsOutline/UpdatedAt';
 import { StatsValue } from '../StatsValue/StatsValue';
 import { Term } from '../Term/Term';
 import { StatsItemDisplay } from './StatsItemDisplay';
-import { StatsItemsDisplay } from './StatsItemsDisplay';
+import { StatsItemDisplays } from 'src/VO/Display/StatsItemDisplays';
 
 type Chart = Record<string, string | number>;
 
@@ -27,7 +27,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
   private readonly language: Language;
   private readonly region: Region;
   private readonly term: Term;
-  private readonly items: StatsItemsDisplay;
+  private readonly items: StatsItemDisplays;
   private readonly startDate: AsOf;
   private readonly columns: AsOfs;
   private readonly headerSize: HeaderSize;
@@ -37,7 +37,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     language: Language,
     region: Region,
     term: Term,
-    items: StatsItemsDisplay,
+    items: StatsItemDisplays,
     startDate: AsOf,
     columns: AsOfs,
     headerSize: HeaderSize
@@ -50,7 +50,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     language: Language,
     region: Region,
     term: Term,
-    items: StatsItemsDisplay,
+    items: StatsItemDisplays,
     startDate: AsOf,
     columns: AsOfs,
     headerSize: HeaderSize
@@ -148,7 +148,7 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     return this.outline;
   }
 
-  public getItems(): StatsItemsDisplay {
+  public getItems(): StatsItemDisplays {
     return this.items;
   }
 

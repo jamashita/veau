@@ -32,7 +32,7 @@ import { MockTermID } from '../../Term/Mock/MockTermID';
 import { MockTermKey } from '../../Term/Mock/MockTermKey';
 import { Term } from '../../Term/Term';
 import { MockStatsItemDisplay } from '../Mock/MockStatsItemDisplay';
-import { MockStatsItemsDisplay } from '../Mock/MockStatsItemsDisplay';
+import { MockStatsItemDisplays } from 'src/VO/Display/Mock/MockStatsItemDisplays';
 import { StatsDisplay } from '../StatsDisplay';
 
 describe('StatsDisplay', () => {
@@ -42,7 +42,7 @@ describe('StatsDisplay', () => {
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
       const term: MockTerm = new MockTerm();
-      const items: MockStatsItemsDisplay = new MockStatsItemsDisplay();
+      const items: MockStatsItemDisplays = new MockStatsItemDisplays();
       const startDate: MockAsOf = new MockAsOf();
       const columns: MockAsOfs = new MockAsOfs();
       const size: MockHeaderSize = new MockHeaderSize();
@@ -89,7 +89,7 @@ describe('StatsDisplay', () => {
         new MockTerm({
           termID: new MockTermID(uuid7)
         }),
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf({
           day: 2
         }),
@@ -122,7 +122,7 @@ describe('StatsDisplay', () => {
         new MockTerm({
           termID: new MockTermID(uuid7)
         }),
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf({
           day: 2
         }),
@@ -155,7 +155,7 @@ describe('StatsDisplay', () => {
         new MockTerm({
           termID: new MockTermID(uuid7)
         }),
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf({
           day: 2
         }),
@@ -188,7 +188,7 @@ describe('StatsDisplay', () => {
         new MockTerm({
           termID: new MockTermID(uuid7)
         }),
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf({
           day: 2
         }),
@@ -221,7 +221,7 @@ describe('StatsDisplay', () => {
         new MockTerm({
           termID: new MockTermID(uuid7)
         }),
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf({
           day: 2
         }),
@@ -254,7 +254,7 @@ describe('StatsDisplay', () => {
         new MockTerm({
           termID: new MockTermID(uuid8)
         }),
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf({
           day: 2
         }),
@@ -287,7 +287,7 @@ describe('StatsDisplay', () => {
         new MockTerm({
           termID: new MockTermID(uuid7)
         }),
-        new MockStatsItemsDisplay(new MockStatsItemDisplay()),
+        new MockStatsItemDisplays(new MockStatsItemDisplay()),
         new MockAsOf({
           day: 2
         }),
@@ -320,7 +320,7 @@ describe('StatsDisplay', () => {
         new MockTerm({
           termID: new MockTermID(uuid7)
         }),
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf({
           day: 2
         }),
@@ -397,7 +397,7 @@ describe('StatsDisplay', () => {
           termID: new MockTermID(uuid4),
           key: new MockTermKey(key)
         }),
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         startDate,
         new MockAsOfs(asOf1, asOf2),
         new MockHeaderSize(size)
@@ -416,7 +416,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf({
           month: 2
         }),
@@ -521,7 +521,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         new MockTerm(),
-        new MockStatsItemsDisplay(statsItem1, statsItem2),
+        new MockStatsItemDisplays(statsItem1, statsItem2),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -539,7 +539,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(
+        new MockStatsItemDisplays(
           new MockStatsItemDisplay({
             values: new MockStatsValues(
               new MockStatsValue({
@@ -642,7 +642,7 @@ describe('StatsDisplay', () => {
         Language.empty(),
         Region.empty(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -655,7 +655,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         Region.empty(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -668,7 +668,7 @@ describe('StatsDisplay', () => {
         Language.empty(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -681,7 +681,7 @@ describe('StatsDisplay', () => {
         Language.empty(),
         Region.empty(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -694,7 +694,7 @@ describe('StatsDisplay', () => {
         Language.empty(),
         Region.empty(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -707,7 +707,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -720,7 +720,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -733,7 +733,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -746,7 +746,7 @@ describe('StatsDisplay', () => {
         Language.empty(),
         Region.empty(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -774,7 +774,7 @@ describe('StatsDisplay', () => {
         Language.empty(),
         Region.empty(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -787,7 +787,7 @@ describe('StatsDisplay', () => {
         Language.empty(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -800,7 +800,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -813,7 +813,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -826,7 +826,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -839,7 +839,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -852,7 +852,7 @@ describe('StatsDisplay', () => {
         Language.empty(),
         Region.empty(),
         Term.DAILY,
-        new MockStatsItemsDisplay(
+        new MockStatsItemDisplays(
           new MockStatsItemDisplay(),
           new MockStatsItemDisplay({
             name: new MockStatsItemName('cittadino')
@@ -870,7 +870,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(
+        new MockStatsItemDisplays(
           new MockStatsItemDisplay({
             name: new MockStatsItemName('ogonek')
           }),
@@ -902,7 +902,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(
+        new MockStatsItemDisplays(
           new MockStatsItemDisplay({
             name: StatsItemName.empty()
           })
@@ -919,7 +919,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(
+        new MockStatsItemDisplays(
           new MockStatsItemDisplay({
             name: new MockStatsItemName('pok')
           }),
@@ -945,7 +945,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()
@@ -958,7 +958,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(
+        new MockStatsItemDisplays(
           new MockStatsItemDisplay({
             name: new MockStatsItemName('fidanzato')
           })
@@ -975,7 +975,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(
+        new MockStatsItemDisplays(
           new MockStatsItemDisplay({
             name: new MockStatsItemName('nonna')
           }),
@@ -1004,7 +1004,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(
+        new MockStatsItemDisplays(
           new MockStatsItemDisplay({
             name: new MockStatsItemName('stats1'),
             values: new MockStatsValues(
@@ -1125,7 +1125,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(
+        new MockStatsItemDisplays(
           new MockStatsItemDisplay({
             values: new MockStatsValues(
               new MockStatsValue({
@@ -1155,7 +1155,7 @@ describe('StatsDisplay', () => {
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
-        new MockStatsItemsDisplay(),
+        new MockStatsItemDisplays(),
         new MockAsOf(),
         new MockAsOfs(),
         new MockHeaderSize()

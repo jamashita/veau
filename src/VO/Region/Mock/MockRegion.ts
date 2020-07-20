@@ -6,11 +6,13 @@ import { MockISO3166 } from './MockISO3166';
 import { MockRegionID } from './MockRegionID';
 import { MockRegionName } from './MockRegionName';
 
-type RegionArgs = Partial<Readonly<{
-  regionID: RegionID;
-  name: RegionName;
-  iso3166: ISO3166;
-}>>;
+type RegionArgs = Partial<
+  Readonly<{
+    regionID: RegionID;
+    name: RegionName;
+    iso3166: ISO3166;
+  }>
+>;
 
 export class MockRegion extends Region {
   public constructor({

@@ -1,9 +1,9 @@
 import { ImmutableSequence } from '@jamashita/publikum-collection';
 
 import { StatsItemDisplay } from '../StatsItemDisplay';
-import { StatsItemsDisplay } from '../StatsItemsDisplay';
+import { StatsItemDisplays } from 'src/VO/Display/StatsItemDisplays';
 
-export class MockStatsItemsDisplay extends StatsItemsDisplay {
+export class MockStatsItemDisplays extends StatsItemDisplays {
   public constructor(...items: Array<StatsItemDisplay>) {
     super(ImmutableSequence.of<StatsItemDisplay>(items));
   }

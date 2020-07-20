@@ -169,10 +169,8 @@ describe('Terms', () => {
       const arr: Array<[TermID, Term]> = [
         [Term.DAILY.getTermID(), Term.DAILY],
         [Term.MONTHLY.getTermID(), Term.MONTHLY]
-      ]
-      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
-        new Map<TermID, Term>(arr)
-      );
+      ];
+      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(new Map<TermID, Term>(arr));
 
       // @ts-ignore
       const terms: Terms = Terms.of(project);

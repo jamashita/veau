@@ -29,7 +29,9 @@ describe('StatsItemCommand', () => {
       sql.execute = stub;
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq).terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand
+        .create(statsID, statsItem, seq)
+        .terminate();
 
       expect(
         stub.withArgs(
@@ -62,7 +64,9 @@ describe('StatsItemCommand', () => {
       stub.rejects(new MySQLError('test failed'));
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq).terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand
+        .create(statsID, statsItem, seq)
+        .terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -82,7 +86,9 @@ describe('StatsItemCommand', () => {
       sql.execute = stub;
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand
+        .deleteByStatsID(statsID)
+        .terminate();
 
       expect(
         stub.withArgs(
@@ -109,7 +115,9 @@ describe('StatsItemCommand', () => {
       stub.rejects(new MySQLError('test failed'));
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsItemCommand
+        .deleteByStatsID(statsID)
+        .terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

@@ -68,10 +68,14 @@ describe('StatsOutlines', () => {
     it('contains failure', async () => {
       const statsOutline1: MockStatsOutline = new MockStatsOutline();
 
-      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.alive<StatsOutline,
-        StatsOutlineError>(statsOutline1, StatsOutlineError);
-      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<StatsOutline,
-        StatsOutlineError>(new StatsOutlineError('test failed'), StatsOutlineError);
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.alive<
+        StatsOutline,
+        StatsOutlineError
+      >(statsOutline1, StatsOutlineError);
+      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<
+        StatsOutline,
+        StatsOutlineError
+      >(new StatsOutlineError('test failed'), StatsOutlineError);
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
         superposition1,
         superposition2
@@ -85,10 +89,14 @@ describe('StatsOutlines', () => {
     });
 
     it('contains 2 failures', async () => {
-      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<StatsOutline,
-        StatsOutlineError>(new StatsOutlineError('test failed 1'), StatsOutlineError);
-      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<StatsOutline,
-        StatsOutlineError>(new StatsOutlineError('test failed 2'), StatsOutlineError);
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<
+        StatsOutline,
+        StatsOutlineError
+      >(new StatsOutlineError('test failed 1'), StatsOutlineError);
+      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<
+        StatsOutline,
+        StatsOutlineError
+      >(new StatsOutlineError('test failed 2'), StatsOutlineError);
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
         superposition1,
         superposition2

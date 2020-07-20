@@ -40,23 +40,25 @@ export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuer
       return this.mysql.execute<Array<StatsValueRow>>(query, {
         statsID: statsID.get().get()
       });
-    }, MySQLError).map<Project<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>((rows: Array<StatsValueRow>) => {
-      return this.engage(rows).map<Project<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>(
-        (map: Map<StatsItemID, StatsValues>) => {
-          return ImmutableProject.of(map);
-        }
-      );
-    }).recover<Project<StatsItemID, StatsValues>, StatsValuesError | MySQLError>(
-      (err: StatsItemIDError | StatsValuesError | MySQLError) => {
-        if (err instanceof StatsItemIDError) {
-          throw new StatsValuesError('StatsValueQuery.findByStatsID()', err);
-        }
+    }, MySQLError)
+      .map<Project<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>((rows: Array<StatsValueRow>) => {
+        return this.engage(rows).map<Project<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>(
+          (map: Map<StatsItemID, StatsValues>) => {
+            return ImmutableProject.of(map);
+          }
+        );
+      })
+      .recover<Project<StatsItemID, StatsValues>, StatsValuesError | MySQLError>(
+        (err: StatsItemIDError | StatsValuesError | MySQLError) => {
+          if (err instanceof StatsItemIDError) {
+            throw new StatsValuesError('StatsValueQuery.findByStatsID()', err);
+          }
 
-        throw err;
-      },
-      StatsValuesError,
-      MySQLError
-    );
+          throw err;
+        },
+        StatsValuesError,
+        MySQLError
+      );
   }
 
   private engage(
@@ -81,17 +83,19 @@ export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuer
     return Superposition.of<Map<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>(
       (epoque: Epoque<Map<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>) => {
         map1.forEach((r: Array<StatsValueRow>, id: string) => {
-          StatsItemID.ofString(id).map<void, StatsItemIDError | StatsValuesError>((itemID: StatsItemID) => {
-            return StatsValues.ofRow(r).map<void, StatsValuesError>((values: StatsValues) => {
-              map2.set(itemID, values);
+          StatsItemID.ofString(id)
+            .map<void, StatsItemIDError | StatsValuesError>((itemID: StatsItemID) => {
+              return StatsValues.ofRow(r).map<void, StatsValuesError>((values: StatsValues) => {
+                map2.set(itemID, values);
 
-              if (map1.size === map2.size) {
-                epoque.accept(map2);
-              }
+                if (map1.size === map2.size) {
+                  epoque.accept(map2);
+                }
+              });
+            }, StatsValuesError)
+            .recover<void, Error>((err: StatsItemIDError | StatsValuesError) => {
+              epoque.decline(err);
             });
-          }, StatsValuesError).recover<void, Error>((err: StatsItemIDError | StatsValuesError) => {
-            epoque.decline(err);
-          });
         });
       }
     );

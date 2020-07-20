@@ -127,9 +127,11 @@ describe('NumericalValues', () => {
 
   describe('get', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
-        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
-      );
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
+        new MockNumericalValue(),
+        new MockNumericalValue(),
+        new MockNumericalValue()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -145,9 +147,11 @@ describe('NumericalValues', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
-        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
-      );
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
+        new MockNumericalValue(),
+        new MockNumericalValue(),
+        new MockNumericalValue()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -163,9 +167,11 @@ describe('NumericalValues', () => {
 
   describe('size', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
-        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
-      );
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
+        new MockNumericalValue(),
+        new MockNumericalValue(),
+        new MockNumericalValue()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -181,9 +187,11 @@ describe('NumericalValues', () => {
 
   describe('forEach', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
-        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
-      );
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
+        new MockNumericalValue(),
+        new MockNumericalValue(),
+        new MockNumericalValue()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -201,9 +209,11 @@ describe('NumericalValues', () => {
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
-        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
-      );
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
+        new MockNumericalValue(),
+        new MockNumericalValue(),
+        new MockNumericalValue()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -228,9 +238,11 @@ describe('NumericalValues', () => {
     });
 
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
-        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
-      );
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
+        new MockNumericalValue(),
+        new MockNumericalValue(),
+        new MockNumericalValue()
+      ]);
 
       const value1: MockNumericalValue = new MockNumericalValue(1);
       const value2: MockNumericalValue = new MockNumericalValue(2);
@@ -269,9 +281,11 @@ describe('NumericalValues', () => {
 
   describe('toString', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
-        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
-      );
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
+        new MockNumericalValue(),
+        new MockNumericalValue(),
+        new MockNumericalValue()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -292,9 +306,7 @@ describe('NumericalValues', () => {
       const value3: MockNumericalValue = new MockNumericalValue();
       const arr: Array<MockNumericalValue> = [value1, value2, value3];
 
-      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
-        arr
-      );
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(arr);
 
       const values: NumericalValues = NumericalValues.of(sequence);
 
@@ -308,9 +320,11 @@ describe('NumericalValues', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
-        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
-      );
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
+        new MockNumericalValue(),
+        new MockNumericalValue(),
+        new MockNumericalValue()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -328,9 +342,11 @@ describe('NumericalValues', () => {
 
   describe('some', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>(
-        [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()]
-      );
+      const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
+        new MockNumericalValue(),
+        new MockNumericalValue(),
+        new MockNumericalValue()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 

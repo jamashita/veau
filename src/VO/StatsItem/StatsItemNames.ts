@@ -1,6 +1,6 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { StatsItemName } from './StatsItemName';
 
@@ -85,7 +85,15 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
     return array;
   }
 
-  public iterator(): Iterator<Pair<number, StatsItemName>> {
-    return this.names.iterator();
+  public [Symbol.iterator](): Iterator<Pair<number, StatsItemName>> {
+    return this.names[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<StatsItemName, number>): boolean {
+    return this.names.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<StatsItemName, number>): boolean {
+    return this.names.some(predicate);
   }
 }

@@ -74,10 +74,14 @@ describe('StatsValues', () => {
         })
       });
 
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
-        StatsValueError>(statsValue1, StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
-        StatsValueError>(statsValue2, StatsValueError);
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<
+        StatsValue,
+        StatsValueError
+      >(statsValue1, StatsValueError);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.alive<
+        StatsValue,
+        StatsValueError
+      >(statsValue2, StatsValueError);
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
@@ -94,10 +98,14 @@ describe('StatsValues', () => {
     });
 
     it('contains failure', async () => {
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
-        StatsValueError>(new MockStatsValue(), StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
-        StatsValueError>(new StatsValueError('test failed'), StatsValueError);
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<
+        StatsValue,
+        StatsValueError
+      >(new MockStatsValue(), StatsValueError);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<
+        StatsValue,
+        StatsValueError
+      >(new StatsValueError('test failed'), StatsValueError);
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
@@ -111,10 +119,14 @@ describe('StatsValues', () => {
     });
 
     it('will be multiple failures', async () => {
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
-        StatsValueError>(new StatsValueError('test failed1'), StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
-        StatsValueError>(new StatsValueError('test failed2'), StatsValueError);
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.dead<
+        StatsValue,
+        StatsValueError
+      >(new StatsValueError('test failed1'), StatsValueError);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<
+        StatsValue,
+        StatsValueError
+      >(new StatsValueError('test failed2'), StatsValueError);
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
@@ -458,11 +470,13 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(new Map<AsOf, MockStatsValue>([
-        [statsValue1.getAsOf(), statsValue1],
-        [statsValue2.getAsOf(), statsValue2],
-        [statsValue3.getAsOf(), statsValue3]
-      ]));
+      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -655,11 +669,13 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(new Map<AsOf, MockStatsValue>([
-        [statsValue1.getAsOf(), statsValue1],
-        [statsValue2.getAsOf(), statsValue2],
-        [statsValue3.getAsOf(), statsValue3]
-      ]));
+      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -691,11 +707,13 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(new Map<AsOf, MockStatsValue>([
-        [statsValue1.getAsOf(), statsValue1],
-        [statsValue2.getAsOf(), statsValue2],
-        [statsValue3.getAsOf(), statsValue3]
-      ]));
+      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -703,7 +721,7 @@ describe('StatsValues', () => {
 
       const values: StatsValues = StatsValues.of(project);
 
-      values.isEmpty()
+      values.isEmpty();
 
       expect(spy.called).toBe(true);
     });
@@ -727,11 +745,13 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(new Map<AsOf, MockStatsValue>([
-        [statsValue1.getAsOf(), statsValue1],
-        [statsValue2.getAsOf(), statsValue2],
-        [statsValue3.getAsOf(), statsValue3]
-      ]));
+      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -763,11 +783,13 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(new Map<AsOf, MockStatsValue>([
-        [statsValue1.getAsOf(), statsValue1],
-        [statsValue2.getAsOf(), statsValue2],
-        [statsValue3.getAsOf(), statsValue3]
-      ]));
+      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -859,11 +881,13 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(new Map<AsOf, MockStatsValue>([
-        [statsValue1.getAsOf(), statsValue1],
-        [statsValue2.getAsOf(), statsValue2],
-        [statsValue3.getAsOf(), statsValue3]
-      ]));
+      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -913,15 +937,17 @@ describe('StatsValues', () => {
 
       const arr: Array<MockStatsValue> = [statsValue1, statsValue2, statsValue3];
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(new Map<AsOf, MockStatsValue>([
-        [statsValue1.getAsOf(), statsValue1],
-        [statsValue2.getAsOf(), statsValue2],
-        [statsValue3.getAsOf(), statsValue3]
-      ]));
+      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
 
       const values: StatsValues = StatsValues.of(project);
 
-      let i: number =  0;
+      let i: number = 0;
 
       for (const pair of values) {
         expect(pair.getValue()).toBe(arr[i]);
@@ -948,11 +974,13 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(new Map<AsOf, MockStatsValue>([
-        [statsValue1.getAsOf(), statsValue1],
-        [statsValue2.getAsOf(), statsValue2],
-        [statsValue3.getAsOf(), statsValue3]
-      ]));
+      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -986,11 +1014,13 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(new Map<AsOf, MockStatsValue>([
-        [statsValue1.getAsOf(), statsValue1],
-        [statsValue2.getAsOf(), statsValue2],
-        [statsValue3.getAsOf(), statsValue3]
-      ]));
+      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 

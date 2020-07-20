@@ -13,14 +13,16 @@ import { MockStatsItems } from '../../StatsItem/Mock/MockStatsItems';
 import { StatsItems } from '../../StatsItem/StatsItems';
 import { Stats } from '../Stats';
 
-type StatsArgs = Partial<Readonly<{
-  outline: StatsOutline;
-  language: Language;
-  region: Region;
-  term: Term;
-  items: StatsItems;
-  startDate: Unscharferelation<AsOf>;
-}>>;
+type StatsArgs = Partial<
+  Readonly<{
+    outline: StatsOutline;
+    language: Language;
+    region: Region;
+    term: Term;
+    items: StatsItems;
+    startDate: Unscharferelation<AsOf>;
+  }>
+>;
 
 export class MockStats extends Stats {
   public constructor({

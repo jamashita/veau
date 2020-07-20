@@ -1,34 +1,34 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
-import { Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { AsOfs } from '../AsOf/AsOfs';
 import { StatsItemName } from '../StatsItem/StatsItemName';
 import { StatsItemNames } from '../StatsItem/StatsItemNames';
 import { StatsItemDisplay } from './StatsItemDisplay';
 
-export class StatsItemsDisplay extends Quantity<StatsItemsDisplay, number, StatsItemDisplay, 'StatsItemsDisplay'> {
-  public readonly noun: 'StatsItemsDisplay' = 'StatsItemsDisplay';
+export class StatsItemDisplays extends Quantity<StatsItemDisplays, number, StatsItemDisplay, 'StatsItemsDisplays'> {
+  public readonly noun: 'StatsItemsDisplays' = 'StatsItemsDisplays';
   private readonly items: Sequence<StatsItemDisplay>;
-  private static readonly EMPTY: StatsItemsDisplay = new StatsItemsDisplay(ImmutableSequence.empty<StatsItemDisplay>());
+  private static readonly EMPTY: StatsItemDisplays = new StatsItemDisplays(ImmutableSequence.empty<StatsItemDisplay>());
 
-  public static of(items: Sequence<StatsItemDisplay>): StatsItemsDisplay {
+  public static of(items: Sequence<StatsItemDisplay>): StatsItemDisplays {
     if (items.isEmpty()) {
-      return StatsItemsDisplay.empty();
+      return StatsItemDisplays.empty();
     }
 
-    return new StatsItemsDisplay(items);
+    return new StatsItemDisplays(items);
   }
 
-  public static ofArray(items: Array<StatsItemDisplay>): StatsItemsDisplay {
-    return StatsItemsDisplay.of(ImmutableSequence.of<StatsItemDisplay>(items));
+  public static ofArray(items: Array<StatsItemDisplay>): StatsItemDisplays {
+    return StatsItemDisplays.of(ImmutableSequence.of<StatsItemDisplay>(items));
   }
 
-  public static ofSpread(...items: Array<StatsItemDisplay>): StatsItemsDisplay {
-    return StatsItemsDisplay.ofArray(items);
+  public static ofSpread(...items: Array<StatsItemDisplay>): StatsItemDisplays {
+    return StatsItemDisplays.ofArray(items);
   }
 
-  public static empty(): StatsItemsDisplay {
-    return StatsItemsDisplay.EMPTY;
+  public static empty(): StatsItemDisplays {
+    return StatsItemDisplays.EMPTY;
   }
 
   protected constructor(items: Sequence<StatsItemDisplay>) {
@@ -56,12 +56,9 @@ export class StatsItemsDisplay extends Quantity<StatsItemsDisplay, number, Stats
     return this.items.isEmpty();
   }
 
-  public equals(other: StatsItemsDisplay): boolean {
+  public equals(other: StatsItemDisplays): boolean {
     if (this === other) {
       return true;
-    }
-    if (this.items.size() !== other.size()) {
-      return false;
     }
 
     return this.items.equals(other.items);
@@ -99,10 +96,6 @@ export class StatsItemsDisplay extends Quantity<StatsItemsDisplay, number, Stats
     return Math.max(...lengths);
   }
 
-  public iterator(): Iterator<Pair<number, StatsItemDisplay>> {
-    return this.items.iterator();
-  }
-
   public map<U>(mapper: Mapper<StatsItemDisplay, U>): Array<U> {
     return this.items.toArray().map<U>(mapper);
   }
@@ -129,5 +122,17 @@ export class StatsItemsDisplay extends Quantity<StatsItemsDisplay, number, Stats
     }
 
     return true;
+  }
+
+  public [Symbol.iterator](): Iterator<Pair<number, StatsItemDisplay>> {
+    return this.items[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<StatsItemDisplay, number>): boolean {
+    return this.items.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<StatsItemDisplay, number>): boolean {
+    return this.items.some(predicate);
   }
 }

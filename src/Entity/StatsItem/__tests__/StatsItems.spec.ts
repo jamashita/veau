@@ -1,14 +1,14 @@
- import { ImmutableProject, ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
+import { ImmutableProject, ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
- import sinon, { SinonSpy } from 'sinon';
+import sinon, { SinonSpy } from 'sinon';
 
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { MockColumn } from '../../../VO/Coordinate/Mock/MockColumn';
 import { MockRow } from '../../../VO/Coordinate/Mock/MockRow';
-import { StatsItemsDisplay } from '../../../VO/Display/StatsItemsDisplay';
+import { StatsItemDisplays } from 'src/VO/Display/StatsItemDisplays';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemsError } from '../../../VO/StatsItem/Error/StatsItemsError';
@@ -507,9 +507,10 @@ describe('StatsItems', () => {
 
   describe('get', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>(
-        [new MockStatsItem(), new MockStatsItem()]
-      );
+      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -766,9 +767,10 @@ describe('StatsItems', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>(
-        [new MockStatsItem(), new MockStatsItem()]
-      );
+      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -784,9 +786,10 @@ describe('StatsItems', () => {
 
   describe('size', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>(
-        [new MockStatsItem(), new MockStatsItem()]
-      );
+      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -802,9 +805,10 @@ describe('StatsItems', () => {
 
   describe('forEach', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>(
-        [new MockStatsItem(), new MockStatsItem()]
-      );
+      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -842,9 +846,10 @@ describe('StatsItems', () => {
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>(
-        [new MockStatsItem(), new MockStatsItem()]
-      );
+      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -868,9 +873,10 @@ describe('StatsItems', () => {
     });
 
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>(
-        [new MockStatsItem(), new MockStatsItem()]
-      );
+      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -930,7 +936,7 @@ describe('StatsItems', () => {
       });
 
       const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
-      const display: StatsItemsDisplay = statsItems.display();
+      const display: StatsItemDisplays = statsItems.display();
 
       expect(display.size()).toBe(statsItems.size());
       for (let i: number = 0; i < display.size(); i++) {
@@ -941,9 +947,10 @@ describe('StatsItems', () => {
 
   describe('toString', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>(
-        [new MockStatsItem(), new MockStatsItem()]
-      );
+      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -985,9 +992,10 @@ describe('StatsItems', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>(
-        [new MockStatsItem(), new MockStatsItem()]
-      );
+      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -1005,9 +1013,10 @@ describe('StatsItems', () => {
 
   describe('some', () => {
     it('delegates its inner collection instance', async () => {
-      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>(
-        [new MockStatsItem(), new MockStatsItem()]
-      );
+      const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
 
       const spy: SinonSpy = sinon.spy();
 

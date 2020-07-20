@@ -25,17 +25,20 @@ export class StatsListItem extends ValueObject<StatsListItem, 'StatsListItem'> {
     locale: Locale,
     terms: Terms
   ): Superposition<StatsListItem, StatsListItemError> {
-    return Unscharferelation.maybe<Language>(locale.getLanguages().get(outline.getLanguageID())).map<StatsListItem>((language: Language) => {
-      return Unscharferelation.maybe<Region>(locale.getRegions().get(outline.getRegionID())).map<StatsListItem>(
-        (region: Region) => {
-          return Unscharferelation.maybe<Term>(terms.get(outline.getTermID())).map<StatsListItem>((term: Term) => {
-            return StatsListItem.of(outline, language, region, term);
-          });
-        }
-      );
-    }).toSuperposition().recover<StatsListItem, StatsListItemError>((err: UnscharferelationError) => {
-      throw new StatsListItemError('StatsListItem.ofOutline()', err);
-    }, StatsListItemError);
+    return Unscharferelation.maybe<Language>(locale.getLanguages().get(outline.getLanguageID()))
+      .map<StatsListItem>((language: Language) => {
+        return Unscharferelation.maybe<Region>(locale.getRegions().get(outline.getRegionID())).map<StatsListItem>(
+          (region: Region) => {
+            return Unscharferelation.maybe<Term>(terms.get(outline.getTermID())).map<StatsListItem>((term: Term) => {
+              return StatsListItem.of(outline, language, region, term);
+            });
+          }
+        );
+      })
+      .toSuperposition()
+      .recover<StatsListItem, StatsListItemError>((err: UnscharferelationError) => {
+        throw new StatsListItemError('StatsListItem.ofOutline()', err);
+      }, StatsListItemError);
   }
 
   protected constructor(outline: StatsOutline, language: Language, region: Region, term: Term) {

@@ -28,66 +28,73 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
   }
 
   public all(): Superposition<Languages, LanguagesError | DataSourceError> {
-    return this.localeVaultQuery.all().map<Languages, LocaleError | DataSourceError>((locale: Locale) => {
-      return locale.getLanguages();
-    }).recover<Languages, LanguagesError | DataSourceError>(
-      (err: LocaleError | DataSourceError) => {
-        if (err instanceof LocaleError) {
-          throw new LanguagesError('LanguageQuery.all()', err);
-        }
+    return this.localeVaultQuery
+      .all()
+      .map<Languages, LocaleError | DataSourceError>((locale: Locale) => {
+        return locale.getLanguages();
+      })
+      .recover<Languages, LanguagesError | DataSourceError>(
+        (err: LocaleError | DataSourceError) => {
+          if (err instanceof LocaleError) {
+            throw new LanguagesError('LanguageQuery.all()', err);
+          }
 
-        throw err;
-      },
-      LanguagesError,
-      DataSourceError
-    );
+          throw err;
+        },
+        LanguagesError,
+        DataSourceError
+      );
   }
 
   public find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
-    return this.all().map<Language, LanguagesError | DataSourceError | UnscharferelationError>((languages: Languages) => {
-      const language: Nullable<Language> = languages.find((l: Language) => {
-        return l.getLanguageID().equals(languageID);
-      });
+    return this.all()
+      .map<Language, LanguagesError | DataSourceError | UnscharferelationError>((languages: Languages) => {
+        const language: Nullable<Language> = languages.find((l: Language) => {
+          return l.getLanguageID().equals(languageID);
+        });
 
-      return Unscharferelation.maybe<Language>(language).toSuperposition();
-    }).recover<Language, LanguageError | NoSuchElementError | DataSourceError>(
-      (err: LanguagesError | DataSourceError | UnscharferelationError) => {
-        if (err instanceof LanguagesError) {
-          throw new LanguageError('LanguageQuery.findByISO639()', err);
-        }
-        if (err instanceof UnscharferelationError) {
-          throw new NoSuchElementError(languageID.get().get());
-        }
+        return Unscharferelation.maybe<Language>(language).toSuperposition();
+      })
+      .recover<Language, LanguageError | NoSuchElementError | DataSourceError>(
+        (err: LanguagesError | DataSourceError | UnscharferelationError) => {
+          if (err instanceof LanguagesError) {
+            throw new LanguageError('LanguageQuery.findByISO639()', err);
+          }
+          if (err instanceof UnscharferelationError) {
+            throw new NoSuchElementError(languageID.get().get());
+          }
 
-        throw err;
-      },
-      LanguageError,
-      NoSuchElementError,
-      DataSourceError
-    );
+          throw err;
+        },
+        LanguageError,
+        NoSuchElementError,
+        DataSourceError
+      );
   }
 
   public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
-    return this.all().map<Language, LanguagesError | DataSourceError | UnscharferelationError>((languages: Languages) => {
-      const language: Nullable<Language> = languages.find((l: Language) => {
-        return l.getISO639().equals(iso639);
-      });
+    return this.all()
+      .map<Language, LanguagesError | DataSourceError | UnscharferelationError>((languages: Languages) => {
+        const language: Nullable<Language> = languages.find((l: Language) => {
+          return l.getISO639().equals(iso639);
+        });
 
-      return Unscharferelation.maybe<Language>(language).toSuperposition();
-    }).recover<Language, LanguageError | NoSuchElementError | DataSourceError>(
-      (err: LanguagesError | DataSourceError | UnscharferelationError) => {
-        if (err instanceof LanguagesError) {
-          throw new LanguageError('LanguageQuery.findByISO639()', err);
-        }
-        if (err instanceof UnscharferelationError) {
-          throw new NoSuchElementError(iso639.get());
-        }
+        return Unscharferelation.maybe<Language>(language).toSuperposition();
+      })
+      .recover<Language, LanguageError | NoSuchElementError | DataSourceError>(
+        (err: LanguagesError | DataSourceError | UnscharferelationError) => {
+          if (err instanceof LanguagesError) {
+            throw new LanguageError('LanguageQuery.findByISO639()', err);
+          }
+          if (err instanceof UnscharferelationError) {
+            throw new NoSuchElementError(iso639.get());
+          }
 
-        throw err;
-      },
-      LanguageError,
-      NoSuchElementError,
-      DataSourceError
-    );
+          throw err;
+        },
+        LanguageError,
+        NoSuchElementError,
+        DataSourceError
+      );
   }
 }

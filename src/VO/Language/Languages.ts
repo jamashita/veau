@@ -39,8 +39,10 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   public static ofSuperposition(
     superpositions: Array<Superposition<Language, LanguageError>>
   ): Superposition<Languages, LanguagesError> {
-    return Superposition.all<Language, LanguageError>(superpositions, LanguageError).transform<Languages,
-      LanguagesError>(
+    return Superposition.all<Language, LanguageError>(superpositions, LanguageError).transform<
+      Languages,
+      LanguagesError
+    >(
       (regions: Array<Language>) => {
         return Languages.ofArray(regions);
       },
@@ -52,7 +54,9 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   }
 
   public static ofJSON(json: Array<LanguageJSON>): Superposition<Languages, LanguagesError> {
-    const superpositions: Array<Superposition<Language, LanguageError>> = json.map<Superposition<Language, LanguageError>>((language: LanguageJSON) => {
+    const superpositions: Array<Superposition<Language, LanguageError>> = json.map<
+      Superposition<Language, LanguageError>
+    >((language: LanguageJSON) => {
       return Language.ofJSON(language);
     });
 
@@ -60,7 +64,9 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   }
 
   public static ofRow(rows: Array<LanguageRow>): Superposition<Languages, LanguagesError> {
-    const superpositions: Array<Superposition<Language, LanguageError>> = rows.map<Superposition<Language, LanguageError>>((language: LanguageJSON) => {
+    const superpositions: Array<Superposition<Language, LanguageError>> = rows.map<
+      Superposition<Language, LanguageError>
+    >((language: LanguageJSON) => {
       return Language.ofRow(language);
     });
 
