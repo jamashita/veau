@@ -1,5 +1,5 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
-import { Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { Term } from './Term';
 import { TermID } from './TermID';
@@ -7,13 +7,13 @@ import { TermID } from './TermID';
 export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
   public readonly noun: 'Terms' = 'Terms';
   private readonly terms: Project<TermID, Term>;
-  private static readonly ALL: Terms = Terms.ofSpread(
+  private static readonly ALL: Terms = Terms.ofArray([
     Term.DAILY,
     Term.WEEKLY,
     Term.MONTHLY,
     Term.QUARTERLY,
     Term.ANNUAL
-  );
+  ]);
 
   public static all(): Terms {
     return Terms.ALL;
@@ -37,10 +37,6 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
     return Terms.ofMap(map);
   }
 
-  private static ofSpread(...terms: Array<Term>): Terms {
-    return Terms.ofArray(terms);
-  }
-
   protected constructor(terms: Project<TermID, Term>) {
     super();
     this.terms = terms;
@@ -59,7 +55,7 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
   }
 
   public isEmpty(): boolean {
-    return false;
+    return this.terms.isEmpty();
   }
 
   public forEach(iterator: CancellableEnumerator<TermID, Term>): void {
@@ -90,7 +86,15 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
     return array;
   }
 
-  public iterator(): Iterator<Pair<TermID, Term>> {
-    return this.terms.iterator();
+  public [Symbol.iterator](): Iterator<Pair<TermID, Term>> {
+    return this.terms[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<Term, TermID>): boolean {
+    return this.terms.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<Term, TermID>): boolean {
+    return this.terms.some(predicate);
   }
 }

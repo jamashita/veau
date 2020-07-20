@@ -1,7 +1,7 @@
-import sinon, { SinonStub } from 'sinon';
+import { MockAProject } from '@jamashita/publikum-collection';
+import sinon, { SinonSpy } from 'sinon';
+import { TermID } from 'src/VO/Term/TermID';
 
-import { MockTerm } from '../Mock/MockTerm';
-import { MockTermID } from '../Mock/MockTermID';
 import { Term } from '../Term';
 import { Terms } from '../Terms';
 
@@ -17,61 +17,220 @@ describe('Terms', () => {
   });
 
   describe('get', () => {
-    it('returns Term instance at the correct index', () => {
-      const terms: Terms = Terms.all();
+    it('delegates its inner collection instance', async () => {
+      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+        new Map<TermID, Term>([
+          [Term.DAILY.getTermID(), Term.DAILY],
+          [Term.MONTHLY.getTermID(), Term.MONTHLY]
+        ])
+      );
 
-      expect(terms.get(Term.DAILY.getTermID())).toBe(Term.DAILY);
-      expect(terms.get(Term.WEEKLY.getTermID())).toBe(Term.WEEKLY);
-      expect(terms.get(Term.MONTHLY.getTermID())).toBe(Term.MONTHLY);
-      expect(terms.get(Term.QUARTERLY.getTermID())).toBe(Term.QUARTERLY);
-      expect(terms.get(Term.ANNUAL.getTermID())).toBe(Term.ANNUAL);
-    });
+      const spy: SinonSpy = sinon.spy();
 
-    it('returns null when the index is out of range', () => {
-      const terms: Terms = Terms.all();
+      project.get = spy;
 
-      expect(terms.get(new MockTermID())).toBe(null);
+      // @ts-ignore
+      const terms: Terms = Terms.of(project);
+
+      terms.get(Term.MONTHLY.getTermID());
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('contains', () => {
-    it('returns true if the element exists in the Terms', () => {
-      const terms: Terms = Terms.all();
-      const fakeTerm: MockTerm = new MockTerm();
+    it('delegates its inner collection instance', async () => {
+      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+        new Map<TermID, Term>([
+          [Term.DAILY.getTermID(), Term.DAILY],
+          [Term.MONTHLY.getTermID(), Term.MONTHLY]
+        ])
+      );
 
-      const stub: SinonStub = sinon.stub();
+      const spy: SinonSpy = sinon.spy();
 
-      fakeTerm.equals = stub;
-      stub.returns(false);
+      project.contains = spy;
 
-      expect(terms.contains(Term.ANNUAL)).toBe(true);
-      expect(terms.contains(Term.QUARTERLY)).toBe(true);
-      expect(terms.contains(Term.MONTHLY)).toBe(true);
-      expect(terms.contains(Term.WEEKLY)).toBe(true);
-      expect(terms.contains(Term.DAILY)).toBe(true);
-      expect(terms.contains(fakeTerm)).toBe(false);
+      // @ts-ignore
+      const terms: Terms = Terms.of(project);
+
+      terms.contains(Term.MONTHLY);
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('isEmpty', () => {
-    it('always returns false because only 1 terms instance has some elements', () => {
-      expect(Terms.all().isEmpty()).toBe(false);
+    it('delegates its inner collection instance', async () => {
+      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+        new Map<TermID, Term>([
+          [Term.DAILY.getTermID(), Term.DAILY],
+          [Term.MONTHLY.getTermID(), Term.MONTHLY]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.isEmpty = spy;
+
+      // @ts-ignore
+      const terms: Terms = Terms.of(project);
+
+      terms.isEmpty();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('forEach', () => {
+    it('delegates its inner collection instance', async () => {
+      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+        new Map<TermID, Term>([
+          [Term.DAILY.getTermID(), Term.DAILY],
+          [Term.MONTHLY.getTermID(), Term.MONTHLY]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.forEach = spy;
+
+      // @ts-ignore
+      const terms: Terms = Terms.of(project);
+
+      terms.forEach(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('map', () => {
+    it('normal case', async () => {
+      const ids: Array<TermID> = Terms.all().map<TermID>((term: Term) => {
+        return term.getTermID();
+      });
+
+      expect(ids.length).toBe(Terms.all().size());
     });
   });
 
   describe('equals', () => {
-    it('returns true because the instances are quite same', () => {
+    it('same instance', () => {
       expect(Terms.all()).toBe(Terms.all());
+    });
+
+    it('delegates its inner collection instance', async () => {
+      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+        new Map<TermID, Term>([
+          [Term.DAILY.getTermID(), Term.DAILY],
+          [Term.MONTHLY.getTermID(), Term.MONTHLY]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.equals = spy;
+
+      // @ts-ignore
+      const terms: Terms = Terms.of(project);
+
+      terms.equals(Terms.all());
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('toString', () => {
-    it('normal case', () => {
-      const terms: Terms = Terms.all();
-
-      expect(terms.toString()).toBe(
-        `{${Term.DAILY.getTermID().toString()}: ${Term.DAILY.toString()}}, {${Term.WEEKLY.getTermID().toString()}: ${Term.WEEKLY.toString()}}, {${Term.MONTHLY.getTermID().toString()}: ${Term.MONTHLY.toString()}}, {${Term.QUARTERLY.getTermID().toString()}: ${Term.QUARTERLY.toString()}}, {${Term.ANNUAL.getTermID().toString()}: ${Term.ANNUAL.toString()}}`
+    it('delegates its inner collection instance', async () => {
+      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+        new Map<TermID, Term>([
+          [Term.DAILY.getTermID(), Term.DAILY],
+          [Term.MONTHLY.getTermID(), Term.MONTHLY]
+        ])
       );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.toString = spy;
+
+      // @ts-ignore
+      const terms: Terms = Terms.of(project);
+
+      terms.toString();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('iterator', () => {
+    it('normal case', async () => {
+      const arr: Array<[TermID, Term]> = [
+        [Term.DAILY.getTermID(), Term.DAILY],
+        [Term.MONTHLY.getTermID(), Term.MONTHLY]
+      ]
+      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+        new Map<TermID, Term>(arr)
+      );
+
+      // @ts-ignore
+      const terms: Terms = Terms.of(project);
+
+      let i: number = 0;
+
+      for (const pair of terms) {
+        expect(pair.getValue()).toBe(arr[i][1]);
+        i++;
+      }
+    });
+  });
+
+  describe('every', () => {
+    it('delegates its inner collection instance', async () => {
+      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+        new Map<TermID, Term>([
+          [Term.DAILY.getTermID(), Term.DAILY],
+          [Term.MONTHLY.getTermID(), Term.MONTHLY]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.every = spy;
+
+      // @ts-ignore
+      const terms: Terms = Terms.of(project);
+
+      terms.every(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('some', () => {
+    it('delegates its inner collection instance', async () => {
+      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+        new Map<TermID, Term>([
+          [Term.DAILY.getTermID(), Term.DAILY],
+          [Term.MONTHLY.getTermID(), Term.MONTHLY]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.some = spy;
+
+      // @ts-ignore
+      const terms: Terms = Terms.of(project);
+
+      terms.some(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
     });
   });
 });
