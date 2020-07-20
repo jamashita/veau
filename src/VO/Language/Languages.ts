@@ -1,7 +1,7 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
-import { Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
 
 import { LanguageError } from './Error/LanguageError';
 import { LanguagesError } from './Error/LanguagesError';
@@ -39,10 +39,8 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   public static ofSuperposition(
     superpositions: Array<Superposition<Language, LanguageError>>
   ): Superposition<Languages, LanguagesError> {
-    return Superposition.all<Language, LanguageError>(superpositions, LanguageError).transform<
-      Languages,
-      LanguagesError
-    >(
+    return Superposition.all<Language, LanguageError>(superpositions, LanguageError).transform<Languages,
+      LanguagesError>(
       (regions: Array<Language>) => {
         return Languages.ofArray(regions);
       },
@@ -54,9 +52,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   }
 
   public static ofJSON(json: Array<LanguageJSON>): Superposition<Languages, LanguagesError> {
-    const superpositions: Array<Superposition<Language, LanguageError>> = json.map<
-      Superposition<Language, LanguageError>
-    >((language: LanguageJSON) => {
+    const superpositions: Array<Superposition<Language, LanguageError>> = json.map<Superposition<Language, LanguageError>>((language: LanguageJSON) => {
       return Language.ofJSON(language);
     });
 
@@ -64,9 +60,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   }
 
   public static ofRow(rows: Array<LanguageRow>): Superposition<Languages, LanguagesError> {
-    const superpositions: Array<Superposition<Language, LanguageError>> = rows.map<
-      Superposition<Language, LanguageError>
-    >((language: LanguageJSON) => {
+    const superpositions: Array<Superposition<Language, LanguageError>> = rows.map<Superposition<Language, LanguageError>>((language: LanguageJSON) => {
       return Language.ofRow(language);
     });
 
@@ -150,7 +144,15 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return null;
   }
 
-  public iterator(): Iterator<Pair<LanguageID, Language>> {
-    return this.languages.iterator();
+  public [Symbol.iterator](): Iterator<Pair<LanguageID, Language>, any, undefined> {
+    return this.languages[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<Language, LanguageID>): boolean {
+    return this.languages.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<Language, LanguageID>): boolean {
+    return this.languages.some(predicate);
   }
 }
