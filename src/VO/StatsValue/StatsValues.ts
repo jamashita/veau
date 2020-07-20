@@ -1,7 +1,7 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
 
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfs } from '../AsOf/AsOfs';
@@ -155,11 +155,19 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.of(this.values.remove(asOf));
   }
 
-  public iterator(): Iterator<Pair<AsOf, StatsValue>> {
-    return this.values.iterator();
-  }
-
   public getAsOfs(): AsOfs {
     return AsOfs.ofArray([...this.values.toMap().keys()]);
+  }
+
+  public [Symbol.iterator](): Iterator<Pair<AsOf, StatsValue>> {
+    return this.values[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<StatsValue, AsOf>): boolean {
+    return this.values.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<StatsValue, AsOf>): boolean {
+    return this.values.some(predicate);
   }
 }
