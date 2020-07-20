@@ -5,7 +5,6 @@ const EMPTY_NAME: string = '';
 export class LanguageName extends ValueObject<LanguageName, 'LanguageName'> {
   public readonly noun: 'LanguageName' = 'LanguageName';
   private readonly name: string;
-
   private static readonly EMPTY: LanguageName = new LanguageName(EMPTY_NAME);
 
   public static of(name: string): LanguageName {
@@ -25,18 +24,6 @@ export class LanguageName extends ValueObject<LanguageName, 'LanguageName'> {
     this.name = name;
   }
 
-  public get(): string {
-    return this.name;
-  }
-
-  public isEmpty(): boolean {
-    if (this === LanguageName.empty()) {
-      return true;
-    }
-
-    return false;
-  }
-
   public equals(other: LanguageName): boolean {
     if (this === other) {
       return true;
@@ -50,5 +37,17 @@ export class LanguageName extends ValueObject<LanguageName, 'LanguageName'> {
 
   public serialize(): string {
     return this.name;
+  }
+
+  public get(): string {
+    return this.name;
+  }
+
+  public isEmpty(): boolean {
+    if (this === LanguageName.empty()) {
+      return true;
+    }
+
+    return false;
   }
 }

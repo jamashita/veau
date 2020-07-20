@@ -17,13 +17,28 @@ export class Term extends ValueObject<Term, 'Term'> {
   public readonly noun: 'Term' = 'Term';
   private readonly termID: TermID;
   private readonly key: TermKey;
-
   public static readonly DAILY: Term = new Term(TermID.of(UUID.of(DAILY_ID)), TermKey.of('DAILY'));
   public static readonly WEEKLY: Term = new Term(TermID.of(UUID.of(WEEKLY_ID)), TermKey.of('WEEKLY'));
   public static readonly MONTHLY: Term = new Term(TermID.of(UUID.of(MONTHLY_ID)), TermKey.of('MONTHLY'));
   public static readonly QUARTERLY: Term = new Term(TermID.of(UUID.of(QUARTERLY_ID)), TermKey.of('QUARTERLY'));
   public static readonly ANNUAL: Term = new Term(TermID.of(UUID.of(ANNUAL_ID)), TermKey.of('ANNUAL'));
   private static readonly all: Map<string, Term> = Term.init();
+
+  public static of(uuid: UUID): Superposition<Term, TermError> {
+    return Term.ofString(uuid.get());
+  }
+
+  public static ofTermID(termID: TermID): Superposition<Term, TermError> {
+    return Term.of(termID.get());
+  }
+
+  public static ofString(id: string): Superposition<Term, TermError> {
+    const term: Ambiguous<Term> = Term.all.get(id);
+
+    return Unscharferelation.maybe<Term>(term).toSuperposition().recover((err: UnscharferelationError) => {
+      throw new TermError(`${id}`, err);
+    }, TermError);
+  }
 
   private static init(): Map<string, Term> {
     const map: Map<string, Term> = new Map<string, Term>();
@@ -37,36 +52,10 @@ export class Term extends ValueObject<Term, 'Term'> {
     return map;
   }
 
-  public static of(uuid: UUID): Superposition<Term, TermError> {
-    return Term.ofString(uuid.get());
-  }
-
-  public static ofTermID(termID: TermID): Superposition<Term, TermError> {
-    return Term.of(termID.get());
-  }
-
-  public static ofString(id: string): Superposition<Term, TermError> {
-    const term: Ambiguous<Term> = Term.all.get(id);
-
-    return Unscharferelation.maybe<Term>(term)
-      .toSuperposition()
-      .recover((err: UnscharferelationError) => {
-        throw new TermError(`${id}`, err);
-      }, TermError);
-  }
-
   protected constructor(termID: TermID, key: TermKey) {
     super();
     this.termID = termID;
     this.key = key;
-  }
-
-  public getTermID(): TermID {
-    return this.termID;
-  }
-
-  public getKey(): TermKey {
-    return this.key;
   }
 
   public equals(other: Term): boolean {
@@ -90,5 +79,13 @@ export class Term extends ValueObject<Term, 'Term'> {
     properties.push(this.key.toString());
 
     return properties.join(' ');
+  }
+
+  public getTermID(): TermID {
+    return this.termID;
+  }
+
+  public getKey(): TermKey {
+    return this.key;
   }
 }

@@ -66,6 +66,56 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     this.headerSize = headerSize;
   }
 
+  public equals(other: StatsDisplay): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!this.outline.equals(other.outline)) {
+      return false;
+    }
+    if (!this.language.equals(other.language)) {
+      return false;
+    }
+    if (!this.region.equals(other.region)) {
+      return false;
+    }
+    if (!this.term.equals(other.term)) {
+      return false;
+    }
+    if (!this.items.equals(other.items)) {
+      return false;
+    }
+    if (!this.startDate.equals(other.startDate)) {
+      return false;
+    }
+    if (!this.startDate.equals(other.startDate)) {
+      return false;
+    }
+    if (!this.columns.equals(other.columns)) {
+      return false;
+    }
+    if (!this.headerSize.equals(other.headerSize)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public serialize(): string {
+    const properties: Array<string> = [];
+
+    properties.push(this.outline.toString());
+    properties.push(this.language.toString());
+    properties.push(this.region.toString());
+    properties.push(this.term.toString());
+    properties.push(this.items.toString());
+    properties.push(this.startDate.toString());
+    properties.push(this.columns.toString());
+    properties.push(this.headerSize.toString());
+
+    return properties.join(' ');
+  }
+
   public getStatsID(): StatsID {
     return this.outline.getStatsID();
   }
@@ -200,55 +250,5 @@ export class StatsDisplay extends ValueObject<StatsDisplay> {
     }
 
     return true;
-  }
-
-  public equals(other: StatsDisplay): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!this.outline.equals(other.outline)) {
-      return false;
-    }
-    if (!this.language.equals(other.language)) {
-      return false;
-    }
-    if (!this.region.equals(other.region)) {
-      return false;
-    }
-    if (!this.term.equals(other.term)) {
-      return false;
-    }
-    if (!this.items.equals(other.items)) {
-      return false;
-    }
-    if (!this.startDate.equals(other.startDate)) {
-      return false;
-    }
-    if (!this.startDate.equals(other.startDate)) {
-      return false;
-    }
-    if (!this.columns.equals(other.columns)) {
-      return false;
-    }
-    if (!this.headerSize.equals(other.headerSize)) {
-      return false;
-    }
-
-    return true;
-  }
-
-  public serialize(): string {
-    const properties: Array<string> = [];
-
-    properties.push(this.outline.toString());
-    properties.push(this.language.toString());
-    properties.push(this.region.toString());
-    properties.push(this.term.toString());
-    properties.push(this.items.toString());
-    properties.push(this.startDate.toString());
-    properties.push(this.columns.toString());
-    properties.push(this.headerSize.toString());
-
-    return properties.join(' ');
   }
 }

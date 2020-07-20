@@ -9,7 +9,6 @@ const DEFAULT_VALUE: number = 40;
 export class Limit extends ValueObject<Limit, 'Limit'> {
   public readonly noun: 'Limit' = 'Limit';
   private readonly limit: number;
-
   private static readonly DEFAULT: Limit = new Limit(DEFAULT_VALUE);
 
   public static of(limit: number): Superposition<Limit, LimitError> {
@@ -35,10 +34,6 @@ export class Limit extends ValueObject<Limit, 'Limit'> {
     this.limit = limit;
   }
 
-  public get(): number {
-    return this.limit;
-  }
-
   public equals(other: Limit): boolean {
     if (this === other) {
       return true;
@@ -52,5 +47,9 @@ export class Limit extends ValueObject<Limit, 'Limit'> {
 
   public serialize(): string {
     return `${this.limit}`;
+  }
+
+  public get(): number {
+    return this.limit;
   }
 }

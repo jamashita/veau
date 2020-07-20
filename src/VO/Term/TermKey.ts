@@ -13,10 +13,6 @@ export class TermKey extends ValueObject<TermKey, 'TermKey'> {
     this.key = key;
   }
 
-  public get(): string {
-    return this.key;
-  }
-
   public equals(other: TermKey): boolean {
     if (this === other) {
       return true;
@@ -29,6 +25,10 @@ export class TermKey extends ValueObject<TermKey, 'TermKey'> {
   }
 
   public serialize(): string {
+    return this.key;
+  }
+
+  public get(): string {
     return this.key;
   }
 }

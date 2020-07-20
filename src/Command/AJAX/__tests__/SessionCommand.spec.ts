@@ -1,11 +1,10 @@
-import 'reflect-metadata';
-
-import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import sinon, { SinonStub } from 'sinon';
-
 import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
+
+import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import 'reflect-metadata';
+import sinon, { SinonStub } from 'sinon';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';

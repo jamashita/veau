@@ -9,7 +9,6 @@ import { StatsItemDisplay } from './StatsItemDisplay';
 export class StatsItemsDisplay extends Quantity<StatsItemsDisplay, number, StatsItemDisplay, 'StatsItemsDisplay'> {
   public readonly noun: 'StatsItemsDisplay' = 'StatsItemsDisplay';
   private readonly items: Sequence<StatsItemDisplay>;
-
   private static readonly EMPTY: StatsItemsDisplay = new StatsItemsDisplay(ImmutableSequence.empty<StatsItemDisplay>());
 
   public static of(items: Sequence<StatsItemDisplay>): StatsItemsDisplay {
@@ -41,6 +40,37 @@ export class StatsItemsDisplay extends Quantity<StatsItemsDisplay, number, Stats
     return this.items.get(index);
   }
 
+  public contains(value: StatsItemDisplay): boolean {
+    return this.items.contains(value);
+  }
+
+  public size(): number {
+    return this.items.size();
+  }
+
+  public forEach(iteration: CancellableEnumerator<number, StatsItemDisplay>): void {
+    this.items.forEach(iteration);
+  }
+
+  public isEmpty(): boolean {
+    return this.items.isEmpty();
+  }
+
+  public equals(other: StatsItemsDisplay): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (this.items.size() !== other.size()) {
+      return false;
+    }
+
+    return this.items.equals(other.items);
+  }
+
+  public serialize(): string {
+    return this.items.toString();
+  }
+
   public getNames(): StatsItemNames {
     return StatsItemNames.of(
       this.items.map<StatsItemName>((item: StatsItemDisplay) => {
@@ -67,18 +97,6 @@ export class StatsItemsDisplay extends Quantity<StatsItemsDisplay, number, Stats
     });
 
     return Math.max(...lengths);
-  }
-
-  public contains(value: StatsItemDisplay): boolean {
-    return this.items.contains(value);
-  }
-
-  public size(): number {
-    return this.items.size();
-  }
-
-  public forEach(iteration: CancellableEnumerator<number, StatsItemDisplay>): void {
-    this.items.forEach(iteration);
   }
 
   public iterator(): Iterator<Pair<number, StatsItemDisplay>> {
@@ -111,24 +129,5 @@ export class StatsItemsDisplay extends Quantity<StatsItemsDisplay, number, Stats
     }
 
     return true;
-  }
-
-  public isEmpty(): boolean {
-    return this.items.isEmpty();
-  }
-
-  public equals(other: StatsItemsDisplay): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (this.items.size() !== other.size()) {
-      return false;
-    }
-
-    return this.items.equals(other.items);
-  }
-
-  public serialize(): string {
-    return this.items.toString();
   }
 }

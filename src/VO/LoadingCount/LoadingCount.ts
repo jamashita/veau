@@ -9,7 +9,6 @@ const DEFAULT_COUNT: number = 0;
 export class LoadingCount extends ValueObject<LoadingCount, 'LoadingCount'> {
   public readonly noun: 'LoadingCount' = 'LoadingCount';
   private readonly count: number;
-
   private static readonly DEFAULT: LoadingCount = new LoadingCount(DEFAULT_COUNT);
 
   public static of(count: number): Superposition<LoadingCount, LoadingCountError> {
@@ -41,6 +40,21 @@ export class LoadingCount extends ValueObject<LoadingCount, 'LoadingCount'> {
     this.count = count;
   }
 
+  public equals(other: LoadingCount): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (this.count === other.count) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public serialize(): string {
+    return `${this.count}`;
+  }
+
   public get(): number {
     return this.count;
   }
@@ -66,20 +80,5 @@ export class LoadingCount extends ValueObject<LoadingCount, 'LoadingCount'> {
     }
 
     return new LoadingCount(this.count - 1);
-  }
-
-  public equals(other: LoadingCount): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (this.count === other.count) {
-      return true;
-    }
-
-    return false;
-  }
-
-  public serialize(): string {
-    return `${this.count}`;
   }
 }

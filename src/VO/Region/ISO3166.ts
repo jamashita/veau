@@ -5,7 +5,6 @@ const EMPTY_CODE: string = '';
 export class ISO3166 extends ValueObject<ISO3166, 'ISO3166'> {
   public readonly noun: 'ISO3166' = 'ISO3166';
   private readonly iso3166: string;
-
   private static readonly EMPTY: ISO3166 = new ISO3166(EMPTY_CODE);
 
   public static of(iso3166: string): ISO3166 {
@@ -25,18 +24,6 @@ export class ISO3166 extends ValueObject<ISO3166, 'ISO3166'> {
     this.iso3166 = iso3166;
   }
 
-  public get(): string {
-    return this.iso3166;
-  }
-
-  public isEmpty(): boolean {
-    if (this === ISO3166.empty()) {
-      return true;
-    }
-
-    return false;
-  }
-
   public equals(other: ISO3166): boolean {
     if (this === other) {
       return true;
@@ -50,5 +37,17 @@ export class ISO3166 extends ValueObject<ISO3166, 'ISO3166'> {
 
   public serialize(): string {
     return this.iso3166;
+  }
+
+  public get(): string {
+    return this.iso3166;
+  }
+
+  public isEmpty(): boolean {
+    if (this === ISO3166.empty()) {
+      return true;
+    }
+
+    return false;
   }
 }

@@ -18,14 +18,6 @@ export class AccountHash extends ValueObject<AccountHash, 'AccountHash'> {
     this.hash = hash;
   }
 
-  public getVeauAccountID(): VeauAccountID {
-    return this.veauAccountID;
-  }
-
-  public getHash(): Hash {
-    return this.hash;
-  }
-
   public equals(other: AccountHash): boolean {
     if (this === other) {
       return true;
@@ -47,5 +39,13 @@ export class AccountHash extends ValueObject<AccountHash, 'AccountHash'> {
     properties.push(this.hash.toString());
 
     return properties.join(' ');
+  }
+
+  public getVeauAccountID(): VeauAccountID {
+    return this.veauAccountID;
+  }
+
+  public getHash(): Hash {
+    return this.hash;
   }
 }

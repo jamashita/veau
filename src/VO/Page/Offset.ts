@@ -27,10 +27,6 @@ export class Offset extends ValueObject<Offset, 'Offset'> {
     this.offset = offset;
   }
 
-  public get(): number {
-    return this.offset;
-  }
-
   public equals(other: Offset): boolean {
     if (this === other) {
       return true;
@@ -44,5 +40,9 @@ export class Offset extends ValueObject<Offset, 'Offset'> {
 
   public serialize(): string {
     return `${this.offset}`;
+  }
+
+  public get(): number {
+    return this.offset;
   }
 }

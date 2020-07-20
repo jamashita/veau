@@ -32,33 +32,54 @@ export class Account extends ValueObject<Account, 'Account'> {
   }
 
   public static ofRow(row: AccountRow): Superposition<Account, AccountError> {
-    return VeauAccountID.ofString(row.veauAccountID)
-      .map<Account, VeauAccountIDError | LanguageIDError | RegionIDError>(
-        (veauAccountID: VeauAccountID) => {
-          return LanguageID.ofString(row.languageID).map<Account, LanguageIDError | RegionIDError>(
-            (languageID: LanguageID) => {
-              return RegionID.ofString(row.regionID).map<Account, RegionIDError>((regionID: RegionID) => {
-                return Account.of(
-                  VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(row.name)),
-                  Hash.of(row.hash)
-                );
-              });
-            },
-            RegionIDError
-          );
-        },
-        LanguageIDError,
-        RegionIDError
-      )
-      .recover<Account, AccountError>((err: VeauAccountIDError | LanguageIDError | RegionIDError) => {
-        throw new AccountError('Account.ofRow()', err);
-      }, AccountError);
+    return VeauAccountID.ofString(row.veauAccountID).map<Account, VeauAccountIDError | LanguageIDError | RegionIDError>(
+      (veauAccountID: VeauAccountID) => {
+        return LanguageID.ofString(row.languageID).map<Account, LanguageIDError | RegionIDError>(
+          (languageID: LanguageID) => {
+            return RegionID.ofString(row.regionID).map<Account, RegionIDError>((regionID: RegionID) => {
+              return Account.of(
+                VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(row.name)),
+                Hash.of(row.hash)
+              );
+            });
+          },
+          RegionIDError
+        );
+      },
+      LanguageIDError,
+      RegionIDError
+    ).recover<Account, AccountError>((err: VeauAccountIDError | LanguageIDError | RegionIDError) => {
+      throw new AccountError('Account.ofRow()', err);
+    }, AccountError);
   }
 
   protected constructor(account: VeauAccount, hash: Hash) {
     super();
     this.account = account;
     this.hash = hash;
+  }
+
+  public equals(other: Account): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!this.account.equals(other.account)) {
+      return false;
+    }
+    if (!this.hash.equals(other.hash)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public serialize(): string {
+    const properties: Array<string> = [];
+
+    properties.push(this.account.toString());
+    properties.push(this.hash.toString());
+
+    return properties.join(' ');
   }
 
   public getVeauAccountID(): VeauAccountID {
@@ -87,28 +108,5 @@ export class Account extends ValueObject<Account, 'Account'> {
 
   public verify(password: Password): Promise<boolean> {
     return Digest.compare(password.get(), this.hash.get());
-  }
-
-  public equals(other: Account): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!this.account.equals(other.account)) {
-      return false;
-    }
-    if (!this.hash.equals(other.hash)) {
-      return false;
-    }
-
-    return true;
-  }
-
-  public serialize(): string {
-    const properties: Array<string> = [];
-
-    properties.push(this.account.toString());
-    properties.push(this.hash.toString());
-
-    return properties.join(' ');
   }
 }

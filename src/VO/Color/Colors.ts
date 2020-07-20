@@ -6,7 +6,6 @@ import { Color } from './Color';
 export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
   public readonly noun: 'Colors' = 'Colors';
   private readonly colors: Sequence<Color>;
-
   private static readonly DEFAULT: Colors = Colors.ofSpread(
     Color.of('#8aa399'),
     Color.of('#7d84b2'),
@@ -67,10 +66,6 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
     this.colors.forEach(iteration);
   }
 
-  public iterator(): Iterator<Pair<number, Color>> {
-    return this.colors.iterator();
-  }
-
   public isEmpty(): boolean {
     return this.colors.isEmpty();
   }
@@ -85,5 +80,9 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
 
   public serialize(): string {
     return this.colors.toString();
+  }
+
+  public iterator(): Iterator<Pair<number, Color>> {
+    return this.colors.iterator();
   }
 }

@@ -25,20 +25,17 @@ export class StatsListItem extends ValueObject<StatsListItem, 'StatsListItem'> {
     locale: Locale,
     terms: Terms
   ): Superposition<StatsListItem, StatsListItemError> {
-    return Unscharferelation.maybe<Language>(locale.getLanguages().get(outline.getLanguageID()))
-      .map<StatsListItem>((language: Language) => {
-        return Unscharferelation.maybe<Region>(locale.getRegions().get(outline.getRegionID())).map<StatsListItem>(
-          (region: Region) => {
-            return Unscharferelation.maybe<Term>(terms.get(outline.getTermID())).map<StatsListItem>((term: Term) => {
-              return StatsListItem.of(outline, language, region, term);
-            });
-          }
-        );
-      })
-      .toSuperposition()
-      .recover<StatsListItem, StatsListItemError>((err: UnscharferelationError) => {
-        throw new StatsListItemError('StatsListItem.ofOutline()', err);
-      }, StatsListItemError);
+    return Unscharferelation.maybe<Language>(locale.getLanguages().get(outline.getLanguageID())).map<StatsListItem>((language: Language) => {
+      return Unscharferelation.maybe<Region>(locale.getRegions().get(outline.getRegionID())).map<StatsListItem>(
+        (region: Region) => {
+          return Unscharferelation.maybe<Term>(terms.get(outline.getTermID())).map<StatsListItem>((term: Term) => {
+            return StatsListItem.of(outline, language, region, term);
+          });
+        }
+      );
+    }).toSuperposition().recover<StatsListItem, StatsListItemError>((err: UnscharferelationError) => {
+      throw new StatsListItemError('StatsListItem.ofOutline()', err);
+    }, StatsListItemError);
   }
 
   protected constructor(outline: StatsOutline, language: Language, region: Region, term: Term) {
@@ -47,22 +44,6 @@ export class StatsListItem extends ValueObject<StatsListItem, 'StatsListItem'> {
     this.language = language;
     this.region = region;
     this.term = term;
-  }
-
-  public getOutline(): StatsOutline {
-    return this.outline;
-  }
-
-  public getLanguage(): Language {
-    return this.language;
-  }
-
-  public getRegion(): Region {
-    return this.region;
-  }
-
-  public getTerm(): Term {
-    return this.term;
   }
 
   public equals(other: StatsListItem): boolean {
@@ -94,5 +75,21 @@ export class StatsListItem extends ValueObject<StatsListItem, 'StatsListItem'> {
     properties.push(this.term.toString());
 
     return properties.join(' ');
+  }
+
+  public getOutline(): StatsOutline {
+    return this.outline;
+  }
+
+  public getLanguage(): Language {
+    return this.language;
+  }
+
+  public getRegion(): Region {
+    return this.region;
+  }
+
+  public getTerm(): Term {
+    return this.term;
   }
 }

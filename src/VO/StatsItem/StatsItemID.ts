@@ -35,10 +35,6 @@ export class StatsItemID extends ValueObject<StatsItemID, 'StatsItemID'> {
     this.uuid = uuid;
   }
 
-  public get(): UUID {
-    return this.uuid;
-  }
-
   public equals(other: StatsItemID): boolean {
     if (this === other) {
       return true;
@@ -49,5 +45,9 @@ export class StatsItemID extends ValueObject<StatsItemID, 'StatsItemID'> {
 
   public serialize(): string {
     return this.uuid.toString();
+  }
+
+  public get(): UUID {
+    return this.uuid;
   }
 }

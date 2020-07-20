@@ -12,7 +12,6 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   implements JSONable<Array<LanguageJSON>> {
   public readonly noun: 'Languages' = 'Languages';
   private readonly languages: Project<LanguageID, Language>;
-
   private static readonly EMPTY: Languages = new Languages(ImmutableProject.empty<LanguageID, Language>());
 
   public static of(languages: Project<LanguageID, Language>): Languages {
@@ -21,10 +20,6 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     }
 
     return new Languages(languages);
-  }
-
-  private static ofMap(languages: Map<LanguageID, Language>): Languages {
-    return Languages.of(ImmutableProject.of<LanguageID, Language>(languages));
   }
 
   public static ofArray(languages: Array<Language>): Languages {
@@ -44,10 +39,8 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   public static ofSuperposition(
     superpositions: Array<Superposition<Language, LanguageError>>
   ): Superposition<Languages, LanguagesError> {
-    return Superposition.all<Language, LanguageError>(superpositions, LanguageError).transform<
-      Languages,
-      LanguagesError
-    >(
+    return Superposition.all<Language, LanguageError>(superpositions, LanguageError).transform<Languages,
+      LanguagesError>(
       (regions: Array<Language>) => {
         return Languages.ofArray(regions);
       },
@@ -59,9 +52,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   }
 
   public static ofJSON(json: Array<LanguageJSON>): Superposition<Languages, LanguagesError> {
-    const superpositions: Array<Superposition<Language, LanguageError>> = json.map<
-      Superposition<Language, LanguageError>
-    >((language: LanguageJSON) => {
+    const superpositions: Array<Superposition<Language, LanguageError>> = json.map<Superposition<Language, LanguageError>>((language: LanguageJSON) => {
       return Language.ofJSON(language);
     });
 
@@ -69,9 +60,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   }
 
   public static ofRow(rows: Array<LanguageRow>): Superposition<Languages, LanguagesError> {
-    const superpositions: Array<Superposition<Language, LanguageError>> = rows.map<
-      Superposition<Language, LanguageError>
-    >((language: LanguageJSON) => {
+    const superpositions: Array<Superposition<Language, LanguageError>> = rows.map<Superposition<Language, LanguageError>>((language: LanguageJSON) => {
       return Language.ofRow(language);
     });
 
@@ -80,6 +69,10 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
 
   public static empty(): Languages {
     return Languages.EMPTY;
+  }
+
+  private static ofMap(languages: Map<LanguageID, Language>): Languages {
+    return Languages.of(ImmutableProject.of<LanguageID, Language>(languages));
   }
 
   protected constructor(languages: Project<LanguageID, Language>) {
@@ -101,32 +94,6 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
 
   public forEach(iteration: CancellableEnumerator<LanguageID, Language>): void {
     this.languages.forEach(iteration);
-  }
-
-  public map<U>(mapper: Mapper<Language, U>): Array<U> {
-    const array: Array<U> = [];
-    let i: number = 0;
-
-    this.forEach((language: Language) => {
-      array.push(mapper(language, i));
-      i++;
-    });
-
-    return array;
-  }
-
-  public find(predicate: Predicate<Language>): Nullable<Language> {
-    for (const language of this.languages.toMap().values()) {
-      if (predicate(language)) {
-        return language;
-      }
-    }
-
-    return null;
-  }
-
-  public iterator(): Iterator<Pair<LanguageID, Language>> {
-    return this.languages.iterator();
   }
 
   public isEmpty(): boolean {
@@ -153,5 +120,31 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
 
   public serialize(): string {
     return this.languages.toString();
+  }
+
+  public map<U>(mapper: Mapper<Language, U>): Array<U> {
+    const array: Array<U> = [];
+    let i: number = 0;
+
+    this.forEach((language: Language) => {
+      array.push(mapper(language, i));
+      i++;
+    });
+
+    return array;
+  }
+
+  public find(predicate: Predicate<Language>): Nullable<Language> {
+    for (const language of this.languages.toMap().values()) {
+      if (predicate(language)) {
+        return language;
+      }
+    }
+
+    return null;
+  }
+
+  public iterator(): Iterator<Pair<LanguageID, Language>> {
+    return this.languages.iterator();
   }
 }

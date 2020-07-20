@@ -28,22 +28,6 @@ export class Identity extends ValueObject<Identity, 'Identity'> {
     this.region = region;
   }
 
-  public getVeauAccountID(): VeauAccountID {
-    return this.veauAccountID;
-  }
-
-  public getAccountName(): AccountName {
-    return this.name;
-  }
-
-  public getLanguage(): Language {
-    return this.language;
-  }
-
-  public getRegion(): Region {
-    return this.region;
-  }
-
   public equals(other: Identity): boolean {
     if (this === other) {
       return true;
@@ -73,5 +57,21 @@ export class Identity extends ValueObject<Identity, 'Identity'> {
     properties.push(this.region.toString());
 
     return properties.join(' ');
+  }
+
+  public getVeauAccountID(): VeauAccountID {
+    return this.veauAccountID;
+  }
+
+  public getAccountName(): AccountName {
+    return this.name;
+  }
+
+  public getLanguage(): Language {
+    return this.language;
+  }
+
+  public getRegion(): Region {
+    return this.region;
   }
 }

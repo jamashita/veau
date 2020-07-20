@@ -11,7 +11,6 @@ import { RegionID } from './RegionID';
 export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> implements JSONable<Array<RegionJSON>> {
   public readonly noun: 'Regions' = 'Regions';
   private readonly regions: Project<RegionID, Region>;
-
   private static readonly EMPTY: Regions = new Regions(ImmutableProject.empty<RegionID, Region>());
 
   public static of(regions: Project<RegionID, Region>): Regions {
@@ -20,10 +19,6 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     }
 
     return new Regions(regions);
-  }
-
-  private static ofMap(regions: Map<RegionID, Region>): Regions {
-    return Regions.of(ImmutableProject.of<RegionID, Region>(regions));
   }
 
   public static ofArray(regions: Array<Region>): Regions {
@@ -78,6 +73,10 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return Regions.EMPTY;
   }
 
+  private static ofMap(regions: Map<RegionID, Region>): Regions {
+    return Regions.of(ImmutableProject.of<RegionID, Region>(regions));
+  }
+
   protected constructor(regions: Project<RegionID, Region>) {
     super();
     this.regions = regions;
@@ -97,32 +96,6 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
 
   public forEach(iteration: CancellableEnumerator<RegionID, Region>): void {
     this.regions.forEach(iteration);
-  }
-
-  public map<U>(mapper: Mapper<Region, U>): Array<U> {
-    const array: Array<U> = [];
-    let i: number = 0;
-
-    this.forEach((region: Region) => {
-      array.push(mapper(region, i));
-      i++;
-    });
-
-    return array;
-  }
-
-  public find(predicate: Predicate<Region>): Nullable<Region> {
-    for (const region of this.regions.toMap().values()) {
-      if (predicate(region)) {
-        return region;
-      }
-    }
-
-    return null;
-  }
-
-  public iterator(): Iterator<Pair<RegionID, Region>> {
-    return this.regions.iterator();
   }
 
   public isEmpty(): boolean {
@@ -149,5 +122,31 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
 
   public serialize(): string {
     return this.regions.toString();
+  }
+
+  public map<U>(mapper: Mapper<Region, U>): Array<U> {
+    const array: Array<U> = [];
+    let i: number = 0;
+
+    this.forEach((region: Region) => {
+      array.push(mapper(region, i));
+      i++;
+    });
+
+    return array;
+  }
+
+  public find(predicate: Predicate<Region>): Nullable<Region> {
+    for (const region of this.regions.toMap().values()) {
+      if (predicate(region)) {
+        return region;
+      }
+    }
+
+    return null;
+  }
+
+  public iterator(): Iterator<Pair<RegionID, Region>> {
+    return this.regions.iterator();
   }
 }

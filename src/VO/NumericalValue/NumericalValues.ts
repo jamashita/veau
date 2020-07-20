@@ -6,7 +6,6 @@ import { NumericalValue } from './NumericalValue';
 export class NumericalValues extends Quantity<NumericalValues, number, NumericalValue, 'NumericalValues'> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
   private readonly values: Sequence<NumericalValue>;
-
   private static readonly EMPTY: NumericalValues = new NumericalValues(ImmutableSequence.empty<NumericalValue>());
 
   public static of(values: Sequence<NumericalValue>): NumericalValues {
@@ -34,22 +33,8 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
     this.values = values;
   }
 
-  public add(...values: Array<NumericalValue>): NumericalValues {
-    if (values.length === 0) {
-      return this;
-    }
-
-    return NumericalValues.of(this.values.add(...values));
-  }
-
   public get(index: number): Nullable<NumericalValue> {
     return this.values.get(index);
-  }
-
-  public row(): Array<string> {
-    return this.values.toArray().map<string>((value: NumericalValue) => {
-      return value.toString();
-    });
   }
 
   public contains(value: NumericalValue): boolean {
@@ -62,10 +47,6 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
 
   public forEach(iteration: CancellableEnumerator<number, NumericalValue>): void {
     this.values.forEach(iteration);
-  }
-
-  public iterator(): Iterator<Pair<number, NumericalValue>> {
-    return this.values.iterator();
   }
 
   public isEmpty(): boolean {
@@ -82,5 +63,23 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
 
   public serialize(): string {
     return this.values.toString();
+  }
+
+  public add(...values: Array<NumericalValue>): NumericalValues {
+    if (values.length === 0) {
+      return this;
+    }
+
+    return NumericalValues.of(this.values.add(...values));
+  }
+
+  public row(): Array<string> {
+    return this.values.toArray().map<string>((value: NumericalValue) => {
+      return value.toString();
+    });
+  }
+
+  public iterator(): Iterator<Pair<number, NumericalValue>> {
+    return this.values.iterator();
   }
 }

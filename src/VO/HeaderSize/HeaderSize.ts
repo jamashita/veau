@@ -30,10 +30,6 @@ export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
     this.size = size;
   }
 
-  public get(): number {
-    return this.size;
-  }
-
   public equals(other: HeaderSize): boolean {
     if (this === other) {
       return true;
@@ -47,5 +43,9 @@ export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
 
   public serialize(): string {
     return `${this.size}`;
+  }
+
+  public get(): number {
+    return this.size;
   }
 }

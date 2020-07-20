@@ -7,7 +7,6 @@ import { RegionIDError } from './Error/RegionIDError';
 export class RegionID extends ValueObject<RegionID, 'RegionID'> {
   public readonly noun: 'RegionID' = 'RegionID';
   private readonly uuid: UUID;
-
   private static readonly EMPTY: RegionID = new RegionID(UUID.v5());
 
   public static of(uuid: UUID): RegionID {
@@ -37,18 +36,6 @@ export class RegionID extends ValueObject<RegionID, 'RegionID'> {
     this.uuid = uuid;
   }
 
-  public get(): UUID {
-    return this.uuid;
-  }
-
-  public isEmpty(): boolean {
-    if (this === RegionID.empty()) {
-      return true;
-    }
-
-    return false;
-  }
-
   public equals(other: RegionID): boolean {
     if (this === other) {
       return true;
@@ -59,5 +46,17 @@ export class RegionID extends ValueObject<RegionID, 'RegionID'> {
 
   public serialize(): string {
     return this.uuid.toString();
+  }
+
+  public get(): UUID {
+    return this.uuid;
+  }
+
+  public isEmpty(): boolean {
+    if (this === RegionID.empty()) {
+      return true;
+    }
+
+    return false;
   }
 }

@@ -1,7 +1,6 @@
-import { injectable } from 'inversify';
-
 import { CacheError } from '@jamashita/publikum-cache';
 import { Superposition } from '@jamashita/publikum-monad';
+import { injectable } from 'inversify';
 
 import { TermsError } from '../../VO/Term/Error/TermsError';
 import { Terms } from '../../VO/Term/Terms';

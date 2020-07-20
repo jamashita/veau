@@ -8,7 +8,6 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
   implements JSONable<Array<string>> {
   public readonly noun: 'StatsItemNames' = 'StatsItemNames';
   private readonly names: Sequence<StatsItemName>;
-
   private static readonly EMPTY: StatsItemNames = new StatsItemNames(ImmutableSequence.empty<StatsItemName>());
 
   public static of(names: Sequence<StatsItemName>): StatsItemNames {
@@ -52,22 +51,6 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
     this.names.forEach(iteration);
   }
 
-  public map<U>(mapper: Mapper<StatsItemName, U>): Array<U> {
-    const array: Array<U> = [];
-    let i: number = 0;
-
-    this.forEach((item: StatsItemName) => {
-      array.push(mapper(item, i));
-      i++;
-    });
-
-    return array;
-  }
-
-  public iterator(): Iterator<Pair<number, StatsItemName>> {
-    return this.names.iterator();
-  }
-
   public isEmpty(): boolean {
     return this.names.isEmpty();
   }
@@ -88,5 +71,21 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
 
   public serialize(): string {
     return this.names.toString();
+  }
+
+  public map<U>(mapper: Mapper<StatsItemName, U>): Array<U> {
+    const array: Array<U> = [];
+    let i: number = 0;
+
+    this.forEach((item: StatsItemName) => {
+      array.push(mapper(item, i));
+      i++;
+    });
+
+    return array;
+  }
+
+  public iterator(): Iterator<Pair<number, StatsItemName>> {
+    return this.names.iterator();
   }
 }

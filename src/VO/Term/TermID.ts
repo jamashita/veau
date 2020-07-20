@@ -31,10 +31,6 @@ export class TermID extends ValueObject<TermID, 'TermID'> {
     this.uuid = uuid;
   }
 
-  public get(): UUID {
-    return this.uuid;
-  }
-
   public equals(other: TermID): boolean {
     if (this === other) {
       return true;
@@ -45,5 +41,9 @@ export class TermID extends ValueObject<TermID, 'TermID'> {
 
   public serialize(): string {
     return this.uuid.toString();
+  }
+
+  public get(): UUID {
+    return this.uuid;
   }
 }

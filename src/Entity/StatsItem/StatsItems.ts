@@ -61,9 +61,7 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
   }
 
   public static ofJSON(json: Array<StatsItemJSON>): Superposition<StatsItems, StatsItemsError> {
-    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = json.map<
-      Superposition<StatsItem, StatsItemError>
-    >((statsItemJSON: StatsItemJSON) => {
+    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = json.map<Superposition<StatsItem, StatsItemError>>((statsItemJSON: StatsItemJSON) => {
       return StatsItem.ofJSON(statsItemJSON);
     });
 
@@ -74,9 +72,7 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     rows: Array<StatsItemRow>,
     project: Project<StatsItemID, StatsValues>
   ): Superposition<StatsItems, StatsItemsError> {
-    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<
-      Superposition<StatsItem, StatsItemError>
-    >((statsItemRow: StatsItemRow) => {
+    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<Superposition<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
       return StatsItem.ofRow(statsItemRow, project);
     });
 
@@ -102,16 +98,58 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     this.items = items;
   }
 
+  public get(index: number): Nullable<StatsItem> {
+    return this.items.get(index);
+  }
+
+  public contains(value: StatsItem): boolean {
+    return this.items.contains(value);
+  }
+
+  public size(): number {
+    return this.items.size();
+  }
+
+  public forEach(iteration: CancellableEnumerator<number, StatsItem>): void {
+    this.items.forEach(iteration);
+  }
+
+  public duplicate(): StatsItems {
+    if (this.isEmpty()) {
+      return StatsItems.empty();
+    }
+
+    return StatsItems.of(this.items.duplicate());
+  }
+
+  public isEmpty(): boolean {
+    return this.items.isEmpty();
+  }
+
+  public equals(other: StatsItems): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return this.items.equals(other.items);
+  }
+
+  public toJSON(): Array<StatsItemJSON> {
+    return this.items.toArray().map<StatsItemJSON>((item: StatsItem) => {
+      return item.toJSON();
+    });
+  }
+
+  public serialize(): string {
+    return this.items.toString();
+  }
+
   public add(...statsItem: Array<StatsItem>): StatsItems {
     if (statsItem.length === 0) {
       return this;
     }
 
     return StatsItems.of(this.items.add(...statsItem));
-  }
-
-  public get(index: number): Nullable<StatsItem> {
-    return this.items.get(index);
   }
 
   public getNames(): StatsItemNames {
@@ -185,18 +223,6 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     return StatsItems.of(items);
   }
 
-  public contains(value: StatsItem): boolean {
-    return this.items.contains(value);
-  }
-
-  public size(): number {
-    return this.items.size();
-  }
-
-  public forEach(iteration: CancellableEnumerator<number, StatsItem>): void {
-    this.items.forEach(iteration);
-  }
-
   public iterator(): Iterator<Pair<number, StatsItem>> {
     return this.items.iterator();
   }
@@ -236,41 +262,11 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     return true;
   }
 
-  public duplicate(): StatsItems {
-    if (this.isEmpty()) {
-      return StatsItems.empty();
-    }
-
-    return StatsItems.of(this.items.duplicate());
-  }
-
-  public isEmpty(): boolean {
-    return this.items.isEmpty();
-  }
-
-  public equals(other: StatsItems): boolean {
-    if (this === other) {
-      return true;
-    }
-
-    return this.items.equals(other.items);
-  }
-
-  public toJSON(): Array<StatsItemJSON> {
-    return this.items.toArray().map<StatsItemJSON>((item: StatsItem) => {
-      return item.toJSON();
-    });
-  }
-
   public display(): StatsItemsDisplay {
     return StatsItemsDisplay.of(
       this.items.map<StatsItemDisplay>((item: StatsItem) => {
         return item.display();
       })
     );
-  }
-
-  public serialize(): string {
-    return this.items.toString();
   }
 }

@@ -1,12 +1,11 @@
-import 'reflect-metadata';
-
-import sinon, { SinonStub } from 'sinon';
-
 import { Project } from '@jamashita/publikum-collection';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { Nullable } from '@jamashita/publikum-type';
+import 'reflect-metadata';
+
+import sinon, { SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
@@ -72,10 +71,8 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const schrodinger: Schrodinger<
-        Project<StatsItemID, StatsValues>,
-        StatsValuesError | DataSourceError
-      > = await statsValueQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>,
+        StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID).terminate();
 
       expect(
         stub.withArgs(
@@ -98,34 +95,19 @@ describe('StatsValueQuery', () => {
       const statsValues2: Nullable<StatsValues> = project.get(await StatsItemID.ofString(statsItemID2).get());
 
       expect(
-        statsValues1
-          ?.get(await AsOf.ofString(asOf1).get())
-          ?.getValue()
-          .get()
+        statsValues1?.get(await AsOf.ofString(asOf1).get())?.getValue().get()
       ).toBe(1);
       expect(
-        statsValues1
-          ?.get(await AsOf.ofString(asOf2).get())
-          ?.getValue()
-          .get()
+        statsValues1?.get(await AsOf.ofString(asOf2).get())?.getValue().get()
       ).toBe(2);
       expect(
-        statsValues1
-          ?.get(await AsOf.ofString(asOf3).get())
-          ?.getValue()
-          .get()
+        statsValues1?.get(await AsOf.ofString(asOf3).get())?.getValue().get()
       ).toBe(3);
       expect(
-        statsValues2
-          ?.get(await AsOf.ofString(asOf1).get())
-          ?.getValue()
-          .get()
+        statsValues2?.get(await AsOf.ofString(asOf1).get())?.getValue().get()
       ).toBe(11);
       expect(
-        statsValues2
-          ?.get(await AsOf.ofString(asOf2).get())
-          ?.getValue()
-          .get()
+        statsValues2?.get(await AsOf.ofString(asOf2).get())?.getValue().get()
       ).toBe(12);
       expect(statsValues2?.get(await AsOf.ofString(asOf3).get())).toBe(null);
     });
@@ -167,10 +149,8 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const schrodinger: Schrodinger<
-        Project<StatsItemID, StatsValues>,
-        StatsValuesError | DataSourceError
-      > = await statsValueQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>,
+        StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -188,10 +168,8 @@ describe('StatsValueQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const schrodinger: Schrodinger<
-        Project<StatsItemID, StatsValues>,
-        StatsValuesError | DataSourceError
-      > = await statsValueQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>,
+        StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

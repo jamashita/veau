@@ -1,7 +1,6 @@
-import { inject, injectable } from 'inversify';
-
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
+import { inject, injectable } from 'inversify';
 
 import { Type } from '../../Container/Types';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
@@ -47,61 +46,50 @@ export class StatsQuery implements IStatsQuery, IKernelQuery {
   }
 
   public findByStatsID(statsID: StatsID): Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> {
-    return this.statsOutlineQuery
-      .find(statsID)
-      .map<
-        Stats,
-        | StatsOutlineError
-        | StatsItemsError
-        | LanguageError
-        | RegionError
-        | TermError
-        | NoSuchElementError
-        | DataSourceError
-      >((outline: StatsOutline) => {
-        return this.statsItemQuery
-          .findByStatsID(statsID)
-          .map<Stats, StatsItemsError | LanguageError | RegionError | TermError | NoSuchElementError | DataSourceError>(
-            (items: StatsItems) => {
-              return this.languageQuery
-                .find(outline.getLanguageID())
-                .map<Stats, LanguageError | RegionError | TermError | NoSuchElementError | DataSourceError>(
-                  (language: Language) => {
-                    return this.regionQuery
-                      .find(outline.getRegionID())
-                      .map<Stats, RegionError | TermError | NoSuchElementError | DataSourceError>((region: Region) => {
-                        return Term.ofTermID(outline.getTermID()).map<Stats, TermError>((term: Term) => {
-                          return Stats.of(outline, language, region, term, items);
-                        });
-                      });
-                  }
-                );
+    return this.statsOutlineQuery.find(statsID).map<Stats,
+      | StatsOutlineError
+      | StatsItemsError
+      | LanguageError
+      | RegionError
+      | TermError
+      | NoSuchElementError
+      | DataSourceError>((outline: StatsOutline) => {
+      return this.statsItemQuery.findByStatsID(statsID).map<Stats, StatsItemsError | LanguageError | RegionError | TermError | NoSuchElementError | DataSourceError>(
+        (items: StatsItems) => {
+          return this.languageQuery.find(outline.getLanguageID()).map<Stats, LanguageError | RegionError | TermError | NoSuchElementError | DataSourceError>(
+            (language: Language) => {
+              return this.regionQuery.find(outline.getRegionID()).map<Stats, RegionError | TermError | NoSuchElementError | DataSourceError>((region: Region) => {
+                return Term.ofTermID(outline.getTermID()).map<Stats, TermError>((term: Term) => {
+                  return Stats.of(outline, language, region, term, items);
+                });
+              });
             }
           );
-      })
-      .recover<Stats, StatsError | NoSuchElementError | DataSourceError>(
-        (
-          err:
-            | StatsOutlineError
-            | StatsItemsError
-            | LanguageError
-            | RegionError
-            | TermError
-            | NoSuchElementError
-            | DataSourceError
-        ) => {
-          if (err instanceof NoSuchElementError) {
-            throw err;
-          }
-          if (err instanceof DataSourceError) {
-            throw err;
-          }
-
-          throw new StatsError('StatsQuery.findByStatsID()', err);
-        },
-        StatsError,
-        NoSuchElementError,
-        DataSourceError
+        }
       );
+    }).recover<Stats, StatsError | NoSuchElementError | DataSourceError>(
+      (
+        err:
+          | StatsOutlineError
+          | StatsItemsError
+          | LanguageError
+          | RegionError
+          | TermError
+          | NoSuchElementError
+          | DataSourceError
+      ) => {
+        if (err instanceof NoSuchElementError) {
+          throw err;
+        }
+        if (err instanceof DataSourceError) {
+          throw err;
+        }
+
+        throw new StatsError('StatsQuery.findByStatsID()', err);
+      },
+      StatsError,
+      NoSuchElementError,
+      DataSourceError
+    );
   }
 }

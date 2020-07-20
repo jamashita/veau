@@ -1,11 +1,10 @@
-import 'reflect-metadata';
-
-import sinon, { SinonStub } from 'sinon';
-
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
+import 'reflect-metadata';
+
+import sinon, { SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
@@ -46,10 +45,8 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(accountName).terminate();
+      const schrodinger: Schrodinger<Account,
+        AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(accountName).terminate();
 
       expect(
         stub.withArgs(
@@ -89,10 +86,8 @@ describe('AccountQuery', () => {
       stub.resolves([]);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account,
+        AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -119,10 +114,8 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account,
+        AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -140,10 +133,8 @@ describe('AccountQuery', () => {
       stub.rejects(new MySQLError('test faield'));
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account,
+        AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

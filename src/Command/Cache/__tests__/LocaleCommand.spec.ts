@@ -1,10 +1,9 @@
-import 'reflect-metadata';
-
-import sinon, { SinonStub } from 'sinon';
-
 import { CacheError, MockCache } from '@jamashita/publikum-cache';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
+import 'reflect-metadata';
+
+import sinon, { SinonStub } from 'sinon';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';

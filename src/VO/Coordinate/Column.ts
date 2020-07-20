@@ -9,7 +9,6 @@ const ORIGIN_VALUE: number = 0;
 export class Column extends ValueObject<Column, 'Column'> {
   public readonly noun: 'Column' = 'Column';
   private readonly column: number;
-
   private static readonly ORIGIN: Column = new Column(ORIGIN_VALUE);
 
   public static of(column: number): Superposition<Column, ColumnError> {
@@ -38,18 +37,6 @@ export class Column extends ValueObject<Column, 'Column'> {
     this.column = column;
   }
 
-  public get(): number {
-    return this.column;
-  }
-
-  public isOrigin(): boolean {
-    if (this === Column.origin()) {
-      return true;
-    }
-
-    return false;
-  }
-
   public equals(other: Column): boolean {
     if (this === other) {
       return true;
@@ -63,5 +50,17 @@ export class Column extends ValueObject<Column, 'Column'> {
 
   public serialize(): string {
     return `${this.column}`;
+  }
+
+  public get(): number {
+    return this.column;
+  }
+
+  public isOrigin(): boolean {
+    if (this === Column.origin()) {
+      return true;
+    }
+
+    return false;
   }
 }

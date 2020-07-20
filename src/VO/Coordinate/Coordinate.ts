@@ -18,14 +18,6 @@ export class Coordinate extends ValueObject<Coordinate, 'Coordinate'> {
     this.column = column;
   }
 
-  public getRow(): Row {
-    return this.row;
-  }
-
-  public getColumn(): Column {
-    return this.column;
-  }
-
   public equals(other: Coordinate): boolean {
     if (this === other) {
       return true;
@@ -47,5 +39,13 @@ export class Coordinate extends ValueObject<Coordinate, 'Coordinate'> {
     properties.push(this.column.toString());
 
     return properties.join(' ');
+  }
+
+  public getRow(): Row {
+    return this.row;
+  }
+
+  public getColumn(): Column {
+    return this.column;
   }
 }

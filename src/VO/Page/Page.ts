@@ -12,7 +12,6 @@ const MIN_PAGE: number = 1;
 export class Page extends ValueObject<Page, 'Page'> {
   public readonly noun: 'Page' = 'Page';
   private readonly page: number;
-
   private static readonly MIN: Page = new Page(MIN_PAGE);
 
   public static of(page: number): Superposition<Page, PageError> {
@@ -38,30 +37,6 @@ export class Page extends ValueObject<Page, 'Page'> {
     this.page = page;
   }
 
-  public get(): number {
-    return this.page;
-  }
-
-  public getLimit(): Superposition<Limit, PageError> {
-    return Superposition.alive<Limit, PageError>(Limit.default());
-  }
-
-  public getOffset(): Superposition<Offset, PageError> {
-    return this.getLimit()
-      .map<Offset, OffsetError>((limit: Limit) => {
-        const offset: number = (this.page - 1) * limit.get();
-
-        return Offset.of(offset);
-      }, OffsetError)
-      .recover<Offset, PageError>((err: PageError | OffsetError) => {
-        if (err instanceof OffsetError) {
-          throw new PageError('Page.getOffset()', err);
-        }
-
-        throw err;
-      });
-  }
-
   public equals(other: Page): boolean {
     if (this === other) {
       return true;
@@ -75,5 +50,27 @@ export class Page extends ValueObject<Page, 'Page'> {
 
   public serialize(): string {
     return `${this.page}`;
+  }
+
+  public get(): number {
+    return this.page;
+  }
+
+  public getLimit(): Superposition<Limit, PageError> {
+    return Superposition.alive<Limit, PageError>(Limit.default());
+  }
+
+  public getOffset(): Superposition<Offset, PageError> {
+    return this.getLimit().map<Offset, OffsetError>((limit: Limit) => {
+      const offset: number = (this.page - 1) * limit.get();
+
+      return Offset.of(offset);
+    }, OffsetError).recover<Offset, PageError>((err: PageError | OffsetError) => {
+      if (err instanceof OffsetError) {
+        throw new PageError('Page.getOffset()', err);
+      }
+
+      throw err;
+    });
   }
 }

@@ -19,7 +19,6 @@ export class Locale extends ValueObject<Locale, 'Locale'> implements JSONable<Lo
   public readonly noun: 'Locale' = 'Locale';
   private readonly languages: Languages;
   private readonly regions: Regions;
-
   private static readonly EMPTY: Locale = Locale.of(Languages.empty(), Regions.empty());
 
   public static of(languages: Languages, regions: Regions): Locale {
@@ -27,15 +26,13 @@ export class Locale extends ValueObject<Locale, 'Locale'> implements JSONable<Lo
   }
 
   public static ofJSON(json: LocaleJSON): Superposition<Locale, LocaleError> {
-    return Languages.ofJSON(json.languages)
-      .map<Locale, LanguagesError | RegionsError>((languages: Languages) => {
-        return Regions.ofJSON(json.regions).map<Locale, RegionsError>((regions: Regions) => {
-          return Locale.of(languages, regions);
-        });
-      }, RegionsError)
-      .recover<Locale, LocaleError>((err: LanguagesError | RegionsError) => {
-        throw new LocaleError('Locale.ofJSON()', err);
-      }, LocaleError);
+    return Languages.ofJSON(json.languages).map<Locale, LanguagesError | RegionsError>((languages: Languages) => {
+      return Regions.ofJSON(json.regions).map<Locale, RegionsError>((regions: Regions) => {
+        return Locale.of(languages, regions);
+      });
+    }, RegionsError).recover<Locale, LocaleError>((err: LanguagesError | RegionsError) => {
+      throw new LocaleError('Locale.ofJSON()', err);
+    }, LocaleError);
   }
 
   public static empty(): Locale {
@@ -46,14 +43,6 @@ export class Locale extends ValueObject<Locale, 'Locale'> implements JSONable<Lo
     super();
     this.languages = languages;
     this.regions = regions;
-  }
-
-  public getLanguages(): Languages {
-    return this.languages;
-  }
-
-  public getRegions(): Regions {
-    return this.regions;
   }
 
   public equals(other: Locale): boolean {
@@ -84,5 +73,13 @@ export class Locale extends ValueObject<Locale, 'Locale'> implements JSONable<Lo
     properties.push(this.regions.toString());
 
     return properties.join(' ');
+  }
+
+  public getLanguages(): Languages {
+    return this.languages;
+  }
+
+  public getRegions(): Regions {
+    return this.regions;
   }
 }

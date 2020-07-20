@@ -6,13 +6,11 @@ import { MockStatsValues } from '../../StatsValue/Mock/MockStatsValues';
 import { StatsValues } from '../../StatsValue/StatsValues';
 import { StatsItemDisplay } from '../StatsItemDisplay';
 
-type StatsItemArgs = Partial<
-  Readonly<{
-    statsItemID: StatsItemID;
-    name: StatsItemName;
-    values: StatsValues;
-  }>
->;
+type StatsItemArgs = Partial<Readonly<{
+  statsItemID: StatsItemID;
+  name: StatsItemName;
+  values: StatsValues;
+}>>;
 
 export class MockStatsItemDisplay extends StatsItemDisplay {
   public constructor({

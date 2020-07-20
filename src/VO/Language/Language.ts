@@ -28,7 +28,6 @@ export class Language extends ValueObject<Language, 'Language'> implements JSONa
   private readonly name: LanguageName;
   private readonly englishName: LanguageName;
   private readonly iso639: ISO639;
-
   private static readonly EMPTY: Language = new Language(
     LanguageID.empty(),
     LanguageName.empty(),
@@ -119,30 +118,6 @@ export class Language extends ValueObject<Language, 'Language'> implements JSONa
     this.iso639 = iso639;
   }
 
-  public getLanguageID(): LanguageID {
-    return this.languageID;
-  }
-
-  public getName(): LanguageName {
-    return this.name;
-  }
-
-  public getEnglishName(): LanguageName {
-    return this.englishName;
-  }
-
-  public getISO639(): ISO639 {
-    return this.iso639;
-  }
-
-  public isEmpty(): boolean {
-    if (this === Language.empty()) {
-      return true;
-    }
-
-    return false;
-  }
-
   public equals(other: Language): boolean {
     if (this === other) {
       return true;
@@ -181,5 +156,29 @@ export class Language extends ValueObject<Language, 'Language'> implements JSONa
     properties.push(this.iso639.toString());
 
     return properties.join(' ');
+  }
+
+  public getLanguageID(): LanguageID {
+    return this.languageID;
+  }
+
+  public getName(): LanguageName {
+    return this.name;
+  }
+
+  public getEnglishName(): LanguageName {
+    return this.englishName;
+  }
+
+  public getISO639(): ISO639 {
+    return this.iso639;
+  }
+
+  public isEmpty(): boolean {
+    if (this === Language.empty()) {
+      return true;
+    }
+
+    return false;
   }
 }

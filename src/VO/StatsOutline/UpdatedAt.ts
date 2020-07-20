@@ -41,10 +41,6 @@ export class UpdatedAt extends ValueObject<UpdatedAt, 'UpdatedAt'> {
     this.at = at;
   }
 
-  public get(): Zeit {
-    return this.at;
-  }
-
   public equals(other: UpdatedAt): boolean {
     if (this === other) {
       return true;
@@ -55,5 +51,9 @@ export class UpdatedAt extends ValueObject<UpdatedAt, 'UpdatedAt'> {
 
   public serialize(): string {
     return this.at.toString();
+  }
+
+  public get(): Zeit {
+    return this.at;
   }
 }

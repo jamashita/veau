@@ -71,14 +71,6 @@ export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements
     this.value = value;
   }
 
-  public getAsOf(): AsOf {
-    return this.asOf;
-  }
-
-  public getValue(): NumericalValue {
-    return this.value;
-  }
-
   public equals(other: StatsValue): boolean {
     if (this === other) {
       return true;
@@ -107,5 +99,13 @@ export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements
     properties.push(this.value.toString());
 
     return properties.join(' ');
+  }
+
+  public getAsOf(): AsOf {
+    return this.asOf;
+  }
+
+  public getValue(): NumericalValue {
+    return this.value;
   }
 }

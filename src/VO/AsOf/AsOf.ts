@@ -42,6 +42,18 @@ export class AsOf extends ValueObject<AsOf, 'AsOf'> {
     this.asOf = asOf;
   }
 
+  public equals(other: AsOf): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return this.asOf.equals(other.asOf);
+  }
+
+  public serialize(): string {
+    return this.asOf.toString();
+  }
+
   public get(): Zeit {
     return this.asOf;
   }
@@ -98,17 +110,5 @@ export class AsOf extends ValueObject<AsOf, 'AsOf'> {
         throw new AsOfError(`UNEXPECTED VALUE: ${term.getTermID().get().get()}`);
       }
     }
-  }
-
-  public equals(other: AsOf): boolean {
-    if (this === other) {
-      return true;
-    }
-
-    return this.asOf.equals(other.asOf);
-  }
-
-  public serialize(): string {
-    return this.asOf.toString();
   }
 }

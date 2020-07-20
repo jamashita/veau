@@ -1,7 +1,6 @@
-import { inject, injectable } from 'inversify';
-
 import { CacheError, ICache } from '@jamashita/publikum-cache';
 import { Superposition } from '@jamashita/publikum-monad';
+import { inject, injectable } from 'inversify';
 
 import { Type } from '../../Container/Types';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';

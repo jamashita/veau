@@ -1,6 +1,4 @@
-import 'reflect-metadata';
-import 'source-map-support/register';
-import '../Service/AuthenticationService';
+import { Ambiguous } from '@jamashita/publikum-type';
 
 import compression from 'compression';
 import config from 'config';
@@ -10,13 +8,14 @@ import expressSession from 'express-session';
 import helmet from 'helmet';
 import passport from 'passport';
 import path from 'path';
+import 'reflect-metadata';
 import favicon from 'serve-favicon';
-
-import { Ambiguous } from '@jamashita/publikum-type';
+import 'source-map-support/register';
 
 import { BaseController } from '../Controller/BaseController';
 import { logger } from '../Infrastructure/Logger';
 import { veauRedis } from '../Infrastructure/VeauRedis';
+import '../Service/AuthenticationService';
 
 const port: number = config.get<number>('port');
 // eslint-disable-next-line no-process-env

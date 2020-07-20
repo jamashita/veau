@@ -25,7 +25,6 @@ export class Region extends ValueObject<Region, 'Region'> implements JSONable<Re
   private readonly regionID: RegionID;
   private readonly name: RegionName;
   private readonly iso3166: ISO3166;
-
   private static readonly EMPTY: Region = new Region(RegionID.empty(), RegionName.empty(), ISO3166.empty());
 
   public static of(regionID: RegionID, name: RegionName, iso3166: ISO3166): Region {
@@ -94,26 +93,6 @@ export class Region extends ValueObject<Region, 'Region'> implements JSONable<Re
     this.iso3166 = iso3166;
   }
 
-  public getRegionID(): RegionID {
-    return this.regionID;
-  }
-
-  public getName(): RegionName {
-    return this.name;
-  }
-
-  public getISO3166(): ISO3166 {
-    return this.iso3166;
-  }
-
-  public isEmpty(): boolean {
-    if (this === Region.empty()) {
-      return true;
-    }
-
-    return false;
-  }
-
   public equals(other: Region): boolean {
     if (this === other) {
       return true;
@@ -147,5 +126,25 @@ export class Region extends ValueObject<Region, 'Region'> implements JSONable<Re
     properties.push(this.iso3166.toString());
 
     return properties.join(' ');
+  }
+
+  public getRegionID(): RegionID {
+    return this.regionID;
+  }
+
+  public getName(): RegionName {
+    return this.name;
+  }
+
+  public getISO3166(): ISO3166 {
+    return this.iso3166;
+  }
+
+  public isEmpty(): boolean {
+    if (this === Region.empty()) {
+      return true;
+    }
+
+    return false;
   }
 }

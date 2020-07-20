@@ -60,81 +60,73 @@ export class StatsOutline extends ValueObject<StatsOutline, 'StatsOutline'> impl
   }
 
   public static ofJSON(json: StatsOutlineJSON): Superposition<StatsOutline, StatsOutlineError> {
-    return StatsID.ofString(json.statsID)
-      .map<StatsOutline, StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError>(
-        (statsID: StatsID) => {
-          return LanguageID.ofString(json.languageID).map<
-            StatsOutline,
-            LanguageIDError | RegionIDError | TermIDError | UpdatedAtError
-          >((languageID: LanguageID) => {
-            return RegionID.ofString(json.regionID).map<StatsOutline, RegionIDError | TermIDError | UpdatedAtError>(
-              (regionID: RegionID) => {
-                return TermID.ofString(json.termID).map<StatsOutline, TermIDError | UpdatedAtError>(
-                  (termID: TermID) => {
-                    return UpdatedAt.ofString(json.updatedAt).map<StatsOutline, UpdatedAtError>(
-                      (updatedAt: UpdatedAt) => {
-                        return StatsOutline.of(
-                          statsID,
-                          languageID,
-                          regionID,
-                          termID,
-                          StatsName.of(json.name),
-                          StatsUnit.of(json.unit),
-                          updatedAt
-                        );
-                      }
-                    );
-                  },
-                  UpdatedAtError
-                );
-              },
-              TermIDError
-            );
-          }, RegionIDError);
-        },
-        LanguageIDError
-      )
-      .recover((err: StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError) => {
-        throw new StatsOutlineError('StatsOutline.ofJSON()', err);
-      }, StatsOutlineError);
+    return StatsID.ofString(json.statsID).map<StatsOutline, StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError>(
+      (statsID: StatsID) => {
+        return LanguageID.ofString(json.languageID).map<StatsOutline,
+          LanguageIDError | RegionIDError | TermIDError | UpdatedAtError>((languageID: LanguageID) => {
+          return RegionID.ofString(json.regionID).map<StatsOutline, RegionIDError | TermIDError | UpdatedAtError>(
+            (regionID: RegionID) => {
+              return TermID.ofString(json.termID).map<StatsOutline, TermIDError | UpdatedAtError>(
+                (termID: TermID) => {
+                  return UpdatedAt.ofString(json.updatedAt).map<StatsOutline, UpdatedAtError>(
+                    (updatedAt: UpdatedAt) => {
+                      return StatsOutline.of(
+                        statsID,
+                        languageID,
+                        regionID,
+                        termID,
+                        StatsName.of(json.name),
+                        StatsUnit.of(json.unit),
+                        updatedAt
+                      );
+                    }
+                  );
+                },
+                UpdatedAtError
+              );
+            },
+            TermIDError
+          );
+        }, RegionIDError);
+      },
+      LanguageIDError
+    ).recover((err: StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError) => {
+      throw new StatsOutlineError('StatsOutline.ofJSON()', err);
+    }, StatsOutlineError);
   }
 
   public static ofRow(row: StatsOutlineRow): Superposition<StatsOutline, StatsOutlineError> {
-    return StatsID.ofString(row.statsID)
-      .map<StatsOutline, StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError>(
-        (statsID: StatsID) => {
-          return LanguageID.ofString(row.languageID).map<
-            StatsOutline,
-            LanguageIDError | RegionIDError | TermIDError | UpdatedAtError
-          >((languageID: LanguageID) => {
-            return RegionID.ofString(row.regionID).map<StatsOutline, RegionIDError | TermIDError | UpdatedAtError>(
-              (regionID: RegionID) => {
-                return TermID.ofString(row.termID).map<StatsOutline, TermIDError | UpdatedAtError>((termID: TermID) => {
-                  return UpdatedAt.ofString(row.updatedAt).map<StatsOutline, UpdatedAtError>((updatedAt: UpdatedAt) => {
-                    return StatsOutline.of(
-                      statsID,
-                      languageID,
-                      regionID,
-                      termID,
-                      StatsName.of(row.name),
-                      StatsUnit.of(row.unit),
-                      updatedAt
-                    );
-                  });
-                }, UpdatedAtError);
-              },
-              TermIDError
-            );
-          }, RegionIDError);
-        },
-        LanguageIDError
-      )
-      .recover<StatsOutline, StatsOutlineError>(
-        (err: StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError) => {
-          throw new StatsOutlineError('StatsOutline.ofRow()', err);
-        },
-        StatsOutlineError
-      );
+    return StatsID.ofString(row.statsID).map<StatsOutline, StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError>(
+      (statsID: StatsID) => {
+        return LanguageID.ofString(row.languageID).map<StatsOutline,
+          LanguageIDError | RegionIDError | TermIDError | UpdatedAtError>((languageID: LanguageID) => {
+          return RegionID.ofString(row.regionID).map<StatsOutline, RegionIDError | TermIDError | UpdatedAtError>(
+            (regionID: RegionID) => {
+              return TermID.ofString(row.termID).map<StatsOutline, TermIDError | UpdatedAtError>((termID: TermID) => {
+                return UpdatedAt.ofString(row.updatedAt).map<StatsOutline, UpdatedAtError>((updatedAt: UpdatedAt) => {
+                  return StatsOutline.of(
+                    statsID,
+                    languageID,
+                    regionID,
+                    termID,
+                    StatsName.of(row.name),
+                    StatsUnit.of(row.unit),
+                    updatedAt
+                  );
+                });
+              }, UpdatedAtError);
+            },
+            TermIDError
+          );
+        }, RegionIDError);
+      },
+      LanguageIDError
+    ).recover<StatsOutline, StatsOutlineError>(
+      (err: StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError) => {
+        throw new StatsOutlineError('StatsOutline.ofRow()', err);
+      },
+      StatsOutlineError
+    );
   }
 
   public static default(): StatsOutline {
@@ -197,51 +189,6 @@ export class StatsOutline extends ValueObject<StatsOutline, 'StatsOutline'> impl
     this.updatedAt = updatedAt;
   }
 
-  public getStatsID(): StatsID {
-    return this.statsID;
-  }
-
-  public getLanguageID(): LanguageID {
-    return this.languageID;
-  }
-
-  public getRegionID(): RegionID {
-    return this.regionID;
-  }
-
-  public getTermID(): TermID {
-    return this.termID;
-  }
-
-  public getName(): StatsName {
-    return this.name;
-  }
-
-  public getUnit(): StatsUnit {
-    return this.unit;
-  }
-
-  public getUpdatedAt(): UpdatedAt {
-    return this.updatedAt;
-  }
-
-  public isFilled(): boolean {
-    if (this.languageID.equals(LanguageID.empty())) {
-      return false;
-    }
-    if (this.regionID.equals(RegionID.empty())) {
-      return false;
-    }
-    if (this.name.equals(StatsName.empty())) {
-      return false;
-    }
-    if (this.unit.equals(StatsUnit.empty())) {
-      return false;
-    }
-
-    return true;
-  }
-
   public equals(other: StatsOutline): boolean {
     if (this === other) {
       return true;
@@ -295,5 +242,50 @@ export class StatsOutline extends ValueObject<StatsOutline, 'StatsOutline'> impl
     properties.push(this.updatedAt.toString());
 
     return properties.join(' ');
+  }
+
+  public getStatsID(): StatsID {
+    return this.statsID;
+  }
+
+  public getLanguageID(): LanguageID {
+    return this.languageID;
+  }
+
+  public getRegionID(): RegionID {
+    return this.regionID;
+  }
+
+  public getTermID(): TermID {
+    return this.termID;
+  }
+
+  public getName(): StatsName {
+    return this.name;
+  }
+
+  public getUnit(): StatsUnit {
+    return this.unit;
+  }
+
+  public getUpdatedAt(): UpdatedAt {
+    return this.updatedAt;
+  }
+
+  public isFilled(): boolean {
+    if (this.languageID.equals(LanguageID.empty())) {
+      return false;
+    }
+    if (this.regionID.equals(RegionID.empty())) {
+      return false;
+    }
+    if (this.name.equals(StatsName.empty())) {
+      return false;
+    }
+    if (this.unit.equals(StatsUnit.empty())) {
+      return false;
+    }
+
+    return true;
   }
 }

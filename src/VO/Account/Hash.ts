@@ -13,10 +13,6 @@ export class Hash extends ValueObject<Hash, 'Hash'> {
     this.hash = hash;
   }
 
-  public get(): string {
-    return this.hash;
-  }
-
   public equals(other: Hash): boolean {
     if (this === other) {
       return true;
@@ -29,6 +25,10 @@ export class Hash extends ValueObject<Hash, 'Hash'> {
   }
 
   public serialize(): string {
+    return this.hash;
+  }
+
+  public get(): string {
     return this.hash;
   }
 }

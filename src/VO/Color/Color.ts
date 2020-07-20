@@ -13,10 +13,6 @@ export class Color extends ValueObject<Color, 'Color'> {
     this.rgb = rgb;
   }
 
-  public get(): string {
-    return this.rgb;
-  }
-
   public equals(other: Color): boolean {
     if (this === other) {
       return true;
@@ -29,6 +25,10 @@ export class Color extends ValueObject<Color, 'Color'> {
   }
 
   public serialize(): string {
+    return this.rgb;
+  }
+
+  public get(): string {
     return this.rgb;
   }
 }

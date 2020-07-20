@@ -1,11 +1,10 @@
-import 'reflect-metadata';
-
-import sinon, { SinonStub } from 'sinon';
-
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
+import 'reflect-metadata';
+
+import sinon, { SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
@@ -89,10 +88,8 @@ describe('StatsQuery', () => {
       stub4.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       const stats: Stats = schrodinger.get();
@@ -123,10 +120,8 @@ describe('StatsQuery', () => {
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -150,10 +145,8 @@ describe('StatsQuery', () => {
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -183,10 +176,8 @@ describe('StatsQuery', () => {
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -214,10 +205,8 @@ describe('StatsQuery', () => {
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -250,10 +239,8 @@ describe('StatsQuery', () => {
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -288,10 +275,8 @@ describe('StatsQuery', () => {
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -330,10 +315,8 @@ describe('StatsQuery', () => {
       stub4.returns(Superposition.dead<Region, RegionError>(new RegionError('test failed'), RegionError));
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -374,10 +357,8 @@ describe('StatsQuery', () => {
       );
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -419,10 +400,8 @@ describe('StatsQuery', () => {
       stub4.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

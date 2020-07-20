@@ -7,7 +7,6 @@ import { TermID } from './TermID';
 export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
   public readonly noun: 'Terms' = 'Terms';
   private readonly terms: Project<TermID, Term>;
-
   private static readonly ALL: Terms = Terms.ofSpread(
     Term.DAILY,
     Term.WEEKLY,
@@ -67,6 +66,18 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
     this.terms.forEach(iterator);
   }
 
+  public equals(other: Terms): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return this.terms.equals(other.terms);
+  }
+
+  public serialize(): string {
+    return this.terms.toString();
+  }
+
   public map<U>(mapper: Mapper<Term, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;
@@ -81,17 +92,5 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
 
   public iterator(): Iterator<Pair<TermID, Term>> {
     return this.terms.iterator();
-  }
-
-  public equals(other: Terms): boolean {
-    if (this === other) {
-      return true;
-    }
-
-    return this.terms.equals(other.terms);
-  }
-
-  public serialize(): string {
-    return this.terms.toString();
   }
 }

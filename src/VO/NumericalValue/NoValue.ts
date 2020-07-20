@@ -4,12 +4,12 @@ import { NumericalValue } from './NumericalValue';
 export class NoValue extends NumericalValue {
   private static readonly INSTANCE: NoValue = new NoValue();
 
-  public static of(): NoValue {
-    return NoValue.INSTANCE;
-  }
-
   protected constructor() {
     super(0);
+  }
+
+  public static of(): NoValue {
+    return NoValue.INSTANCE;
   }
 
   public get(): never {

@@ -35,10 +35,6 @@ export class VeauAccountID extends ValueObject<VeauAccountID, 'VeauAccountID'> {
     this.uuid = uuid;
   }
 
-  public get(): UUID {
-    return this.uuid;
-  }
-
   public equals(other: VeauAccountID): boolean {
     if (this === other) {
       return true;
@@ -49,5 +45,9 @@ export class VeauAccountID extends ValueObject<VeauAccountID, 'VeauAccountID'> {
 
   public serialize(): string {
     return this.uuid.toString();
+  }
+
+  public get(): UUID {
+    return this.uuid;
   }
 }

@@ -14,7 +14,6 @@ export class EntranceInformation extends ValueObject<EntranceInformation, 'Entra
   public readonly noun: 'EntranceInformation' = 'EntranceInformation';
   private readonly account: AccountName;
   private readonly password: Password;
-
   private static readonly EMPTY: EntranceInformation = new EntranceInformation(AccountName.empty(), Password.empty());
 
   public static of(account: AccountName, password: Password): EntranceInformation {
@@ -35,25 +34,6 @@ export class EntranceInformation extends ValueObject<EntranceInformation, 'Entra
     super();
     this.account = account;
     this.password = password;
-  }
-
-  public getAccount(): AccountName {
-    return this.account;
-  }
-
-  public getPassword(): Password {
-    return this.password;
-  }
-
-  public isAcceptable(): boolean {
-    if (this.account.isEmpty()) {
-      return false;
-    }
-    if (this.password.isEmpty()) {
-      return false;
-    }
-
-    return true;
   }
 
   public equals(other: EntranceInformation): boolean {
@@ -84,5 +64,24 @@ export class EntranceInformation extends ValueObject<EntranceInformation, 'Entra
     properties.push(this.password.toString());
 
     return properties.join(' ');
+  }
+
+  public getAccount(): AccountName {
+    return this.account;
+  }
+
+  public getPassword(): Password {
+    return this.password;
+  }
+
+  public isAcceptable(): boolean {
+    if (this.account.isEmpty()) {
+      return false;
+    }
+    if (this.password.isEmpty()) {
+      return false;
+    }
+
+    return true;
   }
 }

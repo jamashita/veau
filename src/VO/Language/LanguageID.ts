@@ -7,7 +7,6 @@ import { LanguageIDError } from './Error/LanguageIDError';
 export class LanguageID extends ValueObject<LanguageID, 'LanguageID'> {
   public readonly noun: 'LanguageID' = 'LanguageID';
   private readonly uuid: UUID;
-
   private static readonly EMPTY: LanguageID = new LanguageID(UUID.v5());
 
   public static of(uuid: UUID): LanguageID {
@@ -37,18 +36,6 @@ export class LanguageID extends ValueObject<LanguageID, 'LanguageID'> {
     this.uuid = uuid;
   }
 
-  public get(): UUID {
-    return this.uuid;
-  }
-
-  public isEmpty(): boolean {
-    if (this === LanguageID.empty()) {
-      return true;
-    }
-
-    return false;
-  }
-
   public equals(other: LanguageID): boolean {
     if (this === other) {
       return true;
@@ -59,5 +46,17 @@ export class LanguageID extends ValueObject<LanguageID, 'LanguageID'> {
 
   public serialize(): string {
     return this.uuid.toString();
+  }
+
+  public get(): UUID {
+    return this.uuid;
+  }
+
+  public isEmpty(): boolean {
+    if (this === LanguageID.empty()) {
+      return true;
+    }
+
+    return false;
   }
 }

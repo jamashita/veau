@@ -5,7 +5,6 @@ const EMPTY_UNIT: string = '';
 export class StatsUnit extends ValueObject<StatsUnit, 'StatsUnit'> {
   public readonly noun: 'StatsUnit' = 'StatsUnit';
   private readonly unit: string;
-
   private static readonly EMPTY: StatsUnit = new StatsUnit(EMPTY_UNIT);
 
   public static of(unit: string): StatsUnit {
@@ -25,18 +24,6 @@ export class StatsUnit extends ValueObject<StatsUnit, 'StatsUnit'> {
     this.unit = unit;
   }
 
-  public get(): string {
-    return this.unit;
-  }
-
-  public isEmpty(): boolean {
-    if (this === StatsUnit.empty()) {
-      return true;
-    }
-
-    return false;
-  }
-
   public equals(other: StatsUnit): boolean {
     if (this === other) {
       return true;
@@ -50,5 +37,17 @@ export class StatsUnit extends ValueObject<StatsUnit, 'StatsUnit'> {
 
   public serialize(): string {
     return this.unit;
+  }
+
+  public get(): string {
+    return this.unit;
+  }
+
+  public isEmpty(): boolean {
+    if (this === StatsUnit.empty()) {
+      return true;
+    }
+
+    return false;
   }
 }

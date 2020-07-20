@@ -4,15 +4,13 @@ import { TermKey } from '../TermKey';
 import { MockTermID } from './MockTermID';
 import { MockTermKey } from './MockTermKey';
 
-type TermArgs = Partial<
-  Readonly<{
-    termID: TermID;
-    key: TermKey;
-  }>
->;
+type TermArgs = Partial<Readonly<{
+  termID: TermID;
+  key: TermKey;
+}>>;
 
 export class MockTerm extends Term {
-  public constructor({ termID = new MockTermID(), key = new MockTermKey() }: TermArgs = {}) {
+  public constructor({termID = new MockTermID(), key = new MockTermKey()}: TermArgs = {}) {
     super(termID, key);
   }
 }

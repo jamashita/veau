@@ -5,7 +5,6 @@ const EMPTY_CODE: string = '';
 export class ISO639 extends ValueObject<ISO639, 'ISO639'> {
   public readonly noun: 'ISO639' = 'ISO639';
   private readonly iso639: string;
-
   private static readonly EMPTY: ISO639 = new ISO639(EMPTY_CODE);
 
   public static of(iso639: string): ISO639 {
@@ -25,18 +24,6 @@ export class ISO639 extends ValueObject<ISO639, 'ISO639'> {
     this.iso639 = iso639;
   }
 
-  public get(): string {
-    return this.iso639;
-  }
-
-  public isEmpty(): boolean {
-    if (this === ISO639.empty()) {
-      return true;
-    }
-
-    return false;
-  }
-
   public equals(other: ISO639): boolean {
     if (this === other) {
       return true;
@@ -50,5 +37,17 @@ export class ISO639 extends ValueObject<ISO639, 'ISO639'> {
 
   public serialize(): string {
     return this.iso639;
+  }
+
+  public get(): string {
+    return this.iso639;
+  }
+
+  public isEmpty(): boolean {
+    if (this === ISO639.empty()) {
+      return true;
+    }
+
+    return false;
   }
 }

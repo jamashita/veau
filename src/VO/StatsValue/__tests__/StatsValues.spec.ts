@@ -72,14 +72,10 @@ describe('StatsValues', () => {
         })
       });
 
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<
-        StatsValue,
-        StatsValueError
-      >(statsValue1, StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.alive<
-        StatsValue,
-        StatsValueError
-      >(statsValue2, StatsValueError);
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
+        StatsValueError>(statsValue1, StatsValueError);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
+        StatsValueError>(statsValue2, StatsValueError);
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
@@ -96,14 +92,10 @@ describe('StatsValues', () => {
     });
 
     it('contains failure', async () => {
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<
-        StatsValue,
-        StatsValueError
-      >(new MockStatsValue(), StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<
-        StatsValue,
-        StatsValueError
-      >(new StatsValueError('test failed'), StatsValueError);
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
+        StatsValueError>(new MockStatsValue(), StatsValueError);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
+        StatsValueError>(new StatsValueError('test failed'), StatsValueError);
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
@@ -117,14 +109,10 @@ describe('StatsValues', () => {
     });
 
     it('will be multiple failures', async () => {
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.dead<
-        StatsValue,
-        StatsValueError
-      >(new StatsValueError('test failed1'), StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<
-        StatsValue,
-        StatsValueError
-      >(new StatsValueError('test failed2'), StatsValueError);
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
+        StatsValueError>(new StatsValueError('test failed1'), StatsValueError);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
+        StatsValueError>(new StatsValueError('test failed2'), StatsValueError);
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2

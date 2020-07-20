@@ -1,8 +1,7 @@
-import { OK, UNAUTHORIZED } from 'http-status';
-import { inject, injectable } from 'inversify';
-
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
 import { Superposition } from '@jamashita/publikum-monad';
+import { OK, UNAUTHORIZED } from 'http-status';
+import { inject, injectable } from 'inversify';
 
 import { Type } from '../../Container/Types';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
@@ -24,7 +23,7 @@ export class VeauAccountQuery implements IVeauAccountQuery<AJAXError>, IAJAXQuer
   public find(): Superposition<VeauAccount, VeauAccountError | AJAXError> {
     return Superposition.playground<AJAXResponse<VeauAccountJSON>, AJAXError>(() => {
       return this.ajax.get<VeauAccountJSON>('/api/accounts');
-    }, AJAXError).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<VeauAccountJSON>) => {
+    }, AJAXError).map<VeauAccount, VeauAccountError | AJAXError>(({status, body}: AJAXResponse<VeauAccountJSON>) => {
       switch (status) {
         case OK: {
           return VeauAccount.ofJSON(body);
@@ -41,7 +40,7 @@ export class VeauAccountQuery implements IVeauAccountQuery<AJAXError>, IAJAXQuer
   ): Superposition<VeauAccount, VeauAccountError | AJAXError> {
     return Superposition.playground<AJAXResponse<VeauAccountJSON>, AJAXError>(() => {
       return this.ajax.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
-    }, AJAXError).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<VeauAccountJSON>) => {
+    }, AJAXError).map<VeauAccount, VeauAccountError | AJAXError>(({status, body}: AJAXResponse<VeauAccountJSON>) => {
       switch (status) {
         case OK: {
           return VeauAccount.ofJSON(body);

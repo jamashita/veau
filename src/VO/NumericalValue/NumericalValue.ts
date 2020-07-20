@@ -13,10 +13,6 @@ export class NumericalValue extends ValueObject<NumericalValue, 'NumericalValue'
     this.value = value;
   }
 
-  public get(): number {
-    return this.value;
-  }
-
   public equals(other: NumericalValue): boolean {
     if (this === other) {
       return true;
@@ -30,5 +26,9 @@ export class NumericalValue extends ValueObject<NumericalValue, 'NumericalValue'
 
   public serialize(): string {
     return `${this.value}`;
+  }
+
+  public get(): number {
+    return this.value;
   }
 }

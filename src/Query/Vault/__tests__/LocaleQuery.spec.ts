@@ -1,11 +1,10 @@
-import 'reflect-metadata';
-
-import sinon, { SinonStub } from 'sinon';
-
 import { AJAXError } from '@jamashita/publikum-ajax';
 import { CacheError } from '@jamashita/publikum-cache';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import 'reflect-metadata';
+
+import sinon, { SinonStub } from 'sinon';
 
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
 import { Type } from '../../../Container/Types';

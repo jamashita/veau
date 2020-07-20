@@ -1,13 +1,12 @@
-import 'reflect-metadata';
-
-import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import sinon, { SinonStub } from 'sinon';
-
 import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
+
+import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import 'reflect-metadata';
+import sinon, { SinonStub } from 'sinon';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
@@ -56,10 +55,8 @@ describe('StatsOutlineQuery', () => {
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const schrodinger: Schrodinger<
-        StatsOutlines,
-        StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
+      const schrodinger: Schrodinger<StatsOutlines,
+        StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
 
       expect(stub.withArgs('/api/stats/page/3').called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
@@ -106,10 +103,8 @@ describe('StatsOutlineQuery', () => {
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const schrodinger: Schrodinger<
-        StatsOutlines,
-        StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
+      const schrodinger: Schrodinger<StatsOutlines,
+        StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -131,10 +126,8 @@ describe('StatsOutlineQuery', () => {
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const schrodinger: Schrodinger<
-        StatsOutlines,
-        StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
+      const schrodinger: Schrodinger<StatsOutlines,
+        StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

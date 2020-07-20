@@ -1,13 +1,12 @@
-import 'reflect-metadata';
-
-import sinon, { SinonStub } from 'sinon';
-
 import { ImmutableProject, Project } from '@jamashita/publikum-collection';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { Ambiguous } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
+import 'reflect-metadata';
+
+import sinon, { SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
@@ -118,10 +117,8 @@ describe('StatsItemQuery', () => {
       );
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<
-        StatsItems,
-        StatsItemsError | DataSourceError
-      > = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems,
+        StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(
         stub1.withArgs(
@@ -189,10 +186,8 @@ describe('StatsItemQuery', () => {
       stub2.returns(Superposition.alive<StatsValues, StatsValuesError | DataSourceError>(values));
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<
-        StatsItems,
-        StatsItemsError | DataSourceError
-      > = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems,
+        StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -234,10 +229,8 @@ describe('StatsItemQuery', () => {
       );
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<
-        StatsItems,
-        StatsItemsError | DataSourceError
-      > = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems,
+        StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -276,10 +269,8 @@ describe('StatsItemQuery', () => {
       );
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<
-        StatsItems,
-        StatsItemsError | DataSourceError
-      > = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems,
+        StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

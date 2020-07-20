@@ -1,12 +1,11 @@
-import 'reflect-metadata';
-
-import sinon, { SinonStub } from 'sinon';
-
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
+import 'reflect-metadata';
+
+import sinon, { SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
@@ -56,10 +55,8 @@ describe('StatsOutlineQuery', () => {
       stub.resolves(rows);
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const schrodinger: Schrodinger<
-        StatsOutline,
-        StatsOutlineError | NoSuchElementError | DataSourceError
-      > = await statsOutlineQuery.find(statsID).terminate();
+      const schrodinger: Schrodinger<StatsOutline,
+        StatsOutlineError | NoSuchElementError | DataSourceError> = await statsOutlineQuery.find(statsID).terminate();
 
       expect(
         stub.withArgs(
@@ -101,10 +98,8 @@ describe('StatsOutlineQuery', () => {
       stub.resolves(rows);
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const schrodinger: Schrodinger<
-        StatsOutline,
-        StatsOutlineError | NoSuchElementError | DataSourceError
-      > = await statsOutlineQuery.find(statsID).terminate();
+      const schrodinger: Schrodinger<StatsOutline,
+        StatsOutlineError | NoSuchElementError | DataSourceError> = await statsOutlineQuery.find(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -122,10 +117,8 @@ describe('StatsOutlineQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const schrodinger: Schrodinger<
-        StatsOutline,
-        StatsOutlineError | NoSuchElementError | DataSourceError
-      > = await statsOutlineQuery.find(statsID).terminate();
+      const schrodinger: Schrodinger<StatsOutline,
+        StatsOutlineError | NoSuchElementError | DataSourceError> = await statsOutlineQuery.find(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -166,10 +159,8 @@ describe('StatsOutlineQuery', () => {
       stub.resolves(rows);
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const schrodinger: Schrodinger<
-        StatsOutlines,
-        StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(accountID, page).terminate();
+      const schrodinger: Schrodinger<StatsOutlines,
+        StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(accountID, page).terminate();
       const limit: Limit = await page.getLimit().get();
       const offset: Offset = await page.getOffset().get();
 
@@ -223,10 +214,8 @@ describe('StatsOutlineQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const schrodinger: Schrodinger<
-        StatsOutlines,
-        StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(accountID, page).terminate();
+      const schrodinger: Schrodinger<StatsOutlines,
+        StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(accountID, page).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

@@ -35,24 +35,22 @@ export class VeauAccount extends ValueObject<VeauAccount, 'VeauAccount'> impleme
   }
 
   public static ofJSON(json: VeauAccountJSON): Superposition<VeauAccount, VeauAccountError> {
-    return VeauAccountID.ofString(json.veauAccountID)
-      .map<VeauAccount, VeauAccountIDError | LanguageIDError | RegionIDError>(
-        (veauAccountID: VeauAccountID) => {
-          return LanguageID.ofString(json.languageID).map<VeauAccount, LanguageIDError | RegionIDError>(
-            (languageID: LanguageID) => {
-              return RegionID.ofString(json.regionID).map<VeauAccount, RegionIDError>((regionID: RegionID) => {
-                return VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(json.name));
-              });
-            },
-            RegionIDError
-          );
-        },
-        LanguageIDError,
-        RegionIDError
-      )
-      .recover<VeauAccount, VeauAccountError>((err: VeauAccountIDError | LanguageIDError | RegionIDError) => {
-        throw new VeauAccountError('VeauAccount.ofJSON()', err);
-      }, VeauAccountError);
+    return VeauAccountID.ofString(json.veauAccountID).map<VeauAccount, VeauAccountIDError | LanguageIDError | RegionIDError>(
+      (veauAccountID: VeauAccountID) => {
+        return LanguageID.ofString(json.languageID).map<VeauAccount, LanguageIDError | RegionIDError>(
+          (languageID: LanguageID) => {
+            return RegionID.ofString(json.regionID).map<VeauAccount, RegionIDError>((regionID: RegionID) => {
+              return VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(json.name));
+            });
+          },
+          RegionIDError
+        );
+      },
+      LanguageIDError,
+      RegionIDError
+    ).recover<VeauAccount, VeauAccountError>((err: VeauAccountIDError | LanguageIDError | RegionIDError) => {
+      throw new VeauAccountError('VeauAccount.ofJSON()', err);
+    }, VeauAccountError);
   }
 
   public static empty(): VeauAccount {
@@ -70,22 +68,6 @@ export class VeauAccount extends ValueObject<VeauAccount, 'VeauAccount'> impleme
     this.languageID = languageID;
     this.regionID = regionID;
     this.name = account;
-  }
-
-  public getVeauAccountID(): VeauAccountID {
-    return this.veauAccountID;
-  }
-
-  public getLanguageID(): LanguageID {
-    return this.languageID;
-  }
-
-  public getRegionID(): RegionID {
-    return this.regionID;
-  }
-
-  public getAccountName(): AccountName {
-    return this.name;
   }
 
   public equals(other: VeauAccount): boolean {
@@ -126,5 +108,21 @@ export class VeauAccount extends ValueObject<VeauAccount, 'VeauAccount'> impleme
     properties.push(this.name.toString());
 
     return properties.join(' ');
+  }
+
+  public getVeauAccountID(): VeauAccountID {
+    return this.veauAccountID;
+  }
+
+  public getLanguageID(): LanguageID {
+    return this.languageID;
+  }
+
+  public getRegionID(): RegionID {
+    return this.regionID;
+  }
+
+  public getAccountName(): AccountName {
+    return this.name;
   }
 }

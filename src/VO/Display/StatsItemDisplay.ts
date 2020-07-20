@@ -26,6 +26,33 @@ export class StatsItemDisplay extends ValueObject<StatsItemDisplay> {
     this.values = values;
   }
 
+  public equals(other: StatsItemDisplay): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!this.statsItemID.equals(other.statsItemID)) {
+      return false;
+    }
+    if (!this.name.equals(other.name)) {
+      return false;
+    }
+    if (!this.values.equals(other.values)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public serialize(): string {
+    const properties: Array<string> = [];
+
+    properties.push(this.statsItemID.toString());
+    properties.push(this.name.toString());
+    properties.push(this.values.toString());
+
+    return properties.join(' ');
+  }
+
   public getStatsItemID(): StatsItemID {
     return this.statsItemID;
   }
@@ -71,32 +98,5 @@ export class StatsItemDisplay extends ValueObject<StatsItemDisplay> {
 
   public isFilled(): boolean {
     return !this.name.isEmpty();
-  }
-
-  public equals(other: StatsItemDisplay): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!this.statsItemID.equals(other.statsItemID)) {
-      return false;
-    }
-    if (!this.name.equals(other.name)) {
-      return false;
-    }
-    if (!this.values.equals(other.values)) {
-      return false;
-    }
-
-    return true;
-  }
-
-  public serialize(): string {
-    const properties: Array<string> = [];
-
-    properties.push(this.statsItemID.toString());
-    properties.push(this.name.toString());
-    properties.push(this.values.toString());
-
-    return properties.join(' ');
   }
 }

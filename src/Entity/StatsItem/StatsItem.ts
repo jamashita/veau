@@ -37,38 +37,31 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
   }
 
   public static ofJSON(json: StatsItemJSON): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(json.statsItemID)
-      .map<StatsItem, StatsItemIDError | StatsValuesError>((statsItemID: StatsItemID) => {
-        return StatsValues.ofJSON(json.values).map<StatsItem, StatsItemIDError | StatsValuesError>(
-          (statsValues: StatsValues) => {
-            return StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues);
-          },
-          StatsValuesError
-        );
-      })
-      .recover((err: StatsItemIDError | StatsValuesError) => {
-        throw new StatsItemError('StatsItem.ofJSON()', err);
-      }, StatsItemError);
+    return StatsItemID.ofString(json.statsItemID).map<StatsItem, StatsItemIDError | StatsValuesError>((statsItemID: StatsItemID) => {
+      return StatsValues.ofJSON(json.values).map<StatsItem, StatsItemIDError | StatsValuesError>(
+        (statsValues: StatsValues) => {
+          return StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues);
+        },
+        StatsValuesError
+      );
+    }).recover((err: StatsItemIDError | StatsValuesError) => {
+      throw new StatsItemError('StatsItem.ofJSON()', err);
+    }, StatsItemError);
   }
 
   public static ofRow(
     row: StatsItemRow,
     project: Project<StatsItemID, StatsValues>
   ): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(row.statsItemID)
-      .map<StatsItem, StatsItemIDError>((statsItemID: StatsItemID) => {
-        return Unscharferelation.maybe<StatsValues>(project.get(statsItemID))
-          .toSuperposition()
-          .map<StatsItem, UnscharferelationError>((values: StatsValues) => {
-            return StatsItem.of(statsItemID, StatsItemName.of(row.name), values);
-          })
-          .recover<StatsItem, StatsItemIDError>(() => {
-            return StatsItem.of(statsItemID, StatsItemName.of(row.name), StatsValues.empty());
-          });
-      })
-      .recover<StatsItem, StatsItemError>((err: StatsItemIDError) => {
-        throw new StatsItemError('StatsItem.ofRow()', err);
-      }, StatsItemError);
+    return StatsItemID.ofString(row.statsItemID).map<StatsItem, StatsItemIDError>((statsItemID: StatsItemID) => {
+      return Unscharferelation.maybe<StatsValues>(project.get(statsItemID)).toSuperposition().map<StatsItem, UnscharferelationError>((values: StatsValues) => {
+        return StatsItem.of(statsItemID, StatsItemName.of(row.name), values);
+      }).recover<StatsItem, StatsItemIDError>(() => {
+        return StatsItem.of(statsItemID, StatsItemName.of(row.name), StatsValues.empty());
+      });
+    }).recover<StatsItem, StatsItemError>((err: StatsItemIDError) => {
+      throw new StatsItemError('StatsItem.ofRow()', err);
+    }, StatsItemError);
   }
 
   public static isJSON(n: unknown): n is StatsItemJSON {
@@ -99,6 +92,32 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     this.values = values;
   }
 
+  public getIdentifier(): StatsItemID {
+    return this.statsItemID;
+  }
+
+  public duplicate(): StatsItem {
+    return new StatsItem(this.statsItemID, this.name, this.values.duplicate());
+  }
+
+  public toJSON(): StatsItemJSON {
+    return {
+      statsItemID: this.statsItemID.get().get(),
+      name: this.name.get(),
+      values: this.values.toJSON()
+    };
+  }
+
+  public serialize(): string {
+    const properties: Array<string> = [];
+
+    properties.push(this.statsItemID.toString());
+    properties.push(this.name.toString());
+    properties.push(this.values.toString());
+
+    return properties.join(' ');
+  }
+
   public getStatsItemID(): StatsItemID {
     return this.statsItemID;
   }
@@ -109,10 +128,6 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
 
   public getValues(): StatsValues {
     return this.values;
-  }
-
-  public getIdentifier(): StatsItemID {
-    return this.statsItemID;
   }
 
   public getAsOfs(): AsOfs {
@@ -179,29 +194,7 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     return true;
   }
 
-  public duplicate(): StatsItem {
-    return new StatsItem(this.statsItemID, this.name, this.values.duplicate());
-  }
-
-  public toJSON(): StatsItemJSON {
-    return {
-      statsItemID: this.statsItemID.get().get(),
-      name: this.name.get(),
-      values: this.values.toJSON()
-    };
-  }
-
   public display(): StatsItemDisplay {
     return StatsItemDisplay.of(this.statsItemID, this.name, this.values);
-  }
-
-  public serialize(): string {
-    const properties: Array<string> = [];
-
-    properties.push(this.statsItemID.toString());
-    properties.push(this.name.toString());
-    properties.push(this.values.toString());
-
-    return properties.join(' ');
   }
 }
