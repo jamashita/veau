@@ -1,8 +1,7 @@
+import { Superposition } from '@jamashita/publikum-monad';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
-import { Alive, Superposition } from '@jamashita/publikum-monad';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { AsOfError } from '../../../VO/AsOf/Error/AsOfError';
@@ -21,7 +20,7 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
   public constructor(props: Props & WrappedComponentProps) {
     super(props);
     this.state = {
-      startDate: Alive.of<AsOf, AsOfError>(AsOf.now())
+      startDate: Superposition.alive<AsOf, AsOfError>(AsOf.now())
     };
   }
 
@@ -74,14 +73,7 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
               id: 'START_DATE'
             })}
             type='date'
-            value={startDate.transform<string>(
-              (asOf: AsOf) => {
-                return asOf.toString();
-              },
-              () => {
-                return '';
-              }
-            )}
+            value={startDate.toString()}
             onKeyUp={(date: string) => {
               this.setState({
                 startDate: AsOf.ofString(date)
@@ -96,13 +88,13 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
               determineStartDate(startDate);
             }}
           >
-            <Icon className='fas fa-check' />
+            <Icon className='fas fa-check'/>
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
           </Button>
           <Button color='secondary' onClick={close}>
-            <Icon className='fas fa-times' />
+            <Icon className='fas fa-times'/>
             {intl.formatMessage({
               id: 'CANCEL'
             })}

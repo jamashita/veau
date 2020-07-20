@@ -1,8 +1,7 @@
+import { Heisenberg } from '@jamashita/publikum-monad';
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
 import { Action } from 'redux';
 import { StatsDisplay } from 'src/VO/Display/StatsDisplay';
-
-import { Heisenberg } from '@jamashita/publikum-monad';
 
 import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
@@ -400,7 +399,7 @@ export interface StatsResetAction extends Action {
 
 export interface StatsDisplayUpdateAction extends Action {
   readonly type: typeof STATS_DISPLAY_UPDATE;
-  readonly stats: StatsDisplay;
+  readonly display: Heisenberg<StatsDisplay>;
 }
 
 export interface StatsDisplayResetAction extends Action {

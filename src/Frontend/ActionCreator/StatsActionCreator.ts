@@ -1,3 +1,4 @@
+import { Heisenberg } from '@jamashita/publikum-monad';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { StatsDisplay } from '../../VO/Display/StatsDisplay';
@@ -60,10 +61,10 @@ export const resetStatsItem = (): StatsItemResetAction => {
   };
 };
 
-export const updateStatsDisplay = (stats: StatsDisplay): StatsDisplayUpdateAction => {
+export const updateStatsDisplay = (display: Heisenberg<StatsDisplay>): StatsDisplayUpdateAction => {
   return {
     type: STATS_DISPLAY_UPDATE,
-    stats
+    display
   };
 };
 

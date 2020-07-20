@@ -1,6 +1,5 @@
+import { Absent, Heisenberg } from '@jamashita/publikum-monad';
 import { Reducer } from 'redux';
-
-import { Absent, Heisenberg, Present } from '@jamashita/publikum-monad';
 
 import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import { STATS_DISPLAY_RESET, STATS_DISPLAY_UPDATE, VeauAction } from '../Action';
@@ -13,7 +12,7 @@ export const display: Reducer<Heisenberg<StatsDisplay>, VeauAction> = (
 ) => {
   switch (action.type) {
     case STATS_DISPLAY_UPDATE: {
-      return Present.of<StatsDisplay>(action.stats);
+      return action.display;
     }
     case STATS_DISPLAY_RESET: {
       return Absent.of<StatsDisplay>();

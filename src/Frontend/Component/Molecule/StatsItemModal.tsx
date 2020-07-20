@@ -1,15 +1,13 @@
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
-
-import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
+import { StatsItemDisplay } from '../../../VO/Display/StatsItemDisplay';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
   open: boolean;
-  statsItem: StatsItem;
+  statsItem: StatsItemDisplay;
   close(): void;
   itemNameTyped(name: StatsItemName): void;
   saveNewItem(): void;
@@ -27,7 +25,7 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
     if (open !== nextProps.open) {
       return true;
     }
-    if (!statsItem.isSame(nextProps.statsItem)) {
+    if (!statsItem.equals(nextProps.statsItem)) {
       return true;
     }
 
@@ -66,13 +64,13 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
         </DialogContent>
         <DialogActions>
           <Button color='secondary' onClick={saveNewItem} disabled={!statsItem.isFilled()}>
-            <Icon className='fas fa-check' />
+            <Icon className='fas fa-check'/>
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
           </Button>
           <Button color='secondary' onClick={close}>
-            <Icon className='fas fa-times' />
+            <Icon className='fas fa-times'/>
             {intl.formatMessage({
               id: 'CANCEL'
             })}
