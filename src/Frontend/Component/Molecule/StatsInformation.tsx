@@ -1,7 +1,6 @@
+import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
-import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 
 import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { ISO639 } from '../../../VO/Language/ISO639';

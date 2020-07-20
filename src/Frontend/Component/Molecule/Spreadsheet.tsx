@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { HotTable } from '@handsontable/react';
 import { Kind, Nullable } from '@jamashita/publikum-type';
+import React from 'react';
 
 import { Column } from '../../../VO/Coordinate/Column';
 import { Coordinate } from '../../../VO/Coordinate/Coordinate';

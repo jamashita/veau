@@ -130,18 +130,6 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
     return this.outlines.toString();
   }
 
-  public map<U>(mapper: Mapper<StatsOutline, U>): Array<U> {
-    const array: Array<U> = [];
-    let i: number = 0;
-
-    this.forEach((outline: StatsOutline) => {
-      array.push(mapper(outline, i));
-      i++;
-    });
-
-    return array;
-  }
-
   public [Symbol.iterator](): Iterator<Pair<StatsID, StatsOutline>> {
     return this.outlines[Symbol.iterator]();
   }
@@ -152,5 +140,17 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
 
   public some(predicate: BinaryPredicate<StatsOutline, StatsID>): boolean {
     return this.outlines.some(predicate);
+  }
+
+  public map<U>(mapper: Mapper<StatsOutline, U>): Array<U> {
+    const array: Array<U> = [];
+    let i: number = 0;
+
+    this.forEach((outline: StatsOutline) => {
+      array.push(mapper(outline, i));
+      i++;
+    });
+
+    return array;
   }
 }

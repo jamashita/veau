@@ -124,6 +124,18 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return this.regions.toString();
   }
 
+  public [Symbol.iterator](): Iterator<Pair<RegionID, Region>> {
+    return this.regions[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<Region, RegionID>): boolean {
+    return this.regions.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<Region, RegionID>): boolean {
+    return this.regions.some(predicate);
+  }
+
   public map<U>(mapper: Mapper<Region, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;
@@ -144,17 +156,5 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     }
 
     return null;
-  }
-
-  public [Symbol.iterator](): Iterator<Pair<RegionID, Region>> {
-    return this.regions[Symbol.iterator]();
-  }
-
-  public every(predicate: BinaryPredicate<Region, RegionID>): boolean {
-    return this.regions.every(predicate);
-  }
-
-  public some(predicate: BinaryPredicate<Region, RegionID>): boolean {
-    return this.regions.some(predicate);
   }
 }

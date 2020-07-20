@@ -1,5 +1,6 @@
 import { ImmutableProject } from '@jamashita/publikum-collection';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import sinon, { SinonSpy } from 'sinon';
 
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
@@ -11,8 +12,6 @@ import { StatsValuesError } from '../Error/StatsValuesError';
 import { MockStatsValue } from '../Mock/MockStatsValue';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
-import { SinonSpy } from 'sinon';
-import sinon from 'sinon';
 
 describe('StatsValues', () => {
   describe('of', () => {
@@ -74,14 +73,10 @@ describe('StatsValues', () => {
         })
       });
 
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<
-        StatsValue,
-        StatsValueError
-      >(statsValue1, StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.alive<
-        StatsValue,
-        StatsValueError
-      >(statsValue2, StatsValueError);
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
+        StatsValueError>(statsValue1, StatsValueError);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
+        StatsValueError>(statsValue2, StatsValueError);
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
@@ -98,14 +93,10 @@ describe('StatsValues', () => {
     });
 
     it('contains failure', async () => {
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<
-        StatsValue,
-        StatsValueError
-      >(new MockStatsValue(), StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<
-        StatsValue,
-        StatsValueError
-      >(new StatsValueError('test failed'), StatsValueError);
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
+        StatsValueError>(new MockStatsValue(), StatsValueError);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
+        StatsValueError>(new StatsValueError('test failed'), StatsValueError);
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
@@ -119,14 +110,10 @@ describe('StatsValues', () => {
     });
 
     it('will be multiple failures', async () => {
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.dead<
-        StatsValue,
-        StatsValueError
-      >(new StatsValueError('test failed1'), StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<
-        StatsValue,
-        StatsValueError
-      >(new StatsValueError('test failed2'), StatsValueError);
+      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
+        StatsValueError>(new StatsValueError('test failed1'), StatsValueError);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
+        StatsValueError>(new StatsValueError('test failed2'), StatsValueError);
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2

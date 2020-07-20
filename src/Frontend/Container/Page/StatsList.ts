@@ -77,12 +77,10 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const StatsList: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<
-  StateProps,
+export const StatsList: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps,
   DispatchProps,
   OwnProps,
-  State
->(
+  State>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

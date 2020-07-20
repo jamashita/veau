@@ -1,8 +1,7 @@
+import { Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
 
 import sinon, { SinonStub } from 'sinon';
-
-import { Superposition } from '@jamashita/publikum-monad';
 
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';

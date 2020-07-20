@@ -1,9 +1,8 @@
-import { inject, injectable } from 'inversify';
-import { VerifyFunction } from 'passport-local';
-
 import { Digest } from '@jamashita/publikum-digest';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
+import { inject, injectable } from 'inversify';
+import { VerifyFunction } from 'passport-local';
 
 import { Type } from '../Container/Types';
 import { logger } from '../Infrastructure/Logger';

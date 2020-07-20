@@ -1,7 +1,6 @@
+import { Button, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
-import { Button, Icon } from '@material-ui/core';
 
 import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { ISO639 } from '../../../VO/Language/ISO639';
@@ -94,12 +93,12 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
     return (
       <Authenticated>
         <Button variant='contained' color='primary' onClick={newStatsClicked}>
-          <Icon className='fas fa-plus-circle icon-spacing' />
+          <Icon className='fas fa-plus-circle icon-spacing'/>
           {intl.formatMessage({
             id: 'CREATE_NEW_STATS'
           })}
         </Button>
-        <StatsOutlineListTable statsListItems={statsListItems} toStatsEdit={toStatsEdit} />
+        <StatsOutlineListTable statsListItems={statsListItems} toStatsEdit={toStatsEdit}/>
         <StatsOutlineModal
           open={open}
           stats={stats}

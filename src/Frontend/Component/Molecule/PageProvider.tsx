@@ -1,7 +1,6 @@
+import { Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
-import { Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 
 import { PageProvider as Provider } from '../../../VO/PageProvider/PageProvider';
 
@@ -44,13 +43,13 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
     return (
       <Drawer anchor='left' open={provider.get()} variant='temporary' onClose={close}>
         <Button variant='contained' color='primary' fullWidth={true} onClick={close}>
-          <Icon className='fas fa-times' />
+          <Icon className='fas fa-times'/>
         </Button>
-        <Divider />
+        <Divider/>
         <List>
           <ListItem button={true} onClick={toStatsList}>
             <ListItemIcon>
-              <Icon className='fas fa-list-alt' />
+              <Icon className='fas fa-list-alt'/>
             </ListItemIcon>
             <ListItemText>
               {intl.formatMessage({
@@ -59,11 +58,11 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
             </ListItemText>
           </ListItem>
         </List>
-        <Divider />
+        <Divider/>
         <List>
           <ListItem button={true} onClick={logout}>
             <ListItemIcon>
-              <Icon className='fas fa-sign-out-alt' />
+              <Icon className='fas fa-sign-out-alt'/>
             </ListItemIcon>
             <ListItemText>
               {intl.formatMessage({

@@ -1,7 +1,6 @@
-import { Container } from 'inversify';
-
 import { AJAX, IAJAX } from '@jamashita/publikum-ajax';
 import { ICache } from '@jamashita/publikum-cache';
+import { Container } from 'inversify';
 
 import { SessionCommand as SessionAJAXCommand } from '../Command/AJAX/SessionCommand';
 import { StatsCommand as StatsAJAXCommand } from '../Command/AJAX/StatsCommand';

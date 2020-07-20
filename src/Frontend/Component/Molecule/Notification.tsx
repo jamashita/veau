@@ -1,8 +1,7 @@
-import React from 'react';
-import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
 import { Icon, Snackbar, SnackbarContent } from '@material-ui/core';
 import { amber, blue, green, red } from '@material-ui/core/colors';
+import React from 'react';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 import { NotificationHPosition, NotificationKind, NotificationVPosition } from '../../Action';
 
@@ -60,52 +59,6 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
     return false;
   }
 
-  private icon(): React.ReactNode {
-    // prettier-ignore
-    const {
-      kind
-    } = this.props;
-
-    switch (kind) {
-      case 'success': {
-        return <Icon className='fas fa-check-circle icon-spacing' />;
-      }
-      case 'warn': {
-        return <Icon className='fas fa-exclamation-circle icon-spacing' />;
-      }
-      case 'error': {
-        return <Icon className='fas fa-exclamation-triangle icon-spacing' />;
-      }
-      case 'info':
-      default: {
-        return <Icon className='fas fa-info-circle icon-spacing' />;
-      }
-    }
-  }
-
-  private backgroundColor(): string {
-    // prettier-ignore
-    const {
-      kind
-    } = this.props;
-
-    switch (kind) {
-      case 'success': {
-        return green['700'];
-      }
-      case 'warn': {
-        return amber['400'];
-      }
-      case 'error': {
-        return red['900'];
-      }
-      case 'info':
-      default: {
-        return blue['800'];
-      }
-    }
-  }
-
   public render(): React.ReactNode {
     // prettier-ignore
     const {
@@ -148,6 +101,52 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
         />
       </Snackbar>
     );
+  }
+
+  private icon(): React.ReactNode {
+    // prettier-ignore
+    const {
+      kind
+    } = this.props;
+
+    switch (kind) {
+      case 'success': {
+        return <Icon className='fas fa-check-circle icon-spacing'/>;
+      }
+      case 'warn': {
+        return <Icon className='fas fa-exclamation-circle icon-spacing'/>;
+      }
+      case 'error': {
+        return <Icon className='fas fa-exclamation-triangle icon-spacing'/>;
+      }
+      case 'info':
+      default: {
+        return <Icon className='fas fa-info-circle icon-spacing'/>;
+      }
+    }
+  }
+
+  private backgroundColor(): string {
+    // prettier-ignore
+    const {
+      kind
+    } = this.props;
+
+    switch (kind) {
+      case 'success': {
+        return green['700'];
+      }
+      case 'warn': {
+        return amber['400'];
+      }
+      case 'error': {
+        return red['900'];
+      }
+      case 'info':
+      default: {
+        return blue['800'];
+      }
+    }
   }
 }
 

@@ -1,10 +1,9 @@
-import 'reflect-metadata';
-
-import sinon, { SinonStub } from 'sinon';
-
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
+import 'reflect-metadata';
+
+import sinon, { SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
@@ -35,9 +34,7 @@ describe('StatsCommand', () => {
       stub.resolves(Superposition.alive<unknown, MySQLError>(null, MySQLError));
 
       const statsCommand: StatsCommand = new StatsCommand(mysql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
-        .create(stats, accountID)
-        .terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats, accountID).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
     });
@@ -53,9 +50,7 @@ describe('StatsCommand', () => {
       stub.resolves(Superposition.dead<unknown, MySQLError>(new MySQLError('test failed'), MySQLError));
 
       const statsCommand: StatsCommand = new StatsCommand(mysql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
-        .create(stats, accountID)
-        .terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats, accountID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

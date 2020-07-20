@@ -122,6 +122,18 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return this.languages.toString();
   }
 
+  public [Symbol.iterator](): Iterator<Pair<LanguageID, Language>, any, undefined> {
+    return this.languages[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<Language, LanguageID>): boolean {
+    return this.languages.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<Language, LanguageID>): boolean {
+    return this.languages.some(predicate);
+  }
+
   public map<U>(mapper: Mapper<Language, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;
@@ -142,17 +154,5 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     }
 
     return null;
-  }
-
-  public [Symbol.iterator](): Iterator<Pair<LanguageID, Language>, any, undefined> {
-    return this.languages[Symbol.iterator]();
-  }
-
-  public every(predicate: BinaryPredicate<Language, LanguageID>): boolean {
-    return this.languages.every(predicate);
-  }
-
-  public some(predicate: BinaryPredicate<Language, LanguageID>): boolean {
-    return this.languages.some(predicate);
   }
 }

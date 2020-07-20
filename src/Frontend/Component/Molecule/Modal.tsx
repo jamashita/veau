@@ -1,7 +1,6 @@
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 
 export type StateProps = Readonly<{
   open: boolean;
@@ -73,7 +72,7 @@ class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
         </DialogContent>
         <DialogActions>
           <Button color='primary' onClick={closeClicked}>
-            <Icon className='fas fa-times' />
+            <Icon className='fas fa-times'/>
           </Button>
         </DialogActions>
       </Dialog>

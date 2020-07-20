@@ -67,10 +67,8 @@ describe('StatsQuery', () => {
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(stub.withArgs(`/api/stats/${statsID.get().get()}`).called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
@@ -103,10 +101,8 @@ describe('StatsQuery', () => {
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -127,10 +123,8 @@ describe('StatsQuery', () => {
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats,
+        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

@@ -1,10 +1,9 @@
 import { ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
-import { SinonSpy } from 'sinon';
+import sinon, { SinonSpy } from 'sinon';
 
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';
-import sinon from 'sinon';
 
 describe('NumericalValues', () => {
   describe('of', () => {

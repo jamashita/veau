@@ -106,10 +106,8 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems,
+        StatsListItemsError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       const listItems: StatsListItems = schrodinger.get();
@@ -150,10 +148,8 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems,
+        StatsListItemsError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -184,10 +180,8 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems,
+        StatsListItemsError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -219,10 +213,8 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems,
+        StatsListItemsError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -253,10 +245,8 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems,
+        StatsListItemsError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -287,10 +277,8 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.dead<Terms, TermsError>(new TermsError('test failed'), TermsError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems,
+        StatsListItemsError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -321,10 +309,8 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.dead<Terms, CacheError>(new CacheError('test failed'), CacheError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems,
+        StatsListItemsError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -366,10 +352,8 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems,
+        StatsListItemsError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -417,10 +401,8 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems,
+        StatsListItemsError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -473,10 +455,8 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems,
+        StatsListItemsError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

@@ -73,31 +73,28 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<MySQLError>, IMySQL
       LIMIT :limit
       OFFSET :offset;`;
 
-    return page
-      .getOffset()
-      .map<StatsOutlines, PageError | StatsOutlinesError | MySQLError>((offset: Offset) => {
-        return page.getLimit().map<StatsOutlines, PageError | StatsOutlinesError | MySQLError>((limit: Limit) => {
-          return Superposition.playground<Array<StatsOutlineRow>, MySQLError>(() => {
-            return this.mysql.execute<Array<StatsOutlineRow>>(query, {
-              veauAccountID: veauAccountID.get().get(),
-              limit: limit.get(),
-              offset: offset.get()
-            });
-          }, MySQLError).map<StatsOutlines, StatsOutlinesError | MySQLError>((rows: Array<StatsOutlineRow>) => {
-            return StatsOutlines.ofRow(rows);
-          }, StatsOutlinesError);
-        });
-      })
-      .recover<StatsOutlines, StatsOutlinesError | MySQLError>(
-        (err: PageError | StatsOutlinesError | MySQLError) => {
-          if (err instanceof PageError) {
-            throw new StatsOutlinesError('StatsOutlineQuery.findByVeauAccountID()', err);
-          }
+    return page.getOffset().map<StatsOutlines, PageError | StatsOutlinesError | MySQLError>((offset: Offset) => {
+      return page.getLimit().map<StatsOutlines, PageError | StatsOutlinesError | MySQLError>((limit: Limit) => {
+        return Superposition.playground<Array<StatsOutlineRow>, MySQLError>(() => {
+          return this.mysql.execute<Array<StatsOutlineRow>>(query, {
+            veauAccountID: veauAccountID.get().get(),
+            limit: limit.get(),
+            offset: offset.get()
+          });
+        }, MySQLError).map<StatsOutlines, StatsOutlinesError | MySQLError>((rows: Array<StatsOutlineRow>) => {
+          return StatsOutlines.ofRow(rows);
+        }, StatsOutlinesError);
+      });
+    }).recover<StatsOutlines, StatsOutlinesError | MySQLError>(
+      (err: PageError | StatsOutlinesError | MySQLError) => {
+        if (err instanceof PageError) {
+          throw new StatsOutlinesError('StatsOutlineQuery.findByVeauAccountID()', err);
+        }
 
-          throw err;
-        },
-        StatsOutlinesError,
-        MySQLError
-      );
+        throw err;
+      },
+      StatsOutlinesError,
+      MySQLError
+    );
   }
 }

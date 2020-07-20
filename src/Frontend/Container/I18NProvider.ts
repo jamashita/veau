@@ -18,12 +18,10 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = () => {
   return {};
 };
 
-export const I18NProvider: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<
-  StateProps,
+export const I18NProvider: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps,
   DispatchProps,
   OwnProps,
-  State
->(
+  State>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

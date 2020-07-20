@@ -1,7 +1,6 @@
+import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
-import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 
 import { AccountName } from '../../../VO/Account/AccountName';
 import { EntranceInformation } from '../../../VO/EntranceInformation/EntranceInformation';
@@ -90,7 +89,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
             disabled={!entranceInformation.isAcceptable()}
             onClick={loginClicked}
           >
-            <Icon className='fas fa-sign-in-alt icon-spacing' />
+            <Icon className='fas fa-sign-in-alt icon-spacing'/>
             {intl.formatMessage({
               id: 'LOGIN'
             })}

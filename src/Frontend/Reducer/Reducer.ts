@@ -22,6 +22,7 @@ export const reducers: Reducer<State, VeauAction> = combineReducers<State, VeauA
   entranceInformation,
   identity,
   loadingCount,
+  // TODO UNNECESSARY
   locale,
   modal,
   notification,

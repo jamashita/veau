@@ -1,9 +1,8 @@
-import sinon, { SinonStub } from 'sinon';
-
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockSQL, MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
+import sinon, { SinonStub } from 'sinon';
 
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
@@ -29,9 +28,7 @@ describe('StatsValueCommand', () => {
       sql.execute = stub;
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand
-        .create(new MockStatsItemID(uuid), statsValue)
-        .terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand.create(new MockStatsItemID(uuid), statsValue).terminate();
 
       expect(
         stub.withArgs(
@@ -60,9 +57,7 @@ describe('StatsValueCommand', () => {
       stub.rejects(new MySQLError('test failed'));
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand
-        .create(new MockStatsItemID(), statsValue)
-        .terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand.create(new MockStatsItemID(), statsValue).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -82,9 +77,7 @@ describe('StatsValueCommand', () => {
       sql.execute = stub;
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand
-        .deleteByStatsID(statsID)
-        .terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID).terminate();
 
       expect(
         stub.withArgs(
@@ -113,9 +106,7 @@ describe('StatsValueCommand', () => {
       stub.rejects(new MySQLError('test failed'));
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const schrodigner: Schrodinger<unknown, DataSourceError> = await statsValueCommand
-        .deleteByStatsID(statsID)
-        .terminate();
+      const schrodigner: Schrodinger<unknown, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID).terminate();
 
       expect(schrodigner.isDead()).toBe(true);
       expect(() => {

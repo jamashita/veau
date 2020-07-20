@@ -1,7 +1,6 @@
-import 'reflect-metadata';
-
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { OK } from 'http-status';
+import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
 

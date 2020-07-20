@@ -1,11 +1,10 @@
+import { DataSourceError } from '@jamashita/publikum-error';
+import { Unscharferelation } from '@jamashita/publikum-monad';
+import { Nullable } from '@jamashita/publikum-type';
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
 import { flatMap, map, mapTo } from 'rxjs/operators';
-
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Unscharferelation } from '@jamashita/publikum-monad';
-import { Nullable } from '@jamashita/publikum-type';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Type } from '../../Container/Types';
@@ -111,24 +110,21 @@ export class StatsEditEpic {
       ofType<VeauAction, StatsEditInitializeAction>(STATS_EDIT_INITIALIZE),
       flatMap<StatsEditInitializeAction, Observable<VeauAction>>((action: StatsEditInitializeAction) => {
         return from<Promise<Observable<VeauAction>>>(
-          this.statsQuery
-            .findByStatsID(action.statsID)
-            .transform(
-              (stats: Stats) => {
-                return of<VeauAction>(updateStats(stats), clearSelectingItem());
-              },
-              (err: StatsError | NoSuchElementError | DataSourceError) => {
-                if (err instanceof NoSuchElementError) {
-                  return of<VeauAction>(
-                    pushToStatsList(),
-                    appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND')
-                  );
-                }
-
-                return of<VeauAction>(pushToStatsList());
+          this.statsQuery.findByStatsID(action.statsID).transform(
+            (stats: Stats) => {
+              return of<VeauAction>(updateStats(stats), clearSelectingItem());
+            },
+            (err: StatsError | NoSuchElementError | DataSourceError) => {
+              if (err instanceof NoSuchElementError) {
+                return of<VeauAction>(
+                  pushToStatsList(),
+                  appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND')
+                );
               }
-            )
-            .get()
+
+              return of<VeauAction>(pushToStatsList());
+            }
+          ).get()
         ).pipe<VeauAction>(
           flatMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
             return observable;
@@ -229,26 +225,23 @@ export class StatsEditEpic {
         } = state$;
 
         return from<Promise<Observable<VeauAction>>>(
-          this.languageQuery
-            .findByISO639(action.iso639)
-            .transform(
-              (language: Language) => {
-                const newStats: Stats = Stats.of(
-                  stats.getOutline(),
-                  language,
-                  stats.getRegion(),
-                  stats.getTerm(),
-                  stats.getItems()
-                );
+          this.languageQuery.findByISO639(action.iso639).transform(
+            (language: Language) => {
+              const newStats: Stats = Stats.of(
+                stats.getOutline(),
+                language,
+                stats.getRegion(),
+                stats.getTerm(),
+                stats.getItems()
+              );
 
-                return of<VeauAction>(updateStats(newStats));
-              },
-              () => {
-                return of<VeauAction>(nothing());
-              },
-              Error
-            )
-            .get()
+              return of<VeauAction>(updateStats(newStats));
+            },
+            () => {
+              return of<VeauAction>(nothing());
+            },
+            Error
+          ).get()
         ).pipe(
           flatMap((observable: Observable<VeauAction>) => {
             return observable;
@@ -273,25 +266,22 @@ export class StatsEditEpic {
         } = state$;
 
         return from<Promise<Observable<VeauAction>>>(
-          this.regionQuery
-            .findByISO3166(action.iso3166)
-            .transform<Observable<VeauAction>, Error>(
-              (region: Region) => {
-                const newStats: Stats = Stats.of(
-                  stats.getOutline(),
-                  stats.getLanguage(),
-                  region,
-                  stats.getTerm(),
-                  stats.getItems()
-                );
+          this.regionQuery.findByISO3166(action.iso3166).transform<Observable<VeauAction>, Error>(
+            (region: Region) => {
+              const newStats: Stats = Stats.of(
+                stats.getOutline(),
+                stats.getLanguage(),
+                region,
+                stats.getTerm(),
+                stats.getItems()
+              );
 
-                return of<VeauAction>(updateStats(newStats));
-              },
-              () => {
-                return of<VeauAction>();
-              }
-            )
-            .get()
+              return of<VeauAction>(updateStats(newStats));
+            },
+            () => {
+              return of<VeauAction>();
+            }
+          ).get()
         ).pipe<VeauAction>(
           flatMap((observable: Observable<VeauAction>) => {
             return observable;
@@ -423,30 +413,27 @@ export class StatsEditEpic {
           } = state$;
 
           return from<Promise<Observable<VeauAction>>>(
-            selectingItem
-              .toSuperposition()
-              .transform<Observable<VeauAction>>(
-                (statsItem: StatsItem) => {
-                  const newSelectingItem: StatsItem = StatsItem.of(
-                    statsItem.getStatsItemID(),
-                    action.name,
-                    statsItem.getValues()
-                  );
+            selectingItem.toSuperposition().transform<Observable<VeauAction>>(
+              (statsItem: StatsItem) => {
+                const newSelectingItem: StatsItem = StatsItem.of(
+                  statsItem.getStatsItemID(),
+                  action.name,
+                  statsItem.getValues()
+                );
 
-                  const duplicated: Stats = stats.duplicate();
+                const duplicated: Stats = stats.duplicate();
 
-                  duplicated.replaceItem(newSelectingItem, selectingRow);
+                duplicated.replaceItem(newSelectingItem, selectingRow);
 
-                  return of<VeauAction>(
-                    updateSelectingItem(Unscharferelation.present<StatsItem>(newSelectingItem)),
-                    updateStats(duplicated)
-                  );
-                },
-                () => {
-                  return of<VeauAction>();
-                }
-              )
-              .get()
+                return of<VeauAction>(
+                  updateSelectingItem(Unscharferelation.present<StatsItem>(newSelectingItem)),
+                  updateStats(duplicated)
+                );
+              },
+              () => {
+                return of<VeauAction>();
+              }
+            ).get()
           ).pipe<VeauAction>(
             flatMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
               return observable;
@@ -526,10 +513,10 @@ export class StatsEditEpic {
         (action: StatsEditRemoveSelectingItemAction) => {
           // prettier-ignore
           const {
-          value: {
-            stats
-          }
-        } = state$;
+            value: {
+              stats
+            }
+          } = state$;
 
           const duplicated: Stats = stats.duplicate();
 
@@ -555,17 +542,14 @@ export class StatsEditEpic {
         return concat<VeauAction>(
           of<VeauAction>(loading()),
           from<Promise<Observable<VeauAction>>>(
-            this.statsCommand
-              .create(stats, VeauAccountID.generate())
-              .transform(
-                () => {
-                  return of<VeauAction>(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
-                },
-                () => {
-                  return of<VeauAction>(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
-                }
-              )
-              .get()
+            this.statsCommand.create(stats, VeauAccountID.generate()).transform(
+              () => {
+                return of<VeauAction>(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
+              },
+              () => {
+                return of<VeauAction>(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
+              }
+            ).get()
           ).pipe<VeauAction>(
             flatMap((observable: Observable<VeauAction>) => {
               return observable;

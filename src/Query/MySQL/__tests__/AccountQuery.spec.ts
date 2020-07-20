@@ -45,10 +45,8 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(accountName).terminate();
+      const schrodinger: Schrodinger<Account,
+        AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(accountName).terminate();
 
       expect(
         stub.withArgs(
@@ -88,10 +86,8 @@ describe('AccountQuery', () => {
       stub.resolves([]);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account,
+        AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -118,10 +114,8 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account,
+        AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -139,10 +133,8 @@ describe('AccountQuery', () => {
       stub.rejects(new MySQLError('test faield'));
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account,
+        AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

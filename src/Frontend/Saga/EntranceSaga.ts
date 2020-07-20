@@ -29,19 +29,19 @@ export class EntranceSaga {
     this.sessionQuery = sessionQuery;
   }
 
-  public *init(): IterableIterator<unknown> {
+  public* init(): IterableIterator<unknown> {
     yield fork(this.login);
     yield fork(this.accountNameTyped);
     yield fork(this.passwordTyped);
   }
 
-  private *login(): SagaIterator<unknown> {
+  private* login(): SagaIterator<unknown> {
     while (true) {
       yield take(IDENTITY_AUTHENTICATE);
       const state: State = yield select();
 
       const {
-        modal: { open },
+        modal: {open},
         entranceInformation
       } = state;
 
@@ -73,7 +73,7 @@ export class EntranceSaga {
     }
   }
 
-  private *accountNameTyped(): SagaIterator<unknown> {
+  private* accountNameTyped(): SagaIterator<unknown> {
     while (true) {
       const action: EntranceAccountNameTypedAction = yield take(ENTRANCE_ACCOUNT_NAME_TYPED);
       const state: State = yield select();
@@ -89,7 +89,7 @@ export class EntranceSaga {
     }
   }
 
-  private *passwordTyped(): SagaIterator<unknown> {
+  private* passwordTyped(): SagaIterator<unknown> {
     while (true) {
       const action: EntrancePasswordTypedAction = yield take(ENTRANCE_PASSWORD_TYPED);
       const state: State = yield select();

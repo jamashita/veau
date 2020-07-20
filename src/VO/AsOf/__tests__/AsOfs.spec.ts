@@ -1,12 +1,12 @@
 import { ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
 import { Heisenberg, Unscharferelation } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
+import sinon, { SinonSpy } from 'sinon';
 
 import { Term } from '../../Term/Term';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 import { MockAsOf } from '../Mock/MockAsOf';
-import sinon, { SinonSpy } from 'sinon';
 
 describe('AsOfs', () => {
   describe('of', () => {

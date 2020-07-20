@@ -73,18 +73,6 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
     return this.names.toString();
   }
 
-  public map<U>(mapper: Mapper<StatsItemName, U>): Array<U> {
-    const array: Array<U> = [];
-    let i: number = 0;
-
-    this.forEach((item: StatsItemName) => {
-      array.push(mapper(item, i));
-      i++;
-    });
-
-    return array;
-  }
-
   public [Symbol.iterator](): Iterator<Pair<number, StatsItemName>> {
     return this.names[Symbol.iterator]();
   }
@@ -95,5 +83,17 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
 
   public some(predicate: BinaryPredicate<StatsItemName, number>): boolean {
     return this.names.some(predicate);
+  }
+
+  public map<U>(mapper: Mapper<StatsItemName, U>): Array<U> {
+    const array: Array<U> = [];
+    let i: number = 0;
+
+    this.forEach((item: StatsItemName) => {
+      array.push(mapper(item, i));
+      i++;
+    });
+
+    return array;
   }
 }

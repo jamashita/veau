@@ -127,10 +127,8 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<
-        Region,
-        RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.find(RegionID.of(uuid)).terminate();
+      const schrodinger: Schrodinger<Region,
+        RegionError | NoSuchElementError | DataSourceError> = await regionQuery.find(RegionID.of(uuid)).terminate();
 
       expect(
         stub.withArgs(
@@ -161,10 +159,8 @@ describe('RegionQuery', () => {
       stub.resolves([]);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<
-        Region,
-        RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.find(new MockRegionID()).terminate();
+      const schrodinger: Schrodinger<Region,
+        RegionError | NoSuchElementError | DataSourceError> = await regionQuery.find(new MockRegionID()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -180,10 +176,8 @@ describe('RegionQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<
-        Region,
-        RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.find(new MockRegionID()).terminate();
+      const schrodinger: Schrodinger<Region,
+        RegionError | NoSuchElementError | DataSourceError> = await regionQuery.find(new MockRegionID()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -209,10 +203,8 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<
-        Region,
-        RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region,
+        RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(
         stub.withArgs(
@@ -243,10 +235,8 @@ describe('RegionQuery', () => {
       stub.resolves([]);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<
-        Region,
-        RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region,
+        RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -262,10 +252,8 @@ describe('RegionQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<
-        Region,
-        RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region,
+        RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

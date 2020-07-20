@@ -22,7 +22,7 @@ export class LocaleQuery implements ILocaleQuery<AJAXError>, IAJAXQuery {
   public all(): Superposition<Locale, LocaleError | AJAXError> {
     return Superposition.playground<AJAXResponse<LocaleJSON>, AJAXError>(() => {
       return this.ajax.get<LocaleJSON>('/api/locale');
-    }, AJAXError).map<Locale, LocaleError | AJAXError>(({ status, body }: AJAXResponse<LocaleJSON>) => {
+    }, AJAXError).map<Locale, LocaleError | AJAXError>(({status, body}: AJAXResponse<LocaleJSON>) => {
       switch (status) {
         case OK: {
           return Locale.ofJSON(body);

@@ -40,10 +40,8 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsValue, StatsValueError>>
   ): Superposition<StatsValues, StatsValuesError> {
-    return Superposition.all<StatsValue, StatsValueError>(superpositions, StatsValueError).transform<
-      StatsValues,
-      StatsValuesError
-    >(
+    return Superposition.all<StatsValue, StatsValueError>(superpositions, StatsValueError).transform<StatsValues,
+      StatsValuesError>(
       (values: Array<StatsValue>) => {
         return StatsValues.ofArray(values);
       },
@@ -55,9 +53,7 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
   }
 
   public static ofJSON(json: Array<StatsValueJSON>): Superposition<StatsValues, StatsValuesError> {
-    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = json.map<
-      Superposition<StatsValue, StatsValueError>
-    >((statsValue: StatsValueJSON) => {
+    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = json.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueJSON) => {
       return StatsValue.ofJSON(statsValue);
     });
 
@@ -65,9 +61,7 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
   }
 
   public static ofRow(rows: Array<StatsValueRow>): Superposition<StatsValues, StatsValuesError> {
-    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = rows.map<
-      Superposition<StatsValue, StatsValueError>
-    >((statsValue: StatsValueRow) => {
+    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = rows.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueRow) => {
       return StatsValue.ofRow(statsValue);
     });
 
@@ -153,18 +147,6 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return strs.join(', ');
   }
 
-  public set(statsValue: StatsValue): StatsValues {
-    return StatsValues.of(this.values.set(statsValue.getAsOf(), statsValue));
-  }
-
-  public delete(asOf: AsOf): StatsValues {
-    return StatsValues.of(this.values.remove(asOf));
-  }
-
-  public getAsOfs(): AsOfs {
-    return AsOfs.ofArray([...this.values.toMap().keys()]);
-  }
-
   public [Symbol.iterator](): Iterator<Pair<AsOf, StatsValue>> {
     return this.values[Symbol.iterator]();
   }
@@ -175,5 +157,17 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
 
   public some(predicate: BinaryPredicate<StatsValue, AsOf>): boolean {
     return this.values.some(predicate);
+  }
+
+  public set(statsValue: StatsValue): StatsValues {
+    return StatsValues.of(this.values.set(statsValue.getAsOf(), statsValue));
+  }
+
+  public delete(asOf: AsOf): StatsValues {
+    return StatsValues.of(this.values.remove(asOf));
+  }
+
+  public getAsOfs(): AsOfs {
+    return AsOfs.ofArray([...this.values.toMap().keys()]);
   }
 }

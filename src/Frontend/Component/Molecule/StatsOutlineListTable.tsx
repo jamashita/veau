@@ -1,7 +1,6 @@
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 
 import { StatsListItem } from '../../../VO/StatsListItem/StatsListItem';
 import { StatsListItems } from '../../../VO/StatsListItem/StatsListItems';

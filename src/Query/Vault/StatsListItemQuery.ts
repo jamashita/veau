@@ -44,49 +44,38 @@ export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {
     veauAccountID: VeauAccountID,
     page: Page
   ): Superposition<StatsListItems, StatsListItemsError | DataSourceError> {
-    return this.statsOutlineQuery
-      .findByVeauAccountID(veauAccountID, page)
-      .map<StatsListItems, StatsOutlinesError | LocaleError | TermsError | StatsListItemError | DataSourceError>(
-        (outlines: StatsOutlines) => {
-          return this.localeQuery
-            .all()
-            .map<StatsListItems, LocaleError | TermsError | StatsListItemError | DataSourceError>(
-              (locale: Locale) => {
-                return this.termQuery
-                  .all()
-                  .map<StatsListItems, TermsError | StatsListItemError | DataSourceError>((terms: Terms) => {
-                    const superpositions: Array<Superposition<StatsListItem, StatsListItemError>> = outlines.map<
-                      Superposition<StatsListItem, StatsListItemError>
-                    >((outline: StatsOutline) => {
-                      return StatsListItem.ofOutline(outline, locale, terms);
-                    });
+    return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page).map<StatsListItems, StatsOutlinesError | LocaleError | TermsError | StatsListItemError | DataSourceError>(
+      (outlines: StatsOutlines) => {
+        return this.localeQuery.all().map<StatsListItems, LocaleError | TermsError | StatsListItemError | DataSourceError>(
+          (locale: Locale) => {
+            return this.termQuery.all().map<StatsListItems, TermsError | StatsListItemError | DataSourceError>((terms: Terms) => {
+              const superpositions: Array<Superposition<StatsListItem, StatsListItemError>> = outlines.map<Superposition<StatsListItem, StatsListItemError>>((outline: StatsOutline) => {
+                return StatsListItem.ofOutline(outline, locale, terms);
+              });
 
-                    return Superposition.all<StatsListItem, StatsListItemError>(superpositions).map<
-                      StatsListItems,
-                      StatsListItemError
-                    >((items: Array<StatsListItem>) => {
-                      return StatsListItems.ofArray(items);
-                    });
-                  }, StatsListItemError);
-              },
-              TermsError,
-              StatsListItemError
-            );
-        },
-        LocaleError,
-        TermsError,
-        StatsListItemError
-      )
-      .recover<StatsListItems, StatsListItemsError | DataSourceError>(
-        (err: StatsOutlinesError | LocaleError | TermsError | StatsListItemError | DataSourceError) => {
-          if (err instanceof DataSourceError) {
-            throw err;
-          }
+              return Superposition.all<StatsListItem, StatsListItemError>(superpositions).map<StatsListItems,
+                StatsListItemError>((items: Array<StatsListItem>) => {
+                return StatsListItems.ofArray(items);
+              });
+            }, StatsListItemError);
+          },
+          TermsError,
+          StatsListItemError
+        );
+      },
+      LocaleError,
+      TermsError,
+      StatsListItemError
+    ).recover<StatsListItems, StatsListItemsError | DataSourceError>(
+      (err: StatsOutlinesError | LocaleError | TermsError | StatsListItemError | DataSourceError) => {
+        if (err instanceof DataSourceError) {
+          throw err;
+        }
 
-          throw new StatsListItemsError('StatsListItemQuery.findByVeauAccountID()', err);
-        },
-        StatsListItemsError,
-        DataSourceError
-      );
+        throw new StatsListItemsError('StatsListItemQuery.findByVeauAccountID()', err);
+      },
+      StatsListItemsError,
+      DataSourceError
+    );
   }
 }

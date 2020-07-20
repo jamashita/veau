@@ -1,10 +1,9 @@
+import { Absent, Present } from '@jamashita/publikum-monad';
+import { Kind, Nullable } from '@jamashita/publikum-type';
 import { createMatchSelector, matchSelectorFn, RouterRootState } from 'connected-react-router';
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { match } from 'react-router-dom';
 import { Dispatch } from 'redux';
-
-import { Absent, Present } from '@jamashita/publikum-monad';
-import { Kind, Nullable } from '@jamashita/publikum-type';
 
 import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
 import { AsOf } from '../../../VO/AsOf/AsOf';
@@ -142,12 +141,10 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const StatsEdit: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<
-  StateProps,
+export const StatsEdit: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps,
   DispatchProps,
   OwnProps,
-  State
->(
+  State>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

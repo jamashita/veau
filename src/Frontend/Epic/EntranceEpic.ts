@@ -68,17 +68,14 @@ export class EntranceEpic {
 
         return concat<VeauAction>(
           of<VeauAction>(loading()),
-          this.identityQuery
-            .findByEntranceInfo(entranceInformation)
-            .transform<Observable<VeauAction>, Error>(
-              (identity: Identity) => {
-                return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
-              },
-              () => {
-                return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
-              }
-            )
-            .get(),
+          this.identityQuery.findByEntranceInfo(entranceInformation).transform<Observable<VeauAction>, Error>(
+            (identity: Identity) => {
+              return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
+            },
+            () => {
+              return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
+            }
+          ).get(),
           of<VeauAction>(loaded())
         );
       })

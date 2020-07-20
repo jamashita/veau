@@ -1,14 +1,13 @@
-import 'reflect-metadata';
-
-import express, { Express, NextFunction, Request, Response } from 'express';
-import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { useContainer, useExpressServer } from 'routing-controllers';
-import sinon, { SinonStub } from 'sinon';
-import supertest from 'supertest';
-
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
 import { RedisError } from '@jamashita/publikum-redis';
+
+import express, { Express, NextFunction, Request, Response } from 'express';
+import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import 'reflect-metadata';
+import { useContainer, useExpressServer } from 'routing-controllers';
+import sinon, { SinonStub } from 'sinon';
+import supertest from 'supertest';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';

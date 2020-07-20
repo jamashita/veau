@@ -1,5 +1,5 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
-import { Nullable, BinaryPredicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 
 import { NumericalValue } from './NumericalValue';
 
@@ -65,6 +65,18 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
     return this.values.toString();
   }
 
+  public [Symbol.iterator](): Iterator<Pair<number, NumericalValue>> {
+    return this.values[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<NumericalValue, number>): boolean {
+    return this.values.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<NumericalValue, number>): boolean {
+    return this.values.some(predicate);
+  }
+
   public add(...values: Array<NumericalValue>): NumericalValues {
     if (values.length === 0) {
       return this;
@@ -77,17 +89,5 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
     return this.values.toArray().map<string>((value: NumericalValue) => {
       return value.toString();
     });
-  }
-
-  public [Symbol.iterator](): Iterator<Pair<number, NumericalValue>> {
-    return this.values[Symbol.iterator]();
-  }
-
-  public every(predicate: BinaryPredicate<NumericalValue, number>): boolean {
-    return this.values.every(predicate);
-  }
-
-  public some(predicate: BinaryPredicate<NumericalValue, number>): boolean {
-    return this.values.some(predicate);
   }
 }

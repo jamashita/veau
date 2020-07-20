@@ -1,6 +1,5 @@
-import 'reflect-metadata';
-
 import { IRedis, Redis } from '@jamashita/publikum-redis';
+import 'reflect-metadata';
 
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';

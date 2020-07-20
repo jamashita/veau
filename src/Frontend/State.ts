@@ -1,6 +1,5 @@
-import { RouterState } from 'connected-react-router';
-
 import { Heisenberg } from '@jamashita/publikum-monad';
+import { RouterState } from 'connected-react-router';
 
 import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';

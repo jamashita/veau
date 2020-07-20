@@ -1,7 +1,7 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
-import { Nullable, BinaryPredicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
 
 import { Term } from '../Term/Term';
@@ -116,6 +116,18 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
     return this.asOfs.toString();
   }
 
+  public [Symbol.iterator](): Iterator<Pair<number, AsOf>> {
+    return this.asOfs[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<AsOf, number>): boolean {
+    return this.asOfs.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<AsOf, number>): boolean {
+    return this.asOfs.some(predicate);
+  }
+
   public add(...values: Array<AsOf>): AsOfs {
     if (values.length === 0) {
       return this;
@@ -138,11 +150,9 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
 
     return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.min(zeiten, AsOf.format());
-    }, ZeitError)
-      .map<AsOf, ZeitError>((zeit: Zeit) => {
-        return AsOf.of(zeit);
-      })
-      .toUnscharferelation();
+    }, ZeitError).map<AsOf, ZeitError>((zeit: Zeit) => {
+      return AsOf.of(zeit);
+    }).toUnscharferelation();
   }
 
   public max(): Unscharferelation<AsOf> {
@@ -159,22 +169,8 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
 
     return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.max(zeiten, AsOf.format());
-    }, ZeitError)
-      .map<AsOf, ZeitError>((zeit: Zeit) => {
-        return AsOf.of(zeit);
-      })
-      .toUnscharferelation();
-  }
-
-  public [Symbol.iterator](): Iterator<Pair<number, AsOf>> {
-    return this.asOfs[Symbol.iterator]();
-  }
-
-  public every(predicate: BinaryPredicate<AsOf, number>): boolean {
-    return this.asOfs.every(predicate);
-  }
-
-  public some(predicate: BinaryPredicate<AsOf, number>): boolean {
-    return this.asOfs.some(predicate);
+    }, ZeitError).map<AsOf, ZeitError>((zeit: Zeit) => {
+      return AsOf.of(zeit);
+    }).toUnscharferelation();
   }
 }

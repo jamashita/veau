@@ -144,6 +144,18 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     return this.items.toString();
   }
 
+  public [Symbol.iterator](): Iterator<Pair<number, StatsItem>> {
+    return this.items[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<StatsItem, number>): boolean {
+    return this.items.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<StatsItem, number>): boolean {
+    return this.items.some(predicate);
+  }
+
   public add(...statsItem: Array<StatsItem>): StatsItems {
     if (statsItem.length === 0) {
       return this;
@@ -233,17 +245,5 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
         return item.display();
       })
     );
-  }
-
-  public [Symbol.iterator](): Iterator<Pair<number, StatsItem>> {
-    return this.items[Symbol.iterator]();
-  }
-
-  public every(predicate: BinaryPredicate<StatsItem, number>): boolean {
-    return this.items.every(predicate);
-  }
-
-  public some(predicate: BinaryPredicate<StatsItem, number>): boolean {
-    return this.items.some(predicate);
   }
 }

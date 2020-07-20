@@ -68,6 +68,18 @@ export class StatsItemDisplays extends Quantity<StatsItemDisplays, number, Stats
     return this.items.toString();
   }
 
+  public [Symbol.iterator](): Iterator<Pair<number, StatsItemDisplay>> {
+    return this.items[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<StatsItemDisplay, number>): boolean {
+    return this.items.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<StatsItemDisplay, number>): boolean {
+    return this.items.some(predicate);
+  }
+
   public getNames(): StatsItemNames {
     return StatsItemNames.of(
       this.items.map<StatsItemName>((item: StatsItemDisplay) => {
@@ -122,17 +134,5 @@ export class StatsItemDisplays extends Quantity<StatsItemDisplays, number, Stats
     }
 
     return true;
-  }
-
-  public [Symbol.iterator](): Iterator<Pair<number, StatsItemDisplay>> {
-    return this.items[Symbol.iterator]();
-  }
-
-  public every(predicate: BinaryPredicate<StatsItemDisplay, number>): boolean {
-    return this.items.every(predicate);
-  }
-
-  public some(predicate: BinaryPredicate<StatsItemDisplay, number>): boolean {
-    return this.items.some(predicate);
   }
 }

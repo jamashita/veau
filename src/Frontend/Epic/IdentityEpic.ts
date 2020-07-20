@@ -50,34 +50,28 @@ export class IdentityEpic {
       flatMap<VeauAction, Observable<VeauAction>>(() => {
         return concat<VeauAction>(
           of<VeauAction>(loading()),
-          this.localeQuery
-            .all()
-            .transform<Observable<VeauAction>, Error>(
-              (locale: Locale) => {
-                return of<VeauAction>(defineLocale(locale));
-              },
-              () => {
-                return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-              }
-            )
-            .get(),
-          this.identityQuery
-            .find()
-            .transform(
-              (identity: Identity) => {
-                const actions: Array<VeauAction> = [identityAuthenticated(identity), identified()];
+          this.localeQuery.all().transform<Observable<VeauAction>, Error>(
+            (locale: Locale) => {
+              return of<VeauAction>(defineLocale(locale));
+            },
+            () => {
+              return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+            }
+          ).get(),
+          this.identityQuery.find().transform(
+            (identity: Identity) => {
+              const actions: Array<VeauAction> = [identityAuthenticated(identity), identified()];
 
-                if (location.pathname === Endpoints.ENTRANCE) {
-                  actions.push(pushToStatsList());
-                }
-
-                return of<VeauAction>(...actions);
-              },
-              () => {
-                return of<VeauAction>();
+              if (location.pathname === Endpoints.ENTRANCE) {
+                actions.push(pushToStatsList());
               }
-            )
-            .get(),
+
+              return of<VeauAction>(...actions);
+            },
+            () => {
+              return of<VeauAction>();
+            }
+          ).get(),
           of<VeauAction>(loaded()),
           flatMap<VeauAction, Promise<Observable<VeauAction>>>(() => {
             const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
@@ -85,34 +79,31 @@ export class IdentityEpic {
             );
             const iso639: ISO639 = ISO639.of(supportLanguage);
 
-            return this.languageQuery
-              .findByISO639(iso639)
-              .transform<Observable<VeauAction>, Error>(
-                (language: Language) => {
-                  // prettier-ignore
-                  const {
-                    value: {
-                      identity
-                    }
-                  } = state$;
+            return this.languageQuery.findByISO639(iso639).transform<Observable<VeauAction>, Error>(
+              (language: Language) => {
+                // prettier-ignore
+                const {
+                  value: {
+                    identity
+                  }
+                } = state$;
 
-                  return of<VeauAction>(
-                    identityAuthenticated(
-                      Identity.of(
-                        identity.getVeauAccountID(),
-                        identity.getAccountName(),
-                        language,
-                        identity.getRegion()
-                      )
-                    ),
-                    pushToEntrance()
-                  );
-                },
-                () => {
-                  return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-                }
-              )
-              .get();
+                return of<VeauAction>(
+                  identityAuthenticated(
+                    Identity.of(
+                      identity.getVeauAccountID(),
+                      identity.getAccountName(),
+                      language,
+                      identity.getRegion()
+                    )
+                  ),
+                  pushToEntrance()
+                );
+              },
+              () => {
+                return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+              }
+            ).get();
           })
         );
       })

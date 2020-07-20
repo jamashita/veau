@@ -1,7 +1,6 @@
+import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
-import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 
 import { LoadingCount } from '../../../VO/LoadingCount/LoadingCount';
 
@@ -48,7 +47,7 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
           })}
         </DialogTitle>
         <DialogContent>
-          <CircularProgress size={SIZE} />
+          <CircularProgress size={SIZE}/>
         </DialogContent>
       </Dialog>
     );

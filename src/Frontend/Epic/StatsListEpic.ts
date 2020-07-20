@@ -81,23 +81,19 @@ export class StatsListEpic {
         } = state$;
 
         return from<Promise<Observable<VeauAction>>>(
-          Page.of(1)
-            .map((page: Page) => {
-              return this.statsListItemQuery
-                .findByVeauAccountID(identity.getVeauAccountID(), page)
-                .transform<Observable<VeauAction>, Error>(
-                  (listItems: StatsListItems) => {
-                    return of<VeauAction>(updateStatsListItems(listItems));
-                  },
-                  () => {
-                    return of<VeauAction>(
-                      resetStatsListItems(),
-                      appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND')
-                    );
-                  }
+          Page.of(1).map((page: Page) => {
+            return this.statsListItemQuery.findByVeauAccountID(identity.getVeauAccountID(), page).transform<Observable<VeauAction>, Error>(
+              (listItems: StatsListItems) => {
+                return of<VeauAction>(updateStatsListItems(listItems));
+              },
+              () => {
+                return of<VeauAction>(
+                  resetStatsListItems(),
+                  appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND')
                 );
-            })
-            .get()
+              }
+            );
+          }).get()
         ).pipe<VeauAction>(
           flatMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
             return observable;
@@ -192,25 +188,22 @@ export class StatsListEpic {
         } = state$;
 
         return from<Promise<Observable<VeauAction>>>(
-          this.languageQuery
-            .findByISO639(action.iso639)
-            .transform<Observable<VeauAction>, Error>(
-              (language: Language) => {
-                const newStats: Stats = Stats.of(
-                  stats.getOutline(),
-                  language,
-                  stats.getRegion(),
-                  stats.getTerm(),
-                  stats.getItems()
-                );
+          this.languageQuery.findByISO639(action.iso639).transform<Observable<VeauAction>, Error>(
+            (language: Language) => {
+              const newStats: Stats = Stats.of(
+                stats.getOutline(),
+                language,
+                stats.getRegion(),
+                stats.getTerm(),
+                stats.getItems()
+              );
 
-                return of<VeauAction>(updateNewStats(newStats));
-              },
-              () => {
-                return of<VeauAction>(nothing());
-              }
-            )
-            .get()
+              return of<VeauAction>(updateNewStats(newStats));
+            },
+            () => {
+              return of<VeauAction>(nothing());
+            }
+          ).get()
         ).pipe(
           flatMap((observable: Observable<VeauAction>) => {
             return observable;
@@ -237,25 +230,22 @@ export class StatsListEpic {
         } = state$;
 
         return from<Promise<Observable<VeauAction>>>(
-          this.regionQuery
-            .findByISO3166(action.iso3166)
-            .transform<Observable<VeauAction>, Error>(
-              (region: Region) => {
-                const newStats: Stats = Stats.of(
-                  stats.getOutline(),
-                  stats.getLanguage(),
-                  region,
-                  stats.getTerm(),
-                  stats.getItems()
-                );
+          this.regionQuery.findByISO3166(action.iso3166).transform<Observable<VeauAction>, Error>(
+            (region: Region) => {
+              const newStats: Stats = Stats.of(
+                stats.getOutline(),
+                stats.getLanguage(),
+                region,
+                stats.getTerm(),
+                stats.getItems()
+              );
 
-                return of<VeauAction>(updateNewStats(newStats));
-              },
-              () => {
-                return of<VeauAction>();
-              }
-            )
-            .get()
+              return of<VeauAction>(updateNewStats(newStats));
+            },
+            () => {
+              return of<VeauAction>();
+            }
+          ).get()
         ).pipe(
           flatMap((observable: Observable<VeauAction>) => {
             return observable;
@@ -320,20 +310,17 @@ export class StatsListEpic {
         return concat<VeauAction>(
           of<VeauAction>(closeNewStatsModal(), loading()),
           from<Promise<Observable<VeauAction>>>(
-            this.statsCommand
-              .create(stats, identity.getVeauAccountID())
-              .transform<Observable<VeauAction>, Error>(
-                () => {
-                  return of<VeauAction>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
-                },
-                () => {
-                  return of<VeauAction>(
-                    loaded(),
-                    raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
-                  );
-                }
-              )
-              .get()
+            this.statsCommand.create(stats, identity.getVeauAccountID()).transform<Observable<VeauAction>, Error>(
+              () => {
+                return of<VeauAction>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
+              },
+              () => {
+                return of<VeauAction>(
+                  loaded(),
+                  raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
+                );
+              }
+            ).get()
           ),
           of<VeauAction>(loaded())
         );

@@ -1,8 +1,7 @@
-import { inject, injectable } from 'inversify';
-
 import { JSONA, JSONAError } from '@jamashita/publikum-json';
 import { Superposition } from '@jamashita/publikum-monad';
 import { IRedis, RedisError } from '@jamashita/publikum-redis';
+import { inject, injectable } from 'inversify';
 
 import { Type } from '../../Container/Types';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';

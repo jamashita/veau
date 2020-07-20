@@ -65,10 +65,6 @@ export class StatsListItems extends Quantity<StatsListItems, number, StatsListIt
     return this.items.toString();
   }
 
-  public map<U>(mapper: Mapper<StatsListItem, U>): Array<U> {
-    return this.items.toArray().map<U>(mapper);
-  }
-
   public [Symbol.iterator](): Iterator<Pair<number, StatsListItem>> {
     return this.items[Symbol.iterator]();
   }
@@ -79,5 +75,9 @@ export class StatsListItems extends Quantity<StatsListItems, number, StatsListIt
 
   public some(predicate: BinaryPredicate<StatsListItem, number>): boolean {
     return this.items.some(predicate);
+  }
+
+  public map<U>(mapper: Mapper<StatsListItem, U>): Array<U> {
+    return this.items.toArray().map<U>(mapper);
   }
 }

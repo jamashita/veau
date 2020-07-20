@@ -38,7 +38,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<AJAXError>, IAJAXQu
     return Superposition.playground<AJAXResponse<Array<StatsOutlineJSON>>, AJAXError>(() => {
       return this.ajax.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page.get()}`);
     }, AJAXError).map<StatsOutlines, StatsOutlinesError | AJAXError>(
-      ({ status, body }: AJAXResponse<Array<StatsOutlineJSON>>) => {
+      ({status, body}: AJAXResponse<Array<StatsOutlineJSON>>) => {
         switch (status) {
           case OK: {
             return StatsOutlines.ofJSON(body);

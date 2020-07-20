@@ -1,8 +1,7 @@
-import React from 'react';
-import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
 import { Heisenberg } from '@jamashita/publikum-monad';
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
+import React from 'react';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
@@ -68,7 +67,7 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
               }}
               fullWidth={true}
             >
-              <Icon className='fas fa-trash' />
+              <Icon className='fas fa-trash'/>
               {intl.formatMessage({
                 id: 'REMOVE_ITEM'
               })}

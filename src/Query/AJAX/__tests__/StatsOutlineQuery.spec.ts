@@ -55,10 +55,8 @@ describe('StatsOutlineQuery', () => {
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const schrodinger: Schrodinger<
-        StatsOutlines,
-        StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
+      const schrodinger: Schrodinger<StatsOutlines,
+        StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
 
       expect(stub.withArgs('/api/stats/page/3').called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
@@ -105,10 +103,8 @@ describe('StatsOutlineQuery', () => {
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const schrodinger: Schrodinger<
-        StatsOutlines,
-        StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
+      const schrodinger: Schrodinger<StatsOutlines,
+        StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -130,10 +126,8 @@ describe('StatsOutlineQuery', () => {
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const schrodinger: Schrodinger<
-        StatsOutlines,
-        StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
+      const schrodinger: Schrodinger<StatsOutlines,
+        StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

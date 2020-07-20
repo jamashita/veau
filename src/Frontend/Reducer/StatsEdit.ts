@@ -1,6 +1,5 @@
-import { Reducer } from 'redux';
-
 import { Absent, Heisenberg } from '@jamashita/publikum-monad';
+import { Reducer } from 'redux';
 
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { Row } from '../../VO/Coordinate/Row';

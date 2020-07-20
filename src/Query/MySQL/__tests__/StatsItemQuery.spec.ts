@@ -117,10 +117,8 @@ describe('StatsItemQuery', () => {
       );
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<
-        StatsItems,
-        StatsItemsError | DataSourceError
-      > = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems,
+        StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(
         stub1.withArgs(
@@ -188,10 +186,8 @@ describe('StatsItemQuery', () => {
       stub2.returns(Superposition.alive<StatsValues, StatsValuesError | DataSourceError>(values));
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<
-        StatsItems,
-        StatsItemsError | DataSourceError
-      > = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems,
+        StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -233,10 +229,8 @@ describe('StatsItemQuery', () => {
       );
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<
-        StatsItems,
-        StatsItemsError | DataSourceError
-      > = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems,
+        StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -275,10 +269,8 @@ describe('StatsItemQuery', () => {
       );
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<
-        StatsItems,
-        StatsItemsError | DataSourceError
-      > = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems,
+        StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

@@ -1,7 +1,6 @@
+import { AppBar, Icon, Toolbar, Typography } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
-import { AppBar, Icon, Toolbar, Typography } from '@material-ui/core';
 
 type Props = Readonly<{
   menuClicked(): void;
@@ -23,7 +22,7 @@ class HeaderImpl extends React.Component<Props & WrappedComponentProps, State> {
     return (
       <AppBar position='static' className='header'>
         <Toolbar variant='dense'>
-          <Icon className='fas fa-bars icon-spacing' onClick={menuClicked} />
+          <Icon className='fas fa-bars icon-spacing' onClick={menuClicked}/>
           <Typography variant='h5' color='inherit'>
             {intl.formatMessage({
               id: 'VEAU'

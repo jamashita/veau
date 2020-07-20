@@ -56,7 +56,7 @@ export class StatsListSaga {
     this.statsCommand = statsCommand;
   }
 
-  public *init(): IterableIterator<unknown> {
+  public* init(): IterableIterator<unknown> {
     yield fork(this.findStatsList);
     yield fork(this.nameTyped);
     yield fork(this.unitTyped);
@@ -66,7 +66,7 @@ export class StatsListSaga {
     yield fork(this.save);
   }
 
-  private *findStatsList(): SagaIterator<unknown> {
+  private* findStatsList(): SagaIterator<unknown> {
     while (true) {
       yield take(STATS_LIST_INITIALIZE);
 
@@ -90,7 +90,7 @@ export class StatsListSaga {
     }
   }
 
-  private *nameTyped(): SagaIterator<unknown> {
+  private* nameTyped(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListNameTypedAction = yield take(STATS_LIST_NAME_TYPED);
       const state: State = yield select();
@@ -122,7 +122,7 @@ export class StatsListSaga {
     }
   }
 
-  private *unitTyped(): SagaIterator<unknown> {
+  private* unitTyped(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListUnitTypedAction = yield take(STATS_LIST_UNIT_TYPED);
       const state: State = yield select();
@@ -154,7 +154,7 @@ export class StatsListSaga {
     }
   }
 
-  private *iso639Selected(): SagaIterator<unknown> {
+  private* iso639Selected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListISO639SelectedAction = yield take(STATS_LIST_ISO639_SELECTED);
       const state: State = yield select();
@@ -190,7 +190,7 @@ export class StatsListSaga {
     }
   }
 
-  private *iso3166Selected(): SagaIterator<unknown> {
+  private* iso3166Selected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListISO3166SelectedAction = yield take(STATS_LIST_ISO3166_SELECTED);
       const state: State = yield select();
@@ -226,7 +226,7 @@ export class StatsListSaga {
     }
   }
 
-  private *termSelected(): SagaIterator<unknown> {
+  private* termSelected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListTermSelectedAction = yield take(STATS_LIST_TERM_SELECTED);
       const state: State = yield select();
@@ -254,7 +254,7 @@ export class StatsListSaga {
     }
   }
 
-  private *save(): SagaIterator<unknown> {
+  private* save(): SagaIterator<unknown> {
     while (true) {
       yield take(STATS_LIST_SAVE_NEW_STATS);
 

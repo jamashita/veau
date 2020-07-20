@@ -1,9 +1,9 @@
 import { ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
+import sinon, { SinonSpy } from 'sinon';
 
 import { Color } from '../Color';
 import { Colors } from '../Colors';
 import { MockColor } from '../Mock/MockColor';
-import sinon, { SinonSpy } from 'sinon';
 
 describe('Colors', () => {
   describe('of', () => {

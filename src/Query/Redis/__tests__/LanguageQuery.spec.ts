@@ -57,10 +57,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Languages,
-        LanguagesError | DataSourceError
-      > = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages,
+        LanguagesError | DataSourceError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       const languages: Languages = schrodinger.get();
@@ -99,10 +97,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Languages,
-        LanguagesError | DataSourceError
-      > = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages,
+        LanguagesError | DataSourceError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get().size()).toBe(json.length);
@@ -119,10 +115,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Languages,
-        LanguagesError | DataSourceError
-      > = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages,
+        LanguagesError | DataSourceError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -141,10 +135,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Languages,
-        LanguagesError | DataSourceError
-      > = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages,
+        LanguagesError | DataSourceError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -163,10 +155,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Languages,
-        LanguagesError | DataSourceError
-      > = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages,
+        LanguagesError | DataSourceError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -203,10 +193,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Language,
-        LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language,
+        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       const language: Language = schrodinger.get();
@@ -231,10 +219,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Language,
-        LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language,
+        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -253,10 +239,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Language,
-        LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language,
+        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -291,10 +275,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Language,
-        LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
+      const schrodinger: Schrodinger<Language,
+        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -329,10 +311,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Language,
-        LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
+      const schrodinger: Schrodinger<Language,
+        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -351,10 +331,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Language,
-        LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language,
+        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -373,10 +351,8 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<
-        Language,
-        LanguageError | NoSuchElementError | DataSourceError
-      > = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language,
+        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

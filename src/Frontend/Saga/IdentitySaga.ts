@@ -38,12 +38,12 @@ export class IdentitySaga {
     this.languageQuery = languageQuery;
   }
 
-  public *init(): IterableIterator<unknown> {
+  public* init(): IterableIterator<unknown> {
     yield fork(this.initIdentity);
     yield fork(this.initialize);
   }
 
-  private *initIdentity(): SagaIterator<void> {
+  private* initIdentity(): SagaIterator<void> {
     yield put(loading());
 
     const superposition1: Superposition<Locale, DataSourceError> = yield call(
@@ -63,10 +63,8 @@ export class IdentitySaga {
       }
     );
 
-    const superposition2: Superposition<
-      VeauAccount,
-      VeauAccountError | UnauthorizedError | DataSourceError
-    > = yield call(
+    const superposition2: Superposition<VeauAccount,
+      VeauAccountError | UnauthorizedError | DataSourceError> = yield call(
       (): Promise<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>> => {
         return this.sessionQuery.find();
       }
@@ -114,7 +112,7 @@ export class IdentitySaga {
     );
   }
 
-  private *initialize(): SagaIterator<unknown> {
+  private* initialize(): SagaIterator<unknown> {
     while (true) {
       yield take(IDENTITY_INITIALIZE);
       const state: State = yield select();

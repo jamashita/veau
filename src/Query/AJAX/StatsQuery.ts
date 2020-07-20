@@ -25,7 +25,7 @@ export class StatsQuery implements IStatsQuery<AJAXError>, IAJAXQuery {
     return Superposition.playground<AJAXResponse<StatsJSON>, AJAXError>(() => {
       return this.ajax.get<StatsJSON>(`/api/stats/${statsID.get().get()}`);
     }, AJAXError).map<Stats, StatsError | NoSuchElementError | AJAXError>(
-      ({ status, body }: AJAXResponse<StatsJSON>) => {
+      ({status, body}: AJAXResponse<StatsJSON>) => {
         switch (status) {
           case OK: {
             return Stats.ofJSON(body);

@@ -74,18 +74,6 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
     return this.terms.toString();
   }
 
-  public map<U>(mapper: Mapper<Term, U>): Array<U> {
-    const array: Array<U> = [];
-    let i: number = 0;
-
-    this.forEach((term: Term) => {
-      array.push(mapper(term, i));
-      i++;
-    });
-
-    return array;
-  }
-
   public [Symbol.iterator](): Iterator<Pair<TermID, Term>> {
     return this.terms[Symbol.iterator]();
   }
@@ -96,5 +84,17 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
 
   public some(predicate: BinaryPredicate<Term, TermID>): boolean {
     return this.terms.some(predicate);
+  }
+
+  public map<U>(mapper: Mapper<Term, U>): Array<U> {
+    const array: Array<U> = [];
+    let i: number = 0;
+
+    this.forEach((term: Term) => {
+      array.push(mapper(term, i));
+      i++;
+    });
+
+    return array;
   }
 }

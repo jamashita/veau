@@ -8,20 +8,20 @@ import { PUSH_TO_ENTRANCE, PUSH_TO_STATS_EDIT, PUSH_TO_STATS_LIST, PushToStatsEd
 import { Endpoints } from '../Endpoints';
 
 export class RedirectSaga {
-  public *init(): IterableIterator<unknown> {
+  public* init(): IterableIterator<unknown> {
     yield fork(this.toStatsList);
     yield fork(this.toStatsEdit);
     yield fork(this.toEntrance);
   }
 
-  private *toStatsList(): SagaIterator<unknown> {
+  private* toStatsList(): SagaIterator<unknown> {
     while (true) {
       yield take(PUSH_TO_STATS_LIST);
       yield put(push(Endpoints.STATS_LIST));
     }
   }
 
-  private *toStatsEdit(): SagaIterator<unknown> {
+  private* toStatsEdit(): SagaIterator<unknown> {
     while (true) {
       const action: PushToStatsEditAction = yield take(PUSH_TO_STATS_EDIT);
 
@@ -29,7 +29,7 @@ export class RedirectSaga {
     }
   }
 
-  private *toEntrance(): SagaIterator<unknown> {
+  private* toEntrance(): SagaIterator<unknown> {
     while (true) {
       yield take(PUSH_TO_ENTRANCE);
       yield put(push(Endpoints.ENTRANCE));

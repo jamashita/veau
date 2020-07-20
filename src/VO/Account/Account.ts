@@ -32,27 +32,25 @@ export class Account extends ValueObject<Account, 'Account'> {
   }
 
   public static ofRow(row: AccountRow): Superposition<Account, AccountError> {
-    return VeauAccountID.ofString(row.veauAccountID)
-      .map<Account, VeauAccountIDError | LanguageIDError | RegionIDError>(
-        (veauAccountID: VeauAccountID) => {
-          return LanguageID.ofString(row.languageID).map<Account, LanguageIDError | RegionIDError>(
-            (languageID: LanguageID) => {
-              return RegionID.ofString(row.regionID).map<Account, RegionIDError>((regionID: RegionID) => {
-                return Account.of(
-                  VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(row.name)),
-                  Hash.of(row.hash)
-                );
-              });
-            },
-            RegionIDError
-          );
-        },
-        LanguageIDError,
-        RegionIDError
-      )
-      .recover<Account, AccountError>((err: VeauAccountIDError | LanguageIDError | RegionIDError) => {
-        throw new AccountError('Account.ofRow()', err);
-      }, AccountError);
+    return VeauAccountID.ofString(row.veauAccountID).map<Account, VeauAccountIDError | LanguageIDError | RegionIDError>(
+      (veauAccountID: VeauAccountID) => {
+        return LanguageID.ofString(row.languageID).map<Account, LanguageIDError | RegionIDError>(
+          (languageID: LanguageID) => {
+            return RegionID.ofString(row.regionID).map<Account, RegionIDError>((regionID: RegionID) => {
+              return Account.of(
+                VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(row.name)),
+                Hash.of(row.hash)
+              );
+            });
+          },
+          RegionIDError
+        );
+      },
+      LanguageIDError,
+      RegionIDError
+    ).recover<Account, AccountError>((err: VeauAccountIDError | LanguageIDError | RegionIDError) => {
+      throw new AccountError('Account.ofRow()', err);
+    }, AccountError);
   }
 
   protected constructor(account: VeauAccount, hash: Hash) {

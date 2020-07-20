@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { default as Text } from '@material-ui/core/TextField';
+import React from 'react';
 
 type Props = Readonly<{
   label: string;
@@ -43,28 +42,6 @@ export class TextField extends React.Component<Props, State> {
     return false;
   }
 
-  private keyUp(value: string): void {
-    // prettier-ignore
-    const {
-      onKeyUp
-    } = this.props;
-
-    if (onKeyUp) {
-      onKeyUp(value);
-    }
-  }
-
-  private enterUp(): void {
-    // prettier-ignore
-    const {
-      onEnterUp
-    } = this.props;
-
-    if (onEnterUp) {
-      onEnterUp();
-    }
-  }
-
   public render(): React.ReactNode {
     // prettier-ignore
     const {
@@ -93,5 +70,27 @@ export class TextField extends React.Component<Props, State> {
         }}
       />
     );
+  }
+
+  private keyUp(value: string): void {
+    // prettier-ignore
+    const {
+      onKeyUp
+    } = this.props;
+
+    if (onKeyUp) {
+      onKeyUp(value);
+    }
+  }
+
+  private enterUp(): void {
+    // prettier-ignore
+    const {
+      onEnterUp
+    } = this.props;
+
+    if (onEnterUp) {
+      onEnterUp();
+    }
   }
 }

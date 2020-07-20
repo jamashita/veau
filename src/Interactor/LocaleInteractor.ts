@@ -1,8 +1,7 @@
-import { inject, injectable } from 'inversify';
-
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
+import { inject, injectable } from 'inversify';
 
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';
@@ -37,24 +36,21 @@ export class LocaleInteractor implements Noun<'LocaleInteractor'> {
   }
 
   public all(): Superposition<Locale, LocaleError | DataSourceError> {
-    return this.languageQuery
-      .all()
-      .map<Locale, LanguagesError | RegionsError | DataSourceError>((languages: Languages) => {
-        return this.regionQuery.all().map<Locale, RegionsError | DataSourceError>((regions: Regions) => {
-          return Locale.of(languages, regions);
-        });
-      })
-      .recover<Locale, LocaleError>(
-        (err: LanguagesError | RegionsError | DataSourceError) => {
-          if (err instanceof DataSourceError) {
-            throw err;
-          }
+    return this.languageQuery.all().map<Locale, LanguagesError | RegionsError | DataSourceError>((languages: Languages) => {
+      return this.regionQuery.all().map<Locale, RegionsError | DataSourceError>((regions: Regions) => {
+        return Locale.of(languages, regions);
+      });
+    }).recover<Locale, LocaleError>(
+      (err: LanguagesError | RegionsError | DataSourceError) => {
+        if (err instanceof DataSourceError) {
+          throw err;
+        }
 
-          throw new LocaleError('LocaleInteradtor.all()', err);
-        },
-        LocaleError,
-        DataSourceError
-      );
+        throw new LocaleError('LocaleInteradtor.all()', err);
+      },
+      LocaleError,
+      DataSourceError
+    );
   }
 
   public delete(): Superposition<unknown, DataSourceError> {
