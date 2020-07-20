@@ -14,7 +14,7 @@ import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
 import { Row } from '../../VO/Coordinate/Row';
 import { StatsItemDisplay } from '../../VO/Display/StatsItemDisplay';
-import { StatsItemDisplays } from 'src/VO/Display/StatsItemDisplays';
+import { StatsItemDisplays } from '../../VO/Display/StatsItemDisplays';
 import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
@@ -61,9 +61,7 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
   }
 
   public static ofJSON(json: Array<StatsItemJSON>): Superposition<StatsItems, StatsItemsError> {
-    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = json.map<
-      Superposition<StatsItem, StatsItemError>
-    >((statsItemJSON: StatsItemJSON) => {
+    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = json.map<Superposition<StatsItem, StatsItemError>>((statsItemJSON: StatsItemJSON) => {
       return StatsItem.ofJSON(statsItemJSON);
     });
 
@@ -74,9 +72,7 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     rows: Array<StatsItemRow>,
     project: Project<StatsItemID, StatsValues>
   ): Superposition<StatsItems, StatsItemsError> {
-    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<
-      Superposition<StatsItem, StatsItemError>
-    >((statsItemRow: StatsItemRow) => {
+    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<Superposition<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
       return StatsItem.ofRow(statsItemRow, project);
     });
 
