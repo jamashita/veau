@@ -1,5 +1,5 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
-import { Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
 
 import { StatsListItem } from './StatsListItem';
 
@@ -69,7 +69,15 @@ export class StatsListItems extends Quantity<StatsListItems, number, StatsListIt
     return this.items.toArray().map<U>(mapper);
   }
 
-  public iterator(): Iterator<Pair<number, StatsListItem>> {
-    return this.items.iterator();
+  public [Symbol.iterator](): Iterator<Pair<number, StatsListItem>> {
+    return this.items[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<StatsListItem, number>): boolean {
+    return this.items.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<StatsListItem, number>): boolean {
+    return this.items.some(predicate);
   }
 }

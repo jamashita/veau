@@ -354,7 +354,7 @@ describe('StatsItemDisplays', () => {
   });
 
   describe('iterator', () => {
-    it('delegates its inner collection instance', async () => {
+    it('normal case', async () => {
       const sequence: MockASequence<MockStatsItemDisplay> = new MockASequence<MockStatsItemDisplay>([
         new MockStatsItemDisplay(),
         new MockStatsItemDisplay()

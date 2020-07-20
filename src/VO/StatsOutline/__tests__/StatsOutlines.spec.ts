@@ -586,7 +586,7 @@ describe('StatsOutlines', () => {
   });
 
   describe('iterator', () => {
-    it('delegates its inner collection instance', async () => {
+    it('normal case', async () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();

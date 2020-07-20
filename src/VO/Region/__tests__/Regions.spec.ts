@@ -520,7 +520,7 @@ describe('Regions', () => {
   });
 
   describe('iterator', () => {
-    it('delegates its inner collection instance', async () => {
+    it('normal case', async () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();

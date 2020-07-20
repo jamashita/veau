@@ -527,7 +527,7 @@ describe('Languages', () => {
   });
 
   describe('iterator', () => {
-    it('delegates its inner collection instance', async () => {
+    it('normal case', async () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
