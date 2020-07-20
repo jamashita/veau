@@ -229,6 +229,48 @@ describe('AsOfs', () => {
     });
   });
 
+  describe('size', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<AsOf> = new MockASequence<AsOf>([
+        await AsOf.ofString('2000-01-01').get(),
+        await AsOf.ofString('2000-01-02').get(),
+        await AsOf.ofString('2000-01-03').get()
+      ]);
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.size = spy;
+
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      asOfs.size();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('forEach', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<AsOf> = new MockASequence<AsOf>([
+        await AsOf.ofString('2000-01-01').get(),
+        await AsOf.ofString('2000-01-02').get(),
+        await AsOf.ofString('2000-01-03').get()
+      ]);
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.forEach = spy;
+
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      asOfs.forEach(() => {
+        // NOOP
+      })
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('min', () => {
     it('returns minimal asOf', async () => {
       const asOf1: MockAsOf = new MockAsOf({
