@@ -11,7 +11,6 @@ import { Coordinate } from '../../../VO/Coordinate/Coordinate';
 import { MockColumn } from '../../../VO/Coordinate/Mock/MockColumn';
 import { MockRow } from '../../../VO/Coordinate/Mock/MockRow';
 import { Row } from '../../../VO/Coordinate/Row';
-import { StatsDisplayError } from '../../../VO/Display/Error/StatsDisplayError';
 import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { HeaderSize } from '../../../VO/HeaderSize/HeaderSize';
 import { Language } from '../../../VO/Language/Language';
@@ -1815,11 +1814,11 @@ describe('Stats', () => {
 
       const stats: Stats = Stats.of(outline, language, region, term, items, startDate);
 
-      const superposition: Superposition<StatsDisplay, StatsDisplayError> = stats.display();
-      const schrodinger: Schrodinger<StatsDisplay, StatsDisplayError> = await superposition.terminate();
+      const unscharferelation: Unscharferelation<StatsDisplay> = stats.display();
+      const heisenberg: Heisenberg<StatsDisplay> = await unscharferelation.terminate();
 
-      expect(schrodinger.isAlive()).toBe(true);
-      const display: StatsDisplay = schrodinger.get();
+      expect(heisenberg.isPresent()).toBe(true);
+      const display: StatsDisplay = heisenberg.get();
 
       expect(display.getOutline()).toBe(outline);
       expect(display.getLanguage()).toBe(language);
@@ -1850,13 +1849,10 @@ describe('Stats', () => {
 
       const stats: Stats = Stats.of(outline, language, region, term, items);
 
-      const superposition: Superposition<StatsDisplay, StatsDisplayError> = stats.display();
-      const schrodinger: Schrodinger<StatsDisplay, StatsDisplayError> = await superposition.terminate();
+      const unscharferelation: Unscharferelation<StatsDisplay> = stats.display();
+      const heisenberg: Heisenberg<StatsDisplay> = await unscharferelation.terminate();
 
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(StatsDisplayError);
+      expect(heisenberg.isAbsent()).toBe(true);
     });
   });
 })

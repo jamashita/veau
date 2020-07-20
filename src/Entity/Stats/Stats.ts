@@ -1,4 +1,4 @@
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
+import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
@@ -7,7 +7,6 @@ import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
 import { Coordinate } from '../../VO/Coordinate/Coordinate';
 import { Row } from '../../VO/Coordinate/Row';
-import { StatsDisplayError } from '../../VO/Display/Error/StatsDisplayError';
 import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import { HeaderSizeError } from '../../VO/HeaderSize/Error/HeaderSizeError';
 import { HeaderSize } from '../../VO/HeaderSize/HeaderSize';
@@ -290,10 +289,10 @@ export class Stats extends Entity<StatsID, Stats> {
     this.items = this.items.remove(statsItem);
   }
 
-  public display(): Superposition<StatsDisplay, StatsDisplayError> {
-    return this.startDate.toSuperposition().map<StatsDisplay, HeaderSizeError | UnscharferelationError>((startDate: AsOf) => {
-      return this.getColumns().toSuperposition().map<StatsDisplay, HeaderSizeError | UnscharferelationError>((columns: AsOfs) => {
-        return this.getRowHeaderSize().map<StatsDisplay, HeaderSizeError>((headerSize: HeaderSize) => {
+  public display(): Unscharferelation<StatsDisplay> {
+    return this.startDate.map<StatsDisplay>((startDate: AsOf) => {
+      return this.getColumns().map<StatsDisplay>((columns: AsOfs) => {
+        return this.getRowHeaderSize().toUnscharferelation().map<StatsDisplay>((headerSize: HeaderSize) => {
           return StatsDisplay.of(
             this.outline,
             this.language,
@@ -305,9 +304,7 @@ export class Stats extends Entity<StatsID, Stats> {
             headerSize
           );
         });
-      }, HeaderSizeError);
-    }, HeaderSizeError).recover<StatsDisplay, StatsDisplayError>((err: HeaderSizeError | UnscharferelationError) => {
-      throw new StatsDisplayError('Stats.toStatsDisplay()', err);
-    }, StatsDisplayError);
+      });
+    });
   }
 }
