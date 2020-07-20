@@ -8,7 +8,7 @@ import { vault } from '../Container/Vault';
 import { VeauAction } from './Action';
 import { onload } from './ActionCreator/OnLoadActionCreator';
 import { RootEpic } from './Epic/RootEpic';
-import { history } from './history';
+import { history } from './History';
 import { reducers } from './Reducer/Reducer';
 import { State } from './State';
 
@@ -26,5 +26,3 @@ const rootEpic: RootEpic = vault.get<RootEpic>(Type.RootEpic);
 epic.run(rootEpic.init());
 
 store.dispatch(onload());
-
-// TODO rename to Store.ts

@@ -1,19 +1,18 @@
-import 'reflect-metadata';
-import './Sass/style.scss';
+import { Supplier } from '@jamashita/publikum-type';
+import { createMuiTheme, MuiThemeProvider, Theme } from '@material-ui/core';
+import { grey, lightGreen, pink } from '@material-ui/core/colors';
 
 import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-
-import { Supplier } from '@jamashita/publikum-type';
-import { createMuiTheme, MuiThemeProvider, Theme } from '@material-ui/core';
-import { grey, lightGreen, pink } from '@material-ui/core/colors';
+import 'reflect-metadata';
 
 import { View } from './Component/View';
 import { I18NProvider } from './Container/I18NProvider';
-import { history } from './history';
-import { store } from './store';
+import { history } from './History';
+import './Sass/style.scss';
+import { store } from './Store';
 
 const muiTheme: Theme = createMuiTheme({
   palette: {
@@ -38,7 +37,7 @@ const app: Supplier<React.ReactElement> = () => {
       <Provider store={store}>
         <I18NProvider>
           <ConnectedRouter history={history}>
-            <View />
+            <View/>
           </ConnectedRouter>
         </I18NProvider>
       </Provider>
