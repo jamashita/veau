@@ -1,8 +1,9 @@
-import { ImmutableSequence } from '@jamashita/publikum-collection';
+import { ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
 
 import { Color } from '../Color';
 import { Colors } from '../Colors';
 import { MockColor } from '../Mock/MockColor';
+import sinon, { SinonSpy } from 'sinon';
 
 describe('Colors', () => {
   describe('of', () => {
@@ -58,80 +59,199 @@ describe('Colors', () => {
   });
 
   describe('get', () => {
-    it('when index is over the length of Colors, loops and returns the element of first', () => {
-      const colors: Colors = Colors.ofArray([new MockColor('#ffffff'), new MockColor('#000000')]);
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<Color> = new MockASequence<Color>(
+        [new MockColor('#ffffff'), new MockColor('#000000')]
+      );
 
-      expect(colors.get(0)?.toString()).toBe('#ffffff');
-      expect(colors.get(1)?.toString()).toBe('#000000');
-      expect(colors.get(2)?.toString()).toBe('#ffffff');
-      expect(colors.get(3)?.toString()).toBe('#000000');
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.get = spy;
+
+      const colors: Colors = Colors.of(sequence);
+
+      colors.get(0);
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('contains', () => {
-    it('returns true if the element exists in the Colors', () => {
-      const color1: MockColor = new MockColor('#ffffff');
-      const color2: MockColor = new MockColor('#000000');
-      const color3: MockColor = new MockColor('#ffffff');
-      const color4: MockColor = new MockColor('#ffff00');
-      const colors: Colors = Colors.ofSpread(color1, color2);
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<Color> = new MockASequence<Color>(
+        [new MockColor('#ffffff'), new MockColor('#000000')]
+      );
 
-      expect(colors.contains(color1)).toBe(true);
-      expect(colors.contains(color2)).toBe(true);
-      expect(colors.contains(color3)).toBe(true);
-      expect(colors.contains(color4)).toBe(false);
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.contains = spy;
+
+      const colors: Colors = Colors.of(sequence);
+
+      colors.contains(new MockColor(''));
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('size', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<Color> = new MockASequence<Color>(
+        [new MockColor('#ffffff'), new MockColor('#000000')]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.size = spy;
+
+      const colors: Colors = Colors.of(sequence);
+
+      colors.size();
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('isEmpty', () => {
-    it('returns true if the elements are 0', () => {
-      const colors1: Colors = Colors.ofArray([]);
-      const colors2: Colors = Colors.ofArray([new MockColor('#ffffff'), new MockColor('#000000')]);
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<Color> = new MockASequence<Color>(
+        [new MockColor('#ffffff'), new MockColor('#000000')]
+      );
 
-      expect(colors1.isEmpty()).toBe(true);
-      expect(colors2.isEmpty()).toBe(false);
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.isEmpty = spy;
+
+      const colors: Colors = Colors.of(sequence);
+
+      colors.isEmpty();
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('equals', () => {
-    it('returns false if the length is different', () => {
+    it('same instance', () => {
       const color1: MockColor = new MockColor('#ffffff');
       const color2: MockColor = new MockColor('#000000');
-      const colors1: Colors = Colors.ofArray([color1, color2]);
-      const colors2: Colors = Colors.ofArray([color1]);
+      const colors: Colors = Colors.ofArray([color1, color2]);
 
-      expect(colors1.equals(colors1)).toBe(true);
-      expect(colors1.equals(colors2)).toBe(false);
+      expect(colors.equals(colors)).toBe(true);
     });
 
-    it('returns false if the sequence is different', () => {
-      const color1: MockColor = new MockColor('#ffffff');
-      const color2: MockColor = new MockColor('#000000');
-      const colors1: Colors = Colors.ofArray([color1, color2]);
-      const colors2: Colors = Colors.ofArray([color2, color1]);
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<Color> = new MockASequence<Color>(
+        [new MockColor('#ffffff'), new MockColor('#000000')]
+      );
 
-      expect(colors1.equals(colors1)).toBe(true);
-      expect(colors1.equals(colors2)).toBe(false);
-    });
+      const spy: SinonSpy = sinon.spy();
 
-    it('returns true if the length is the same and the sequence is the same', () => {
-      const color1: MockColor = new MockColor('#ffffff');
-      const color2: MockColor = new MockColor('#000000');
-      const colors1: Colors = Colors.ofArray([color1, color2]);
-      const colors2: Colors = Colors.ofArray([color1, color2]);
+      sequence.equals = spy;
 
-      expect(colors1.equals(colors1)).toBe(true);
-      expect(colors1.equals(colors2)).toBe(true);
+      const colors: Colors = Colors.of(sequence);
+
+      colors.equals(Colors.ofArray([]));
+
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('toString', () => {
-    it('normal case', () => {
-      const rgb1: string = '#ffffff';
-      const rgb2: string = '#000000';
-      const colors: Colors = Colors.ofArray([Color.of(rgb1), Color.of(rgb2)]);
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<Color> = new MockASequence<Color>(
+        [new MockColor('#ffffff'), new MockColor('#000000')]
+      );
 
-      expect(colors.toString()).toBe(`${rgb1}, ${rgb2}`);
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.toString = spy;
+
+      const colors: Colors = Colors.of(sequence);
+
+      colors.toString();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('iterator', () => {
+    it('normal case', async () => {
+      const color1: MockColor = new MockColor('#ffffff');
+      const color2: MockColor = new MockColor('#000000');
+      const arr: Array<MockColor> = [color1, color2];
+
+      const sequence: MockASequence<Color> = new MockASequence<Color>(
+        arr
+      );
+
+      const colors: Colors = Colors.of(sequence);
+
+      let i: number = 0;
+
+      for (const color of colors) {
+        expect(color.getValue()).toBe(arr[i]);
+        i++;
+      }
+    });
+  });
+
+  describe('forEach', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<Color> = new MockASequence<Color>(
+        [new MockColor('#ffffff'), new MockColor('#000000')]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.forEach = spy;
+
+      const colors: Colors = Colors.of(sequence);
+
+      colors.forEach(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('every', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<Color> = new MockASequence<Color>(
+        [new MockColor('#ffffff'), new MockColor('#000000')]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.every = spy;
+
+      const colors: Colors = Colors.of(sequence);
+
+      colors.every(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('some', () => {
+    it('delegates its inner collection instance', async () => {
+      const sequence: MockASequence<Color> = new MockASequence<Color>(
+        [new MockColor('#ffffff'), new MockColor('#000000')]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.some = spy;
+
+      const colors: Colors = Colors.of(sequence);
+
+      colors.some(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
     });
   });
 });

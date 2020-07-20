@@ -1,5 +1,5 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
-import { Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 
 import { Color } from './Color';
 
@@ -82,7 +82,15 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
     return this.colors.toString();
   }
 
-  public iterator(): Iterator<Pair<number, Color>> {
-    return this.colors.iterator();
+  public [Symbol.iterator](): Iterator<Pair<number, Color>> {
+    return this.colors[Symbol.iterator]();
+  }
+
+  public every(predicate: BinaryPredicate<Color, number>): boolean {
+    return this.colors.every(predicate);
+  }
+
+  public some(predicate: BinaryPredicate<Color, number>): boolean {
+    return this.colors.some(predicate);
   }
 }
