@@ -45,6 +45,19 @@ export class StatsDisplay extends ValueObject<StatsDisplay, 'StatsDisplay'> {
     return new StatsDisplay(outline, language, region, term, items, startDate, columns, headerSize);
   }
 
+  public static default(): StatsDisplay {
+    return StatsDisplay.of(
+      StatsOutline.default(),
+      Language.empty(),
+      Region.empty(),
+      Term.DAILY,
+      StatsItemDisplays.empty(),
+      AsOf.now(),
+      AsOfs.empty(),
+      HeaderSize.default()
+    );
+  }
+
   protected constructor(
     outline: StatsOutline,
     language: Language,

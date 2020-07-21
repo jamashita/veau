@@ -1,9 +1,12 @@
 import { UUID } from '@jamashita/publikum-uuid';
+import { AsOf } from '../../AsOf/AsOf';
+import { AsOfs } from '../../AsOf/AsOfs';
 
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
 import { MockAsOfs } from '../../AsOf/Mock/MockAsOfs';
 import { Column } from '../../Coordinate/Column';
 import { Row } from '../../Coordinate/Row';
+import { HeaderSize } from '../../HeaderSize/HeaderSize';
 import { MockHeaderSize } from '../../HeaderSize/Mock/MockHeaderSize';
 import { Language } from '../../Language/Language';
 import { MockISO639 } from '../../Language/Mock/MockISO639';
@@ -34,6 +37,7 @@ import { Term } from '../../Term/Term';
 import { MockStatsItemDisplay } from '../Mock/MockStatsItemDisplay';
 import { MockStatsItemDisplays } from '../Mock/MockStatsItemDisplays';
 import { StatsDisplay } from '../StatsDisplay';
+import { StatsItemDisplays } from '../StatsItemDisplays';
 
 describe('StatsDisplay', () => {
   describe('of', () => {
@@ -57,6 +61,23 @@ describe('StatsDisplay', () => {
       expect(display.getStartDate()).toBe(startDate);
       expect(display.getItems()).toBe(items);
       expect(display.getItems()).toBe(items);
+    });
+  });
+
+  describe('default', () => {
+    it('id will be generated, data are empty', async () => {
+      const display: StatsDisplay = StatsDisplay.default();
+
+      expect(display.getStatsID().get().get().length).toBe(UUID.size());
+      expect(display.getName()).toBe(StatsName.empty());
+      expect(display.getUnit()).toBe(StatsUnit.empty());
+      expect(display.getLanguage()).toBe(Language.empty());
+      expect(display.getRegion()).toBe(Region.empty());
+      expect(display.getTerm()).toBe(Term.DAILY);
+      expect(display.getItems()).toBe(StatsItemDisplays.empty());
+      expect(display.getStartDate().toString()).toBe(AsOf.now().toString());
+      expect(display.getColumns()).toBe(AsOfs.empty());
+      expect(display.getRowHeaderSize().get()).toBe(HeaderSize.default().get());
     });
   });
 

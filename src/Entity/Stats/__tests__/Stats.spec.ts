@@ -13,7 +13,6 @@ import { MockRow } from '../../../VO/Coordinate/Mock/MockRow';
 import { Row } from '../../../VO/Coordinate/Row';
 import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { HeaderSize } from '../../../VO/HeaderSize/HeaderSize';
-import { Language } from '../../../VO/Language/Language';
 import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
@@ -24,7 +23,6 @@ import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
-import { Region } from '../../../VO/Region/Region';
 import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
@@ -32,8 +30,6 @@ import { MockStatsName } from '../../../VO/StatsOutline/Mock/MockStatsName';
 import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
 import { MockStatsUnit } from '../../../VO/StatsOutline/Mock/MockStatsUnit';
 import { MockUpdatedAt } from '../../../VO/StatsOutline/Mock/MockUpdatedAt';
-import { StatsName } from '../../../VO/StatsOutline/StatsName';
-import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
 import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
 import { MockTerm } from '../../../VO/Term/Mock/MockTerm';
@@ -986,24 +982,6 @@ describe('Stats', () => {
       };
 
       expect(Stats.isJSON(n)).toBe(false);
-    });
-  });
-
-  describe('default', () => {
-    it('id will be generated, data are empty', async () => {
-      const stats: Stats = Stats.default();
-
-      expect(stats.getStatsID().get().get().length).toBe(UUID.size());
-      expect(stats.getName()).toBe(StatsName.empty());
-      expect(stats.getUnit()).toBe(StatsUnit.empty());
-      expect(stats.getItems()).toBe(StatsItems.empty());
-      expect(stats.getLanguage()).toBe(Language.empty());
-      expect(stats.getRegion()).toBe(Region.empty());
-      expect(stats.getTerm()).toBe(Term.DAILY);
-
-      const heisenberg: Heisenberg<AsOf> = await stats.getStartDate().terminate();
-
-      expect(heisenberg.isAbsent()).toBe(true);
     });
   });
 

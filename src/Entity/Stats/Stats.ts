@@ -36,8 +36,6 @@ export type StatsJSON = Readonly<{
   items: Array<StatsItemJSON>;
 }>;
 
-const REVISED_VALUE: number = 14;
-
 export class Stats extends Entity<StatsID, Stats> {
   public readonly noun: 'Stats' = 'Stats';
   private readonly outline: StatsOutline;
@@ -119,10 +117,6 @@ export class Stats extends Entity<StatsID, Stats> {
     }
 
     return true;
-  }
-
-  public static default(): Stats {
-    return Stats.of(StatsOutline.default(), Language.empty(), Region.empty(), Term.DAILY, StatsItems.empty());
   }
 
   protected constructor(
@@ -251,10 +245,10 @@ export class Stats extends Entity<StatsID, Stats> {
     const length: number = this.items.maxNameLength();
 
     if (length === 0) {
-      return HeaderSize.of(REVISED_VALUE);
+      return HeaderSize.of(1);
     }
 
-    return HeaderSize.of(length * REVISED_VALUE);
+    return HeaderSize.of(length);
   }
 
   public setData(coordinate: Coordinate, value: NumericalValue): void {
