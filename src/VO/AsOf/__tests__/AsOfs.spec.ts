@@ -406,7 +406,7 @@ describe('AsOfs', () => {
   });
 
   describe('duplicate', () => {
-    it('normal case, shallow duplicate', async () => {
+    it('normal case, shallow duplicate', () => {
       const asOf1: MockAsOf = new MockAsOf({
         day: 1
       });

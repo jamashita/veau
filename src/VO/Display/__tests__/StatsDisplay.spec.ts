@@ -65,7 +65,7 @@ describe('StatsDisplay', () => {
   });
 
   describe('default', () => {
-    it('id will be generated, data are empty', async () => {
+    it('id will be generated, data are empty', () => {
       const display: StatsDisplay = StatsDisplay.default();
 
       expect(display.getStatsID().get().get().length).toBe(UUID.size());

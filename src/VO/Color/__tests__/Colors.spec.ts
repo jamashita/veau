@@ -59,7 +59,7 @@ describe('Colors', () => {
   });
 
   describe('get', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<Color> = new MockASequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
@@ -78,7 +78,7 @@ describe('Colors', () => {
   });
 
   describe('contains', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<Color> = new MockASequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
@@ -97,7 +97,7 @@ describe('Colors', () => {
   });
 
   describe('size', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<Color> = new MockASequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
@@ -116,7 +116,7 @@ describe('Colors', () => {
   });
 
   describe('isEmpty', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<Color> = new MockASequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
@@ -143,7 +143,7 @@ describe('Colors', () => {
       expect(colors.equals(colors)).toBe(true);
     });
 
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<Color> = new MockASequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
@@ -162,7 +162,7 @@ describe('Colors', () => {
   });
 
   describe('toString', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<Color> = new MockASequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
@@ -181,7 +181,7 @@ describe('Colors', () => {
   });
 
   describe('iterator', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
       const color1: MockColor = new MockColor('#ffffff');
       const color2: MockColor = new MockColor('#000000');
       const arr: Array<MockColor> = [color1, color2];
@@ -200,7 +200,7 @@ describe('Colors', () => {
   });
 
   describe('forEach', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<Color> = new MockASequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
@@ -221,7 +221,7 @@ describe('Colors', () => {
   });
 
   describe('every', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<Color> = new MockASequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
@@ -242,7 +242,7 @@ describe('Colors', () => {
   });
 
   describe('some', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<Color> = new MockASequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
