@@ -1,15 +1,9 @@
-export type EndpointType = Readonly<{
-  ENTRANCE: string;
-  STATS_LIST: string;
-  STATS_EDIT: string;
-  LOGOUT: string;
-  NOTFOUND: string;
-}>;
+/* eslint-disable  @typescript-eslint/typedef */
 
-export const Endpoints: EndpointType = {
+export const Endpoints = {
   ENTRANCE: '/',
   STATS_LIST: '/statistics/list',
   STATS_EDIT: '/statistics/edit/:id',
   LOGOUT: '/logout',
   NOTFOUND: '*'
-};
+} as const;
