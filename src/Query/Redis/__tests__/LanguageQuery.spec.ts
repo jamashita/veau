@@ -69,17 +69,10 @@ describe('LanguageQuery', () => {
         const languageID: LanguageID = await LanguageID.ofString(json[i].languageID).get();
         const language: Nullable<Language> = languages.get(languageID);
 
-        if (language === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
-          fail();
-
-          return;
-        }
-
-        expect(language.getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(language.getName().get()).toBe(json[i].name);
-        expect(language.getEnglishName().get()).toBe(json[i].englishName);
-        expect(language.getISO639().get()).toBe(json[i].iso639);
+        expect(language?.getLanguageID().get().get()).toBe(json[i].languageID);
+        expect(language?.getName().get()).toBe(json[i].name);
+        expect(language?.getEnglishName().get()).toBe(json[i].englishName);
+        expect(language?.getISO639().get()).toBe(json[i].iso639);
       }
     });
 

@@ -37,23 +37,25 @@ export class StatsUpdateTransaction
       statsCommand.deleteByStatsID(statsID)
     ];
 
-    return Superposition.all<unknown, MySQLError>(superpositions).map<unknown, MySQLError>(() => {
-      const items: Array<Superposition<unknown, MySQLError>> = [];
-      const values: Array<Superposition<unknown, MySQLError>> = [];
+    return Superposition.all<unknown, MySQLError>(superpositions)
+      .map<unknown, MySQLError>(() => {
+        const items: Array<Superposition<unknown, MySQLError>> = [];
+        const values: Array<Superposition<unknown, MySQLError>> = [];
 
-      this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
-        items.push(statsItemCommand.create(statsID, statsItem, index + 1));
+        this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
+          items.push(statsItemCommand.create(statsID, statsItem, index + 1));
 
-        statsItem.getValues().forEach((statsValue: StatsValue) => {
-          values.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
+          statsItem.getValues().forEach((statsValue: StatsValue) => {
+            values.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
+          });
         });
-      });
 
-      return statsCommand.create(this.stats, this.veauAccountID).map<unknown, MySQLError>(() => {
-        return Superposition.all<unknown, MySQLError>(items).map(() => {
-          return Superposition.all<unknown, MySQLError>(values);
+        return statsCommand.create(this.stats, this.veauAccountID).map<unknown, MySQLError>(() => {
+          return Superposition.all<unknown, MySQLError>(items).map(() => {
+            return Superposition.all<unknown, MySQLError>(values);
+          });
         });
-      });
-    }).terminate();
+      })
+      .terminate();
   }
 }
