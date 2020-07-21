@@ -108,15 +108,6 @@ gulp.task('Service', () => {
     .pipe(gulp.dest('dist/Service'));
 });
 
-gulp.task('Transaction', () => {
-  return gulp.src(['src/Transaction/**/*.ts'], {
-    since: gulp.lastRun('Transaction')
-  })
-    .pipe(plumber())
-    .pipe(tsc())
-    .pipe(gulp.dest('dist/Transaction'));
-});
-
 gulp.task('VO', () => {
   return gulp.src(['src/VO/**/*.ts'], {
     since: gulp.lastRun('VO')
@@ -156,7 +147,7 @@ gulp.task('nodemon', (callback) => {
       'NODE_ENV': 'development'
     }
   }).on('start', () => {
-    if(!started) {
+    if (!started) {
       callback();
       started = true;
     }
@@ -189,7 +180,6 @@ gulp.task(
     'Query',
     'Server',
     'Service',
-    'Transaction',
     'VO'
   )
 );
@@ -209,7 +199,6 @@ gulp.task(
       gulp.watch('src/Query/**/*.ts', gulp.series('Query'));
       gulp.watch('src/Server/**/*.ts', gulp.series('Server'));
       gulp.watch('src/Service/**/*.ts', gulp.series('Service'));
-      gulp.watch('src/Transaction/**/*.ts', gulp.series('Transaction'));
       gulp.watch('src/VO/**/*.ts', gulp.series('VO'));
       gulp.watch('src/Server/views/*.pug', gulp.series('pug'));
       callback();
