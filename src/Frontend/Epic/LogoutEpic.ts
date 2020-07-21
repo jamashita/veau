@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType } from 'redux-observable';
 import { from, merge, Observable, of } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { Type } from '../../Container/Types';
@@ -26,7 +26,7 @@ export class LogoutEpic {
   public logout(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
     return action$.pipe<VeauAction, VeauAction>(
       ofType<VeauAction, VeauAction>(LOGOUT),
-      flatMap<VeauAction, Observable<VeauAction>>(() => {
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
         return from<Promise<Observable<VeauAction>>>(
           this.sessionCommand.delete().transform<Observable<VeauAction>, Error>(
             () => {
@@ -37,7 +37,7 @@ export class LogoutEpic {
             }
           ).get()
         ).pipe<VeauAction>(
-          flatMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
+          mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
             return observable;
           })
         );

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, merge, Observable, of } from 'rxjs';
-import { filter, flatMap, map } from 'rxjs/operators';
+import { filter, map, mergeMap } from 'rxjs/operators';
 
 import { Type } from '../../Container/Types';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
@@ -58,7 +58,7 @@ export class EntranceEpic {
 
         return entranceInformation.isAcceptable();
       }),
-      flatMap<VeauAction, Observable<VeauAction>>(() => {
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
         // prettier-ignore
         const {
           value: {
