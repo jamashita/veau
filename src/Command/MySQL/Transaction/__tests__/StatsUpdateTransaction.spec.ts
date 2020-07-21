@@ -2,20 +2,20 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MockSQL, MySQLError } from '@jamashita/publikum-mysql';
 import sinon, { SinonStub } from 'sinon';
+import { MockStats } from '../../../../Entity/Stats/Mock/MockStats';
+import { MockStatsItem } from '../../../../Entity/StatsItem/Mock/MockStatsItem';
+import { MockStatsItems } from '../../../../Entity/StatsItem/Mock/MockStatsItems';
+import { MockStatsUpdateFactory } from '../../../../Factory/Mock/MockStatsUpdateFactory';
+import { MockAsOf } from '../../../../VO/AsOf/Mock/MockAsOf';
+import { MockStatsItemID } from '../../../../VO/StatsItem/Mock/MockStatsItemID';
+import { MockStatsValue } from '../../../../VO/StatsValue/Mock/MockStatsValue';
+import { MockStatsValues } from '../../../../VO/StatsValue/Mock/MockStatsValues';
+import { MockVeauAccountID } from '../../../../VO/VeauAccount/Mock/MockVeauAccountID';
+import { VeauAccountID } from '../../../../VO/VeauAccount/VeauAccountID';
 
-import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
-import { MockStatsItemCommand } from '../../Command/Mock/MockStatsItemCommand';
-import { MockStatsValueCommand } from '../../Command/Mock/MockStatsValueCommand';
-import { MockStats } from '../../Entity/Stats/Mock/MockStats';
-import { MockStatsItem } from '../../Entity/StatsItem/Mock/MockStatsItem';
-import { MockStatsItems } from '../../Entity/StatsItem/Mock/MockStatsItems';
-import { MockStatsUpdateFactory } from '../../Factory/Mock/MockStatsUpdateFactory';
-import { MockAsOf } from '../../VO/AsOf/Mock/MockAsOf';
-import { MockStatsItemID } from '../../VO/StatsItem/Mock/MockStatsItemID';
-import { MockStatsValue } from '../../VO/StatsValue/Mock/MockStatsValue';
-import { MockStatsValues } from '../../VO/StatsValue/Mock/MockStatsValues';
-import { MockVeauAccountID } from '../../VO/VeauAccount/Mock/MockVeauAccountID';
-import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
+import { MockStatsCommand } from '../../../Mock/MockStatsCommand';
+import { MockStatsItemCommand } from '../../../Mock/MockStatsItemCommand';
+import { MockStatsValueCommand } from '../../../Mock/MockStatsValueCommand';
 import { StatsUpdateTransaction } from '../StatsUpdateTransaction';
 
 describe('StatsUpdateTransaction', () => {

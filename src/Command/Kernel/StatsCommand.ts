@@ -6,10 +6,10 @@ import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsUpdateFactory } from '../../Factory/StatsUpdateFactory';
-import { StatsUpdateTransaction } from '../../Transaction/StatsUpdateTransaction';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import { IStatsCommand } from '../Interface/IStatsCommand';
+import { StatsUpdateTransaction } from '../MySQL/Transaction/StatsUpdateTransaction';
 import { IKernelCommand } from './Interface/IKernelCommand';
 
 @injectable()
