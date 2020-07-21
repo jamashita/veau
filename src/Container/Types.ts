@@ -1,49 +1,6 @@
-type DIType = Readonly<{
-  SessionAJAXCommand: symbol;
-  StatsAJAXCommand: symbol;
-  LocaleCacheCommand: symbol;
-  StatsKernelCommand: symbol;
-  LanguageRedisCommand: symbol;
-  RegionRedisCommand: symbol;
-  EntranceEpic: symbol;
-  IdentityEpic: symbol;
-  LogoutEpic: symbol;
-  RedirectEpic: symbol;
-  RootEpic: symbol;
-  StatsEditEpic: symbol;
-  StatsListEpic: symbol;
-  AJAX: symbol;
-  Cache: symbol;
-  MySQL: symbol;
-  Redis: symbol;
-  AuthenticationInteractor: symbol;
-  LocaleInteractor: symbol;
-  StatsInteractor: symbol;
-  LocaleAJAXQuery: symbol;
-  StatsOutlineAJAXQuery: symbol;
-  StatsAJAXQuery: symbol;
-  VeauAccountAJAXQuery: symbol;
-  LocaleCacheQuery: symbol;
-  TermCacheQuery: symbol;
-  LanguageKernelQuery: symbol;
-  RegionKernelQuery: symbol;
-  StatsKernelQuery: symbol;
-  AccountMySQLQuery: symbol;
-  LanguageMySQLQuery: symbol;
-  RegionMySQLQuery: symbol;
-  StatsItemMySQLQuery: symbol;
-  StatsOutlineMySQLQuery: symbol;
-  StatsValueMySQLQuery: symbol;
-  LanguageRedisQuery: symbol;
-  RegionRedisQuery: symbol;
-  IdentityVaultQuery: symbol;
-  LanguageVaultQuery: symbol;
-  LocaleVaultQuery: symbol;
-  RegionVaultQuery: symbol;
-  StatsListItemVaultQuery: symbol;
-}>;
+/* eslint-disable  @typescript-eslint/typedef */
 
-export const Type: DIType = {
+export const Type = {
   SessionAJAXCommand: Symbol(),
   StatsAJAXCommand: Symbol(),
   LocaleCacheCommand: Symbol(),
@@ -86,4 +43,4 @@ export const Type: DIType = {
   LocaleVaultQuery: Symbol(),
   RegionVaultQuery: Symbol(),
   StatsListItemVaultQuery: Symbol()
-};
+} as const;
