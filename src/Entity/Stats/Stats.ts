@@ -119,6 +119,10 @@ export class Stats extends Entity<StatsID, Stats> {
     return true;
   }
 
+  public static default(): Stats {
+    return Stats.of(StatsOutline.default(), Language.empty(), Region.empty(), Term.DAILY, StatsItems.empty());
+  }
+
   protected constructor(
     outline: StatsOutline,
     language: Language,
