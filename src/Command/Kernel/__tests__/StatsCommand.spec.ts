@@ -34,7 +34,9 @@ describe('StatsCommand', () => {
       stub.resolves(Superposition.alive<unknown, MySQLError>(null, MySQLError));
 
       const statsCommand: StatsCommand = new StatsCommand(mysql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats, accountID).terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
+        .create(stats, accountID)
+        .terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
     });
@@ -50,7 +52,9 @@ describe('StatsCommand', () => {
       stub.resolves(Superposition.dead<unknown, MySQLError>(new MySQLError('test failed'), MySQLError));
 
       const statsCommand: StatsCommand = new StatsCommand(mysql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats, accountID).terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
+        .create(stats, accountID)
+        .terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

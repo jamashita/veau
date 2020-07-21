@@ -28,7 +28,9 @@ describe('StatsValueCommand', () => {
       sql.execute = stub;
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand.create(new MockStatsItemID(uuid), statsValue).terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand
+        .create(new MockStatsItemID(uuid), statsValue)
+        .terminate();
 
       expect(
         stub.withArgs(
@@ -57,7 +59,9 @@ describe('StatsValueCommand', () => {
       stub.rejects(new MySQLError('test failed'));
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand.create(new MockStatsItemID(), statsValue).terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand
+        .create(new MockStatsItemID(), statsValue)
+        .terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -77,7 +81,9 @@ describe('StatsValueCommand', () => {
       sql.execute = stub;
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsValueCommand
+        .deleteByStatsID(statsID)
+        .terminate();
 
       expect(
         stub.withArgs(
@@ -106,7 +112,9 @@ describe('StatsValueCommand', () => {
       stub.rejects(new MySQLError('test failed'));
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const schrodigner: Schrodinger<unknown, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID).terminate();
+      const schrodigner: Schrodinger<unknown, DataSourceError> = await statsValueCommand
+        .deleteByStatsID(statsID)
+        .terminate();
 
       expect(schrodigner.isDead()).toBe(true);
       expect(() => {
