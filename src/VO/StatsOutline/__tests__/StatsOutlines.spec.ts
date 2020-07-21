@@ -131,6 +131,7 @@ describe('StatsOutlines', () => {
       const outlines: StatsOutlines = schrodinger.get();
 
       for (let i: number = 0; i < 2; i++) {
+        // eslint-disable-next-line no-await-in-loop
         const outline: Nullable<StatsOutline> = outlines.get(await StatsID.ofString(json[i].statsID).get());
 
         expect(outline?.getStatsID().get().get()).toBe(json[i].statsID);
@@ -202,6 +203,7 @@ describe('StatsOutlines', () => {
       const outlines: StatsOutlines = schrodinger.get();
 
       for (let i: number = 0; i < 2; i++) {
+        // eslint-disable-next-line no-await-in-loop
         const outline: Nullable<StatsOutline> = outlines.get(await StatsID.ofString(rows[i].statsID).get());
 
         expect(outline?.getStatsID().get().get()).toBe(rows[i].statsID);
@@ -288,18 +290,18 @@ describe('StatsOutlines', () => {
   });
 
   describe('get', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
-        [
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -314,18 +316,18 @@ describe('StatsOutlines', () => {
   });
 
   describe('contains', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
-        [
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -340,18 +342,18 @@ describe('StatsOutlines', () => {
   });
 
   describe('isEmpty', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
-        [
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -366,18 +368,18 @@ describe('StatsOutlines', () => {
   });
 
   describe('size', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
-        [
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -392,18 +394,18 @@ describe('StatsOutlines', () => {
   });
 
   describe('forEach', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
-        [
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -420,18 +422,18 @@ describe('StatsOutlines', () => {
   });
 
   describe('map', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
-        [
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
-        ]
-      ));
+        ])
+      );
 
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
@@ -453,18 +455,18 @@ describe('StatsOutlines', () => {
       expect(outlines.equals(outlines)).toBe(true);
     });
 
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
-        [
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -560,18 +562,18 @@ describe('StatsOutlines', () => {
   });
 
   describe('toString', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
-        [
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -586,20 +588,20 @@ describe('StatsOutlines', () => {
   });
 
   describe('iterator', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
       const arr: Array<MockStatsOutline> = [outline1, outline2, outline3];
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
-        [
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
-        ]
-      ));
+        ])
+      );
 
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
       let i: number = 0;
@@ -612,18 +614,18 @@ describe('StatsOutlines', () => {
   });
 
   describe('every', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
-        [
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -640,18 +642,18 @@ describe('StatsOutlines', () => {
   });
 
   describe('some', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(new Map<MockStatsID, MockStatsOutline>(
-        [
+      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 

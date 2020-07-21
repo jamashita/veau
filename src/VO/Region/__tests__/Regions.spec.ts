@@ -240,18 +240,18 @@ describe('Regions', () => {
   });
 
   describe('get', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(new Map<MockRegionID, MockRegion>(
-        [
+      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -266,18 +266,18 @@ describe('Regions', () => {
   });
 
   describe('contains', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(new Map<MockRegionID, MockRegion>(
-        [
+      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -292,18 +292,18 @@ describe('Regions', () => {
   });
 
   describe('size', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(new Map<MockRegionID, MockRegion>(
-        [
+      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -318,18 +318,18 @@ describe('Regions', () => {
   });
 
   describe('forEach', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(new Map<MockRegionID, MockRegion>(
-        [
+      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -346,18 +346,18 @@ describe('Regions', () => {
   });
 
   describe('map', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(new Map<MockRegionID, MockRegion>(
-        [
+      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
-        ]
-      ));
+        ])
+      );
 
       const regions: Regions = Regions.of(project);
 
@@ -413,18 +413,18 @@ describe('Regions', () => {
   });
 
   describe('isEmpty', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(new Map<MockRegionID, MockRegion>(
-        [
+      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -451,18 +451,18 @@ describe('Regions', () => {
       expect(regions.equals(regions)).toBe(true);
     });
 
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(new Map<MockRegionID, MockRegion>(
-        [
+      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -494,18 +494,18 @@ describe('Regions', () => {
   });
 
   describe('toString', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(new Map<MockRegionID, MockRegion>(
-        [
+      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -520,20 +520,20 @@ describe('Regions', () => {
   });
 
   describe('iterator', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
       const arr: Array<MockRegion> = [region1, region2, region3];
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(new Map<MockRegionID, MockRegion>(
-        [
+      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
-        ]
-      ));
+        ])
+      );
 
       const regions: Regions = Regions.of(project);
       let i: number = 0;
@@ -546,18 +546,18 @@ describe('Regions', () => {
   });
 
   describe('every', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(new Map<MockRegionID, MockRegion>(
-        [
+      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -574,18 +574,18 @@ describe('Regions', () => {
   });
 
   describe('some', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(new Map<MockRegionID, MockRegion>(
-        [
+      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 

@@ -150,9 +150,11 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
 
     return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.min(zeiten, AsOf.format());
-    }, ZeitError).map<AsOf, ZeitError>((zeit: Zeit) => {
-      return AsOf.of(zeit);
-    }).toUnscharferelation();
+    }, ZeitError)
+      .map<AsOf, ZeitError>((zeit: Zeit) => {
+        return AsOf.of(zeit);
+      })
+      .toUnscharferelation();
   }
 
   public max(): Unscharferelation<AsOf> {
@@ -169,8 +171,10 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
 
     return Superposition.playground<Zeit, ZeitError>(() => {
       return Zeit.max(zeiten, AsOf.format());
-    }, ZeitError).map<AsOf, ZeitError>((zeit: Zeit) => {
-      return AsOf.of(zeit);
-    }).toUnscharferelation();
+    }, ZeitError)
+      .map<AsOf, ZeitError>((zeit: Zeit) => {
+        return AsOf.of(zeit);
+      })
+      .toUnscharferelation();
   }
 }

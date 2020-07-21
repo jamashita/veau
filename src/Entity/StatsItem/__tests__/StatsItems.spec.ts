@@ -506,7 +506,7 @@ describe('StatsItems', () => {
   });
 
   describe('get', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
         new MockStatsItem(),
         new MockStatsItem()
@@ -766,7 +766,7 @@ describe('StatsItems', () => {
   });
 
   describe('contains', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
         new MockStatsItem(),
         new MockStatsItem()
@@ -785,7 +785,7 @@ describe('StatsItems', () => {
   });
 
   describe('size', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
         new MockStatsItem(),
         new MockStatsItem()
@@ -804,7 +804,7 @@ describe('StatsItems', () => {
   });
 
   describe('forEach', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
         new MockStatsItem(),
         new MockStatsItem()
@@ -845,7 +845,7 @@ describe('StatsItems', () => {
   });
 
   describe('isEmpty', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
         new MockStatsItem(),
         new MockStatsItem()
@@ -872,7 +872,7 @@ describe('StatsItems', () => {
       expect(statsItems.equals(statsItems)).toBe(true);
     });
 
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
         new MockStatsItem(),
         new MockStatsItem()
@@ -946,7 +946,7 @@ describe('StatsItems', () => {
   });
 
   describe('toString', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
         new MockStatsItem(),
         new MockStatsItem()
@@ -965,7 +965,7 @@ describe('StatsItems', () => {
   });
 
   describe('iterator', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
       const statsItemID2: MockStatsItemID = new MockStatsItemID();
       const statsItemID3: MockStatsItemID = new MockStatsItemID();
@@ -991,7 +991,7 @@ describe('StatsItems', () => {
   });
 
   describe('every', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
         new MockStatsItem(),
         new MockStatsItem()
@@ -1012,7 +1012,7 @@ describe('StatsItems', () => {
   });
 
   describe('some', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<MockStatsItem> = new MockASequence<MockStatsItem>([
         new MockStatsItem(),
         new MockStatsItem()

@@ -125,7 +125,7 @@ describe('NumericalValues', () => {
   });
 
   describe('get', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
         new MockNumericalValue(),
         new MockNumericalValue(),
@@ -145,7 +145,7 @@ describe('NumericalValues', () => {
   });
 
   describe('contains', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
         new MockNumericalValue(),
         new MockNumericalValue(),
@@ -165,7 +165,7 @@ describe('NumericalValues', () => {
   });
 
   describe('size', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
         new MockNumericalValue(),
         new MockNumericalValue(),
@@ -185,7 +185,7 @@ describe('NumericalValues', () => {
   });
 
   describe('forEach', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
         new MockNumericalValue(),
         new MockNumericalValue(),
@@ -207,7 +207,7 @@ describe('NumericalValues', () => {
   });
 
   describe('isEmpty', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
         new MockNumericalValue(),
         new MockNumericalValue(),
@@ -236,7 +236,7 @@ describe('NumericalValues', () => {
       expect(values.equals(values)).toBe(true);
     });
 
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
         new MockNumericalValue(),
         new MockNumericalValue(),
@@ -279,7 +279,7 @@ describe('NumericalValues', () => {
   });
 
   describe('toString', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
         new MockNumericalValue(),
         new MockNumericalValue(),
@@ -299,7 +299,7 @@ describe('NumericalValues', () => {
   });
 
   describe('iterator', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
       const value1: MockNumericalValue = new MockNumericalValue();
       const value2: MockNumericalValue = new MockNumericalValue();
       const value3: MockNumericalValue = new MockNumericalValue();
@@ -310,6 +310,7 @@ describe('NumericalValues', () => {
       const values: NumericalValues = NumericalValues.of(sequence);
 
       let i: number = 0;
+
       for (const pair of values) {
         expect(pair.getValue()).toBe(arr[i]);
         i++;
@@ -318,7 +319,7 @@ describe('NumericalValues', () => {
   });
 
   describe('every', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
         new MockNumericalValue(),
         new MockNumericalValue(),
@@ -340,7 +341,7 @@ describe('NumericalValues', () => {
   });
 
   describe('some', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const sequence: MockASequence<NumericalValue> = new MockASequence<NumericalValue>([
         new MockNumericalValue(),
         new MockNumericalValue(),

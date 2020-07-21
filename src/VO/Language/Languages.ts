@@ -122,7 +122,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return this.languages.toString();
   }
 
-  public [Symbol.iterator](): Iterator<Pair<LanguageID, Language>, any, undefined> {
+  public [Symbol.iterator](): Iterator<Pair<LanguageID, Language>> {
     return this.languages[Symbol.iterator]();
   }
 

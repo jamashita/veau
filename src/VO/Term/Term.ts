@@ -35,9 +35,11 @@ export class Term extends ValueObject<Term, 'Term'> {
   public static ofString(id: string): Superposition<Term, TermError> {
     const term: Ambiguous<Term> = Term.all.get(id);
 
-    return Unscharferelation.maybe<Term>(term).toSuperposition().recover((err: UnscharferelationError) => {
-      throw new TermError(`${id}`, err);
-    }, TermError);
+    return Unscharferelation.maybe<Term>(term)
+      .toSuperposition()
+      .recover((err: UnscharferelationError) => {
+        throw new TermError(`${id}`, err);
+      }, TermError);
   }
 
   private static init(): Map<string, Term> {

@@ -14,15 +14,17 @@ import { MockStatsName } from './MockStatsName';
 import { MockStatsUnit } from './MockStatsUnit';
 import { MockUpdatedAt } from './MockUpdatedAt';
 
-type StatsOutlineArgs = Partial<Readonly<{
-  statsID: StatsID;
-  languageID: LanguageID;
-  regionID: RegionID;
-  termID: TermID;
-  name: StatsName;
-  unit: StatsUnit;
-  updatedAt: UpdatedAt;
-}>>;
+type StatsOutlineArgs = Partial<
+  Readonly<{
+    statsID: StatsID;
+    languageID: LanguageID;
+    regionID: RegionID;
+    termID: TermID;
+    name: StatsName;
+    unit: StatsUnit;
+    updatedAt: UpdatedAt;
+  }>
+>;
 
 export class MockStatsOutline extends StatsOutline {
   public constructor({

@@ -64,6 +64,7 @@ describe('Locale', () => {
 
       expect(locale.getLanguages().size()).toBe(languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
+        // eslint-disable-next-line no-await-in-loop
         const language: Nullable<Language> = locale.getLanguages().get(await LanguageID.ofString(languages[i].languageID).get());
 
         expect(language?.getLanguageID().get().get()).toBe(languages[i].languageID);
@@ -73,6 +74,7 @@ describe('Locale', () => {
       }
       expect(locale.getRegions().size()).toBe(regions.length);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
+        // eslint-disable-next-line no-await-in-loop
         const region: Nullable<Region> = locale.getRegions().get(await RegionID.ofString(regions[i].regionID).get());
 
         expect(region?.getRegionID().get().get()).toBe(regions[i].regionID);

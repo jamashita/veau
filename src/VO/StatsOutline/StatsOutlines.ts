@@ -39,8 +39,10 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>
   ): Superposition<StatsOutlines, StatsOutlinesError> {
-    return Superposition.all<StatsOutline, StatsOutlineError>(superpositions, StatsOutlineError).transform<StatsOutlines,
-      StatsOutlinesError>(
+    return Superposition.all<StatsOutline, StatsOutlineError>(superpositions, StatsOutlineError).transform<
+      StatsOutlines,
+      StatsOutlinesError
+    >(
       (outlines: Array<StatsOutline>) => {
         return StatsOutlines.ofArray(outlines);
       },
@@ -52,7 +54,9 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
   }
 
   public static ofJSON(json: Array<StatsOutlineJSON>): Superposition<StatsOutlines, StatsOutlinesError> {
-    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = json.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineJSON) => {
+    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = json.map<
+      Superposition<StatsOutline, StatsOutlineError>
+    >((outline: StatsOutlineJSON) => {
       return StatsOutline.ofJSON(outline);
     });
 
@@ -60,7 +64,9 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
   }
 
   public static ofRow(rows: Array<StatsOutlineRow>): Superposition<StatsOutlines, StatsOutlinesError> {
-    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = rows.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineRow) => {
+    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = rows.map<
+      Superposition<StatsOutline, StatsOutlineError>
+    >((outline: StatsOutlineRow) => {
       return StatsOutline.ofRow(outline);
     });
 

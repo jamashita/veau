@@ -440,7 +440,7 @@ describe('StatsValues', () => {
   });
 
   describe('get', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -639,7 +639,7 @@ describe('StatsValues', () => {
   });
 
   describe('contains', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -677,7 +677,7 @@ describe('StatsValues', () => {
   });
 
   describe('isEmpty', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -715,7 +715,7 @@ describe('StatsValues', () => {
   });
 
   describe('size', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -753,7 +753,7 @@ describe('StatsValues', () => {
   });
 
   describe('forEach', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -851,7 +851,7 @@ describe('StatsValues', () => {
       expect(statsValues.equals(statsValues)).toBe(true);
     });
 
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -905,7 +905,7 @@ describe('StatsValues', () => {
   });
 
   describe('iterator', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -944,7 +944,7 @@ describe('StatsValues', () => {
   });
 
   describe('every', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -984,7 +984,7 @@ describe('StatsValues', () => {
   });
 
   describe('some', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1

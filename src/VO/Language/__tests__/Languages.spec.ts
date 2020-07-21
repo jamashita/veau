@@ -241,18 +241,18 @@ describe('Languages', () => {
   });
 
   describe('get', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(new Map<MockLanguageID, MockLanguage>(
-        [
+      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -267,18 +267,18 @@ describe('Languages', () => {
   });
 
   describe('contains', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(new Map<MockLanguageID, MockLanguage>(
-        [
+      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -293,18 +293,18 @@ describe('Languages', () => {
   });
 
   describe('size', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(new Map<MockLanguageID, MockLanguage>(
-        [
+      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -319,18 +319,18 @@ describe('Languages', () => {
   });
 
   describe('forEach', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(new Map<MockLanguageID, MockLanguage>(
-        [
+      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -347,18 +347,18 @@ describe('Languages', () => {
   });
 
   describe('map', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(new Map<MockLanguageID, MockLanguage>(
-        [
+      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
-        ]
-      ));
+        ])
+      );
 
       const languages: Languages = Languages.of(project);
 
@@ -414,18 +414,18 @@ describe('Languages', () => {
   });
 
   describe('isEmpty', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(new Map<MockLanguageID, MockLanguage>(
-        [
+      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -452,18 +452,18 @@ describe('Languages', () => {
       expect(languages.equals(languages)).toBe(true);
     });
 
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(new Map<MockLanguageID, MockLanguage>(
-        [
+      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -501,18 +501,18 @@ describe('Languages', () => {
   });
 
   describe('toString', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(new Map<MockLanguageID, MockLanguage>(
-        [
+      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -527,20 +527,20 @@ describe('Languages', () => {
   });
 
   describe('iterator', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
       const arr: Array<MockLanguage> = [language1, language2, language3];
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(new Map<MockLanguageID, MockLanguage>(
-        [
+      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
-        ]
-      ));
+        ])
+      );
 
       const languages: Languages = Languages.of(project);
       let i: number = 0;
@@ -553,18 +553,18 @@ describe('Languages', () => {
   });
 
   describe('every', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(new Map<MockLanguageID, MockLanguage>(
-        [
+      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 
@@ -581,18 +581,18 @@ describe('Languages', () => {
   });
 
   describe('some', () => {
-    it('delegates its inner collection instance', async () => {
+    it('delegates its inner collection instance', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(new Map<MockLanguageID, MockLanguage>(
-        [
+      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
-        ]
-      ));
+        ])
+      );
 
       const spy: SinonSpy = sinon.spy();
 

@@ -92,6 +92,7 @@ describe('Page', () => {
       for (let i: number = 1; i <= 10; i++) {
         // eslint-disable-next-line no-await-in-loop
         const page: Page = await Page.of(i).get();
+        // eslint-disable-next-line no-await-in-loop
         const schrodinger: Schrodinger<Limit, PageError> = await page.getLimit().terminate();
 
         expect(schrodinger.isAlive()).toBe(true);
@@ -124,7 +125,6 @@ describe('Page', () => {
 
       const schrodinger: Schrodinger<Offset, PageError> = await page.getOffset().terminate();
 
-      console.log(schrodinger);
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
@@ -135,6 +135,7 @@ describe('Page', () => {
       const page: Page = await Page.of(1).get();
 
       const stub: SinonStub = sinon.stub();
+
       Offset.of = stub;
       stub.returns(Superposition.dead<Offset, OffsetError>(new OffsetError('test failed'), OffsetError));
 
