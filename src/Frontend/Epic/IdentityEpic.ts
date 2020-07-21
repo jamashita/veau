@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, merge, Observable, of } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 
 import { Type } from '../../Container/Types';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
@@ -20,6 +20,7 @@ import { identified, identityAuthenticated } from '../ActionCreator/IdentityActi
 import { loaded, loading } from '../ActionCreator/LoadingActionCreator';
 import { defineLocale } from '../ActionCreator/LocaleActionCreator';
 import { raiseModal } from '../ActionCreator/ModalActionCreator';
+import { nothing } from '../ActionCreator/NothingActionCreator';
 import { pushToEntrance, pushToStatsList } from '../ActionCreator/RedirectActionCreator';
 import { Endpoints } from '../Endpoints';
 import { State } from '../State';
@@ -47,7 +48,7 @@ export class IdentityEpic {
   public initIdentity(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
     return action$.pipe<VeauAction, VeauAction>(
       ofType(ON_LOAD),
-      flatMap<VeauAction, Observable<VeauAction>>(() => {
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
         return concat<VeauAction>(
           of<VeauAction>(loading()),
           this.localeQuery.all().transform<Observable<VeauAction>, Error>(
@@ -58,7 +59,7 @@ export class IdentityEpic {
               return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
             }
           ).get(),
-          this.identityQuery.find().transform(
+          this.identityQuery.find().transform<Observable<VeauAction>, Error>(
             (identity: Identity) => {
               const actions: Array<VeauAction> = [identityAuthenticated(identity), identified()];
 
@@ -69,11 +70,11 @@ export class IdentityEpic {
               return of<VeauAction>(...actions);
             },
             () => {
-              return of<VeauAction>();
+              return of<VeauAction>(nothing());
             }
           ).get(),
           of<VeauAction>(loaded()),
-          flatMap<VeauAction, Promise<Observable<VeauAction>>>(() => {
+          mergeMap<VeauAction, Promise<Observable<VeauAction>>>(() => {
             const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
               navigator.language
             );
