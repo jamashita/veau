@@ -17,7 +17,6 @@ const MARGIN: number = 8;
 
 export class Chart extends React.Component<Props, State> {
   public shouldComponentUpdate(nextProps: Props): boolean {
-    // prettier-ignore
     const {
       stats
     } = this.props;
@@ -30,7 +29,6 @@ export class Chart extends React.Component<Props, State> {
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       stats
     } = this.props;

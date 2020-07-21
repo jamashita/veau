@@ -25,7 +25,6 @@ type State = Readonly<{}>;
 
 class StatsInformationImpl extends React.Component<Props & WrappedComponentProps, State> {
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
-    // prettier-ignore
     const {
       stats,
       locale
@@ -42,7 +41,6 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       stats,
       locale,

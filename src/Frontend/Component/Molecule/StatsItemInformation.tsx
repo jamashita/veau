@@ -17,7 +17,6 @@ type State = Readonly<{}>;
 
 class StatsItemInformationImpl extends React.Component<Props & WrappedComponentProps, State> {
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
-    // prettier-ignore
     const {
       selecting
     } = this.props;
@@ -30,7 +29,6 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       selecting,
       intl,

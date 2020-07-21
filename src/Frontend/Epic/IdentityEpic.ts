@@ -82,7 +82,6 @@ export class IdentityEpic {
 
             return this.languageQuery.findByISO639(iso639).transform<Observable<VeauAction>, Error>(
               (language: Language) => {
-                // prettier-ignore
                 const {
                   value: {
                     identity
@@ -115,7 +114,6 @@ export class IdentityEpic {
     return action$.pipe<VeauAction, VeauAction>(
       ofType<VeauAction, VeauAction>(IDENTITY_INITIALIZE),
       map<VeauAction, VeauAction>(() => {
-        // prettier-ignore
         const {
           value: {
             identity

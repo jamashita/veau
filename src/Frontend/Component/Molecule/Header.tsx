@@ -13,7 +13,6 @@ class HeaderImpl extends React.Component<Props & WrappedComponentProps, State> {
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       intl,
       menuClicked
@@ -22,7 +21,7 @@ class HeaderImpl extends React.Component<Props & WrappedComponentProps, State> {
     return (
       <AppBar position='static' className='header'>
         <Toolbar variant='dense'>
-          <Icon className='fas fa-bars icon-spacing' onClick={menuClicked}/>
+          <Icon className='fas fa-bars icon-spacing' onClick={menuClicked} />
           <Typography variant='h5' color='inherit'>
             {intl.formatMessage({
               id: 'VEAU'

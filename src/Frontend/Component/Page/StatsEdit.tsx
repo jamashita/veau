@@ -76,7 +76,6 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
   }
 
   public componentDidMount(): void {
-    // prettier-ignore
     const {
       id,
       initialize,
@@ -92,29 +91,25 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
     // TODO UNSCHARFERELATION UPDATE REQUIRED
     Superposition.playground<string, UnscharferelationError>(() => {
       return id.get();
-    }, UnscharferelationError)
-      .map<StatsID, StatsIDError | UnscharferelationError>((str: string) => {
-        return StatsID.ofString(str);
-      }, StatsIDError)
-      .transform<void, Error>(
-        (statsID: StatsID) => {
-          initialize(statsID);
-        },
-        () => {
-          invalidIDInput();
-        }
-      );
+    }, UnscharferelationError).map<StatsID, StatsIDError | UnscharferelationError>((str: string) => {
+      return StatsID.ofString(str);
+    }, StatsIDError).transform<void, Error>(
+      (statsID: StatsID) => {
+        initialize(statsID);
+      },
+      () => {
+        invalidIDInput();
+      }
+    );
   }
 
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps, nextState: State): boolean {
-    // prettier-ignore
     const {
       stats,
       statsItem,
       selectingItem,
       locale
     } = this.props;
-    // prettier-ignore
     const {
       openNewStatsItemModal,
       openStartDateModal,
@@ -170,7 +165,6 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
       startDateDetermined,
       invalidDateInput
     } = this.props;
-    // prettier-ignore
     const {
       openNewStatsItemModal,
       openStartDateModal

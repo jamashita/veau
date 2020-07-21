@@ -42,7 +42,6 @@ export class EntranceEpic {
     return action$.pipe<VeauAction, VeauAction, VeauAction>(
       ofType<VeauAction, VeauAction>(IDENTITY_AUTHENTICATE),
       filter<VeauAction>(() => {
-        // prettier-ignore
         const {
           value: {
             modal: {
@@ -59,7 +58,6 @@ export class EntranceEpic {
         return entranceInformation.isAcceptable();
       }),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
-        // prettier-ignore
         const {
           value: {
             entranceInformation
@@ -89,7 +87,6 @@ export class EntranceEpic {
     return action$.pipe<EntranceAccountNameTypedAction, VeauAction>(
       ofType<VeauAction, EntranceAccountNameTypedAction>(ENTRANCE_ACCOUNT_NAME_TYPED),
       map<EntranceAccountNameTypedAction, VeauAction>((action: EntranceAccountNameTypedAction) => {
-        // prettier-ignore
         const {
           value: {
             entranceInformation
@@ -107,7 +104,6 @@ export class EntranceEpic {
     return action$.pipe<EntrancePasswordTypedAction, VeauAction>(
       ofType<VeauAction, EntrancePasswordTypedAction>(ENTRANCE_PASSWORD_TYPED),
       map<EntrancePasswordTypedAction, VeauAction>((action: EntrancePasswordTypedAction) => {
-        // prettier-ignore
         const {
           value: {
             entranceInformation

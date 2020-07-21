@@ -14,7 +14,6 @@ type State = Readonly<{}>;
 
 class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponentProps, State> {
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
-    // prettier-ignore
     const {
       statsListItems
     } = this.props;
@@ -23,7 +22,6 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       statsListItems,
       intl,

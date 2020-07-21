@@ -34,7 +34,6 @@ export const notification: Reducer<Notification, VeauAction> = (
 ) => {
   switch (action.type) {
     case NOTIFICATION_APPEAR: {
-      // prettier-ignore
       const {
         kind,
         horizontal,

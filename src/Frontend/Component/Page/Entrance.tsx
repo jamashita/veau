@@ -21,7 +21,6 @@ type State = Readonly<{}>;
 
 class EntranceImpl extends React.Component<Props & WrappedComponentProps, State> {
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
-    // prettier-ignore
     const {
       entranceInformation,
       intl
@@ -38,7 +37,6 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       entranceInformation,
       intl,
@@ -89,7 +87,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
             disabled={!entranceInformation.isAcceptable()}
             onClick={loginClicked}
           >
-            <Icon className='fas fa-sign-in-alt icon-spacing'/>
+            <Icon className='fas fa-sign-in-alt icon-spacing' />
             {intl.formatMessage({
               id: 'LOGIN'
             })}

@@ -16,20 +16,14 @@ const SIZE: number = 100;
 
 class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps, State> {
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
-    // prettier-ignore
     const {
       loadingCount
     } = this.props;
 
-    if (loadingCount !== nextProps.loadingCount) {
-      return true;
-    }
-
-    return false;
+    return !loadingCount.equals(nextProps.loadingCount);
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       loadingCount,
       intl
@@ -47,7 +41,7 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
           })}
         </DialogTitle>
         <DialogContent>
-          <CircularProgress size={SIZE}/>
+          <CircularProgress size={SIZE} />
         </DialogContent>
       </Dialog>
     );

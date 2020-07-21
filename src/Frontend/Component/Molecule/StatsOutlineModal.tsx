@@ -41,7 +41,6 @@ type State = Readonly<{}>;
 
 class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProps, State> {
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
-    // prettier-ignore
     const {
       open,
       stats,
@@ -203,13 +202,13 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
         </DialogContent>
         <DialogActions>
           <Button color='secondary' onClick={saveNewStats} disabled={!stats.isFilled()}>
-            <Icon className='fas fa-check'/>
+            <Icon className='fas fa-check' />
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
           </Button>
           <Button color='secondary' onClick={closeNewStatsModal}>
-            <Icon className='fas fa-times'/>
+            <Icon className='fas fa-times' />
             {intl.formatMessage({
               id: 'CANCEL'
             })}

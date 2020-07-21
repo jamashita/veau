@@ -18,7 +18,6 @@ const initialState: Modal = {
 export const modal: Reducer<Modal, VeauAction> = (state: Modal = initialState, action: VeauAction) => {
   switch (action.type) {
     case MODAL_RAISE: {
-      // prettier-ignore
       const {
         title,
         description,

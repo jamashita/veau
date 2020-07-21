@@ -39,7 +39,6 @@ type State = Readonly<{}>;
 
 class StatsListImpl extends React.Component<Props & WrappedComponentProps, State> {
   public componentDidMount(): void {
-    // prettier-ignore
     const {
       initialize
     } = this.props;
@@ -48,7 +47,6 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
   }
 
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
-    // prettier-ignore
     const {
       statsListItems,
       open,
@@ -93,12 +91,12 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
     return (
       <Authenticated>
         <Button variant='contained' color='primary' onClick={newStatsClicked}>
-          <Icon className='fas fa-plus-circle icon-spacing'/>
+          <Icon className='fas fa-plus-circle icon-spacing' />
           {intl.formatMessage({
             id: 'CREATE_NEW_STATS'
           })}
         </Button>
-        <StatsOutlineListTable statsListItems={statsListItems} toStatsEdit={toStatsEdit}/>
+        <StatsOutlineListTable statsListItems={statsListItems} toStatsEdit={toStatsEdit} />
         <StatsOutlineModal
           open={open}
           stats={stats}
