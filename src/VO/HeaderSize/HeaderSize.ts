@@ -4,19 +4,21 @@ import { Kind } from '@jamashita/publikum-type';
 
 import { HeaderSizeError } from './Error/HeaderSizeError';
 
+const REVISED_VALUE: number = 14;
+
 export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
   public readonly noun: 'HeaderSize' = 'HeaderSize';
-  private readonly size: number;
+  private readonly chars: number;
 
-  public static of(size: number): Superposition<HeaderSize, HeaderSizeError> {
-    if (size < 0) {
+  public static of(chars: number): Superposition<HeaderSize, HeaderSizeError> {
+    if (chars < 0) {
       return Superposition.dead<HeaderSize, HeaderSizeError>(
-        new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`),
+        new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${chars}`),
         HeaderSizeError
       );
     }
-    if (Kind.isInteger(size)) {
-      return Superposition.alive<HeaderSize, HeaderSizeError>(new HeaderSize(size), HeaderSizeError);
+    if (Kind.isInteger(chars)) {
+      return Superposition.alive<HeaderSize, HeaderSizeError>(HeaderSize.ofPositiveInteger(chars), HeaderSizeError);
     }
 
     return Superposition.dead<HeaderSize, HeaderSizeError>(
@@ -25,16 +27,28 @@ export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
     );
   }
 
-  protected constructor(size: number) {
+  public static ofString(str: string): HeaderSize {
+    return HeaderSize.ofPositiveInteger(str.length);
+  }
+
+  private static ofPositiveInteger(num: number): HeaderSize {
+    return new HeaderSize(num * REVISED_VALUE);
+  }
+
+  public static default(): HeaderSize {
+    return HeaderSize.ofPositiveInteger(1);
+  }
+
+  protected constructor(chars: number) {
     super();
-    this.size = size;
+    this.chars = chars;
   }
 
   public equals(other: HeaderSize): boolean {
     if (this === other) {
       return true;
     }
-    if (this.size === other.size) {
+    if (this.chars === other.chars) {
       return true;
     }
 
@@ -42,10 +56,10 @@ export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
   }
 
   public serialize(): string {
-    return `${this.size}`;
+    return `${this.chars}`;
   }
 
   public get(): number {
-    return this.size;
+    return this.chars;
   }
 }

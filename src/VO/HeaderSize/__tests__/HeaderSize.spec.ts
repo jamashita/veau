@@ -35,6 +35,24 @@ describe('HeaderSize', () => {
     });
   });
 
+  describe('ofString', () => {
+    it('normal case', () => {
+      const size1: HeaderSize = HeaderSize.ofString('');
+      const size2: HeaderSize = HeaderSize.ofString('1');
+
+      expect(size1.get()).toBe(0);
+      expect(size2.get()).toBe(14);
+    });
+  });
+
+  describe('default', () => {
+    it('normal case', () => {
+      const size: HeaderSize = HeaderSize.default();
+
+      expect(size.get()).toBe(14);
+    });
+  });
+
   describe('equals', () => {
     it('returns true if both properties are the same', async () => {
       const size1: HeaderSize = await HeaderSize.of(10).get();
@@ -52,7 +70,7 @@ describe('HeaderSize', () => {
       const size: number = 10;
       const headerSize: HeaderSize = await HeaderSize.of(size).get();
 
-      expect(headerSize.toString()).toBe(headerSize.toString());
+      expect(headerSize.toString()).toBe('140');
     });
   });
 });
