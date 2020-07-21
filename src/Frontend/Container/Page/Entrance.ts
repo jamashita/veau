@@ -9,7 +9,6 @@ import { DispatchProps, Entrance as Component, OwnProps, StateProps } from '../.
 import { State } from '../../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
-  // prettier-ignore
   const {
     entranceInformation
   } = state;

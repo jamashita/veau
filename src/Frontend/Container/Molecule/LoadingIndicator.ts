@@ -9,7 +9,6 @@ import {
 import { State } from '../../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
-  // prettier-ignore
   const {
     loadingCount
   } = state;

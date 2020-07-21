@@ -78,7 +78,6 @@ export class EntranceSaga {
       const action: EntranceAccountNameTypedAction = yield take(ENTRANCE_ACCOUNT_NAME_TYPED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         entranceInformation
       } = state;
@@ -94,7 +93,6 @@ export class EntranceSaga {
       const action: EntrancePasswordTypedAction = yield take(ENTRANCE_PASSWORD_TYPED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         entranceInformation
       } = state;

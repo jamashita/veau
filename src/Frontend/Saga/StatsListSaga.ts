@@ -99,14 +99,11 @@ export class StatsListSaga {
       const action: StatsListNameTypedAction = yield take(STATS_LIST_NAME_TYPED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
-        // prettier-ignore
         statsList: {
           stats
         }
       } = state;
-      // prettier-ignore
       const {
         name
       } = action;
@@ -131,14 +128,11 @@ export class StatsListSaga {
       const action: StatsListUnitTypedAction = yield take(STATS_LIST_UNIT_TYPED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
-        // prettier-ignore
         statsList: {
           stats
         }
       } = state;
-      // prettier-ignore
       const {
         unit
       } = action;
@@ -163,9 +157,7 @@ export class StatsListSaga {
       const action: StatsListISO639SelectedAction = yield take(STATS_LIST_ISO639_SELECTED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
-        // prettier-ignore
         statsList: {
           stats
         }
@@ -199,9 +191,7 @@ export class StatsListSaga {
       const action: StatsListISO3166SelectedAction = yield take(STATS_LIST_ISO3166_SELECTED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
-        // prettier-ignore
         statsList: {
           stats
         }
@@ -235,9 +225,7 @@ export class StatsListSaga {
       const action: StatsListTermSelectedAction = yield take(STATS_LIST_TERM_SELECTED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
-        // prettier-ignore
         statsList: {
           stats
         }
@@ -264,9 +252,7 @@ export class StatsListSaga {
 
       const state: State = yield select();
 
-      // prettier-ignore
       const {
-        // prettier-ignore
         statsList: {
           stats
         }

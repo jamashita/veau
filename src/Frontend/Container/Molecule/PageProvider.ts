@@ -9,7 +9,6 @@ import { DispatchProps, OwnProps, PageProvider as Component, StateProps } from '
 import { State } from '../../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
-  // prettier-ignore
   const {
     pageProvider
   } = state;

@@ -23,10 +23,12 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const Authenticated: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps,
+export const Authenticated: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<
+  StateProps,
   DispatchProps,
   OwnProps,
-  State>(
+  State
+>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

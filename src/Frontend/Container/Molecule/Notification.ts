@@ -7,7 +7,6 @@ import { DispatchProps, Notification as Component, OwnProps, StateProps } from '
 import { State } from '../../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
-  // prettier-ignore
   const {
     notification: {
       kind,

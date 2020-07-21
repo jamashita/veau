@@ -20,7 +20,6 @@ export class I18NProvider extends React.Component<Props, State> {
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       identity,
       children

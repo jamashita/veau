@@ -1,3 +1,4 @@
+import { Kind } from '@jamashita/publikum-type';
 import { default as Text } from '@material-ui/core/TextField';
 import React from 'react';
 
@@ -14,7 +15,6 @@ type State = Readonly<{}>;
 
 export class TextField extends React.Component<Props, State> {
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
-    // prettier-ignore
     const {
       label,
       type,
@@ -43,13 +43,14 @@ export class TextField extends React.Component<Props, State> {
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       label,
       disabled,
       type,
       value,
-      defaultValue
+      defaultValue,
+      onKeyUp,
+      onEnterUp
     } = this.props;
 
     return (
@@ -61,36 +62,23 @@ export class TextField extends React.Component<Props, State> {
         value={value}
         defaultValue={defaultValue}
         onChange={(e1: React.ChangeEvent<HTMLInputElement>) => {
-          this.keyUp(e1.target.value);
+          if (Kind.isUndefined(onKeyUp)) {
+            return;
+          }
+
+          onKeyUp(e1.target.value);
+
           e1.target.onkeydown = (e2: KeyboardEvent) => {
             if (e2.key === 'Enter') {
-              this.enterUp();
+              if (Kind.isUndefined(onEnterUp)) {
+                return;
+              }
+
+              onEnterUp();
             }
           };
         }}
       />
     );
-  }
-
-  private keyUp(value: string): void {
-    // prettier-ignore
-    const {
-      onKeyUp
-    } = this.props;
-
-    if (onKeyUp) {
-      onKeyUp(value);
-    }
-  }
-
-  private enterUp(): void {
-    // prettier-ignore
-    const {
-      onEnterUp
-    } = this.props;
-
-    if (onEnterUp) {
-      onEnterUp();
-    }
   }
 }

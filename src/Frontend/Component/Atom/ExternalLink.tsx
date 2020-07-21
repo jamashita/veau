@@ -8,7 +8,6 @@ type State = Readonly<{}>;
 
 export class ExternalLink extends React.Component<Props, State> {
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
-    // prettier-ignore
     const {
       href,
       style
@@ -25,7 +24,6 @@ export class ExternalLink extends React.Component<Props, State> {
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       href,
       style,

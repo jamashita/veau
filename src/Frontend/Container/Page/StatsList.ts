@@ -24,7 +24,6 @@ import { DispatchProps, OwnProps, StateProps, StatsList as Component } from '../
 import { State } from '../../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
-  // prettier-ignore
   const {
     statsListItems,
     statsList: {

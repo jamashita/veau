@@ -47,12 +47,10 @@ type MatchParam = Readonly<{
 }>;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
-  // prettier-ignore
   const {
-    display: stats,
     statsItem,
-    // prettier-ignore
     statsEdit: {
+      display: stats,
       selectingItem
     },
     locale

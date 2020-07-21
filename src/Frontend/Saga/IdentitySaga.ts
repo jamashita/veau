@@ -84,7 +84,6 @@ export class IdentitySaga {
     const iso639: ISO639 = ISO639.of(supportLanguage);
     const state: State = yield select();
 
-    // prettier-ignore
     const {
       identity
     } = state;
@@ -117,7 +116,6 @@ export class IdentitySaga {
       yield take(IDENTITY_INITIALIZE);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         identity
       } = state;

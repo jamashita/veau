@@ -17,7 +17,6 @@ export class Authenticated extends React.Component<Props, State> {
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       children,
       menuClicked
@@ -25,8 +24,8 @@ export class Authenticated extends React.Component<Props, State> {
 
     return (
       <div>
-        <Header menuClicked={menuClicked}/>
-        <PageProvider/>
+        <Header menuClicked={menuClicked} />
+        <PageProvider />
         {children}
       </div>
     );

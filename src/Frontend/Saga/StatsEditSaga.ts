@@ -105,7 +105,6 @@ export class StatsEditSaga {
     while (true) {
       const action: StatsEditInitializeAction = yield take(STATS_EDIT_INITIALIZE);
 
-      // prettier-ignore
       const {
         statsID
       } = action;
@@ -144,8 +143,6 @@ export class StatsEditSaga {
       const action: StatsEditNameTypedAction = yield take(STATS_EDIT_NAME_TYPED);
       const state: State = yield select();
 
-      // prettier-ignore
-
       const {
         stats
       } = state;
@@ -170,7 +167,6 @@ export class StatsEditSaga {
       const action: StatsEditUnitTypedAction = yield take(STATS_EDIT_UNIT_TYPED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         stats
       } = state;
@@ -195,7 +191,6 @@ export class StatsEditSaga {
       const action: StatsEditISO639SelectedAction = yield take(STATS_EDIT_ISO639_SELECTED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         stats
       } = state;
@@ -228,7 +223,6 @@ export class StatsEditSaga {
       const action: StatsEditISO3166SelectedAction = yield take(STATS_EDIT_ISO3166_SELECTED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         stats
       } = state;
@@ -261,11 +255,9 @@ export class StatsEditSaga {
       const action: StatsEditDataFilledAction = yield take(STATS_EDIT_DATA_FILLED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         stats
       } = state;
-      // prettier-ignore
       const {
         oordinate,
         value
@@ -284,11 +276,9 @@ export class StatsEditSaga {
       const action: StatsEditDataDeletedAction = yield take(STATS_EDIT_DATA_DELETED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         stats
       } = state;
-      // prettier-ignore
       const {
         coordinate
       } = action;
@@ -306,11 +296,9 @@ export class StatsEditSaga {
       const action: StatsEditItemNameTypedAction = yield take(STATS_EDIT_ITEM_NAME_TYPED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         statsItem
       } = state;
-      // prettier-ignore
       const {
         name
       } = action;
@@ -326,7 +314,6 @@ export class StatsEditSaga {
       yield take(STATS_EDIT_ITEM_SAVE);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         stats,
         statsItem
@@ -353,11 +340,9 @@ export class StatsEditSaga {
       const action: StatsEditRowSelectedAction = yield take(STATS_EDIT_ROW_SELECTED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         stats
       } = state;
-      // prettier-ignore
       const {
         row
       } = action;
@@ -375,13 +360,11 @@ export class StatsEditSaga {
 
       const {
         stats,
-        // prettier-ignore
         statsEdit: {
           selectingItem,
           selectingRow
         }
       } = state;
-      // prettier-ignore
       const {
         name
       } = action;
@@ -405,11 +388,9 @@ export class StatsEditSaga {
       const action: StatsEditStartDateDeterminedAction = yield take(STATS_EDIT_START_DATE_DETERMINED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         stats
       } = state;
-      // prettier-ignore
       const {
         startDate
       } = action;
@@ -443,11 +424,9 @@ export class StatsEditSaga {
       const action: StatsEditRowMovedAction = yield take(STATS_EDIT_ROW_MOVED);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         stats
       } = state;
-      // prettier-ignore
       const {
         column,
         target
@@ -473,7 +452,6 @@ export class StatsEditSaga {
       const action: StatsEditRemoveSelectingItemAction = yield take(STATS_EDIT_REMOVE_SELECTING_ITEM);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         stats
       } = state;
@@ -491,7 +469,6 @@ export class StatsEditSaga {
       yield take(STATS_EDIT_SAVE_STATS);
       const state: State = yield select();
 
-      // prettier-ignore
       const {
         stats
       } = state;
