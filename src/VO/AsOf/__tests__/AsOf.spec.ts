@@ -133,14 +133,7 @@ describe('AsOf', () => {
         expect(() => {
           const t: Nullable<Term> = allTerm.get(term.getTermID());
 
-          if (t === null) {
-            // eslint-disable-next-line jest/no-jasmine-globals
-            fail();
-
-            return;
-          }
-
-          asOf.previous(t);
+          asOf.previous(t as Term);
         }).not.toThrow(AsOfError);
       });
     });
@@ -204,14 +197,7 @@ describe('AsOf', () => {
         expect(() => {
           const t: Nullable<Term> = allTerm.get(term.getTermID());
 
-          if (t === null) {
-            // eslint-disable-next-line jest/no-jasmine-globals
-            fail();
-
-            return;
-          }
-
-          asOf.next(t);
+          asOf.next(t as Term);
         }).not.toThrow(AsOfError);
       });
     });
