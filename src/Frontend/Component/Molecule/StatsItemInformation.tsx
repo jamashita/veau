@@ -1,4 +1,5 @@
 import { Heisenberg } from '@jamashita/publikum-monad';
+import { Kind } from '@jamashita/publikum-type';
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
@@ -37,7 +38,7 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
       removeItem
     } = this.props;
 
-    if (selecting === undefined) {
+    if (Kind.isUndefined(selecting)) {
       return null;
     }
 
@@ -67,7 +68,7 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
               }}
               fullWidth={true}
             >
-              <Icon className='fas fa-trash'/>
+              <Icon className='fas fa-trash' />
               {intl.formatMessage({
                 id: 'REMOVE_ITEM'
               })}

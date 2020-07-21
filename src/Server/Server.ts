@@ -1,4 +1,4 @@
-import { Ambiguous } from '@jamashita/publikum-type';
+import { Ambiguous, Kind } from '@jamashita/publikum-type';
 
 import compression from 'compression';
 import config from 'config';
@@ -21,7 +21,7 @@ const port: number = config.get<number>('port');
 // eslint-disable-next-line no-process-env
 const mode: Ambiguous<string> = process.env.NODE_ENV;
 
-if (mode === undefined) {
+if (Kind.isUndefined(mode)) {
   logger.fatal('mode IS NOT SET');
   // eslint-disable-next-line no-process-exit
   process.exit(1);

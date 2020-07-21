@@ -1,4 +1,5 @@
 import { Absent, Heisenberg, Superposition, UnscharferelationError } from '@jamashita/publikum-monad';
+import { Kind } from '@jamashita/publikum-type';
 import { Button, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
@@ -82,7 +83,7 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
       invalidIDInput
     } = this.props;
 
-    if (id === null) {
+    if (Kind.isNull(id)) {
       invalidIDInput();
 
       return;
@@ -91,13 +92,18 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
     // TODO UNSCHARFERELATION UPDATE REQUIRED
     Superposition.playground<string, UnscharferelationError>(() => {
       return id.get();
-    }, UnscharferelationError).map<StatsID, StatsIDError | UnscharferelationError>((str: string) => {
-      return StatsID.ofString(str);
-    }, StatsIDError).transform<void, Error>((statsID: StatsID) => {
-      initialize(statsID);
-    }, () => {
-      invalidIDInput();
-    });
+    }, UnscharferelationError)
+      .map<StatsID, StatsIDError | UnscharferelationError>((str: string) => {
+        return StatsID.ofString(str);
+      }, StatsIDError)
+      .transform<void, Error>(
+        (statsID: StatsID) => {
+          initialize(statsID);
+        },
+        () => {
+          invalidIDInput();
+        }
+      );
   }
 
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps, nextState: State): boolean {
@@ -173,7 +179,7 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
     return (
       <Authenticated>
         <div className='stats-items-edit'>
-          <Chart stats={stats}/>
+          <Chart stats={stats} />
           <Spreadsheet
             stats={stats}
             invalidValueInput={invalidValueInput}
@@ -193,7 +199,7 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
               });
             }}
           >
-            <Icon className='fas fa-plus-square'/>
+            <Icon className='fas fa-plus-square' />
             {intl.formatMessage({
               id: 'ADD_ITEM'
             })}
@@ -208,13 +214,13 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
               });
             }}
           >
-            <Icon className='fas fa-hourglass'/>
+            <Icon className='fas fa-hourglass' />
             {intl.formatMessage({
               id: 'DETERMINE_START_DATE'
             })}
           </Button>
           <Button color='primary' fullWidth={true} disabled={!stats.isValid()} onClick={save}>
-            <Icon className='fas fa-save'/>
+            <Icon className='fas fa-save' />
             {intl.formatMessage({
               id: 'SAVE'
             })}
@@ -227,7 +233,7 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
             iso639Selected={iso639Selected}
             iso3166Selected={iso3166Selected}
           />
-          <StatsItemInformation selecting={selectingItem} nameTyped={selectingItemNameTyped} removeItem={removeItem}/>
+          <StatsItemInformation selecting={selectingItem} nameTyped={selectingItemNameTyped} removeItem={removeItem} />
         </div>
         <StatsItemModal
           open={openNewStatsItemModal}

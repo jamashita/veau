@@ -1,4 +1,4 @@
-import { Nullable } from '@jamashita/publikum-type';
+import { Kind, Nullable } from '@jamashita/publikum-type';
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
@@ -46,22 +46,22 @@ export class Chart extends React.Component<Props, State> {
           }}
           data={stats.getChart()}
         >
-          <XAxis dataKey='name'/>
-          <YAxis domain={['dataMin', 'dataMax']}/>
-          <CartesianGrid/>
-          <Legend/>
-          <Tooltip/>
+          <XAxis dataKey='name' />
+          <YAxis domain={['dataMin', 'dataMax']} />
+          <CartesianGrid />
+          <Legend />
+          <Tooltip />
           {stats.getItemNames().map<React.ReactNode>((item: StatsItemName, index: number) => {
             const color: Nullable<Color> = Colors.chartScheme().get(index);
 
-            if (color === null) {
+            if (Kind.isNull(color)) {
               return (
-                <Line type='monotone' connectNulls={true} key={item.get()} dataKey={item.get()} stroke='#000000'/>
+                <Line type='monotone' connectNulls={true} key={item.get()} dataKey={item.get()} stroke='#000000' />
               );
             }
 
             return (
-              <Line type='monotone' connectNulls={true} key={item.get()} dataKey={item.get()} stroke={color.get()}/>
+              <Line type='monotone' connectNulls={true} key={item.get()} dataKey={item.get()} stroke={color.get()} />
             );
           })}
         </LineChart>

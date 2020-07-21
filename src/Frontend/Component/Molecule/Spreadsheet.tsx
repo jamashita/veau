@@ -86,7 +86,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           return true;
         }}
         afterChange={(changes: Nullable<Array<CellChange>>) => {
-          if (changes === null) {
+          if (Kind.isNull(changes)) {
             return;
           }
           changes.forEach((change: CellChange) => {
