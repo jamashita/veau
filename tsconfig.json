@@ -10,7 +10,7 @@
       "dom"
     ],
     /* Specify library files to be included in the compilation. */
-    "jsx": "react",
+    "jsx": "react"
     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
   }
 }
