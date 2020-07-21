@@ -46,8 +46,10 @@ describe('StatsInteractor', () => {
       stub.returns(Superposition.alive<Stats, DataSourceError>(stats, DataSourceError));
 
       const statsInteractor: StatsInteractor = new StatsInteractor(statsQuery, statsOutlineQuery, statsCommand);
-      const schrodinger: Schrodinger<Stats,
-        NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<
+        Stats,
+        NoSuchElementError | StatsError | DataSourceError
+      > = await statsInteractor.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get().equals(stats)).toBe(true);
@@ -69,8 +71,10 @@ describe('StatsInteractor', () => {
       stub.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
 
       const statsInteractor: StatsInteractor = new StatsInteractor(statsQuery, statsOutlineQuery, statsCommand);
-      const schrodinger: Schrodinger<StatsOutlines,
-        StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(accountID, page).terminate();
+      const schrodinger: Schrodinger<
+        StatsOutlines,
+        StatsOutlinesError | DataSourceError
+      > = await statsInteractor.findByVeauAccountID(accountID, page).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(outlines);

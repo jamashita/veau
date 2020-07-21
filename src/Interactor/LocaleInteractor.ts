@@ -36,21 +36,24 @@ export class LocaleInteractor implements Noun<'LocaleInteractor'> {
   }
 
   public all(): Superposition<Locale, LocaleError | DataSourceError> {
-    return this.languageQuery.all().map<Locale, LanguagesError | RegionsError | DataSourceError>((languages: Languages) => {
-      return this.regionQuery.all().map<Locale, RegionsError | DataSourceError>((regions: Regions) => {
-        return Locale.of(languages, regions);
-      });
-    }).recover<Locale, LocaleError>(
-      (err: LanguagesError | RegionsError | DataSourceError) => {
-        if (err instanceof DataSourceError) {
-          throw err;
-        }
+    return this.languageQuery
+      .all()
+      .map<Locale, LanguagesError | RegionsError | DataSourceError>((languages: Languages) => {
+        return this.regionQuery.all().map<Locale, RegionsError | DataSourceError>((regions: Regions) => {
+          return Locale.of(languages, regions);
+        });
+      })
+      .recover<Locale, LocaleError>(
+        (err: LanguagesError | RegionsError | DataSourceError) => {
+          if (err instanceof DataSourceError) {
+            throw err;
+          }
 
-        throw new LocaleError('LocaleInteradtor.all()', err);
-      },
-      LocaleError,
-      DataSourceError
-    );
+          throw new LocaleError('LocaleInteradtor.all()', err);
+        },
+        LocaleError,
+        DataSourceError
+      );
   }
 
   public delete(): Superposition<unknown, DataSourceError> {
