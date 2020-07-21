@@ -144,7 +144,6 @@ describe('Stats', () => {
         const item: Nullable<StatsItem> = stats.getItems().get(i);
 
         if (item === null) {
-          // eslint-disable-next-line jest/no-jasmine-globals
           fail();
 
           return;
@@ -504,7 +503,6 @@ describe('Stats', () => {
       const superposition: Superposition<Stats, StatsError> = Stats.ofObject(object);
       const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
 
-      console.log(schrodinger);
       expect(schrodinger.isDead()).toBe(true);
     });
 
@@ -1733,9 +1731,8 @@ describe('Stats', () => {
     });
   });
 
-
   describe('replaceItem', () => {
-    it('delegates its inner StatsItems instance', async () => {
+    it('delegates its inner StatsItems instance', () => {
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
@@ -1743,6 +1740,7 @@ describe('Stats', () => {
       const items: MockStatsItems = new MockStatsItems();
 
       const stub: SinonStub = sinon.stub();
+
       items.replace = stub;
       stub.returns(new MockStatsItems());
 
@@ -1755,7 +1753,7 @@ describe('Stats', () => {
   });
 
   describe('moveItem', () => {
-    it('delegates its inner StatsItems instance', async () => {
+    it('delegates its inner StatsItems instance', () => {
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
@@ -1763,6 +1761,7 @@ describe('Stats', () => {
       const items: MockStatsItems = new MockStatsItems();
 
       const stub: SinonStub = sinon.stub();
+
       items.move = stub;
       stub.returns(new MockStatsItems());
 
@@ -1775,7 +1774,7 @@ describe('Stats', () => {
   });
 
   describe('removeItem', () => {
-    it('delegates its inner StatsItems instance', async () => {
+    it('delegates its inner StatsItems instance', () => {
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
@@ -1783,6 +1782,7 @@ describe('Stats', () => {
       const items: MockStatsItems = new MockStatsItems();
 
       const stub: SinonStub = sinon.stub();
+
       items.remove = stub;
       stub.returns(new MockStatsItems());
 
@@ -1855,5 +1855,4 @@ describe('Stats', () => {
       expect(heisenberg.isAbsent()).toBe(true);
     });
   });
-})
-;
+});

@@ -35,31 +35,38 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
   }
 
   public static ofJSON(json: StatsItemJSON): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(json.statsItemID).map<StatsItem, StatsItemIDError | StatsValuesError>((statsItemID: StatsItemID) => {
-      return StatsValues.ofJSON(json.values).map<StatsItem, StatsItemIDError | StatsValuesError>(
-        (statsValues: StatsValues) => {
-          return StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues);
-        },
-        StatsValuesError
-      );
-    }).recover((err: StatsItemIDError | StatsValuesError) => {
-      throw new StatsItemError('StatsItem.ofJSON()', err);
-    }, StatsItemError);
+    return StatsItemID.ofString(json.statsItemID)
+      .map<StatsItem, StatsItemIDError | StatsValuesError>((statsItemID: StatsItemID) => {
+        return StatsValues.ofJSON(json.values).map<StatsItem, StatsItemIDError | StatsValuesError>(
+          (statsValues: StatsValues) => {
+            return StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues);
+          },
+          StatsValuesError
+        );
+      })
+      .recover((err: StatsItemIDError | StatsValuesError) => {
+        throw new StatsItemError('StatsItem.ofJSON()', err);
+      }, StatsItemError);
   }
 
   public static ofRow(
     row: StatsItemRow,
     project: Project<StatsItemID, StatsValues>
   ): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(row.statsItemID).map<StatsItem, StatsItemIDError>((statsItemID: StatsItemID) => {
-      return Unscharferelation.maybe<StatsValues>(project.get(statsItemID)).toSuperposition().map<StatsItem, UnscharferelationError>((values: StatsValues) => {
-        return StatsItem.of(statsItemID, StatsItemName.of(row.name), values);
-      }).recover<StatsItem, StatsItemIDError>(() => {
-        return StatsItem.of(statsItemID, StatsItemName.of(row.name), StatsValues.empty());
-      });
-    }).recover<StatsItem, StatsItemError>((err: StatsItemIDError) => {
-      throw new StatsItemError('StatsItem.ofRow()', err);
-    }, StatsItemError);
+    return StatsItemID.ofString(row.statsItemID)
+      .map<StatsItem, StatsItemIDError>((statsItemID: StatsItemID) => {
+        return Unscharferelation.maybe<StatsValues>(project.get(statsItemID))
+          .toSuperposition()
+          .map<StatsItem, UnscharferelationError>((values: StatsValues) => {
+            return StatsItem.of(statsItemID, StatsItemName.of(row.name), values);
+          })
+          .recover<StatsItem, StatsItemIDError>(() => {
+            return StatsItem.of(statsItemID, StatsItemName.of(row.name), StatsValues.empty());
+          });
+      })
+      .recover<StatsItem, StatsItemError>((err: StatsItemIDError) => {
+        throw new StatsItemError('StatsItem.ofRow()', err);
+      }, StatsItemError);
   }
 
   public static isJSON(n: unknown): n is StatsItemJSON {

@@ -61,7 +61,9 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
   }
 
   public static ofJSON(json: Array<StatsItemJSON>): Superposition<StatsItems, StatsItemsError> {
-    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = json.map<Superposition<StatsItem, StatsItemError>>((statsItemJSON: StatsItemJSON) => {
+    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = json.map<
+      Superposition<StatsItem, StatsItemError>
+    >((statsItemJSON: StatsItemJSON) => {
       return StatsItem.ofJSON(statsItemJSON);
     });
 
@@ -72,7 +74,9 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     rows: Array<StatsItemRow>,
     project: Project<StatsItemID, StatsValues>
   ): Superposition<StatsItems, StatsItemsError> {
-    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<Superposition<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
+    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<
+      Superposition<StatsItem, StatsItemError>
+    >((statsItemRow: StatsItemRow) => {
       return StatsItem.ofRow(statsItemRow, project);
     });
 

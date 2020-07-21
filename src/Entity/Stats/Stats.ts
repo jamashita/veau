@@ -58,37 +58,39 @@ export class Stats extends Entity<StatsID, Stats> {
   }
 
   public static ofJSON(json: StatsJSON): Superposition<Stats, StatsError> {
-    return StatsOutline.ofJSON(json.outline).map<Stats, StatsOutlineError | LanguageError | RegionError | TermError | StatsItemsError>(
-      (outline: StatsOutline) => {
-        return Language.ofJSON(json.language).map<Stats, LanguageError | RegionError | TermError | StatsItemsError>(
-          (language: Language) => {
-            return Region.ofJSON(json.region).map<Stats, RegionError | TermError | StatsItemsError>(
-              (region: Region) => {
-                return Term.ofString(json.outline.termID).map<Stats, TermError | StatsItemsError>((term: Term) => {
-                  return StatsItems.ofJSON(json.items).map<Stats, StatsItemsError>((statsItems: StatsItems) => {
-                    return Stats.of(outline, language, region, term, statsItems);
-                  });
-                }, StatsItemsError);
-              },
-              TermError,
-              StatsItemsError
-            );
-          },
-          RegionError,
-          TermError,
-          StatsItemsError
-        );
-      },
-      LanguageError,
-      RegionError,
-      TermError,
-      StatsItemsError
-    ).recover<Stats, StatsError>(
-      (err: StatsOutlineError | LanguageError | RegionError | TermError | StatsItemsError) => {
-        throw new StatsError('Stats.ofJSON()', err);
-      },
-      StatsError
-    );
+    return StatsOutline.ofJSON(json.outline)
+      .map<Stats, StatsOutlineError | LanguageError | RegionError | TermError | StatsItemsError>(
+        (outline: StatsOutline) => {
+          return Language.ofJSON(json.language).map<Stats, LanguageError | RegionError | TermError | StatsItemsError>(
+            (language: Language) => {
+              return Region.ofJSON(json.region).map<Stats, RegionError | TermError | StatsItemsError>(
+                (region: Region) => {
+                  return Term.ofString(json.outline.termID).map<Stats, TermError | StatsItemsError>((term: Term) => {
+                    return StatsItems.ofJSON(json.items).map<Stats, StatsItemsError>((statsItems: StatsItems) => {
+                      return Stats.of(outline, language, region, term, statsItems);
+                    });
+                  }, StatsItemsError);
+                },
+                TermError,
+                StatsItemsError
+              );
+            },
+            RegionError,
+            TermError,
+            StatsItemsError
+          );
+        },
+        LanguageError,
+        RegionError,
+        TermError,
+        StatsItemsError
+      )
+      .recover<Stats, StatsError>(
+        (err: StatsOutlineError | LanguageError | RegionError | TermError | StatsItemsError) => {
+          throw new StatsError('Stats.ofJSON()', err);
+        },
+        StatsError
+      );
   }
 
   public static ofObject(object: object): Superposition<Stats, StatsError> {
@@ -290,18 +292,20 @@ export class Stats extends Entity<StatsID, Stats> {
   public display(): Unscharferelation<StatsDisplay> {
     return this.startDate.map<StatsDisplay>((startDate: AsOf) => {
       return this.getColumns().map<StatsDisplay>((columns: AsOfs) => {
-        return this.getRowHeaderSize().toUnscharferelation().map<StatsDisplay>((headerSize: HeaderSize) => {
-          return StatsDisplay.of(
-            this.outline,
-            this.language,
-            this.region,
-            this.term,
-            this.items.display(),
-            startDate,
-            columns,
-            headerSize
-          );
-        });
+        return this.getRowHeaderSize()
+          .toUnscharferelation()
+          .map<StatsDisplay>((headerSize: HeaderSize) => {
+            return StatsDisplay.of(
+              this.outline,
+              this.language,
+              this.region,
+              this.term,
+              this.items.display(),
+              startDate,
+              columns,
+              headerSize
+            );
+          });
       });
     });
   }
