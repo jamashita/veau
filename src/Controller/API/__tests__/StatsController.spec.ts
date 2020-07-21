@@ -11,7 +11,6 @@ import { useContainer, useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 
-
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { StatsError } from '../../../Entity/Stats/Error/StatsError';
@@ -151,7 +150,9 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByStatsID = stub;
-      stub.returns(Superposition.dead<Stats, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError));
+      stub.returns(
+        Superposition.dead<Stats, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError)
+      );
 
       const app: express.Express = express();
 
@@ -235,17 +236,19 @@ describe('StatsController', () => {
         controllers: [StatsController]
       });
 
-      const response: supertest.Response = await supertest(app).post('/stats').send({
-        outline: {
-          statsID: UUID.v4().get(),
-          languageID: UUID.v4().get(),
-          regionID: UUID.v4().get(),
-          termID: UUID.v4().get(),
-          name: 'name',
-          unit: 'unit',
-          updatedAt: '2000-01-01 00:00:00'
-        }
-      });
+      const response: supertest.Response = await supertest(app)
+        .post('/stats')
+        .send({
+          outline: {
+            statsID: UUID.v4().get(),
+            languageID: UUID.v4().get(),
+            regionID: UUID.v4().get(),
+            termID: UUID.v4().get(),
+            name: 'name',
+            unit: 'unit',
+            updatedAt: '2000-01-01 00:00:00'
+          }
+        });
 
       expect(response.status).toBe(BAD_REQUEST);
     });
@@ -271,29 +274,31 @@ describe('StatsController', () => {
         controllers: [StatsController]
       });
 
-      const response: supertest.Response = await supertest(app).post('/stats').send({
-        outline: {
-          statsID: 'illgal',
-          languageID: 'illgal',
-          regionID: 'illgal',
-          termID: 'illgal',
-          name: 'name',
-          unit: 'unit',
-          updatedAt: '2000-01-01 00:00:00'
-        },
-        language: {
-          languageID: 'illgal',
-          name: 'language',
-          englishName: 'english language',
-          iso639: 'DU'
-        },
-        region: {
-          regionID: 'illgal',
-          name: 'region',
-          iso3166: 'IDE'
-        },
-        items: []
-      });
+      const response: supertest.Response = await supertest(app)
+        .post('/stats')
+        .send({
+          outline: {
+            statsID: 'illgal',
+            languageID: 'illgal',
+            regionID: 'illgal',
+            termID: 'illgal',
+            name: 'name',
+            unit: 'unit',
+            updatedAt: '2000-01-01 00:00:00'
+          },
+          language: {
+            languageID: 'illgal',
+            name: 'language',
+            englishName: 'english language',
+            iso639: 'DU'
+          },
+          region: {
+            regionID: 'illgal',
+            name: 'region',
+            iso3166: 'IDE'
+          },
+          items: []
+        });
 
       expect(response.status).toBe(BAD_REQUEST);
     });
