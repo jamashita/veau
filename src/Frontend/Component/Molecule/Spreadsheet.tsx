@@ -8,8 +8,7 @@ import { Row } from '../../../VO/Coordinate/Row';
 import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
 
-type CellValue = Nullable<string>;
-type CellChange = [number, string | number, CellValue, CellValue];
+type CellChange = [number, string | number, Nullable<string>, Nullable<string>];
 type Props = Readonly<{
   stats: StatsDisplay;
   invalidValueInput(): void;
@@ -24,20 +23,14 @@ const SPREADSHEET_HEIGHT: number = 500;
 
 export class Spreadsheet extends React.Component<Props, State> {
   public shouldComponentUpdate(nextProps: Props): boolean {
-    // prettier-ignore
     const {
       stats
     } = this.props;
 
-    if (stats.equals(nextProps.stats)) {
-      return false;
-    }
-
-    return true;
+    return !stats.equals(nextProps.stats);
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       stats,
       invalidValueInput,
@@ -74,12 +67,10 @@ export class Spreadsheet extends React.Component<Props, State> {
             // eslint-disable-next-line prefer-destructuring
             const str: Nullable<string> = changes[i][3];
 
-            if (str !== null) {
-              if (Number.isNaN(Number(str))) {
-                invalidValueInput();
+            if (!Kind.isNumericalString(str)) {
+              invalidValueInput();
 
-                return false;
-              }
+              return false;
             }
           }
 
@@ -89,6 +80,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           if (Kind.isNull(changes)) {
             return;
           }
+
           changes.forEach((change: CellChange) => {
             Row.of(change[0]).map<void, Error>((row: Row) => {
               Column.of(Number(change[1])).map<void, Error>((column: Column) => {
