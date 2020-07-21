@@ -1,3 +1,4 @@
+import { Kind } from '@jamashita/publikum-type';
 import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
@@ -94,9 +95,9 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
                   value: unknown;
                 }>
               ) => {
-                const iso639: string = event.target.value as string;
-
-                iso639Selected(ISO639.of(iso639));
+                if (Kind.isString(event.target.value)) {
+                  iso639Selected(ISO639.of(event.target.value));
+                }
               }}
             >
               {locale.getLanguages().map<React.ReactNode>((language: Language) => {
@@ -124,9 +125,9 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
                   value: unknown;
                 }>
               ) => {
-                const iso3166: string = event.target.value as string;
-
-                iso3166Selected(ISO3166.of(iso3166));
+                if (Kind.isString(event.target.value)) {
+                  iso3166Selected(ISO3166.of(event.target.value));
+                }
               }}
             >
               {locale.getRegions().map<React.ReactNode>((region: Region) => {

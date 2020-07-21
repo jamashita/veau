@@ -11,8 +11,6 @@ import { locale } from './Locale';
 import { modal } from './Modal';
 import { notification } from './Notification';
 import { pageProvider } from './PageProvider';
-import { stats } from './Stats';
-import { display } from './StatsDisplay';
 import { statsEdit } from './StatsEdit';
 import { statsItem } from './StatsItem';
 import { statsList } from './StatsList';
@@ -22,13 +20,10 @@ export const reducers: Reducer<State, VeauAction> = combineReducers<State, VeauA
   entranceInformation,
   identity,
   loadingCount,
-  // TODO UNNECESSARY
-  locale,
   modal,
   notification,
   pageProvider,
-  stats,
-  display,
+  locale,
   statsEdit,
   statsItem,
   statsList,

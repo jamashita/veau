@@ -1,9 +1,5 @@
-import { Heisenberg } from '@jamashita/publikum-monad';
 import { RouterState } from 'connected-react-router';
-
-import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
-import { StatsDisplay } from '../VO/Display/StatsDisplay';
 import { EntranceInformation } from '../VO/EntranceInformation/EntranceInformation';
 import { Identity } from '../VO/Identity/Identity';
 import { LoadingCount } from '../VO/LoadingCount/LoadingCount';
@@ -19,13 +15,10 @@ export type State = Readonly<{
   entranceInformation: EntranceInformation;
   identity: Identity;
   loadingCount: LoadingCount;
-  // TODO DELETE -> in cache of indexDB
-  locale: Locale;
   modal: Modal;
   notification: Notification;
   pageProvider: PageProvider;
-  stats: Stats;
-  display: Heisenberg<StatsDisplay>;
+  locale: Locale;
   statsEdit: StatsEdit;
   statsItem: StatsItem;
   statsList: StatsList;

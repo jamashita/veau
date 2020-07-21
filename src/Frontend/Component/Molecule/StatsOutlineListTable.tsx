@@ -19,11 +19,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
       statsListItems
     } = this.props;
 
-    if (statsListItems.equals(nextProps.statsListItems)) {
-      return false;
-    }
-
-    return true;
+    return !statsListItems.equals(nextProps.statsListItems);
   }
 
   public render(): React.ReactNode {

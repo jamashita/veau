@@ -1,3 +1,5 @@
+import { Heisenberg } from '@jamashita/publikum-monad';
+import { Stats } from '../../Entity/Stats/Stats';
 import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import { ISO639 } from '../../VO/Language/ISO639';
 import { ISO3166 } from '../../VO/Region/ISO3166';
@@ -12,10 +14,12 @@ import {
   STATS_LIST_NAME_TYPED,
   STATS_LIST_OPEN_STATS_MODAL,
   STATS_LIST_RESET_NEW_STATS,
+  STATS_LIST_RESET_NEW_STATS_DISPLAY,
   STATS_LIST_SAVE_NEW_STATS,
   STATS_LIST_TERM_SELECTED,
   STATS_LIST_UNIT_TYPED,
   STATS_LIST_UPDATE_NEW_STATS,
+  STATS_LIST_UPDATE_NEW_STATS_DISPLAY,
   StatsListCloseNewStatsModalAction,
   StatsListInitializeAction,
   StatsListISO3166SelectedAction,
@@ -23,10 +27,12 @@ import {
   StatsListNameTypedAction,
   StatsListOpenNewStatsModalAction,
   StatsListResetNewStatsAction,
+  StatsListResetNewStatsDisplayAction,
   StatsListSaveNewStatsAction,
   StatsListTermSelectedAction,
   StatsListUnitTypedAction,
-  StatsListUpdateNewStatsAction
+  StatsListUpdateNewStatsAction,
+  StatsListUpdateNewStatsDisplayAction
 } from '../Action';
 
 export const initStatsList = (): StatsListInitializeAction => {
@@ -82,21 +88,34 @@ export const newStatsTermSelected = (term: Term): StatsListTermSelectedAction =>
   };
 };
 
-export const updateNewStats = (stats: StatsDisplay): StatsListUpdateNewStatsAction => {
+export const updateNewStats = (stats: Stats): StatsListUpdateNewStatsAction => {
   return {
     type: STATS_LIST_UPDATE_NEW_STATS,
     stats
   };
 };
 
-export const saveNewStats = (): StatsListSaveNewStatsAction => {
-  return {
-    type: STATS_LIST_SAVE_NEW_STATS
-  };
-};
-
 export const resetNewStats = (): StatsListResetNewStatsAction => {
   return {
     type: STATS_LIST_RESET_NEW_STATS
+  };
+};
+
+export const updateNewStatsDisplay = (display: Heisenberg<StatsDisplay>): StatsListUpdateNewStatsDisplayAction => {
+  return {
+    type: STATS_LIST_UPDATE_NEW_STATS_DISPLAY,
+    display
+  };
+};
+
+export const resetNewStatsDisplay = (): StatsListResetNewStatsDisplayAction => {
+  return {
+    type: STATS_LIST_RESET_NEW_STATS_DISPLAY
+  };
+};
+
+export const saveNewStats = (): StatsListSaveNewStatsAction => {
+  return {
+    type: STATS_LIST_SAVE_NEW_STATS
   };
 };

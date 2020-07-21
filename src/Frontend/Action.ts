@@ -75,6 +75,8 @@ export const STATS_LIST_ISO3166_SELECTED: '@@veau/STATS_LIST_ISO3166_SELECTED' =
 export const STATS_LIST_TERM_SELECTED: '@@veau/STATS_LIST_TERM_SELECTED' = '@@veau/STATS_LIST_TERM_SELECTED';
 export const STATS_LIST_UPDATE_NEW_STATS: '@@veau/STATS_LIST_UPDATE_NEW_STATS' = '@@veau/STATS_LIST_UPDATE_NEW_STATS';
 export const STATS_LIST_RESET_NEW_STATS: '@@veau/STATS_LIST_RESET_NEW_STATS' = '@@veau/STATS_LIST_RESET_NEW_STATS';
+export const STATS_LIST_UPDATE_NEW_STATS_DISPLAY: '@@veau/STATS_LIST_UPDATE_NEW_STATS_DISPLAY' = '@@veau/STATS_LIST_UPDATE_NEW_STATS_DISPLAY';
+export const STATS_LIST_RESET_NEW_STATS_DISPLAY: '@@veau/STATS_LIST_RESET_NEW_STATS_DISPLAY' = '@@veau/STATS_LIST_RESET_NEW_STATS_DISPLAY';
 export const STATS_LIST_SAVE_NEW_STATS: '@@veau/STATS_LIST_SAVE_NEW_STATS' = '@@veau/STATS_LIST_SAVE_NEW_STATS';
 
 export const STATS_EDIT_INITIALIZE: '@@veau/STATS_EDIT_INITIALIZE' = '@@veau/STATS_EDIT_INITIALIZE';
@@ -266,11 +268,20 @@ export interface StatsListTermSelectedAction extends Action {
 
 export interface StatsListUpdateNewStatsAction extends Action {
   readonly type: typeof STATS_LIST_UPDATE_NEW_STATS;
-  readonly stats: StatsDisplay;
+  readonly stats: Stats;
 }
 
 export interface StatsListResetNewStatsAction extends Action {
   readonly type: typeof STATS_LIST_RESET_NEW_STATS;
+}
+
+export interface StatsListUpdateNewStatsDisplayAction extends Action {
+  readonly type: typeof STATS_LIST_UPDATE_NEW_STATS_DISPLAY;
+  readonly display: Heisenberg<StatsDisplay>;
+}
+
+export interface StatsListResetNewStatsDisplayAction extends Action {
+  readonly type: typeof STATS_LIST_RESET_NEW_STATS_DISPLAY;
 }
 
 export interface StatsListSaveNewStatsAction extends Action {
@@ -450,6 +461,8 @@ export type VeauAction =
   | StatsListTermSelectedAction
   | StatsListUpdateNewStatsAction
   | StatsListResetNewStatsAction
+  | StatsListUpdateNewStatsDisplayAction
+  | StatsListResetNewStatsDisplayAction
   | StatsListSaveNewStatsAction
   | StatsEditInitializeAction
   | StatsEditInitializationDeadAction

@@ -35,7 +35,11 @@ import { raiseModal } from '../ActionCreator/ModalActionCreator';
 import { appearNotification } from '../ActionCreator/NotificationActionCreator';
 import { pushToStatsEdit } from '../ActionCreator/RedirectActionCreator';
 import { resetStatsListItems, updateStatsListItems } from '../ActionCreator/StatsActionCreator';
-import { closeNewStatsModal, resetNewStats, updateNewStats } from '../ActionCreator/StatsListActionCreator';
+import {
+  closeNewStatsModal,
+  resetNewStatsDisplay,
+  updateNewStatsDisplay
+} from '../ActionCreator/StatsListActionCreator';
 import { State } from '../State';
 
 export class StatsListSaga {
@@ -118,7 +122,7 @@ export class StatsListSaga {
         stats.getItems()
       );
 
-      yield put(updateNewStats(newStats));
+      yield put(updateNewStatsDisplay(newStats));
     }
   }
 
@@ -150,7 +154,7 @@ export class StatsListSaga {
         stats.getItems()
       );
 
-      yield put(updateNewStats(newStats));
+      yield put(updateNewStatsDisplay(newStats));
     }
   }
 
@@ -185,7 +189,7 @@ export class StatsListSaga {
           stats.getItems()
         );
 
-        return put(updateNewStats(newStats));
+        return put(updateNewStatsDisplay(newStats));
       }
     }
   }
@@ -221,7 +225,7 @@ export class StatsListSaga {
           stats.getItems()
         );
 
-        yield put(updateNewStats(newStats));
+        yield put(updateNewStatsDisplay(newStats));
       }
     }
   }
@@ -250,7 +254,7 @@ export class StatsListSaga {
         stats.getItems()
       );
 
-      yield put(updateNewStats(newStats));
+      yield put(updateNewStatsDisplay(newStats));
     }
   }
 
@@ -282,7 +286,7 @@ export class StatsListSaga {
 
       yield superposition.transform<Effect>(
         () => {
-          return all([put(loaded()), put(pushToStatsEdit(stats.getStatsID())), put(resetNewStats())]);
+          return all([put(loaded()), put(pushToStatsEdit(stats.getStatsID())), put(resetNewStatsDisplay())]);
         },
         () => {
           return all([
