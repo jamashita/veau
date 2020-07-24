@@ -1,4 +1,5 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { Express } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express-serve-static-core';
 import { OK, UNAUTHORIZED } from 'http-status';
 import 'reflect-metadata';
 import { Controller, Delete, Get, Post, Put, Res, UseBefore, useExpressServer } from 'routing-controllers';
@@ -33,7 +34,7 @@ class MockController {
   }
 }
 
-const setUser = (req: Request, _res: Response, next: NextFunction): void => {
+const setUser: RequestHandler = (req: Request, _res: Response, next: NextFunction): void => {
   req.user = {};
   next();
 };

@@ -4,7 +4,8 @@ import { MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import bodyParser from 'body-parser';
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { Express } from 'express';
+import { NextFunction, Request, Response } from 'express-serve-static-core';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
 import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';
@@ -236,19 +237,17 @@ describe('StatsController', () => {
         controllers: [StatsController]
       });
 
-      const response: supertest.Response = await supertest(app)
-        .post('/stats')
-        .send({
-          outline: {
-            statsID: UUID.v4().get(),
-            languageID: UUID.v4().get(),
-            regionID: UUID.v4().get(),
-            termID: UUID.v4().get(),
-            name: 'name',
-            unit: 'unit',
-            updatedAt: '2000-01-01 00:00:00'
-          }
-        });
+      const response: supertest.Response = await supertest(app).post('/stats').send({
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: UUID.v4().get(),
+          name: 'name',
+          unit: 'unit',
+          updatedAt: '2000-01-01 00:00:00'
+        }
+      });
 
       expect(response.status).toBe(BAD_REQUEST);
     });
@@ -274,31 +273,29 @@ describe('StatsController', () => {
         controllers: [StatsController]
       });
 
-      const response: supertest.Response = await supertest(app)
-        .post('/stats')
-        .send({
-          outline: {
-            statsID: 'illgal',
-            languageID: 'illgal',
-            regionID: 'illgal',
-            termID: 'illgal',
-            name: 'name',
-            unit: 'unit',
-            updatedAt: '2000-01-01 00:00:00'
-          },
-          language: {
-            languageID: 'illgal',
-            name: 'language',
-            englishName: 'english language',
-            iso639: 'DU'
-          },
-          region: {
-            regionID: 'illgal',
-            name: 'region',
-            iso3166: 'IDE'
-          },
-          items: []
-        });
+      const response: supertest.Response = await supertest(app).post('/stats').send({
+        outline: {
+          statsID: 'illgal',
+          languageID: 'illgal',
+          regionID: 'illgal',
+          termID: 'illgal',
+          name: 'name',
+          unit: 'unit',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: 'illgal',
+          name: 'language',
+          englishName: 'english language',
+          iso639: 'DU'
+        },
+        region: {
+          regionID: 'illgal',
+          name: 'region',
+          iso3166: 'IDE'
+        },
+        items: []
+      });
 
       expect(response.status).toBe(BAD_REQUEST);
     });

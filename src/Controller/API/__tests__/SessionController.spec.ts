@@ -1,4 +1,5 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { Express } from 'express';
+import { NextFunction, Request, Response } from 'express-serve-static-core';
 import { OK } from 'http-status';
 import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';

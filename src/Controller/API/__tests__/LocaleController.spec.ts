@@ -2,7 +2,8 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
 import { RedisError } from '@jamashita/publikum-redis';
 
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { Express } from 'express';
+import { NextFunction, Request, Response } from 'express-serve-static-core';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';
