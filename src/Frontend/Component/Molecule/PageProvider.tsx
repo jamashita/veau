@@ -70,6 +70,6 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
   }
 }
 
-export const PageProvider: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+export const PageProvider: React.ComponentType<WithIntlProps<Props>> = injectIntl(
   PageProviderImpl
 );

@@ -114,4 +114,4 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
   }
 }
 
-export const StatsList: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsListImpl);
+export const StatsList: React.ComponentType<WithIntlProps<Props>> = injectIntl(StatsListImpl);

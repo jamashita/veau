@@ -219,6 +219,6 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
   }
 }
 
-export const StatsOutlineModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+export const StatsOutlineModal: React.ComponentType<WithIntlProps<Props>> = injectIntl(
   StatsOutlineModalImpl
 );

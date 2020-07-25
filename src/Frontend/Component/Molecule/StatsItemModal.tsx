@@ -79,6 +79,6 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
   }
 }
 
-export const StatsItemModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+export const StatsItemModal: React.ComponentType<WithIntlProps<Props>> = injectIntl(
   StatsItemModalImpl
 );

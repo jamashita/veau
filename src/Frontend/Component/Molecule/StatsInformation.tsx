@@ -155,6 +155,6 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
   }
 }
 
-export const StatsInformation: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+export const StatsInformation: React.ComponentType<WithIntlProps<Props>> = injectIntl(
   StatsInformationImpl
 );

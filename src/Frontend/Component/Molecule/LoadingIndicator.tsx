@@ -48,6 +48,6 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
   }
 }
 
-export const LoadingIndicator: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+export const LoadingIndicator: React.ComponentType<WithIntlProps<Props>> = injectIntl(
   LoadingIndicatorImpl
 );

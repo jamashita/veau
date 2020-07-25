@@ -33,4 +33,4 @@ class HeaderImpl extends React.Component<Props & WrappedComponentProps, State> {
   }
 }
 
-export const Header: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(HeaderImpl);
+export const Header: React.ComponentType<WithIntlProps<Props>> = injectIntl(HeaderImpl);

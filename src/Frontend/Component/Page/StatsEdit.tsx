@@ -272,4 +272,4 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
   }
 }
 
-export const StatsEdit: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsEditImpl);
+export const StatsEdit: React.ComponentType<WithIntlProps<Props>> = injectIntl(StatsEditImpl);

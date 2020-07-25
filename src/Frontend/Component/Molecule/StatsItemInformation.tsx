@@ -1,5 +1,4 @@
 import { Heisenberg } from '@jamashita/publikum-monad';
-import { Kind } from '@jamashita/publikum-type';
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
@@ -36,7 +35,7 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
       removeItem
     } = this.props;
 
-    if (Kind.isUndefined(selecting)) {
+    if (!selecting.isPresent()) {
       return null;
     }
 
@@ -78,6 +77,6 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
   }
 }
 
-export const StatsItemInformation: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+export const StatsItemInformation: React.ComponentType<WithIntlProps<Props>> = injectIntl(
   StatsItemInformationImpl
 );

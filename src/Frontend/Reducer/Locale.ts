@@ -3,7 +3,6 @@ import { Reducer } from 'redux';
 import { Locale } from '../../VO/Locale/Locale';
 import { LOCALE_DEFINED, VeauAction } from '../Action';
 
-// TODO UNNECESSARY
 const initialState: Locale = Locale.empty();
 
 export const locale: Reducer<Locale, VeauAction> = (state: Locale = initialState, action: VeauAction) => {

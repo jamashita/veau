@@ -93,6 +93,6 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
   }
 }
 
-export const StatsOutlineListTable: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+export const StatsOutlineListTable: React.ComponentType<WithIntlProps<Props>> = injectIntl(
   StatsOutlineListTableImpl
 );

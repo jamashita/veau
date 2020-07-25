@@ -145,6 +145,6 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
   }
 }
 
-export const Notification: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+export const Notification: React.ComponentType<WithIntlProps<Props>> = injectIntl(
   NotificationImpl
 );
