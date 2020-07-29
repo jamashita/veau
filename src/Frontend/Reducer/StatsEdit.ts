@@ -58,7 +58,6 @@ export const statsEdit: Reducer<StatsEdit, VeauAction> = (state: StatsEdit = ini
       };
     }
     case STATS_EDIT_SELECT_ITEM: {
-      // prettier-ignore
       const {
         statsItem,
         row
@@ -71,7 +70,6 @@ export const statsEdit: Reducer<StatsEdit, VeauAction> = (state: StatsEdit = ini
       };
     }
     case STATS_EDIT_UPDATE_SELECTING_ITEM: {
-      // prettier-ignore
       const {
         statsItem
       } = action;
