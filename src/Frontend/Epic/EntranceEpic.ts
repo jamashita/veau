@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
-import { concat, merge, Observable, of } from 'rxjs';
+import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
 import { Type } from '../../Container/Types';
@@ -66,14 +66,20 @@ export class EntranceEpic {
 
         return concat<VeauAction>(
           of<VeauAction>(loading()),
-          this.identityQuery.findByEntranceInfo(entranceInformation).transform<Observable<VeauAction>, Error>(
-            (identity: Identity) => {
-              return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
-            },
-            () => {
-              return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
-            }
-          ).get(),
+          from(
+            this.identityQuery.findByEntranceInfo(entranceInformation).transform<Observable<VeauAction>, Error>(
+              (identity: Identity) => {
+                return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
+              },
+              () => {
+                return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
+              }
+            ).get()
+          ).pipe(
+            mergeMap((observable: Observable<VeauAction>) => {
+              return observable;
+            })
+          ),
           of<VeauAction>(loaded())
         );
       })
