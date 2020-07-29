@@ -46,6 +46,7 @@ import {
   STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
   STATS_EDIT_START_DATE_DETERMINED,
   STATS_EDIT_UNIT_TYPED,
+  STATS_UPDATE,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
   StatsEditInitializeAction,
@@ -108,7 +109,8 @@ export class StatsEditEpic {
       this.rowMoved(action$, state$),
       this.invalidValueInput(action$),
       this.removeItem(action$, state$),
-      this.save(action$, state$)
+      this.save(action$, state$),
+      this.modify(action$, state$)
     );
   }
 
@@ -146,10 +148,7 @@ export class StatsEditEpic {
       ofType<VeauAction, VeauAction>(STATS_EDIT_INITIALIZATION_FAILURE),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
         return concat<VeauAction>(
-          of<VeauAction>(
-            pushToStatsList(),
-            appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID')
-          )
+          of<VeauAction>(pushToStatsList(), appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID'))
         );
       })
     );
@@ -159,14 +158,15 @@ export class StatsEditEpic {
     return action$.pipe<StatsEditNameTypedAction, VeauAction>(
       ofType<VeauAction, StatsEditNameTypedAction>(STATS_EDIT_NAME_TYPED),
       mergeMap<StatsEditNameTypedAction, Observable<VeauAction>>((action: StatsEditNameTypedAction) => {
-        // prettier-ignore
         const {
           value: {
-            stats
+            statsEdit: {
+              stats
+            }
           }
         } = state$;
 
-        return from<Promise<Heisenberg<StatsDisplay>>>(Stats.of(
+        return of<VeauAction>(updateStats(Stats.of(
           StatsOutline.of(
             stats.getStatsID(),
             stats.getLanguage().getLanguageID(),
@@ -180,11 +180,7 @@ export class StatsEditEpic {
           stats.getRegion(),
           stats.getTerm(),
           stats.getItems()
-        ).display().terminate()).pipe<VeauAction>(
-          mergeMap<Heisenberg<StatsDisplay>, Observable<VeauAction>>((display: Heisenberg<StatsDisplay>) => {
-            return of<VeauAction>(updateStatsDisplay(display));
-          })
-        );
+        )));
       })
     );
   }
@@ -193,14 +189,15 @@ export class StatsEditEpic {
     return action$.pipe<StatsEditUnitTypedAction, VeauAction>(
       ofType<VeauAction, StatsEditUnitTypedAction>(STATS_EDIT_UNIT_TYPED),
       mergeMap<StatsEditUnitTypedAction, Observable<VeauAction>>((action: StatsEditUnitTypedAction) => {
-        // prettier-ignore
         const {
           value: {
-            stats
+            statsEdit: {
+              stats
+            }
           }
         } = state$;
 
-        return from<Promise<Heisenberg<StatsDisplay>>>(Stats.of(
+        return of<VeauAction>(updateStats(Stats.of(
           StatsOutline.of(
             stats.getStatsID(),
             stats.getLanguage().getLanguageID(),
@@ -214,11 +211,7 @@ export class StatsEditEpic {
           stats.getRegion(),
           stats.getTerm(),
           stats.getItems()
-        ).display().terminate()).pipe<VeauAction>(
-          mergeMap<Heisenberg<StatsDisplay>, Observable<VeauAction>>((display: Heisenberg<StatsDisplay>) => {
-            return of<VeauAction>(updateStatsDisplay(display));
-          })
-        );
+        )));
       })
     );
   }
@@ -230,25 +223,24 @@ export class StatsEditEpic {
     return action$.pipe<StatsEditISO639SelectedAction, VeauAction>(
       ofType<VeauAction, StatsEditISO639SelectedAction>(STATS_EDIT_ISO639_SELECTED),
       mergeMap<StatsEditISO639SelectedAction, Observable<VeauAction>>((action: StatsEditISO639SelectedAction) => {
-        // prettier-ignore
         const {
           value: {
-            stats
+            statsEdit: {
+              stats
+            }
           }
         } = state$;
 
         return from<Promise<Observable<VeauAction>>>(
           this.languageQuery.findByISO639(action.iso639).transform<Observable<VeauAction>, Error>(
             (language: Language) => {
-              const newStats: Stats = Stats.of(
+              return of<VeauAction>(updateStats(Stats.of(
                 stats.getOutline(),
                 language,
                 stats.getRegion(),
                 stats.getTerm(),
                 stats.getItems()
-              );
-
-              return of<VeauAction>(updateStats(newStats));
+              )));
             },
             () => {
               return of<VeauAction>(nothing());
@@ -270,25 +262,24 @@ export class StatsEditEpic {
     return action$.pipe<StatsEditISO3166SelectedAction, VeauAction>(
       ofType<VeauAction, StatsEditISO3166SelectedAction>(STATS_EDIT_ISO3166_SELECTED),
       mergeMap<StatsEditISO3166SelectedAction, Observable<VeauAction>>((action: StatsEditISO3166SelectedAction) => {
-        // prettier-ignore
         const {
           value: {
-            stats
+            statsEdit: {
+              stats
+            }
           }
         } = state$;
 
         return from<Promise<Observable<VeauAction>>>(
           this.regionQuery.findByISO3166(action.iso3166).transform<Observable<VeauAction>, Error>(
             (region: Region) => {
-              const newStats: Stats = Stats.of(
+              return of<VeauAction>(updateStats(Stats.of(
                 stats.getOutline(),
                 stats.getLanguage(),
                 region,
                 stats.getTerm(),
                 stats.getItems()
-              );
-
-              return of<VeauAction>(updateStats(newStats));
+              )));
             },
             () => {
               return of<VeauAction>();
@@ -307,22 +298,17 @@ export class StatsEditEpic {
     return action$.pipe<StatsEditDataFilledAction, VeauAction>(
       ofType<VeauAction, StatsEditDataFilledAction>(STATS_EDIT_DATA_FILLED),
       mergeMap<StatsEditDataFilledAction, Observable<VeauAction>>((action: StatsEditDataFilledAction) => {
-        // prettier-ignore
         const {
           value: {
-            stats
+            statsEdit: {
+              stats
+            }
           }
         } = state$;
 
         stats.setData(action.coordinate, action.value);
 
-        return from<Promise<Heisenberg<StatsDisplay>>>(
-          stats.display().terminate()
-        ).pipe<VeauAction>(
-          mergeMap<Heisenberg<StatsDisplay>, Observable<VeauAction>>((display: Heisenberg<StatsDisplay>) => {
-            return of<VeauAction>(updateStatsDisplay(display));
-          })
-        );
+        return of<VeauAction>(updateStats(stats));
       })
     );
   }
@@ -331,22 +317,17 @@ export class StatsEditEpic {
     return action$.pipe<StatsEditDataDeletedAction, VeauAction>(
       ofType<VeauAction, StatsEditDataDeletedAction>(STATS_EDIT_DATA_DELETED),
       mergeMap<StatsEditDataDeletedAction, Observable<VeauAction>>((action: StatsEditDataDeletedAction) => {
-        // prettier-ignore
         const {
           value: {
-            stats
+            statsEdit: {
+              stats
+            }
           }
         } = state$;
 
         stats.deleteData(action.coordinate);
 
-        return from<Promise<Heisenberg<StatsDisplay>>>(
-          stats.display().terminate()
-        ).pipe<VeauAction>(
-          mergeMap<Heisenberg<StatsDisplay>, Observable<VeauAction>>((display: Heisenberg<StatsDisplay>) => {
-            return of<VeauAction>(updateStatsDisplay(display));
-          })
-        );
+        return of<VeauAction>(updateStats(stats));
       })
     );
   }
@@ -355,7 +336,6 @@ export class StatsEditEpic {
     return action$.pipe<StatsEditItemNameTypedAction, VeauAction>(
       ofType<VeauAction, StatsEditItemNameTypedAction>(STATS_EDIT_ITEM_NAME_TYPED),
       map<StatsEditItemNameTypedAction, VeauAction>((action: StatsEditItemNameTypedAction) => {
-        // prettier-ignore
         const {
           value: {
             statsItem
@@ -373,27 +353,25 @@ export class StatsEditEpic {
     return action$.pipe<VeauAction, VeauAction>(
       ofType<VeauAction, VeauAction>(STATS_EDIT_ITEM_SAVE),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
-        // prettier-ignore
         const {
           value: {
-            stats,
+            statsEdit: {
+              stats
+            },
             statsItem
           }
         } = state$;
 
-        return from<Promise<Heisenberg<StatsDisplay>>>(
-          Stats.of(
+        return of<VeauAction>(
+          updateStats(Stats.of(
             stats.getOutline(),
             stats.getLanguage(),
             stats.getRegion(),
             stats.getTerm(),
             stats.getItems().add(statsItem),
             stats.getStartDate()
-          ).display().terminate()
-        ).pipe<VeauAction>(
-          mergeMap<Heisenberg<StatsDisplay>, Observable<VeauAction>>((display) => {
-            return of<VeauAction>(updateStatsDisplay(display), resetStatsItem());
-          })
+          )),
+          resetStatsItem()
         );
       })
     );
@@ -403,18 +381,20 @@ export class StatsEditEpic {
     return action$.pipe<StatsEditRowSelectedAction, VeauAction>(
       ofType<VeauAction, StatsEditRowSelectedAction>(STATS_EDIT_ROW_SELECTED),
       mergeMap<StatsEditRowSelectedAction, Observable<VeauAction>>((action: StatsEditRowSelectedAction) => {
-        // prettier-ignore
         const {
           value: {
-            stats
+            statsEdit: {
+              stats
+            }
           }
         } = state$;
 
-        return from<Promise<Heisenberg<StatsItem>>>(
-          stats.getRow(action.row).terminate()
-        ).pipe<VeauAction>(
+        return from<Promise<Heisenberg<StatsItem>>>(stats.getRow(action.row).terminate()).pipe<VeauAction>(
           mergeMap<Heisenberg<StatsItem>, Observable<VeauAction>>((item: Heisenberg<StatsItem>) => {
-            return of<VeauAction>(selectItem(item, action.row));
+            return of<VeauAction>(
+              selectItem(item, action.row),
+              updateStats(stats)
+            );
           })
         );
       })
@@ -429,11 +409,10 @@ export class StatsEditEpic {
       ofType<VeauAction, StatsEditSelectingItemNameTypedAction>(STATS_EDIT_SELECTING_ITEM_NAME_TYPED),
       mergeMap<StatsEditSelectingItemNameTypedAction, Observable<VeauAction>>(
         (action: StatsEditSelectingItemNameTypedAction) => {
-          // prettier-ignore
           const {
             value: {
-              stats,
               statsEdit: {
+                stats,
                 selectingItem,
                 selectingRow
               }
@@ -454,7 +433,8 @@ export class StatsEditEpic {
                 stats.replaceItem(newSelectingItem, selectingRow);
 
                 return of<VeauAction>(
-                  updateSelectingItem(Present.of<StatsItem>(newSelectingItem))
+                  updateSelectingItem(Present.of<StatsItem>(newSelectingItem)),
+                  updateStats(stats)
                 );
               },
               () => {
@@ -477,29 +457,26 @@ export class StatsEditEpic {
   ): Observable<VeauAction> {
     return action$.pipe<StatsEditStartDateDeterminedAction, VeauAction>(
       ofType<VeauAction, StatsEditStartDateDeterminedAction>(STATS_EDIT_START_DATE_DETERMINED),
-      mergeMap<StatsEditStartDateDeterminedAction, Observable<VeauAction>>((action: StatsEditStartDateDeterminedAction) => {
-        // prettier-ignore
-        const {
-          value: {
-            stats
-          }
-        } = state$;
+      mergeMap<StatsEditStartDateDeterminedAction, Observable<VeauAction>>(
+        (action: StatsEditStartDateDeterminedAction) => {
+          const {
+            value: {
+              statsEdit: {
+                stats
+              }
+            }
+          } = state$;
 
-        return from<Promise<Heisenberg<StatsDisplay>>>(
-          Stats.of(
+          return of<VeauAction>(updateStats(Stats.of(
             stats.getOutline(),
             stats.getLanguage(),
             stats.getRegion(),
             stats.getTerm(),
             stats.getItems(),
             Unscharferelation.present<AsOf>(action.startDate)
-          ).display().terminate()
-        ).pipe<VeauAction>(
-          mergeMap<Heisenberg<StatsDisplay>, Observable<VeauAction>>((display: Heisenberg<StatsDisplay>) => {
-            return of<VeauAction>(updateStatsDisplay(display));
-          })
-        );
-      })
+          )));
+        }
+      )
     );
   }
 
@@ -514,22 +491,17 @@ export class StatsEditEpic {
     return action$.pipe<StatsEditRowMovedAction, VeauAction>(
       ofType<VeauAction, StatsEditRowMovedAction>(STATS_EDIT_ROW_MOVED),
       mergeMap<StatsEditRowMovedAction, Observable<VeauAction>>((action: StatsEditRowMovedAction) => {
-        // prettier-ignore
         const {
           value: {
-            stats
+            statsEdit: {
+              stats
+            }
           }
         } = state$;
 
         stats.moveItem(action.column, action.target);
 
-        return from<Promise<Heisenberg<StatsDisplay>>>(
-          stats.display().terminate()
-        ).pipe<VeauAction>(
-          mergeMap<Heisenberg<StatsDisplay>, Observable<VeauAction>>((display: Heisenberg<StatsDisplay>) => {
-            return of<VeauAction>(updateStatsDisplay(display));
-          })
-        );
+        return of<VeauAction>(updateStats(stats));
       })
     );
   }
@@ -546,22 +518,17 @@ export class StatsEditEpic {
       ofType<VeauAction, StatsEditRemoveSelectingItemAction>(STATS_EDIT_REMOVE_SELECTING_ITEM),
       mergeMap<StatsEditRemoveSelectingItemAction, Observable<VeauAction>>(
         (action: StatsEditRemoveSelectingItemAction) => {
-          // prettier-ignore
           const {
             value: {
-              stats
+              statsEdit: {
+                stats
+              }
             }
           } = state$;
 
           stats.removeItem(action.statsItem);
 
-          return from<Promise<Heisenberg<StatsDisplay>>>(
-            stats.display().terminate()
-          ).pipe<VeauAction>(
-            mergeMap<Heisenberg<StatsDisplay>, Observable<VeauAction>>((display: Heisenberg<StatsDisplay>) => {
-              return of<VeauAction>(updateStatsDisplay(display), clearSelectingItem());
-            })
-          );
+          return of<VeauAction>(updateStats(stats), clearSelectingItem());
         }
       )
     );
@@ -571,10 +538,11 @@ export class StatsEditEpic {
     return action$.pipe<VeauAction, VeauAction>(
       ofType<VeauAction, VeauAction>(STATS_EDIT_SAVE_STATS),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
-        // prettier-ignore
         const {
           value: {
-            stats
+            statsEdit: {
+              stats
+            }
           }
         } = state$;
 
@@ -595,6 +563,27 @@ export class StatsEditEpic {
             })
           ),
           of<VeauAction>(loaded())
+        );
+      })
+    );
+  }
+
+  public modify(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe(
+      ofType<VeauAction, VeauAction>(STATS_UPDATE),
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        const {
+          value: {
+            statsEdit: {
+              stats
+            }
+          }
+        } = state$;
+
+        return from<Promise<Heisenberg<StatsDisplay>>>(stats.display().terminate()).pipe(
+          mergeMap<Heisenberg<StatsDisplay>, Observable<VeauAction>>((display: Heisenberg<StatsDisplay>) => {
+            return of<VeauAction>(updateStatsDisplay(display), clearSelectingItem());
+          })
         );
       })
     );
