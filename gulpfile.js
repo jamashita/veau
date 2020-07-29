@@ -127,11 +127,6 @@ gulp.task('favicon', () => {
     .pipe(gulp.dest('dist/Server'));
 });
 
-gulp.task('font', () => {
-  return gulp.src(['node_modules/@fortawesome/fontawesome-free/webfonts/*'])
-    .pipe(gulp.dest('dist/Server/public/webfonts'));
-});
-
 gulp.task('nodemon', (callback) => {
   let started = false;
   return nodemon({
@@ -166,8 +161,7 @@ gulp.task(
     'clean',
     gulp.parallel(
       'pug',
-      'favicon',
-      'font'
+      'favicon'
     ),
     'Command',
     'Container',

@@ -11,7 +11,6 @@ import 'reflect-metadata';
 import { View } from './Component/View';
 import { I18NProvider } from './Container/I18NProvider';
 import { history } from './History';
-import './Sass/style.scss';
 import { store } from './Store';
 
 const muiTheme: Theme = createMuiTheme({

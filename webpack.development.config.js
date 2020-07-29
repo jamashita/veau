@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const FontConfigWebpackPlugin = require('font-config-webpack-plugin');
+const ScssConfigWebpackPlugin = require('scss-config-webpack-plugin');
 const TsConfigWebpackPlugin = require('ts-config-webpack-plugin');
 
 /**
@@ -23,30 +25,6 @@ module.exports = {
     ]
   },
   mode: 'development',
-  module: {
-    rules: [
-      {
-        test: /\.scss/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              url: false,
-              sourceMap: false,
-              importLoaders: 2
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: false
-            }
-          }
-        ]
-      }
-    ]
-  },
   optimization: {
     usedExports: true,
     sideEffects: false
@@ -55,6 +33,12 @@ module.exports = {
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development'
+    }),
+    new FontConfigWebpackPlugin({
+      name: 'node_modules/@fortawesome/fontawesome-free/webfonts/*'
+    }),
+    new ScssConfigWebpackPlugin({
+      filename: 'src/Frontend/Sass/style.scss'
     }),
     new TsConfigWebpackPlugin({
       configFile: 'tsconfig.esm.json'
