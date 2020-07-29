@@ -34,11 +34,11 @@ const app: Supplier<React.ReactElement> = () => {
   return (
     <MuiThemeProvider theme={muiTheme}>
       <Provider store={store}>
-        <I18NProvider>
-          <ConnectedRouter history={history}>
+        <ConnectedRouter history={history}>
+          <I18NProvider>
             <View />
-          </ConnectedRouter>
-        </I18NProvider>
+          </I18NProvider>
+        </ConnectedRouter>
       </Provider>
     </MuiThemeProvider>
   );
