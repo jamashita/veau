@@ -19,7 +19,7 @@
     "update:install": "yarn install && yarn upgrade",
     "update:upgrade": "ncu --upgrade",
     "watch": "concurrently \"npm:watch:*\"",
-    "watch:server": "ts-node-dev --respawn src/Server/Server.ts",
+    "watch:server": "NODE_ENV=development ts-node-dev --respawn src/Server/Server.ts",
     "watch:webpack": "webpack-dev-server --hot --config webpack.development.config.js"
   },
   "dependencies": {
