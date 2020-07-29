@@ -76,7 +76,6 @@ export const STATS_LIST_ISO3166_SELECTED = '@@veau/STATS_LIST_ISO3166_SELECTED' 
 export const STATS_LIST_TERM_SELECTED = '@@veau/STATS_LIST_TERM_SELECTED' as const;
 export const STATS_LIST_UPDATE_NEW_STATS = '@@veau/STATS_LIST_UPDATE_NEW_STATS' as const;
 export const STATS_LIST_RESET_NEW_STATS = '@@veau/STATS_LIST_RESET_NEW_STATS' as const;
-export const STATS_LIST_STATS_MODIFIED = '@@veau/STATS_LIST_STATS_MODIFIED' as const;
 export const STATS_LIST_UPDATE_NEW_STATS_DISPLAY = '@@veau/STATS_LIST_UPDATE_NEW_STATS_DISPLAY' as const;
 export const STATS_LIST_RESET_NEW_STATS_DISPLAY = '@@veau/STATS_LIST_RESET_NEW_STATS_DISPLAY' as const;
 export const STATS_LIST_SAVE_NEW_STATS = '@@veau/STATS_LIST_SAVE_NEW_STATS' as const;
@@ -107,6 +106,7 @@ export const STATS_LIST_ITEM_UPDATE = '@@veau/STATS_LIST_ITEM_UPDATE' as const;
 export const STATS_LIST_ITEM_RESET = '@@veau/STATS_LIST_ITEM_RESET' as const;
 export const STATS_UPDATE = '@@veau/STATS_UPDATE' as const;
 export const STATS_RESET = '@@veau/STATS_RESET' as const;
+export const STATS_MODIFIED = '@@veau/STATS_MODIFIED' as const;
 export const STATS_DISPLAY_UPDATE = '@@veau/STATS_DISPLAY_UPDATE' as const;
 export const STATS_DISPLAY_RESET = '@@veau/STATS_DISPLAY_RESET' as const;
 export const STATS_ITEM_UPDATE = '@@veau/STATS_ITEM_UPDATE' as const;
@@ -269,11 +269,6 @@ export interface StatsListResetNewStatsAction extends Action {
   readonly type: typeof STATS_LIST_RESET_NEW_STATS;
 }
 
-export interface StatsListStatsModifiedAction extends Action {
-  readonly type: typeof STATS_LIST_STATS_MODIFIED;
-  readonly stats: Stats;
-}
-
 export interface StatsListUpdateNewStatsDisplayAction extends Action {
   readonly type: typeof STATS_LIST_UPDATE_NEW_STATS_DISPLAY;
   readonly display: Heisenberg<StatsDisplay>;
@@ -407,6 +402,11 @@ export interface StatsResetAction extends Action {
   readonly type: typeof STATS_RESET;
 }
 
+export interface StatsModifiedAction extends Action {
+  readonly type: typeof STATS_MODIFIED;
+  readonly stats: Stats;
+}
+
 export interface StatsDisplayUpdateAction extends Action {
   readonly type: typeof STATS_DISPLAY_UPDATE;
   readonly display: Heisenberg<StatsDisplay>;
@@ -460,7 +460,6 @@ export type VeauAction =
   | StatsListTermSelectedAction
   | StatsListUpdateNewStatsAction
   | StatsListResetNewStatsAction
-  | StatsListStatsModifiedAction
   | StatsListUpdateNewStatsDisplayAction
   | StatsListResetNewStatsDisplayAction
   | StatsListSaveNewStatsAction
@@ -489,6 +488,7 @@ export type VeauAction =
   | StatsListItemResetAction
   | StatsUpdateAction
   | StatsResetAction
+  | StatsModifiedAction
   | StatsDisplayUpdateAction
   | StatsDisplayResetAction
   | StatsItemUpdateAction
