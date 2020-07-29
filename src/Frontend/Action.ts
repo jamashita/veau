@@ -402,7 +402,7 @@ export interface StatsResetAction extends Action {
   readonly type: typeof STATS_RESET;
 }
 
-export interface StatsModifiedAction extends Action {
+export interface StatsModifyAction extends Action {
   readonly type: typeof STATS_MODIFIED;
   readonly stats: Stats;
 }
@@ -488,7 +488,7 @@ export type VeauAction =
   | StatsListItemResetAction
   | StatsUpdateAction
   | StatsResetAction
-  | StatsModifiedAction
+  | StatsModifyAction
   | StatsDisplayUpdateAction
   | StatsDisplayResetAction
   | StatsItemUpdateAction

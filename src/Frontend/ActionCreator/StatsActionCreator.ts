@@ -10,6 +10,7 @@ import {
   STATS_ITEM_UPDATE,
   STATS_LIST_ITEM_RESET,
   STATS_LIST_ITEM_UPDATE,
+  STATS_MODIFIED,
   STATS_RESET,
   STATS_UPDATE,
   StatsDisplayResetAction,
@@ -18,6 +19,7 @@ import {
   StatsItemUpdateAction,
   StatsListItemResetAction,
   StatsListItemUpdateAction,
+  StatsModifyAction,
   StatsResetAction,
   StatsUpdateAction
 } from '../Action';
@@ -45,6 +47,13 @@ export const updateStats = (stats: Stats): StatsUpdateAction => {
 export const resetStats = (): StatsResetAction => {
   return {
     type: STATS_RESET
+  };
+};
+
+export const modifyStats = (stats: Stats): StatsModifyAction => {
+  return {
+    type: STATS_MODIFIED,
+    stats
   };
 };
 
