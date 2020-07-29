@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
-import { concat, merge, Observable, of } from 'rxjs';
+import { concat, from, merge, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
 import { Type } from '../../Container/Types';
@@ -49,38 +49,50 @@ export class IdentityEpic {
     return action$.pipe<VeauAction, VeauAction>(
       ofType(ON_LOAD),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
+          navigator.language
+        );
+        const iso639: ISO639 = ISO639.of(supportLanguage);
+
         return concat<VeauAction>(
           of<VeauAction>(loading()),
-          this.localeQuery.all().transform<Observable<VeauAction>, Error>(
-            (locale: Locale) => {
-              return of<VeauAction>(defineLocale(locale));
-            },
-            () => {
-              return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-            }
-          ).get(),
-          this.identityQuery.find().transform<Observable<VeauAction>, Error>(
-            (identity: Identity) => {
-              const actions: Array<VeauAction> = [identityAuthenticated(identity), identified()];
-
-              if (location.pathname === Endpoints.ENTRANCE) {
-                actions.push(pushToStatsList());
+          from<Promise<Observable<VeauAction>>>(
+            this.localeQuery.all().transform<Observable<VeauAction>, Error>(
+              (locale: Locale) => {
+                return of<VeauAction>(defineLocale(locale));
+              },
+              () => {
+                return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
               }
+            ).get()
+          ).pipe<VeauAction>(
+            mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
+              return observable;
+            })
+          ),
+          from<Promise<Observable<VeauAction>>>(
+            this.identityQuery.find().transform<Observable<VeauAction>, Error>(
+              (identity: Identity) => {
+                const actions: Array<VeauAction> = [identityAuthenticated(identity), identified()];
 
-              return of<VeauAction>(...actions);
-            },
-            () => {
-              return of<VeauAction>(nothing());
-            }
-          ).get(),
+                if (location.pathname === Endpoints.ENTRANCE) {
+                  actions.push(pushToStatsList());
+                }
+
+                return of<VeauAction>(...actions);
+              },
+              () => {
+                return of<VeauAction>(nothing());
+              }
+            ).get()
+          ).pipe<VeauAction>(
+            mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
+              return observable;
+            })
+          ),
           of<VeauAction>(loaded()),
-          mergeMap<VeauAction, Promise<Observable<VeauAction>>>(() => {
-            const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
-              navigator.language
-            );
-            const iso639: ISO639 = ISO639.of(supportLanguage);
-
-            return this.languageQuery.findByISO639(iso639).transform<Observable<VeauAction>, Error>(
+          from<Promise<Observable<VeauAction>>>(
+            this.languageQuery.findByISO639(iso639).transform<Observable<VeauAction>, Error>(
               (language: Language) => {
                 const {
                   value: {
@@ -103,8 +115,12 @@ export class IdentityEpic {
               () => {
                 return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
               }
-            ).get();
-          })
+            ).get()
+          ).pipe<VeauAction>(
+            mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
+              return observable;
+            })
+          )
         );
       })
     );
