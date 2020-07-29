@@ -76,15 +76,13 @@ export const STATS_LIST_ISO3166_SELECTED = '@@veau/STATS_LIST_ISO3166_SELECTED' 
 export const STATS_LIST_TERM_SELECTED = '@@veau/STATS_LIST_TERM_SELECTED' as const;
 export const STATS_LIST_UPDATE_NEW_STATS = '@@veau/STATS_LIST_UPDATE_NEW_STATS' as const;
 export const STATS_LIST_RESET_NEW_STATS = '@@veau/STATS_LIST_RESET_NEW_STATS' as const;
-export const STATS_LIST_UPDATE_NEW_STATS_DISPLAY =
-  '@@veau/STATS_LIST_UPDATE_NEW_STATS_DISPLAY' as const;
-export const STATS_LIST_RESET_NEW_STATS_DISPLAY =
-  '@@veau/STATS_LIST_RESET_NEW_STATS_DISPLAY' as const;
+export const STATS_LIST_STATS_MODIFIED = '@@veau/STATS_LIST_STATS_MODIFIED' as const;
+export const STATS_LIST_UPDATE_NEW_STATS_DISPLAY = '@@veau/STATS_LIST_UPDATE_NEW_STATS_DISPLAY' as const;
+export const STATS_LIST_RESET_NEW_STATS_DISPLAY = '@@veau/STATS_LIST_RESET_NEW_STATS_DISPLAY' as const;
 export const STATS_LIST_SAVE_NEW_STATS = '@@veau/STATS_LIST_SAVE_NEW_STATS' as const;
 
 export const STATS_EDIT_INITIALIZE = '@@veau/STATS_EDIT_INITIALIZE' as const;
-export const STATS_EDIT_INITIALIZATION_FAILURE =
-  '@@veau/STATS_EDIT_INITIALIZATION_FAILURE' as const;
+export const STATS_EDIT_INITIALIZATION_FAILURE = '@@veau/STATS_EDIT_INITIALIZATION_FAILURE' as const;
 export const STATS_EDIT_NAME_TYPED = '@@veau/STATS_EDIT_NAME_TYPED' as const;
 export const STATS_EDIT_UNIT_TYPED = '@@veau/STATS_EDIT_UNIT_TYPED' as const;
 export const STATS_EDIT_ISO639_SELECTED = '@@veau/STATS_EDIT_ISO639_SELECTED' as const;
@@ -92,24 +90,17 @@ export const STATS_EDIT_ISO3166_SELECTED = '@@veau/STATS_EDIT_ISO3166_SELECTED' 
 export const STATS_EDIT_ITEM_NAME_TYPED = '@@veau/STATS_EDIT_ITEM_NAME_TYPED' as const;
 export const STATS_EDIT_ITEM_SAVE = '@@veau/STATS_EDIT_ITEM_SAVE' as const;
 export const STATS_EDIT_SELECT_ITEM = '@@veau/STATS_EDIT_SELECT_ITEM' as const;
-export const STATS_EDIT_SELECTING_ITEM_NAME_TYPED =
-  '@@veau/STATS_EDIT_SELECTING_ITEM_NAME_TYPED' as const;
-export const STATS_EDIT_UPDATE_SELECTING_ITEM =
-  '@@veau/STATS_EDIT_UPDATE_SELECTING_ITEM' as const;
-export const STATS_EDIT_REMOVE_SELECTING_ITEM =
-  '@@veau/STATS_EDIT_REMOVE_SELECTING_ITEM' as const;
-export const STATS_EDIT_CLEAR_SELECTING_ITEM =
-  '@@veau/STATS_EDIT_CLEAR_SELECTING_ITEM' as const;
-export const STATS_EDIT_START_DATE_DETERMINED =
-  '@@veau/STATS_EDIT_START_DATE_DETERMINED' as const;
-export const STATS_EDIT_INVALID_DATE_INPUT =
-  '@@veau/STATS_EDIT_INVALID_DATE_INPUT' as const;
+export const STATS_EDIT_SELECTING_ITEM_NAME_TYPED = '@@veau/STATS_EDIT_SELECTING_ITEM_NAME_TYPED' as const;
+export const STATS_EDIT_UPDATE_SELECTING_ITEM = '@@veau/STATS_EDIT_UPDATE_SELECTING_ITEM' as const;
+export const STATS_EDIT_REMOVE_SELECTING_ITEM = '@@veau/STATS_EDIT_REMOVE_SELECTING_ITEM' as const;
+export const STATS_EDIT_CLEAR_SELECTING_ITEM = '@@veau/STATS_EDIT_CLEAR_SELECTING_ITEM' as const;
+export const STATS_EDIT_START_DATE_DETERMINED = '@@veau/STATS_EDIT_START_DATE_DETERMINED' as const;
+export const STATS_EDIT_INVALID_DATE_INPUT = '@@veau/STATS_EDIT_INVALID_DATE_INPUT' as const;
 export const STATS_EDIT_DATA_FILLED = '@@veau/STATS_EDIT_DATA_FILLED' as const;
 export const STATS_EDIT_DATA_DELETED = '@@veau/STATS_EDIT_DATA_DELETED' as const;
 export const STATS_EDIT_ROW_SELECTED = '@@veau/STATS_EDIT_ROW_SELECTED' as const;
 export const STATS_EDIT_ROW_MOVED = '@@veau/STATS_EDIT_ROW_MOVED' as const;
-export const STATS_EDIT_INVALID_VALUE_INPUT =
-  '@@veau/STATS_EDIT_INVALID_VALUE_INPUT' as const;
+export const STATS_EDIT_INVALID_VALUE_INPUT = '@@veau/STATS_EDIT_INVALID_VALUE_INPUT' as const;
 export const STATS_EDIT_SAVE_STATS = '@@veau/STATS_EDIT_SAVE_STATS' as const;
 
 export const STATS_LIST_ITEM_UPDATE = '@@veau/STATS_LIST_ITEM_UPDATE' as const;
@@ -276,6 +267,11 @@ export interface StatsListUpdateNewStatsAction extends Action {
 
 export interface StatsListResetNewStatsAction extends Action {
   readonly type: typeof STATS_LIST_RESET_NEW_STATS;
+}
+
+export interface StatsListStatsModifiedAction extends Action {
+  readonly type: typeof STATS_LIST_STATS_MODIFIED;
+  readonly stats: Stats;
 }
 
 export interface StatsListUpdateNewStatsDisplayAction extends Action {
@@ -464,6 +460,7 @@ export type VeauAction =
   | StatsListTermSelectedAction
   | StatsListUpdateNewStatsAction
   | StatsListResetNewStatsAction
+  | StatsListStatsModifiedAction
   | StatsListUpdateNewStatsDisplayAction
   | StatsListResetNewStatsDisplayAction
   | StatsListSaveNewStatsAction
