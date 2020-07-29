@@ -25,16 +25,16 @@ import { State } from '../../State';
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   const {
-    statsListItems,
     statsList: {
       open,
-      stats
+      display: stats,
+      items
     },
     locale
   } = state;
 
   return {
-    statsListItems,
+    items,
     open,
     stats,
     locale

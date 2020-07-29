@@ -1,27 +1,31 @@
-import { Absent, Heisenberg } from '@jamashita/publikum-monad';
 import { Reducer } from 'redux';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsDisplay } from '../../VO/Display/StatsDisplay';
+import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
 import {
   STATS_LIST_CLOSE_STATS_MODAL,
   STATS_LIST_OPEN_STATS_MODAL,
-  STATS_LIST_RESET_NEW_STATS,
-  STATS_LIST_RESET_NEW_STATS_DISPLAY,
-  STATS_LIST_UPDATE_NEW_STATS,
-  STATS_LIST_UPDATE_NEW_STATS_DISPLAY,
+  STATS_LIST_RESET_STATS,
+  STATS_LIST_RESET_STATS_DISPLAY,
+  STATS_LIST_RESET_STATS_ITEMS,
+  STATS_LIST_UPDATE_STATS,
+  STATS_LIST_UPDATE_STATS_DISPLAY,
+  STATS_LIST_UPDATE_STATS_ITEMS,
   VeauAction
 } from '../Action';
 
 export type StatsList = Readonly<{
   open: boolean;
   stats: Stats;
-  display: Heisenberg<StatsDisplay>;
+  display: StatsDisplay;
+  items: StatsListItems;
 }>;
 
 const initialState: StatsList = {
   open: false,
   stats: Stats.default(),
-  display: Absent.of<StatsDisplay>()
+  display: StatsDisplay.default(),
+  items: StatsListItems.empty()
 };
 
 export const statsList: Reducer<StatsList, VeauAction> = (state: StatsList = initialState, action: VeauAction) => {
@@ -38,29 +42,40 @@ export const statsList: Reducer<StatsList, VeauAction> = (state: StatsList = ini
         open: false
       };
     }
-    case STATS_LIST_UPDATE_NEW_STATS: {
+    case STATS_LIST_UPDATE_STATS: {
       return {
         ...state,
         stats: action.stats
       };
     }
-    case STATS_LIST_RESET_NEW_STATS: {
+    case STATS_LIST_RESET_STATS: {
       return {
         ...state,
-        stats: Stats.default(),
-        display: Absent.of<StatsDisplay>()
+        stats: Stats.default()
       };
     }
-    case STATS_LIST_UPDATE_NEW_STATS_DISPLAY: {
+    case STATS_LIST_UPDATE_STATS_DISPLAY: {
       return {
         ...state,
         display: action.display
       };
     }
-    case STATS_LIST_RESET_NEW_STATS_DISPLAY: {
+    case STATS_LIST_RESET_STATS_DISPLAY: {
       return {
         ...state,
-        display: Absent.of<StatsDisplay>()
+        display: StatsDisplay.default()
+      };
+    }
+    case STATS_LIST_UPDATE_STATS_ITEMS: {
+      return {
+        ...state,
+        items: action.items
+      };
+    }
+    case STATS_LIST_RESET_STATS_ITEMS: {
+      return {
+        ...state,
+        items: StatsListItems.empty()
       };
     }
     default: {

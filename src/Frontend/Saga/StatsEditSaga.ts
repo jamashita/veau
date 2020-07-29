@@ -458,7 +458,7 @@ export class StatsEditSaga {
 
       const duplicated: Stats = stats.duplicate();
 
-      duplicated.removeItem(action.statsItem);
+      duplicated.removeItem(action.item);
 
       yield all([put(updateStats(duplicated)), put(clearSelectingItem())]);
     }

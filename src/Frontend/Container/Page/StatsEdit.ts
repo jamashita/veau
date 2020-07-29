@@ -48,9 +48,9 @@ type MatchParam = Readonly<{
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   const {
-    statsItem,
     statsEdit: {
       display: stats,
+      item,
       selectingItem
     },
     locale
@@ -64,7 +64,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   if (Kind.isNull(matchParam)) {
     return {
       stats,
-      statsItem,
+      item: item.display(),
       selectingItem,
       locale,
       id: Absent.of<string>()
@@ -73,7 +73,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
   return {
     stats,
-    statsItem,
+    item: item.display(),
     selectingItem,
     locale,
     id: Present.of<string>(matchParam.params.id)

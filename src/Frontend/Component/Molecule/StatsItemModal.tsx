@@ -7,7 +7,7 @@ import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
   open: boolean;
-  statsItem: StatsItemDisplay;
+  item: StatsItemDisplay;
   close(): void;
   itemNameTyped(name: StatsItemName): void;
   saveNewItem(): void;
@@ -18,13 +18,13 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
     const {
       open,
-      statsItem
+      item
     } = this.props;
 
     if (open !== nextProps.open) {
       return true;
     }
-    if (!statsItem.equals(nextProps.statsItem)) {
+    if (!item.equals(nextProps.item)) {
       return true;
     }
 
@@ -34,7 +34,7 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
   public render(): React.ReactNode {
     const {
       open,
-      statsItem,
+      item,
       intl,
       close,
       itemNameTyped,
@@ -54,14 +54,14 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
               id: 'NAME'
             })}
             type='text'
-            value={statsItem.getName().get()}
+            value={item.getName().get()}
             onKeyUp={(value: string) => {
               itemNameTyped(StatsItemName.of(value));
             }}
           />
         </DialogContent>
         <DialogActions>
-          <Button color='secondary' onClick={saveNewItem} disabled={!statsItem.isFilled()}>
+          <Button color='secondary' onClick={saveNewItem} disabled={!item.isFilled()}>
             <Icon className='fas fa-check' />
             {intl.formatMessage({
               id: 'SUBMIT'

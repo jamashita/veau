@@ -13,26 +13,24 @@ type Props = Readonly<{
   determineStartDate(superposition: Superposition<AsOf, AsOfError>): void;
 }>;
 type State = Readonly<{
-  startDate: Superposition<AsOf, AsOfError>;
+  startDate: string;
 }>;
 
 class StatsEditStartDateModalImpl extends React.Component<Props & WrappedComponentProps, State> {
   public constructor(props: Props & WrappedComponentProps) {
     super(props);
     this.state = {
-      startDate: Superposition.alive<AsOf, AsOfError>(AsOf.now())
+      startDate: AsOf.now().toString()
     };
   }
 
   public shouldComponentUpdate(
-    nextProps: Readonly<Props & WrappedComponentProps>,
-    nextState: Readonly<State>
+    nextProps: Props & WrappedComponentProps,
+    nextState: State
   ): boolean {
-    // prettier-ignore
     const {
       open
     } = this.props;
-    // prettier-ignore
     const {
       startDate
     } = this.state;
@@ -48,14 +46,12 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
   }
 
   public render(): React.ReactNode {
-    // prettier-ignore
     const {
       open,
       intl,
       close,
       determineStartDate
     } = this.props;
-    // prettier-ignore
     const {
       startDate
     } = this.state;
@@ -73,10 +69,10 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
               id: 'START_DATE'
             })}
             type='date'
-            value={startDate.toString()}
+            value={startDate}
             onKeyUp={(date: string) => {
               this.setState({
-                startDate: AsOf.ofString(date)
+                startDate: date
               });
             }}
           />
@@ -85,16 +81,16 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
           <Button
             color='secondary'
             onClick={() => {
-              determineStartDate(startDate);
+              determineStartDate(AsOf.ofString(startDate));
             }}
           >
-            <Icon className='fas fa-check'/>
+            <Icon className='fas fa-check' />
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
           </Button>
           <Button color='secondary' onClick={close}>
-            <Icon className='fas fa-times'/>
+            <Icon className='fas fa-times' />
             {intl.formatMessage({
               id: 'CANCEL'
             })}
@@ -105,6 +101,6 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
   }
 }
 
-export const StatsEditStartDateModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+export const StatsEditStartDateModal: React.ComponentType<WithIntlProps<Props>> = injectIntl(
   StatsEditStartDateModalImpl
 );

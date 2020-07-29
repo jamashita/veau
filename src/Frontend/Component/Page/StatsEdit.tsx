@@ -1,5 +1,10 @@
-import { Absent, Heisenberg, Superposition, UnscharferelationError } from '@jamashita/publikum-monad';
-import { Kind } from '@jamashita/publikum-type';
+import {
+  Absent,
+  Heisenberg,
+  Superposition,
+  Unscharferelation,
+  UnscharferelationError
+} from '@jamashita/publikum-monad';
 import { Button, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
@@ -31,7 +36,7 @@ import { StatsItemModal } from '../Molecule/StatsItemModal';
 
 export type StateProps = Readonly<{
   stats: StatsDisplay;
-  statsItem: StatsItemDisplay;
+  item: StatsItemDisplay;
   selectingItem: Heisenberg<StatsItem>;
   locale: Locale;
   id: Heisenberg<string>;
@@ -82,16 +87,7 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
       invalidIDInput
     } = this.props;
 
-    if (Kind.isNull(id)) {
-      invalidIDInput();
-
-      return;
-    }
-
-    // TODO UNSCHARFERELATION UPDATE REQUIRED
-    Superposition.playground<string, UnscharferelationError>(() => {
-      return id.get();
-    }, UnscharferelationError).map<StatsID, StatsIDError | UnscharferelationError>((str: string) => {
+    Unscharferelation.ofHeisenberg<string>(id).toSuperposition().map<StatsID, StatsIDError | UnscharferelationError>((str: string) => {
       return StatsID.ofString(str);
     }, StatsIDError).transform<void, Error>(
       (statsID: StatsID) => {
@@ -106,7 +102,7 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps, nextState: State): boolean {
     const {
       stats,
-      statsItem,
+      item,
       selectingItem,
       locale
     } = this.props;
@@ -119,7 +115,7 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
     if (!stats.equals(nextProps.stats)) {
       return true;
     }
-    if (!statsItem.equals(nextProps.statsItem)) {
+    if (!item.equals(nextProps.item)) {
       return true;
     }
     if (!locale.equals(nextProps.locale)) {
@@ -144,7 +140,7 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
   public render(): React.ReactNode {
     const {
       stats,
-      statsItem,
+      item,
       selectingItem,
       locale,
       intl,
@@ -231,7 +227,7 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
         </div>
         <StatsItemModal
           open={openNewStatsItemModal}
-          statsItem={statsItem}
+          item={item}
           close={() => {
             this.setState({
               openNewStatsItemModal: false

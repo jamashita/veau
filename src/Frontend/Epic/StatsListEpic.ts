@@ -1,7 +1,8 @@
+import { DataSourceError } from '@jamashita/publikum-error';
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
-import { filter, flatMap, map } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Type } from '../../Container/Types';
@@ -9,9 +10,12 @@ import { Stats } from '../../Entity/Stats/Stats';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsListItemQuery } from '../../Query/Interface/IStatsListItemQuery';
+import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import { Language } from '../../VO/Language/Language';
+import { PageError } from '../../VO/Page/Error/PageError';
 import { Page } from '../../VO/Page/Page';
 import { Region } from '../../VO/Region/Region';
+import { StatsListItemsError } from '../../VO/StatsListItem/Error/StatsListItemsError';
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import {
@@ -19,9 +23,10 @@ import {
   STATS_LIST_ISO3166_SELECTED,
   STATS_LIST_ISO639_SELECTED,
   STATS_LIST_NAME_TYPED,
-  STATS_LIST_SAVE_NEW_STATS,
+  STATS_LIST_SAVE_STATS,
   STATS_LIST_TERM_SELECTED,
   STATS_LIST_UNIT_TYPED,
+  STATS_LIST_UPDATE_STATS_DISPLAY,
   StatsListISO3166SelectedAction,
   StatsListISO639SelectedAction,
   StatsListNameTypedAction,
@@ -34,8 +39,15 @@ import { raiseModal } from '../ActionCreator/ModalActionCreator';
 import { nothing } from '../ActionCreator/NothingActionCreator';
 import { appearNotification } from '../ActionCreator/NotificationActionCreator';
 import { pushToStatsEdit } from '../ActionCreator/RedirectActionCreator';
-import { resetStatsListItems, updateStatsListItems } from '../ActionCreator/StatsActionCreator';
-import { closeNewStatsModal, resetNewStats, updateNewStats } from '../ActionCreator/StatsListActionCreator';
+import {
+  closeNewStatsModal,
+  resetNewStats,
+  resetNewStatsDisplay,
+  resetStatsListItems,
+  updateNewStats,
+  updateNewStatsDisplay,
+  updateStatsListItems
+} from '../ActionCreator/StatsListActionCreator';
 import { State } from '../State';
 
 @injectable()
@@ -65,15 +77,15 @@ export class StatsListEpic {
       this.iso639Selected(action$, state$),
       this.iso3166Selected(action$, state$),
       this.termSelected(action$, state$),
-      this.save(action$, state$)
+      this.save(action$, state$),
+      this.modify(action$, state$)
     );
   }
 
   public findStatsList(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
     return action$.pipe<VeauAction, VeauAction>(
       ofType<VeauAction, VeauAction>(STATS_LIST_INITIALIZE),
-      flatMap<VeauAction, Observable<VeauAction>>(() => {
-        // prettier-ignore
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
         const {
           value: {
             identity
@@ -81,21 +93,22 @@ export class StatsListEpic {
         } = state$;
 
         return from<Promise<Observable<VeauAction>>>(
-          Page.of(1).map((page: Page) => {
-            return this.statsListItemQuery.findByVeauAccountID(identity.getVeauAccountID(), page).transform<Observable<VeauAction>, Error>(
+          Page.of(1).map<Observable<VeauAction>, PageError | StatsListItemsError | DataSourceError>((page: Page) => {
+            return this.statsListItemQuery.findByVeauAccountID(identity.getVeauAccountID(), page).map<Observable<VeauAction>, StatsListItemsError | DataSourceError>(
               (listItems: StatsListItems) => {
                 return of<VeauAction>(updateStatsListItems(listItems));
               },
-              () => {
-                return of<VeauAction>(
-                  resetStatsListItems(),
-                  appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND')
-                );
-              }
+              StatsListItemsError,
+              DataSourceError
+            );
+          }).recover<Observable<VeauAction>, Error>(() => {
+            return of<VeauAction>(
+              resetStatsListItems(),
+              appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND')
             );
           }).get()
         ).pipe<VeauAction>(
-          flatMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
+          mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
             return observable;
           })
         );
@@ -107,7 +120,6 @@ export class StatsListEpic {
     return action$.pipe<StatsListNameTypedAction, VeauAction>(
       ofType<VeauAction, StatsListNameTypedAction>(STATS_LIST_NAME_TYPED),
       map<StatsListNameTypedAction, VeauAction>((action: StatsListNameTypedAction) => {
-        // prettier-ignore
         const {
           value: {
             statsList: {
@@ -129,7 +141,8 @@ export class StatsListEpic {
           stats.getLanguage(),
           stats.getRegion(),
           stats.getTerm(),
-          stats.getItems()
+          stats.getItems(),
+          stats.getStartDate()
         );
 
         return updateNewStats(newStats);
@@ -141,7 +154,6 @@ export class StatsListEpic {
     return action$.pipe<StatsListUnitTypedAction, VeauAction>(
       ofType<VeauAction, StatsListUnitTypedAction>(STATS_LIST_UNIT_TYPED),
       map<StatsListUnitTypedAction, VeauAction>((action: StatsListUnitTypedAction) => {
-        // prettier-ignore
         const {
           value: {
             statsList: {
@@ -163,7 +175,8 @@ export class StatsListEpic {
           stats.getLanguage(),
           stats.getRegion(),
           stats.getTerm(),
-          stats.getItems()
+          stats.getItems(),
+          stats.getStartDate()
         );
 
         return updateNewStats(newStats);
@@ -177,8 +190,7 @@ export class StatsListEpic {
   ): Observable<VeauAction> {
     return action$.pipe<StatsListISO639SelectedAction, VeauAction>(
       ofType<VeauAction, StatsListISO639SelectedAction>(STATS_LIST_ISO639_SELECTED),
-      flatMap<StatsListISO639SelectedAction, Observable<VeauAction>>((action: StatsListISO639SelectedAction) => {
-        // prettier-ignore
+      mergeMap<StatsListISO639SelectedAction, Observable<VeauAction>>((action: StatsListISO639SelectedAction) => {
         const {
           value: {
             statsList: {
@@ -195,7 +207,8 @@ export class StatsListEpic {
                 language,
                 stats.getRegion(),
                 stats.getTerm(),
-                stats.getItems()
+                stats.getItems(),
+                stats.getStartDate()
               );
 
               return of<VeauAction>(updateNewStats(newStats));
@@ -205,7 +218,7 @@ export class StatsListEpic {
             }
           ).get()
         ).pipe(
-          flatMap((observable: Observable<VeauAction>) => {
+          mergeMap((observable: Observable<VeauAction>) => {
             return observable;
           })
         );
@@ -219,8 +232,7 @@ export class StatsListEpic {
   ): Observable<VeauAction> {
     return action$.pipe<StatsListISO3166SelectedAction, VeauAction>(
       ofType<VeauAction, StatsListISO3166SelectedAction>(STATS_LIST_ISO3166_SELECTED),
-      flatMap<StatsListISO3166SelectedAction, Observable<VeauAction>>((action: StatsListISO3166SelectedAction) => {
-        // prettier-ignore
+      mergeMap<StatsListISO3166SelectedAction, Observable<VeauAction>>((action: StatsListISO3166SelectedAction) => {
         const {
           value: {
             statsList: {
@@ -237,7 +249,8 @@ export class StatsListEpic {
                 stats.getLanguage(),
                 region,
                 stats.getTerm(),
-                stats.getItems()
+                stats.getItems(),
+                stats.getStartDate()
               );
 
               return of<VeauAction>(updateNewStats(newStats));
@@ -247,7 +260,7 @@ export class StatsListEpic {
             }
           ).get()
         ).pipe(
-          flatMap((observable: Observable<VeauAction>) => {
+          mergeMap((observable: Observable<VeauAction>) => {
             return observable;
           })
         );
@@ -259,7 +272,6 @@ export class StatsListEpic {
     return action$.pipe<StatsListTermSelectedAction, VeauAction>(
       ofType<VeauAction, StatsListTermSelectedAction>(STATS_LIST_TERM_SELECTED),
       map<StatsListTermSelectedAction, VeauAction>((action: StatsListTermSelectedAction) => {
-        // prettier-ignore
         const {
           value: {
             statsList: {
@@ -273,7 +285,8 @@ export class StatsListEpic {
           stats.getLanguage(),
           stats.getRegion(),
           action.term,
-          stats.getItems()
+          stats.getItems(),
+          stats.getStartDate()
         );
 
         return updateNewStats(newStats);
@@ -283,21 +296,19 @@ export class StatsListEpic {
 
   public save(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
     return action$.pipe<VeauAction, VeauAction, VeauAction>(
-      ofType<VeauAction, VeauAction>(STATS_LIST_SAVE_NEW_STATS),
+      ofType<VeauAction, VeauAction>(STATS_LIST_SAVE_STATS),
       filter<VeauAction>(() => {
-        // prettier-ignore
         const {
           value: {
             statsList: {
-              stats
+              display
             }
           }
         } = state$;
 
-        return !stats.isFilled();
+        return !display.isFilled();
       }),
-      flatMap<VeauAction, Observable<VeauAction>>(() => {
-        // prettier-ignore
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
         const {
           value: {
             identity,
@@ -323,6 +334,30 @@ export class StatsListEpic {
             ).get()
           ),
           of<VeauAction>(loaded())
+        );
+      })
+    );
+  }
+
+  public modify(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_LIST_UPDATE_STATS_DISPLAY),
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        const {
+          value: {
+            statsEdit: {
+              stats
+            }
+          }
+        } = state$;
+
+        return from<Promise<StatsDisplay>>(stats.display().get()).pipe(
+          mergeMap<StatsDisplay, Observable<VeauAction>>((display: StatsDisplay) => {
+            return of<VeauAction>(updateNewStatsDisplay(display));
+          }),
+          catchError<VeauAction, Observable<VeauAction>>(() => {
+            return of<VeauAction>(resetNewStatsDisplay());
+          })
         );
       })
     );

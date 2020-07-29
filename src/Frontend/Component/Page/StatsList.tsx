@@ -16,7 +16,7 @@ import { StatsOutlineListTable } from '../Molecule/StatsOutlineListTable';
 import { StatsOutlineModal } from '../Molecule/StatsOutlineModal';
 
 export type StateProps = Readonly<{
-  statsListItems: StatsListItems;
+  items: StatsListItems;
   open: boolean;
   stats: StatsDisplay;
   locale: Locale;
@@ -48,13 +48,13 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
 
   public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
     const {
-      statsListItems,
+      items,
       open,
       stats,
       locale
     } = this.props;
 
-    if (!statsListItems.equals(nextProps.statsListItems)) {
+    if (!items.equals(nextProps.items)) {
       return true;
     }
     if (open !== nextProps.open) {
@@ -72,7 +72,7 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
 
   public render(): React.ReactNode {
     const {
-      statsListItems,
+      items,
       open,
       stats,
       locale,
@@ -96,7 +96,7 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
             id: 'CREATE_NEW_STATS'
           })}
         </Button>
-        <StatsOutlineListTable statsListItems={statsListItems} toStatsEdit={toStatsEdit} />
+        <StatsOutlineListTable statsListItems={items} toStatsEdit={toStatsEdit} />
         <StatsOutlineModal
           open={open}
           stats={stats}

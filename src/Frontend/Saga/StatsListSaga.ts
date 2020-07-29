@@ -21,7 +21,7 @@ import {
   STATS_LIST_ISO3166_SELECTED,
   STATS_LIST_ISO639_SELECTED,
   STATS_LIST_NAME_TYPED,
-  STATS_LIST_SAVE_NEW_STATS,
+  STATS_LIST_SAVE_STATS,
   STATS_LIST_TERM_SELECTED,
   STATS_LIST_UNIT_TYPED,
   StatsListISO3166SelectedAction,
@@ -248,7 +248,7 @@ export class StatsListSaga {
 
   private* save(): SagaIterator<unknown> {
     while (true) {
-      yield take(STATS_LIST_SAVE_NEW_STATS);
+      yield take(STATS_LIST_SAVE_STATS);
 
       const state: State = yield select();
 
