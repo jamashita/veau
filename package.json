@@ -10,7 +10,9 @@
   "author": "jamashita <jamashita@arachnid.xyz>",
   "sideEffects": false,
   "scripts": {
-    "build": "gulp build",
+    "build": "yarn clean && concurrently \"npm:build:*\"",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "webpack",
     "clean": "rimraf dist",
     "format": "eslint --fix 'src/**/*.{ts,tsx}'",
     "start": "pm2-runtime start pm2.yml",
