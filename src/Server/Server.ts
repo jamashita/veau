@@ -35,7 +35,7 @@ process.on('unhandledRejection', (reason: unknown) => {
 const app: Express = express();
 
 app.disable('x-powered-by');
-app.set('views', path.resolve('..', '..', 'static', 'views'));
+app.set('views', path.resolve('static', 'views'));
 app.set('view engine', 'pug');
 app.use(
   express.urlencoded({
@@ -46,7 +46,7 @@ app.use(express.json());
 app.use(compression());
 app.use(helmet());
 app.use(express.static(path.resolve(__dirname, 'public')));
-app.use(favicon(path.resolve('..', '..', 'static', 'favicon.ico')));
+app.use(favicon(path.resolve('static', 'favicon.ico')));
 
 const RedisStore: connectRedis.RedisStore = connectRedis(expressSession);
 const sessionStore: expressSession.Store = new RedisStore({
