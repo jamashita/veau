@@ -19,7 +19,7 @@ export class SessionCommand implements ISessionCommand<AJAXError>, IAJAXCommand 
 
   public delete(): Superposition<unknown, AJAXError> {
     return Superposition.playground<AJAXResponse<unknown>, AJAXError>(() => {
-      return this.ajax.delete<unknown>('/api/destroy');
+      return this.ajax.delete<unknown>('/api/session');
     }, AJAXError).map<unknown, AJAXError>((response: AJAXResponse<unknown>) => {
       switch (response.status) {
         case OK: {
