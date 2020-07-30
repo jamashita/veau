@@ -11,6 +11,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "gulp build",
+    "clean": "rimraf dist",
     "format": "eslint --fix 'src/**/*.{ts,tsx}'",
     "start": "pm2-runtime start pm2.yml",
     "stop": "pm2-runtime stop pm2.yml",
@@ -23,7 +24,8 @@
     "watch:webpack": "webpack-dev-server --hot --config webpack.development.config.js"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "5.14.0",
+    "@fortawesome/fontawesome-svg-core": "1.2.30",
+    "@fortawesome/free-solid-svg-icons": "5.14.0",
     "@handsontable/react": "3.1.3",
     "@jamashita/publikum-ajax": "2.6.0",
     "@jamashita/publikum-cache": "2.6.0",

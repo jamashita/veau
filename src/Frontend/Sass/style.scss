@@ -1,7 +1,5 @@
-@import '../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss';
-@import '../../../node_modules/@fortawesome/fontawesome-free/scss/solid.scss';
-@import '../../../node_modules/bourbon-neat/core/_neat.scss';
-@import '../../../node_modules/handsontable/dist/handsontable.full.css';
+@import '~bourbon-neat/core/_neat.scss';
+@import '~handsontable/dist/handsontable.full.min.css';
 
 $neat-grid: (
   columns: 18,

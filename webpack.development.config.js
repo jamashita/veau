@@ -34,15 +34,11 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development'
     }),
-    new FontConfigWebpackPlugin({
-      name: 'node_modules/@fortawesome/fontawesome-free/webfonts/*'
-    }),
-    new ScssConfigWebpackPlugin({
-      filename: 'src/Frontend/Sass/style.scss'
-    }),
     new TsConfigWebpackPlugin({
       configFile: 'tsconfig.esm.json'
-    })
+    }),
+    new ScssConfigWebpackPlugin(),
+    new FontConfigWebpackPlugin()
   ],
   devServer: {
     host: '0.0.0.0',
