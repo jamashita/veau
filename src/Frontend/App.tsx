@@ -24,10 +24,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import 'reflect-metadata';
+import '../../static/scss/style.scss';
 import { View } from './Component/View';
 import { I18NProvider } from './Container/I18NProvider';
 import { history } from './History';
-import './Sass/style.scss';
 import { store } from './Store';
 
 library.add(faBars, faPlusCircle, faHourglass, faSave, faPlusSquare, faSignOutAlt, faCheck, faTrash, faSignInAlt, faTimes, faExclamationCircle, faExclamationTriangle, faInfoCircle, faCheckCircle, faListAlt);
