@@ -46,7 +46,7 @@ app.use(express.json());
 app.use(compression());
 app.use(helmet());
 app.use(express.static(path.resolve(__dirname, 'public')));
-app.use(favicon(path.resolve(__dirname, 'favicon.ico')));
+app.use(favicon(path.resolve('..', '..', 'static', 'favicon.ico')));
 
 const RedisStore: connectRedis.RedisStore = connectRedis(expressSession);
 const sessionStore: expressSession.Store = new RedisStore({
