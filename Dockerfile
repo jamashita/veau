@@ -1,11 +1,14 @@
 FROM node:14.5.0 as build-image
 
 USER root
-WORKDIR /root
+RUN mkdir -p /home/veau
+WORKDIR /home/veau
 
 COPY src src
-COPY gulpfile.js gulpfile.js
-COPY tsconfig.json tsconfig.json
+COPY static static
+COPY tsconfig.base.json tsconfig.base.json
+COPY tsconfig.cjs.json tsconfig.cjs.json
+COPY tsconfig.esm.json tsconfig.esm.json
 COPY package.json package.json
 COPY webpack.config.js webpack.config.js
 COPY yarn.lock yarn.lock
@@ -16,13 +19,13 @@ RUN yarn build
 FROM node:14.5.0
 
 USER root
-
 RUN groupadd veau
 RUN useradd -g veau veau
 RUN mkdir -p /home/veau
 WORKDIR /home/veau
 
-COPY --from=build-image /root/dist dist
+COPY --from=build-image /home/veau/dist dist
+# TODO static?
 COPY config config
 COPY pm2.yml pm2.yml
 COPY package.json package.json
