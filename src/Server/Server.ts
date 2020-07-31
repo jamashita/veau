@@ -10,7 +10,6 @@ import passport from 'passport';
 import path from 'path';
 import 'reflect-metadata';
 import favicon from 'serve-favicon';
-import 'source-map-support/register';
 
 import { BaseController } from '../Controller/BaseController';
 import { logger } from '../Infrastructure/Logger';
