@@ -10,7 +10,7 @@
   "author": "jamashita <jamashita@arachnid.xyz>",
   "sideEffects": false,
   "scripts": {
-    "build": "yarn clean && concurrently \"npm:build:*\"",
+    "build": "yarn clean && concurrently 'npm:build:*'",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "webpack",
     "clean": "rimraf dist",
@@ -21,7 +21,7 @@
     "update": "yarn update:upgrade && yarn update:install",
     "update:install": "yarn install && yarn upgrade",
     "update:upgrade": "ncu --upgrade",
-    "watch": "concurrently \"npm:watch:*\"",
+    "watch": "concurrently 'npm:watch:*'",
     "watch:server": "NODE_ENV=development ts-node-dev --respawn --transpile-only src/Server/Server.ts",
     "watch:webpack": "webpack-dev-server --hot --config webpack.development.config.js"
   },
