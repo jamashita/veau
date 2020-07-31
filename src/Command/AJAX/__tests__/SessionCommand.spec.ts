@@ -36,7 +36,7 @@ describe('SessionCommand', () => {
       const schrodinger: Schrodinger<unknown, DataSourceError> = await sessionCommand.delete().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
-      expect(stub.withArgs('/api/destroy').called).toBe(true);
+      expect(stub.withArgs('/api/session').called).toBe(true);
     });
 
     it('throws AJAXError', async () => {
