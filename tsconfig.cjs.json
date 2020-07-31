@@ -4,8 +4,6 @@
     /* Basic Options */
     "module": "commonjs",
     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
-    "jsx": "react",
-    /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
     "outDir": "./dist"
     /* Redirect output structure to the directory. */
   }

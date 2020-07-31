@@ -1,8 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
-const FontConfigWebpackPlugin = require('font-config-webpack-plugin');
-const ScssConfigWebpackPlugin = require('scss-config-webpack-plugin');
 const TsConfigWebpackPlugin = require('ts-config-webpack-plugin');
+const ScssConfigWebpackPlugin = require('scss-config-webpack-plugin');
+const FontConfigWebpackPlugin = require('font-config-webpack-plugin');
 
 /**
  * @type import('webpack').Configuration
