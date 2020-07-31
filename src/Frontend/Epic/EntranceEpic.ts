@@ -66,7 +66,7 @@ export class EntranceEpic {
 
         return concat<VeauAction>(
           of<VeauAction>(loading()),
-          from(
+          from<Promise<Observable<VeauAction>>>(
             this.identityQuery.findByEntranceInfo(entranceInformation).transform<Observable<VeauAction>, Error>(
               (identity: Identity) => {
                 return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
@@ -75,8 +75,8 @@ export class EntranceEpic {
                 return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
               }
             ).get()
-          ).pipe(
-            mergeMap((observable: Observable<VeauAction>) => {
+          ).pipe<VeauAction>(
+            mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
               return observable;
             })
           ),

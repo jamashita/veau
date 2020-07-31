@@ -1,9 +1,11 @@
 import { Identity } from '../../VO/Identity/Identity';
 import {
   IDENTITY_AUTHENTICATED,
+  IDENTITY_AUTHENTICATION_FAILED,
   IDENTITY_IDENTIFIED,
   IDENTITY_INITIALIZE,
   IdentityAuthenticatedAction,
+  IdentityAuthenticationFailedAction,
   IdentityIdentifiedAction,
   IdentityInitializeAction
 } from '../Action';
@@ -12,6 +14,12 @@ export const identityAuthenticated = (identity: Identity): IdentityAuthenticated
   return {
     type: IDENTITY_AUTHENTICATED,
     identity
+  };
+};
+
+export const identityAuthenticationFailed = (): IdentityAuthenticationFailedAction => {
+  return {
+    type: IDENTITY_AUTHENTICATION_FAILED
   };
 };
 

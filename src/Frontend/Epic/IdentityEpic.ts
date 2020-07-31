@@ -15,12 +15,15 @@ import { Language } from '../../VO/Language/Language';
 import { Locale } from '../../VO/Locale/Locale';
 import { SystemSupportLanguage } from '../../VO/System/SystemSupportLanguage';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
-import { IDENTITY_INITIALIZE, ON_LOAD, VeauAction } from '../Action';
-import { identified, identityAuthenticated } from '../ActionCreator/IdentityActionCreator';
+import { IDENTITY_AUTHENTICATION_FAILED, IDENTITY_INITIALIZE, ON_LOAD, VeauAction } from '../Action';
+import {
+  identified,
+  identityAuthenticated,
+  identityAuthenticationFailed
+} from '../ActionCreator/IdentityActionCreator';
 import { loaded, loading } from '../ActionCreator/LoadingActionCreator';
 import { defineLocale } from '../ActionCreator/LocaleActionCreator';
 import { raiseModal } from '../ActionCreator/ModalActionCreator';
-import { nothing } from '../ActionCreator/NothingActionCreator';
 import { pushToEntrance, pushToStatsList } from '../ActionCreator/RedirectActionCreator';
 import { Endpoints } from '../Endpoints';
 import { State } from '../State';
@@ -42,18 +45,17 @@ export class IdentityEpic {
   }
 
   public init(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return merge<VeauAction>(this.initIdentity(action$, state$), this.initialize(action$, state$));
+    return merge<VeauAction>(
+      this.initIdentity(action$),
+      this.noSession(action$, state$),
+      this.initialize(action$, state$)
+    );
   }
 
-  public initIdentity(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+  public initIdentity(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
     return action$.pipe<VeauAction, VeauAction>(
       ofType(ON_LOAD),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
-        const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
-          navigator.language
-        );
-        const iso639: ISO639 = ISO639.of(supportLanguage);
-
         return concat<VeauAction>(
           of<VeauAction>(loading()),
           from<Promise<Observable<VeauAction>>>(
@@ -82,7 +84,7 @@ export class IdentityEpic {
                 return of<VeauAction>(...actions);
               },
               () => {
-                return of<VeauAction>(nothing());
+                return of<VeauAction>(identityAuthenticationFailed());
               }
             ).get()
           ).pipe<VeauAction>(
@@ -90,37 +92,50 @@ export class IdentityEpic {
               return observable;
             })
           ),
-          of<VeauAction>(loaded()),
-          from<Promise<Observable<VeauAction>>>(
-            this.languageQuery.findByISO639(iso639).transform<Observable<VeauAction>, Error>(
-              (language: Language) => {
-                const {
-                  value: {
-                    identity
-                  }
-                } = state$;
+          of<VeauAction>(loaded())
+        );
+      })
+    );
+  }
 
-                return of<VeauAction>(
-                  identityAuthenticated(
-                    Identity.of(
-                      identity.getVeauAccountID(),
-                      identity.getAccountName(),
-                      language,
-                      identity.getRegion()
-                    )
-                  ),
-                  pushToEntrance()
-                );
-              },
-              () => {
-                return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-              }
-            ).get()
-          ).pipe<VeauAction>(
-            mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
-              return observable;
-            })
-          )
+  public noSession(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(IDENTITY_AUTHENTICATION_FAILED),
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
+          navigator.language
+        );
+        const iso639: ISO639 = ISO639.of(supportLanguage);
+
+        return from<Promise<Observable<VeauAction>>>(
+          this.languageQuery.findByISO639(iso639).transform<Observable<VeauAction>, Error>(
+            (language: Language) => {
+              const {
+                value: {
+                  identity
+                }
+              } = state$;
+
+              return of<VeauAction>(
+                identityAuthenticated(
+                  Identity.of(
+                    identity.getVeauAccountID(),
+                    identity.getAccountName(),
+                    language,
+                    identity.getRegion()
+                  )
+                ),
+                pushToEntrance()
+              );
+            },
+            () => {
+              return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+            }
+          ).get()
+        ).pipe<VeauAction>(
+          mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
+            return observable;
+          })
         );
       })
     );
@@ -136,9 +151,9 @@ export class IdentityEpic {
           }
         } = state$;
 
-        return identityAuthenticated(
-          Identity.of(VeauAccountID.generate(), AccountName.empty(), identity.getLanguage(), identity.getRegion())
-        );
+        const newIdentity: Identity = Identity.of(VeauAccountID.generate(), AccountName.empty(), identity.getLanguage(), identity.getRegion());
+
+        return identityAuthenticated(newIdentity);
       })
     );
   }

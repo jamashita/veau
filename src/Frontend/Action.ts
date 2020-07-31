@@ -48,6 +48,7 @@ export const LOADING_FINISH = '@@veau/LOADING_FINISH' as const;
 
 export const IDENTITY_AUTHENTICATE = '@@veau/IDENTITY_AUTHENTICATE' as const;
 export const IDENTITY_AUTHENTICATED = '@@veau/IDENTITY_AUTHENTICATED' as const;
+export const IDENTITY_AUTHENTICATION_FAILED = '@@veau/IDENTITY_AUTHENTICATION_FAILED' as const;
 export const IDENTITY_INITIALIZE = '@@veau/IDENTITY_INITIALIZE' as const;
 export const IDENTITY_IDENTIFIED = '@@veau/IDENTITY_IDENTIFIED' as const;
 
@@ -166,6 +167,10 @@ export interface IdentityAuthenticateAction extends Action {
 export interface IdentityAuthenticatedAction extends Action {
   readonly type: typeof IDENTITY_AUTHENTICATED;
   readonly identity: Identity;
+}
+
+export interface IdentityAuthenticationFailedAction extends Action {
+  readonly type: typeof IDENTITY_AUTHENTICATION_FAILED;
 }
 
 export interface IdentityInitializeAction extends Action {
@@ -431,6 +436,7 @@ export type VeauAction =
   | LoadingFinishAction
   | IdentityAuthenticateAction
   | IdentityAuthenticatedAction
+  | IdentityAuthenticationFailedAction
   | IdentityInitializeAction
   | IdentityIdentifiedAction
   | LogoutAction
