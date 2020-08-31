@@ -79,6 +79,7 @@ Merci pour ta coopération.
 ## For developers
 ### Run in development mode
 #### Prerequirement
+
 docker is required.  
 if you haven't installed docker for desktop, install it first.
 
