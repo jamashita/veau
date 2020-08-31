@@ -1,8 +1,8 @@
 import { MockAProject } from '@jamashita/publikum-collection';
 import sinon, { SinonSpy } from 'sinon';
-import { TermID } from 'src/VO/Term/TermID';
 
 import { Term } from '../Term';
+import { TermID } from '../TermID';
 import { Terms } from '../Terms';
 
 describe('Terms', () => {

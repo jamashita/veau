@@ -3,7 +3,6 @@
 import { Heisenberg } from '@jamashita/publikum-monad';
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
 import { Action } from 'redux';
-import { StatsDisplay } from 'src/VO/Display/StatsDisplay';
 
 import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
@@ -12,6 +11,7 @@ import { AsOf } from '../VO/AsOf/AsOf';
 import { Column } from '../VO/Coordinate/Column';
 import { Coordinate } from '../VO/Coordinate/Coordinate';
 import { Row } from '../VO/Coordinate/Row';
+import { StatsDisplay } from '../VO/Display/StatsDisplay';
 import { EntranceInformation } from '../VO/EntranceInformation/EntranceInformation';
 import { Password } from '../VO/EntranceInformation/Password';
 import { Identity } from '../VO/Identity/Identity';
