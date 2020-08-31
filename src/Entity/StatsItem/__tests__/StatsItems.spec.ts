@@ -3,12 +3,12 @@ import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 import sinon, { SinonSpy } from 'sinon';
-import { StatsItemDisplays } from 'src/VO/Display/StatsItemDisplays';
 
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { MockColumn } from '../../../VO/Coordinate/Mock/MockColumn';
 import { MockRow } from '../../../VO/Coordinate/Mock/MockRow';
+import { StatsItemDisplays } from '../../../VO/Display/StatsItemDisplays';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemsError } from '../../../VO/StatsItem/Error/StatsItemsError';
