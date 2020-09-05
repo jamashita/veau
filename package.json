@@ -8,7 +8,6 @@
   },
   "license": "MIT",
   "author": "jamashita <jamashita@arachnid.xyz>",
-  "sideEffects": false,
   "scripts": {
     "build": "yarn clean && concurrently 'npm:build:*'",
     "build:cjs": "tsc -p tsconfig.cjs.json",
