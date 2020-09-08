@@ -380,6 +380,11 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
+"@jamashita/eslint-config@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.1.0.tgz#1d5f93d3897999cc92e63bfc0c77cd3c6bcfa615"
+  integrity sha512-7rpAbv8oEkqv2e85avkrGCeWGzpRLzfBC04JoxYE7ktrKaQ8aWycv1Juq13Q2OgMZkTwGY5cgBCkgOcV+Qo0+g==
+
 "@jamashita/publikum-ajax@2.6.4":
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/@jamashita/publikum-ajax/-/publikum-ajax-2.6.4.tgz#cac6d6f50e0ff21a225214390373d63a6b1fc358"
