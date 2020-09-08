@@ -1,11 +1,11 @@
-name: 'Jest test'
+name: 'Validate Codes'
 on:
-  pull_request:
+  push:
     branches:
-      - 'develop'
-      - 'main'
+      - 'feature/*'
+      - 'hotfix/*'
 jobs:
-  test:
+  code-validation:
     runs-on: 'ubuntu-latest'
     timeout-minutes: 20
     steps:
@@ -13,11 +13,12 @@ jobs:
         uses: 'actions/setup-node@v1'
         with:
           node-version: '14.5'
-      - name: 'Checkout the repository'
+      - name: 'Check out repository'
         uses: 'actions/checkout@v2'
         with:
           ref: '${{github.head_ref}}'
-      - name: 'test'
+      - name: 'validate TS files'
         run: |
           yarn install --frozen-lockfile
+          yarn format
           yarn test
