@@ -1,10 +1,6 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { BinaryPredicate, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
-
-import { LanguageError } from './Error/LanguageError';
-import { LanguagesError } from './Error/LanguagesError';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 import { LanguageID } from './LanguageID';
 
@@ -12,6 +8,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   implements JSONable<Array<LanguageJSON>> {
   public readonly noun: 'Languages' = 'Languages';
   private readonly languages: Project<LanguageID, Language>;
+
   private static readonly EMPTY: Languages = new Languages(ImmutableProject.empty<LanguageID, Language>());
 
   public static of(languages: Project<LanguageID, Language>): Languages {
@@ -36,35 +33,20 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return Languages.ofArray(languages);
   }
 
-  public static ofSuperposition(
-    superpositions: Array<Superposition<Language, LanguageError>>
-  ): Superposition<Languages, LanguagesError> {
-    return Superposition.all<Language, LanguageError>(superpositions, LanguageError).transform<Languages,
-      LanguagesError>(
-      (regions: Array<Language>) => {
-        return Languages.ofArray(regions);
-      },
-      (err: LanguageError) => {
-        throw new LanguagesError('Languages.ofSuperposition()', err);
-      },
-      LanguagesError
-    );
-  }
-
-  public static ofJSON(json: Array<LanguageJSON>): Superposition<Languages, LanguagesError> {
-    const superpositions: Array<Superposition<Language, LanguageError>> = json.map<Superposition<Language, LanguageError>>((language: LanguageJSON) => {
+  public static ofJSON(json: Array<LanguageJSON>): Languages {
+    const arr: Array<Language> = json.map<Language>((language: LanguageJSON) => {
       return Language.ofJSON(language);
     });
 
-    return Languages.ofSuperposition(superpositions);
+    return Languages.ofArray(arr);
   }
 
-  public static ofRow(rows: Array<LanguageRow>): Superposition<Languages, LanguagesError> {
-    const superpositions: Array<Superposition<Language, LanguageError>> = rows.map<Superposition<Language, LanguageError>>((language: LanguageJSON) => {
-      return Language.ofRow(language);
+  public static ofRow(rows: Array<LanguageRow>): Languages {
+    const arr: Array<Language> = rows.map<Language>((language: LanguageRow) => {
+      return Language.ofJSON(language);
     });
 
-    return Languages.ofSuperposition(superpositions);
+    return Languages.ofArray(arr);
   }
 
   public static empty(): Languages {

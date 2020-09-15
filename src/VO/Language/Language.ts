@@ -1,10 +1,6 @@
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-
-import { LanguageError } from './Error/LanguageError';
-import { LanguageIDError } from './Error/LanguageIDError';
 import { ISO639 } from './ISO639';
 import { LanguageID } from './LanguageID';
 import { LanguageName } from './LanguageName';
@@ -28,6 +24,7 @@ export class Language extends ValueObject<Language, 'Language'> implements JSONa
   private readonly name: LanguageName;
   private readonly englishName: LanguageName;
   private readonly iso639: ISO639;
+
   private static readonly EMPTY: Language = new Language(
     LanguageID.empty(),
     LanguageName.empty(),
@@ -52,37 +49,21 @@ export class Language extends ValueObject<Language, 'Language'> implements JSONa
     return new Language(languageID, name, englishName, iso639);
   }
 
-  public static ofJSON(json: LanguageJSON): Superposition<Language, LanguageError> {
-    return LanguageID.ofString(json.languageID).transform<Language, LanguageError>(
-      (languageID: LanguageID) => {
-        return Language.of(
-          languageID,
-          LanguageName.of(json.name),
-          LanguageName.of(json.englishName),
-          ISO639.of(json.iso639)
-        );
-      },
-      (err: LanguageIDError) => {
-        throw new LanguageError('Language.ofJSON()', err);
-      },
-      LanguageError
+  public static ofJSON(json: LanguageJSON): Language {
+    return Language.of(
+      LanguageID.ofString(json.languageID),
+      LanguageName.of(json.name),
+      LanguageName.of(json.englishName),
+      ISO639.of(json.iso639)
     );
   }
 
-  public static ofRow(row: LanguageRow): Superposition<Language, LanguageError> {
-    return LanguageID.ofString(row.languageID).transform<Language, LanguageError>(
-      (languageID: LanguageID) => {
-        return Language.of(
-          languageID,
-          LanguageName.of(row.name),
-          LanguageName.of(row.englishName),
-          ISO639.of(row.iso639)
-        );
-      },
-      (err: LanguageIDError) => {
-        throw new LanguageError('Language.ofRow()', err);
-      },
-      LanguageError
+  public static ofRow(row: LanguageRow): Language {
+    return Language.of(
+      LanguageID.ofString(row.languageID),
+      LanguageName.of(row.name),
+      LanguageName.of(row.englishName),
+      ISO639.of(row.iso639)
     );
   }
 
