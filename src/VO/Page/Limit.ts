@@ -1,8 +1,6 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-
-import { LimitError } from './Error/LimitError';
+import { PageError } from './Error/PageError';
 
 const DEFAULT_VALUE: number = 40;
 
@@ -11,18 +9,18 @@ export class Limit extends ValueObject<Limit, 'Limit'> {
   private readonly limit: number;
   private static readonly DEFAULT: Limit = new Limit(DEFAULT_VALUE);
 
-  public static of(limit: number): Superposition<Limit, LimitError> {
+  public static of(limit: number): Limit {
     if (limit <= 0) {
-      return Superposition.dead<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit}`), LimitError);
+      throw new PageError(`ILLEGAL LIMIT SPECIFIED ${limit}`);
     }
     if (limit === DEFAULT_VALUE) {
-      return Superposition.alive<Limit, LimitError>(Limit.default(), LimitError);
+      return Limit.default();
     }
     if (Kind.isInteger(limit)) {
-      return Superposition.alive<Limit, LimitError>(new Limit(limit), LimitError);
+      return new Limit(limit);
     }
 
-    return Superposition.dead<Limit, LimitError>(new LimitError('ILLEGAL LIMIT SPECIFIED'), LimitError);
+    throw new PageError(`ILLEGAL LIMIT SPECIFIED: ${Kind.notate(limit)}`);
   }
 
   public static default(): Limit {
