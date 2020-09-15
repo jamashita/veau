@@ -16,6 +16,6 @@ export class MockLanguages extends Languages {
   }
 
   public constructor(...languages: ReadonlyArray<Language>) {
-    super(MockLanguages.toProject(languages));
+    super(MockLanguages.toProject([...languages]));
   }
 }

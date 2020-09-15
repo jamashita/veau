@@ -1,11 +1,9 @@
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
-
-import { LanguagesError } from '../Language/Error/LanguagesError';
+import { LanguageError } from '../Language/Error/LanguageError';
 import { LanguageJSON } from '../Language/Language';
 import { Languages } from '../Language/Languages';
-import { RegionsError } from '../Region/Error/RegionsError';
+import { RegionError } from '../Region/Error/RegionError';
 import { RegionJSON } from '../Region/Region';
 import { Regions } from '../Region/Regions';
 import { LocaleError } from './Error/LocaleError';
@@ -19,22 +17,24 @@ export class Locale extends ValueObject<Locale, 'Locale'> implements JSONable<Lo
   public readonly noun: 'Locale' = 'Locale';
   private readonly languages: Languages;
   private readonly regions: Regions;
+
   private static readonly EMPTY: Locale = Locale.of(Languages.empty(), Regions.empty());
 
   public static of(languages: Languages, regions: Regions): Locale {
     return new Locale(languages, regions);
   }
 
-  public static ofJSON(json: LocaleJSON): Superposition<Locale, LocaleError> {
-    return Languages.ofJSON(json.languages)
-      .map<Locale, LanguagesError | RegionsError>((languages: Languages) => {
-        return Regions.ofJSON(json.regions).map<Locale, RegionsError>((regions: Regions) => {
-          return Locale.of(languages, regions);
-        });
-      }, RegionsError)
-      .recover<Locale, LocaleError>((err: LanguagesError | RegionsError) => {
+  public static ofJSON(json: LocaleJSON): Locale {
+    try {
+      return Locale.of(Languages.ofJSON(json.languages), Regions.ofJSON(json.regions));
+    }
+    catch (err: unknown) {
+      if (err instanceof LanguageError || err instanceof RegionError) {
         throw new LocaleError('Locale.ofJSON()', err);
-      }, LocaleError);
+      }
+
+      throw err;
+    }
   }
 
   public static empty(): Locale {
