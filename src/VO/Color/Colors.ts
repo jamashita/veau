@@ -1,6 +1,5 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
-
 import { Color } from './Color';
 
 export class Colors extends Quantity<Colors, number, Color, 'Colors'> {

@@ -1,6 +1,5 @@
-import { ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
+import { ImmutableSequence, MockSequence } from '@jamashita/publikum-collection';
 import sinon, { SinonSpy } from 'sinon';
-
 import { Color } from '../Color';
 import { Colors } from '../Colors';
 import { MockColor } from '../Mock/MockColor';
@@ -8,6 +7,8 @@ import { MockColor } from '../Mock/MockColor';
 describe('Colors', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(4);
+
       const color1: MockColor = new MockColor();
       const color2: MockColor = new MockColor();
       const color3: MockColor = new MockColor();
@@ -24,6 +25,8 @@ describe('Colors', () => {
 
   describe('ofArray', () => {
     it('normal case', () => {
+      expect.assertions(4);
+
       const colors: Array<MockColor> = [new MockColor(), new MockColor(), new MockColor()];
 
       const colours: Colors = Colors.ofArray(colors);
@@ -37,6 +40,8 @@ describe('Colors', () => {
 
   describe('ofSpread', () => {
     it('normal case', () => {
+      expect.assertions(4);
+
       const color1: MockColor = new MockColor();
       const color2: MockColor = new MockColor();
       const color3: MockColor = new MockColor();
@@ -52,6 +57,8 @@ describe('Colors', () => {
 
   describe('chartScheme', () => {
     it('generates 20 colors', () => {
+      expect.assertions(1);
+
       const colors: Colors = Colors.chartScheme();
 
       expect(colors.size()).toBe(20);
@@ -60,7 +67,9 @@ describe('Colors', () => {
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>([
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
@@ -79,7 +88,9 @@ describe('Colors', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>([
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
@@ -98,7 +109,9 @@ describe('Colors', () => {
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>([
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
@@ -117,7 +130,9 @@ describe('Colors', () => {
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>([
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
@@ -136,6 +151,8 @@ describe('Colors', () => {
 
   describe('equals', () => {
     it('same instance', () => {
+      expect.assertions(1);
+
       const color1: MockColor = new MockColor('#ffffff');
       const color2: MockColor = new MockColor('#000000');
       const colors: Colors = Colors.ofArray([color1, color2]);
@@ -144,7 +161,9 @@ describe('Colors', () => {
     });
 
     it('delegates its inner collection instance', () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>([
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
@@ -163,7 +182,9 @@ describe('Colors', () => {
 
   describe('toString', () => {
     it('delegates its inner collection instance', () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>([
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
@@ -182,11 +203,13 @@ describe('Colors', () => {
 
   describe('iterator', () => {
     it('normal case', () => {
+      expect.assertions(2);
+
       const color1: MockColor = new MockColor('#ffffff');
       const color2: MockColor = new MockColor('#000000');
       const arr: Array<MockColor> = [color1, color2];
 
-      const sequence: MockASequence<Color> = new MockASequence<Color>(arr);
+      const sequence: MockSequence<Color> = new MockSequence<Color>(arr);
 
       const colors: Colors = Colors.of(sequence);
 
@@ -201,7 +224,9 @@ describe('Colors', () => {
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>([
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
@@ -222,7 +247,9 @@ describe('Colors', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>([
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
@@ -243,7 +270,9 @@ describe('Colors', () => {
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
-      const sequence: MockASequence<Color> = new MockASequence<Color>([
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
