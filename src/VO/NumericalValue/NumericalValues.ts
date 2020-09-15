@@ -1,14 +1,14 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
+import { INumericalValue } from './INumericalValue';
 
-import { NumericalValue } from './NumericalValue';
-
-export class NumericalValues extends Quantity<NumericalValues, number, NumericalValue, 'NumericalValues'> {
+export class NumericalValues extends Quantity<NumericalValues, number, INumericalValue, 'NumericalValues'> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
-  private readonly values: Sequence<NumericalValue>;
-  private static readonly EMPTY: NumericalValues = new NumericalValues(ImmutableSequence.empty<NumericalValue>());
+  private readonly values: Sequence<INumericalValue>;
 
-  public static of(values: Sequence<NumericalValue>): NumericalValues {
+  private static readonly EMPTY: NumericalValues = new NumericalValues(ImmutableSequence.empty<INumericalValue>());
+
+  public static of(values: Sequence<INumericalValue>): NumericalValues {
     if (values.isEmpty()) {
       return NumericalValues.empty();
     }
@@ -16,28 +16,28 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
     return new NumericalValues(values);
   }
 
-  public static ofArray(values: Array<NumericalValue>): NumericalValues {
-    return NumericalValues.of(ImmutableSequence.of<NumericalValue>(values));
+  public static ofArray(values: Array<INumericalValue>): NumericalValues {
+    return NumericalValues.of(ImmutableSequence.of<INumericalValue>(values));
   }
 
-  public static ofSpread(...values: Array<NumericalValue>): NumericalValues {
-    return NumericalValues.ofArray(values);
+  public static ofSpread(...values: ReadonlyArray<INumericalValue>): NumericalValues {
+    return NumericalValues.ofArray([...values]);
   }
 
   public static empty(): NumericalValues {
     return NumericalValues.EMPTY;
   }
 
-  protected constructor(values: Sequence<NumericalValue>) {
+  protected constructor(values: Sequence<INumericalValue>) {
     super();
     this.values = values;
   }
 
-  public get(index: number): Nullable<NumericalValue> {
+  public get(index: number): Nullable<INumericalValue> {
     return this.values.get(index);
   }
 
-  public contains(value: NumericalValue): boolean {
+  public contains(value: INumericalValue): boolean {
     return this.values.contains(value);
   }
 
@@ -45,7 +45,7 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
     return this.values.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<number, NumericalValue>): void {
+  public forEach(iteration: CancellableEnumerator<number, INumericalValue>): void {
     this.values.forEach(iteration);
   }
 
@@ -65,19 +65,19 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
     return this.values.toString();
   }
 
-  public [Symbol.iterator](): Iterator<Pair<number, NumericalValue>> {
+  public [Symbol.iterator](): Iterator<Pair<number, INumericalValue>> {
     return this.values[Symbol.iterator]();
   }
 
-  public every(predicate: BinaryPredicate<NumericalValue, number>): boolean {
+  public every(predicate: BinaryPredicate<INumericalValue, number>): boolean {
     return this.values.every(predicate);
   }
 
-  public some(predicate: BinaryPredicate<NumericalValue, number>): boolean {
+  public some(predicate: BinaryPredicate<INumericalValue, number>): boolean {
     return this.values.some(predicate);
   }
 
-  public add(...values: Array<NumericalValue>): NumericalValues {
+  public add(...values: ReadonlyArray<INumericalValue>): NumericalValues {
     if (values.length === 0) {
       return this;
     }
@@ -86,7 +86,7 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
   }
 
   public row(): Array<string> {
-    return this.values.toArray().map<string>((value: NumericalValue) => {
+    return this.values.toArray().map<string>((value: INumericalValue) => {
       return value.toString();
     });
   }

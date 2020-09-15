@@ -1,6 +1,7 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { INumericalValue } from './INumericalValue';
 
-export class NumericalValue extends ValueObject<NumericalValue, 'NumericalValue'> {
+export class NumericalValue extends ValueObject<INumericalValue<'NumericalValue'>, 'NumericalValue'> implements INumericalValue<'NumericalValue'> {
   public readonly noun: 'NumericalValue' = 'NumericalValue';
   private readonly value: number;
 
@@ -13,12 +14,14 @@ export class NumericalValue extends ValueObject<NumericalValue, 'NumericalValue'
     this.value = value;
   }
 
-  public equals(other: NumericalValue): boolean {
+  public equals(other: INumericalValue): boolean {
     if (this === other) {
       return true;
     }
-    if (this.value === other.value) {
-      return true;
+    if (other instanceof NumericalValue) {
+      if (this.value === other.value) {
+        return true;
+      }
     }
 
     return false;
