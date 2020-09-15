@@ -1,9 +1,7 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
-import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
-
+import { Zeit } from '@jamashita/publikum-zeit';
 import { Term } from '../Term/Term';
 import { AsOf } from './AsOf';
 
@@ -32,7 +30,7 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
     return AsOfs.EMPTY;
   }
 
-  public static merge(...asOfsArray: Array<AsOfs>): AsOfs {
+  public static merge(...asOfsArray: ReadonlyArray<AsOfs>): AsOfs {
     if (asOfsArray.length === 0) {
       return AsOfs.empty();
     }
@@ -136,45 +134,43 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
     return AsOfs.of(this.asOfs.add(...values));
   }
 
-  public min(): Unscharferelation<AsOf> {
+  public min(): Nullable<AsOf> {
     if (this.isEmpty()) {
-      return Unscharferelation.absent<AsOf>();
+      return null;
     }
     if (this.asOfs.size() === 1) {
-      return Unscharferelation.maybe<AsOf>(this.asOfs.get(0));
+      return this.asOfs.get(0);
     }
 
-    const zeiten: Array<Zeit> = this.asOfs.toArray().map<Zeit>((asOf: AsOf) => {
+    const zeiten: Sequence<Zeit> = this.asOfs.map<Zeit>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    return Superposition.playground<Zeit, ZeitError>(() => {
-      return Zeit.min(zeiten, AsOf.format());
-    }, ZeitError)
-      .map<AsOf, ZeitError>((zeit: Zeit) => {
-        return AsOf.of(zeit);
-      })
-      .toUnscharferelation();
+    try {
+      return AsOf.of(Zeit.min(zeiten.toArray(), AsOf.format()));
+    }
+    catch (err: unknown) {
+      return null;
+    }
   }
 
-  public max(): Unscharferelation<AsOf> {
+  public max(): Nullable<AsOf> {
     if (this.isEmpty()) {
-      return Unscharferelation.absent<AsOf>();
+      return null;
     }
     if (this.asOfs.size() === 1) {
-      return Unscharferelation.maybe<AsOf>(this.asOfs.get(0));
+      return this.asOfs.get(0);
     }
 
-    const zeiten: Array<Zeit> = this.asOfs.toArray().map<Zeit>((asOf: AsOf) => {
+    const zeiten: Sequence<Zeit> = this.asOfs.map<Zeit>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    return Superposition.playground<Zeit, ZeitError>(() => {
-      return Zeit.max(zeiten, AsOf.format());
-    }, ZeitError)
-      .map<AsOf, ZeitError>((zeit: Zeit) => {
-        return AsOf.of(zeit);
-      })
-      .toUnscharferelation();
+    try {
+      return AsOf.of(Zeit.max(zeiten.toArray(), AsOf.format()));
+    }
+    catch (err: unknown) {
+      return null;
+    }
   }
 }
