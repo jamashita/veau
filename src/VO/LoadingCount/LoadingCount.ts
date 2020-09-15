@@ -1,7 +1,5 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-
 import { LoadingCountError } from './Error/LoadingCountError';
 
 const DEFAULT_COUNT: number = 0;
@@ -9,26 +7,21 @@ const DEFAULT_COUNT: number = 0;
 export class LoadingCount extends ValueObject<LoadingCount, 'LoadingCount'> {
   public readonly noun: 'LoadingCount' = 'LoadingCount';
   private readonly count: number;
+
   private static readonly DEFAULT: LoadingCount = new LoadingCount(DEFAULT_COUNT);
 
-  public static of(count: number): Superposition<LoadingCount, LoadingCountError> {
+  public static of(count: number): LoadingCount {
     if (count < 0) {
-      return Superposition.dead<LoadingCount, LoadingCountError>(
-        new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`),
-        LoadingCountError
-      );
+      throw new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`);
     }
     if (count === DEFAULT_COUNT) {
-      return Superposition.alive<LoadingCount, LoadingCountError>(LoadingCount.default(), LoadingCountError);
+      return LoadingCount.default();
     }
     if (Kind.isInteger(count)) {
-      return Superposition.alive<LoadingCount, LoadingCountError>(new LoadingCount(count), LoadingCountError);
+      return new LoadingCount(count);
     }
 
-    return Superposition.dead<LoadingCount, LoadingCountError>(
-      new LoadingCountError('ILLEGAL COUNT SPECIFIED'),
-      LoadingCountError
-    );
+    throw new LoadingCountError('ILLEGAL COUNT SPECIFIED');
   }
 
   public static default(): LoadingCount {
