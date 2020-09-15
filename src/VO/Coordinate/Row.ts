@@ -1,7 +1,5 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-
 import { RowError } from './Error/RowError';
 
 const ORIGIN_VALUE: number = 0;
@@ -11,18 +9,18 @@ export class Row extends ValueObject<Row, 'Row'> {
   private readonly row: number;
   private static readonly ORIGIN: Row = new Row(ORIGIN_VALUE);
 
-  public static of(row: number): Superposition<Row, RowError> {
+  public static of(row: number): Row {
     if (row < 0) {
-      return Superposition.dead<Row, RowError>(new RowError(`ILLEGAL ROW SPECIFIED ${row}`), RowError);
+      throw new RowError(`ILLEGAL ROW SPECIFIED ${row}`);
     }
     if (row === ORIGIN_VALUE) {
-      return Superposition.alive<Row, RowError>(Row.origin(), RowError);
+      return Row.origin();
     }
     if (Kind.isInteger(row)) {
-      return Superposition.alive<Row, RowError>(new Row(row), RowError);
+      return new Row(row);
     }
 
-    return Superposition.dead<Row, RowError>(new RowError('ILLEGAL ROW SPECIFIED'), RowError);
+    throw new RowError('ILLEGAL ROW SPECIFIED');
   }
 
   public static origin(): Row {
