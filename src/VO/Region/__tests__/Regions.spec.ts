@@ -1,11 +1,7 @@
-import { ImmutableProject, MockAProject } from '@jamashita/publikum-collection';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { ImmutableProject, MockProject } from '@jamashita/publikum-collection';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 import sinon, { SinonSpy } from 'sinon';
-
-import { RegionError } from '../Error/RegionError';
-import { RegionsError } from '../Error/RegionsError';
 import { ISO3166 } from '../ISO3166';
 import { MockISO3166 } from '../Mock/MockISO3166';
 import { MockRegion } from '../Mock/MockRegion';
@@ -20,12 +16,16 @@ import { Regions } from '../Regions';
 describe('Regions', () => {
   describe('of', () => {
     it('when the ImmutableProject is zero size, returns Regions.empty()', () => {
+      expect.assertions(1);
+
       const regions: Regions = Regions.of(ImmutableProject.empty<RegionID, Region>());
 
       expect(regions).toBe(Regions.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const array: Array<MockRegion> = [new MockRegion(), new MockRegion()];
 
       const regions: Regions = Regions.ofArray(array);
@@ -39,90 +39,18 @@ describe('Regions', () => {
     });
   });
 
-  describe('ofSuperposition', () => {
-    it('when empty Array given, returns Alive, and Regions.empty()', async () => {
-      const superposition: Superposition<Regions, RegionsError> = Regions.ofSuperposition([]);
-      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      expect(schrodinger.get()).toBe(Regions.empty());
-    });
-
-    it('normal case', async () => {
-      const regionArray: Array<MockRegion> = [new MockRegion(), new MockRegion()];
-
-      const superposition: Superposition<Regions, RegionsError> = Regions.ofSuperposition([
-        Superposition.alive<Region, RegionError>(regionArray[0], RegionError),
-        Superposition.alive<Region, RegionError>(regionArray[1], RegionError)
-      ]);
-      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const regions: Regions = schrodinger.get();
-
-      expect(regions.size()).toBe(regionArray.length);
-      for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(regionArray[i].getRegionID())).toBe(regionArray[i]);
-      }
-    });
-
-    it('contains failure', async () => {
-      const region: MockRegion = new MockRegion();
-
-      const superposition1: Superposition<Region, RegionError> = Superposition.alive<Region, RegionError>(
-        region,
-        RegionError
-      );
-      const superposition2: Superposition<Region, RegionError> = Superposition.dead<Region, RegionError>(
-        new RegionError('test failed'),
-        RegionError
-      );
-      const superposition: Superposition<Regions, RegionsError> = Regions.ofSuperposition([
-        superposition1,
-        superposition2
-      ]);
-      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(RegionsError);
-    });
-
-    it('contains 2 failures', async () => {
-      const superposition1: Superposition<Region, RegionError> = Superposition.dead<Region, RegionError>(
-        new RegionError('test failed 1'),
-        RegionError
-      );
-      const superposition2: Superposition<Region, RegionError> = Superposition.dead<Region, RegionError>(
-        new RegionError('test failed 2'),
-        RegionError
-      );
-      const superposition: Superposition<Regions, RegionsError> = Regions.ofSuperposition([
-        superposition1,
-        superposition2
-      ]);
-      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(RegionsError);
-    });
-  });
-
   describe('ofJSON', () => {
-    it('when empty Array given, returns Regions.empty()', async () => {
-      const superposition: Superposition<Regions, RegionsError> = Regions.ofJSON([]);
-      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
+    it('when empty Array given, returns Regions.empty()', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isAlive()).toBe(true);
-      const regions: Regions = schrodinger.get();
+      const regions: Regions = Regions.ofJSON([]);
 
       expect(regions).toBe(Regions.empty());
     });
 
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(4);
+
       const json: Array<RegionJSON> = [
         {
           regionID: UUID.v4().get(),
@@ -131,16 +59,11 @@ describe('Regions', () => {
         }
       ];
 
-      const superposition: Superposition<Regions, RegionsError> = Regions.ofJSON(json);
-      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const regions: Regions = schrodinger.get();
+      const regions: Regions = Regions.ofJSON(json);
 
       expect(regions.size()).toBe(json.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        // eslint-disable-next-line no-await-in-loop
-        const regionID: RegionID = await RegionID.ofString(json[i].regionID).get();
+        const regionID: RegionID = RegionID.ofString(json[i].regionID);
         const region: Nullable<Region> = regions.get(regionID);
 
         expect(region?.getRegionID().get().get()).toBe(json[i].regionID);
@@ -151,17 +74,17 @@ describe('Regions', () => {
   });
 
   describe('ofRow', () => {
-    it('when empty Array given, returns Regions.empty()', async () => {
-      const superposition: Superposition<Regions, RegionsError> = Regions.ofRow([]);
-      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
+    it('when empty Array given, returns Regions.empty()', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isAlive()).toBe(true);
-      const regions: Regions = schrodinger.get();
+      const regions: Regions = Regions.ofRow([]);
 
       expect(regions).toBe(Regions.empty());
     });
 
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(4);
+
       const rows: Array<RegionRow> = [
         {
           regionID: UUID.v4().get(),
@@ -170,16 +93,11 @@ describe('Regions', () => {
         }
       ];
 
-      const superposition: Superposition<Regions, RegionsError> = Regions.ofRow(rows);
-      const schrodinger: Schrodinger<Regions, RegionsError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const regions: Regions = schrodinger.get();
+      const regions: Regions = Regions.ofRow(rows);
 
       expect(regions.size()).toBe(rows.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        // eslint-disable-next-line no-await-in-loop
-        const regionID: RegionID = await RegionID.ofString(rows[i].regionID).get();
+        const regionID: RegionID = RegionID.ofString(rows[i].regionID);
         const region: Nullable<Region> = regions.get(regionID);
 
         expect(region?.getRegionID().get().get()).toBe(rows[i].regionID);
@@ -191,12 +109,16 @@ describe('Regions', () => {
 
   describe('ofArray', () => {
     it('when empty Array given, returns Regions.empty()', () => {
+      expect.assertions(1);
+
       const regions: Regions = Regions.ofArray([]);
 
       expect(regions).toBe(Regions.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const regs: Array<MockRegion> = [new MockRegion(), new MockRegion()];
 
       const regions: Regions = Regions.ofArray(regs);
@@ -210,12 +132,16 @@ describe('Regions', () => {
 
   describe('ofSpread', () => {
     it('when no arguments given, returns Regions.empty()', () => {
+      expect.assertions(1);
+
       const regions: Regions = Regions.ofSpread();
 
       expect(regions).toBe(Regions.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const regs: Array<MockRegion> = [region1, region2];
@@ -231,21 +157,27 @@ describe('Regions', () => {
 
   describe('empty', () => {
     it('generates 0-length Regions', () => {
+      expect.assertions(1);
+
       expect(Regions.empty().size()).toBe(0);
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(Regions.empty()).toBe(Regions.empty());
     });
   });
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
         new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
@@ -267,11 +199,13 @@ describe('Regions', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
         new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
@@ -293,11 +227,13 @@ describe('Regions', () => {
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
         new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
@@ -319,11 +255,13 @@ describe('Regions', () => {
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
         new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
@@ -347,11 +285,13 @@ describe('Regions', () => {
 
   describe('map', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
         new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
@@ -365,12 +305,14 @@ describe('Regions', () => {
         return region.getISO3166();
       });
 
-      expect(arr.length).toBe(3);
+      expect(arr).toHaveLength(3);
     });
   });
 
   describe('find', () => {
     it('returns Region if the element exists', () => {
+      expect.assertions(4);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -408,17 +350,19 @@ describe('Regions', () => {
         regions.find((region: Region) => {
           return region4.equals(region);
         })
-      ).toBe(null);
+      ).toBeNull();
     });
   });
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
         new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
@@ -440,6 +384,8 @@ describe('Regions', () => {
 
   describe('equals', () => {
     it('same instance', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion({
         name: new MockRegionName('region'),
@@ -452,11 +398,13 @@ describe('Regions', () => {
     });
 
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
         new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
@@ -478,12 +426,14 @@ describe('Regions', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
       const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(uuid), RegionName.of('region 1'), ISO3166.of('abc'))
       ]);
 
-      expect(regions.toJSON()).toEqual([
+      expect(regions.toJSON()).toStrictEqual([
         {
           regionID: uuid.get(),
           name: 'region 1',
@@ -495,11 +445,13 @@ describe('Regions', () => {
 
   describe('toString', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
         new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
@@ -521,13 +473,15 @@ describe('Regions', () => {
 
   describe('iterator', () => {
     it('normal case', () => {
+      expect.assertions(3);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
       const arr: Array<MockRegion> = [region1, region2, region3];
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
         new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
@@ -547,11 +501,13 @@ describe('Regions', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
         new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
@@ -575,11 +531,13 @@ describe('Regions', () => {
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockAProject<MockRegionID, MockRegion> = new MockAProject<MockRegionID, MockRegion>(
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
         new Map<MockRegionID, MockRegion>([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],

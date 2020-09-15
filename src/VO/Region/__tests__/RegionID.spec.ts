@@ -1,22 +1,26 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
-
-import { RegionIDError } from '../Error/RegionIDError';
+import { RegionError } from '../Error/RegionError';
 import { RegionID } from '../RegionID';
 
 describe('RegionID', () => {
   describe('empty', () => {
     it('always returns 36 length string', () => {
-      expect(RegionID.empty().get().get().length).toBe(36);
+      expect.assertions(1);
+
+      expect(RegionID.empty().get().get()).toHaveLength(36);
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(RegionID.empty()).toBe(RegionID.empty());
     });
   });
 
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(2);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
 
@@ -26,28 +30,29 @@ describe('RegionID', () => {
   });
 
   describe('ofString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
 
-      const superposition: Superposition<RegionID, RegionIDError> = RegionID.ofString(uuid.get());
-      const schrodinger: Schrodinger<RegionID, RegionIDError> = await superposition.terminate();
+      const regionID: RegionID = RegionID.ofString(uuid.get());
 
-      expect(schrodinger.isAlive()).toBe(true);
+      expect(regionID.get().get()).toHaveLength(36);
     });
 
-    it('returns Dead when uuid length string is not given', async () => {
-      const superposition: Superposition<RegionID, RegionIDError> = RegionID.ofString('quasi');
-      const schrodinger: Schrodinger<RegionID, RegionIDError> = await superposition.terminate();
+    it('returns Dead when uuid length string is not given', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
-      }).toThrow(RegionIDError);
+        RegionID.ofString('quasi');
+      }).toThrow(RegionError);
     });
   });
 
   describe('equals', () => {
     it('returns true if the property is the same', () => {
+      expect.assertions(3);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const regionID1: RegionID = RegionID.of(uuid1);
@@ -62,10 +67,14 @@ describe('RegionID', () => {
 
   describe('isEmpty', () => {
     it('when RegionID.empty() given , returns true', () => {
+      expect.assertions(1);
+
       expect(RegionID.empty().isEmpty()).toBe(true);
     });
 
     it('normal case', () => {
+      expect.assertions(2);
+
       expect(RegionID.of(UUID.v4()).isEmpty()).toBe(false);
       expect(RegionID.of(UUID.v4()).isEmpty()).toBe(false);
     });
@@ -73,6 +82,8 @@ describe('RegionID', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
       const regionID: RegionID = RegionID.of(uuid);
 

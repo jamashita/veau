@@ -1,16 +1,13 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { BinaryPredicate, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
-
-import { RegionError } from './Error/RegionError';
-import { RegionsError } from './Error/RegionsError';
 import { Region, RegionJSON, RegionRow } from './Region';
 import { RegionID } from './RegionID';
 
 export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> implements JSONable<Array<RegionJSON>> {
   public readonly noun: 'Regions' = 'Regions';
   private readonly regions: Project<RegionID, Region>;
+
   private static readonly EMPTY: Regions = new Regions(ImmutableProject.empty<RegionID, Region>());
 
   public static of(regions: Project<RegionID, Region>): Regions {
@@ -31,42 +28,24 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return Regions.ofMap(map);
   }
 
-  public static ofSpread(...regions: Array<Region>): Regions {
-    return Regions.ofArray(regions);
+  public static ofSpread(...regions: ReadonlyArray<Region>): Regions {
+    return Regions.ofArray([...regions]);
   }
 
-  public static ofSuperposition(
-    superpositions: Array<Superposition<Region, RegionError>>
-  ): Superposition<Regions, RegionsError> {
-    return Superposition.all<Region, RegionError>(superpositions, RegionError).transform<Regions, RegionsError>(
-      (regions: Array<Region>) => {
-        return Regions.ofArray(regions);
-      },
-      (err: RegionError) => {
-        throw new RegionsError('Regions.ofSuperposition()', err);
-      },
-      RegionsError
-    );
+  public static ofJSON(json: Array<RegionJSON>): Regions {
+    const arr: Array<Region> = json.map<Region>((region: RegionJSON) => {
+      return Region.ofJSON(region);
+    });
+
+    return Regions.ofArray(arr);
   }
 
-  public static ofJSON(json: Array<RegionJSON>): Superposition<Regions, RegionsError> {
-    const superpositions: Array<Superposition<Region, RegionError>> = json.map<Superposition<Region, RegionError>>(
-      (region: RegionJSON) => {
-        return Region.ofJSON(region);
-      }
-    );
+  public static ofRow(rows: Array<RegionRow>): Regions {
+    const arr: Array<Region> = rows.map<Region>((region: RegionRow) => {
+      return Region.ofJSON(region);
+    });
 
-    return Regions.ofSuperposition(superpositions);
-  }
-
-  public static ofRow(rows: Array<RegionRow>): Superposition<Regions, RegionsError> {
-    const superpositions: Array<Superposition<Region, RegionError>> = rows.map<Superposition<Region, RegionError>>(
-      (region: RegionRow) => {
-        return Region.ofRow(region);
-      }
-    );
-
-    return Regions.ofSuperposition(superpositions);
+    return Regions.ofArray(arr);
   }
 
   public static empty(): Regions {

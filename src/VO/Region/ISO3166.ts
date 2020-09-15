@@ -5,6 +5,7 @@ const EMPTY_CODE: string = '';
 export class ISO3166 extends ValueObject<ISO3166, 'ISO3166'> {
   public readonly noun: 'ISO3166' = 'ISO3166';
   private readonly iso3166: string;
+
   private static readonly EMPTY: ISO3166 = new ISO3166(EMPTY_CODE);
 
   public static of(iso3166: string): ISO3166 {

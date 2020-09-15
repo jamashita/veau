@@ -1,4 +1,3 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
 
 import { RegionError } from '../Error/RegionError';
@@ -13,6 +12,8 @@ import { RegionName } from '../RegionName';
 describe('Region', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(3);
+
       const regionID: MockRegionID = new MockRegionID();
       const name: MockRegionName = new MockRegionName();
       const iso3166: MockISO3166 = new MockISO3166();
@@ -25,18 +26,24 @@ describe('Region', () => {
     });
 
     it('returns Region.empty() if RegionID is empty', () => {
+      expect.assertions(1);
+
       const region: Region = Region.of(RegionID.empty(), new MockRegionName(), new MockISO3166());
 
       expect(region).toBe(Region.empty());
     });
 
     it('returns Region.empty() if RegionName is empty', () => {
+      expect.assertions(1);
+
       const region: Region = Region.of(new MockRegionID(), RegionName.empty(), new MockISO3166());
 
       expect(region).toBe(Region.empty());
     });
 
     it('returns Region.empty() if ISO3166 is empty', () => {
+      expect.assertions(1);
+
       const region: Region = Region.of(new MockRegionID(), new MockRegionName(), ISO3166.empty());
 
       expect(region).toBe(Region.empty());
@@ -44,79 +51,73 @@ describe('Region', () => {
   });
 
   describe('ofJSON', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(3);
+
       const json: RegionJSON = {
         regionID: UUID.v4().get(),
         name: 'Albania',
         iso3166: 'ALB'
       };
 
-      const superposition: Superposition<Region, RegionError> = Region.ofJSON(json);
-      const schrodinger: Schrodinger<Region, RegionError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const region: Region = schrodinger.get();
+      const region: Region = Region.ofJSON(json);
 
       expect(region.getRegionID().get().get()).toBe(json.regionID);
       expect(region.getName().get()).toBe(json.name);
       expect(region.getISO3166().get()).toBe(json.iso3166);
     });
 
-    it('returns Dead if regionID is malformat', async () => {
+    it('returns Dead if regionID is malformat', () => {
+      expect.assertions(1);
+
       const json: RegionJSON = {
         regionID: 'puente',
         name: 'Albania',
         iso3166: 'ALB'
       };
 
-      const superposition: Superposition<Region, RegionError> = Region.ofJSON(json);
-      const schrodinger: Schrodinger<Region, RegionError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        Region.ofJSON(json);
       }).toThrow(RegionError);
     });
   });
 
   describe('ofRow', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(3);
+
       const row: RegionRow = {
         regionID: UUID.v4().get(),
         name: 'Albania',
         iso3166: 'ALB'
       };
 
-      const superposition: Superposition<Region, RegionError> = Region.ofRow(row);
-      const schrodinger: Schrodinger<Region, RegionError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const region: Region = schrodinger.get();
+      const region: Region = Region.ofRow(row);
 
       expect(region.getRegionID().get().get()).toBe(row.regionID);
       expect(region.getName().get()).toBe(row.name);
       expect(region.getISO3166().get()).toBe(row.iso3166);
     });
 
-    it('returns Dead if regionID is malformat', async () => {
+    it('returns Dead if regionID is malformat', () => {
+      expect.assertions(1);
+
       const row: RegionRow = {
         regionID: 'puente',
         name: 'Albania',
         iso3166: 'ALB'
       };
 
-      const superposition: Superposition<Region, RegionError> = Region.ofRow(row);
-      const schrodinger: Schrodinger<Region, RegionError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        Region.ofRow(row);
       }).toThrow(RegionError);
     });
   });
 
   describe('isJSON', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         regionID: 'to to',
         name: 'Albania',
@@ -127,6 +128,8 @@ describe('Region', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
+      expect.assertions(5);
+
       expect(Region.isJSON(null)).toBe(false);
       expect(Region.isJSON(undefined)).toBe(false);
       expect(Region.isJSON(56)).toBe(false);
@@ -135,6 +138,8 @@ describe('Region', () => {
     });
 
     it('returns false because regionID is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         name: 'Albania',
         iso3166: 'ALB'
@@ -144,6 +149,8 @@ describe('Region', () => {
     });
 
     it('returns false because regionID is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         regionID: 2,
         name: 'Albania',
@@ -154,6 +161,8 @@ describe('Region', () => {
     });
 
     it('returns false because name is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         regionID: 'to to',
         iso3166: 'ALB'
@@ -163,6 +172,8 @@ describe('Region', () => {
     });
 
     it('returns false because name is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         regionID: 'to to',
         name: true,
@@ -173,6 +184,8 @@ describe('Region', () => {
     });
 
     it('returns false because iso3166 is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         regionID: 'to to',
         name: 'Albania'
@@ -182,6 +195,8 @@ describe('Region', () => {
     });
 
     it('returns false because iso3166 is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         regionID: 'to to',
         name: 'Albania',
@@ -194,6 +209,8 @@ describe('Region', () => {
 
   describe('empty', () => {
     it('returns each default value', () => {
+      expect.assertions(3);
+
       const region: Region = Region.empty();
 
       expect(region.getRegionID()).toBe(RegionID.empty());
@@ -202,12 +219,16 @@ describe('Region', () => {
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(Region.empty()).toBe(Region.empty());
     });
   });
 
   describe('equals', () => {
     it('returns true if the all properties are the same', () => {
+      expect.assertions(5);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const region1: Region = Region.of(
@@ -242,10 +263,12 @@ describe('Region', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
       const region: Region = Region.of(RegionID.of(uuid), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
 
-      expect(region.toJSON()).toEqual({
+      expect(region.toJSON()).toStrictEqual({
         regionID: uuid.get(),
         name: 'Afghanistan',
         iso3166: 'AFG'
@@ -255,6 +278,8 @@ describe('Region', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
       const name: string = 'region 1';
       const iso3166: string = 'abc';

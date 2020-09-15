@@ -1,10 +1,6 @@
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-
-import { RegionError } from './Error/RegionError';
-import { RegionIDError } from './Error/RegionIDError';
 import { ISO3166 } from './ISO3166';
 import { RegionID } from './RegionID';
 import { RegionName } from './RegionName';
@@ -25,6 +21,7 @@ export class Region extends ValueObject<Region, 'Region'> implements JSONable<Re
   private readonly regionID: RegionID;
   private readonly name: RegionName;
   private readonly iso3166: ISO3166;
+
   private static readonly EMPTY: Region = new Region(RegionID.empty(), RegionName.empty(), ISO3166.empty());
 
   public static of(regionID: RegionID, name: RegionName, iso3166: ISO3166): Region {
@@ -41,27 +38,19 @@ export class Region extends ValueObject<Region, 'Region'> implements JSONable<Re
     return new Region(regionID, name, iso3166);
   }
 
-  public static ofJSON(json: RegionJSON): Superposition<Region, RegionError> {
-    return RegionID.ofString(json.regionID).transform<Region, RegionError>(
-      (regionID: RegionID) => {
-        return Region.of(regionID, RegionName.of(json.name), ISO3166.of(json.iso3166));
-      },
-      (err: RegionIDError) => {
-        throw new RegionError('Region.ofJSON()', err);
-      },
-      RegionError
+  public static ofJSON(json: RegionJSON): Region {
+    return Region.of(
+      RegionID.ofString(json.regionID),
+      RegionName.of(json.name),
+      ISO3166.of(json.iso3166)
     );
   }
 
-  public static ofRow(row: RegionRow): Superposition<Region, RegionError> {
-    return RegionID.ofString(row.regionID).transform<Region, RegionError>(
-      (regionID: RegionID) => {
-        return Region.of(regionID, RegionName.of(row.name), ISO3166.of(row.iso3166));
-      },
-      (err: RegionIDError) => {
-        throw new RegionError('Region.ofRow()', err);
-      },
-      RegionError
+  public static ofRow(row: RegionRow): Region {
+    return Region.of(
+      RegionID.ofString(row.regionID),
+      RegionName.of(row.name),
+      ISO3166.of(row.iso3166)
     );
   }
 

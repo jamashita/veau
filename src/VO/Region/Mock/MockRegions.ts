@@ -1,5 +1,4 @@
 import { ImmutableProject, Project } from '@jamashita/publikum-collection';
-
 import { Region } from '../Region';
 import { RegionID } from '../RegionID';
 import { Regions } from '../Regions';
@@ -15,7 +14,7 @@ export class MockRegions extends Regions {
     return ImmutableProject.of<RegionID, Region>(map);
   }
 
-  public constructor(...regions: Array<Region>) {
-    super(MockRegions.toProject(regions));
+  public constructor(...regions: ReadonlyArray<Region>) {
+    super(MockRegions.toProject([...regions]));
   }
 }
