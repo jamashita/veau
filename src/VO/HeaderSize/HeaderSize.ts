@@ -1,7 +1,5 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-
 import { HeaderSizeError } from './Error/HeaderSizeError';
 
 const REVISED_VALUE: number = 14;
@@ -10,21 +8,15 @@ export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
   public readonly noun: 'HeaderSize' = 'HeaderSize';
   private readonly chars: number;
 
-  public static of(chars: number): Superposition<HeaderSize, HeaderSizeError> {
+  public static of(chars: number): HeaderSize {
     if (chars < 0) {
-      return Superposition.dead<HeaderSize, HeaderSizeError>(
-        new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${chars}`),
-        HeaderSizeError
-      );
+      throw new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${chars}`);
     }
     if (Kind.isInteger(chars)) {
-      return Superposition.alive<HeaderSize, HeaderSizeError>(HeaderSize.ofPositiveInteger(chars), HeaderSizeError);
+      return HeaderSize.ofPositiveInteger(chars);
     }
 
-    return Superposition.dead<HeaderSize, HeaderSizeError>(
-      new HeaderSizeError('ILLEGAL SIZE SPECIFIED'),
-      HeaderSizeError
-    );
+    throw new HeaderSizeError('ILLEGAL SIZE SPECIFIED');
   }
 
   public static ofString(str: string): HeaderSize {
