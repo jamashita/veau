@@ -29,8 +29,8 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return Languages.ofMap(map);
   }
 
-  public static ofSpread(...languages: Array<Language>): Languages {
-    return Languages.ofArray(languages);
+  public static ofSpread(...languages: ReadonlyArray<Language>): Languages {
+    return Languages.ofArray([...languages]);
   }
 
   public static ofJSON(json: Array<LanguageJSON>): Languages {
