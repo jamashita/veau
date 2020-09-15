@@ -12,7 +12,7 @@
     "build": "yarn clean && concurrently 'npm:build:*'",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "webpack",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist && rimraf coverage",
     "format": "eslint --fix 'src/**/*.{ts,tsx}'",
     "start": "pm2-runtime start pm2.yml",
     "stop": "pm2-runtime stop pm2.yml",
