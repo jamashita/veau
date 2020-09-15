@@ -9,6 +9,7 @@ const MIN_PAGE: number = 1;
 export class Page extends ValueObject<Page, 'Page'> {
   public readonly noun: 'Page' = 'Page';
   private readonly page: number;
+
   private static readonly MIN: Page = new Page(MIN_PAGE);
 
   public static of(page: number): Page {

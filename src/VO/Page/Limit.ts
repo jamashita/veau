@@ -7,6 +7,7 @@ const DEFAULT_VALUE: number = 40;
 export class Limit extends ValueObject<Limit, 'Limit'> {
   public readonly noun: 'Limit' = 'Limit';
   private readonly limit: number;
+
   private static readonly DEFAULT: Limit = new Limit(DEFAULT_VALUE);
 
   public static of(limit: number): Limit {
