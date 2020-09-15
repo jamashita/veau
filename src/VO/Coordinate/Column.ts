@@ -20,7 +20,7 @@ export class Column extends ValueObject<Column, 'Column'> {
       return new Column(column);
     }
 
-    throw new ColumnError('ILLEGAL COLUMN SPECIFIED');
+    throw new ColumnError(`ILLEGAL COLUMN SPECIFIED: ${Kind.notate(column)}`);
   }
 
   public static origin(): Column {

@@ -21,7 +21,7 @@ export class LoadingCount extends ValueObject<LoadingCount, 'LoadingCount'> {
       return new LoadingCount(count);
     }
 
-    throw new LoadingCountError('ILLEGAL COUNT SPECIFIED');
+    throw new LoadingCountError(`ILLEGAL COUNT SPECIFIED: ${Kind.notate(count)}`);
   }
 
   public static default(): LoadingCount {

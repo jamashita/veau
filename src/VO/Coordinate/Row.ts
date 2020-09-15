@@ -20,7 +20,7 @@ export class Row extends ValueObject<Row, 'Row'> {
       return new Row(row);
     }
 
-    throw new RowError('ILLEGAL ROW SPECIFIED');
+    throw new RowError(`ILLEGAL ROW SPECIFIED: ${Kind.notate(row)}`);
   }
 
   public static origin(): Row {

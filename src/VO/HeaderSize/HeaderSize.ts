@@ -16,7 +16,7 @@ export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
       return HeaderSize.ofPositiveInteger(chars);
     }
 
-    throw new HeaderSizeError('ILLEGAL SIZE SPECIFIED');
+    throw new HeaderSizeError(`ILLEGAL SIZE SPECIFIED: ${Kind.notate(chars)}`);
   }
 
   public static ofString(str: string): HeaderSize {
