@@ -1,14 +1,11 @@
 import { Zeit } from '@jamashita/publikum-zeit';
-
 import { AsOf } from '../AsOf';
 
-type AsOfArgs = Partial<
-  Readonly<{
-    year: number;
-    month: number;
-    day: number;
-  }>
->;
+type AsOfArgs = Partial<Readonly<{
+  year: number;
+  month: number;
+  day: number;
+}>>;
 
 export class MockAsOf extends AsOf {
   public constructor({ year = 2000, month = 1, day = 1 }: AsOfArgs = {}) {
