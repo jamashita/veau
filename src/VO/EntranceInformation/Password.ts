@@ -5,6 +5,7 @@ const EMPTY_PASSWORD: string = '';
 export class Password extends ValueObject<Password, 'Password'> {
   public readonly noun: 'Password' = 'Password';
   private readonly password: string;
+
   private static readonly EMPTY: Password = new Password(EMPTY_PASSWORD);
 
   public static of(password: string): Password {
