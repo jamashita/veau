@@ -1,12 +1,12 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
-
 import { Term } from './Term';
 import { TermID } from './TermID';
 
 export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
   public readonly noun: 'Terms' = 'Terms';
   private readonly terms: Project<TermID, Term>;
+
   private static readonly ALL: Terms = Terms.ofArray([
     Term.DAILY,
     Term.WEEKLY,

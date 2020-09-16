@@ -1,43 +1,44 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
-
-import { TermIDError } from '../Error/TermIDError';
+import { TermError } from '../Error/TermError';
 import { TermID } from '../TermID';
 
 describe('TermID', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
 
       const termID: TermID = TermID.of(uuid);
 
-      expect(termID.get()).toBe(uuid);
+      expect(termID.get().equals(uuid)).toBe(true);
     });
   });
 
   describe('ofString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
 
-      const superposition: Superposition<TermID, TermIDError> = TermID.ofString(uuid.get());
-      const schrodinger: Schrodinger<TermID, TermIDError> = await superposition.terminate();
+      const termID: TermID = TermID.ofString(uuid.get());
 
-      expect(schrodinger.isAlive()).toBe(true);
+      expect(termID.get().equals(uuid)).toBe(true);
     });
 
-    it('returns Dead when uuid length string is not given', async () => {
-      const superposition: Superposition<TermID, TermIDError> = TermID.ofString('cinq');
-      const schrodinger: Schrodinger<TermID, TermIDError> = await superposition.terminate();
+    it('returns Dead when uuid length string is not given', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
-      }).toThrow(TermIDError);
+        TermID.ofString('cinq');
+      }).toThrow(TermError);
     });
   });
 
   describe('equals', () => {
     it('returns true if the property is the same', () => {
+      expect.assertions(3);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const termID1: TermID = TermID.of(uuid1);
@@ -52,6 +53,8 @@ describe('TermID', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
       const termID: TermID = TermID.of(uuid);
 

@@ -1,8 +1,6 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { UUID, UUIDError } from '@jamashita/publikum-uuid';
-
-import { TermIDError } from './Error/TermIDError';
+import { TermError } from './Error/TermError';
 
 export class TermID extends ValueObject<TermID, 'TermID'> {
   public readonly noun: 'TermID' = 'TermID';
@@ -12,18 +10,17 @@ export class TermID extends ValueObject<TermID, 'TermID'> {
     return new TermID(uuid);
   }
 
-  public static ofString(id: string): Superposition<TermID, TermIDError> {
-    return Superposition.playground<UUID, UUIDError>(() => {
-      return UUID.of(id);
-    }, UUIDError).transform<TermID, TermIDError>(
-      (uuid: UUID) => {
-        return TermID.of(uuid);
-      },
-      (err: UUIDError) => {
-        throw new TermIDError('TermID.ofString()', err);
-      },
-      TermIDError
-    );
+  public static ofString(id: string): TermID {
+    try {
+      return TermID.of(UUID.of(id));
+    }
+    catch (err: unknown) {
+      if (err instanceof UUIDError) {
+        throw new TermError('TermID.ofString()', err);
+      }
+
+      throw err;
+    }
   }
 
   protected constructor(uuid: UUID) {

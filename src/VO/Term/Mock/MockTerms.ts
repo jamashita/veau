@@ -1,5 +1,4 @@
 import { ImmutableProject, Project } from '@jamashita/publikum-collection';
-
 import { Term } from '../Term';
 import { TermID } from '../TermID';
 import { Terms } from '../Terms';
@@ -15,7 +14,7 @@ export class MockTerms extends Terms {
     return ImmutableProject.of<TermID, Term>(map);
   }
 
-  public constructor(...terms: Array<Term>) {
-    super(MockTerms.toProject(terms));
+  public constructor(...terms: ReadonlyArray<Term>) {
+    super(MockTerms.toProject([...terms]));
   }
 }

@@ -1,6 +1,5 @@
-import { MockAProject } from '@jamashita/publikum-collection';
+import { MockProject } from '@jamashita/publikum-collection';
 import sinon, { SinonSpy } from 'sinon';
-
 import { Term } from '../Term';
 import { TermID } from '../TermID';
 import { Terms } from '../Terms';
@@ -8,17 +7,23 @@ import { Terms } from '../Terms';
 describe('Terms', () => {
   describe('all', () => {
     it('is singleton instance', () => {
+      expect.assertions(1);
+
       expect(Terms.all()).toBe(Terms.all());
     });
 
     it('the length is 5', () => {
+      expect.assertions(1);
+
       expect(Terms.all().size()).toBe(5);
     });
   });
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
-      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+      expect.assertions(1);
+
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
         new Map<TermID, Term>([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
@@ -40,7 +45,9 @@ describe('Terms', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
-      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+      expect.assertions(1);
+
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
         new Map<TermID, Term>([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
@@ -62,7 +69,9 @@ describe('Terms', () => {
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
-      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+      expect.assertions(1);
+
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
         new Map<TermID, Term>([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
@@ -84,7 +93,9 @@ describe('Terms', () => {
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
-      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+      expect.assertions(1);
+
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
         new Map<TermID, Term>([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
@@ -108,21 +119,27 @@ describe('Terms', () => {
 
   describe('map', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const ids: Array<TermID> = Terms.all().map<TermID>((term: Term) => {
         return term.getTermID();
       });
 
-      expect(ids.length).toBe(Terms.all().size());
+      expect(ids).toHaveLength(Terms.all().size());
     });
   });
 
   describe('equals', () => {
     it('same instance', () => {
+      expect.assertions(1);
+
       expect(Terms.all()).toBe(Terms.all());
     });
 
     it('delegates its inner collection instance', () => {
-      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+      expect.assertions(1);
+
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
         new Map<TermID, Term>([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
@@ -144,7 +161,9 @@ describe('Terms', () => {
 
   describe('toString', () => {
     it('delegates its inner collection instance', () => {
-      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+      expect.assertions(1);
+
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
         new Map<TermID, Term>([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
@@ -166,11 +185,13 @@ describe('Terms', () => {
 
   describe('iterator', () => {
     it('normal case', () => {
+      expect.assertions(2);
+
       const arr: Array<[TermID, Term]> = [
         [Term.DAILY.getTermID(), Term.DAILY],
         [Term.MONTHLY.getTermID(), Term.MONTHLY]
       ];
-      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(new Map<TermID, Term>(arr));
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(new Map<TermID, Term>(arr));
 
       // @ts-expect-error
       const terms: Terms = Terms.of(project);
@@ -186,7 +207,9 @@ describe('Terms', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
-      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+      expect.assertions(1);
+
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
         new Map<TermID, Term>([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
@@ -210,7 +233,9 @@ describe('Terms', () => {
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
-      const project: MockAProject<TermID, Term> = new MockAProject<TermID, Term>(
+      expect.assertions(1);
+
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
         new Map<TermID, Term>([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
