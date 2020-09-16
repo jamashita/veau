@@ -1,5 +1,4 @@
 import { ValueObject } from '@jamashita/publikum-object';
-
 import { AccountName } from '../Account/AccountName';
 import { Language } from '../Language/Language';
 import { Region } from '../Region/Region';
