@@ -1,18 +1,14 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
-
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfs } from '../AsOf/AsOfs';
-import { StatsValueError } from './Error/StatsValueError';
-import { StatsValuesError } from './Error/StatsValuesError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
-export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsValues'>
-  implements Cloneable<StatsValues>, JSONable<Array<StatsValueJSON>> {
+export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsValues'> implements Cloneable<StatsValues>, JSONable<Array<StatsValueJSON>> {
   public readonly noun: 'StatsValues' = 'StatsValues';
   private readonly values: Project<AsOf, StatsValue>;
+
   private static readonly EMPTY: StatsValues = new StatsValues(ImmutableProject.empty<AsOf, StatsValue>());
 
   public static of(values: Project<AsOf, StatsValue>): StatsValues {
@@ -33,45 +29,25 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.ofMap(map);
   }
 
-  public static ofSpread(...values: Array<StatsValue>): StatsValues {
-    return StatsValues.ofArray(values);
+  public static ofSpread(...values: ReadonlyArray<StatsValue>): StatsValues {
+    return StatsValues.ofArray([...values]);
   }
 
-  public static ofSuperposition(
-    superpositions: Array<Superposition<StatsValue, StatsValueError>>
-  ): Superposition<StatsValues, StatsValuesError> {
-    return Superposition.all<StatsValue, StatsValueError>(superpositions, StatsValueError).transform<
-      StatsValues,
-      StatsValuesError
-    >(
-      (values: Array<StatsValue>) => {
-        return StatsValues.ofArray(values);
-      },
-      (err: StatsValueError) => {
-        throw new StatsValuesError('StatsValues.ofSuperposition()', err);
-      },
-      StatsValuesError
-    );
-  }
-
-  public static ofJSON(json: Array<StatsValueJSON>): Superposition<StatsValues, StatsValuesError> {
-    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = json.map<
-      Superposition<StatsValue, StatsValueError>
-    >((statsValue: StatsValueJSON) => {
+  // TODO
+  public static ofJSON(json: Array<StatsValueJSON>): StatsValues {
+    const arr: Array<StatsValue> = json.map<StatsValue>((statsValue: StatsValueJSON) => {
       return StatsValue.ofJSON(statsValue);
     });
 
-    return StatsValues.ofSuperposition(superpositions);
+    return StatsValues.ofArray(arr);
   }
 
-  public static ofRow(rows: Array<StatsValueRow>): Superposition<StatsValues, StatsValuesError> {
-    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = rows.map<
-      Superposition<StatsValue, StatsValueError>
-    >((statsValue: StatsValueRow) => {
+  public static ofRow(rows: Array<StatsValueRow>): StatsValues {
+    const arr: Array<StatsValue> = rows.map<StatsValue>((statsValue: StatsValueRow) => {
       return StatsValue.ofRow(statsValue);
     });
 
-    return StatsValues.ofSuperposition(superpositions);
+    return StatsValues.ofArray(arr);
   }
 
   public static isJSON(n: unknown): n is Array<StatsValueJSON> {

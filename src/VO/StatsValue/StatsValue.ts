@@ -1,8 +1,6 @@
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfError } from '../AsOf/Error/AsOfError';
 import { NumericalValue } from '../NumericalValue/NumericalValue';
@@ -27,28 +25,30 @@ export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements
     return new StatsValue(asOf, value);
   }
 
-  public static ofJSON(json: StatsValueJSON): Superposition<StatsValue, StatsValueError> {
-    return AsOf.ofString(json.asOf).transform<StatsValue, StatsValueError>(
-      (asOf: AsOf) => {
-        return StatsValue.of(asOf, NumericalValue.of(json.value));
-      },
-      (err: AsOfError) => {
+  public static ofJSON(json: StatsValueJSON): StatsValue {
+    try {
+      return StatsValue.of(AsOf.ofString(json.asOf), NumericalValue.of(json.value));
+    }
+    catch (err: unknown) {
+      if (err instanceof AsOfError) {
         throw new StatsValueError('StatsValue.ofRow()', err);
-      },
-      StatsValueError
-    );
+      }
+
+      throw err;
+    }
   }
 
-  public static ofRow(row: StatsValueRow): Superposition<StatsValue, StatsValueError> {
-    return AsOf.ofString(row.asOf).transform<StatsValue, StatsValueError>(
-      (asOf: AsOf) => {
-        return StatsValue.of(asOf, NumericalValue.of(row.value));
-      },
-      (err: AsOfError) => {
+  public static ofRow(row: StatsValueRow): StatsValue {
+    try {
+      return StatsValue.of(AsOf.ofString(row.asOf), NumericalValue.of(row.value));
+    }
+    catch (err: unknown) {
+      if (err instanceof AsOfError) {
         throw new StatsValueError('StatsValue.ofRow()', err);
-      },
-      StatsValueError
-    );
+      }
+
+      throw err;
+    }
   }
 
   public static isJSON(n: unknown): n is StatsValueJSON {

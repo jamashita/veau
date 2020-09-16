@@ -1,14 +1,11 @@
 import { ImmutableProject } from '@jamashita/publikum-collection';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import sinon, { SinonSpy } from 'sinon';
-
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
 import { MockAsOfs } from '../../AsOf/Mock/MockAsOfs';
 import { MockNumericalValue } from '../../NumericalValue/Mock/MockNumericalValue';
 import { NumericalValue } from '../../NumericalValue/NumericalValue';
 import { StatsValueError } from '../Error/StatsValueError';
-import { StatsValuesError } from '../Error/StatsValuesError';
 import { MockStatsValue } from '../Mock/MockStatsValue';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
@@ -16,12 +13,16 @@ import { StatsValues } from '../StatsValues';
 describe('StatsValues', () => {
   describe('of', () => {
     it('when the ImmutableSequence is zero size, returns StatsValues.empty()', () => {
+      expect.assertions(1);
+
       const values: StatsValues = StatsValues.of(ImmutableProject.empty<AsOf, StatsValue>());
 
       expect(values).toBe(StatsValues.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const value1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -47,96 +48,18 @@ describe('StatsValues', () => {
     });
   });
 
-  describe('ofSuperposition', () => {
-    it('when empty Array given, returns Alive, and StatsValues.empty()', async () => {
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([]);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      expect(schrodinger.get()).toBe(StatsValues.empty());
-    });
-
-    it('normal case', async () => {
-      const statsValue1: MockStatsValue = new MockStatsValue({
-        asOf: new MockAsOf({
-          day: 2
-        })
-      });
-      const statsValue2: MockStatsValue = new MockStatsValue({
-        asOf: new MockAsOf({
-          day: 3
-        })
-      });
-      const statsValue3: MockStatsValue = new MockStatsValue({
-        asOf: new MockAsOf({
-          day: 4
-        })
-      });
-
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
-        StatsValueError>(statsValue1, StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
-        StatsValueError>(statsValue2, StatsValueError);
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
-        superposition1,
-        superposition2
-      ]);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const values: StatsValues = schrodinger.get();
-
-      expect(values.size()).toBe(2);
-      expect(values.contains(statsValue1)).toBe(true);
-      expect(values.contains(statsValue2)).toBe(true);
-      expect(values.contains(statsValue3)).toBe(false);
-    });
-
-    it('contains failure', async () => {
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.alive<StatsValue,
-        StatsValueError>(new MockStatsValue(), StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
-        StatsValueError>(new StatsValueError('test failed'), StatsValueError);
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
-        superposition1,
-        superposition2
-      ]);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(StatsValuesError);
-    });
-
-    it('will be multiple failures', async () => {
-      const superposition1: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
-        StatsValueError>(new StatsValueError('test failed1'), StatsValueError);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Superposition.dead<StatsValue,
-        StatsValueError>(new StatsValueError('test failed2'), StatsValueError);
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
-        superposition1,
-        superposition2
-      ]);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(StatsValuesError);
-    });
-  });
-
   describe('ofJSON', () => {
-    it('when empty Array given, returns StatsValues.empty()', async () => {
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON([]);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
+    it('when empty Array given, returns StatsValues.empty()', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isAlive()).toBe(true);
-      expect(schrodinger.get()).toBe(StatsValues.empty());
+      const statsValues: StatsValues = StatsValues.ofJSON([]);
+
+      expect(statsValues).toBe(StatsValues.empty());
     });
 
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(3);
+
       const json: Array<StatsValueJSON> = [
         {
           asOf: '2000-01-01',
@@ -147,21 +70,19 @@ describe('StatsValues', () => {
           value: 2
         }
       ];
-      const statsValue1: StatsValue = StatsValue.of(await AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(await AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
+      const statsValue1: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(AsOf.ofString('2000-01-02'), NumericalValue.of(2));
 
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(json);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
+      const statsValues: StatsValues = StatsValues.ofJSON(json);
 
-      expect(schrodinger.isAlive()).toBe(true);
-      const values: StatsValues = schrodinger.get();
-
-      expect(values.size()).toBe(json.length);
-      expect(values.contains(statsValue1)).toBe(true);
-      expect(values.contains(statsValue2)).toBe(true);
+      expect(statsValues.size()).toBe(json.length);
+      expect(statsValues.contains(statsValue1)).toBe(true);
+      expect(statsValues.contains(statsValue2)).toBe(true);
     });
 
-    it('contains malformat asOf', async () => {
+    it('contains malformat asOf', () => {
+      expect.assertions(1);
+
       const json: Array<StatsValueJSON> = [
         {
           asOf: '2000-01-01 00:00:00',
@@ -173,16 +94,14 @@ describe('StatsValues', () => {
         }
       ];
 
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(json);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
-      }).toThrow(StatsValuesError);
+        StatsValues.ofJSON(json);
+      }).toThrow(StatsValueError);
     });
 
-    it('will be multiple malformat asOfs', async () => {
+    it('will be multiple malformat asOfs', () => {
+      expect.assertions(1);
+
       const json: Array<StatsValueJSON> = [
         {
           asOf: '2000-01-01 00:00:00',
@@ -194,26 +113,24 @@ describe('StatsValues', () => {
         }
       ];
 
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(json);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
-      }).toThrow(StatsValuesError);
+        StatsValues.ofJSON(json);
+      }).toThrow(StatsValueError);
     });
   });
 
   describe('ofRow', () => {
-    it('when empty Array given, returns StatsValues.empty()', async () => {
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow([]);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
+    it('when empty Array given, returns StatsValues.empty()', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isAlive()).toBe(true);
-      expect(schrodinger.get()).toBe(StatsValues.empty());
+      const statsValues: StatsValues = StatsValues.ofRow([]);
+
+      expect(statsValues).toBe(StatsValues.empty());
     });
 
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(3);
+
       const row: Array<StatsValueRow> = [
         {
           statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
@@ -226,21 +143,19 @@ describe('StatsValues', () => {
           value: 2
         }
       ];
-      const statsValue1: StatsValue = StatsValue.of(await AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(await AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
+      const statsValue1: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(AsOf.ofString('2000-01-02'), NumericalValue.of(2));
 
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
+      const statsValues: StatsValues = StatsValues.ofRow(row);
 
-      expect(schrodinger.isAlive()).toBe(true);
-      const values: StatsValues = schrodinger.get();
-
-      expect(values.size()).toBe(row.length);
-      expect(values.contains(statsValue1)).toBe(true);
-      expect(values.contains(statsValue2)).toBe(true);
+      expect(statsValues.size()).toBe(row.length);
+      expect(statsValues.contains(statsValue1)).toBe(true);
+      expect(statsValues.contains(statsValue2)).toBe(true);
     });
 
-    it('contains malformat statsItemID', async () => {
+    it('contains malformat statsItemID', () => {
+      expect.assertions(1);
+
       const row: Array<StatsValueRow> = [
         {
           statsItemID: 'illegal uuid',
@@ -254,13 +169,14 @@ describe('StatsValues', () => {
         }
       ];
 
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
+      const statsValues: StatsValues = StatsValues.ofRow(row);
 
-      expect(schrodinger.isAlive()).toBe(true);
+      expect(statsValues.size()).toBe(row.length);
     });
 
-    it('contains malformat asOf', async () => {
+    it('contains malformat asOf', () => {
+      expect.assertions(1);
+
       const row: Array<StatsValueRow> = [
         {
           statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
@@ -274,24 +190,24 @@ describe('StatsValues', () => {
         }
       ];
 
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
-      const schrodinger: Schrodinger<StatsValues, StatsValuesError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
-      }).toThrow(StatsValuesError);
+        StatsValues.ofRow(row);
+      }).toThrow(StatsValueError);
     });
   });
 
   describe('ofArray', () => {
     it('when empty Array given, returns StatsValues.empty()', () => {
+      expect.assertions(1);
+
       const statsValues: StatsValues = StatsValues.ofArray([]);
 
       expect(statsValues).toBe(StatsValues.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -314,12 +230,16 @@ describe('StatsValues', () => {
 
   describe('ofSpread', () => {
     it('when no arguments given, returns StatsValues.empty()', () => {
+      expect.assertions(1);
+
       const statsValues: StatsValues = StatsValues.ofSpread();
 
       expect(statsValues).toBe(StatsValues.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -341,6 +261,8 @@ describe('StatsValues', () => {
 
   describe('isJSON', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const n: unknown = [
         {
           asOf: '2000-01-01',
@@ -360,6 +282,8 @@ describe('StatsValues', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
+      expect.assertions(5);
+
       expect(StatsValues.isJSON(null)).toBe(false);
       expect(StatsValues.isJSON(undefined)).toBe(false);
       expect(StatsValues.isJSON(56)).toBe(false);
@@ -368,10 +292,14 @@ describe('StatsValues', () => {
     });
 
     it('returns false because given parameter is not an array', () => {
+      expect.assertions(1);
+
       expect(StatsValues.isJSON({})).toBe(false);
     });
 
     it('returns false because the first element would not be StatsValueJSON', () => {
+      expect.assertions(1);
+
       const n: unknown = [
         {
           asOf: '2000-01-01',
@@ -391,6 +319,8 @@ describe('StatsValues', () => {
     });
 
     it('returns false because the second element would not be StatsValueJSON', () => {
+      expect.assertions(1);
+
       const n: unknown = [
         {
           asOf: '2000-01-01',
@@ -410,6 +340,8 @@ describe('StatsValues', () => {
     });
 
     it('returns false because the last element would not be StatsValueJSON', () => {
+      expect.assertions(1);
+
       const n: unknown = [
         {
           asOf: '2000-01-01',
@@ -431,16 +363,22 @@ describe('StatsValues', () => {
 
   describe('empty', () => {
     it('generates 0-length StatsValues', () => {
+      expect.assertions(1);
+
       expect(StatsValues.empty().size()).toBe(0);
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(StatsValues.empty()).toBe(StatsValues.empty());
     });
   });
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -479,6 +417,8 @@ describe('StatsValues', () => {
 
   describe('set', () => {
     it('cannot set the same object', () => {
+      expect.assertions(3);
+
       const statsValue1: StatsValue = new MockStatsValue({
         value: new MockNumericalValue(1)
       });
@@ -496,6 +436,8 @@ describe('StatsValues', () => {
     });
 
     it('update pattern', () => {
+      expect.assertions(5);
+
       const statsValue1: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -533,6 +475,8 @@ describe('StatsValues', () => {
     });
 
     it('insert pattern', () => {
+      expect.assertions(4);
+
       const statsValue1: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -565,6 +509,8 @@ describe('StatsValues', () => {
 
   describe('delete', () => {
     it('deletes a element if its asOf is the same', () => {
+      expect.assertions(4);
+
       const statsValue1: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -598,6 +544,8 @@ describe('StatsValues', () => {
     });
 
     it('returns StatsValues.empty() if the all values are deleted', () => {
+      expect.assertions(1);
+
       const asOf: MockAsOf = new MockAsOf({
         day: 10
       });
@@ -616,6 +564,8 @@ describe('StatsValues', () => {
 
   describe('getAdOfs', () => {
     it('extracts only their asOfs', () => {
+      expect.assertions(2);
+
       const asOf1: MockAsOf = new MockAsOf({
         day: 3
       });
@@ -640,6 +590,8 @@ describe('StatsValues', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -678,6 +630,8 @@ describe('StatsValues', () => {
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -716,6 +670,8 @@ describe('StatsValues', () => {
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -754,6 +710,8 @@ describe('StatsValues', () => {
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -794,6 +752,8 @@ describe('StatsValues', () => {
 
   describe('duplicate', () => {
     it('just create a new array but the objects are the same', () => {
+      expect.assertions(6);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -827,12 +787,16 @@ describe('StatsValues', () => {
     });
 
     it('returns StatsValues.empty() if the original is empty', () => {
+      expect.assertions(1);
+
       expect(StatsValues.empty().duplicate()).toBe(StatsValues.empty());
     });
   });
 
   describe('equals', () => {
     it('same instance', () => {
+      expect.assertions(1);
+
       const statsValue1: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -852,6 +816,8 @@ describe('StatsValues', () => {
     });
 
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -889,15 +855,17 @@ describe('StatsValues', () => {
   });
 
   describe('toString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const asOf1: string = '2000-01-01';
       const asOf2: string = '2000-01-02';
       const value1: number = 1;
       const value2: number = 2;
 
       const statsValues: StatsValues = StatsValues.ofArray([
-        StatsValue.of(await AsOf.ofString(asOf1).get(), NumericalValue.of(value1)),
-        StatsValue.of(await AsOf.ofString(asOf2).get(), NumericalValue.of(value2))
+        StatsValue.of(AsOf.ofString(asOf1), NumericalValue.of(value1)),
+        StatsValue.of(AsOf.ofString(asOf2), NumericalValue.of(value2))
       ]);
 
       expect(statsValues.toString()).toBe(`${asOf1} ${value1}, ${asOf2} ${value2}`);
@@ -906,6 +874,8 @@ describe('StatsValues', () => {
 
   describe('iterator', () => {
     it('normal case', () => {
+      expect.assertions(3);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -945,6 +915,8 @@ describe('StatsValues', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -985,6 +957,8 @@ describe('StatsValues', () => {
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
