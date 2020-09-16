@@ -15,7 +15,7 @@ export class MockStatsOutlines extends StatsOutlines {
     return ImmutableProject.of<StatsID, StatsOutline>(map);
   }
 
-  public constructor(...outlines: Array<StatsOutline>) {
+  public constructor(...outlines: ReadonlyArray<StatsOutline>) {
     super(MockStatsOutlines.toProject(outlines));
   }
 }

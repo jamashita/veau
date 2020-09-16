@@ -3,7 +3,7 @@ import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';
 
 export class MockStatsItemNames extends StatsItemNames {
-  public constructor(...names: Array<StatsItemName>) {
+  public constructor(...names: ReadonlyArray<StatsItemName>) {
     super(ImmutableSequence.of<StatsItemName>(names));
   }
 }

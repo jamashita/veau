@@ -4,7 +4,7 @@ import { StatsItemDisplay } from '../StatsItemDisplay';
 import { StatsItemDisplays } from '../StatsItemDisplays';
 
 export class MockStatsItemDisplays extends StatsItemDisplays {
-  public constructor(...items: Array<StatsItemDisplay>) {
+  public constructor(...items: ReadonlyArray<StatsItemDisplay>) {
     super(ImmutableSequence.of<StatsItemDisplay>(items));
   }
 }
