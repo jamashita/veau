@@ -1,6 +1,4 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
-
 import { Password } from '../../EntranceInformation/Password';
 import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
@@ -19,6 +17,8 @@ import { MockHash } from '../Mock/MockHash';
 describe('Account', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(2);
+
       const acccunt: MockVeauAccount = new MockVeauAccount();
       const hash: MockHash = new MockHash();
 
@@ -30,7 +30,9 @@ describe('Account', () => {
   });
 
   describe('ofRow', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(5);
+
       const row: AccountRow = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -39,11 +41,7 @@ describe('Account', () => {
         hash: 'hash'
       };
 
-      const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
-      const schrodinger: Schrodinger<Account, AccountError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const account: Account = schrodinger.get();
+      const account: Account = Account.ofRow(row);
 
       expect(account.getVeauAccountID().get().get()).toBe(row.veauAccountID);
       expect(account.getLanguageID().get().get()).toBe(row.languageID);
@@ -52,7 +50,9 @@ describe('Account', () => {
       expect(account.getHash().get()).toBe(row.hash);
     });
 
-    it('contains malformat veauAccountID', async () => {
+    it('contains malformat veauAccountID', () => {
+      expect.assertions(1);
+
       const row: AccountRow = {
         veauAccountID: 'malformat',
         languageID: UUID.v4().get(),
@@ -61,16 +61,14 @@ describe('Account', () => {
         hash: 'hash'
       };
 
-      const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
-      const schrodinger: Schrodinger<Account, AccountError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        Account.ofRow(row);
       }).toThrow(AccountError);
     });
 
-    it('contains malformat languageID', async () => {
+    it('contains malformat languageID', () => {
+      expect.assertions(1);
+
       const row: AccountRow = {
         veauAccountID: UUID.v4().get(),
         languageID: 'malformat',
@@ -79,16 +77,14 @@ describe('Account', () => {
         hash: 'hash'
       };
 
-      const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
-      const schrodinger: Schrodinger<Account, AccountError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        Account.ofRow(row);
       }).toThrow(AccountError);
     });
 
-    it('contains malformat regionID', async () => {
+    it('contains malformat regionID', () => {
+      expect.assertions(1);
+
       const row: AccountRow = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -97,18 +93,16 @@ describe('Account', () => {
         hash: 'hash'
       };
 
-      const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
-      const schrodinger: Schrodinger<Account, AccountError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        Account.ofRow(row);
       }).toThrow(AccountError);
     });
   });
 
   describe('verify', () => {
     it('returns true if the password is acceptable', async () => {
+      expect.assertions(2);
+
       const password1: Password = Password.of('password');
       const password2: Password = Password.of('wrong one');
       const account: Account = Account.of(
@@ -128,6 +122,8 @@ describe('Account', () => {
 
   describe('equals', () => {
     it('returns true if the all properties are the same', () => {
+      expect.assertions(3);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -165,13 +161,20 @@ describe('Account', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
       const name: string = 'veau';
       const hash: string = 'hash hash hash';
       const account: Account = Account.of(
-        VeauAccount.of(VeauAccountID.of(uuid1), LanguageID.of(uuid2), RegionID.of(uuid3), AccountName.of(name)),
+        VeauAccount.of(
+          VeauAccountID.of(uuid1),
+          LanguageID.of(uuid2),
+          RegionID.of(uuid3),
+          AccountName.of(name)
+        ),
         Hash.of(hash)
       );
 

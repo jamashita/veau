@@ -7,6 +7,8 @@ import { MockHash } from '../Mock/MockHash';
 describe('AccountHash', () => {
   describe('equals', () => {
     it('returns true if all the properties are the same', () => {
+      expect.assertions(5);
+
       const account1: MockVeauAccountID = new MockVeauAccountID();
       const account2: MockVeauAccountID = new MockVeauAccountID();
       const hash1: MockHash = new MockHash('hash 1');
@@ -27,11 +29,13 @@ describe('AccountHash', () => {
   });
 
   describe('toString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const id: string = '998106de-b2e7-4981-9643-22cd30cd74de';
       const hash: string = 'hash';
 
-      const accountHash: AccountHash = AccountHash.of(await VeauAccountID.ofString(id).get(), Hash.of(hash));
+      const accountHash: AccountHash = AccountHash.of(VeauAccountID.ofString(id), Hash.of(hash));
 
       expect(accountHash.toString()).toBe(`${id} ${hash}`);
     });
