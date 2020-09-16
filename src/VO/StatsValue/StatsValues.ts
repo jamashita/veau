@@ -29,8 +29,8 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.ofMap(map);
   }
 
-  public static ofSpread(...values: ReadonlyArray<StatsValue>): StatsValues {
-    return StatsValues.ofArray([...values]);
+  public static ofSpread(...values: Array<StatsValue>): StatsValues {
+    return StatsValues.ofArray(values);
   }
 
   // TODO

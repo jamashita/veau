@@ -20,8 +20,8 @@ export class NumericalValues extends Quantity<NumericalValues, number, INumerica
     return NumericalValues.of(ImmutableSequence.of<INumericalValue>(values));
   }
 
-  public static ofSpread(...values: ReadonlyArray<INumericalValue>): NumericalValues {
-    return NumericalValues.ofArray([...values]);
+  public static ofSpread(...values: Array<INumericalValue>): NumericalValues {
+    return NumericalValues.ofArray(values);
   }
 
   public static empty(): NumericalValues {

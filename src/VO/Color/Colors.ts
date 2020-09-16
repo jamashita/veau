@@ -37,8 +37,8 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
     return Colors.of(ImmutableSequence.of<Color>(colors));
   }
 
-  public static ofSpread(...colors: ReadonlyArray<Color>): Colors {
-    return Colors.ofArray([...colors]);
+  public static ofSpread(...colors: Array<Color>): Colors {
+    return Colors.ofArray(colors);
   }
 
   public static chartScheme(): Colors {

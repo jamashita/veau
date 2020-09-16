@@ -28,8 +28,8 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return Regions.ofMap(map);
   }
 
-  public static ofSpread(...regions: ReadonlyArray<Region>): Regions {
-    return Regions.ofArray([...regions]);
+  public static ofSpread(...regions: Array<Region>): Regions {
+    return Regions.ofArray(regions);
   }
 
   public static ofJSON(json: Array<RegionJSON>): Regions {
