@@ -1,8 +1,6 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { UUID, UUIDError } from '@jamashita/publikum-uuid';
-
-import { VeauAccountIDError } from './Error/VeauAccountIDError';
+import { VeauAccountError } from './Error/VeauAccountError';
 
 export class VeauAccountID extends ValueObject<VeauAccountID, 'VeauAccountID'> {
   public readonly noun: 'VeauAccountID' = 'VeauAccountID';
@@ -12,18 +10,17 @@ export class VeauAccountID extends ValueObject<VeauAccountID, 'VeauAccountID'> {
     return new VeauAccountID(uuid);
   }
 
-  public static ofString(id: string): Superposition<VeauAccountID, VeauAccountIDError> {
-    return Superposition.playground<UUID, UUIDError>(() => {
-      return UUID.of(id);
-    }, UUIDError).transform<VeauAccountID, VeauAccountIDError>(
-      (uuid: UUID) => {
-        return VeauAccountID.of(uuid);
-      },
-      (err: UUIDError) => {
-        throw new VeauAccountIDError('VeauAccountID.ofString()', err);
-      },
-      VeauAccountIDError
-    );
+  public static ofString(id: string): VeauAccountID {
+    try {
+      return VeauAccountID.of(UUID.of(id));
+    }
+    catch (err: unknown) {
+      if (err instanceof UUIDError) {
+        throw new VeauAccountError('VeauAccountID.ofString()', err);
+      }
+
+      throw err;
+    }
   }
 
   public static generate(): VeauAccountID {

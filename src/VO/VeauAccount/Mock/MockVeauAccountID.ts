@@ -1,5 +1,4 @@
 import { UUID } from '@jamashita/publikum-uuid';
-
 import { VeauAccountID } from '../VeauAccountID';
 
 export class MockVeauAccountID extends VeauAccountID {

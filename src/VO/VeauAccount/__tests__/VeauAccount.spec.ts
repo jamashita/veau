@@ -1,6 +1,4 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
-
 import { AccountName } from '../../Account/AccountName';
 import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { LanguageID } from '../../Language/LanguageID';
@@ -15,6 +13,8 @@ import { VeauAccountID } from '../VeauAccountID';
 describe('VeauAccount', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(4);
+
       const veauAccountID: VeauAccountID = new MockVeauAccountID();
       const languageID: LanguageID = new MockLanguageID();
       const regionID: RegionID = new MockRegionID();
@@ -30,7 +30,9 @@ describe('VeauAccount', () => {
   });
 
   describe('ofJSON', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(4);
+
       const json: VeauAccountJSON = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -38,11 +40,7 @@ describe('VeauAccount', () => {
         name: 'name'
       };
 
-      const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
-      const schrodinger: Schrodinger<VeauAccount, VeauAccountError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const veauAccount: VeauAccount = schrodinger.get();
+      const veauAccount: VeauAccount = VeauAccount.ofJSON(json);
 
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
@@ -50,7 +48,9 @@ describe('VeauAccount', () => {
       expect(veauAccount.getAccountName().get()).toBe(json.name);
     });
 
-    it('veauAccountID is malformat', async () => {
+    it('veauAccountID is malformat', () => {
+      expect.assertions(1);
+
       const json: VeauAccountJSON = {
         veauAccountID: 'illegal one',
         languageID: UUID.v4().get(),
@@ -58,16 +58,14 @@ describe('VeauAccount', () => {
         name: 'name'
       };
 
-      const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
-      const schrodinger: Schrodinger<VeauAccount, VeauAccountError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        VeauAccount.ofJSON(json);
       }).toThrow(VeauAccountError);
     });
 
-    it('languageID is malformat', async () => {
+    it('languageID is malformat', () => {
+      expect.assertions(1);
+
       const json: VeauAccountJSON = {
         veauAccountID: UUID.v4().get(),
         languageID: 'illegal one',
@@ -75,16 +73,14 @@ describe('VeauAccount', () => {
         name: 'name'
       };
 
-      const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
-      const schrodinger: Schrodinger<VeauAccount, VeauAccountError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        VeauAccount.ofJSON(json);
       }).toThrow(VeauAccountError);
     });
 
-    it('regionID is malformat', async () => {
+    it('regionID is malformat', () => {
+      expect.assertions(1);
+
       const json: VeauAccountJSON = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -92,22 +88,20 @@ describe('VeauAccount', () => {
         name: 'name'
       };
 
-      const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
-      const schrodinger: Schrodinger<VeauAccount, VeauAccountError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        VeauAccount.ofJSON(json);
       }).toThrow(VeauAccountError);
     });
   });
 
   describe('empty', () => {
     it('has randomly generated id and empty name, language, and region', () => {
+      expect.assertions(5);
+
       const account1: VeauAccount = VeauAccount.empty();
       const account2: VeauAccount = VeauAccount.empty();
 
-      expect(account1.getVeauAccountID().get().get().length).toBe(UUID.size());
+      expect(account1.getVeauAccountID().get().get()).toHaveLength(UUID.size());
       expect(account1.getVeauAccountID().equals(account2.getVeauAccountID())).toBe(false);
       expect(account1.getRegionID()).toBe(RegionID.empty());
       expect(account1.getLanguageID()).toBe(LanguageID.empty());
@@ -117,6 +111,8 @@ describe('VeauAccount', () => {
 
   describe('equals', () => {
     it('returns true if the all properties are the same', () => {
+      expect.assertions(6);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -172,6 +168,8 @@ describe('VeauAccount', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -184,7 +182,7 @@ describe('VeauAccount', () => {
         AccountName.of(name)
       );
 
-      expect(veauAccount.toJSON()).toEqual({
+      expect(veauAccount.toJSON()).toStrictEqual({
         veauAccountID: uuid1.get(),
         languageID: uuid2.get(),
         regionID: uuid3.get(),
@@ -195,6 +193,8 @@ describe('VeauAccount', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();

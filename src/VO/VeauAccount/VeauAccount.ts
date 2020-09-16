@@ -1,14 +1,11 @@
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
-
 import { AccountName } from '../Account/AccountName';
-import { LanguageIDError } from '../Language/Error/LanguageIDError';
+import { LanguageError } from '../Language/Error/LanguageError';
 import { LanguageID } from '../Language/LanguageID';
-import { RegionIDError } from '../Region/Error/RegionIDError';
+import { RegionError } from '../Region/Error/RegionError';
 import { RegionID } from '../Region/RegionID';
 import { VeauAccountError } from './Error/VeauAccountError';
-import { VeauAccountIDError } from './Error/VeauAccountIDError';
 import { VeauAccountID } from './VeauAccountID';
 
 export type VeauAccountJSON = Readonly<{
@@ -34,29 +31,31 @@ export class VeauAccount extends ValueObject<VeauAccount, 'VeauAccount'> impleme
     return new VeauAccount(veauAccountID, languageID, regionID, name);
   }
 
-  public static ofJSON(json: VeauAccountJSON): Superposition<VeauAccount, VeauAccountError> {
-    return VeauAccountID.ofString(json.veauAccountID)
-      .map<VeauAccount, VeauAccountIDError | LanguageIDError | RegionIDError>(
-        (veauAccountID: VeauAccountID) => {
-          return LanguageID.ofString(json.languageID).map<VeauAccount, LanguageIDError | RegionIDError>(
-            (languageID: LanguageID) => {
-              return RegionID.ofString(json.regionID).map<VeauAccount, RegionIDError>((regionID: RegionID) => {
-                return VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(json.name));
-              });
-            },
-            RegionIDError
-          );
-        },
-        LanguageIDError,
-        RegionIDError
-      )
-      .recover<VeauAccount, VeauAccountError>((err: VeauAccountIDError | LanguageIDError | RegionIDError) => {
+  public static ofJSON(json: VeauAccountJSON): VeauAccount {
+    try {
+      return VeauAccount.of(
+        VeauAccountID.ofString(json.veauAccountID),
+        LanguageID.ofString(json.languageID),
+        RegionID.ofString(json.regionID),
+        AccountName.of(json.name)
+      );
+    }
+    catch (err: unknown) {
+      if (err instanceof VeauAccountError || err instanceof LanguageError || err instanceof RegionError) {
         throw new VeauAccountError('VeauAccount.ofJSON()', err);
-      }, VeauAccountError);
+      }
+
+      throw err;
+    }
   }
 
   public static empty(): VeauAccount {
-    return VeauAccount.of(VeauAccountID.generate(), LanguageID.empty(), RegionID.empty(), AccountName.empty());
+    return VeauAccount.of(
+      VeauAccountID.generate(),
+      LanguageID.empty(),
+      RegionID.empty(),
+      AccountName.empty()
+    );
   }
 
   protected constructor(
