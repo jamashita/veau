@@ -5,6 +5,7 @@ const EMPTY_NAME: string = '';
 export class StatsItemName extends ValueObject<StatsItemName, 'StatsItemName'> {
   public readonly noun: 'StatsItemName' = 'StatsItemName';
   private readonly name: string;
+
   private static readonly EMPTY: StatsItemName = new StatsItemName(EMPTY_NAME);
 
   public static of(name: string): StatsItemName {

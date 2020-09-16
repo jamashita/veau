@@ -4,6 +4,6 @@ import { StatsItemNames } from '../StatsItemNames';
 
 export class MockStatsItemNames extends StatsItemNames {
   public constructor(...names: ReadonlyArray<StatsItemName>) {
-    super(ImmutableSequence.of<StatsItemName>(names));
+    super(ImmutableSequence.of<StatsItemName>([...names]));
   }
 }

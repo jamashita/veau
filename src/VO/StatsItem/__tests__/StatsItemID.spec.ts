@@ -1,12 +1,12 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
-
-import { StatsItemIDError } from '../Error/StatsItemIDError';
+import { StatsItemError } from '../Error/StatsItemError';
 import { StatsItemID } from '../StatsItemID';
 
 describe('StatsItemID', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
 
       const statsItemID: StatsItemID = StatsItemID.of(uuid);
@@ -16,36 +16,39 @@ describe('StatsItemID', () => {
   });
 
   describe('ofString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
 
-      const superposition: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString(uuid.get());
-      const schrodinger: Schrodinger<StatsItemID, StatsItemIDError> = await superposition.terminate();
+      const statsItemID: StatsItemID = StatsItemID.ofString(uuid.get());
 
-      expect(schrodinger.isAlive()).toBe(true);
+      expect(statsItemID.get().equals(uuid)).toBe(true);
     });
 
-    it('returns Dead when uuid length string is not given', async () => {
-      const superposition: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString('quatre');
-      const schrodinger: Schrodinger<StatsItemID, StatsItemIDError> = await superposition.terminate();
+    it('returns Dead when uuid length string is not given', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
-      }).toThrow(StatsItemIDError);
+        StatsItemID.ofString('quatre');
+      }).toThrow(StatsItemError);
     });
   });
 
   describe('generate', () => {
     it('always gives UUID length string', () => {
+      expect.assertions(100);
+
       for (let i: number = 0; i < 100; i++) {
-        expect(StatsItemID.generate().get().get().length).toBe(UUID.size());
+        expect(StatsItemID.generate().get().get()).toHaveLength(UUID.size());
       }
     });
   });
 
   describe('equals', () => {
     it('returns true if the property is the same', () => {
+      expect.assertions(3);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const statsItemID1: StatsItemID = StatsItemID.of(uuid1);
@@ -60,6 +63,8 @@ describe('StatsItemID', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
       const statsItemID: StatsItemID = StatsItemID.of(uuid);
 

@@ -1,8 +1,6 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { UUID, UUIDError } from '@jamashita/publikum-uuid';
-
-import { StatsItemIDError } from './Error/StatsItemIDError';
+import { StatsItemError } from './Error/StatsItemError';
 
 export class StatsItemID extends ValueObject<StatsItemID, 'StatsItemID'> {
   public readonly noun: 'StatsItemID' = 'StatsItemID';
@@ -12,18 +10,17 @@ export class StatsItemID extends ValueObject<StatsItemID, 'StatsItemID'> {
     return new StatsItemID(uuid);
   }
 
-  public static ofString(id: string): Superposition<StatsItemID, StatsItemIDError> {
-    return Superposition.playground<UUID, UUIDError>(() => {
-      return UUID.of(id);
-    }, UUIDError).transform<StatsItemID, StatsItemIDError>(
-      (uuid: UUID) => {
-        return StatsItemID.of(uuid);
-      },
-      (err: UUIDError) => {
-        throw new StatsItemIDError('StatsItemID.ofString()', err);
-      },
-      StatsItemIDError
-    );
+  public static ofString(id: string): StatsItemID {
+    try {
+      return StatsItemID.of(UUID.of(id));
+    }
+    catch (err: unknown) {
+      if (err instanceof UUIDError) {
+        throw new StatsItemError('StatsItemID.ofString()', err);
+      }
+
+      throw err;
+    }
   }
 
   public static generate(): StatsItemID {
