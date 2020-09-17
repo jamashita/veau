@@ -2,7 +2,6 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsUpdateFactory } from '../../Factory/StatsUpdateFactory';
