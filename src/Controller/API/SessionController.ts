@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import { injectable } from 'inversify';
 import { Controller, Delete, Req, Res } from 'routing-controllers';
 
@@ -10,6 +10,6 @@ export class SessionController {
   public destroy(@Req() req: Request, @Res() res: Response): Response {
     req.logout();
 
-    return res.sendStatus(OK);
+    return res.sendStatus(StatusCodes.OK);
   }
 }

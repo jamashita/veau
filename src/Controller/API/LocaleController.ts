@@ -1,10 +1,9 @@
 import { DataSourceError } from '@jamashita/publikum-error';
 import { JSONable } from '@jamashita/publikum-interface';
 import { Response } from 'express';
-import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { Controller, Delete, Get, Res, UseBefore } from 'routing-controllers';
-
 import { Type } from '../../Container/Types';
 import { logger } from '../../Infrastructure/Logger';
 import { LocaleInteractor } from '../../Interactor/LocaleInteractor';
@@ -22,36 +21,24 @@ export class LocaleController {
 
   @Get('/')
   public async all(@Res() res: Response): Promise<Response> {
-    return this.localeInteractor
-      .all()
-      .transform<Response, Error>(
-        (locale: JSONable) => {
-          return res.status(OK).send(locale.toJSON());
-        },
-        (err: LocaleError | DataSourceError) => {
-          logger.error(err);
+    return this.localeInteractor.all().transform<Response, Error>((locale: JSONable) => {
+      return res.status(StatusCodes.OK).send(locale.toJSON());
+    }, (err: LocaleError | DataSourceError) => {
+      logger.error(err);
 
-          return res.sendStatus(INTERNAL_SERVER_ERROR);
-        }
-      )
-      .get();
+      return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+    }).get();
   }
 
   @Delete('/')
   @UseBefore(AuthenticationMiddleware)
   public async delete(@Res() res: Response): Promise<Response> {
-    return this.localeInteractor
-      .delete()
-      .transform<Response, Error>(
-        () => {
-          return res.sendStatus(OK);
-        },
-        (err: DataSourceError) => {
-          logger.error(err);
+    return this.localeInteractor.delete().transform<Response, Error>(() => {
+      return res.sendStatus(StatusCodes.OK);
+    }, (err: DataSourceError) => {
+      logger.error(err);
 
-          return res.sendStatus(INTERNAL_SERVER_ERROR);
-        }
-      )
-      .get();
+      return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+    }).get();
   }
 }

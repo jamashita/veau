@@ -1,10 +1,9 @@
 import express, { Express } from 'express';
 import { NextFunction, Request, Response } from 'express-serve-static-core';
-import { OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
-
 import { kernel } from '../../../Container/Kernel';
 import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
 import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
@@ -22,8 +21,11 @@ const setAccount = (account: VeauAccount) => {
 };
 
 describe('AccountController', () => {
+  // TODO CONTAINER
   describe('GET /', () => {
     it('returns VeauAccount as JSON', async () => {
+      expect.assertions(2);
+
       const account: VeauAccount = new MockVeauAccount({
         veauAccountID: new MockVeauAccountID(),
         account: new MockAccountName('account'),
@@ -41,8 +43,8 @@ describe('AccountController', () => {
 
       const response: supertest.Response = await supertest(app).get('/accounts');
 
-      expect(response.status).toBe(OK);
-      expect(response.body).toEqual(account.toJSON());
+      expect(response.status).toBe(StatusCodes.OK);
+      expect(response.body).toStrictEqual(account.toJSON());
     });
   });
 });

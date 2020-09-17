@@ -1,15 +1,13 @@
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
 import { RedisError } from '@jamashita/publikum-redis';
-
 import express, { Express } from 'express';
 import { NextFunction, Request, Response } from 'express-serve-static-core';
-import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
-
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { LocaleInteractor } from '../../../Interactor/LocaleInteractor';
@@ -33,8 +31,12 @@ const fakeAccount = (req: Request, _res: Response, next: NextFunction): void => 
 };
 
 describe('LocaleController', () => {
+  // TODO CONTAINER
+
   describe('GET /', () => {
     it('returns JSON as LocaleInteractor returns', async () => {
+      expect.assertions(2);
+
       const locale: MockLocale = new MockLocale({
         languages: [
           new MockLanguage({
@@ -68,11 +70,13 @@ describe('LocaleController', () => {
 
       const response: supertest.Response = await supertest(app).get('/locale');
 
-      expect(response.status).toBe(OK);
-      expect(response.body).toEqual(locale.toJSON());
+      expect(response.status).toBe(StatusCodes.OK);
+      expect(response.body).toStrictEqual(locale.toJSON());
     });
 
-    it('returns INTERNAL_SERVER_ERROR when Dead contains NoSuchElementError', async () => {
+    it('returns StatusCodes.INTERNAL_SERVER_ERROR when Dead contains NoSuchElementError', async () => {
+      expect.assertions(1);
+
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
 
@@ -90,10 +94,12 @@ describe('LocaleController', () => {
 
       const response: supertest.Response = await supertest(app).get('/locale');
 
-      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
+      expect(response.status).toBe(StatusCodes.INTERNAL_SERVER_ERROR);
     });
 
-    it('returns INTERNAL_SERVER_ERROR when Dead contains DataSourceError', async () => {
+    it('returns StatusCodes.INTERNAL_SERVER_ERROR when Dead contains DataSourceError', async () => {
+      expect.assertions(1);
+
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
 
@@ -109,12 +115,14 @@ describe('LocaleController', () => {
 
       const response: supertest.Response = await supertest(app).get('/locale');
 
-      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
+      expect(response.status).toBe(StatusCodes.INTERNAL_SERVER_ERROR);
     });
   });
 
   describe('DELETE /', () => {
     it('delete all locales of the cache', async () => {
+      expect.assertions(1);
+
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
 
@@ -131,10 +139,12 @@ describe('LocaleController', () => {
 
       const response: supertest.Response = await supertest(app).delete('/locale');
 
-      expect(response.status).toBe(OK);
+      expect(response.status).toBe(StatusCodes.OK);
     });
 
-    it('replies INTERNAL_SERVER_ERROR', async () => {
+    it('replies StatusCodes.INTERNAL_SERVER_ERROR', async () => {
+      expect.assertions(1);
+
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
 
@@ -151,7 +161,7 @@ describe('LocaleController', () => {
 
       const response: supertest.Response = await supertest(app).delete('/locale');
 
-      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
+      expect(response.status).toBe(StatusCodes.INTERNAL_SERVER_ERROR);
     });
   });
 });
