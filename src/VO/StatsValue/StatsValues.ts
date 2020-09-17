@@ -33,7 +33,7 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.ofArray(values);
   }
 
-  public static ofJSON(json: Array<StatsValueJSON>): StatsValues {
+  public static ofJSON(json: ReadonlyArray<StatsValueJSON>): StatsValues {
     const arr: Array<StatsValue> = json.map<StatsValue>((statsValue: StatsValueJSON) => {
       return StatsValue.ofJSON(statsValue);
     });
@@ -41,7 +41,7 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.ofArray(arr);
   }
 
-  public static ofRow(rows: Array<StatsValueRow>): StatsValues {
+  public static ofRow(rows: ReadonlyArray<StatsValueRow>): StatsValues {
     const arr: Array<StatsValue> = rows.map<StatsValue>((statsValue: StatsValueRow) => {
       return StatsValue.ofRow(statsValue);
     });

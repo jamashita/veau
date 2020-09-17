@@ -32,7 +32,7 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return Regions.ofArray(regions);
   }
 
-  public static ofJSON(json: Array<RegionJSON>): Regions {
+  public static ofJSON(json: ReadonlyArray<RegionJSON>): Regions {
     const arr: Array<Region> = json.map<Region>((region: RegionJSON) => {
       return Region.ofJSON(region);
     });
@@ -40,7 +40,7 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return Regions.ofArray(arr);
   }
 
-  public static ofRow(rows: Array<RegionRow>): Regions {
+  public static ofRow(rows: ReadonlyArray<RegionRow>): Regions {
     const arr: Array<Region> = rows.map<Region>((region: RegionRow) => {
       return Region.ofJSON(region);
     });

@@ -33,7 +33,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return Languages.ofArray(languages);
   }
 
-  public static ofJSON(json: Array<LanguageJSON>): Languages {
+  public static ofJSON(json: ReadonlyArray<LanguageJSON>): Languages {
     const arr: Array<Language> = json.map<Language>((language: LanguageJSON) => {
       return Language.ofJSON(language);
     });
@@ -41,7 +41,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return Languages.ofArray(arr);
   }
 
-  public static ofRow(rows: Array<LanguageRow>): Languages {
+  public static ofRow(rows: ReadonlyArray<LanguageRow>): Languages {
     const arr: Array<Language> = rows.map<Language>((language: LanguageRow) => {
       return Language.ofJSON(language);
     });
