@@ -3,14 +3,13 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
 import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { StatsItemRow } from '../../Entity/StatsItem/StatsItem';
 import { StatsItems } from '../../Entity/StatsItem/StatsItems';
-import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';
+import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
-import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
+import { StatsValueError } from '../../VO/StatsValue/Error/StatsValueError';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { IStatsItemQuery } from '../Interface/IStatsItemQuery';
 import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
@@ -31,7 +30,7 @@ export class StatsItemQuery implements IStatsItemQuery<MySQLError>, IMySQLQuery 
     this.statsValueQuery = statsValueQuery;
   }
 
-  public findByStatsID(statsID: StatsID): Superposition<StatsItems, StatsItemsError | MySQLError> {
+  public findByStatsID(statsID: StatsID): Superposition<StatsItems, StatsItemError | MySQLError> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.name
@@ -43,29 +42,16 @@ export class StatsItemQuery implements IStatsItemQuery<MySQLError>, IMySQLQuery 
       return this.mysql.execute<Array<StatsItemRow>>(query, {
         statsID: statsID.get().get()
       });
-    }, MySQLError)
-      .map<StatsItems, StatsValuesError | StatsItemsError | MySQLError | DataSourceError>(
-        (rows: Array<StatsItemRow>) => {
-          return this.statsValueQuery
-            .findByStatsID(statsID)
-            .map<StatsItems, StatsValuesError | StatsItemsError | MySQLError | DataSourceError>(
-              (values: Project<StatsItemID, StatsValues>) => {
-                return StatsItems.ofRow(rows, values);
-              },
-              StatsItemsError
-            );
-        }
-      )
-      .recover<StatsItems, StatsItemsError | MySQLError>(
-        (err: StatsValuesError | StatsItemsError | MySQLError | DataSourceError) => {
-          if (err instanceof MySQLError) {
-            throw err;
-          }
+    }, MySQLError).map<StatsItems, StatsValueError | StatsItemError | DataSourceError>((rows: Array<StatsItemRow>) => {
+      return this.statsValueQuery.findByStatsID(statsID).map<StatsItems, StatsValueError | StatsItemError | DataSourceError>((values: Project<StatsItemID, StatsValues>) => {
+        return StatsItems.ofRow(rows, values);
+      }, StatsItemError);
+    }).recover<StatsItems, StatsItemError | MySQLError>((err: StatsValueError | StatsItemError | DataSourceError) => {
+      if (err instanceof MySQLError || err instanceof StatsItemError) {
+        throw err;
+      }
 
-          throw new StatsItemsError('STATS VALUES ERROR', err);
-        },
-        StatsItemsError,
-        MySQLError
-      );
+      throw new StatsItemError('StatsItemQuery.findByStatsID()', err);
+    }, StatsItemError, MySQLError);
   }
 }
