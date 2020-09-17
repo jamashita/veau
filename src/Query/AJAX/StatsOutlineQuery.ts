@@ -3,13 +3,11 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
 import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { Page } from '../../VO/Page/Page';
 import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
-import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
-import { StatsOutline, StatsOutlineJSON } from '../../VO/StatsOutline/StatsOutline';
+import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
@@ -20,9 +18,9 @@ import { IAJAXQuery } from './Interface/IAJAXQuery';
 export class StatsOutlineQuery implements IStatsOutlineQuery<AJAXError>, IAJAXQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'AJAX' = 'AJAX';
-  private readonly ajax: IAJAX;
+  private readonly ajax: IAJAX<'json'>;
 
-  public constructor(@inject(Type.AJAX) ajax: IAJAX) {
+  public constructor(@inject(Type.AJAX) ajax: IAJAX<'json'>) {
     this.ajax = ajax;
   }
 
@@ -31,23 +29,22 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<AJAXError>, IAJAXQu
     throw new UnimplementedError();
   }
 
-  public findByVeauAccountID(
-    _veauAccountID: VeauAccountID,
-    page: Page
-  ): Superposition<StatsOutlines, StatsOutlinesError | AJAXError> {
-    return Superposition.playground<AJAXResponse<Array<StatsOutlineJSON>>, AJAXError>(() => {
-      return this.ajax.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page.get()}`);
-    }, AJAXError).map<StatsOutlines, StatsOutlinesError | AJAXError>(
-      ({ status, body }: AJAXResponse<Array<StatsOutlineJSON>>) => {
-        switch (status) {
-          case OK: {
+  public findByVeauAccountID(_veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, StatsOutlineError | AJAXError> {
+    return Superposition.playground<AJAXResponse<'json'>, AJAXError>(() => {
+      return this.ajax.get(`/api/stats/page/${page.get()}`);
+    }, AJAXError).map<StatsOutlines, StatsOutlineError | AJAXError>(({ status, body }: AJAXResponse<'json'>) => {
+      switch (status) {
+        case OK: {
+          if (StatsOutlines.validate(body)) {
             return StatsOutlines.ofJSON(body);
           }
-          default: {
-            throw new AJAXError('UNKNOWN ERROR', status);
-          }
+
+          throw new StatsOutlineError('StatsOutlineQuery.findByVeauAccountID()');
+        }
+        default: {
+          throw new AJAXError('UNKNOWN ERROR', status);
         }
       }
-    );
+    }, StatsOutlineError);
   }
 }
