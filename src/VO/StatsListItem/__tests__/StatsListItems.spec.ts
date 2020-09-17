@@ -1,4 +1,4 @@
-import { ImmutableSequence, MockASequence } from '@jamashita/publikum-collection';
+import { ImmutableSequence, MockSequence } from '@jamashita/publikum-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsOutline } from '../../StatsOutline/StatsOutline';
 import { MockStatsListItem } from '../Mock/MockStatsListItem';
@@ -9,10 +9,14 @@ import { StatsListItems } from '../StatsListItems';
 describe('StatsListItems', () => {
   describe('of', () => {
     it('when the ImmutableSequence is zero size, returns empty', () => {
+      expect.assertions(1);
+
       expect(StatsListItems.of(ImmutableSequence.empty<StatsListItem>())).toBe(StatsListItems.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const sequence: ImmutableSequence<MockStatsListItem> = ImmutableSequence.of<MockStatsListItem>([
         new MockStatsListItem(),
         new MockStatsListItem()
@@ -29,10 +33,14 @@ describe('StatsListItems', () => {
 
   describe('ofArray', () => {
     it('when empty Array given, returns StatsListItems.empty()', () => {
+      expect.assertions(1);
+
       expect(StatsListItems.ofArray([])).toBe(StatsListItems.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const is: Array<StatsListItem> = [new MockStatsListItem(), new MockStatsListItem()];
 
       const items: StatsListItems = StatsListItems.ofArray(is);
@@ -46,10 +54,14 @@ describe('StatsListItems', () => {
 
   describe('ofSpread', () => {
     it('when no arguments given, returns StatsListItems.empty()', () => {
+      expect.assertions(1);
+
       expect(StatsListItems.ofSpread()).toBe(StatsListItems.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const statsListItem1: MockStatsListItem = new MockStatsListItem();
       const statsListItem2: MockStatsListItem = new MockStatsListItem();
 
@@ -63,21 +75,27 @@ describe('StatsListItems', () => {
 
   describe('empty', () => {
     it('generates 0-length StatsListItems', () => {
+      expect.assertions(1);
+
       expect(StatsListItems.empty().size()).toBe(0);
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(StatsListItems.empty()).toBe(StatsListItems.empty());
     });
   });
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
-      const sequence: MockASequence<MockStatsListItem> = new MockASequence<MockStatsListItem>([item1, item2, item3]);
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -93,11 +111,13 @@ describe('StatsListItems', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
-      const sequence: MockASequence<MockStatsListItem> = new MockASequence<MockStatsListItem>([item1, item2, item3]);
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -113,11 +133,13 @@ describe('StatsListItems', () => {
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
-      const sequence: MockASequence<MockStatsListItem> = new MockASequence<MockStatsListItem>([item1, item2, item3]);
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -133,11 +155,13 @@ describe('StatsListItems', () => {
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
-      const sequence: MockASequence<MockStatsListItem> = new MockASequence<MockStatsListItem>([item1, item2, item3]);
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -153,11 +177,13 @@ describe('StatsListItems', () => {
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
-      const sequence: MockASequence<MockStatsListItem> = new MockASequence<MockStatsListItem>([item1, item2, item3]);
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -175,11 +201,13 @@ describe('StatsListItems', () => {
 
   describe('map', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
-      const sequence: MockASequence<MockStatsListItem> = new MockASequence<MockStatsListItem>([item1, item2, item3]);
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const items: StatsListItems = StatsListItems.of(sequence);
 
@@ -187,12 +215,14 @@ describe('StatsListItems', () => {
         return item.getOutline();
       });
 
-      expect(arr.length).toBe(3);
+      expect(arr).toHaveLength(3);
     });
   });
 
   describe('equals', () => {
     it('same instance', () => {
+      expect.assertions(1);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
 
@@ -202,11 +232,13 @@ describe('StatsListItems', () => {
     });
 
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
-      const sequence: MockASequence<MockStatsListItem> = new MockASequence<MockStatsListItem>([item1, item2, item3]);
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -222,11 +254,13 @@ describe('StatsListItems', () => {
 
   describe('toString', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
-      const sequence: MockASequence<MockStatsListItem> = new MockASequence<MockStatsListItem>([item1, item2, item3]);
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -242,13 +276,15 @@ describe('StatsListItems', () => {
 
   describe('iterator', () => {
     it('normal case', () => {
+      expect.assertions(3);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
       const arr: Array<MockStatsListItem> = [item1, item2, item3];
 
-      const sequence: MockASequence<MockStatsListItem> = new MockASequence<MockStatsListItem>(arr);
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>(arr);
 
       const items: StatsListItems = StatsListItems.of(sequence);
       let i: number = 0;
@@ -262,11 +298,13 @@ describe('StatsListItems', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
-      const sequence: MockASequence<MockStatsListItem> = new MockASequence<MockStatsListItem>([item1, item2, item3]);
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -284,11 +322,13 @@ describe('StatsListItems', () => {
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
-      const sequence: MockASequence<MockStatsListItem> = new MockASequence<MockStatsListItem>([item1, item2, item3]);
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -299,6 +339,28 @@ describe('StatsListItems', () => {
       items.some(() => {
         return true;
       });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('values', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const item1: MockStatsListItem = new MockStatsListItem();
+      const item2: MockStatsListItem = new MockStatsListItem();
+      const item3: MockStatsListItem = new MockStatsListItem();
+
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.values = spy;
+
+      const items: StatsListItems = StatsListItems.of(sequence);
+
+      items.values();
 
       expect(spy.called).toBe(true);
     });

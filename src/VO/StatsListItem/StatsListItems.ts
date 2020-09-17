@@ -1,11 +1,11 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
 import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
-
 import { StatsListItem } from './StatsListItem';
 
 export class StatsListItems extends Quantity<StatsListItems, number, StatsListItem, 'StatsListItems'> {
   public readonly noun: 'StatsListItems' = 'StatsListItems';
   private readonly items: Sequence<StatsListItem>;
+
   private static readonly EMPTY: StatsListItems = new StatsListItems(ImmutableSequence.empty<StatsListItem>());
 
   public static of(items: Sequence<StatsListItem>): StatsListItems {
@@ -75,6 +75,10 @@ export class StatsListItems extends Quantity<StatsListItems, number, StatsListIt
 
   public some(predicate: BinaryPredicate<StatsListItem, number>): boolean {
     return this.items.some(predicate);
+  }
+
+  public values(): Iterable<StatsListItem> {
+    return this.items.values();
   }
 
   public map<U>(mapper: Mapper<StatsListItem, U>): Array<U> {

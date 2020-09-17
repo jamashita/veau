@@ -1,6 +1,4 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
-
 import { MockLanguage } from '../../Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
 import { MockLocale } from '../../Locale/Mock/MockLocale';
@@ -17,6 +15,8 @@ import { StatsListItem } from '../StatsListItem';
 describe('StatsListItem', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(4);
+
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
@@ -32,7 +32,9 @@ describe('StatsListItem', () => {
   });
 
   describe('ofOutline', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(4);
+
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
       const termID: MockTermID = new MockTermID();
@@ -81,15 +83,11 @@ describe('StatsListItem', () => {
         new MockTerm()
       );
 
-      const superposition: Superposition<StatsListItem, StatsListItemError> = StatsListItem.ofOutline(
+      const statsListItem: StatsListItem = StatsListItem.ofOutline(
         outline,
         locale,
         terms
       );
-      const schrodinger: Schrodinger<StatsListItem, StatsListItemError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const statsListItem: StatsListItem = schrodinger.get();
 
       expect(statsListItem.getOutline()).toBe(outline);
       expect(statsListItem.getLanguage()).toBe(language);
@@ -97,7 +95,9 @@ describe('StatsListItem', () => {
       expect(statsListItem.getTerm()).toBe(term);
     });
 
-    it('no match language', async () => {
+    it('no match language', () => {
+      expect.assertions(1);
+
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
       const termID: MockTermID = new MockTermID();
@@ -136,20 +136,18 @@ describe('StatsListItem', () => {
         new MockTerm()
       );
 
-      const superposition: Superposition<StatsListItem, StatsListItemError> = StatsListItem.ofOutline(
-        outline,
-        locale,
-        terms
-      );
-      const schrodinger: Schrodinger<StatsListItem, StatsListItemError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsListItem.ofOutline(
+          outline,
+          locale,
+          terms
+        );
       }).toThrow(StatsListItemError);
     });
 
-    it('no match region', async () => {
+    it('no match region', () => {
+      expect.assertions(1);
+
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
       const termID: MockTermID = new MockTermID();
@@ -194,20 +192,18 @@ describe('StatsListItem', () => {
         new MockTerm()
       );
 
-      const superposition: Superposition<StatsListItem, StatsListItemError> = StatsListItem.ofOutline(
-        outline,
-        locale,
-        terms
-      );
-      const schrodinger: Schrodinger<StatsListItem, StatsListItemError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsListItem.ofOutline(
+          outline,
+          locale,
+          terms
+        );
       }).toThrow(StatsListItemError);
     });
 
-    it('no match term', async () => {
+    it('no match term', () => {
+      expect.assertions(1);
+
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
       const termID: MockTermID = new MockTermID();
@@ -252,22 +248,20 @@ describe('StatsListItem', () => {
         new MockTerm()
       );
 
-      const superposition: Superposition<StatsListItem, StatsListItemError> = StatsListItem.ofOutline(
-        outline,
-        locale,
-        terms
-      );
-      const schrodinger: Schrodinger<StatsListItem, StatsListItemError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsListItem.ofOutline(
+          outline,
+          locale,
+          terms
+        );
       }).toThrow(StatsListItemError);
     });
   });
 
   describe('equals', () => {
     it('returns true if all the properties are the same', () => {
+      expect.assertions(9);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -444,6 +438,8 @@ describe('StatsListItem', () => {
 
   describe('toString', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
