@@ -1,16 +1,13 @@
 import { Project } from '@jamashita/publikum-collection';
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
-
+import { Kind, Nullable } from '@jamashita/publikum-type';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { StatsItemDisplay } from '../../VO/Display/StatsItemDisplay';
 import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
-import { StatsItemIDError } from '../../VO/StatsItem/Error/StatsItemIDError';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsItemName } from '../../VO/StatsItem/StatsItemName';
-import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
+import { StatsValueError } from '../../VO/StatsValue/Error/StatsValueError';
 import { StatsValue, StatsValueJSON } from '../../VO/StatsValue/StatsValue';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
 
@@ -34,42 +31,52 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     return new StatsItem(statsItemID, name, values);
   }
 
-  public static ofJSON(json: StatsItemJSON): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(json.statsItemID)
-      .map<StatsItem, StatsItemIDError | StatsValuesError>((statsItemID: StatsItemID) => {
-        return StatsValues.ofJSON(json.values).map<StatsItem, StatsItemIDError | StatsValuesError>(
-          (statsValues: StatsValues) => {
-            return StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues);
-          },
-          StatsValuesError
-        );
-      })
-      .recover((err: StatsItemIDError | StatsValuesError) => {
+  public static ofJSON(json: StatsItemJSON): StatsItem {
+    try {
+      return StatsItem.of(
+        StatsItemID.ofString(json.statsItemID),
+        StatsItemName.of(json.name),
+        StatsValues.ofJSON(json.values)
+      );
+    }
+    catch (err: unknown) {
+      if (err instanceof StatsValueError) {
         throw new StatsItemError('StatsItem.ofJSON()', err);
-      }, StatsItemError);
+      }
+
+      throw err;
+    }
   }
 
-  public static ofRow(
-    row: StatsItemRow,
-    project: Project<StatsItemID, StatsValues>
-  ): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(row.statsItemID)
-      .map<StatsItem, StatsItemIDError>((statsItemID: StatsItemID) => {
-        return Unscharferelation.maybe<StatsValues>(project.get(statsItemID))
-          .toSuperposition()
-          .map<StatsItem, UnscharferelationError>((values: StatsValues) => {
-            return StatsItem.of(statsItemID, StatsItemName.of(row.name), values);
-          })
-          .recover<StatsItem, StatsItemIDError>(() => {
-            return StatsItem.of(statsItemID, StatsItemName.of(row.name), StatsValues.empty());
-          });
-      })
-      .recover<StatsItem, StatsItemError>((err: StatsItemIDError) => {
+  public static ofRow(row: StatsItemRow, project: Project<StatsItemID, StatsValues>): StatsItem {
+    try {
+      const statsItemID: StatsItemID = StatsItemID.ofString(row.statsItemID);
+      const values: Nullable<StatsValues> = project.get(statsItemID);
+
+      if (Kind.isNull(values)) {
+        return StatsItem.of(
+          statsItemID,
+          StatsItemName.of(row.name),
+          StatsValues.empty()
+        );
+      }
+
+      return StatsItem.of(
+        statsItemID,
+        StatsItemName.of(row.name),
+        values
+      );
+    }
+    catch (err: unknown) {
+      if (err instanceof StatsValueError) {
         throw new StatsItemError('StatsItem.ofRow()', err);
-      }, StatsItemError);
+      }
+
+      throw err;
+    }
   }
 
-  public static isJSON(n: unknown): n is StatsItemJSON {
+  public static validate(n: unknown): n is StatsItemJSON {
     if (!Kind.isObject<StatsItemJSON>(n)) {
       return false;
     }
@@ -79,7 +86,7 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     if (!Kind.isString(n.name)) {
       return false;
     }
-    if (!StatsValues.isJSON(n.values)) {
+    if (!StatsValues.validate(n.values)) {
       return false;
     }
 

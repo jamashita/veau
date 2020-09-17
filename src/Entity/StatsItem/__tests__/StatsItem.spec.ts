@@ -1,8 +1,6 @@
 import { ImmutableProject } from '@jamashita/publikum-collection';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
-
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { StatsItemDisplay } from '../../../VO/Display/StatsItemDisplay';
@@ -22,6 +20,8 @@ import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
 describe('StatsItem', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(3);
+
       const statsItemID: MockStatsItemID = new MockStatsItemID();
       const name: MockStatsItemName = new MockStatsItemName();
       const statsValue: MockStatsValue = new MockStatsValue();
@@ -35,7 +35,9 @@ describe('StatsItem', () => {
   });
 
   describe('ofJSON', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(7);
+
       const asOf1: string = '2000-01-01';
       const asOf2: string = '2000-01-02';
       const json: StatsItemJSON = {
@@ -53,27 +55,25 @@ describe('StatsItem', () => {
         ]
       };
 
-      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
-      const schrodinger: Schrodinger<StatsItem, StatsItemError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const statsItem: StatsItem = schrodinger.get();
+      const statsItem: StatsItem = StatsItem.ofJSON(json);
 
       expect(statsItem.getStatsItemID().get().get()).toBe(json.statsItemID);
       expect(statsItem.getName().get()).toBe(json.name);
       expect(statsItem.getValues().size()).toBe(json.values.length);
-      const statsValue1: Nullable<StatsValue> = statsItem.getValues().get(await AsOf.ofString(asOf1).get());
+      const statsValue1: Nullable<StatsValue> = statsItem.getValues().get(AsOf.ofString(asOf1));
 
       expect(statsValue1?.getAsOf().toString()).toBe(json.values[0].asOf);
       expect(statsValue1?.getValue().get()).toBe(json.values[0].value);
 
-      const statsValue2: Nullable<StatsValue> = statsItem.getValues().get(await AsOf.ofString(asOf2).get());
+      const statsValue2: Nullable<StatsValue> = statsItem.getValues().get(AsOf.ofString(asOf2));
 
       expect(statsValue2?.getAsOf().toString()).toBe(json.values[1].asOf);
       expect(statsValue2?.getValue().get()).toBe(json.values[1].value);
     });
 
-    it('statsItemID is malformat', async () => {
+    it('statsItemID is malformat', () => {
+      expect.assertions(1);
+
       const json: StatsItemJSON = {
         statsItemID: 'illegal uuid format',
         name: 'name',
@@ -89,16 +89,14 @@ describe('StatsItem', () => {
         ]
       };
 
-      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
-      const schrodinger: Schrodinger<StatsItem, StatsItemError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsItem.ofJSON(json);
       }).toThrow(StatsItemError);
     });
 
-    it('some asOf is malformat', async () => {
+    it('some asOf is malformat', () => {
+      expect.assertions(1);
+
       const json: StatsItemJSON = {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name',
@@ -114,16 +112,14 @@ describe('StatsItem', () => {
         ]
       };
 
-      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
-      const schrodinger: Schrodinger<StatsItem, StatsItemError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsItem.ofJSON(json);
       }).toThrow(StatsItemError);
     });
 
-    it('all asOf are malformat', async () => {
+    it('all asOf are malformat', () => {
+      expect.assertions(1);
+
       const json: StatsItemJSON = {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name',
@@ -139,18 +135,16 @@ describe('StatsItem', () => {
         ]
       };
 
-      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
-      const schrodinger: Schrodinger<StatsItem, StatsItemError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsItem.ofJSON(json);
       }).toThrow(StatsItemError);
     });
   });
 
   describe('ofRow', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(8);
+
       const statsItemID1: string = '4d0cf4e5-4f48-4db3-9c04-085374d857d1';
       const statsItemID2: string = '4d0cf4e5-4f48-4db3-9c04-085374d857d2';
       const row: StatsItemRow = {
@@ -169,7 +163,7 @@ describe('StatsItem', () => {
       const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.of<StatsItemID, StatsValues>(
         new Map<StatsItemID, StatsValues>([
           [
-            await StatsItemID.ofString(statsItemID1).get(),
+            StatsItemID.ofString(statsItemID1),
             StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
@@ -186,7 +180,7 @@ describe('StatsItem', () => {
             )
           ],
           [
-            await StatsItemID.ofString(statsItemID2).get(),
+            StatsItemID.ofString(statsItemID2),
             StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
@@ -205,11 +199,7 @@ describe('StatsItem', () => {
         ])
       );
 
-      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(row, project);
-      const schrodinger: Schrodinger<StatsItem, StatsItemError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const statsItem: StatsItem = schrodinger.get();
+      const statsItem: StatsItem = StatsItem.ofRow(row, project);
 
       expect(statsItem.getStatsItemID().get().get()).toBe(row.statsItemID);
       expect(statsItem.getName().get()).toBe(row.name);
@@ -233,7 +223,9 @@ describe('StatsItem', () => {
       expect(statsValue3?.getValue()).toBe(v3?.getValue());
     });
 
-    it('does not have values of that StatsItemID', async () => {
+    it('does not have values of that StatsItemID', () => {
+      expect.assertions(3);
+
       const row: StatsItemRow = {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name'
@@ -262,25 +254,23 @@ describe('StatsItem', () => {
         })
       ]);
 
-      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(
+      const statsItem: StatsItem = StatsItem.ofRow(
         row,
         ImmutableProject.of(
           new Map<StatsItemID, StatsValues>([
-            [await StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d2').get(), statsValues]
+            [StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d2'), statsValues]
           ])
         )
       );
-      const schrodinger: Schrodinger<StatsItem, StatsItemError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const statsItem: StatsItem = schrodinger.get();
 
       expect(statsItem.getStatsItemID().get().get()).toBe(row.statsItemID);
       expect(statsItem.getName().get()).toBe(row.name);
       expect(statsItem.getValues().size()).toBe(0);
     });
 
-    it('statsItemID is malformat', async () => {
+    it('statsItemID is malformat', () => {
+      expect.assertions(1);
+
       const row: StatsItemRow = {
         statsItemID: 'illegal uuid format',
         name: 'name'
@@ -306,25 +296,23 @@ describe('StatsItem', () => {
         })
       ]);
 
-      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(
-        row,
-        ImmutableProject.of(
-          new Map<StatsItemID, StatsValues>([
-            [await StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d1').get(), statsValues]
-          ])
-        )
-      );
-      const schrodinger: Schrodinger<StatsItem, StatsItemError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsItem.ofRow(
+          row,
+          ImmutableProject.of(
+            new Map<StatsItemID, StatsValues>([
+              [StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d1'), statsValues]
+            ])
+          )
+        );
       }).toThrow(StatsItemError);
     });
   });
 
-  describe('isJSON', () => {
+  describe('validate', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsItemID: 'ding dong',
         name: 'cameleon',
@@ -340,18 +328,22 @@ describe('StatsItem', () => {
         ]
       };
 
-      expect(StatsItem.isJSON(n)).toBe(true);
+      expect(StatsItem.validate(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect(StatsItem.isJSON(null)).toBe(false);
-      expect(StatsItem.isJSON(undefined)).toBe(false);
-      expect(StatsItem.isJSON(56)).toBe(false);
-      expect(StatsItem.isJSON('fjafsd')).toBe(false);
-      expect(StatsItem.isJSON(false)).toBe(false);
+      expect.assertions(5);
+
+      expect(StatsItem.validate(null)).toBe(false);
+      expect(StatsItem.validate(undefined)).toBe(false);
+      expect(StatsItem.validate(56)).toBe(false);
+      expect(StatsItem.validate('fjafsd')).toBe(false);
+      expect(StatsItem.validate(false)).toBe(false);
     });
 
     it('returns false because statsItemID is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         name: 'cameleon',
         values: [
@@ -366,10 +358,12 @@ describe('StatsItem', () => {
         ]
       };
 
-      expect(StatsItem.isJSON(n)).toBe(false);
+      expect(StatsItem.validate(n)).toBe(false);
     });
 
     it('returns false because statsItemID is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsItemID: -1,
         name: 'cameleon',
@@ -385,10 +379,12 @@ describe('StatsItem', () => {
         ]
       };
 
-      expect(StatsItem.isJSON(n)).toBe(false);
+      expect(StatsItem.validate(n)).toBe(false);
     });
 
     it('returns false because name is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsItemID: 'ding dong',
         values: [
@@ -403,10 +399,12 @@ describe('StatsItem', () => {
         ]
       };
 
-      expect(StatsItem.isJSON(n)).toBe(false);
+      expect(StatsItem.validate(n)).toBe(false);
     });
 
     it('returns false because name is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsItemID: 'ding dong',
         name: false,
@@ -422,34 +420,40 @@ describe('StatsItem', () => {
         ]
       };
 
-      expect(StatsItem.isJSON(n)).toBe(false);
+      expect(StatsItem.validate(n)).toBe(false);
     });
 
     it('returns false because values is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsItemID: 'ding dong',
         name: 'cameleon'
       };
 
-      expect(StatsItem.isJSON(n)).toBe(false);
+      expect(StatsItem.validate(n)).toBe(false);
     });
 
     it('returns false because values is not array', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsItemID: 'ding dong',
         name: 'cameleon',
         values: {}
       };
 
-      expect(StatsItem.isJSON(n)).toBe(false);
+      expect(StatsItem.validate(n)).toBe(false);
     });
   });
 
   describe('default', () => {
     it('id will be generated, data are empty', () => {
+      expect.assertions(3);
+
       const item: StatsItem = StatsItem.default();
 
-      expect(item.getStatsItemID().get().get().length).toBe(UUID.size());
+      expect(item.getStatsItemID().get().get()).toHaveLength(UUID.size());
       expect(item.getName()).toBe(StatsItemName.empty());
       expect(item.getValues().isEmpty()).toBe(true);
     });
@@ -457,6 +461,8 @@ describe('StatsItem', () => {
 
   describe('equals', () => {
     it('returns true when the ids equal', () => {
+      expect.assertions(3);
+
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
       const statsItemID2: MockStatsItemID = new MockStatsItemID();
       const statsItem1: StatsItem = StatsItem.of(statsItemID1, new MockStatsItemName(), new MockStatsValues());
@@ -474,18 +480,20 @@ describe('StatsItem', () => {
   });
 
   describe('toJSON', () => {
-    it('normal case', async () => {
-      const statsItemID: StatsItemID = await StatsItemID.ofString('b5f208c3-f171-488f-a8dc-f3798db5f9f4').get();
+    it('normal case', () => {
+      expect.assertions(1);
+
+      const statsItemID: StatsItemID = StatsItemID.ofString('b5f208c3-f171-488f-a8dc-f3798db5f9f4');
       const statsItem: StatsItem = StatsItem.of(
         statsItemID,
         StatsItemName.of('name 1'),
         StatsValues.ofSpread(
-          StatsValue.of(await AsOf.ofString('2000-01-01').get(), NumericalValue.of(10)),
-          StatsValue.of(await AsOf.ofString('2000-01-02').get(), NumericalValue.of(100))
+          StatsValue.of(AsOf.ofString('2000-01-01'), NumericalValue.of(10)),
+          StatsValue.of(AsOf.ofString('2000-01-02'), NumericalValue.of(100))
         )
       );
 
-      expect(statsItem.toJSON()).toEqual({
+      expect(statsItem.toJSON()).toStrictEqual({
         statsItemID: 'b5f208c3-f171-488f-a8dc-f3798db5f9f4',
         name: 'name 1',
         values: [
@@ -504,6 +512,8 @@ describe('StatsItem', () => {
 
   describe('getAdOfs', () => {
     it('extracts only their asOfs', () => {
+      expect.assertions(3);
+
       const asOf1: MockAsOf = new MockAsOf({
         day: 1
       });
@@ -531,6 +541,8 @@ describe('StatsItem', () => {
 
   describe('delete', () => {
     it('normal case', () => {
+      expect.assertions(2);
+
       const asOf1: MockAsOf = new MockAsOf({
         day: 4
       });
@@ -554,12 +566,14 @@ describe('StatsItem', () => {
       const values: StatsValues = statsItem.getValues();
 
       expect(values.size()).toBe(1);
-      expect(values.get(asOf1)).toBe(null);
+      expect(values.get(asOf1)).toBeNull();
     });
   });
 
   describe('duplicate', () => {
     it('evert properties are duplicated', () => {
+      expect.assertions(4);
+
       const statsItemID: MockStatsItemID = new MockStatsItemID();
       const name: MockStatsItemName = new MockStatsItemName();
       const statsValues: MockStatsValues = new MockStatsValues();
@@ -575,10 +589,12 @@ describe('StatsItem', () => {
   });
 
   describe('toString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const id: string = '5ee0c273-c26f-432f-9217-d6a7b481a073';
       const name: string = 'name';
-      const statsItemID: StatsItemID = await StatsItemID.ofString(id).get();
+      const statsItemID: StatsItemID = StatsItemID.ofString(id);
       const statsItemName: StatsItemName = StatsItemName.of(name);
       const statsValues: StatsValues = StatsValues.empty();
 
@@ -590,6 +606,8 @@ describe('StatsItem', () => {
 
   describe('display', () => {
     it('normal case', () => {
+      expect.assertions(3);
+
       const statsItemID: MockStatsItemID = new MockStatsItemID();
       const name: MockStatsItemName = new MockStatsItemName();
       const statsValues: MockStatsValues = new MockStatsValues();
