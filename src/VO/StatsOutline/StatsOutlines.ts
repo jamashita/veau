@@ -1,6 +1,6 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { StatsID } from './StatsID';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
@@ -51,6 +51,16 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
 
   public static empty(): StatsOutlines {
     return StatsOutlines.EMPTY;
+  }
+
+  public static validate(n: unknown): n is ReadonlyArray<StatsOutlineJSON> {
+    if (!Kind.isArray(n)) {
+      return false;
+    }
+
+    return n.every((o: unknown) => {
+      return StatsOutline.validate(o);
+    });
   }
 
   private static ofMap(outlines: Map<StatsID, StatsOutline>): StatsOutlines {

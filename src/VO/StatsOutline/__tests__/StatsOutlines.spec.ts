@@ -234,6 +234,42 @@ describe('StatsOutlines', () => {
     });
   });
 
+  describe('validate', () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
+      const n: unknown = [
+        {
+          statsID: 'oink',
+          languageID: 'miaow',
+          regionID: 'moin',
+          termID: 'doodle',
+          name: 'off',
+          unit: 'on',
+          updatedAt: 'today'
+        }
+      ];
+
+      expect(StatsOutlines.validate(n)).toBe(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect.assertions(5);
+
+      expect(StatsOutlines.validate(null)).toBe(false);
+      expect(StatsOutlines.validate(undefined)).toBe(false);
+      expect(StatsOutlines.validate(56)).toBe(false);
+      expect(StatsOutlines.validate('fjafsd')).toBe(false);
+      expect(StatsOutlines.validate(false)).toBe(false);
+    });
+
+    it('returns false because given parameter is not an array', () => {
+      expect.assertions(1);
+
+      expect(StatsOutlines.validate({})).toBe(false);
+    });
+  });
+
   describe('get', () => {
     it('delegates its inner collection instance', () => {
       expect.assertions(1);
