@@ -1,8 +1,6 @@
-import { Heisenberg, Schrodinger, Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 import sinon, { SinonStub } from 'sinon';
-
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
@@ -11,7 +9,6 @@ import { Coordinate } from '../../../VO/Coordinate/Coordinate';
 import { MockColumn } from '../../../VO/Coordinate/Mock/MockColumn';
 import { MockRow } from '../../../VO/Coordinate/Mock/MockRow';
 import { Row } from '../../../VO/Coordinate/Row';
-import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { HeaderSize } from '../../../VO/HeaderSize/HeaderSize';
 import { Language } from '../../../VO/Language/Language';
 import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
@@ -25,7 +22,6 @@ import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
 import { Region } from '../../../VO/Region/Region';
-import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { MockStatsName } from '../../../VO/StatsOutline/Mock/MockStatsName';
@@ -50,6 +46,8 @@ import { Stats, StatsJSON } from '../Stats';
 describe('Stats', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(5);
+
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
@@ -67,7 +65,9 @@ describe('Stats', () => {
   });
 
   describe('ofJSON', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(25);
+
       const json: StatsJSON = {
         outline: {
           statsID: UUID.v4().get(),
@@ -117,11 +117,7 @@ describe('Stats', () => {
         ]
       };
 
-      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
-      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const stats: Stats = schrodinger.get();
+      const stats: Stats = Stats.ofJSON(json);
 
       expect(stats.getStatsID().get().get()).toBe(json.outline.statsID);
       expect(stats.getName().get()).toBe(json.outline.name);
@@ -150,8 +146,7 @@ describe('Stats', () => {
         }
 
         for (let j: number = 0; j < item.getValues().size(); j++) {
-          // eslint-disable-next-line no-await-in-loop
-          const asOf: AsOf = await AsOf.ofString(json.items[i].values[j].asOf).get();
+          const asOf: AsOf = AsOf.ofString(json.items[i].values[j].asOf);
 
           expect(item.getValues().get(asOf)?.getAsOf().toString()).toBe(json.items[i].values[j].asOf);
           expect(item.getValues().get(asOf)?.getValue().get()).toBe(json.items[i].values[j].value);
@@ -159,7 +154,9 @@ describe('Stats', () => {
       }
     });
 
-    it('returns Dead if StatsOutline returns Dead', async () => {
+    it('returns Dead if StatsOutline returns Dead', () => {
+      expect.assertions(1);
+
       const json: StatsJSON = {
         outline: {
           statsID: 'malformat',
@@ -209,13 +206,14 @@ describe('Stats', () => {
         ]
       };
 
-      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
-      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        Stats.ofJSON(json);
+      }).toThrow(StatsError);
     });
 
-    it('returns Dead if Language returns Dead', async () => {
+    it('returns Dead if Language returns Dead', () => {
+      expect.assertions(1);
+
       const json: StatsJSON = {
         outline: {
           statsID: UUID.v4().get(),
@@ -265,13 +263,14 @@ describe('Stats', () => {
         ]
       };
 
-      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
-      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        Stats.ofJSON(json);
+      }).toThrow(StatsError);
     });
 
-    it('returns Dead if Region returns Dead', async () => {
+    it('returns Dead if Region returns Dead', () => {
+      expect.assertions(1);
+
       const json: StatsJSON = {
         outline: {
           statsID: UUID.v4().get(),
@@ -321,13 +320,14 @@ describe('Stats', () => {
         ]
       };
 
-      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
-      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        Stats.ofJSON(json);
+      }).toThrow(StatsError);
     });
 
-    it('returns Dead if Term returns Dead', async () => {
+    it('returns Dead if Term returns Dead', () => {
+      expect.assertions(1);
+
       const json: StatsJSON = {
         outline: {
           statsID: UUID.v4().get(),
@@ -377,13 +377,14 @@ describe('Stats', () => {
         ]
       };
 
-      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
-      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        Stats.ofJSON(json);
+      }).toThrow(StatsError);
     });
 
-    it('returns Dead if StatsItem returns Dead', async () => {
+    it('returns Dead if StatsItem returns Dead', () => {
+      expect.assertions(1);
+
       const json: StatsJSON = {
         outline: {
           statsID: UUID.v4().get(),
@@ -433,138 +434,16 @@ describe('Stats', () => {
         ]
       };
 
-      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
-      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        Stats.ofJSON(json);
+      }).toThrow(StatsError);
     });
   });
 
-  describe('ofObject', () => {
-    it('Stats.isJSON() and Stats.ofJSON() works proper, returns Alive', async () => {
-      const object: StatsJSON = {
-        outline: {
-          statsID: UUID.v4().get(),
-          languageID: UUID.v4().get(),
-          regionID: UUID.v4().get(),
-          termID: Term.DAILY.getTermID().get().get(),
-          name: 'stats1',
-          unit: 'unit1',
-          updatedAt: '2000-01-01 00:00:00'
-        },
-        language: {
-          languageID: UUID.v4().get(),
-          name: 'language1',
-          englishName: 'english language1',
-          iso639: 'LG'
-        },
-        region: {
-          regionID: UUID.v4().get(),
-          name: 'region1',
-          iso3166: 'RGN'
-        },
-        items: [
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      const superposition: Superposition<Stats, StatsError> = Stats.ofObject(object);
-      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-    });
-
-    it('Stats.isJSON() returns false, returns Dead', async () => {
-      const object: object = {};
-
-      const superposition: Superposition<Stats, StatsError> = Stats.ofObject(object);
-      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
-    });
-
-    it('Stats.ofJSON() returns false, returns Dead', async () => {
-      const object: StatsJSON = {
-        outline: {
-          statsID: 'malformat',
-          languageID: UUID.v4().get(),
-          regionID: UUID.v4().get(),
-          termID: Term.DAILY.getTermID().get().get(),
-          name: 'stats1',
-          unit: 'unit1',
-          updatedAt: '2000-01-01 00:00:00'
-        },
-        language: {
-          languageID: UUID.v4().get(),
-          name: 'language1',
-          englishName: 'english language1',
-          iso639: 'LG'
-        },
-        region: {
-          regionID: UUID.v4().get(),
-          name: 'region1',
-          iso3166: 'RGN'
-        },
-        items: [
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      const superposition: Superposition<Stats, StatsError> = Stats.ofObject(object);
-      const schrodinger: Schrodinger<Stats, StatsError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
-    });
-  });
-
-  describe('isJSON', () => {
+  describe('validate', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         outline: {
           statsID: UUID.v4().get(),
@@ -614,18 +493,22 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toBe(true);
+      expect(Stats.validate(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect(Stats.isJSON(null)).toBe(false);
-      expect(Stats.isJSON(undefined)).toBe(false);
-      expect(Stats.isJSON(56)).toBe(false);
-      expect(Stats.isJSON('fjafsd')).toBe(false);
-      expect(Stats.isJSON(false)).toBe(false);
+      expect.assertions(5);
+
+      expect(Stats.validate(null)).toBe(false);
+      expect(Stats.validate(undefined)).toBe(false);
+      expect(Stats.validate(56)).toBe(false);
+      expect(Stats.validate('fjafsd')).toBe(false);
+      expect(Stats.validate(false)).toBe(false);
     });
 
     it('returns false because outline is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         language: {
           languageID: UUID.v4().get(),
@@ -666,10 +549,12 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toBe(false);
+      expect(Stats.validate(n)).toBe(false);
     });
 
     it('returns false because outline is not object', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         outline: 'fale outline',
         language: {
@@ -711,10 +596,12 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toBe(false);
+      expect(Stats.validate(n)).toBe(false);
     });
 
     it('returns false because language is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         outline: {
           statsID: UUID.v4().get(),
@@ -758,10 +645,12 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toBe(false);
+      expect(Stats.validate(n)).toBe(false);
     });
 
     it('returns false because language is not object', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         outline: {
           statsID: UUID.v4().get(),
@@ -806,10 +695,12 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toBe(false);
+      expect(Stats.validate(n)).toBe(false);
     });
 
     it('returns false region region is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         outline: {
           statsID: UUID.v4().get(),
@@ -854,10 +745,12 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toBe(false);
+      expect(Stats.validate(n)).toBe(false);
     });
 
     it('returns false because region is not object', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         outline: {
           statsID: UUID.v4().get(),
@@ -903,10 +796,12 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toBe(false);
+      expect(Stats.validate(n)).toBe(false);
     });
 
     it('returns false because items is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         outline: {
           statsID: UUID.v4().get(),
@@ -930,10 +825,12 @@ describe('Stats', () => {
         }
       };
 
-      expect(Stats.isJSON(n)).toBe(false);
+      expect(Stats.validate(n)).toBe(false);
     });
 
     it('returns false because items is not array', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         outline: {
           statsID: UUID.v4().get(),
@@ -983,30 +880,32 @@ describe('Stats', () => {
         }
       };
 
-      expect(Stats.isJSON(n)).toBe(false);
+      expect(Stats.validate(n)).toBe(false);
     });
   });
 
   describe('default', () => {
-    it('id will be generated, data are empty', async () => {
+    it('id will be generated, data are empty', () => {
+      expect.assertions(8);
+
       const stats: Stats = Stats.default();
 
-      expect(stats.getStatsID().get().get().length).toBe(UUID.size());
+      expect(stats.getStatsID().get().get()).toHaveLength(UUID.size());
       expect(stats.getName()).toBe(StatsName.empty());
       expect(stats.getUnit()).toBe(StatsUnit.empty());
-      expect(stats.getItems()).toBe(StatsItems.empty());
+      expect(stats.getItems().equals(StatsItems.empty())).toBe(true);
       expect(stats.getLanguage()).toBe(Language.empty());
       expect(stats.getRegion()).toBe(Region.empty());
       expect(stats.getTerm()).toBe(Term.DAILY);
 
-      const heisenberg: Heisenberg<AsOf> = await stats.getStartDate().terminate();
-
-      expect(heisenberg.isAbsent()).toBe(true);
+      expect(stats.getStartDate()).toBeNull();
     });
   });
 
   describe('equals', () => {
     it('returns true if the ids equal', () => {
+      expect.assertions(8);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -1173,6 +1072,8 @@ describe('Stats', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -1215,7 +1116,7 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      expect(stats.toJSON()).toEqual({
+      expect(stats.toJSON()).toStrictEqual({
         outline: {
           statsID: uuid1.get(),
           languageID: uuid2.get(),
@@ -1243,6 +1144,8 @@ describe('Stats', () => {
 
   describe('toString', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -1292,7 +1195,9 @@ describe('Stats', () => {
   });
 
   describe('getColumns', () => {
-    it('asOfs are taken and their duplicated values are eliminated', async () => {
+    it('asOfs are taken and their duplicated values are eliminated', () => {
+      expect.assertions(8);
+
       const stats: Stats = Stats.of(
         new MockStatsOutline(),
         new MockLanguage(),
@@ -1345,19 +1250,21 @@ describe('Stats', () => {
         )
       );
 
-      const columns: AsOfs = await stats.getColumns().get();
+      const columns: Nullable<AsOfs> = stats.getColumns();
 
-      expect(columns.size()).toBe(7);
-      expect(columns.get(0)?.toString()).toBe('1999-12-31');
-      expect(columns.get(1)?.toString()).toBe('2000-01-01');
-      expect(columns.get(2)?.toString()).toBe('2000-01-02');
-      expect(columns.get(3)?.toString()).toBe('2000-01-03');
-      expect(columns.get(4)?.toString()).toBe('2000-01-04');
-      expect(columns.get(5)?.toString()).toBe('2000-01-05');
-      expect(columns.get(6)?.toString()).toBe('2000-01-06');
+      expect(columns?.size()).toBe(7);
+      expect(columns?.get(0)?.toString()).toBe('1999-12-31');
+      expect(columns?.get(1)?.toString()).toBe('2000-01-01');
+      expect(columns?.get(2)?.toString()).toBe('2000-01-02');
+      expect(columns?.get(3)?.toString()).toBe('2000-01-03');
+      expect(columns?.get(4)?.toString()).toBe('2000-01-04');
+      expect(columns?.get(5)?.toString()).toBe('2000-01-05');
+      expect(columns?.get(6)?.toString()).toBe('2000-01-06');
     });
 
-    it('startDate is present', async () => {
+    it('startDate is present', () => {
+      expect.assertions(11);
+
       const stats: Stats = Stats.of(
         new MockStatsOutline(),
         new MockLanguage(),
@@ -1408,25 +1315,27 @@ describe('Stats', () => {
             )
           })
         ),
-        AsOf.ofString('2000-01-08').toUnscharferelation()
+        AsOf.ofString('2000-01-08')
       );
 
-      const columns: AsOfs = await stats.getColumns().get();
+      const columns: Nullable<AsOfs> = stats.getColumns();
 
-      expect(columns.size()).toBe(10);
-      expect(columns.get(0)?.toString()).toBe('1999-12-31');
-      expect(columns.get(1)?.toString()).toBe('2000-01-01');
-      expect(columns.get(2)?.toString()).toBe('2000-01-02');
-      expect(columns.get(3)?.toString()).toBe('2000-01-03');
-      expect(columns.get(4)?.toString()).toBe('2000-01-04');
-      expect(columns.get(5)?.toString()).toBe('2000-01-05');
-      expect(columns.get(6)?.toString()).toBe('2000-01-06');
-      expect(columns.get(7)?.toString()).toBe('2000-01-07');
-      expect(columns.get(8)?.toString()).toBe('2000-01-08');
-      expect(columns.get(9)?.toString()).toBe('2000-01-09');
+      expect(columns?.size()).toBe(10);
+      expect(columns?.get(0)?.toString()).toBe('1999-12-31');
+      expect(columns?.get(1)?.toString()).toBe('2000-01-01');
+      expect(columns?.get(2)?.toString()).toBe('2000-01-02');
+      expect(columns?.get(3)?.toString()).toBe('2000-01-03');
+      expect(columns?.get(4)?.toString()).toBe('2000-01-04');
+      expect(columns?.get(5)?.toString()).toBe('2000-01-05');
+      expect(columns?.get(6)?.toString()).toBe('2000-01-06');
+      expect(columns?.get(7)?.toString()).toBe('2000-01-07');
+      expect(columns?.get(8)?.toString()).toBe('2000-01-08');
+      expect(columns?.get(9)?.toString()).toBe('2000-01-09');
     });
 
-    it('no AsOfs', async () => {
+    it('no AsOfs', () => {
+      expect.assertions(1);
+
       const stats: Stats = Stats.of(
         new MockStatsOutline(),
         new MockLanguage(),
@@ -1435,14 +1344,16 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      const columns: AsOfs = await stats.getColumns().get();
+      const columns: Nullable<AsOfs> = stats.getColumns();
 
-      expect(columns.isEmpty()).toBe(true);
+      expect(columns?.isEmpty()).toBe(true);
     });
   });
 
   describe('getRow', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(2);
+
       const statsItem1: MockStatsItem = new MockStatsItem({
         values: new MockStatsValues(
           new MockStatsValue({
@@ -1495,13 +1406,15 @@ describe('Stats', () => {
         new MockStatsItems(statsItem1, statsItem2)
       );
 
-      expect(await stats.getRow(await Row.of(0).get()).get()).toBe(statsItem1);
-      expect(await stats.getRow(await Row.of(1).get()).get()).toBe(statsItem2);
+      expect(stats.getRow(Row.of(0))).toBe(statsItem1);
+      expect(stats.getRow(Row.of(1))).toBe(statsItem2);
     });
   });
 
   describe('getRowHeaderSize', () => {
-    it('normal case ', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const name1: MockStatsItemName = new MockStatsItemName('stats1');
       const name2: MockStatsItemName = new MockStatsItemName('stats1111');
       const stats: Stats = Stats.of(
@@ -1558,12 +1471,14 @@ describe('Stats', () => {
         )
       );
 
-      const headerSize: HeaderSize = await stats.getRowHeaderSize().get();
+      const headerSize: HeaderSize = stats.getRowHeaderSize();
 
       expect(headerSize.get()).toBe(name2.length() * 14);
     });
 
-    it('gives 1 * 14 when given stats', async () => {
+    it('gives 1 * 14 when given stats', () => {
+      expect.assertions(1);
+
       const stats: Stats = Stats.of(
         new MockStatsOutline(),
         new MockLanguage(),
@@ -1572,16 +1487,18 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      const headerSize: HeaderSize = await stats.getRowHeaderSize().get();
+      const headerSize: HeaderSize = stats.getRowHeaderSize();
 
       expect(headerSize.get()).toBe(14);
     });
   });
 
   describe('setData', () => {
-    it('update pattern', async () => {
-      const asOf1: AsOf = await AsOf.ofString('2000-01-01').get();
-      const asOf2: AsOf = await AsOf.ofString('2000-01-02').get();
+    it('update pattern', () => {
+      expect.assertions(3);
+
+      const asOf1: AsOf = AsOf.ofString('2000-01-01');
+      const asOf2: AsOf = AsOf.ofString('2000-01-02');
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
@@ -1606,17 +1523,19 @@ describe('Stats', () => {
         )
       );
 
-      stats.setData(Coordinate.of(await Row.of(0).get(), await Column.of(2).get()), NumericalValue.of(4));
+      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), NumericalValue.of(4));
 
       expect(stats.getItems().get(0)?.getValues().size()).toBe(2);
       expect(stats.getItems().get(0)?.getValues().get(asOf1)?.getValue().get()).toBe(1);
       expect(stats.getItems().get(0)?.getValues().get(asOf2)?.getValue().get()).toBe(4);
     });
 
-    it('insert pattern', async () => {
-      const asOf1: AsOf = await AsOf.ofString('2000-01-01').get();
-      const asOf2: AsOf = await AsOf.ofString('2000-01-02').get();
-      const asOf3: AsOf = await AsOf.ofString('2000-01-03').get();
+    it('insert pattern', () => {
+      expect.assertions(4);
+
+      const asOf1: AsOf = AsOf.ofString('2000-01-01');
+      const asOf2: AsOf = AsOf.ofString('2000-01-02');
+      const asOf3: AsOf = AsOf.ofString('2000-01-03');
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
@@ -1641,7 +1560,7 @@ describe('Stats', () => {
         )
       );
 
-      stats.setData(Coordinate.of(await Row.of(0).get(), await Column.of(2).get()), NumericalValue.of(2));
+      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), NumericalValue.of(2));
 
       expect(stats.getItems().get(0)?.getValues().size()).toBe(3);
       expect(stats.getItems().get(0)?.getValues().get(asOf1)?.getValue().get()).toBe(1);
@@ -1651,11 +1570,13 @@ describe('Stats', () => {
   });
 
   describe('deleteData', () => {
-    it('correctly deletes the specified StatsValue', async () => {
-      const asOf1: AsOf = await AsOf.ofString('2000-01-01').get();
-      const asOf2: AsOf = await AsOf.ofString('2000-01-02').get();
-      const asOf3: AsOf = await AsOf.ofString('2000-01-03').get();
-      const asOf4: AsOf = await AsOf.ofString('2000-01-05').get();
+    it('correctly deletes the specified StatsValue', () => {
+      expect.assertions(7);
+
+      const asOf1: AsOf = AsOf.ofString('2000-01-01');
+      const asOf2: AsOf = AsOf.ofString('2000-01-02');
+      const asOf3: AsOf = AsOf.ofString('2000-01-03');
+      const asOf4: AsOf = AsOf.ofString('2000-01-05');
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
@@ -1696,7 +1617,7 @@ describe('Stats', () => {
         )
       );
 
-      stats.deleteData(Coordinate.of(await Row.of(0).get(), await Column.of(1).get()));
+      stats.deleteData(Coordinate.of(Row.of(0), Column.of(1)));
 
       const items: StatsItems = stats.getItems();
 
@@ -1712,6 +1633,8 @@ describe('Stats', () => {
 
   describe('duplicate', () => {
     it('every properties are duplicated', () => {
+      expect.assertions(8);
+
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
@@ -1733,6 +1656,8 @@ describe('Stats', () => {
 
   describe('replaceItem', () => {
     it('delegates its inner StatsItems instance', () => {
+      expect.assertions(1);
+
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
@@ -1754,6 +1679,8 @@ describe('Stats', () => {
 
   describe('moveItem', () => {
     it('delegates its inner StatsItems instance', () => {
+      expect.assertions(1);
+
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
@@ -1775,6 +1702,8 @@ describe('Stats', () => {
 
   describe('removeItem', () => {
     it('delegates its inner StatsItems instance', () => {
+      expect.assertions(1);
+
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
@@ -1791,68 +1720,6 @@ describe('Stats', () => {
       stats.removeItem(new MockStatsItem());
 
       expect(stub.called).toBe(true);
-    });
-  });
-
-  describe('display', () => {
-    it('normal case', async () => {
-      const outline: MockStatsOutline = new MockStatsOutline();
-      const language: MockLanguage = new MockLanguage();
-      const region: MockRegion = new MockRegion();
-      const term: Term = Term.DAILY;
-      const statsItemID: MockStatsItemID = new MockStatsItemID();
-      const name: MockStatsItemName = new MockStatsItemName();
-      const values: MockStatsValues = new MockStatsValues();
-      const items: MockStatsItems = new MockStatsItems(
-        new MockStatsItem({
-          statsItemID,
-          name,
-          values
-        })
-      );
-      const startDate: Unscharferelation<AsOf> = Unscharferelation.present<AsOf>(new MockAsOf());
-
-      const stats: Stats = Stats.of(outline, language, region, term, items, startDate);
-
-      const unscharferelation: Unscharferelation<StatsDisplay> = stats.display();
-      const heisenberg: Heisenberg<StatsDisplay> = await unscharferelation.terminate();
-
-      expect(heisenberg.isPresent()).toBe(true);
-      const display: StatsDisplay = heisenberg.get();
-
-      expect(display.getOutline()).toBe(outline);
-      expect(display.getLanguage()).toBe(language);
-      expect(display.getRegion()).toBe(region);
-      expect(display.getTerm()).toBe(term);
-      expect(display.getItems().size()).toBe(items.size());
-      expect(display.getItems().get(0)?.getStatsItemID()).toBe(items.get(0)?.getStatsItemID());
-      expect(display.getItems().get(0)?.getName()).toBe(items.get(0)?.getName());
-      expect(display.getItems().get(0)?.getValues()).toBe(items.get(0)?.getValues());
-    });
-
-    it('no startDate', async () => {
-      const outline: MockStatsOutline = new MockStatsOutline();
-      const language: MockLanguage = new MockLanguage();
-      const region: MockRegion = new MockRegion();
-      const term: Term = Term.DAILY;
-      const items: MockStatsItems = new MockStatsItems(
-        new MockStatsItem({
-          values: new MockStatsValues(
-            new MockStatsValue({
-              asOf: new MockAsOf({
-                day: 2
-              })
-            })
-          )
-        })
-      );
-
-      const stats: Stats = Stats.of(outline, language, region, term, items);
-
-      const unscharferelation: Unscharferelation<StatsDisplay> = stats.display();
-      const heisenberg: Heisenberg<StatsDisplay> = await unscharferelation.terminate();
-
-      expect(heisenberg.isAbsent()).toBe(true);
     });
   });
 });
