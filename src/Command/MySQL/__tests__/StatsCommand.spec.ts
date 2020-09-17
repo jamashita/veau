@@ -3,7 +3,6 @@ import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockSQL, MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 import sinon, { SinonStub } from 'sinon';
-
 import { MockStats } from '../../../Entity/Stats/Mock/MockStats';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
@@ -21,6 +20,8 @@ import { StatsCommand } from '../StatsCommand';
 describe('StatsCommand', () => {
   describe('create', () => {
     it('normal case', async () => {
+      expect.assertions(2);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -52,13 +53,10 @@ describe('StatsCommand', () => {
       sql.execute = stub;
 
       const statsCommand: StatsCommand = new StatsCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
-        .create(stats, accountID)
-        .terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats, accountID).terminate();
 
-      expect(
-        stub.withArgs(
-          `INSERT INTO stats VALUES (
+      expect(stub.withArgs(
+        `INSERT INTO stats VALUES (
       :statsID,
       :languageID,
       :regionID,
@@ -68,22 +66,23 @@ describe('StatsCommand', () => {
       :unit,
       :updatedAt
       );`,
-          {
-            statsID: uuid1.get(),
-            languageID: uuid2.get(),
-            regionID: uuid3.get(),
-            termID: uuid4.get(),
-            veauAccountID: uuid5.get(),
-            name: statsName,
-            unit: statsUnit,
-            updatedAt: '2000-01-02 01:02:03'
-          }
-        ).called
-      ).toBe(true);
+        {
+          statsID: uuid1.get(),
+          languageID: uuid2.get(),
+          regionID: uuid3.get(),
+          termID: uuid4.get(),
+          veauAccountID: uuid5.get(),
+          name: statsName,
+          unit: statsUnit,
+          updatedAt: '2000-01-02 01:02:03'
+        }
+      ).called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
+      expect.assertions(2);
+
       const stats: MockStats = new MockStats();
       const accountID: MockVeauAccountID = new MockVeauAccountID();
 
@@ -94,9 +93,7 @@ describe('StatsCommand', () => {
       stub.rejects(new MySQLError('test failed'));
 
       const statsCommand: StatsCommand = new StatsCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
-        .create(stats, accountID)
-        .terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats, accountID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -107,6 +104,8 @@ describe('StatsCommand', () => {
 
   describe('deleteByStatsID', () => {
     it('normal case', async () => {
+      expect.assertions(2);
+
       const uuid: UUID = UUID.v4();
       const statsID: MockStatsID = new MockStatsID(uuid);
 
@@ -116,24 +115,22 @@ describe('StatsCommand', () => {
       sql.execute = stub;
 
       const statsCommand: StatsCommand = new StatsCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
-        .deleteByStatsID(statsID)
-        .terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.deleteByStatsID(statsID).terminate();
 
-      expect(
-        stub.withArgs(
-          `DELETE R1
+      expect(stub.withArgs(
+        `DELETE R1
       FROM stats R1
       WHERE R1.stats_id = :statsID;`,
-          {
-            statsID: uuid.get()
-          }
-        ).called
-      ).toBe(true);
+        {
+          statsID: uuid.get()
+        }
+      ).called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
+      expect.assertions(2);
+
       const statsID: MockStatsID = new MockStatsID();
 
       const sql: MockSQL = new MockSQL();
@@ -143,9 +140,7 @@ describe('StatsCommand', () => {
       stub.rejects(new MySQLError('test failed'));
 
       const statsCommand: StatsCommand = new StatsCommand(sql);
-      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand
-        .deleteByStatsID(statsID)
-        .terminate();
+      const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.deleteByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

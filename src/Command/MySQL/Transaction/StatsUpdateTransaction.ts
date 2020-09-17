@@ -6,13 +6,11 @@ import { IStatsUpdateFactory } from '../../../Factory/Interface/IStatsUpdateFact
 import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { StatsValue } from '../../../VO/StatsValue/StatsValue';
 import { VeauAccountID } from '../../../VO/VeauAccount/VeauAccountID';
-
 import { IStatsCommand } from '../../Interface/IStatsCommand';
 import { IStatsItemCommand } from '../../Interface/IStatsItemCommand';
 import { IStatsValueCommand } from '../../Interface/IStatsValueCommand';
 
-export class StatsUpdateTransaction
-  implements ITransaction<Schrodinger<unknown, MySQLError>, 'StatsUpdateTransaction'> {
+export class StatsUpdateTransaction implements ITransaction<Schrodinger<unknown, MySQLError>, 'StatsUpdateTransaction'> {
   public readonly noun: 'StatsUpdateTransaction' = 'StatsUpdateTransaction';
   private readonly stats: Stats;
   private readonly veauAccountID: VeauAccountID;
