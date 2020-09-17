@@ -1,5 +1,6 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 import { AccountName } from '../Account/AccountName';
 import { LanguageError } from '../Language/Error/LanguageError';
 import { LanguageID } from '../Language/LanguageID';
@@ -56,6 +57,26 @@ export class VeauAccount extends ValueObject<VeauAccount, 'VeauAccount'> impleme
       RegionID.empty(),
       AccountName.empty()
     );
+  }
+
+  public static validate(n: unknown): n is VeauAccountJSON {
+    if (!Kind.isObject<VeauAccountJSON>(n)) {
+      return false;
+    }
+    if (!Kind.isString(n.veauAccountID)) {
+      return false;
+    }
+    if (!Kind.isString(n.languageID)) {
+      return false;
+    }
+    if (!Kind.isString(n.regionID)) {
+      return false;
+    }
+    if (!Kind.isString(n.name)) {
+      return false;
+    }
+
+    return true;
   }
 
   protected constructor(

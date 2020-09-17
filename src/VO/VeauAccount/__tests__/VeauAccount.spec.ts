@@ -94,6 +94,131 @@ describe('VeauAccount', () => {
     });
   });
 
+  describe('validate', () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        veauAccountID: 'illegal one',
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
+        name: 'name'
+      };
+
+      expect(VeauAccount.validate(n)).toBe(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect.assertions(5);
+
+      expect(VeauAccount.validate(null)).toBe(false);
+      expect(VeauAccount.validate(undefined)).toBe(false);
+      expect(VeauAccount.validate(56)).toBe(false);
+      expect(VeauAccount.validate('fjafsd')).toBe(false);
+      expect(VeauAccount.validate(false)).toBe(false);
+    });
+
+    it('returns false because veauAccountID is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
+        name: 'name'
+      };
+
+      expect(VeauAccount.validate(n)).toBe(false);
+    });
+
+    it('returns false because veauAccountID is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        veauAccountID: false,
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
+        name: 'name'
+      };
+
+      expect(VeauAccount.validate(n)).toBe(false);
+    });
+
+    it('returns false because languageID is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        veauAccountID: 'illegal one',
+        regionID: UUID.v4().get(),
+        name: 'name'
+      };
+
+      expect(VeauAccount.validate(n)).toBe(false);
+    });
+
+    it('returns false because languageID is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        veauAccountID: 'illegal one',
+        languageID: undefined,
+        regionID: UUID.v4().get(),
+        name: 'name'
+      };
+
+      expect(VeauAccount.validate(n)).toBe(false);
+    });
+
+    it('returns false because regionID is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        veauAccountID: 'illegal one',
+        languageID: UUID.v4().get(),
+        name: 'name'
+      };
+
+      expect(VeauAccount.validate(n)).toBe(false);
+    });
+
+    it('returns false because regionID is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        veauAccountID: 'illegal one',
+        languageID: UUID.v4().get(),
+        regionID: -5,
+        name: 'name'
+      };
+
+      expect(VeauAccount.validate(n)).toBe(false);
+    });
+
+    it('returns false because name is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        veauAccountID: 'illegal one',
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get()
+      };
+
+      expect(VeauAccount.validate(n)).toBe(false);
+    });
+
+    it('returns false because name is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        veauAccountID: 'illegal one',
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
+        name: null
+      };
+
+      expect(VeauAccount.validate(n)).toBe(false);
+    });
+  });
+
   describe('empty', () => {
     it('has randomly generated id and empty name, language, and region', () => {
       expect.assertions(5);
