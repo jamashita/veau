@@ -1,6 +1,4 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
-
 import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
 import { MockRegionID } from '../../Region/Mock/MockRegionID';
@@ -22,6 +20,8 @@ import { UpdatedAt } from '../UpdatedAt';
 describe('StatsOutline', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(7);
+
       const statsID: MockStatsID = new MockStatsID();
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
@@ -43,7 +43,9 @@ describe('StatsOutline', () => {
   });
 
   describe('ofJSON', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(7);
+
       const json: StatsOutlineJSON = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -54,11 +56,7 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const statsOutline: StatsOutline = schrodinger.get();
+      const statsOutline: StatsOutline = StatsOutline.ofJSON(json);
 
       expect(statsOutline.getStatsID().get().get()).toBe(json.statsID);
       expect(statsOutline.getLanguageID().get().get()).toBe(json.languageID);
@@ -69,7 +67,9 @@ describe('StatsOutline', () => {
       expect(statsOutline.getUpdatedAt().toString()).toBe(json.updatedAt);
     });
 
-    it('contains malformat statsID', async () => {
+    it('contains malformat statsID', () => {
+      expect.assertions(1);
+
       const json: StatsOutlineJSON = {
         statsID: 'illegal uuid',
         languageID: UUID.v4().get(),
@@ -80,16 +80,14 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsOutline.ofJSON(json);
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat languageID', async () => {
+    it('contains malformat languageID', () => {
+      expect.assertions(1);
+
       const json: StatsOutlineJSON = {
         statsID: UUID.v4().get(),
         languageID: 'illegal uuid',
@@ -100,16 +98,14 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsOutline.ofJSON(json);
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat regionID', async () => {
+    it('contains malformat regionID', () => {
+      expect.assertions(1);
+
       const json: StatsOutlineJSON = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -120,16 +116,14 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsOutline.ofJSON(json);
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat termID', async () => {
+    it('contains malformat termID', () => {
+      expect.assertions(1);
+
       const json: StatsOutlineJSON = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -140,16 +134,14 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsOutline.ofJSON(json);
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat updatedAt', async () => {
+    it('contains malformat updatedAt', () => {
+      expect.assertions(1);
+
       const json: StatsOutlineJSON = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -160,18 +152,16 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsOutline.ofJSON(json);
       }).toThrow(StatsOutlineError);
     });
   });
 
   describe('ofRow', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(7);
+
       const row: StatsOutlineRow = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -182,11 +172,7 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const statsOutline: StatsOutline = schrodinger.get();
+      const statsOutline: StatsOutline = StatsOutline.ofRow(row);
 
       expect(statsOutline.getStatsID().get().get()).toBe(row.statsID);
       expect(statsOutline.getLanguageID().get().get()).toBe(row.languageID);
@@ -197,7 +183,9 @@ describe('StatsOutline', () => {
       expect(statsOutline.getUpdatedAt().toString()).toBe(row.updatedAt);
     });
 
-    it('contains malformat statsID', async () => {
+    it('contains malformat statsID', () => {
+      expect.assertions(1);
+
       const row: StatsOutlineRow = {
         statsID: 'illegal uuid',
         languageID: UUID.v4().get(),
@@ -208,16 +196,14 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsOutline.ofRow(row);
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat languageID', async () => {
+    it('contains malformat languageID', () => {
+      expect.assertions(1);
+
       const row: StatsOutlineRow = {
         statsID: UUID.v4().get(),
         languageID: 'illegal uuid',
@@ -228,16 +214,14 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsOutline.ofRow(row);
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat regionID', async () => {
+    it('contains malformat regionID', () => {
+      expect.assertions(1);
+
       const row: StatsOutlineRow = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -248,16 +232,14 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsOutline.ofRow(row);
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat termID', async () => {
+    it('contains malformat termID', () => {
+      expect.assertions(1);
+
       const row: StatsOutlineRow = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -268,16 +250,14 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsOutline.ofRow(row);
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat updatedAt', async () => {
+    it('contains malformat updatedAt', () => {
+      expect.assertions(1);
+
       const row: StatsOutlineRow = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -288,21 +268,19 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01'
       };
 
-      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
-      const schrodinger: Schrodinger<StatsOutline, StatsOutlineError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsOutline.ofRow(row);
       }).toThrow(StatsOutlineError);
     });
   });
 
   describe('default', () => {
     it('id will be generated, data are empty', () => {
+      expect.assertions(6);
+
       const outline: StatsOutline = StatsOutline.default();
 
-      expect(outline.getStatsID().get().get().length).toBe(UUID.size());
+      expect(outline.getStatsID().get().get()).toHaveLength(UUID.size());
       expect(outline.getLanguageID()).toBe(LanguageID.empty());
       expect(outline.getRegionID()).toBe(RegionID.empty());
       expect(outline.getTermID()).toBe(Term.DAILY.getTermID());
@@ -313,6 +291,8 @@ describe('StatsOutline', () => {
 
   describe('isJSON', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -327,6 +307,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
+      expect.assertions(5);
+
       expect(StatsOutline.isJSON(null)).toBe(false);
       expect(StatsOutline.isJSON(undefined)).toBe(false);
       expect(StatsOutline.isJSON(56)).toBe(false);
@@ -335,6 +317,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because statsID is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         languageID: 'miaow',
         regionID: 'moin',
@@ -348,6 +332,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because statsID is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 1,
         languageID: 'miaow',
@@ -362,6 +348,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because languageID is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         regionID: 'moin',
@@ -375,6 +363,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because languageID is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         languageID: 1,
@@ -389,6 +379,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because regionID is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -402,6 +394,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because regionID is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -416,6 +410,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because termID is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -429,6 +425,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because name is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -442,6 +440,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because name is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -456,6 +456,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because unit is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -469,6 +471,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because unit is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -483,6 +487,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because updatedAt is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -496,6 +502,8 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because updatedAt is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -512,6 +520,8 @@ describe('StatsOutline', () => {
 
   describe('equals', () => {
     it('returns true if all the properties are the same', () => {
+      expect.assertions(9);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -617,7 +627,9 @@ describe('StatsOutline', () => {
   });
 
   describe('toJSON', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -630,10 +642,10 @@ describe('StatsOutline', () => {
         TermID.of(uuid4),
         StatsName.of('name1'),
         StatsUnit.of('unit1'),
-        await UpdatedAt.ofString(asOf).get()
+        UpdatedAt.ofString(asOf)
       );
 
-      expect(statsOutline.toJSON()).toEqual({
+      expect(statsOutline.toJSON()).toStrictEqual({
         statsID: uuid1.get(),
         languageID: uuid2.get(),
         regionID: uuid3.get(),
@@ -646,7 +658,9 @@ describe('StatsOutline', () => {
   });
 
   describe('toString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -661,7 +675,7 @@ describe('StatsOutline', () => {
         TermID.of(uuid4),
         StatsName.of(name),
         StatsUnit.of(unit),
-        await UpdatedAt.ofString(asOf).get()
+        UpdatedAt.ofString(asOf)
       );
 
       expect(statsOutline.toString()).toBe(
@@ -672,6 +686,8 @@ describe('StatsOutline', () => {
 
   describe('isFilled', () => {
     it('returns true is language, region, name and unit are filled', () => {
+      expect.assertions(7);
+
       const statsOutline1: StatsOutline = StatsOutline.of(
         new MockStatsID(),
         LanguageID.empty(),

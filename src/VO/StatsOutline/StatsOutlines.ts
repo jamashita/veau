@@ -1,10 +1,6 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
-
-import { StatsOutlineError } from './Error/StatsOutlineError';
-import { StatsOutlinesError } from './Error/StatsOutlinesError';
 import { StatsID } from './StatsID';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
@@ -12,6 +8,7 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
   implements Cloneable<StatsOutlines>, JSONable<Array<StatsOutlineJSON>> {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
   private readonly outlines: Project<StatsID, StatsOutline>;
+
   private static readonly EMPTY: StatsOutlines = new StatsOutlines(ImmutableProject.empty<StatsID, StatsOutline>());
 
   public static of(outlines: Project<StatsID, StatsOutline>): StatsOutlines {
@@ -22,7 +19,7 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
     return new StatsOutlines(outlines);
   }
 
-  public static ofArray(outlines: Array<StatsOutline>): StatsOutlines {
+  public static ofArray(outlines: ReadonlyArray<StatsOutline>): StatsOutlines {
     const map: Map<StatsID, StatsOutline> = new Map<StatsID, StatsOutline>();
 
     outlines.forEach((outline: StatsOutline) => {
@@ -32,45 +29,24 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
     return StatsOutlines.ofMap(map);
   }
 
-  public static ofSpread(...outlines: Array<StatsOutline>): StatsOutlines {
+  public static ofSpread(...outlines: ReadonlyArray<StatsOutline>): StatsOutlines {
     return StatsOutlines.ofArray(outlines);
   }
 
-  public static ofSuperposition(
-    superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>
-  ): Superposition<StatsOutlines, StatsOutlinesError> {
-    return Superposition.all<StatsOutline, StatsOutlineError>(superpositions, StatsOutlineError).transform<
-      StatsOutlines,
-      StatsOutlinesError
-    >(
-      (outlines: Array<StatsOutline>) => {
-        return StatsOutlines.ofArray(outlines);
-      },
-      (err: StatsOutlineError) => {
-        throw new StatsOutlinesError('StatsOutlines.ofSuperposition()', err);
-      },
-      StatsOutlinesError
-    );
-  }
-
-  public static ofJSON(json: Array<StatsOutlineJSON>): Superposition<StatsOutlines, StatsOutlinesError> {
-    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = json.map<
-      Superposition<StatsOutline, StatsOutlineError>
-    >((outline: StatsOutlineJSON) => {
+  public static ofJSON(json: ReadonlyArray<StatsOutlineJSON>): StatsOutlines {
+    const arr: Array<StatsOutline> = json.map<StatsOutline>((outline: StatsOutlineJSON) => {
       return StatsOutline.ofJSON(outline);
     });
 
-    return StatsOutlines.ofSuperposition(superpositions);
+    return StatsOutlines.ofArray(arr);
   }
 
-  public static ofRow(rows: Array<StatsOutlineRow>): Superposition<StatsOutlines, StatsOutlinesError> {
-    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = rows.map<
-      Superposition<StatsOutline, StatsOutlineError>
-    >((outline: StatsOutlineRow) => {
+  public static ofRow(rows: ReadonlyArray<StatsOutlineRow>): StatsOutlines {
+    const arr: Array<StatsOutline> = rows.map<StatsOutline>((outline: StatsOutlineJSON) => {
       return StatsOutline.ofRow(outline);
     });
 
-    return StatsOutlines.ofSuperposition(superpositions);
+    return StatsOutlines.ofArray(arr);
   }
 
   public static empty(): StatsOutlines {
@@ -146,6 +122,10 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
 
   public some(predicate: BinaryPredicate<StatsOutline, StatsID>): boolean {
     return this.outlines.some(predicate);
+  }
+
+  public values(): Iterable<StatsOutline> {
+    return this.outlines.values();
   }
 
   public map<U>(mapper: Mapper<StatsOutline, U>): Array<U> {

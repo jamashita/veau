@@ -5,7 +5,7 @@ import { StatsOutline } from '../StatsOutline';
 import { StatsOutlines } from '../StatsOutlines';
 
 export class MockStatsOutlines extends StatsOutlines {
-  private static toProject(outlines: Array<StatsOutline>): Project<StatsID, StatsOutline> {
+  private static toProject(outlines: ReadonlyArray<StatsOutline>): Project<StatsID, StatsOutline> {
     const map: Map<StatsID, StatsOutline> = new Map<StatsID, StatsOutline>();
 
     outlines.forEach((outline: StatsOutline) => {

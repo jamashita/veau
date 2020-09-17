@@ -5,6 +5,7 @@ const EMPTY_UNIT: string = '';
 export class StatsUnit extends ValueObject<StatsUnit, 'StatsUnit'> {
   public readonly noun: 'StatsUnit' = 'StatsUnit';
   private readonly unit: string;
+
   private static readonly EMPTY: StatsUnit = new StatsUnit(EMPTY_UNIT);
 
   public static of(unit: string): StatsUnit {

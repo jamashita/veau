@@ -1,8 +1,6 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
-
-import { UpdatedAtError } from './Error/UpdatedAtError';
+import { StatsError } from './Error/StatsError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 
@@ -14,18 +12,17 @@ export class UpdatedAt extends ValueObject<UpdatedAt, 'UpdatedAt'> {
     return new UpdatedAt(at);
   }
 
-  public static ofString(at: string): Superposition<UpdatedAt, UpdatedAtError> {
-    return Superposition.playground<Zeit, ZeitError>(() => {
-      return Zeit.ofString(at, TERM_FORMAT);
-    }, ZeitError).transform<UpdatedAt, UpdatedAtError>(
-      (zeit: Zeit) => {
-        return UpdatedAt.of(zeit);
-      },
-      (err: ZeitError) => {
-        throw new UpdatedAtError('AT IS NOT DATE FORMAT', err);
-      },
-      UpdatedAtError
-    );
+  public static ofString(at: string): UpdatedAt {
+    try {
+      return UpdatedAt.of(Zeit.ofString(at, TERM_FORMAT));
+    }
+    catch (err: unknown) {
+      if (err instanceof ZeitError) {
+        throw new StatsError('AT IS NOT DATE FORMAT', err);
+      }
+
+      throw err;
+    }
   }
 
   public static now(): UpdatedAt {

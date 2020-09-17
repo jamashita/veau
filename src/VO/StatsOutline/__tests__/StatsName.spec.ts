@@ -3,20 +3,28 @@ import { StatsName } from '../StatsName';
 describe('StatsName', () => {
   describe('empty', () => {
     it('must be an empty name', () => {
+      expect.assertions(1);
+
       expect(StatsName.empty().get()).toBe('');
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(StatsName.empty()).toBe(StatsName.empty());
     });
   });
 
   describe('of', () => {
     it('if the name is empty, returns StatsName.empty()', () => {
+      expect.assertions(1);
+
       expect(StatsName.of('')).toBe(StatsName.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const name1: string = 'stats name 1';
       const name2: string = 'stats name 2';
       const name3: string = 'stats name 3';
@@ -29,6 +37,8 @@ describe('StatsName', () => {
 
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
+      expect.assertions(3);
+
       const name1: StatsName = StatsName.of('stats name 1');
       const name2: StatsName = StatsName.of('stats name 2');
       const name3: StatsName = StatsName.of('stats name 1');
@@ -41,6 +51,8 @@ describe('StatsName', () => {
 
   describe('isEmpty', () => {
     it('returns true if the name is empty string', () => {
+      expect.assertions(3);
+
       const name1: StatsName = StatsName.empty();
       const name2: StatsName = StatsName.of('');
       const name3: StatsName = StatsName.of('p');
@@ -53,6 +65,8 @@ describe('StatsName', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const name: string = 'stats name';
       const statsName: StatsName = StatsName.of(name);
 

@@ -1,14 +1,11 @@
-import { ImmutableProject, MockAProject } from '@jamashita/publikum-collection';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { ImmutableProject, MockProject } from '@jamashita/publikum-collection';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 import sinon, { SinonSpy } from 'sinon';
-
 import { LanguageID } from '../../Language/LanguageID';
 import { RegionID } from '../../Region/RegionID';
 import { TermID } from '../../Term/TermID';
 import { StatsOutlineError } from '../Error/StatsOutlineError';
-import { StatsOutlinesError } from '../Error/StatsOutlinesError';
 import { MockStatsID } from '../Mock/MockStatsID';
 import { MockStatsOutline } from '../Mock/MockStatsOutline';
 import { MockStatsOutlines } from '../Mock/MockStatsOutlines';
@@ -22,10 +19,14 @@ import { UpdatedAt } from '../UpdatedAt';
 describe('StatsOutlines', () => {
   describe('of', () => {
     it('when the ImmutableProject is zero size, returns empty', () => {
+      expect.assertions(1);
+
       expect(StatsOutlines.of(ImmutableProject.empty<MockStatsID, MockStatsOutline>())).toBe(StatsOutlines.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const array: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
 
       const outlines: StatsOutlines = StatsOutlines.ofArray(array);
@@ -37,72 +38,10 @@ describe('StatsOutlines', () => {
     });
   });
 
-  describe('ofSuperposition', () => {
-    it('when empty Array given, returns Alive, and StatsOutlines.empty()', async () => {
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([]);
-      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      expect(schrodinger.get()).toBe(StatsOutlines.empty());
-    });
-
-    it('normal case', async () => {
-      const array: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
-
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
-        Superposition.alive<StatsOutline, StatsOutlineError>(array[0], StatsOutlineError),
-        Superposition.alive<StatsOutline, StatsOutlineError>(array[1], StatsOutlineError)
-      ]);
-      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const outlines: StatsOutlines = schrodinger.get();
-
-      expect(outlines.size()).toBe(2);
-      for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(array[i].getStatsID())).toBe(array[i]);
-      }
-    });
-
-    it('contains failure', async () => {
-      const statsOutline1: MockStatsOutline = new MockStatsOutline();
-
-      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.alive<StatsOutline,
-        StatsOutlineError>(statsOutline1, StatsOutlineError);
-      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<StatsOutline,
-        StatsOutlineError>(new StatsOutlineError('test failed'), StatsOutlineError);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
-        superposition1,
-        superposition2
-      ]);
-      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(StatsOutlinesError);
-    });
-
-    it('contains 2 failures', async () => {
-      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<StatsOutline,
-        StatsOutlineError>(new StatsOutlineError('test failed 1'), StatsOutlineError);
-      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Superposition.dead<StatsOutline,
-        StatsOutlineError>(new StatsOutlineError('test failed 2'), StatsOutlineError);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
-        superposition1,
-        superposition2
-      ]);
-      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(StatsOutlinesError);
-    });
-  });
-
   describe('ofJSON', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(14);
+
       const json: Array<StatsOutlineJSON> = [
         {
           statsID: UUID.v4().get(),
@@ -124,15 +63,10 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
-      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const outlines: StatsOutlines = schrodinger.get();
+      const outlines: StatsOutlines = StatsOutlines.ofJSON(json);
 
       for (let i: number = 0; i < 2; i++) {
-        // eslint-disable-next-line no-await-in-loop
-        const outline: Nullable<StatsOutline> = outlines.get(await StatsID.ofString(json[i].statsID).get());
+        const outline: Nullable<StatsOutline> = outlines.get(StatsID.ofString(json[i].statsID));
 
         expect(outline?.getStatsID().get().get()).toBe(json[i].statsID);
         expect(outline?.getLanguageID().get().get()).toBe(json[i].languageID);
@@ -144,7 +78,9 @@ describe('StatsOutlines', () => {
       }
     });
 
-    it('has malformat StatsID', async () => {
+    it('has malformat StatsID', () => {
+      expect.assertions(1);
+
       const json: Array<StatsOutlineJSON> = [
         {
           statsID: 'malformat',
@@ -166,15 +102,16 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
-      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        StatsOutlines.ofJSON(json);
+      }).toThrow(StatsOutlineError);
     });
   });
 
   describe('ofRow', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(14);
+
       const rows: Array<StatsOutlineRow> = [
         {
           statsID: UUID.v4().get(),
@@ -196,15 +133,10 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
-      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const outlines: StatsOutlines = schrodinger.get();
+      const outlines: StatsOutlines = StatsOutlines.ofRow(rows);
 
       for (let i: number = 0; i < 2; i++) {
-        // eslint-disable-next-line no-await-in-loop
-        const outline: Nullable<StatsOutline> = outlines.get(await StatsID.ofString(rows[i].statsID).get());
+        const outline: Nullable<StatsOutline> = outlines.get(StatsID.ofString(rows[i].statsID));
 
         expect(outline?.getStatsID().get().get()).toBe(rows[i].statsID);
         expect(outline?.getLanguageID().get().get()).toBe(rows[i].languageID);
@@ -216,7 +148,9 @@ describe('StatsOutlines', () => {
       }
     });
 
-    it('has malformat StatsID', async () => {
+    it('has malformat StatsID', () => {
+      expect.assertions(1);
+
       const rows: Array<StatsOutlineRow> = [
         {
           statsID: 'malformat',
@@ -238,19 +172,22 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
-      const schrodinger: Schrodinger<StatsOutlines, StatsOutlinesError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        StatsOutlines.ofRow(rows);
+      }).toThrow(StatsOutlineError);
     });
   });
 
   describe('ofArray', () => {
     it('when empty Array given, returns StatsOutlines.empty()', () => {
+      expect.assertions(1);
+
       expect(StatsOutlines.ofArray([])).toBe(StatsOutlines.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const outlines: Array<StatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
 
       const statsOutlines: StatsOutlines = StatsOutlines.ofArray(outlines);
@@ -264,10 +201,14 @@ describe('StatsOutlines', () => {
 
   describe('ofSpread', () => {
     it('when no arguments given, returns StatsOutlines.empty()', () => {
+      expect.assertions(1);
+
       expect(StatsOutlines.ofSpread()).toBe(StatsOutlines.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const statsOutline1: MockStatsOutline = new MockStatsOutline();
       const statsOutline2: MockStatsOutline = new MockStatsOutline();
 
@@ -281,21 +222,27 @@ describe('StatsOutlines', () => {
 
   describe('empty', () => {
     it('generates 0-length StatsOutlines', () => {
+      expect.assertions(1);
+
       expect(StatsOutlines.empty().size()).toBe(0);
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(StatsOutlines.empty()).toBe(StatsOutlines.empty());
     });
   });
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
@@ -317,11 +264,13 @@ describe('StatsOutlines', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
@@ -343,11 +292,13 @@ describe('StatsOutlines', () => {
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
@@ -369,11 +320,13 @@ describe('StatsOutlines', () => {
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
@@ -395,11 +348,13 @@ describe('StatsOutlines', () => {
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
@@ -423,11 +378,13 @@ describe('StatsOutlines', () => {
 
   describe('map', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
@@ -441,12 +398,14 @@ describe('StatsOutlines', () => {
         return outline.getStatsID();
       });
 
-      expect(arr.length).toBe(3);
+      expect(arr).toHaveLength(3);
     });
   });
 
   describe('equals', () => {
     it('same instance', () => {
+      expect.assertions(1);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
 
@@ -456,11 +415,13 @@ describe('StatsOutlines', () => {
     });
 
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
@@ -482,6 +443,8 @@ describe('StatsOutlines', () => {
 
   describe('duplicate', () => {
     it('shallow copies the instance and its own elements', () => {
+      expect.assertions(12);
+
       const array: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline(), new MockStatsOutline()];
       const outlines: StatsOutlines = StatsOutlines.ofArray(array);
       const duplicated: StatsOutlines = outlines.duplicate();
@@ -494,13 +457,15 @@ describe('StatsOutlines', () => {
         const o: Nullable<StatsOutline> = outlines.get(statsID);
         const d: Nullable<StatsOutline> = duplicated.get(statsID);
 
-        expect(o).not.toBe(null);
-        expect(d).not.toBe(null);
+        expect(o).not.toBeNull();
+        expect(d).not.toBeNull();
         expect(o).toBe(d);
       }
     });
 
     it('returns StatsOutlines.empty() when the original is empty', () => {
+      expect.assertions(1);
+
       const outlines: StatsOutlines = StatsOutlines.ofArray([]);
 
       expect(outlines.duplicate()).toBe(outlines);
@@ -508,7 +473,9 @@ describe('StatsOutlines', () => {
   });
 
   describe('toJSON', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -524,7 +491,7 @@ describe('StatsOutlines', () => {
         TermID.of(uuid4),
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
-        await UpdatedAt.ofString('2000-01-01 00:00:00').get()
+        UpdatedAt.ofString('2000-01-01 00:00:00')
       );
       const outline2: StatsOutline = StatsOutline.of(
         StatsID.of(uuid5),
@@ -533,12 +500,12 @@ describe('StatsOutlines', () => {
         TermID.of(uuid8),
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
-        await UpdatedAt.ofString('2000-01-01 00:00:00').get()
+        UpdatedAt.ofString('2000-01-01 00:00:00')
       );
 
       const outlines: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
 
-      expect(outlines.toJSON()).toEqual([
+      expect(outlines.toJSON()).toStrictEqual([
         {
           statsID: uuid1.get(),
           languageID: uuid2.get(),
@@ -563,11 +530,13 @@ describe('StatsOutlines', () => {
 
   describe('toString', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
@@ -589,13 +558,15 @@ describe('StatsOutlines', () => {
 
   describe('iterator', () => {
     it('normal case', () => {
+      expect.assertions(3);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
       const arr: Array<MockStatsOutline> = [outline1, outline2, outline3];
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
@@ -615,11 +586,13 @@ describe('StatsOutlines', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
@@ -643,11 +616,13 @@ describe('StatsOutlines', () => {
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockAProject<MockStatsID, MockStatsOutline> = new MockAProject<MockStatsID, MockStatsOutline>(
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
@@ -664,6 +639,34 @@ describe('StatsOutlines', () => {
       statsOutlines.some(() => {
         return true;
       });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('values', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.values = spy;
+
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      statsOutlines.values();
 
       expect(spy.called).toBe(true);
     });

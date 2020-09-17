@@ -1,43 +1,40 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Zeit } from '@jamashita/publikum-zeit';
-
-import { UpdatedAtError } from '../Error/UpdatedAtError';
+import { StatsError } from '../Error/StatsError';
 import { UpdatedAt } from '../UpdatedAt';
 
 describe('UpdatedAt', () => {
   describe('ofString', () => {
-    it('returns Dead if the parameter is not date format', async () => {
-      const superposition1: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('this is not date');
-      const superposition2: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01');
-      const schrodinger1: Schrodinger<UpdatedAt, UpdatedAtError> = await superposition1.terminate();
-      const schrodinger2: Schrodinger<UpdatedAt, UpdatedAtError> = await superposition2.terminate();
+    it('returns Dead if the parameter is not date format', () => {
+      expect.assertions(2);
 
-      expect(schrodinger1.isDead()).toBe(true);
       expect(() => {
-        schrodinger1.get();
-      }).toThrow(UpdatedAtError);
-      expect(schrodinger2.isDead()).toBe(true);
+        UpdatedAt.ofString('this is not date');
+      }).toThrow(StatsError);
       expect(() => {
-        schrodinger2.get();
-      }).toThrow(UpdatedAtError);
+        UpdatedAt.ofString('2000-01-01');
+      }).toThrow(StatsError);
     });
 
-    it('normal case', async () => {
-      const superposition: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01 00:00:00');
-      const schrodinger: Schrodinger<UpdatedAt, UpdatedAtError> = await superposition.terminate();
+    it('normal case', () => {
+      expect.assertions(1);
+      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 00:00:00');
 
-      expect(schrodinger.isAlive()).toBe(true);
+      expect(updatedAt.get().isValid()).toBe(true);
     });
   });
 
   describe('format', () => {
     it('returns YYYY-MM-DD HH:mm:ss', () => {
+      expect.assertions(1);
+
       expect(UpdatedAt.format()).toBe('YYYY-MM-DD HH:mm:ss');
     });
   });
 
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
+      expect.assertions(3);
+
       const at1: UpdatedAt = UpdatedAt.of(Zeit.ofString('2000-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss'));
       const at2: UpdatedAt = UpdatedAt.of(Zeit.ofString('2000-01-02 00:00:00', 'YYYY-MM-DD HH:mm:ss'));
       const at3: UpdatedAt = UpdatedAt.of(Zeit.ofString('2000-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss'));
@@ -49,9 +46,11 @@ describe('UpdatedAt', () => {
   });
 
   describe('toString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const at: string = '2345-06-07 08:09:10';
-      const updatedAt: UpdatedAt = await UpdatedAt.ofString(at).get();
+      const updatedAt: UpdatedAt = UpdatedAt.ofString(at);
 
       expect(updatedAt.toString()).toBe(at);
     });
