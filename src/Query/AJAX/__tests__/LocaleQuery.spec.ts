@@ -3,7 +3,7 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
-import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Language } from '../../../VO/Language/Language';
@@ -57,7 +57,7 @@ describe('LocaleQuery', () => {
 
       ajax.get = stub;
       stub.resolves({
-        status: OK,
+        status: StatusCodes.OK,
         body: json
       });
 
@@ -90,7 +90,7 @@ describe('LocaleQuery', () => {
       }
     });
 
-    it('returns Dead when AJAX call doesn not return OK', async () => {
+    it('returns Dead when AJAX call doesn not return StatusCodes.OK', async () => {
       expect.assertions(2);
 
       const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
@@ -98,7 +98,7 @@ describe('LocaleQuery', () => {
 
       ajax.get = stub;
       stub.resolves({
-        status: INTERNAL_SERVER_ERROR,
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
         body: {}
       });
 

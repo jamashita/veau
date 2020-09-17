@@ -1,11 +1,10 @@
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
 import { Superposition } from '@jamashita/publikum-monad';
-import { NO_CONTENT, OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
-import { Stats, StatsJSON } from '../../Entity/Stats/Stats';
+import { Stats } from '../../Entity/Stats/Stats';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IStatsQuery } from '../Interface/IStatsQuery';
@@ -15,30 +14,31 @@ import { IAJAXQuery } from './Interface/IAJAXQuery';
 export class StatsQuery implements IStatsQuery<AJAXError>, IAJAXQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';
   public readonly source: 'AJAX' = 'AJAX';
-  private readonly ajax: IAJAX;
+  private readonly ajax: IAJAX<'json'>;
 
-  public constructor(@inject(Type.AJAX) ajax: IAJAX) {
+  public constructor(@inject(Type.AJAX) ajax: IAJAX<'json'>) {
     this.ajax = ajax;
   }
 
   public findByStatsID(statsID: StatsID): Superposition<Stats, StatsError | NoSuchElementError | AJAXError> {
-    return Superposition.playground<AJAXResponse<StatsJSON>, AJAXError>(() => {
-      return this.ajax.get<StatsJSON>(`/api/stats/${statsID.get().get()}`);
-    }, AJAXError).map<Stats, StatsError | NoSuchElementError | AJAXError>(
-      ({ status, body }: AJAXResponse<StatsJSON>) => {
-        switch (status) {
-          case OK: {
+    return Superposition.playground<AJAXResponse<'json'>, AJAXError>(() => {
+      return this.ajax.get(`/api/stats/${statsID.get().get()}`);
+    }, AJAXError).map<Stats, StatsError | NoSuchElementError | AJAXError>(({ status, body }: AJAXResponse<'json'>) => {
+      switch (status) {
+        case StatusCodes.OK: {
+          if (Stats.validate(body)) {
             return Stats.ofJSON(body);
           }
-          case NO_CONTENT: {
-            throw new NoSuchElementError('NOT FOUND');
-          }
-          default: {
-            throw new AJAXError('UNKNOWN ERROR', status);
-          }
+
+          throw new StatsError('StatsQuery.findByStatsID()');
         }
-      },
-      NoSuchElementError
-    );
+        case StatusCodes.NO_CONTENT: {
+          throw new NoSuchElementError('NOT FOUND');
+        }
+        default: {
+          throw new AJAXError('UNKNOWN ERROR', status);
+        }
+      }
+    }, StatsError, NoSuchElementError);
   }
 }

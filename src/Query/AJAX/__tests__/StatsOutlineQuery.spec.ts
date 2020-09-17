@@ -3,7 +3,7 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
-import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { MockPage } from '../../../VO/Page/Mock/MockPage';
@@ -51,7 +51,7 @@ describe('StatsOutlineQuery', () => {
 
       ajax.get = stub;
       stub.resolves({
-        status: OK,
+        status: StatusCodes.OK,
         body: json
       });
 
@@ -102,7 +102,7 @@ describe('StatsOutlineQuery', () => {
 
       ajax.get = stub;
       stub.resolves({
-        status: OK,
+        status: StatusCodes.OK,
         body: json
       });
 
@@ -116,7 +116,7 @@ describe('StatsOutlineQuery', () => {
       }).toThrow(StatsOutlineError);
     });
 
-    it('doesn not return OK', async () => {
+    it('doesn not return StatusCodes.OK', async () => {
       expect.assertions(2);
 
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
@@ -127,7 +127,7 @@ describe('StatsOutlineQuery', () => {
 
       ajax.get = stub;
       stub.resolves({
-        status: INTERNAL_SERVER_ERROR,
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
         body: []
       });
 

@@ -2,13 +2,9 @@ import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
-
-import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-
-import { Type } from '../../../Container/Types';
-import { vault } from '../../../Container/Vault';
 import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
 import { MockEntranceInformation } from '../../../VO/EntranceInformation/Mock/MockEntranceInformation';
 import { MockPassword } from '../../../VO/EntranceInformation/Mock/MockPassword';
@@ -17,18 +13,22 @@ import { VeauAccount, VeauAccountJSON } from '../../../VO/VeauAccount/VeauAccoun
 import { VeauAccountQuery } from '../VeauAccountQuery';
 
 describe('VeauAccountQuery', () => {
-  describe('container', () => {
-    it('must be a singleton', () => {
-      const veauAccountQuery1: VeauAccountQuery = vault.get<VeauAccountQuery>(Type.VeauAccountAJAXQuery);
-      const veauAccountQuery2: VeauAccountQuery = vault.get<VeauAccountQuery>(Type.VeauAccountAJAXQuery);
-
-      expect(veauAccountQuery1).toBeInstanceOf(VeauAccountQuery);
-      expect(veauAccountQuery1).toBe(veauAccountQuery2);
-    });
-  });
+  // eslint-disable-next-line jest/no-commented-out-tests
+  // describe('container', () => {
+  // eslint-disable-next-line jest/no-commented-out-tests
+  //   it('must be a singleton', () => {
+  //     const veauAccountQuery1: VeauAccountQuery = v.get<VeauAccountQuery>(Type.VeauAccountAJAXQuery);
+  //     const veauAccountQuery2: VeauAccountQuery = v.get<VeauAccountQuery>(Type.VeauAccountAJAXQuery);
+  //
+  //     expect(veauAccountQuery1).toBeInstanceOf(VeauAccountQuery);
+  //     expect(veauAccountQuery1).toBe(veauAccountQuery2);
+  //   });
+  // });
 
   describe('find', () => {
     it('normal case', async () => {
+      expect.assertions(6);
+
       const json: VeauAccountJSON = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -36,20 +36,18 @@ describe('VeauAccountQuery', () => {
         name: 'name'
       };
 
-      const ajax: MockAJAX = new MockAJAX();
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
       stub.resolves({
-        status: OK,
+        status: StatusCodes.OK,
         body: json
       });
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const schrodinger: Schrodinger<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await veauAccountQuery.find().terminate();
+      const schrodinger: Schrodinger<VeauAccount,
+        VeauAccountError | DataSourceError> = await veauAccountQuery.find().terminate();
 
       expect(stub.withArgs('/api/accounts').called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
@@ -62,6 +60,8 @@ describe('VeauAccountQuery', () => {
     });
 
     it('returns Dead when it has wrong format veauAccountID', async () => {
+      expect.assertions(2);
+
       const json: VeauAccountJSON = {
         veauAccountID: 'malformat uuid',
         languageID: UUID.v4().get(),
@@ -69,20 +69,17 @@ describe('VeauAccountQuery', () => {
         name: 'name'
       };
 
-      const ajax: MockAJAX = new MockAJAX();
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
       stub.resolves({
-        status: OK,
+        status: StatusCodes.OK,
         body: json
       });
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const schrodinger: Schrodinger<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await veauAccountQuery.find().terminate();
+      const schrodinger: Schrodinger<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.find().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -91,20 +88,20 @@ describe('VeauAccountQuery', () => {
     });
 
     it('does not return OK', async () => {
-      const ajax: MockAJAX = new MockAJAX();
+      expect.assertions(2);
+
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
       stub.resolves({
-        status: INTERNAL_SERVER_ERROR,
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
         body: {}
       });
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const schrodinger: Schrodinger<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await veauAccountQuery.find().terminate();
+      const schrodinger: Schrodinger<VeauAccount,
+        VeauAccountError | DataSourceError> = await veauAccountQuery.find().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -115,6 +112,8 @@ describe('VeauAccountQuery', () => {
 
   describe('findByEntranceInfo', () => {
     it('normal case', async () => {
+      expect.assertions(6);
+
       const json: VeauAccountJSON = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -122,12 +121,12 @@ describe('VeauAccountQuery', () => {
         name: 'name'
       };
 
-      const ajax: MockAJAX = new MockAJAX();
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.post = stub;
       stub.resolves({
-        status: OK,
+        status: StatusCodes.OK,
         body: json
       });
 
@@ -136,17 +135,13 @@ describe('VeauAccountQuery', () => {
         password: new MockPassword('password')
       });
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const schrodinger: Schrodinger<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await veauAccountQuery.findByEntranceInfo(info).terminate();
+      const schrodinger: Schrodinger<VeauAccount,
+        VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
-      expect(
-        stub.withArgs('/api/auth', {
-          account: 'name',
-          password: 'password'
-        }).called
-      ).toBe(true);
+      expect(stub.withArgs('/api/auth', {
+        account: 'name',
+        password: 'password'
+      }).called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
       const veauAccount: VeauAccount = schrodinger.get();
 
@@ -157,6 +152,8 @@ describe('VeauAccountQuery', () => {
     });
 
     it('returns Dead when it has wrong format veauAccountID', async () => {
+      expect.assertions(2);
+
       const json: VeauAccountJSON = {
         veauAccountID: 'malformat uuid',
         languageID: UUID.v4().get(),
@@ -164,21 +161,19 @@ describe('VeauAccountQuery', () => {
         name: 'name'
       };
 
-      const ajax: MockAJAX = new MockAJAX();
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.post = stub;
       stub.resolves({
-        status: OK,
+        status: StatusCodes.OK,
         body: json
       });
 
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const schrodinger: Schrodinger<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await veauAccountQuery.findByEntranceInfo(info).terminate();
+      const schrodinger: Schrodinger<VeauAccount,
+        VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -187,21 +182,20 @@ describe('VeauAccountQuery', () => {
     });
 
     it('returns UNAUTHORIZED', async () => {
-      const ajax: MockAJAX = new MockAJAX();
+      expect.assertions(2);
+
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.post = stub;
       stub.resolves({
-        status: UNAUTHORIZED,
+        status: StatusCodes.UNAUTHORIZED,
         body: {}
       });
 
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const schrodinger: Schrodinger<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await veauAccountQuery.findByEntranceInfo(info).terminate();
+      const schrodinger: Schrodinger<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -210,21 +204,20 @@ describe('VeauAccountQuery', () => {
     });
 
     it('does not return OK nor UNAUTHORIZED', async () => {
-      const ajax: MockAJAX = new MockAJAX();
+      expect.assertions(2);
+
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.post = stub;
       stub.resolves({
-        status: INTERNAL_SERVER_ERROR,
+        status: StatusCodes.HTTP_VERSION_NOT_SUPPORTED,
         body: {}
       });
 
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const schrodinger: Schrodinger<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await veauAccountQuery.findByEntranceInfo(info).terminate();
+      const schrodinger: Schrodinger<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

@@ -1,12 +1,11 @@
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
 import { Superposition } from '@jamashita/publikum-monad';
-import { OK, UNAUTHORIZED } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
 import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
-import { VeauAccount, VeauAccountJSON } from '../../VO/VeauAccount/VeauAccount';
+import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
 import { IAJAXQuery } from './Interface/IAJAXQuery';
 
@@ -14,44 +13,50 @@ import { IAJAXQuery } from './Interface/IAJAXQuery';
 export class VeauAccountQuery implements IVeauAccountQuery<AJAXError>, IAJAXQuery {
   public readonly noun: 'VeauAccountQuery' = 'VeauAccountQuery';
   public readonly source: 'AJAX' = 'AJAX';
-  private readonly ajax: IAJAX;
+  private readonly ajax: IAJAX<'json'>;
 
-  public constructor(@inject(Type.AJAX) ajax: IAJAX) {
+  public constructor(@inject(Type.AJAX) ajax: IAJAX<'json'>) {
     this.ajax = ajax;
   }
 
   public find(): Superposition<VeauAccount, VeauAccountError | AJAXError> {
-    return Superposition.playground<AJAXResponse<VeauAccountJSON>, AJAXError>(() => {
-      return this.ajax.get<VeauAccountJSON>('/api/accounts');
-    }, AJAXError).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<VeauAccountJSON>) => {
+    return Superposition.playground<AJAXResponse<'json'>, AJAXError>(() => {
+      return this.ajax.get('/api/accounts');
+    }, AJAXError).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<'json'>) => {
       switch (status) {
-        case OK: {
-          return VeauAccount.ofJSON(body);
+        case StatusCodes.OK: {
+          if (VeauAccount.validate(body)) {
+            return VeauAccount.ofJSON(body);
+          }
+
+          throw new VeauAccountError('VeauAccountQuery.find()');
         }
         default: {
-          throw new AJAXError('IDENTITY DID NOT RETURN OK', status);
+          throw new AJAXError('IDENTITY DID NOT RETURN StatusCodes.OK', status);
         }
       }
-    });
+    }, VeauAccountError);
   }
 
-  public findByEntranceInfo(
-    entranceInformation: EntranceInformation
-  ): Superposition<VeauAccount, VeauAccountError | AJAXError> {
-    return Superposition.playground<AJAXResponse<VeauAccountJSON>, AJAXError>(() => {
-      return this.ajax.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
-    }, AJAXError).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<VeauAccountJSON>) => {
+  public findByEntranceInfo(entranceInformation: EntranceInformation): Superposition<VeauAccount, VeauAccountError | AJAXError> {
+    return Superposition.playground<AJAXResponse<'json'>, AJAXError>(() => {
+      return this.ajax.post('/api/auth', entranceInformation.toJSON());
+    }, AJAXError).map<VeauAccount, VeauAccountError | AJAXError>(({ status, body }: AJAXResponse<'json'>) => {
       switch (status) {
-        case OK: {
-          return VeauAccount.ofJSON(body);
+        case StatusCodes.OK: {
+          if (VeauAccount.validate(body)) {
+            return VeauAccount.ofJSON(body);
+          }
+
+          throw new VeauAccountError('VeauAccountQuery.findByEntranceInfo()');
         }
-        case UNAUTHORIZED: {
-          throw new AJAXError('UNAUTHORIZED', UNAUTHORIZED);
+        case StatusCodes.UNAUTHORIZED: {
+          throw new AJAXError('StatusCodes.UNAUTHORIZED', StatusCodes.UNAUTHORIZED);
         }
         default: {
           throw new AJAXError('UNKNOWN ERROR', status);
         }
       }
-    });
+    }, VeauAccountError);
   }
 }

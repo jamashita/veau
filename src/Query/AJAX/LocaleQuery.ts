@@ -1,6 +1,6 @@
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
 import { Superposition } from '@jamashita/publikum-monad';
-import { OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
@@ -23,7 +23,7 @@ export class LocaleQuery implements ILocaleQuery<AJAXError>, IAJAXQuery {
       return this.ajax.get('/api/locale');
     }, AJAXError).map<Locale, LocaleError | AJAXError>(({ status, body }: AJAXResponse<'json'>) => {
       switch (status) {
-        case OK: {
+        case StatusCodes.OK: {
           if (Locale.validate(body)) {
             return Locale.ofJSON(body);
           }

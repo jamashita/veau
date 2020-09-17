@@ -1,7 +1,7 @@
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
-import { OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { Page } from '../../VO/Page/Page';
@@ -34,7 +34,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<AJAXError>, IAJAXQu
       return this.ajax.get(`/api/stats/page/${page.get()}`);
     }, AJAXError).map<StatsOutlines, StatsOutlineError | AJAXError>(({ status, body }: AJAXResponse<'json'>) => {
       switch (status) {
-        case OK: {
+        case StatusCodes.OK: {
           if (StatsOutlines.validate(body)) {
             return StatsOutlines.ofJSON(body);
           }
