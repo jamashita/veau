@@ -149,7 +149,7 @@ describe('Language', () => {
     });
   });
 
-  describe('isJSON', () => {
+  describe('validate', () => {
     it('normal case', () => {
       expect.assertions(1);
 
@@ -160,17 +160,17 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toBe(true);
+      expect(Language.validate(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
       expect.assertions(5);
 
-      expect(Language.isJSON(null)).toBe(false);
-      expect(Language.isJSON(undefined)).toBe(false);
-      expect(Language.isJSON(56)).toBe(false);
-      expect(Language.isJSON('fjafsd')).toBe(false);
-      expect(Language.isJSON(false)).toBe(false);
+      expect(Language.validate(null)).toBe(false);
+      expect(Language.validate(undefined)).toBe(false);
+      expect(Language.validate(56)).toBe(false);
+      expect(Language.validate('fjafsd')).toBe(false);
+      expect(Language.validate(false)).toBe(false);
     });
 
     it('returns false because languageID is missing', () => {
@@ -182,7 +182,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toBe(false);
+      expect(Language.validate(n)).toBe(false);
     });
 
     it('returns false because languageID is not string', () => {
@@ -195,7 +195,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toBe(false);
+      expect(Language.validate(n)).toBe(false);
     });
 
     it('returns false because name is missing', () => {
@@ -207,7 +207,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toBe(false);
+      expect(Language.validate(n)).toBe(false);
     });
 
     it('returns false because name is not string', () => {
@@ -220,7 +220,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toBe(false);
+      expect(Language.validate(n)).toBe(false);
     });
 
     it('returns false because englishName is missing', () => {
@@ -232,7 +232,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toBe(false);
+      expect(Language.validate(n)).toBe(false);
     });
 
     it('returns false because englishName is not string', () => {
@@ -245,7 +245,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toBe(false);
+      expect(Language.validate(n)).toBe(false);
     });
 
     it('returns false because iso639 is missing', () => {
@@ -257,7 +257,7 @@ describe('Language', () => {
         englishName: 'Afar'
       };
 
-      expect(Language.isJSON(n)).toBe(false);
+      expect(Language.validate(n)).toBe(false);
     });
 
     it('returns false because iso639 is not string', () => {
@@ -270,7 +270,7 @@ describe('Language', () => {
         iso639: 100
       };
 
-      expect(Language.isJSON(n)).toBe(false);
+      expect(Language.validate(n)).toBe(false);
     });
   });
 

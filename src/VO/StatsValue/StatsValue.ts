@@ -51,7 +51,7 @@ export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements
     }
   }
 
-  public static isJSON(n: unknown): n is StatsValueJSON {
+  public static validate(n: unknown): n is StatsValueJSON {
     if (!Kind.isObject<StatsValueJSON>(n)) {
       return false;
     }

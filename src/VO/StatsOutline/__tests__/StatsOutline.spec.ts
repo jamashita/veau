@@ -289,7 +289,7 @@ describe('StatsOutline', () => {
     });
   });
 
-  describe('isJSON', () => {
+  describe('validate', () => {
     it('normal case', () => {
       expect.assertions(1);
 
@@ -303,17 +303,17 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(true);
+      expect(StatsOutline.validate(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
       expect.assertions(5);
 
-      expect(StatsOutline.isJSON(null)).toBe(false);
-      expect(StatsOutline.isJSON(undefined)).toBe(false);
-      expect(StatsOutline.isJSON(56)).toBe(false);
-      expect(StatsOutline.isJSON('fjafsd')).toBe(false);
-      expect(StatsOutline.isJSON(false)).toBe(false);
+      expect(StatsOutline.validate(null)).toBe(false);
+      expect(StatsOutline.validate(undefined)).toBe(false);
+      expect(StatsOutline.validate(56)).toBe(false);
+      expect(StatsOutline.validate('fjafsd')).toBe(false);
+      expect(StatsOutline.validate(false)).toBe(false);
     });
 
     it('returns false because statsID is missing', () => {
@@ -328,7 +328,7 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because statsID is not string', () => {
@@ -344,7 +344,7 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because languageID is missing', () => {
@@ -359,7 +359,7 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because languageID is not string', () => {
@@ -375,7 +375,7 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because regionID is missing', () => {
@@ -390,7 +390,7 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because regionID is not string', () => {
@@ -406,7 +406,7 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because termID is missing', () => {
@@ -421,7 +421,7 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because name is missing', () => {
@@ -436,7 +436,7 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because name is not string', () => {
@@ -452,7 +452,7 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because unit is missing', () => {
@@ -467,7 +467,7 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because unit is not string', () => {
@@ -483,7 +483,7 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because updatedAt is missing', () => {
@@ -498,7 +498,7 @@ describe('StatsOutline', () => {
         unit: 'on'
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
 
     it('returns false because updatedAt is not string', () => {
@@ -514,7 +514,7 @@ describe('StatsOutline', () => {
         updatedAt: 1
       };
 
-      expect(StatsOutline.isJSON(n)).toBe(false);
+      expect(StatsOutline.validate(n)).toBe(false);
     });
   });
 

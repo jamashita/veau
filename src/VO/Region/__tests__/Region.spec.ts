@@ -114,7 +114,7 @@ describe('Region', () => {
     });
   });
 
-  describe('isJSON', () => {
+  describe('validate', () => {
     it('normal case', () => {
       expect.assertions(1);
 
@@ -124,17 +124,17 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      expect(Region.isJSON(n)).toBe(true);
+      expect(Region.validate(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
       expect.assertions(5);
 
-      expect(Region.isJSON(null)).toBe(false);
-      expect(Region.isJSON(undefined)).toBe(false);
-      expect(Region.isJSON(56)).toBe(false);
-      expect(Region.isJSON('fjafsd')).toBe(false);
-      expect(Region.isJSON(false)).toBe(false);
+      expect(Region.validate(null)).toBe(false);
+      expect(Region.validate(undefined)).toBe(false);
+      expect(Region.validate(56)).toBe(false);
+      expect(Region.validate('fjafsd')).toBe(false);
+      expect(Region.validate(false)).toBe(false);
     });
 
     it('returns false because regionID is missing', () => {
@@ -145,7 +145,7 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      expect(Region.isJSON(n)).toBe(false);
+      expect(Region.validate(n)).toBe(false);
     });
 
     it('returns false because regionID is not string', () => {
@@ -157,7 +157,7 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      expect(Region.isJSON(n)).toBe(false);
+      expect(Region.validate(n)).toBe(false);
     });
 
     it('returns false because name is missing', () => {
@@ -168,7 +168,7 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      expect(Region.isJSON(n)).toBe(false);
+      expect(Region.validate(n)).toBe(false);
     });
 
     it('returns false because name is not string', () => {
@@ -180,7 +180,7 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      expect(Region.isJSON(n)).toBe(false);
+      expect(Region.validate(n)).toBe(false);
     });
 
     it('returns false because iso3166 is missing', () => {
@@ -191,7 +191,7 @@ describe('Region', () => {
         name: 'Albania'
       };
 
-      expect(Region.isJSON(n)).toBe(false);
+      expect(Region.validate(n)).toBe(false);
     });
 
     it('returns false because iso3166 is not string', () => {
@@ -203,7 +203,7 @@ describe('Region', () => {
         iso3166: -5
       };
 
-      expect(Region.isJSON(n)).toBe(false);
+      expect(Region.validate(n)).toBe(false);
     });
   });
 

@@ -66,7 +66,7 @@ describe('StatsValue', () => {
     });
   });
 
-  describe('isJSON', () => {
+  describe('validate', () => {
     it('normal case', () => {
       expect.assertions(1);
 
@@ -75,17 +75,17 @@ describe('StatsValue', () => {
         value: 1
       };
 
-      expect(StatsValue.isJSON(n)).toBe(true);
+      expect(StatsValue.validate(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
       expect.assertions(5);
 
-      expect(StatsValue.isJSON(null)).toBe(false);
-      expect(StatsValue.isJSON(undefined)).toBe(false);
-      expect(StatsValue.isJSON(56)).toBe(false);
-      expect(StatsValue.isJSON('fjafsd')).toBe(false);
-      expect(StatsValue.isJSON(false)).toBe(false);
+      expect(StatsValue.validate(null)).toBe(false);
+      expect(StatsValue.validate(undefined)).toBe(false);
+      expect(StatsValue.validate(56)).toBe(false);
+      expect(StatsValue.validate('fjafsd')).toBe(false);
+      expect(StatsValue.validate(false)).toBe(false);
     });
 
     it('returns false because asOf is missing', () => {
@@ -95,7 +95,7 @@ describe('StatsValue', () => {
         value: -0.3
       };
 
-      expect(StatsValue.isJSON(n)).toBe(false);
+      expect(StatsValue.validate(n)).toBe(false);
     });
 
     it('returns false because asOf is not string', () => {
@@ -106,7 +106,7 @@ describe('StatsValue', () => {
         value: -0.3
       };
 
-      expect(StatsValue.isJSON(n)).toBe(false);
+      expect(StatsValue.validate(n)).toBe(false);
     });
 
     it('returns false because value is missing', () => {
@@ -116,7 +116,7 @@ describe('StatsValue', () => {
         asOf: '2000-01-01'
       };
 
-      expect(StatsValue.isJSON(n)).toBe(false);
+      expect(StatsValue.validate(n)).toBe(false);
     });
 
     it('returns false because value is not number', () => {
@@ -127,7 +127,7 @@ describe('StatsValue', () => {
         value: null
       };
 
-      expect(StatsValue.isJSON(n)).toBe(false);
+      expect(StatsValue.validate(n)).toBe(false);
     });
   });
 

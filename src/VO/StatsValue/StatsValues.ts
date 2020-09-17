@@ -49,13 +49,13 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.ofArray(arr);
   }
 
-  public static isJSON(n: unknown): n is Array<StatsValueJSON> {
+  public static validate(n: unknown): n is Array<StatsValueJSON> {
     if (!Kind.isArray(n)) {
       return false;
     }
 
     return n.every((o: unknown) => {
-      return StatsValue.isJSON(o);
+      return StatsValue.validate(o);
     });
   }
 

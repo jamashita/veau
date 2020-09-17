@@ -259,7 +259,7 @@ describe('StatsValues', () => {
     });
   });
 
-  describe('isJSON', () => {
+  describe('validate', () => {
     it('normal case', () => {
       expect.assertions(1);
 
@@ -278,23 +278,23 @@ describe('StatsValues', () => {
         }
       ];
 
-      expect(StatsValues.isJSON(n)).toBe(true);
+      expect(StatsValues.validate(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
       expect.assertions(5);
 
-      expect(StatsValues.isJSON(null)).toBe(false);
-      expect(StatsValues.isJSON(undefined)).toBe(false);
-      expect(StatsValues.isJSON(56)).toBe(false);
-      expect(StatsValues.isJSON('fjafsd')).toBe(false);
-      expect(StatsValues.isJSON(false)).toBe(false);
+      expect(StatsValues.validate(null)).toBe(false);
+      expect(StatsValues.validate(undefined)).toBe(false);
+      expect(StatsValues.validate(56)).toBe(false);
+      expect(StatsValues.validate('fjafsd')).toBe(false);
+      expect(StatsValues.validate(false)).toBe(false);
     });
 
     it('returns false because given parameter is not an array', () => {
       expect.assertions(1);
 
-      expect(StatsValues.isJSON({})).toBe(false);
+      expect(StatsValues.validate({})).toBe(false);
     });
 
     it('returns false because the first element would not be StatsValueJSON', () => {
@@ -315,7 +315,7 @@ describe('StatsValues', () => {
         }
       ];
 
-      expect(StatsValues.isJSON(n)).toBe(false);
+      expect(StatsValues.validate(n)).toBe(false);
     });
 
     it('returns false because the second element would not be StatsValueJSON', () => {
@@ -336,7 +336,7 @@ describe('StatsValues', () => {
         }
       ];
 
-      expect(StatsValues.isJSON(n)).toBe(false);
+      expect(StatsValues.validate(n)).toBe(false);
     });
 
     it('returns false because the last element would not be StatsValueJSON', () => {
@@ -357,7 +357,7 @@ describe('StatsValues', () => {
         }
       ];
 
-      expect(StatsValues.isJSON(n)).toBe(false);
+      expect(StatsValues.validate(n)).toBe(false);
     });
   });
 

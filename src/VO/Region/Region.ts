@@ -58,7 +58,7 @@ export class Region extends ValueObject<Region, 'Region'> implements JSONable<Re
     return Region.EMPTY;
   }
 
-  public static isJSON(n: unknown): n is RegionJSON {
+  public static validate(n: unknown): n is RegionJSON {
     if (!Kind.isObject<RegionJSON>(n)) {
       return false;
     }

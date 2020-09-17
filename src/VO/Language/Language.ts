@@ -71,7 +71,7 @@ export class Language extends ValueObject<Language, 'Language'> implements JSONa
     return Language.EMPTY;
   }
 
-  public static isJSON(n: unknown): n is LanguageJSON {
+  public static validate(n: unknown): n is LanguageJSON {
     if (!Kind.isObject<LanguageJSON>(n)) {
       return false;
     }

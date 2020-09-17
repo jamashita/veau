@@ -110,7 +110,7 @@ export class StatsOutline extends ValueObject<StatsOutline, 'StatsOutline'> impl
     );
   }
 
-  public static isJSON(n: unknown): n is StatsOutlineJSON {
+  public static validate(n: unknown): n is StatsOutlineJSON {
     if (!Kind.isObject<StatsOutlineJSON>(n)) {
       return false;
     }
