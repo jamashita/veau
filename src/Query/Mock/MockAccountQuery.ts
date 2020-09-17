@@ -1,6 +1,5 @@
 import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
-
 import { Account } from '../../VO/Account/Account';
 import { AccountError } from '../../VO/Account/Error/AccountError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
