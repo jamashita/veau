@@ -169,6 +169,38 @@ describe('Regions', () => {
     });
   });
 
+  describe('validate', () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
+      const n: unknown = [
+        {
+          regionID: 'to to',
+          name: 'Albania',
+          iso3166: 'ALB'
+        }
+      ];
+
+      expect(Regions.validate(n)).toBe(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect.assertions(5);
+
+      expect(Regions.validate(null)).toBe(false);
+      expect(Regions.validate(undefined)).toBe(false);
+      expect(Regions.validate(56)).toBe(false);
+      expect(Regions.validate('fjafsd')).toBe(false);
+      expect(Regions.validate(false)).toBe(false);
+    });
+
+    it('returns false because given parameter is not an array', () => {
+      expect.assertions(1);
+
+      expect(Regions.validate({})).toBe(false);
+    });
+  });
+
   describe('get', () => {
     it('delegates its inner collection instance', () => {
       expect.assertions(1);

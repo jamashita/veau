@@ -171,6 +171,39 @@ describe('Languages', () => {
     });
   });
 
+  describe('validate', () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
+      const n: unknown = [
+        {
+          languageID: 'tis tis',
+          name: 'Afaraf',
+          englishName: 'Afar',
+          iso639: 'aa'
+        }
+      ];
+
+      expect(Languages.validate(n)).toBe(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect.assertions(5);
+
+      expect(Languages.validate(null)).toBe(false);
+      expect(Languages.validate(undefined)).toBe(false);
+      expect(Languages.validate(56)).toBe(false);
+      expect(Languages.validate('fjafsd')).toBe(false);
+      expect(Languages.validate(false)).toBe(false);
+    });
+
+    it('returns false because given parameter is not an array', () => {
+      expect.assertions(1);
+
+      expect(Languages.validate({})).toBe(false);
+    });
+  });
+
   describe('get', () => {
     it('delegates its inner collection instance', () => {
       expect.assertions(1);

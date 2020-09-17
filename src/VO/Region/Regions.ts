@@ -1,6 +1,6 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Kind, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
 import { Region, RegionJSON, RegionRow } from './Region';
 import { RegionID } from './RegionID';
 
@@ -50,6 +50,16 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
 
   public static empty(): Regions {
     return Regions.EMPTY;
+  }
+
+  public static validate(n: unknown): n is ReadonlyArray<RegionJSON> {
+    if (!Kind.isArray(n)) {
+      return false;
+    }
+
+    return n.every((o: unknown) => {
+      return Region.validate(o);
+    });
   }
 
   private static ofMap(regions: Map<RegionID, Region>): Regions {

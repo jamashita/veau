@@ -1,6 +1,6 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Kind, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 import { LanguageID } from './LanguageID';
 
@@ -51,6 +51,16 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
 
   public static empty(): Languages {
     return Languages.EMPTY;
+  }
+
+  public static validate(n: unknown): n is ReadonlyArray<LanguageJSON> {
+    if (!Kind.isArray(n)) {
+      return false;
+    }
+
+    return n.every((o: unknown) => {
+      return Language.validate(o);
+    });
   }
 
   private static ofMap(languages: Map<LanguageID, Language>): Languages {
