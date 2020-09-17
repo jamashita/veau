@@ -256,4 +256,28 @@ describe('Terms', () => {
       expect(spy.called).toBe(true);
     });
   });
+
+  describe('values', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
+        new Map<TermID, Term>([
+          [Term.DAILY.getTermID(), Term.DAILY],
+          [Term.MONTHLY.getTermID(), Term.MONTHLY]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.values = spy;
+
+      // @ts-expect-error
+      const terms: Terms = Terms.of(project);
+
+      terms.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
 });

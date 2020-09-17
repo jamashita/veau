@@ -1,7 +1,6 @@
 import { ImmutableSequence, MockSequence } from '@jamashita/publikum-collection';
 import { Nullable } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
-
 import { Term } from '../../Term/Term';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
@@ -172,20 +171,6 @@ describe('AsOfs', () => {
   });
 
   describe('add', () => {
-    it('returns itself when the argument is 0', () => {
-      expect.assertions(1);
-
-      const asOf1: MockAsOf = new MockAsOf({
-        day: 1
-      });
-      const asOf2: MockAsOf = new MockAsOf({
-        day: 2
-      });
-      const asOfs: AsOfs = AsOfs.ofArray([asOf1, asOf2]);
-
-      expect(asOfs.add()).toBe(asOfs);
-    });
-
     it('does not affect the original one', () => {
       expect.assertions(8);
 
@@ -203,17 +188,18 @@ describe('AsOfs', () => {
       });
       const asOfs1: AsOfs = AsOfs.ofArray([asOf1, asOf2]);
 
-      const asOfs2: AsOfs = asOfs1.add(asOf3, asOf4);
+      const asOfs2: AsOfs = asOfs1.add(asOf3);
+      const asOfs3: AsOfs = asOfs2.add(asOf4);
 
       expect(asOfs1.size()).toBe(2);
       expect(asOfs1.get(0)).toBe(asOf1);
       expect(asOfs1.get(1)).toBe(asOf2);
 
-      expect(asOfs2.size()).toBe(4);
-      expect(asOfs2.get(0)).toBe(asOf1);
-      expect(asOfs2.get(1)).toBe(asOf2);
-      expect(asOfs2.get(2)).toBe(asOf3);
-      expect(asOfs2.get(3)).toBe(asOf4);
+      expect(asOfs3.size()).toBe(4);
+      expect(asOfs3.get(0)).toBe(asOf1);
+      expect(asOfs3.get(1)).toBe(asOf2);
+      expect(asOfs3.get(2)).toBe(asOf3);
+      expect(asOfs3.get(3)).toBe(asOf4);
     });
   });
 

@@ -127,12 +127,12 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
     return this.asOfs.some(predicate);
   }
 
-  public add(...values: ReadonlyArray<AsOf>): AsOfs {
-    if (values.length === 0) {
-      return this;
-    }
+  public values(): Iterable<AsOf> {
+    return this.asOfs.values();
+  }
 
-    return AsOfs.of(this.asOfs.add(...values));
+  public add(values: AsOf): AsOfs {
+    return AsOfs.of(this.asOfs.add(values));
   }
 
   public min(): Nullable<AsOf> {

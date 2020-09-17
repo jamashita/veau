@@ -7,7 +7,7 @@ import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
 export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsValues'> implements Cloneable<StatsValues>, JSONable<Array<StatsValueJSON>> {
   public readonly noun: 'StatsValues' = 'StatsValues';
-  private readonly values: Project<AsOf, StatsValue>;
+  private readonly vals: Project<AsOf, StatsValue>;
 
   private static readonly EMPTY: StatsValues = new StatsValues(ImmutableProject.empty<AsOf, StatsValue>());
 
@@ -33,7 +33,6 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.ofArray(values);
   }
 
-  // TODO
   public static ofJSON(json: Array<StatsValueJSON>): StatsValues {
     const arr: Array<StatsValue> = json.map<StatsValue>((statsValue: StatsValueJSON) => {
       return StatsValue.ofJSON(statsValue);
@@ -70,27 +69,27 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
 
   protected constructor(values: Project<AsOf, StatsValue>) {
     super();
-    this.values = values;
+    this.vals = values;
   }
 
   public get(key: AsOf): Nullable<StatsValue> {
-    return this.values.get(key);
+    return this.vals.get(key);
   }
 
   public contains(value: StatsValue): boolean {
-    return this.values.contains(value);
+    return this.vals.contains(value);
   }
 
   public size(): number {
-    return this.values.size();
+    return this.vals.size();
   }
 
   public forEach(iteration: CancellableEnumerator<AsOf, StatsValue>): void {
-    this.values.forEach(iteration);
+    this.vals.forEach(iteration);
   }
 
   public isEmpty(): boolean {
-    return this.values.isEmpty();
+    return this.vals.isEmpty();
   }
 
   public duplicate(): StatsValues {
@@ -98,7 +97,7 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
       return StatsValues.empty();
     }
 
-    return StatsValues.of(this.values.duplicate());
+    return StatsValues.of(this.vals.duplicate());
   }
 
   public equals(other: StatsValues): boolean {
@@ -106,13 +105,13 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
       return true;
     }
 
-    return this.values.equals(other.values);
+    return this.vals.equals(other.vals);
   }
 
   public toJSON(): Array<StatsValueJSON> {
     const json: Array<StatsValueJSON> = [];
 
-    this.values.forEach((value: StatsValue) => {
+    this.vals.forEach((value: StatsValue) => {
       json.push(value.toJSON());
     });
 
@@ -122,7 +121,7 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
   public serialize(): string {
     const strs: Array<string> = [];
 
-    this.values.forEach((value: StatsValue) => {
+    this.vals.forEach((value: StatsValue) => {
       strs.push(value.toString());
     });
 
@@ -130,26 +129,30 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
   }
 
   public [Symbol.iterator](): Iterator<Pair<AsOf, StatsValue>> {
-    return this.values[Symbol.iterator]();
+    return this.vals[Symbol.iterator]();
   }
 
   public every(predicate: BinaryPredicate<StatsValue, AsOf>): boolean {
-    return this.values.every(predicate);
+    return this.vals.every(predicate);
   }
 
   public some(predicate: BinaryPredicate<StatsValue, AsOf>): boolean {
-    return this.values.some(predicate);
+    return this.vals.some(predicate);
+  }
+
+  public values(): Iterable<StatsValue> {
+    return this.vals.values();
   }
 
   public set(statsValue: StatsValue): StatsValues {
-    return StatsValues.of(this.values.set(statsValue.getAsOf(), statsValue));
+    return StatsValues.of(this.vals.set(statsValue.getAsOf(), statsValue));
   }
 
   public delete(asOf: AsOf): StatsValues {
-    return StatsValues.of(this.values.remove(asOf));
+    return StatsValues.of(this.vals.remove(asOf));
   }
 
   public getAsOfs(): AsOfs {
-    return AsOfs.ofArray([...this.values.toMap().keys()]);
+    return AsOfs.ofArray([...this.vals.toMap().keys()]);
   }
 }

@@ -996,4 +996,44 @@ describe('StatsValues', () => {
       expect(spy.called).toBe(true);
     });
   });
+
+  describe('values', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const statsValue1: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 1
+        })
+      });
+      const statsValue2: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 2
+        })
+      });
+      const statsValue3: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 3
+        })
+      });
+
+      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.of<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.values = spy;
+
+      const values: StatsValues = StatsValues.of(project);
+
+      values.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
 });

@@ -86,6 +86,10 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
     return this.terms.some(predicate);
   }
 
+  public values(): Iterable<Term> {
+    return this.terms.values();
+  }
+
   public map<U>(mapper: Mapper<Term, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;
