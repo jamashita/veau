@@ -17,7 +17,7 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
     return new StatsItemNames(names);
   }
 
-  public static ofArray(names: Array<StatsItemName>): StatsItemNames {
+  public static ofArray(names: ReadonlyArray<StatsItemName>): StatsItemNames {
     return StatsItemNames.of(ImmutableSequence.of<StatsItemName>(names));
   }
 

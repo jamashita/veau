@@ -19,7 +19,7 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
     return new AsOfs(asOfs);
   }
 
-  public static ofArray(asOfs: Array<AsOf>): AsOfs {
+  public static ofArray(asOfs: ReadonlyArray<AsOf>): AsOfs {
     return AsOfs.of(ImmutableSequence.of<AsOf>(asOfs));
   }
 

@@ -23,11 +23,11 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
     return new Terms(terms);
   }
 
-  private static ofMap(terms: Map<TermID, Term>): Terms {
+  private static ofMap(terms: ReadonlyMap<TermID, Term>): Terms {
     return Terms.of(ImmutableProject.of<TermID, Term>(terms));
   }
 
-  private static ofArray(terms: Array<Term>): Terms {
+  private static ofArray(terms: ReadonlyArray<Term>): Terms {
     const map: Map<TermID, Term> = new Map<TermID, Term>();
 
     terms.forEach((term: Term) => {

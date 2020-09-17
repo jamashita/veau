@@ -19,7 +19,7 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return new StatsValues(values);
   }
 
-  public static ofArray(values: Array<StatsValue>): StatsValues {
+  public static ofArray(values: ReadonlyArray<StatsValue>): StatsValues {
     const map: Map<AsOf, StatsValue> = new Map<AsOf, StatsValue>();
 
     values.forEach((value: StatsValue) => {
@@ -63,7 +63,7 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.EMPTY;
   }
 
-  protected static ofMap(values: Map<AsOf, StatsValue>): StatsValues {
+  protected static ofMap(values: ReadonlyMap<AsOf, StatsValue>): StatsValues {
     return StatsValues.of(ImmutableProject.of<AsOf, StatsValue>(values));
   }
 

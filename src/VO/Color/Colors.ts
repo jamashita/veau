@@ -32,7 +32,7 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
     return new Colors(colors);
   }
 
-  public static ofArray(colors: Array<Color>): Colors {
+  public static ofArray(colors: ReadonlyArray<Color>): Colors {
     return Colors.of(ImmutableSequence.of<Color>(colors));
   }
 

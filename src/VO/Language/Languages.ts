@@ -19,7 +19,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return new Languages(languages);
   }
 
-  public static ofArray(languages: Array<Language>): Languages {
+  public static ofArray(languages: ReadonlyArray<Language>): Languages {
     const map: Map<LanguageID, Language> = new Map<LanguageID, Language>();
 
     languages.forEach((language: Language) => {
@@ -63,7 +63,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     });
   }
 
-  private static ofMap(languages: Map<LanguageID, Language>): Languages {
+  private static ofMap(languages: ReadonlyMap<LanguageID, Language>): Languages {
     return Languages.of(ImmutableProject.of<LanguageID, Language>(languages));
   }
 

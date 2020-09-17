@@ -63,7 +63,7 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
     });
   }
 
-  private static ofMap(outlines: Map<StatsID, StatsOutline>): StatsOutlines {
+  private static ofMap(outlines: ReadonlyMap<StatsID, StatsOutline>): StatsOutlines {
     return StatsOutlines.of(ImmutableProject.of<StatsID, StatsOutline>(outlines));
   }
 

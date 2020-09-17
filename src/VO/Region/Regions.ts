@@ -18,7 +18,7 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return new Regions(regions);
   }
 
-  public static ofArray(regions: Array<Region>): Regions {
+  public static ofArray(regions: ReadonlyArray<Region>): Regions {
     const map: Map<RegionID, Region> = new Map<RegionID, Region>();
 
     regions.forEach((region: Region) => {
@@ -62,7 +62,7 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     });
   }
 
-  private static ofMap(regions: Map<RegionID, Region>): Regions {
+  private static ofMap(regions: ReadonlyMap<RegionID, Region>): Regions {
     return Regions.of(ImmutableProject.of<RegionID, Region>(regions));
   }
 

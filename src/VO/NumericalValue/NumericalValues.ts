@@ -16,7 +16,7 @@ export class NumericalValues extends Quantity<NumericalValues, number, INumerica
     return new NumericalValues(values);
   }
 
-  public static ofArray(values: Array<INumericalValue>): NumericalValues {
+  public static ofArray(values: ReadonlyArray<INumericalValue>): NumericalValues {
     return NumericalValues.of(ImmutableSequence.of<INumericalValue>(values));
   }
 
