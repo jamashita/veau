@@ -117,32 +117,6 @@ describe('NumericalValues', () => {
       expect(values2.get(1)).toBe(value2);
       expect(values2.get(2)).toBe(value3);
     });
-
-    it('inserts by spread syntax', () => {
-      expect.assertions(5);
-
-      const value1: MockNumericalValue = new MockNumericalValue();
-      const value2: MockNumericalValue = new MockNumericalValue();
-      const value3: MockNumericalValue = new MockNumericalValue();
-
-      const values1: NumericalValues = NumericalValues.empty();
-      const values2: NumericalValues = values1.add(value1, value2, value3);
-
-      expect(values1.size()).toBe(0);
-      expect(values2.size()).toBe(3);
-      expect(values2.get(0)).toBe(value1);
-      expect(values2.get(1)).toBe(value2);
-      expect(values2.get(2)).toBe(value3);
-    });
-
-    it('returns itself when the argument is 0', () => {
-      expect.assertions(1);
-
-      const values1: NumericalValues = NumericalValues.empty();
-      const values2: NumericalValues = values1.add();
-
-      expect(values1).toBe(values2);
-    });
   });
 
   describe('get', () => {
@@ -402,6 +376,28 @@ describe('NumericalValues', () => {
       values.some(() => {
         return true;
       });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('values', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+        new MockNumericalValue(),
+        new MockNumericalValue(),
+        new MockNumericalValue()
+      ]);
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.values = spy;
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      values.values();
 
       expect(spy.called).toBe(true);
     });

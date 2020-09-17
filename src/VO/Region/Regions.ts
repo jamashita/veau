@@ -115,6 +115,10 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return this.regions.some(predicate);
   }
 
+  public values(): Iterable<Region> {
+    return this.regions.values();
+  }
+
   public map<U>(mapper: Mapper<Region, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;
@@ -128,7 +132,7 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
   }
 
   public find(predicate: Predicate<Region>): Nullable<Region> {
-    for (const region of this.regions.toMap().values()) {
+    for (const region of this.regions.values()) {
       if (predicate(region)) {
         return region;
       }

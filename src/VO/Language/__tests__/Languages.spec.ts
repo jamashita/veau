@@ -566,4 +566,32 @@ describe('Languages', () => {
       expect(spy.called).toBe(true);
     });
   });
+
+  describe('values', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const language1: MockLanguage = new MockLanguage();
+      const language2: MockLanguage = new MockLanguage();
+      const language3: MockLanguage = new MockLanguage();
+
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
+          [language1.getLanguageID(), language1],
+          [language2.getLanguageID(), language2],
+          [language3.getLanguageID(), language3]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.values = spy;
+
+      const languages: Languages = Languages.of(project);
+
+      languages.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
 });

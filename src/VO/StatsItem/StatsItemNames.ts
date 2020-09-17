@@ -84,6 +84,10 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
     return this.names.some(predicate);
   }
 
+  public values(): Iterable<StatsItemName> {
+    return this.names.values();
+  }
+
   public map<U>(mapper: Mapper<StatsItemName, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;

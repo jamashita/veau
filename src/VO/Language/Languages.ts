@@ -116,6 +116,10 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return this.languages.some(predicate);
   }
 
+  public values(): Iterable<Language> {
+    return this.languages.values();
+  }
+
   public map<U>(mapper: Mapper<Language, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;
@@ -129,7 +133,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   }
 
   public find(predicate: Predicate<Language>): Nullable<Language> {
-    for (const language of this.languages.toMap().values()) {
+    for (const language of this.values()) {
       if (predicate(language)) {
         return language;
       }

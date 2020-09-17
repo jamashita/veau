@@ -4,7 +4,7 @@ import { INumericalValue } from './INumericalValue';
 
 export class NumericalValues extends Quantity<NumericalValues, number, INumericalValue, 'NumericalValues'> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
-  private readonly values: Sequence<INumericalValue>;
+  private readonly vals: Sequence<INumericalValue>;
 
   private static readonly EMPTY: NumericalValues = new NumericalValues(ImmutableSequence.empty<INumericalValue>());
 
@@ -30,27 +30,27 @@ export class NumericalValues extends Quantity<NumericalValues, number, INumerica
 
   protected constructor(values: Sequence<INumericalValue>) {
     super();
-    this.values = values;
+    this.vals = values;
   }
 
   public get(index: number): Nullable<INumericalValue> {
-    return this.values.get(index);
+    return this.vals.get(index);
   }
 
   public contains(value: INumericalValue): boolean {
-    return this.values.contains(value);
+    return this.vals.contains(value);
   }
 
   public size(): number {
-    return this.values.size();
+    return this.vals.size();
   }
 
   public forEach(iteration: CancellableEnumerator<number, INumericalValue>): void {
-    this.values.forEach(iteration);
+    this.vals.forEach(iteration);
   }
 
   public isEmpty(): boolean {
-    return this.values.isEmpty();
+    return this.vals.isEmpty();
   }
 
   public equals(other: NumericalValues): boolean {
@@ -58,35 +58,35 @@ export class NumericalValues extends Quantity<NumericalValues, number, INumerica
       return true;
     }
 
-    return this.values.equals(other.values);
+    return this.vals.equals(other.vals);
   }
 
   public serialize(): string {
-    return this.values.toString();
+    return this.vals.toString();
   }
 
   public [Symbol.iterator](): Iterator<Pair<number, INumericalValue>> {
-    return this.values[Symbol.iterator]();
+    return this.vals[Symbol.iterator]();
   }
 
   public every(predicate: BinaryPredicate<INumericalValue, number>): boolean {
-    return this.values.every(predicate);
+    return this.vals.every(predicate);
   }
 
   public some(predicate: BinaryPredicate<INumericalValue, number>): boolean {
-    return this.values.some(predicate);
+    return this.vals.some(predicate);
   }
 
-  public add(...values: ReadonlyArray<INumericalValue>): NumericalValues {
-    if (values.length === 0) {
-      return this;
-    }
+  public values(): Iterable<INumericalValue> {
+    return this.vals.values();
+  }
 
-    return NumericalValues.of(this.values.add(...values));
+  public add(value: INumericalValue): NumericalValues {
+    return NumericalValues.of(this.vals.add(value));
   }
 
   public row(): Array<string> {
-    return this.values.toArray().map<string>((value: INumericalValue) => {
+    return this.vals.toArray().map<string>((value: INumericalValue) => {
       return value.toString();
     });
   }

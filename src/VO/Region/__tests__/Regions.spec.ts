@@ -558,4 +558,32 @@ describe('Regions', () => {
       expect(spy.called).toBe(true);
     });
   });
+
+  describe('values', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const region1: MockRegion = new MockRegion();
+      const region2: MockRegion = new MockRegion();
+      const region3: MockRegion = new MockRegion();
+
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
+          [region1.getRegionID(), region1],
+          [region2.getRegionID(), region2],
+          [region3.getRegionID(), region3]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.values = spy;
+
+      const regions: Regions = Regions.of(project);
+
+      regions.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
 });

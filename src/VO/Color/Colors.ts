@@ -5,7 +5,6 @@ import { Color } from './Color';
 export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
   public readonly noun: 'Colors' = 'Colors';
   private readonly colors: Sequence<Color>;
-
   private static readonly DEFAULT: Colors = Colors.ofSpread(
     Color.of('#8aa399'),
     Color.of('#7d84b2'),
@@ -92,5 +91,9 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
 
   public some(predicate: BinaryPredicate<Color, number>): boolean {
     return this.colors.some(predicate);
+  }
+
+  public values(): Iterable<Color> {
+    return this.colors.values();
   }
 }

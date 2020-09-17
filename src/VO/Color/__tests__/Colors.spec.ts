@@ -290,4 +290,25 @@ describe('Colors', () => {
       expect(spy.called).toBe(true);
     });
   });
+
+  describe('values', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.values = spy;
+
+      const colors: Colors = Colors.of(sequence);
+
+      colors.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
 });

@@ -362,4 +362,26 @@ describe('StatsItemNames', () => {
       expect(spy.called).toBe(true);
     });
   });
+
+  describe('values', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
+
+      const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.values = spy;
+
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      names.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
 });
