@@ -1,11 +1,11 @@
-name: 'Validate Codes'
+name: 'CI'
 on:
   push:
     branches:
       - 'feature/*'
       - 'hotfix/*'
 jobs:
-  code-validation:
+  ci:
     runs-on: 'ubuntu-latest'
     timeout-minutes: 20
     steps:
