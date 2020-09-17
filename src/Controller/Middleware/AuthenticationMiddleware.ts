@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { UNAUTHORIZED } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import { injectable } from 'inversify';
-
 import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import { IMiddleware } from './Interface/IMiddleware';
 
@@ -9,7 +8,7 @@ import { IMiddleware } from './Interface/IMiddleware';
 export class AuthenticationMiddleware implements IMiddleware {
   public use(req: Request, res: Response, next: NextFunction): void {
     if (req.user === undefined) {
-      res.sendStatus(UNAUTHORIZED);
+      res.sendStatus(StatusCodes.UNAUTHORIZED);
 
       return;
     }

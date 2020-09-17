@@ -1,10 +1,9 @@
 import express, { Express } from 'express';
 import { NextFunction, Request, RequestHandler, Response } from 'express-serve-static-core';
-import { OK, UNAUTHORIZED } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import { Controller, Delete, Get, Post, Put, Res, UseBefore, useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
-
 import { AuthenticationMiddleware } from '../AuthenticationMiddleware';
 
 @Controller('/')
@@ -12,25 +11,25 @@ class MockController {
   @Get('/')
   @UseBefore(AuthenticationMiddleware)
   public get(@Res() res: Response): Response {
-    return res.sendStatus(OK);
+    return res.sendStatus(StatusCodes.OK);
   }
 
   @Post('/')
   @UseBefore(AuthenticationMiddleware)
   public post(@Res() res: Response): Response {
-    return res.sendStatus(OK);
+    return res.sendStatus(StatusCodes.OK);
   }
 
   @Put('/')
   @UseBefore(AuthenticationMiddleware)
   public put(@Res() res: Response): Response {
-    return res.sendStatus(OK);
+    return res.sendStatus(StatusCodes.OK);
   }
 
   @Delete('/')
   @UseBefore(AuthenticationMiddleware)
   public delete(@Res() res: Response): Response {
-    return res.sendStatus(OK);
+    return res.sendStatus(StatusCodes.OK);
   }
 }
 
@@ -41,7 +40,9 @@ const setUser: RequestHandler = (req: Request, _res: Response, next: NextFunctio
 
 describe('AuthenticationMiddleware', () => {
   describe('requires', () => {
-    it('GET: pass', async () => {
+    it('gET: pass', async () => {
+      expect.assertions(1);
+
       const app: Express = express();
 
       app.use(setUser);
@@ -51,10 +52,12 @@ describe('AuthenticationMiddleware', () => {
 
       const response: supertest.Response = await supertest(app).get('/');
 
-      expect(response.status).toBe(OK);
+      expect(response.status).toBe(StatusCodes.OK);
     });
 
-    it('GET: blocked', async () => {
+    it('gET: blocked', async () => {
+      expect.assertions(1);
+
       const app: Express = express();
 
       useExpressServer<Express>(app, {
@@ -63,10 +66,12 @@ describe('AuthenticationMiddleware', () => {
 
       const response: supertest.Response = await supertest(app).get('/');
 
-      expect(response.status).toBe(UNAUTHORIZED);
+      expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
     });
 
-    it('POST: pass', async () => {
+    it('pOST: pass', async () => {
+      expect.assertions(1);
+
       const app: Express = express();
 
       app.use(setUser);
@@ -76,10 +81,12 @@ describe('AuthenticationMiddleware', () => {
 
       const response: supertest.Response = await supertest(app).post('/');
 
-      expect(response.status).toBe(OK);
+      expect(response.status).toBe(StatusCodes.OK);
     });
 
-    it('POST: blocked', async () => {
+    it('pOST: blocked', async () => {
+      expect.assertions(1);
+
       const app: Express = express();
 
       useExpressServer<Express>(app, {
@@ -88,10 +95,12 @@ describe('AuthenticationMiddleware', () => {
 
       const response: supertest.Response = await supertest(app).post('/');
 
-      expect(response.status).toBe(UNAUTHORIZED);
+      expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
     });
 
-    it('PUT: pass', async () => {
+    it('pUT: pass', async () => {
+      expect.assertions(1);
+
       const app: Express = express();
 
       app.use(setUser);
@@ -101,10 +110,12 @@ describe('AuthenticationMiddleware', () => {
 
       const response: supertest.Response = await supertest(app).put('/');
 
-      expect(response.status).toBe(OK);
+      expect(response.status).toBe(StatusCodes.OK);
     });
 
-    it('PUT: blocked', async () => {
+    it('pUT: blocked', async () => {
+      expect.assertions(1);
+
       const app: Express = express();
 
       useExpressServer<Express>(app, {
@@ -113,10 +124,12 @@ describe('AuthenticationMiddleware', () => {
 
       const response: supertest.Response = await supertest(app).put('/');
 
-      expect(response.status).toBe(UNAUTHORIZED);
+      expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
     });
 
-    it('DELETE: pass', async () => {
+    it('dELETE: pass', async () => {
+      expect.assertions(1);
+
       const app: Express = express();
 
       app.use(setUser);
@@ -126,10 +139,12 @@ describe('AuthenticationMiddleware', () => {
 
       const response: supertest.Response = await supertest(app).delete('/');
 
-      expect(response.status).toBe(OK);
+      expect(response.status).toBe(StatusCodes.OK);
     });
 
-    it('DELETE: blocked', async () => {
+    it('dELETE: blocked', async () => {
+      expect.assertions(1);
+
       const app: Express = express();
 
       useExpressServer<Express>(app, {
@@ -138,7 +153,7 @@ describe('AuthenticationMiddleware', () => {
 
       const response: supertest.Response = await supertest(app).delete('/');
 
-      expect(response.status).toBe(UNAUTHORIZED);
+      expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
     });
   });
 });
