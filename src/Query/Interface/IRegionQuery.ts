@@ -1,8 +1,6 @@
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
-
 import { RegionError } from '../../VO/Region/Error/RegionError';
-import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../VO/Region/ISO3166';
 import { Region } from '../../VO/Region/Region';
 import { RegionID } from '../../VO/Region/RegionID';
@@ -13,7 +11,7 @@ import { IQuery } from './IQuery';
 export interface IRegionQuery<E extends DataSourceError = DataSourceError> extends IQuery<'RegionQuery'> {
   readonly noun: 'RegionQuery';
 
-  all(): Superposition<Regions, RegionsError | E>;
+  all(): Superposition<Regions, RegionError | E>;
 
   find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | E>;
 
