@@ -1,7 +1,6 @@
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
 import { IdentityError } from '../../VO/Identity/Error/IdentityError';
@@ -23,75 +22,49 @@ import { IVaultQuery } from './Interface/IVaultQuery';
 export class IdentityQuery implements IIdentityQuery, IVaultQuery {
   public readonly noun: 'IdentityQuery' = 'IdentityQuery';
   public readonly source: 'Vault' = 'Vault';
-  private readonly veauAccountQuery: IVeauAccountQuery;
+  private readonly accountQuery: IVeauAccountQuery;
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;
 
   public constructor(
-    @inject(Type.VeauAccountAJAXQuery) veauAccountQuery: IVeauAccountQuery,
+    @inject(Type.VeauAccountAJAXQuery) accountQuery: IVeauAccountQuery,
     @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery
   ) {
-    this.veauAccountQuery = veauAccountQuery;
+    this.accountQuery = accountQuery;
     this.languageQuery = languageQuery;
     this.regionQuery = regionQuery;
   }
 
   public find(): Superposition<Identity, IdentityError | DataSourceError> {
-    return this.veauAccountQuery
-      .find()
-      .map<Identity, LanguageError | RegionError | NoSuchElementError | DataSourceError>((veauAccount: VeauAccount) => {
-        return this.languageQuery
-          .find(veauAccount.getLanguageID())
-          .map<Identity, LanguageError | RegionError | NoSuchElementError | DataSourceError>((language: Language) => {
-            return this.regionQuery
-              .find(veauAccount.getRegionID())
-              .map<Identity, RegionError | NoSuchElementError | DataSourceError>((region: Region) => {
-                return Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region);
-              });
-          });
-      })
-      .recover<Identity, IdentityError | DataSourceError>(
-        (err: VeauAccountError | LanguageError | RegionError | NoSuchElementError | DataSourceError) => {
-          if (err instanceof DataSourceError) {
-            throw err;
-          }
+    return this.accountQuery.find().map<Identity, VeauAccountError | LanguageError | RegionError | NoSuchElementError | DataSourceError>((veauAccount: VeauAccount) => {
+      return this.languageQuery.find(veauAccount.getLanguageID()).map<Identity, LanguageError | RegionError | NoSuchElementError | DataSourceError>((language: Language) => {
+        return this.regionQuery.find(veauAccount.getRegionID()).map<Identity, RegionError | NoSuchElementError | DataSourceError>((region: Region) => {
+          return Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region);
+        });
+      });
+    }).recover<Identity, IdentityError | DataSourceError>((err: VeauAccountError | LanguageError | RegionError | NoSuchElementError | DataSourceError) => {
+      if (err instanceof DataSourceError) {
+        throw err;
+      }
 
-          throw new IdentityError('IdentityQuery.find()', err);
-        },
-        IdentityError,
-        DataSourceError
-      );
+      throw new IdentityError('IdentityQuery.find()', err);
+    }, IdentityError, DataSourceError);
   }
 
-  public findByEntranceInfo(
-    entranceInformation: EntranceInformation
-  ): Superposition<Identity, IdentityError | DataSourceError> {
-    return this.veauAccountQuery
-      .findByEntranceInfo(entranceInformation)
-      .map<Identity, VeauAccountError | LanguageError | RegionError | NoSuchElementError | DataSourceError>(
-        (veauAccount: VeauAccount) => {
-          return this.languageQuery
-            .find(veauAccount.getLanguageID())
-            .map<Identity, LanguageError | RegionError | NoSuchElementError | DataSourceError>((language: Language) => {
-              return this.regionQuery
-                .find(veauAccount.getRegionID())
-                .map<Identity, RegionError | NoSuchElementError | DataSourceError>((region: Region) => {
-                  return Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region);
-                });
-            });
-        }
-      )
-      .recover<Identity, IdentityError | DataSourceError>(
-        (err: VeauAccountError | LanguageError | RegionError | NoSuchElementError | DataSourceError) => {
-          if (err instanceof DataSourceError) {
-            throw err;
-          }
+  public findByEntranceInfo(entranceInformation: EntranceInformation): Superposition<Identity, IdentityError | DataSourceError> {
+    return this.accountQuery.findByEntranceInfo(entranceInformation).map<Identity, VeauAccountError | LanguageError | RegionError | NoSuchElementError | DataSourceError>((veauAccount: VeauAccount) => {
+      return this.languageQuery.find(veauAccount.getLanguageID()).map<Identity, LanguageError | RegionError | NoSuchElementError | DataSourceError>((language: Language) => {
+        return this.regionQuery.find(veauAccount.getRegionID()).map<Identity, RegionError | NoSuchElementError | DataSourceError>((region: Region) => {
+          return Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region);
+        });
+      });
+    }).recover<Identity, IdentityError | DataSourceError>((err: VeauAccountError | LanguageError | RegionError | NoSuchElementError | DataSourceError) => {
+      if (err instanceof DataSourceError) {
+        throw err;
+      }
 
-          throw new IdentityError('IdentityQuery.find()', err);
-        },
-        IdentityError,
-        DataSourceError
-      );
+      throw new IdentityError('IdentityQuery.find()', err);
+    }, IdentityError, DataSourceError);
   }
 }
