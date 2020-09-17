@@ -1,5 +1,7 @@
 # Veau
 
+![CI](https://github.com/jamashita/veau/workflows/CI/badge.svg)
+
 Veau (pronunciation /vo/) is for the users who treat statistics.  
 This system supports the users to simplify the input statistics data by showing the data in the chart.
 
