@@ -23,6 +23,7 @@ import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
 import { Region } from '../../../VO/Region/Region';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
+import { StatsError } from '../../../VO/StatsOutline/Error/StatsError';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { MockStatsName } from '../../../VO/StatsOutline/Mock/MockStatsName';
 import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
@@ -40,7 +41,6 @@ import { MockStatsItem } from '../../StatsItem/Mock/MockStatsItem';
 import { MockStatsItems } from '../../StatsItem/Mock/MockStatsItems';
 import { StatsItem } from '../../StatsItem/StatsItem';
 import { StatsItems } from '../../StatsItem/StatsItems';
-import { StatsError } from '../Error/StatsError';
 import { Stats, StatsJSON } from '../Stats';
 
 describe('Stats', () => {

@@ -12,6 +12,7 @@ import { NumericalValue } from '../../VO/NumericalValue/NumericalValue';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { Region, RegionJSON } from '../../VO/Region/Region';
 import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
+import { StatsError } from '../../VO/StatsOutline/Error/StatsError';
 import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsName } from '../../VO/StatsOutline/StatsName';
@@ -23,7 +24,6 @@ import { TermError } from '../../VO/Term/Error/TermError';
 import { Term } from '../../VO/Term/Term';
 import { StatsItem, StatsItemJSON } from '../StatsItem/StatsItem';
 import { StatsItems } from '../StatsItem/StatsItems';
-import { StatsError } from './Error/StatsError';
 
 export type StatsJSON = Readonly<{
   outline: StatsOutlineJSON;
