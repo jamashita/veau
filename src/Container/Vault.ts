@@ -1,7 +1,6 @@
 import { AJAX, IAJAX } from '@jamashita/publikum-ajax';
 import { ICache } from '@jamashita/publikum-cache';
 import { Container } from 'inversify';
-
 import { SessionCommand as SessionAJAXCommand } from '../Command/AJAX/SessionCommand';
 import { StatsCommand as StatsAJAXCommand } from '../Command/AJAX/StatsCommand';
 import { LocaleCommand as LocaleCacheCommand } from '../Command/Cache/LocaleCommand';
@@ -26,35 +25,37 @@ import { RegionQuery as RegionVaultQuery } from '../Query/Vault/RegionQuery';
 import { StatsListItemQuery as StatsListItemVaultQuery } from '../Query/Vault/StatsListItemQuery';
 import { Type } from './Types';
 
-export const vault: Container = new Container();
+const v: Container = new Container();
 
-// Gateway
-vault.bind<IAJAX>(Type.AJAX).toConstantValue(new AJAX());
-vault.bind<ICache>(Type.Cache).toConstantValue(veauCache);
+// Infrastructure
+v.bind<IAJAX<'json'>>(Type.AJAX).toConstantValue(new AJAX<'json'>('json'));
+v.bind<ICache>(Type.Cache).toConstantValue(veauCache);
 
 // Command
-vault.bind<SessionAJAXCommand>(Type.SessionAJAXCommand).to(SessionAJAXCommand).inSingletonScope();
-vault.bind<StatsAJAXCommand>(Type.StatsAJAXCommand).to(StatsAJAXCommand).inSingletonScope();
-vault.bind<LocaleCacheCommand>(Type.LocaleCacheCommand).to(LocaleCacheCommand).inSingletonScope();
+v.bind<SessionAJAXCommand>(Type.SessionAJAXCommand).to(SessionAJAXCommand).inSingletonScope();
+v.bind<StatsAJAXCommand>(Type.StatsAJAXCommand).to(StatsAJAXCommand).inSingletonScope();
+v.bind<LocaleCacheCommand>(Type.LocaleCacheCommand).to(LocaleCacheCommand).inSingletonScope();
 
 // Epic
-vault.bind<EntranceEpic>(Type.EntranceEpic).to(EntranceEpic).inSingletonScope();
-vault.bind<IdentityEpic>(Type.IdentityEpic).to(IdentityEpic).inSingletonScope();
-vault.bind<LogoutEpic>(Type.LogoutEpic).to(LogoutEpic).inSingletonScope();
-vault.bind<RedirectEpic>(Type.RedirectEpic).to(RedirectEpic).inSingletonScope();
-vault.bind<RootEpic>(Type.RootEpic).to(RootEpic).inSingletonScope();
-vault.bind<StatsEditEpic>(Type.StatsEditEpic).to(StatsEditEpic).inSingletonScope();
-vault.bind<StatsListEpic>(Type.StatsListEpic).to(StatsListEpic).inSingletonScope();
+v.bind<EntranceEpic>(Type.EntranceEpic).to(EntranceEpic).inSingletonScope();
+v.bind<IdentityEpic>(Type.IdentityEpic).to(IdentityEpic).inSingletonScope();
+v.bind<LogoutEpic>(Type.LogoutEpic).to(LogoutEpic).inSingletonScope();
+v.bind<RedirectEpic>(Type.RedirectEpic).to(RedirectEpic).inSingletonScope();
+v.bind<RootEpic>(Type.RootEpic).to(RootEpic).inSingletonScope();
+v.bind<StatsEditEpic>(Type.StatsEditEpic).to(StatsEditEpic).inSingletonScope();
+v.bind<StatsListEpic>(Type.StatsListEpic).to(StatsListEpic).inSingletonScope();
 
 // Query
-vault.bind<LocaleAJAXQuery>(Type.LocaleAJAXQuery).to(LocaleAJAXQuery).inSingletonScope();
-vault.bind<StatsOutlineAJAXQuery>(Type.StatsOutlineAJAXQuery).to(StatsOutlineAJAXQuery).inSingletonScope();
-vault.bind<StatsAJAXQuery>(Type.StatsAJAXQuery).to(StatsAJAXQuery).inSingletonScope();
-vault.bind<VeauAccountAJAXQuery>(Type.VeauAccountAJAXQuery).to(VeauAccountAJAXQuery).inSingletonScope();
-vault.bind<LocaleCacheQuery>(Type.LocaleCacheQuery).to(LocaleCacheQuery).inSingletonScope();
-vault.bind<TermCacheQuery>(Type.TermCacheQuery).to(TermCacheQuery).inSingletonScope();
-vault.bind<IdentityVaultQuery>(Type.IdentityVaultQuery).to(IdentityVaultQuery).inSingletonScope();
-vault.bind<LanguageVaultQuery>(Type.LanguageVaultQuery).to(LanguageVaultQuery).inSingletonScope();
-vault.bind<LocaleVaultQuery>(Type.LocaleVaultQuery).to(LocaleVaultQuery).inSingletonScope();
-vault.bind<RegionVaultQuery>(Type.RegionVaultQuery).to(RegionVaultQuery).inSingletonScope();
-vault.bind<StatsListItemVaultQuery>(Type.StatsListItemVaultQuery).to(StatsListItemVaultQuery).inSingletonScope();
+v.bind<LocaleAJAXQuery>(Type.LocaleAJAXQuery).to(LocaleAJAXQuery).inSingletonScope();
+v.bind<StatsOutlineAJAXQuery>(Type.StatsOutlineAJAXQuery).to(StatsOutlineAJAXQuery).inSingletonScope();
+v.bind<StatsAJAXQuery>(Type.StatsAJAXQuery).to(StatsAJAXQuery).inSingletonScope();
+v.bind<VeauAccountAJAXQuery>(Type.VeauAccountAJAXQuery).to(VeauAccountAJAXQuery).inSingletonScope();
+v.bind<LocaleCacheQuery>(Type.LocaleCacheQuery).to(LocaleCacheQuery).inSingletonScope();
+v.bind<TermCacheQuery>(Type.TermCacheQuery).to(TermCacheQuery).inSingletonScope();
+v.bind<IdentityVaultQuery>(Type.IdentityVaultQuery).to(IdentityVaultQuery).inSingletonScope();
+v.bind<LanguageVaultQuery>(Type.LanguageVaultQuery).to(LanguageVaultQuery).inSingletonScope();
+v.bind<LocaleVaultQuery>(Type.LocaleVaultQuery).to(LocaleVaultQuery).inSingletonScope();
+v.bind<RegionVaultQuery>(Type.RegionVaultQuery).to(RegionVaultQuery).inSingletonScope();
+v.bind<StatsListItemVaultQuery>(Type.StatsListItemVaultQuery).to(StatsListItemVaultQuery).inSingletonScope();
+
+export const vault: Container = v;

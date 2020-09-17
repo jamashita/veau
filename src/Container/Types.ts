@@ -16,6 +16,7 @@ export const Type = {
   StatsListEpic: Symbol(),
   AJAX: Symbol(),
   Cache: Symbol(),
+  Logger: Symbol(),
   MySQL: Symbol(),
   Redis: Symbol(),
   AuthenticationInteractor: Symbol(),
