@@ -6,7 +6,6 @@ import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { MockColumn } from '../../../VO/Coordinate/Mock/MockColumn';
 import { MockRow } from '../../../VO/Coordinate/Mock/MockRow';
-import { StatsItemDisplays } from '../../../VO/Display/StatsItemDisplays';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
@@ -873,33 +872,6 @@ describe('StatsItems', () => {
           values: []
         }
       ]);
-    });
-  });
-
-  describe('display', () => {
-    it('normal case', () => {
-      expect.assertions(4);
-
-      const statsItemID1: MockStatsItemID = new MockStatsItemID();
-      const statsItemID2: MockStatsItemID = new MockStatsItemID();
-      const statsItemID3: MockStatsItemID = new MockStatsItemID();
-      const statsItem1: MockStatsItem = new MockStatsItem({
-        statsItemID: statsItemID1
-      });
-      const statsItem2: MockStatsItem = new MockStatsItem({
-        statsItemID: statsItemID2
-      });
-      const statsItem3: MockStatsItem = new MockStatsItem({
-        statsItemID: statsItemID3
-      });
-
-      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
-      const display: StatsItemDisplays = statsItems.display();
-
-      expect(display.size()).toBe(statsItems.size());
-      for (let i: number = 0; i < display.size(); i++) {
-        expect(display.get(i)?.getStatsItemID()).toBe(statsItems.get(i)?.getStatsItemID());
-      }
     });
   });
 

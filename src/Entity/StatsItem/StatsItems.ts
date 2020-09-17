@@ -11,8 +11,6 @@ import { BinaryPredicate, Kind, Mapper, Nullable } from '@jamashita/publikum-typ
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
 import { Row } from '../../VO/Coordinate/Row';
-import { StatsItemDisplay } from '../../VO/Display/StatsItemDisplay';
-import { StatsItemDisplays } from '../../VO/Display/StatsItemDisplays';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsItemName } from '../../VO/StatsItem/StatsItemName';
 import { StatsItemNames } from '../../VO/StatsItem/StatsItemNames';
@@ -198,13 +196,5 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
 
   public map<U>(mapper: Mapper<StatsItem, U>): Array<U> {
     return this.items.toArray().map<U>(mapper);
-  }
-
-  public display(): StatsItemDisplays {
-    return StatsItemDisplays.of(
-      this.items.map<StatsItemDisplay>((item: StatsItem) => {
-        return item.display();
-      })
-    );
   }
 }

@@ -3,7 +3,6 @@ import { Entity } from '@jamashita/publikum-object';
 import { Kind, Nullable } from '@jamashita/publikum-type';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
-import { StatsItemDisplay } from '../../VO/Display/StatsItemDisplay';
 import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsItemName } from '../../VO/StatsItem/StatsItemName';
@@ -152,9 +151,5 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
 
   public delete(asOf: AsOf): void {
     this.values = this.values.delete(asOf);
-  }
-
-  public display(): StatsItemDisplay {
-    return StatsItemDisplay.of(this.statsItemID, this.name, this.values);
   }
 }
