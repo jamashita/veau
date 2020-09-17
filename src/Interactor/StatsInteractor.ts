@@ -2,7 +2,6 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
 import { Superposition } from '@jamashita/publikum-monad';
 import { inject, injectable } from 'inversify';
-
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { Type } from '../Container/Types';
 import { StatsError } from '../Entity/Stats/Error/StatsError';
@@ -11,7 +10,7 @@ import { NoSuchElementError } from '../Query/Error/NoSuchElementError';
 import { IStatsOutlineQuery } from '../Query/Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../Query/Interface/IStatsQuery';
 import { Page } from '../VO/Page/Page';
-import { StatsOutlinesError } from '../VO/StatsOutline/Error/StatsOutlinesError';
+import { StatsOutlineError } from '../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsID } from '../VO/StatsOutline/StatsID';
 import { StatsOutlines } from '../VO/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../VO/VeauAccount/VeauAccountID';
@@ -20,16 +19,16 @@ import { VeauAccountID } from '../VO/VeauAccount/VeauAccountID';
 export class StatsInteractor implements Noun<'StatsInteractor'> {
   public readonly noun: 'StatsInteractor' = 'StatsInteractor';
   private readonly statsQuery: IStatsQuery;
-  private readonly statsOutlineQuery: IStatsOutlineQuery;
+  private readonly outlineQuery: IStatsOutlineQuery;
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
     @inject(Type.StatsKernelQuery) statsQuery: IStatsQuery,
-    @inject(Type.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery,
+    @inject(Type.StatsOutlineMySQLQuery) outlineQuery: IStatsOutlineQuery,
     @inject(Type.StatsKernelCommand) statsCommand: IStatsCommand
   ) {
     this.statsQuery = statsQuery;
-    this.statsOutlineQuery = statsOutlineQuery;
+    this.outlineQuery = outlineQuery;
     this.statsCommand = statsCommand;
   }
 
@@ -37,11 +36,8 @@ export class StatsInteractor implements Noun<'StatsInteractor'> {
     return this.statsQuery.findByStatsID(statsID);
   }
 
-  public findByVeauAccountID(
-    veauAccountID: VeauAccountID,
-    page: Page
-  ): Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> {
-    return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
+  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, StatsOutlineError | DataSourceError> {
+    return this.outlineQuery.findByVeauAccountID(veauAccountID, page);
   }
 
   public save(stats: Stats, veauAccountID: VeauAccountID): Superposition<unknown, DataSourceError> {
