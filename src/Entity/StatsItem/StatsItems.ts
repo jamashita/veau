@@ -1,22 +1,18 @@
 import {
   CancellableEnumerator,
-  ImmutableSequence,
+  MutableSequence,
   Pair,
   Project,
   Quantity,
   Sequence
 } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { BinaryPredicate, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
-
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
 import { Row } from '../../VO/Coordinate/Row';
 import { StatsItemDisplay } from '../../VO/Display/StatsItemDisplay';
 import { StatsItemDisplays } from '../../VO/Display/StatsItemDisplays';
-import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
-import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsItemName } from '../../VO/StatsItem/StatsItemName';
 import { StatsItemNames } from '../../VO/StatsItem/StatsItemNames';
@@ -26,9 +22,7 @@ import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsItems'>
   implements Cloneable<StatsItems>, JSONable {
   public readonly noun: 'StatsItems' = 'StatsItems';
-  private readonly items: Sequence<StatsItem>;
-
-  private static readonly EMPTY: StatsItems = new StatsItems(ImmutableSequence.empty<StatsItem>());
+  private items: Sequence<StatsItem>;
 
   public static of(items: Sequence<StatsItem>): StatsItems {
     if (items.isEmpty()) {
@@ -38,63 +32,42 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     return new StatsItems(items);
   }
 
-  public static ofArray(items: Array<StatsItem>): StatsItems {
-    return StatsItems.of(ImmutableSequence.of<StatsItem>(items));
+  public static ofArray(items: ReadonlyArray<StatsItem>): StatsItems {
+    return StatsItems.of(MutableSequence.of<StatsItem>(items));
   }
 
   public static ofSpread(...items: Array<StatsItem>): StatsItems {
     return StatsItems.ofArray(items);
   }
 
-  public static ofSuperposition(
-    superpositions: Array<Superposition<StatsItem, StatsItemError>>
-  ): Superposition<StatsItems, StatsItemsError> {
-    return Superposition.all<StatsItem, StatsItemError>(superpositions).transform<StatsItems, StatsItemsError>(
-      (statsItems: Array<StatsItem>) => {
-        return StatsItems.ofArray(statsItems);
-      },
-      (err: StatsItemError) => {
-        throw new StatsItemsError('StatsItems.ofSuperposition()', err);
-      },
-      StatsItemsError
-    );
-  }
-
-  public static ofJSON(json: Array<StatsItemJSON>): Superposition<StatsItems, StatsItemsError> {
-    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = json.map<
-      Superposition<StatsItem, StatsItemError>
-    >((statsItemJSON: StatsItemJSON) => {
+  public static ofJSON(json: ReadonlyArray<StatsItemJSON>): StatsItems {
+    const arr: Array<StatsItem> = json.map<StatsItem>((statsItemJSON: StatsItemJSON) => {
       return StatsItem.ofJSON(statsItemJSON);
     });
 
-    return StatsItems.ofSuperposition(superpositions);
+    return StatsItems.ofArray(arr);
   }
 
-  public static ofRow(
-    rows: Array<StatsItemRow>,
-    project: Project<StatsItemID, StatsValues>
-  ): Superposition<StatsItems, StatsItemsError> {
-    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<
-      Superposition<StatsItem, StatsItemError>
-    >((statsItemRow: StatsItemRow) => {
+  public static ofRow(rows: ReadonlyArray<StatsItemRow>, project: Project<StatsItemID, StatsValues>): StatsItems {
+    const arr: Array<StatsItem> = rows.map<StatsItem>((statsItemRow: StatsItemRow) => {
       return StatsItem.ofRow(statsItemRow, project);
     });
 
-    return StatsItems.ofSuperposition(superpositions);
+    return StatsItems.ofArray(arr);
   }
 
-  public static isJSON(n: unknown): n is Array<StatsItemJSON> {
+  public static validate(n: unknown): n is Array<StatsItemJSON> {
     if (!Kind.isArray(n)) {
       return false;
     }
 
     return n.every((o: unknown) => {
-      return StatsItem.isJSON(o);
+      return StatsItem.validate(o);
     });
   }
 
   public static empty(): StatsItems {
-    return StatsItems.EMPTY;
+    return new StatsItems(MutableSequence.empty<StatsItem>());
   }
 
   protected constructor(items: Sequence<StatsItem>) {
@@ -160,20 +133,18 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     return this.items.some(predicate);
   }
 
-  public add(...statsItem: Array<StatsItem>): StatsItems {
-    if (statsItem.length === 0) {
-      return this;
-    }
+  public values(): Iterable<StatsItem> {
+    return this.items.values();
+  }
 
-    return StatsItems.of(this.items.add(...statsItem));
+  public add(statsItem: StatsItem): void {
+    this.items.add(statsItem);
   }
 
   public getNames(): StatsItemNames {
-    return StatsItemNames.of(
-      this.items.map<StatsItemName>((item: StatsItem) => {
-        return item.getName();
-      })
-    );
+    return StatsItemNames.of(this.items.map<StatsItemName>((item: StatsItem) => {
+      return item.getName();
+    }));
   }
 
   public getAsOfs(): AsOfs {
@@ -196,47 +167,33 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     return Math.max(...lengths);
   }
 
-  public move(from: Column, to: Column): StatsItems {
-    const items: Array<StatsItem> = this.items.toArray();
-
+  public move(from: Column, to: Column): void {
     const fromValue: number = from.get();
     const toValue: number = to.get();
     const min: number = Math.min(fromValue, toValue);
     const max: number = Math.max(fromValue, toValue);
 
-    const newItems: Array<StatsItem> = [
-      ...items.slice(0, min),
-      items[max],
-      ...items.slice(min + 1, max),
-      items[min],
-      ...items.slice(max + 1)
-    ];
+    const maxValue: Nullable<StatsItem> = this.items.get(max);
+    const minValue: Nullable<StatsItem> = this.items.get(min);
 
-    return StatsItems.ofArray(newItems);
+    if (!Kind.isNull(maxValue)) {
+      this.items.set(min, maxValue);
+    }
+    if (!Kind.isNull(minValue)) {
+      this.items.set(max, minValue);
+    }
   }
 
-  public replace(statsItem: StatsItem, to: Row): StatsItems {
-    const items: Array<StatsItem> = this.items.toArray();
-
+  public replace(statsItem: StatsItem, to: Row): void {
     const toValue: number = to.get();
 
-    const newItems: Array<StatsItem> = [...items.slice(0, toValue), statsItem, ...items.slice(toValue + 1)];
-
-    return StatsItems.ofArray(newItems);
+    this.items.set(toValue, statsItem);
   }
 
-  public remove(statsItem: StatsItem): StatsItems {
-    const items: Sequence<StatsItem> = this.items.filter((item: StatsItem) => {
-      const eq: boolean = item.equals(statsItem);
-
-      return !eq;
+  public remove(statsItem: StatsItem): void {
+    this.items = this.items.filter((item: StatsItem) => {
+      return !item.equals(statsItem);
     });
-
-    if (items.isEmpty()) {
-      return StatsItems.empty();
-    }
-
-    return StatsItems.of(items);
   }
 
   public map<U>(mapper: Mapper<StatsItem, U>): Array<U> {
