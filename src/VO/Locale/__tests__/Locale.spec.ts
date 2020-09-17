@@ -277,6 +277,48 @@ describe('Locale', () => {
     });
   });
 
+  describe('validate', () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        languages: [
+          {
+            languageID: 'qui',
+            name: 'language name',
+            englishName: 'english language name',
+            iso639: 'ab'
+          }
+        ],
+        regions: [
+          {
+            regionID: 'qua',
+            name: 'region name',
+            iso3166: 'abc'
+          }
+        ]
+      };
+
+      expect(Locale.validate(n)).toBe(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect.assertions(5);
+
+      expect(Locale.validate(null)).toBe(false);
+      expect(Locale.validate(undefined)).toBe(false);
+      expect(Locale.validate(56)).toBe(false);
+      expect(Locale.validate('fjafsd')).toBe(false);
+      expect(Locale.validate(false)).toBe(false);
+    });
+
+    it('returns false because given parameter is not an array', () => {
+      expect.assertions(1);
+
+      expect(Locale.validate({})).toBe(false);
+    });
+  });
+
   describe('toString', () => {
     it('normal case', () => {
       expect.assertions(1);

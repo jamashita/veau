@@ -1,5 +1,6 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 import { LanguageError } from '../Language/Error/LanguageError';
 import { LanguageJSON } from '../Language/Language';
 import { Languages } from '../Language/Languages';
@@ -35,6 +36,20 @@ export class Locale extends ValueObject<Locale, 'Locale'> implements JSONable<Lo
 
       throw err;
     }
+  }
+
+  public static validate(n: unknown): n is LocaleJSON {
+    if (!Kind.isObject<LocaleJSON>(n)) {
+      return false;
+    }
+    if (!Languages.validate(n.languages)) {
+      return false;
+    }
+    if (!Regions.validate(n.regions)) {
+      return false;
+    }
+
+    return true;
   }
 
   public static empty(): Locale {
