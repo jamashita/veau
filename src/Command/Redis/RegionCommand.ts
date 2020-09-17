@@ -2,7 +2,6 @@ import { JSONA, JSONAError } from '@jamashita/publikum-json';
 import { Superposition } from '@jamashita/publikum-monad';
 import { IRedis, RedisError } from '@jamashita/publikum-redis';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { Regions } from '../../VO/Region/Regions';
@@ -24,17 +23,13 @@ export class RegionCommand implements IRegionCommand<RedisError>, IRedisCommand 
   public insertAll(regions: Regions): Superposition<unknown, RedisError> {
     return Superposition.playground<string, JSONAError>(() => {
       return JSONA.stringify(regions.toJSON());
-    }, JSONAError).transform<unknown, RedisError>(
-      async (str: string) => {
-        await this.redis.getString().set(REDIS_REGION_KEY, str);
+    }, JSONAError).transform<unknown, RedisError>(async (str: string) => {
+      await this.redis.getString().set(REDIS_REGION_KEY, str);
 
-        return this.redis.expires(REDIS_REGION_KEY, DURATION);
-      },
-      (err: JSONAError) => {
-        throw new RedisError('RegionCommand.insertAll()', err);
-      },
-      RedisError
-    );
+      return this.redis.expires(REDIS_REGION_KEY, DURATION);
+    }, (err: JSONAError) => {
+      throw new RedisError('RegionCommand.insertAll()', err);
+    }, RedisError);
   }
 
   public deleteAll(): Superposition<unknown, RedisError> {
