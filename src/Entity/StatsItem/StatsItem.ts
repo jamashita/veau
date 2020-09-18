@@ -181,4 +181,21 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
   public isFilled(): boolean {
     return !this.name.isEmpty();
   }
+
+  public same(other: StatsItem): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!this.statsItemID.equals(other.statsItemID)) {
+      return false;
+    }
+    if (!this.name.equals(other.name)) {
+      return false;
+    }
+    if (!this.values.equals(other.values)) {
+      return false;
+    }
+
+    return true;
+  }
 }

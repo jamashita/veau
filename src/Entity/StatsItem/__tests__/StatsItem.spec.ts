@@ -667,4 +667,56 @@ describe('StatsItem', () => {
       expect(statsItem.toString()).toBe(`${id} ${name} `);
     });
   });
+
+  describe('same', () => {
+    it('returns true if all the properties are the same', () => {
+      expect.assertions(6);
+
+      const statsItemID1: MockStatsItemID = new MockStatsItemID();
+      const statsItemID2: MockStatsItemID = new MockStatsItemID();
+      const statsItem1: StatsItem = StatsItem.of(
+        statsItemID1,
+        new MockStatsItemName(),
+        new MockStatsValues()
+      );
+      const statsItem2: StatsItem = StatsItem.of(
+        statsItemID2,
+        new MockStatsItemName(),
+        new MockStatsValues()
+      );
+      const statsItem3: StatsItem = StatsItem.of(
+        statsItemID1,
+        new MockStatsItemName('name 3'),
+        new MockStatsValues(new MockStatsValue())
+      );
+      const statsItem4: StatsItem = StatsItem.of(
+        statsItemID1,
+        new MockStatsItemName(),
+        new MockStatsValues(new MockStatsValue(), new MockStatsValue())
+      );
+      const statsItem5: StatsItem = StatsItem.of(
+        statsItemID2,
+        new MockStatsItemName(),
+        new MockStatsValues(
+          new MockStatsValue({
+            asOf: new MockAsOf({
+              day: 2
+            })
+          })
+        )
+      );
+      const statsItem6: StatsItem = StatsItem.of(
+        statsItemID1,
+        new MockStatsItemName(),
+        new MockStatsValues()
+      );
+
+      expect(statsItem1.same(statsItem1)).toBe(true);
+      expect(statsItem1.same(statsItem2)).toBe(false);
+      expect(statsItem1.same(statsItem3)).toBe(false);
+      expect(statsItem1.same(statsItem4)).toBe(false);
+      expect(statsItem1.same(statsItem5)).toBe(false);
+      expect(statsItem1.same(statsItem6)).toBe(true);
+    });
+  });
 });
