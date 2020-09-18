@@ -14,6 +14,8 @@ import { StatsItemDisplay } from '../StatsItemDisplay';
 describe('StatsItemDisplay', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const statsItemID: MockStatsItemID = new MockStatsItemID();
       const name: MockStatsItemName = new MockStatsItemName();
       const statsValue: MockStatsValue = new MockStatsValue();
@@ -28,6 +30,8 @@ describe('StatsItemDisplay', () => {
 
   describe('equals', () => {
     it('returns true if all the properties are the same', () => {
+      expect.assertions(1);
+
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
       const statsItemID2: MockStatsItemID = new MockStatsItemID();
       const display1: StatsItemDisplay = StatsItemDisplay.of(
@@ -78,6 +82,8 @@ describe('StatsItemDisplay', () => {
 
   describe('getAdOfs', () => {
     it('extracts only their asOfs', () => {
+      expect.assertions(1);
+
       const asOf1: MockAsOf = new MockAsOf({
         day: 1
       });
@@ -104,7 +110,9 @@ describe('StatsItemDisplay', () => {
   });
 
   describe('getValuesByColumn', () => {
-    it('returns empty string when the date is empty ', () => {
+    it('returns empty string when the date is empty', () => {
+      expect.assertions(1);
+
       const column: MockAsOfs = new MockAsOfs(
         new MockAsOf({
           day: 1
@@ -146,6 +154,8 @@ describe('StatsItemDisplay', () => {
 
   describe('isFilled', () => {
     it('returns true if the name is filled', () => {
+      expect.assertions(1);
+
       const display1: StatsItemDisplay = StatsItemDisplay.of(
         new MockStatsItemID(),
         StatsItemName.empty(),
@@ -163,10 +173,12 @@ describe('StatsItemDisplay', () => {
   });
 
   describe('toString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const id: string = '5ee0c273-c26f-432f-9217-d6a7b481a073';
       const name: string = 'name';
-      const statsItemID: StatsItemID = await StatsItemID.ofString(id).get();
+      const statsItemID: StatsItemID = StatsItemID.ofString(id);
       const statsItemName: StatsItemName = StatsItemName.of(name);
       const statsValues: StatsValues = StatsValues.empty();
 

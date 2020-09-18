@@ -36,6 +36,10 @@ export class StatsItemDisplays extends Quantity<StatsItemDisplays, number, Stats
     this.items = items;
   }
 
+  public values(): Iterable<StatsItemDisplay> {
+    return this.items.values();
+  }
+
   public get(index: number): Nullable<StatsItemDisplay> {
     return this.items.get(index);
   }
