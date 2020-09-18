@@ -1,5 +1,5 @@
 import { Entity } from '@jamashita/publikum-object';
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import { Ambiguous, Kind, Nullable } from '@jamashita/publikum-type';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
@@ -12,6 +12,7 @@ import { NumericalValue } from '../../VO/NumericalValue/NumericalValue';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { Region, RegionJSON } from '../../VO/Region/Region';
 import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
+import { StatsItemNames } from '../../VO/StatsItem/StatsItemNames';
 import { StatsError } from '../../VO/StatsOutline/Error/StatsError';
 import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
@@ -25,6 +26,7 @@ import { Term } from '../../VO/Term/Term';
 import { StatsItem, StatsItemJSON } from '../StatsItem/StatsItem';
 import { StatsItems } from '../StatsItem/StatsItems';
 
+type Chart = Record<string, string | number>;
 export type StatsJSON = Readonly<{
   outline: StatsOutlineJSON;
   language: LanguageJSON;
@@ -206,7 +208,8 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.items.get(row.get());
   }
 
-  public getColumns(): Nullable<AsOfs> {
+  // TODO TEST!!!
+  public getColumns(): AsOfs {
     if (!Kind.isNull(this.columns)) {
       return this.columns;
     }
@@ -223,13 +226,13 @@ export class Stats extends Entity<StatsID, Stats> {
     const min: Nullable<AsOf> = asOfs.min();
 
     if (Kind.isNull(min)) {
-      return null;
+      return AsOfs.empty();
     }
 
     const max: Nullable<AsOf> = asOfs.max();
 
     if (Kind.isNull(max)) {
-      return null;
+      return AsOfs.empty();
     }
 
     this.columns = AsOfs.duration(min, max, this.term);
@@ -251,6 +254,10 @@ export class Stats extends Entity<StatsID, Stats> {
     this.columns = null;
 
     this.getColumns();
+  }
+
+  public getRowHeaders(): StatsItemNames {
+    return this.items.getNames();
   }
 
   public getRowHeaderSize(): HeaderSize {
@@ -299,6 +306,74 @@ export class Stats extends Entity<StatsID, Stats> {
     this.recalculate();
   }
 
+  public getData(): Array<Array<string>> {
+    return this.items.map<Array<string>>((item: StatsItem) => {
+      return item.getValuesByColumn(this.getColumns()).row();
+    });
+  }
+
+  public getChart(): Array<Record<string, string | number>> {
+    const chartItems: Map<string, Chart> = new Map<string, Chart>();
+
+    this.getColumns().forEach((column: AsOf) => {
+      const asOf: string = column.toString();
+
+      chartItems.set(asOf, {
+        name: asOf
+      });
+    });
+    this.items.forEach((statsItem: StatsItem) => {
+      statsItem.getValues().forEach((statsValue: StatsValue) => {
+        const line: Ambiguous<Chart> = chartItems.get(statsValue.getAsOf().toString());
+
+        if (!Kind.isUndefined(line)) {
+          line[statsItem.getName().get()] = statsValue.getValue().get();
+        }
+      });
+    });
+
+    const chart: Array<Chart> = [];
+
+    chartItems.forEach((value: Chart) => {
+      chart.push(value);
+    });
+
+    return chart;
+  }
+
+  public getItemNames(): StatsItemNames {
+    return this.items.getNames();
+  }
+
+  public isDetermined(): boolean {
+    return this.items.haveValues();
+  }
+
+  public isFilled(): boolean {
+    if (this.language.isEmpty()) {
+      return false;
+    }
+    if (this.region.isEmpty()) {
+      return false;
+    }
+    if (this.outline.getName().isEmpty()) {
+      return false;
+    }
+    if (this.outline.getUnit().isEmpty()) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public isValid(): boolean {
+    if (!this.isFilled()) {
+      return false;
+    }
+
+    return this.items.areFilled();
+  }
+
   public replaceItem(statsItem: StatsItem, to: Row): void {
     this.items.replace(statsItem, to);
   }
@@ -309,5 +384,28 @@ export class Stats extends Entity<StatsID, Stats> {
 
   public removeItem(statsItem: StatsItem): void {
     this.items.remove(statsItem);
+  }
+
+  public same(other: Stats): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!this.outline.equals(other.outline)) {
+      return false;
+    }
+    if (!this.language.equals(other.language)) {
+      return false;
+    }
+    if (!this.region.equals(other.region)) {
+      return false;
+    }
+    if (!this.term.equals(other.term)) {
+      return false;
+    }
+    if (!this.items.equals(other.items)) {
+      return false;
+    }
+
+    return true;
   }
 }

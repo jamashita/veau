@@ -23,6 +23,7 @@ import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
 import { Region } from '../../../VO/Region/Region';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
+import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 import { StatsError } from '../../../VO/StatsOutline/Error/StatsError';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { MockStatsName } from '../../../VO/StatsOutline/Mock/MockStatsName';
@@ -1720,6 +1721,510 @@ describe('Stats', () => {
       stats.removeItem(new MockStatsItem());
 
       expect(stub.called).toBe(true);
+    });
+  });
+
+  describe('getData', () => {
+    it('the matrix is made even if the value is not input', () => {
+      expect.assertions(1);
+
+      const stats: Stats = Stats.of(
+        new MockStatsOutline(),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
+              }),
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
+              })
+            )
+          }),
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(2)
+              }),
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 2
+                }),
+                value: new MockNumericalValue(4)
+              }),
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 5
+                }),
+                value: new MockNumericalValue(6)
+              })
+            )
+          })
+        )
+      );
+
+      expect(stats.getData()).toStrictEqual([
+        ['', '1', '', '2', '', '', ''],
+        ['', '2', '4', '', '', '6', '']
+      ]);
+    });
+  });
+
+  describe('isFilled', () => {
+    it('returns true if the language, region, name, and unit are filled', () => {
+      expect.assertions(9);
+
+      const stats1: Stats = Stats.of(
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        Language.empty(),
+        Region.empty(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const stats2: Stats = Stats.of(
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        new MockLanguage(),
+        Region.empty(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const stats3: Stats = Stats.of(
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        Language.empty(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const stats4: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: StatsUnit.empty()
+        }),
+        Language.empty(),
+        Region.empty(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const stats5: Stats = Stats.of(
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: new MockStatsUnit('unit')
+        }),
+        Language.empty(),
+        Region.empty(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const stats6: Stats = Stats.of(
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const stats7: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: StatsUnit.empty()
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const stats8: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const stats9: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        Language.empty(),
+        Region.empty(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+
+      expect(stats1.isFilled()).toBe(false);
+      expect(stats2.isFilled()).toBe(false);
+      expect(stats3.isFilled()).toBe(false);
+      expect(stats4.isFilled()).toBe(false);
+      expect(stats5.isFilled()).toBe(false);
+      expect(stats6.isFilled()).toBe(false);
+      expect(stats7.isFilled()).toBe(false);
+      expect(stats8.isFilled()).toBe(true);
+      expect(stats9.isFilled()).toBe(false);
+    });
+  });
+
+  describe('isValid', () => {
+    it('returns true if the stats is filled', () => {
+      expect.assertions(8);
+
+      const display1: Stats = Stats.of(
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        Language.empty(),
+        Region.empty(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const display2: Stats = Stats.of(
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        Language.empty(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const display3: Stats = Stats.of(
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const display4: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: StatsUnit.empty()
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const display5: Stats = Stats.of(
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const display6: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const display7: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        Language.empty(),
+        Region.empty(),
+        Term.DAILY,
+        new MockStatsItems(
+          new MockStatsItem(),
+          new MockStatsItem({
+            name: new MockStatsItemName('cittadino')
+          })
+        )
+      );
+      const display8: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('ogonek')
+          }),
+          new MockStatsItem({
+            name: new MockStatsItemName('cittadino')
+          })
+        )
+      );
+
+      expect(display1.isValid()).toBe(false);
+      expect(display2.isValid()).toBe(false);
+      expect(display3.isValid()).toBe(false);
+      expect(display4.isValid()).toBe(false);
+      expect(display5.isValid()).toBe(false);
+      expect(display6.isValid()).toBe(true);
+      expect(display7.isValid()).toBe(false);
+      expect(display8.isValid()).toBe(true);
+    });
+
+    it('stats is filled but statsItems are invalid', () => {
+      expect.assertions(2);
+
+      const stats1: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems(
+          new MockStatsItem({
+            name: StatsItemName.empty()
+          })
+        )
+      );
+      const stats2: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('pok')
+          }),
+          new MockStatsItem({
+            name: StatsItemName.empty()
+          })
+        )
+      );
+
+      expect(stats1.isValid()).toBe(false);
+      expect(stats2.isValid()).toBe(false);
+    });
+
+    it('stats and their items are filled', () => {
+      expect.assertions(3);
+
+      const stats1: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+      const stats2: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('fidanzato')
+          })
+        )
+      );
+      const stats3: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('nonna')
+          }),
+          new MockStatsItem({
+            name: new MockStatsItemName('nipote')
+          })
+        )
+      );
+
+      expect(stats1.isValid()).toBe(true);
+      expect(stats2.isValid()).toBe(true);
+      expect(stats3.isValid()).toBe(true);
+    });
+  });
+
+  describe('getChart', () => {
+    it('chart is output for recharts', () => {
+      expect.assertions(1);
+
+      const stats: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('stats1'),
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
+              }),
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
+              })
+            )
+          }),
+          new MockStatsItem({
+            name: new MockStatsItemName('stats2'),
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 2
+                }),
+                value: new MockNumericalValue(12)
+              }),
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(13)
+              }),
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 4
+                }),
+                value: new MockNumericalValue(14)
+              })
+            )
+          })
+        )
+      );
+
+      expect(stats.getChart()).toStrictEqual([
+        {
+          name: '1999-12-31'
+        },
+        {
+          name: '2000-01-01',
+          stats1: 1
+        },
+        {
+          name: '2000-01-02',
+          stats2: 12
+        },
+        {
+          name: '2000-01-03',
+          stats1: 2,
+          stats2: 13
+        },
+        {
+          name: '2000-01-04',
+          stats2: 14
+        },
+        {
+          name: '2000-01-05'
+        }
+      ]);
+    });
+  });
+
+  describe('isDetermined', () => {
+    it('has values , that means it already has some AsOfs', () => {
+      expect.assertions(1);
+
+      const stats: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
+              })
+            )
+          })
+        )
+      );
+
+      expect(stats.isDetermined()).toBe(true);
+    });
+
+    it('returns false if stats does not have values nor startDate', () => {
+      expect.assertions(1);
+
+      const stats: Stats = Stats.of(
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsItems()
+      );
+
+      expect(stats.isDetermined()).toBe(false);
     });
   });
 });
