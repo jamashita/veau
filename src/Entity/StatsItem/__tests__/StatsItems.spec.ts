@@ -1038,4 +1038,55 @@ describe('StatsItems', () => {
       expect(statsItems.haveValues()).toBe(true);
     });
   });
+
+  describe('same', () => {
+    it('same instance', () => {
+      expect.assertions(1);
+
+      const statsItems1: StatsItems = StatsItems.empty();
+
+      expect(statsItems1.same(statsItems1)).toBe(true);
+    });
+
+    it('returns true', () => {
+      expect.assertions(1);
+
+      const statsItemID1: MockStatsItemID = new MockStatsItemID();
+      const statsItemID2: MockStatsItemID = new MockStatsItemID();
+
+      const statsItems1: StatsItems = StatsItems.ofArray([
+        new MockStatsItem({
+          statsItemID: statsItemID1
+        }),
+        new MockStatsItem({
+          statsItemID: statsItemID2
+        })
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([
+        new MockStatsItem({
+          statsItemID: statsItemID1
+        }),
+        new MockStatsItem({
+          statsItemID: statsItemID2
+        })
+      ]);
+
+      expect(statsItems1.same(statsItems2)).toBe(true);
+    });
+
+    it('returns false when the length is different', () => {
+      expect.assertions(1);
+
+      const statsItems1: StatsItems = StatsItems.ofArray([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([
+        new MockStatsItem(),
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
+      expect(statsItems1.same(statsItems2)).toBe(false);
+    });
+  });
 });

@@ -215,4 +215,35 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
 
     return !rowLengths.includes(0);
   }
+
+  public same(other: StatsItems): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (this.size() !== other.size()) {
+      return false;
+    }
+
+    const thisIterator: Iterator<StatsItem> = this.values()[Symbol.iterator]();
+    const otherIterator: Iterator<StatsItem> = other.values()[Symbol.iterator]();
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const thisRes: IteratorResult<StatsItem> = thisIterator.next();
+      const otherRes: IteratorResult<StatsItem> = otherIterator.next();
+
+      if (thisRes.done !== true && otherRes.done !== true) {
+        if (!thisRes.value.equals(otherRes.value)) {
+          return false;
+        }
+
+        continue;
+      }
+      if (thisRes.done === true && otherRes.done === true) {
+        return true;
+      }
+
+      return false;
+    }
+  }
 }
