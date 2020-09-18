@@ -3,6 +3,8 @@ import { Entity } from '@jamashita/publikum-object';
 import { Kind, Nullable } from '@jamashita/publikum-type';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
+import { NoValue } from '../../VO/NumericalValue/NoValue';
+import { NumericalValues } from '../../VO/NumericalValue/NumericalValues';
 import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsItemName } from '../../VO/StatsItem/StatsItemName';
@@ -151,5 +153,32 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
 
   public delete(asOf: AsOf): void {
     this.values = this.values.delete(asOf);
+  }
+
+  public getValuesByColumn(columns: AsOfs): NumericalValues {
+    let valuesByColumn: NumericalValues = NumericalValues.empty();
+
+    columns.forEach((column: AsOf) => {
+      let alreadyInput: boolean = false;
+
+      this.values.forEach((statsValue: StatsValue) => {
+        if (alreadyInput) {
+          return;
+        }
+        if (column.equals(statsValue.getAsOf())) {
+          valuesByColumn = valuesByColumn.add(statsValue.getValue());
+          alreadyInput = true;
+        }
+      });
+      if (!alreadyInput) {
+        valuesByColumn = valuesByColumn.add(NoValue.of());
+      }
+    });
+
+    return valuesByColumn;
+  }
+
+  public isFilled(): boolean {
+    return !this.name.isEmpty();
   }
 }

@@ -3,8 +3,10 @@ import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
+import { MockAsOfs } from '../../../VO/AsOf/Mock/MockAsOfs';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
 import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
+import { NumericalValues } from '../../../VO/NumericalValue/NumericalValues';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
@@ -584,6 +586,69 @@ describe('StatsItem', () => {
       expect(statsItem.getStatsItemID()).toBe(statsItemID);
       expect(statsItem.getName()).toBe(name);
       expect(statsItem.getValues()).toBe(statsValues);
+    });
+  });
+
+  describe('getValuesByColumn', () => {
+    it('returns empty string when the date is empty', () => {
+      expect.assertions(4);
+
+      const column: MockAsOfs = new MockAsOfs(
+        new MockAsOf({
+          day: 1
+        }),
+        new MockAsOf({
+          day: 2
+        }),
+        new MockAsOf({
+          day: 3
+        })
+      );
+      const statsItem: StatsItem = StatsItem.of(
+        new MockStatsItemID(),
+        new MockStatsItemName(),
+        new MockStatsValues(
+          new MockStatsValue({
+            asOf: new MockAsOf({
+              day: 1
+            }),
+            value: new MockNumericalValue(1)
+          }),
+          new MockStatsValue({
+            asOf: new MockAsOf({
+              day: 3
+            }),
+            value: new MockNumericalValue(3)
+          })
+        )
+      );
+
+      const values: NumericalValues = statsItem.getValuesByColumn(column);
+
+      expect(values.size()).toBe(3);
+      expect(values.get(0)?.toString()).toBe('1');
+      expect(values.get(1)?.toString()).toBe('');
+      expect(values.get(2)?.toString()).toBe('3');
+    });
+  });
+
+  describe('isFilled', () => {
+    it('returns true if the name is filled', () => {
+      expect.assertions(2);
+
+      const statsItem1: StatsItem = StatsItem.of(
+        new MockStatsItemID(),
+        StatsItemName.empty(),
+        new MockStatsValues()
+      );
+      const statsItem2: StatsItem = StatsItem.of(
+        new MockStatsItemID(),
+        StatsItemName.of('name'),
+        new MockStatsValues()
+      );
+
+      expect(statsItem1.isFilled()).toBe(false);
+      expect(statsItem2.isFilled()).toBe(true);
     });
   });
 
