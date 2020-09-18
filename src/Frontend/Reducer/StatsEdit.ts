@@ -1,7 +1,6 @@
 import { Absent, Heisenberg } from '@jamashita/publikum-monad';
 import { Reducer } from 'redux';
 import { Stats } from '../../Entity/Stats/Stats';
-
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { Row } from '../../VO/Coordinate/Row';
 import { StatsDisplay } from '../../VO/Display/StatsDisplay';
@@ -18,14 +17,6 @@ import {
   VeauAction
 } from '../Action';
 
-export type StatsEdit = Readonly<{
-  stats: Stats;
-  display: StatsDisplay;
-  item: StatsItem;
-  selectingItem: Heisenberg<StatsItem>;
-  selectingRow: Row;
-}>;
-
 const initialState: StatsEdit = {
   stats: Stats.default(),
   display: StatsDisplay.default(),
@@ -34,7 +25,18 @@ const initialState: StatsEdit = {
   selectingRow: Row.origin()
 };
 
-export const statsEdit: Reducer<StatsEdit, VeauAction> = (state: StatsEdit = initialState, action: VeauAction) => {
+export type StatsEdit = Readonly<{
+  stats: Stats;
+  display: StatsDisplay;
+  item: StatsItem;
+  selectingItem: Heisenberg<StatsItem>;
+  selectingRow: Row;
+}>;
+
+export const statsEdit: Reducer<StatsEdit, VeauAction> = (
+  state: StatsEdit = initialState,
+  action: VeauAction
+) => {
   switch (action.type) {
     case STATS_EDIT_UPDATE_STATS: {
       return {

@@ -14,13 +14,6 @@ import {
   VeauAction
 } from '../Action';
 
-export type StatsList = Readonly<{
-  open: boolean;
-  stats: Stats;
-  display: StatsDisplay;
-  items: StatsListItems;
-}>;
-
 const initialState: StatsList = {
   open: false,
   stats: Stats.default(),
@@ -28,7 +21,17 @@ const initialState: StatsList = {
   items: StatsListItems.empty()
 };
 
-export const statsList: Reducer<StatsList, VeauAction> = (state: StatsList = initialState, action: VeauAction) => {
+export type StatsList = Readonly<{
+  open: boolean;
+  stats: Stats;
+  display: StatsDisplay;
+  items: StatsListItems;
+}>;
+
+export const statsList: Reducer<StatsList, VeauAction> = (
+  state: StatsList = initialState,
+  action: VeauAction
+) => {
   switch (action.type) {
     case STATS_LIST_OPEN_STATS_MODAL: {
       return {
