@@ -2,7 +2,6 @@ import { routerMiddleware } from 'connected-react-router';
 import { applyMiddleware, createStore, Middleware, Store } from 'redux';
 import { createLogger } from 'redux-logger';
 import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
-
 import { Type } from '../Container/Types';
 import { vault } from '../Container/Vault';
 import { VeauAction } from './Action';
@@ -18,11 +17,10 @@ const logger: Middleware = createLogger({
 });
 const router: Middleware = routerMiddleware(history);
 const epic: EpicMiddleware<VeauAction, VeauAction, State> = createEpicMiddleware<VeauAction, VeauAction, State>();
-
-export const store: Store = createStore(reducers, applyMiddleware(epic, logger, router));
-
+const s: Store = createStore(reducers, applyMiddleware(epic, logger, router));
 const rootEpic: RootEpic = vault.get<RootEpic>(Type.RootEpic);
 
 epic.run(rootEpic.init());
+s.dispatch(onload());
 
-store.dispatch(onload());
+export const store: Store = s;

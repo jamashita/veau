@@ -1,74 +1,5 @@
 import { SystemSupportLanguage } from '../VO/System/SystemSupportLanguage';
 
-export type Messages = Readonly<{
-  GREETING: string;
-
-  YES: string;
-  NO: string;
-  SUBMIT: string;
-  CANCEL: string;
-  OPEN: string;
-  CLOSE: string;
-  SAVE: string;
-
-  NAME: string;
-  LOCALE: string;
-  LANGUAGE: string;
-  REGION: string;
-  TERM: string;
-  UPDATED_AT: string;
-  UNIT: string;
-
-  DAILY: string;
-  WEEKLY: string;
-  MONTHLY: string;
-  QUARTERLY: string;
-  ANNUAL: string;
-
-  LOADING: string;
-
-  LOGIN: string;
-  LOGOUT: string;
-
-  ACCOUNT_NAME: string;
-  PASSWORD: string;
-
-  VEAU: string;
-  VEAU_DESCRIPTION: string;
-
-  STATS_LIST: string;
-  CREATE_NEW_STATS: string;
-  FAILED_TO_SAVE_NEW_STATS: string;
-  FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: string;
-  MALFORMAT_STATS_ID: string;
-
-  STATS_INFO: string;
-  STATS_ITEM_INFO: string;
-  ADD_ITEM: string;
-  REMOVE_ITEM: string;
-  CREATE_NEW_ITEM: string;
-  START_DATE: string;
-  DETERMINE_START_DATE: string;
-  INVALID_INPUT_VALUE: string;
-  INVALID_INPUT_DATE: string;
-  STATS_SAVE_FAILURE: string;
-  STATS_SAVE_FAILURE_DESCRIPTION: string;
-  STATS_NOT_FOUND: string;
-  STATS_OVERVIEW_NOT_FOUND: string;
-
-  SAVE_SUCCESS: string;
-
-  AUTHENTICATION_FAILED: string;
-  AUTHENTICATION_FAILED_DESCRIPTION: string;
-  CONNECTION_ERROR: string;
-  CONNECTION_ERROR_DESCRIPTION: string;
-
-  EN: string;
-  FR: string;
-  ES: string;
-  JA: string;
-}>;
-
 const en: Messages = {
   GREETING: 'Hello',
 
@@ -347,6 +278,75 @@ const ja: Messages = {
 
 type I18NMessages = Readonly<{
   [key in SystemSupportLanguage]: Messages;
+}>;
+
+export type Messages = Readonly<{
+  GREETING: string;
+
+  YES: string;
+  NO: string;
+  SUBMIT: string;
+  CANCEL: string;
+  OPEN: string;
+  CLOSE: string;
+  SAVE: string;
+
+  NAME: string;
+  LOCALE: string;
+  LANGUAGE: string;
+  REGION: string;
+  TERM: string;
+  UPDATED_AT: string;
+  UNIT: string;
+
+  DAILY: string;
+  WEEKLY: string;
+  MONTHLY: string;
+  QUARTERLY: string;
+  ANNUAL: string;
+
+  LOADING: string;
+
+  LOGIN: string;
+  LOGOUT: string;
+
+  ACCOUNT_NAME: string;
+  PASSWORD: string;
+
+  VEAU: string;
+  VEAU_DESCRIPTION: string;
+
+  STATS_LIST: string;
+  CREATE_NEW_STATS: string;
+  FAILED_TO_SAVE_NEW_STATS: string;
+  FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: string;
+  MALFORMAT_STATS_ID: string;
+
+  STATS_INFO: string;
+  STATS_ITEM_INFO: string;
+  ADD_ITEM: string;
+  REMOVE_ITEM: string;
+  CREATE_NEW_ITEM: string;
+  START_DATE: string;
+  DETERMINE_START_DATE: string;
+  INVALID_INPUT_VALUE: string;
+  INVALID_INPUT_DATE: string;
+  STATS_SAVE_FAILURE: string;
+  STATS_SAVE_FAILURE_DESCRIPTION: string;
+  STATS_NOT_FOUND: string;
+  STATS_OVERVIEW_NOT_FOUND: string;
+
+  SAVE_SUCCESS: string;
+
+  AUTHENTICATION_FAILED: string;
+  AUTHENTICATION_FAILED_DESCRIPTION: string;
+  CONNECTION_ERROR: string;
+  CONNECTION_ERROR_DESCRIPTION: string;
+
+  EN: string;
+  FR: string;
+  ES: string;
+  JA: string;
 }>;
 
 export const i18nMessages: I18NMessages = {

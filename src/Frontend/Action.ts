@@ -1,9 +1,7 @@
-/* eslint-disable  @typescript-eslint/typedef */
-
-import { Heisenberg } from '@jamashita/publikum-monad';
+/* eslint-disable @typescript-eslint/typedef */
+import { Nullable } from '@jamashita/publikum-type';
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
 import { Action } from 'redux';
-
 import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
 import { AccountName } from '../VO/Account/AccountName';
@@ -334,7 +332,7 @@ export interface StatsEditItemSaveAction extends Action {
 
 export interface StatsEditSelectItemAction extends Action {
   readonly type: typeof STATS_EDIT_SELECT_ITEM;
-  readonly item: Heisenberg<StatsItem>;
+  readonly item: Nullable<StatsItem>;
   readonly row: Row;
 }
 
@@ -345,7 +343,7 @@ export interface StatsEditSelectingItemNameTypedAction extends Action {
 
 export interface StatsEditUpdateSelectingItemAction extends Action {
   readonly type: typeof STATS_EDIT_UPDATE_SELECTING_ITEM;
-  readonly item: Heisenberg<StatsItem>;
+  readonly item: Nullable<StatsItem>;
 }
 
 export interface StatsEditRemoveSelectingItemAction extends Action {
