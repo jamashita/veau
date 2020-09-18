@@ -1,7 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, Epic, StateObservable } from 'redux-observable';
 import { merge, Observable } from 'rxjs';
-
 import { Type } from '../../Container/Types';
 import { VeauAction } from '../Action';
 import { State } from '../State';

@@ -3,7 +3,6 @@ import { injectable } from 'inversify';
 import { ActionsObservable, ofType } from 'redux-observable';
 import { merge, Observable } from 'rxjs';
 import { map, mapTo } from 'rxjs/operators';
-
 import { PUSH_TO_ENTRANCE, PUSH_TO_STATS_EDIT, PUSH_TO_STATS_LIST, PushToStatsEditAction, VeauAction } from '../Action';
 import { Endpoints } from '../Endpoints';
 

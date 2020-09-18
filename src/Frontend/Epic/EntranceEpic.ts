@@ -2,7 +2,6 @@ import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
-
 import { Type } from '../../Container/Types';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
