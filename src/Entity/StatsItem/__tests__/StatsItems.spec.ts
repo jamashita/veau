@@ -969,4 +969,73 @@ describe('StatsItems', () => {
       expect(spy.called).toBe(true);
     });
   });
+
+  describe('areFilled', () => {
+    it('returns true if the all items are filled', () => {
+      expect.assertions(2);
+
+      const statsItems1: StatsItems = StatsItems.ofArray([
+        new MockStatsItem({
+          name: new MockStatsItemName('stats item 1')
+        }),
+        new MockStatsItem({
+          name: new MockStatsItemName('stats item 2')
+        })
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([
+        new MockStatsItem({
+          name: new MockStatsItemName('stats item 3')
+        }),
+        new MockStatsItem({
+          name: StatsItemName.empty()
+        })
+      ]);
+
+      expect(statsItems1.areFilled()).toBe(true);
+      expect(statsItems2.areFilled()).toBe(false);
+    });
+  });
+
+  describe('haveValues', () => {
+    it('no items', () => {
+      expect.assertions(1);
+
+      const statsItems: StatsItems = StatsItems.ofArray([]);
+
+      expect(statsItems.haveValues()).toBe(false);
+    });
+
+    it('no values', () => {
+      expect.assertions(2);
+
+      const statsItems1: StatsItems = StatsItems.ofArray([
+        new MockStatsItem({
+          values: new MockStatsValues()
+        })
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
+
+      expect(statsItems1.haveValues()).toBe(false);
+      expect(statsItems2.haveValues()).toBe(false);
+    });
+
+    it('have values', () => {
+      expect.assertions(1);
+
+      const statsItems: StatsItems = StatsItems.ofArray([
+        new MockStatsItem({
+          values: new MockStatsValues(
+            new MockStatsValue({
+              value: new MockNumericalValue()
+            })
+          )
+        })
+      ]);
+
+      expect(statsItems.haveValues()).toBe(true);
+    });
+  });
 });

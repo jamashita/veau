@@ -197,4 +197,22 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
   public map<U>(mapper: Mapper<StatsItem, U>): Array<U> {
     return this.items.toArray().map<U>(mapper);
   }
+
+  public areFilled(): boolean {
+    return this.items.every((statsItem: StatsItem) => {
+      return statsItem.isFilled();
+    });
+  }
+
+  public haveValues(): boolean {
+    if (this.items.isEmpty()) {
+      return false;
+    }
+
+    const rowLengths: Array<number> = this.map<number>((item: StatsItem) => {
+      return item.getValues().size();
+    });
+
+    return !rowLengths.includes(0);
+  }
 }
