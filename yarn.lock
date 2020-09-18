@@ -394,10 +394,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@jamashita/eslint-config@1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.1.4.tgz#05fc0f41ff313cf7d52ee44065dc9b1cffec49b1"
-  integrity sha512-IqUYNjChD88gvsO48ICbZ/HRtvPxdZrYccTx0LOnYNSZ54sBcqyHvLXJA8YlO+1gAByBIQtwI5imeE72c064IA==
+"@jamashita/eslint-config@1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.1.5.tgz#3ef7831b7923f726a14dbe0878308a6748f013f9"
+  integrity sha512-R1QfLoW4b6G81PtKyHW2CBPgPrS/Lgw7CMNPslq8ThPWtC3fBBR1+c+iiwARCNBcn8wpZWf6Rt7+Dc14B4fxsA==
 
 "@jamashita/publikum-ajax@2.11.0":
   version "2.11.0"
@@ -7284,9 +7284,9 @@ jss@10.4.0, jss@^10.0.3:
     tiny-warning "^1.0.2"
 
 jstat@^1.9.2:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/jstat/-/jstat-1.9.3.tgz#6a0e60c3b87fd714b61e765b77fc6b035437ee34"
-  integrity sha512-/2JL4Xv6xfhN2+AEKQGTYr1LZTmBCR/5fHxJVvb9zWNsmKZfKrl3wYYK8SD/Z8kXkf+ZSusfumLZ4wDTHrWujA==
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/jstat/-/jstat-1.9.4.tgz#5b787bcbc6353f54904307f2a4e6d4a4a1897f39"
+  integrity sha512-IiTPlI7pcrsq41EpDzrghlA1fhiC9GXxNqO4k5ogsjsM1XAWQ8zESH/bZsExLVgQsYpXE+7c11kEbbuxTLUpJQ==
 
 jstransformer@1.0.0:
   version "1.0.0"
@@ -9564,9 +9564,9 @@ postcss-flexbugs-fixes@^4.1.0:
     postcss "^7.0.26"
 
 postcss-load-config@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/postcss-load-config/-/postcss-load-config-2.1.0.tgz#c84d692b7bb7b41ddced94ee62e8ab31b417b003"
-  integrity sha512-4pV3JJVPLd5+RueiVVB+gFOAa7GWc25XQcMp86Zexzke69mKf6Nx9LRcQywdz7yZI9n1udOxmLuAwTBypypF8Q==
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/postcss-load-config/-/postcss-load-config-2.1.1.tgz#0a684bb8beb05e55baf922f7ab44c3edb17cf78e"
+  integrity sha512-D2ENobdoZsW0+BHy4x1CAkXtbXtYWYRIxL/JbtRBqrRGOPtJ2zoga/bEZWhV/ShWB5saVxJMzbMdSyA/vv4tXw==
   dependencies:
     cosmiconfig "^5.0.0"
     import-cwd "^2.0.0"
@@ -13038,10 +13038,10 @@ webpack-stream@6.1.0:
     vinyl "^2.1.0"
     webpack "^4.26.1"
 
-webpack@4.44.1, webpack@^4.26.1:
-  version "4.44.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.44.1.tgz#17e69fff9f321b8f117d1fda714edfc0b939cc21"
-  integrity sha512-4UOGAohv/VGUNQJstzEywwNxqX417FnjZgZJpJQegddzPmTvph37eBIRbRTfdySXzVtJXLJfbMN3mMYhM6GdmQ==
+webpack@4.44.2, webpack@^4.26.1:
+  version "4.44.2"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.44.2.tgz#6bfe2b0af055c8b2d1e90ed2cd9363f841266b72"
+  integrity sha512-6KJVGlCxYdISyurpQ0IPTklv+DULv05rs2hseIXer6D7KrUicRDLFb4IUM1S6LUAKypPM/nSiVSuv8jHu1m3/Q==
   dependencies:
     "@webassemblyjs/ast" "1.9.0"
     "@webassemblyjs/helper-module-context" "1.9.0"

@@ -79,7 +79,7 @@
     "tslog": "2.8.0"
   },
   "devDependencies": {
-    "@jamashita/eslint-config": "1.1.4",
+    "@jamashita/eslint-config": "1.1.5",
     "@types/compression": "1.7.0",
     "@types/config": "0.0.36",
     "@types/connect-redis": "0.0.14",
@@ -125,7 +125,7 @@
     "ts-jest": "26.3.0",
     "ts-node-dev": "1.0.0-pre.62",
     "typescript": "4.0.2",
-    "webpack": "4.44.1",
+    "webpack": "4.44.2",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0",
     "webpack-stream": "6.1.0"
