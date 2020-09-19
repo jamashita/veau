@@ -5,8 +5,8 @@ import { UUID } from '@jamashita/publikum-uuid';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { StatsError } from '../../../Entity/Stats/Error/StatsError';
 import { Stats, StatsJSON } from '../../../Entity/Stats/Stats';
+import { StatsError } from '../../../VO/StatsOutline/Error/StatsError';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { Term } from '../../../VO/Term/Term';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
@@ -68,8 +68,7 @@ describe('StatsQuery', () => {
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const schrodinger: Schrodinger<Stats,
-        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(stub.withArgs(`/api/stats/${statsID.get().get()}`).called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
@@ -104,8 +103,7 @@ describe('StatsQuery', () => {
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const schrodinger: Schrodinger<Stats,
-        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -128,8 +126,7 @@ describe('StatsQuery', () => {
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const schrodinger: Schrodinger<Stats,
-        StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
