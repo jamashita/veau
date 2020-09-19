@@ -1,15 +1,11 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-
 import { kernel } from '../Container/Kernel';
 import { Type } from '../Container/Types';
 import { AuthenticationInteractor } from '../Interactor/AuthenticationInteractor';
-import { VeauAccountError } from '../VO/VeauAccount/Error/VeauAccountError';
 import { VeauAccount, VeauAccountJSON } from '../VO/VeauAccount/VeauAccount';
 
-const authenticationInteractor: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(
-  Type.AuthenticationInteractor
-);
+const authenticationInteractor: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
 
 passport.use(
   new LocalStrategy(
@@ -30,13 +26,11 @@ passport.serializeUser<VeauAccount, VeauAccountJSON>(
 
 passport.deserializeUser<VeauAccount, VeauAccountJSON>(
   (json: VeauAccountJSON, done: (err: unknown, account?: VeauAccount) => void) => {
-    VeauAccount.ofJSON(json).transform<void>(
-      (account: VeauAccount) => {
-        done(null, account);
-      },
-      (err: VeauAccountError) => {
-        done(err);
-      }
-    );
+    try {
+      done(null, VeauAccount.ofJSON(json));
+    }
+    catch (err: unknown) {
+      done(err);
+    }
   }
 );
