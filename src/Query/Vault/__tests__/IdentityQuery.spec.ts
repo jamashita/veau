@@ -3,6 +3,8 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { Type } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
 import { MockEntranceInformation } from '../../../VO/EntranceInformation/Mock/MockEntranceInformation';
 import { IdentityError } from '../../../VO/Identity/Error/IdentityError';
@@ -23,18 +25,17 @@ import { MockVeauAccountQuery } from '../../Mock/MockVeauAccountQuery';
 import { IdentityQuery } from '../IdentityQuery';
 
 describe('IdentityQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const identityQuery1: IdentityQuery = v.get<IdentityQuery>(Type.IdentityVaultQuery);
-  //     const identityQuery2: IdentityQuery = v.get<IdentityQuery>(Type.IdentityVaultQuery);
-  //
-  //     expect(identityQuery1).toBeInstanceOf(IdentityQuery);
-  //     expect(identityQuery1).toBe(identityQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const identityQuery1: IdentityQuery = vault.get<IdentityQuery>(Type.IdentityVaultQuery);
+      const identityQuery2: IdentityQuery = vault.get<IdentityQuery>(Type.IdentityVaultQuery);
+
+      expect(identityQuery1).toBeInstanceOf(IdentityQuery);
+      expect(identityQuery1).toBe(identityQuery2);
+    });
+  });
 
   describe('find', () => {
     it('normal case', async () => {

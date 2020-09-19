@@ -3,23 +3,24 @@ import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { MockStats } from '../../../Entity/Stats/Mock/MockStats';
 import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
 import { StatsCommand } from '../StatsCommand';
 
 describe('StatsCommand', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const statsCommand1: StatsCommand = kernel.get<StatsCommand>(Type.StatsKernelCommand);
-  //     const statsCommand2: StatsCommand = kernel.get<StatsCommand>(Type.StatsKernelCommand);
-  //
-  //     expect(statsCommand1).toBeInstanceOf(StatsCommand);
-  //     expect(statsCommand1).toBe(statsCommand2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const statsCommand1: StatsCommand = kernel.get<StatsCommand>(Type.StatsKernelCommand);
+      const statsCommand2: StatsCommand = kernel.get<StatsCommand>(Type.StatsKernelCommand);
+
+      expect(statsCommand1).toBeInstanceOf(StatsCommand);
+      expect(statsCommand1).toBe(statsCommand2);
+    });
+  });
 
   describe('create', () => {
     it('normal case', async () => {

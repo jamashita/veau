@@ -4,6 +4,8 @@ import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { LanguageJSON } from '../../../VO/Language/Language';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
@@ -14,18 +16,17 @@ import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionQuery } from '../RegionQuery';
 
 describe('RegionQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const regionQuery1: RegionQuery = kernel.get<RegionQuery>(Type.RegionRedisQuery);
-  //     const regionQuery2: RegionQuery = kernel.get<RegionQuery>(Type.RegionRedisQuery);
-  //
-  //     expect(regionQuery1).toBeInstanceOf(RegionQuery);
-  //     expect(regionQuery1).toBe(regionQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const regionQuery1: RegionQuery = kernel.get<RegionQuery>(Type.RegionRedisQuery);
+      const regionQuery2: RegionQuery = kernel.get<RegionQuery>(Type.RegionRedisQuery);
+
+      expect(regionQuery1).toBeInstanceOf(RegionQuery);
+      expect(regionQuery1).toBe(regionQuery2);
+    });
+  });
 
   describe('all', () => {
     it('normal case', async () => {

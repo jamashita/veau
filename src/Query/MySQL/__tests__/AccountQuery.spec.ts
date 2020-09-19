@@ -3,6 +3,8 @@ import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { Account, AccountRow } from '../../../VO/Account/Account';
 import { AccountError } from '../../../VO/Account/Error/AccountError';
 import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
@@ -10,18 +12,17 @@ import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { AccountQuery } from '../AccountQuery';
 
 describe('AccountQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const accountQuery1: AccountQuery = kernel.get<AccountQuery>(Type.AccountMySQLQuery);
-  //     const accountQuery2: AccountQuery = kernel.get<AccountQuery>(Type.AccountMySQLQuery);
-  //
-  //     expect(accountQuery1).toBeInstanceOf(AccountQuery);
-  //     expect(accountQuery1).toBe(accountQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const accountQuery1: AccountQuery = kernel.get<AccountQuery>(Type.AccountMySQLQuery);
+      const accountQuery2: AccountQuery = kernel.get<AccountQuery>(Type.AccountMySQLQuery);
+
+      expect(accountQuery1).toBeInstanceOf(AccountQuery);
+      expect(accountQuery1).toBe(accountQuery2);
+    });
+  });
 
   describe('findByAccount', () => {
     it('normal case', async () => {

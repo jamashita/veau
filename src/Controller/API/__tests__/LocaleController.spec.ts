@@ -31,8 +31,6 @@ const fakeAccount = (req: Request, _res: Response, next: NextFunction): void => 
 };
 
 describe('LocaleController', () => {
-  // TODO CONTAINER
-
   describe('GET /', () => {
     it('returns JSON as LocaleInteractor returns', async () => {
       expect.assertions(2);

@@ -5,6 +5,8 @@ import { UUID } from '@jamashita/publikum-uuid';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { Type } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { Stats, StatsJSON } from '../../../Entity/Stats/Stats';
 import { StatsError } from '../../../VO/StatsOutline/Error/StatsError';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
@@ -13,18 +15,17 @@ import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsQuery } from '../StatsQuery';
 
 describe('StatsQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const statsQuery1: StatsQuery = v.get<StatsQuery>(Type.StatsAJAXQuery);
-  //     const statsQuery2: StatsQuery = v.get<StatsQuery>(Type.StatsAJAXQuery);
-  //
-  //     expect(statsQuery1).toBeInstanceOf(StatsQuery);
-  //     expect(statsQuery1).toBe(statsQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const statsQuery1: StatsQuery = vault.get<StatsQuery>(Type.StatsAJAXQuery);
+      const statsQuery2: StatsQuery = vault.get<StatsQuery>(Type.StatsAJAXQuery);
+
+      expect(statsQuery1).toBeInstanceOf(StatsQuery);
+      expect(statsQuery1).toBe(statsQuery2);
+    });
+  });
 
   describe('findByStatsID', () => {
     it('normal case', async () => {

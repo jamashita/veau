@@ -3,6 +3,8 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { Type } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { Locale } from '../../../VO/Locale/Locale';
 import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
@@ -17,18 +19,17 @@ import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { RegionQuery } from '../RegionQuery';
 
 describe('RegionQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const regionQuery1: RegionQuery = v.get<RegionQuery>(Type.RegionVaultQuery);
-  //     const regionQuery2: RegionQuery = v.get<RegionQuery>(Type.RegionVaultQuery);
-  //
-  //     expect(regionQuery1).toBeInstanceOf(RegionQuery);
-  //     expect(regionQuery1).toBe(regionQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const regionQuery1: RegionQuery = vault.get<RegionQuery>(Type.RegionVaultQuery);
+      const regionQuery2: RegionQuery = vault.get<RegionQuery>(Type.RegionVaultQuery);
+
+      expect(regionQuery1).toBeInstanceOf(RegionQuery);
+      expect(regionQuery1).toBe(regionQuery2);
+    });
+  });
 
   describe('all', () => {
     it('normal case', async () => {

@@ -15,7 +15,6 @@ const dummy = (req: Request, _res: Response, next: NextFunction): void => {
 };
 
 describe('SessionController', () => {
-  // TODO CONTAINER
   describe('DELETE /', () => {
     it('no session returns OK', async () => {
       expect.assertions(1);

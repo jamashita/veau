@@ -4,6 +4,8 @@ import { MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { Stats } from '../../../Entity/Stats/Stats';
 import { MockStatsItems } from '../../../Entity/StatsItem/Mock/MockStatsItems';
 import { StatsItems } from '../../../Entity/StatsItem/StatsItems';
@@ -32,18 +34,17 @@ import { MockStatsOutlineQuery } from '../../Mock/MockStatsOutlineQuery';
 import { StatsQuery } from '../StatsQuery';
 
 describe('StatsQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const statsQuery1: StatsQuery = kernel.get<StatsQuery>(Type.StatsKernelQuery);
-  //     const statsQuery2: StatsQuery = kernel.get<StatsQuery>(Type.StatsKernelQuery);
-  //
-  //     expect(statsQuery1).toBeInstanceOf(StatsQuery);
-  //     expect(statsQuery1).toBe(statsQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const statsQuery1: StatsQuery = kernel.get<StatsQuery>(Type.StatsKernelQuery);
+      const statsQuery2: StatsQuery = kernel.get<StatsQuery>(Type.StatsKernelQuery);
+
+      expect(statsQuery1).toBeInstanceOf(StatsQuery);
+      expect(statsQuery1).toBe(statsQuery2);
+    });
+  });
 
   describe('findByStatsID', () => {
     it('normal case', async () => {

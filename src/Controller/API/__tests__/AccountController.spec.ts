@@ -21,7 +21,6 @@ const setAccount = (account: VeauAccount) => {
 };
 
 describe('AccountController', () => {
-  // TODO CONTAINER
   describe('GET /', () => {
     it('returns VeauAccount as JSON', async () => {
       expect.assertions(2);

@@ -6,6 +6,8 @@ import { UUID } from '@jamashita/publikum-uuid';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { Type } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { MockPage } from '../../../VO/Page/Mock/MockPage';
 import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsID } from '../../../VO/StatsOutline/StatsID';
@@ -15,18 +17,17 @@ import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountI
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
 
 describe('StatsOutlineQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const statsOutlineQuery1: StatsOutlineQuery = v.get<StatsOutlineQuery>(Type.StatsOutlineAJAXQuery);
-  //     const statsOutlineQuery2: StatsOutlineQuery = v.get<StatsOutlineQuery>(Type.StatsOutlineAJAXQuery);
-  //
-  //     expect(statsOutlineQuery1).toBeInstanceOf(StatsOutlineQuery);
-  //     expect(statsOutlineQuery1).toBe(statsOutlineQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const statsOutlineQuery1: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineAJAXQuery);
+      const statsOutlineQuery2: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineAJAXQuery);
+
+      expect(statsOutlineQuery1).toBeInstanceOf(StatsOutlineQuery);
+      expect(statsOutlineQuery1).toBe(statsOutlineQuery2);
+    });
+  });
 
   describe('findByPage', () => {
     it('normal case', async () => {

@@ -6,6 +6,8 @@ import { UUID } from '@jamashita/publikum-uuid';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { Type } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { Language } from '../../../VO/Language/Language';
 import { LanguageID } from '../../../VO/Language/LanguageID';
 import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
@@ -15,20 +17,17 @@ import { RegionID } from '../../../VO/Region/RegionID';
 import { LocaleQuery } from '../LocaleQuery';
 
 describe('LocaleQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     expect.assertions(2);
-  //
-  //     const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleAJAXQuery);
-  //     const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleAJAXQuery);
-  //
-  //     expect(localeQuery1).toBeInstanceOf(LocaleQuery);
-  //     expect(localeQuery1).toBe(localeQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleAJAXQuery);
+      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleAJAXQuery);
+
+      expect(localeQuery1).toBeInstanceOf(LocaleQuery);
+      expect(localeQuery1).toBe(localeQuery2);
+    });
+  });
 
   describe('all', () => {
     it('normal case', async () => {

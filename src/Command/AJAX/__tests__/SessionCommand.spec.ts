@@ -4,21 +4,22 @@ import { Schrodinger } from '@jamashita/publikum-monad';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { Type } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { SessionCommand } from '../SessionCommand';
 
 describe('SessionCommand', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const sessionCommand1: SessionCommand = v.get<SessionCommand>(Type.SessionAJAXCommand);
-  //     const sessionCommand2: SessionCommand = v.get<SessionCommand>(Type.SessionAJAXCommand);
-  //
-  //     expect(sessionCommand1).toBeInstanceOf(SessionCommand);
-  //     expect(sessionCommand1).toBe(sessionCommand2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const sessionCommand1: SessionCommand = vault.get<SessionCommand>(Type.SessionAJAXCommand);
+      const sessionCommand2: SessionCommand = vault.get<SessionCommand>(Type.SessionAJAXCommand);
+
+      expect(sessionCommand1).toBeInstanceOf(SessionCommand);
+      expect(sessionCommand1).toBe(sessionCommand2);
+    });
+  });
 
   describe('delete', () => {
     it('normal case', async () => {

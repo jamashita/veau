@@ -4,6 +4,8 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { Type } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
 import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
@@ -30,18 +32,17 @@ import { MockTermQuery } from '../../Mock/MockTermQuery';
 import { StatsListItemQuery } from '../StatsListItemQuery';
 
 describe('StatsListItemQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const statsListItemQuery1: StatsListItemQuery = v.get<StatsListItemQuery>(Type.StatsListItemVaultQuery);
-  //     const statsListItemQuery2: StatsListItemQuery = v.get<StatsListItemQuery>(Type.StatsListItemVaultQuery);
-  //
-  //     expect(statsListItemQuery1).toBeInstanceOf(StatsListItemQuery);
-  //     expect(statsListItemQuery1).toBe(statsListItemQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const statsListItemQuery1: StatsListItemQuery = vault.get<StatsListItemQuery>(Type.StatsListItemVaultQuery);
+      const statsListItemQuery2: StatsListItemQuery = vault.get<StatsListItemQuery>(Type.StatsListItemVaultQuery);
+
+      expect(statsListItemQuery1).toBeInstanceOf(StatsListItemQuery);
+      expect(statsListItemQuery1).toBe(statsListItemQuery2);
+    });
+  });
 
   describe('findByVeauAccountID', () => {
     it('normal case', async () => {

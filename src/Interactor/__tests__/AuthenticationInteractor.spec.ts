@@ -1,6 +1,8 @@
 import { Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { kernel } from '../../Container/Kernel';
+import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { MockAccountQuery } from '../../Query/Mock/MockAccountQuery';
 import { Account } from '../../VO/Account/Account';
@@ -9,22 +11,17 @@ import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import { AuthenticationInteractor } from '../AuthenticationInteractor';
 
 describe('AuthenticationInteractor', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const authenticationInteractor1: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(
-  //       Type.AuthenticationInteractor
-  //     );
-  //     const authenticationInteractor2: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(
-  //       Type.AuthenticationInteractor
-  //     );
-  //
-  //     expect(authenticationInteractor1).toBeInstanceOf(AuthenticationInteractor);
-  //     expect(authenticationInteractor1).toBe(authenticationInteractor2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const authenticationInteractor1: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
+      const authenticationInteractor2: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
+
+      expect(authenticationInteractor1).toBeInstanceOf(AuthenticationInteractor);
+      expect(authenticationInteractor1).toBe(authenticationInteractor2);
+    });
+  });
 
   describe('review', () => {
     it('normal case', (done: jest.DoneCallback) => {

@@ -30,8 +30,6 @@ const fakeAccount = (req: Request, _res: Response, next: NextFunction): void => 
 };
 
 describe('StatsController', () => {
-  // TODO CONTAINER
-
   describe('GET /page/:page(\\d+)', () => {
     it('normal case', async () => {
       expect.assertions(2);

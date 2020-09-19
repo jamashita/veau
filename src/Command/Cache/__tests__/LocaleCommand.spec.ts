@@ -3,24 +3,25 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { Type } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
 import { Locale } from '../../../VO/Locale/Locale';
 import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
 import { LocaleCommand } from '../LocaleCommand';
 
 describe('LocaleCommand', () => {
-  // TPDP
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const localeCommand1: LocaleCommand = v.get<LocaleCommand>(Type.LocaleCacheCommand);
-  //     const localeCommand2: LocaleCommand = v.get<LocaleCommand>(Type.LocaleCacheCommand);
-  //
-  //     expect(localeCommand1).toBeInstanceOf(LocaleCommand);
-  //     expect(localeCommand1).toBe(localeCommand2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const localeCommand1: LocaleCommand = vault.get<LocaleCommand>(Type.LocaleCacheCommand);
+      const localeCommand2: LocaleCommand = vault.get<LocaleCommand>(Type.LocaleCacheCommand);
+
+      expect(localeCommand1).toBeInstanceOf(LocaleCommand);
+      expect(localeCommand1).toBe(localeCommand2);
+    });
+  });
 
   describe('create', () => {
     it('normal case', async () => {

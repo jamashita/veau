@@ -5,6 +5,8 @@ import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { MockPage } from '../../../VO/Page/Mock/MockPage';
 import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
@@ -16,18 +18,17 @@ import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
 
 describe('StatsOutlineQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const statsOutlineQuery1: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(Type.StatsOutlineMySQLQuery);
-  //     const statsOutlineQuery2: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(Type.StatsOutlineMySQLQuery);
-  //
-  //     expect(statsOutlineQuery1).toBeInstanceOf(StatsOutlineQuery);
-  //     expect(statsOutlineQuery1).toBe(statsOutlineQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const statsOutlineQuery1: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(Type.StatsOutlineMySQLQuery);
+      const statsOutlineQuery2: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(Type.StatsOutlineMySQLQuery);
+
+      expect(statsOutlineQuery1).toBeInstanceOf(StatsOutlineQuery);
+      expect(statsOutlineQuery1).toBe(statsOutlineQuery2);
+    });
+  });
 
   describe('find', () => {
     it('normal case', async () => {

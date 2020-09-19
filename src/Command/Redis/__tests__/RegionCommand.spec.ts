@@ -4,24 +4,25 @@ import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
 import { MockRegions } from '../../../VO/Region/Mock/MockRegions';
 import { RegionCommand } from '../RegionCommand';
 
 describe('RegionCommand', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const regionCommand1: RegionCommand = kernel.get<RegionCommand>(Type.RegionRedisCommand);
-  //     const regionCommand2: RegionCommand = kernel.get<RegionCommand>(Type.RegionRedisCommand);
-  //
-  //     expect(regionCommand1).toBeInstanceOf(RegionCommand);
-  //     expect(regionCommand1).toBe(regionCommand2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const regionCommand1: RegionCommand = kernel.get<RegionCommand>(Type.RegionRedisCommand);
+      const regionCommand2: RegionCommand = kernel.get<RegionCommand>(Type.RegionRedisCommand);
+
+      expect(regionCommand1).toBeInstanceOf(RegionCommand);
+      expect(regionCommand1).toBe(regionCommand2);
+    });
+  });
 
   describe('insertAll', () => {
     it('normal case', async () => {

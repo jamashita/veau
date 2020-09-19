@@ -5,6 +5,8 @@ import { RedisError } from '@jamashita/publikum-redis';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { MockLanguageCommand } from '../../../Command/Mock/MockLanguageCommand';
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Language } from '../../../VO/Language/Language';
@@ -17,18 +19,17 @@ import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
 import { LanguageQuery } from '../LanguageQuery';
 
 describe('LanguageQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const languageQuery1: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageKernelQuery);
-  //     const languageQuery2: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageKernelQuery);
-  //
-  //     expect(languageQuery1).toBeInstanceOf(LanguageQuery);
-  //     expect(languageQuery1).toBe(languageQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const languageQuery1: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageKernelQuery);
+      const languageQuery2: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageKernelQuery);
+
+      expect(languageQuery1).toBeInstanceOf(LanguageQuery);
+      expect(languageQuery1).toBe(languageQuery2);
+    });
+  });
 
   describe('all', () => {
     it('languageRedisQuery returns Alive', async () => {

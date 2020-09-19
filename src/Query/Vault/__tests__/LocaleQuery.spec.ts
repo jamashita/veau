@@ -5,6 +5,8 @@ import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
+import { Type } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../../VO/Locale/Locale';
 import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
@@ -12,18 +14,17 @@ import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { LocaleQuery } from '../LocaleQuery';
 
 describe('LocaleQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const localeQuery1: LocaleQuery = v.get<LocaleQuery>(Type.LocaleVaultQuery);
-  //     const localeQuery2: LocaleQuery = v.get<LocaleQuery>(Type.LocaleVaultQuery);
-  //
-  //     expect(localeQuery1).toBeInstanceOf(LocaleQuery);
-  //     expect(localeQuery1).toBe(localeQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleVaultQuery);
+      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleVaultQuery);
+
+      expect(localeQuery1).toBeInstanceOf(LocaleQuery);
+      expect(localeQuery1).toBe(localeQuery2);
+    });
+  });
 
   describe('all', () => {
     it('returns Alive because Cache has', async () => {

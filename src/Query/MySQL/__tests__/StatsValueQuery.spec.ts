@@ -4,6 +4,8 @@ import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { Nullable } from '@jamashita/publikum-type';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
@@ -13,18 +15,17 @@ import { StatsValues } from '../../../VO/StatsValue/StatsValues';
 import { StatsValueQuery } from '../StatsValueQuery';
 
 describe('StatsValueQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const statsValueQuery1: StatsValueQuery = kernel.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
-  //     const statsValueQuery2: StatsValueQuery = kernel.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
-  //
-  //     expect(statsValueQuery1).toBeInstanceOf(StatsValueQuery);
-  //     expect(statsValueQuery1).toBe(statsValueQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const statsValueQuery1: StatsValueQuery = kernel.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
+      const statsValueQuery2: StatsValueQuery = kernel.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
+
+      expect(statsValueQuery1).toBeInstanceOf(StatsValueQuery);
+      expect(statsValueQuery1).toBe(statsValueQuery2);
+    });
+  });
 
   describe('findByStatsID', () => {
     it('normal case', async () => {

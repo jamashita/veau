@@ -5,6 +5,8 @@ import { RedisError } from '@jamashita/publikum-redis';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { MockRegionCommand } from '../../../Command/Mock/MockRegionCommand';
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
 import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
@@ -17,18 +19,17 @@ import { MockRegionQuery } from '../../Mock/MockRegionQuery';
 import { RegionQuery } from '../RegionQuery';
 
 describe('RegionQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const regionQuery1: RegionQuery = kernel.get<RegionQuery>(Type.RegionKernelQuery);
-  //     const regionQuery2: RegionQuery = kernel.get<RegionQuery>(Type.RegionKernelQuery);
-  //
-  //     expect(regionQuery1).toBeInstanceOf(RegionQuery);
-  //     expect(regionQuery1).toBe(regionQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const regionQuery1: RegionQuery = kernel.get<RegionQuery>(Type.RegionKernelQuery);
+      const regionQuery2: RegionQuery = kernel.get<RegionQuery>(Type.RegionKernelQuery);
+
+      expect(regionQuery1).toBeInstanceOf(RegionQuery);
+      expect(regionQuery1).toBe(regionQuery2);
+    });
+  });
 
   describe('all', () => {
     it('regionRedisQuery returns Alive', async () => {

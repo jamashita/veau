@@ -6,6 +6,8 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';
 import { MockRegionCommand } from '../../Command/Mock/MockRegionCommand';
+import { kernel } from '../../Container/Kernel';
+import { Type } from '../../Container/Types';
 import { MockLanguageQuery } from '../../Query/Mock/MockLanguageQuery';
 import { MockRegionQuery } from '../../Query/Mock/MockRegionQuery';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
@@ -19,18 +21,17 @@ import { Regions } from '../../VO/Region/Regions';
 import { LocaleInteractor } from '../LocaleInteractor';
 
 describe('LocaleInteractor', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const localeInteractor1: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
-  //     const localeInteractor2: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
-  //
-  //     expect(localeInteractor1).toBeInstanceOf(LocaleInteractor);
-  //     expect(localeInteractor1).toBe(localeInteractor2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const localeInteractor1: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
+      const localeInteractor2: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
+
+      expect(localeInteractor1).toBeInstanceOf(LocaleInteractor);
+      expect(localeInteractor1).toBe(localeInteractor2);
+    });
+  });
 
   describe('all', () => {
     it('normal case', async () => {

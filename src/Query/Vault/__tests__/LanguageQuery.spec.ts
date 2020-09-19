@@ -3,6 +3,8 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { Type } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Language } from '../../../VO/Language/Language';
@@ -17,18 +19,17 @@ import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { LanguageQuery } from '../LanguageQuery';
 
 describe('LanguageQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const languageQuery1: LanguageQuery = v.get<LanguageQuery>(Type.LanguageVaultQuery);
-  //     const languageQuery2: LanguageQuery = v.get<LanguageQuery>(Type.LanguageVaultQuery);
-  //
-  //     expect(languageQuery1).toBeInstanceOf(LanguageQuery);
-  //     expect(languageQuery1).toBe(languageQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const languageQuery1: LanguageQuery = vault.get<LanguageQuery>(Type.LanguageVaultQuery);
+      const languageQuery2: LanguageQuery = vault.get<LanguageQuery>(Type.LanguageVaultQuery);
+
+      expect(languageQuery1).toBeInstanceOf(LanguageQuery);
+      expect(languageQuery1).toBe(languageQuery2);
+    });
+  });
 
   describe('all', () => {
     it('normal case', async () => {

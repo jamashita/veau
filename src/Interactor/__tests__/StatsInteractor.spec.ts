@@ -3,6 +3,8 @@ import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
+import { kernel } from '../../Container/Kernel';
+import { Type } from '../../Container/Types';
 import { MockStats } from '../../Entity/Stats/Mock/MockStats';
 import { Stats } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
@@ -18,18 +20,17 @@ import { MockVeauAccountID } from '../../VO/VeauAccount/Mock/MockVeauAccountID';
 import { StatsInteractor } from '../StatsInteractor';
 
 describe('StatsInteractor', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const statsInteractor1: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
-  //     const statsInteractor2: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
-  //
-  //     expect(statsInteractor1).toBeInstanceOf(StatsInteractor);
-  //     expect(statsInteractor1).toBe(statsInteractor2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const statsInteractor1: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor2: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+
+      expect(statsInteractor1).toBeInstanceOf(StatsInteractor);
+      expect(statsInteractor1).toBe(statsInteractor2);
+    });
+  });
 
   describe('findByStatsID', () => {
     it('normal case', async () => {

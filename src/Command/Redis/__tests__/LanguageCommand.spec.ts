@@ -3,24 +3,25 @@ import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
 import { MockLanguages } from '../../../VO/Language/Mock/MockLanguages';
 import { LanguageCommand } from '../LanguageCommand';
 
 describe('LanguageCommand', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const languageCommand1: LanguageCommand = kernel.get<LanguageCommand>(Type.LanguageRedisCommand);
-  //     const languageCommand2: LanguageCommand = kernel.get<LanguageCommand>(Type.LanguageRedisCommand);
-  //
-  //     expect(languageCommand1).toBeInstanceOf(LanguageCommand);
-  //     expect(languageCommand1).toBe(languageCommand2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const languageCommand1: LanguageCommand = kernel.get<LanguageCommand>(Type.LanguageRedisCommand);
+      const languageCommand2: LanguageCommand = kernel.get<LanguageCommand>(Type.LanguageRedisCommand);
+
+      expect(languageCommand1).toBeInstanceOf(LanguageCommand);
+      expect(languageCommand1).toBe(languageCommand2);
+    });
+  });
 
   describe('insertAll', () => {
     it('normal case', async () => {

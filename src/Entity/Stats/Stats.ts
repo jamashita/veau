@@ -208,7 +208,6 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.items.get(row.get());
   }
 
-  // TODO TEST!!!
   public getColumns(): AsOfs {
     if (!Kind.isNull(this.columns)) {
       return this.columns;

@@ -3,6 +3,8 @@ import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { kernel } from '../../../Container/Kernel';
+import { Type } from '../../../Container/Types';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Language, LanguageRow } from '../../../VO/Language/Language';
@@ -13,18 +15,17 @@ import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageQuery } from '../LanguageQuery';
 
 describe('LanguageQuery', () => {
-  // TODO
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // describe('container', () => {
-  // eslint-disable-next-line jest/no-commented-out-tests
-  //   it('must be a singleton', () => {
-  //     const languageQuery1: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageMySQLQuery);
-  //     const languageQuery2: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageMySQLQuery);
-  //
-  //     expect(languageQuery1).toBeInstanceOf(LanguageQuery);
-  //     expect(languageQuery1).toBe(languageQuery2);
-  //   });
-  // });
+  describe('container', () => {
+    it('must be a singleton', () => {
+      expect.assertions(2);
+
+      const languageQuery1: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageMySQLQuery);
+      const languageQuery2: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageMySQLQuery);
+
+      expect(languageQuery1).toBeInstanceOf(LanguageQuery);
+      expect(languageQuery1).toBe(languageQuery2);
+    });
+  });
 
   describe('all', () => {
     it('normal case', async () => {
