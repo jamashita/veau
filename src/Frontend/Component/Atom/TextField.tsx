@@ -1,5 +1,5 @@
 import { Kind } from '@jamashita/publikum-type';
-import { default as Text } from '@material-ui/core/TextField';
+import Text from '@material-ui/core/TextField';
 import React from 'react';
 
 type Props = Readonly<{

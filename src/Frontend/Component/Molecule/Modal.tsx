@@ -2,16 +2,6 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from 
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-export type StateProps = Readonly<{
-  open: boolean;
-  title: string;
-  description: string;
-  values?: Record<string, string>;
-}>;
-export type DispatchProps = Readonly<{
-  closeClicked(): void;
-}>;
-export type OwnProps = Readonly<{}>;
 type Props = StateProps & DispatchProps & OwnProps;
 type State = Readonly<{}>;
 
@@ -77,5 +67,16 @@ class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
     );
   }
 }
+
+export type StateProps = Readonly<{
+  open: boolean;
+  title: string;
+  description: string;
+  values?: Record<string, string>;
+}>;
+export type DispatchProps = Readonly<{
+  closeClicked(): void;
+}>;
+export type OwnProps = Readonly<{}>;
 
 export const Modal: React.ComponentType<WithIntlProps<Props>> = injectIntl(ModalImpl);
