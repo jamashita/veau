@@ -10,7 +10,6 @@
 
 <https://veau.jamashita.dev>
 
-
 ## Requisite
 
 ```
@@ -24,36 +23,6 @@ v14.5.0
 1.22.5
 ```
 
-### Account and Password
-
-for English users
-
-```
-Account: English
-Password: english
-```
-
-para los usuarios españoles
-
-```
-Account: Español
-Password: espanol
-```
-
-pour les utilisateurs français
-
-```
-Account: Français
-Password: francais
-```
-
-日本のユーザー向け
-
-```
-Account: 日本語
-Password: nihongo
-```
-
 ## Conventional commit
 
 ```
@@ -61,8 +30,6 @@ git cz
 ```
 
 ## Run in development mode
-
-### Requisite
 
 Docker is required.  
 if you haven't installed docker for desktop, install it first.
