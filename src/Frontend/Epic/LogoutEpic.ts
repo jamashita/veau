@@ -27,14 +27,11 @@ export class LogoutEpic {
       ofType<VeauAction, VeauAction>(LOGOUT),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
         return from<Promise<Observable<VeauAction>>>(
-          this.sessionCommand.delete().transform<Observable<VeauAction>, Error>(
-            () => {
-              return of<VeauAction>(initializeIdentity(), closeProvider(), pushToEntrance());
-            },
-            () => {
-              return of<VeauAction>(nothing());
-            }
-          ).get()
+          this.sessionCommand.delete().transform<Observable<VeauAction>, Error>(() => {
+            return of<VeauAction>(initializeIdentity(), closeProvider(), pushToEntrance());
+          }, () => {
+            return of<VeauAction>(nothing());
+          }).get()
         ).pipe<VeauAction>(
           mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
             return observable;

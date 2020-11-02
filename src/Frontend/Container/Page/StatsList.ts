@@ -1,6 +1,5 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
 import { StatsID } from '../../../VO/StatsOutline/StatsID';
@@ -27,7 +26,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   const {
     statsList: {
       open,
-      display: stats,
+      stats,
       items
     },
     locale
@@ -76,10 +75,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const StatsList: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps,
-  DispatchProps,
-  OwnProps,
-  State>(
+export const StatsList: ConnectedComponent<typeof Component, StateProps> = connect<StateProps, DispatchProps, OwnProps, State>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

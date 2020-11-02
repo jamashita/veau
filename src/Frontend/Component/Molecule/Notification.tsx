@@ -2,22 +2,8 @@ import { Icon, Snackbar, SnackbarContent } from '@material-ui/core';
 import { amber, blue, green, red } from '@material-ui/core/colors';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
 import { NotificationHPosition, NotificationKind, NotificationVPosition } from '../../Action';
 
-export type StateProps = Readonly<{
-  kind: NotificationKind;
-  open: boolean;
-  horizontal: NotificationHPosition;
-  vertical: NotificationVPosition;
-  message: string;
-  duration: number;
-  values?: Record<string, string>;
-}>;
-export type DispatchProps = Readonly<{
-  closeClicked(): void;
-}>;
-export type OwnProps = Readonly<{}>;
 type Props = StateProps & DispatchProps & OwnProps;
 type State = Readonly<{}>;
 
@@ -56,6 +42,48 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
     }
 
     return false;
+  }
+
+  public render(): React.ReactNode {
+    const {
+      open,
+      horizontal,
+      vertical,
+      message,
+      duration,
+      values,
+      intl,
+      closeClicked
+    } = this.props;
+
+    return (
+      <Snackbar
+        open={open}
+        onClose={closeClicked}
+        anchorOrigin={{
+          horizontal,
+          vertical
+        }}
+        autoHideDuration={duration}
+      >
+        <SnackbarContent
+          style={{
+            backgroundColor: this.backgroundColor()
+          }}
+          message={(
+            <span>
+              {this.icon()}
+              {intl.formatMessage(
+                {
+                  id: message
+                },
+                values
+              )}
+            </span>
+          )}
+        />
+      </Snackbar>
+    );
   }
 
   private icon(): React.ReactNode {
@@ -101,49 +129,21 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
       }
     }
   }
-
-  public render(): React.ReactNode {
-    const {
-      open,
-      horizontal,
-      vertical,
-      message,
-      duration,
-      values,
-      intl,
-      closeClicked
-    } = this.props;
-
-    return (
-      <Snackbar
-        open={open}
-        onClose={closeClicked}
-        anchorOrigin={{
-          horizontal,
-          vertical
-        }}
-        autoHideDuration={duration}
-      >
-        <SnackbarContent
-          style={{
-            backgroundColor: this.backgroundColor()
-          }}
-          message={(
-            <span>
-              {this.icon()}
-              {intl.formatMessage(
-                {
-                  id: message
-                },
-                values
-              )}
-            </span>
-          )}
-        />
-      </Snackbar>
-    );
-  }
 }
+
+export type StateProps = Readonly<{
+  kind: NotificationKind;
+  open: boolean;
+  horizontal: NotificationHPosition;
+  vertical: NotificationVPosition;
+  message: string;
+  duration: number;
+  values?: { [key: string]: string; };
+}>;
+export type DispatchProps = Readonly<{
+  closeClicked(): void;
+}>;
+export type OwnProps = Readonly<{}>;
 
 export const Notification: React.ComponentType<WithIntlProps<Props>> = injectIntl(
   NotificationImpl

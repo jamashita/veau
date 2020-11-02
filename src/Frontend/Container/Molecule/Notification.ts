@@ -1,6 +1,5 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-
 import { VeauAction } from '../../Action';
 import { disappearNotification } from '../../ActionCreator/NotificationActionCreator';
 import { DispatchProps, Notification as Component, OwnProps, StateProps } from '../../Component/Molecule/Notification';
@@ -38,10 +37,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const Notification: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps,
-  DispatchProps,
-  OwnProps,
-  State>(
+export const Notification: ConnectedComponent<typeof Component, StateProps> = connect<StateProps, DispatchProps, OwnProps, State>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

@@ -1,6 +1,5 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-
 import { VeauAction } from '../../Action';
 import { logout } from '../../ActionCreator/LogoutActionCreator';
 import { closeProvider } from '../../ActionCreator/PageProviderActionCreator';
@@ -32,10 +31,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const PageProvider: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps,
-  DispatchProps,
-  OwnProps,
-  State>(
+export const PageProvider: ConnectedComponent<typeof Component, StateProps> = connect<StateProps, DispatchProps, OwnProps, State>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

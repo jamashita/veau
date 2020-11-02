@@ -1,6 +1,5 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-
 import { AccountName } from '../../../VO/Account/AccountName';
 import { Password } from '../../../VO/EntranceInformation/Password';
 import { VeauAction } from '../../Action';
@@ -32,10 +31,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const Entrance: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps,
-  DispatchProps,
-  OwnProps,
-  State>(
+export const Entrance: ConnectedComponent<typeof Component, StateProps> = connect<StateProps, DispatchProps, OwnProps, State>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);
