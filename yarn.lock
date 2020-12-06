@@ -678,7 +678,7 @@
     reflect-metadata "0.1.13"
     uuid "8.3.1"
 
-"@jamashita/publikum-validation@^3.4.0":
+"@jamashita/publikum-validation@3.4.0", "@jamashita/publikum-validation@^3.4.0":
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/@jamashita/publikum-validation/-/publikum-validation-3.4.0.tgz#47dcd68920f0d7909d928fd3334cfdd8db3e8673"
   integrity sha512-11NqtUvemeZTf+Q9+TNAMt5ShX0mqLOrDat6/URHMqx7lFJftA01oX8P0fnK5Rkcd5FfWUGTcqoBlKPPUuRU1A==
