@@ -1,11 +1,11 @@
-import { ImmutableProject, Project, Quantity, ReadonlyProject } from '@jamashita/publikum-collection';
+import { ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/publikum-collection';
 import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Term } from './Term';
 import { TermID } from './TermID';
 
 export class Terms extends Quantity<TermID, Term, 'Terms'> {
   public readonly noun: 'Terms' = 'Terms';
-  private readonly terms: Project<TermID, Term>;
+  private readonly terms: ReadonlyProject<TermID, Term>;
 
   private static readonly ALL: Terms = Terms.ofArray([
     Term.DAILY,
@@ -37,7 +37,7 @@ export class Terms extends Quantity<TermID, Term, 'Terms'> {
     return Terms.ofMap(map);
   }
 
-  protected constructor(terms: Project<TermID, Term>) {
+  protected constructor(terms: ReadonlyProject<TermID, Term>) {
     super();
     this.terms = terms;
   }
@@ -86,8 +86,7 @@ export class Terms extends Quantity<TermID, Term, 'Terms'> {
     return this.terms.values();
   }
 
-  // TODO TESTS
-  public map<U>(mapper: Mapper<Term, U>): Project<TermID, U> {
+  public map<U>(mapper: Mapper<Term, U>): ReadonlyProject<TermID, U> {
     return this.terms.map<U>(mapper);
   }
 
