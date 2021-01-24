@@ -1,10 +1,10 @@
 import { ImmutableSequence } from '@jamashita/publikum-collection';
-
-import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';
 
+import { ValueContained } from '../ValueContained';
+
 export class MockNumericalValues extends NumericalValues {
-  public constructor(...values: ReadonlyArray<NumericalValue>) {
-    super(ImmutableSequence.of<NumericalValue>([...values]));
+  public constructor(...values: ReadonlyArray<ValueContained>) {
+    super(ImmutableSequence.ofArray<ValueContained>(values));
   }
 }

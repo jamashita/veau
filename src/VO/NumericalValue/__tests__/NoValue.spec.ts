@@ -1,7 +1,7 @@
 import { NumericalValueError } from '../Error/NumericalValueError';
-import { INumericalValue } from '../INumericalValue';
 import { NoValue } from '../NoValue';
 import { NumericalValue } from '../NumericalValue';
+import { ValueContained } from '../ValueContained';
 
 describe('NoValue', () => {
   describe('of', () => {
@@ -16,10 +16,10 @@ describe('NoValue', () => {
     it('returns true if the object is NoValue', () => {
       expect.assertions(4);
 
-      const value1: INumericalValue = NoValue.of();
-      const value2: INumericalValue = NumericalValue.of(0);
-      const value3: INumericalValue = NumericalValue.of(1);
-      const value4: INumericalValue = NoValue.of();
+      const value1: NumericalValue = NoValue.of();
+      const value2: NumericalValue = ValueContained.of(0);
+      const value3: NumericalValue = ValueContained.of(1);
+      const value4: NumericalValue = NoValue.of();
 
       expect(value1.equals(value1)).toBe(true);
       expect(value1.equals(value2)).toBe(false);

@@ -1,8 +1,8 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { NumericalValueError } from './Error/NumericalValueError';
-import { INumericalValue } from './INumericalValue';
+import { NumericalValue } from './NumericalValue';
 
-export class NoValue extends ValueObject<'NoValue'> implements INumericalValue<'NoValue'> {
+export class NoValue extends ValueObject<'NoValue'> implements NumericalValue<'NoValue'> {
   public readonly noun: 'NoValue' = 'NoValue';
 
   private static readonly INSTANCE: NoValue = new NoValue();
@@ -15,7 +15,7 @@ export class NoValue extends ValueObject<'NoValue'> implements INumericalValue<'
     super();
   }
 
-  public equals(other: INumericalValue): boolean {
+  public equals(other: NumericalValue): boolean {
     if (this === other) {
       return true;
     }

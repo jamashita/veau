@@ -3,6 +3,7 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';
+import { ValueContained } from '../ValueContained';
 
 describe('NumericalValues', () => {
   describe('of', () => {
@@ -17,7 +18,7 @@ describe('NumericalValues', () => {
     it('normal case', () => {
       expect.assertions(3);
 
-      const sequence: ImmutableSequence<MockNumericalValue> = ImmutableSequence.ofArray<MockNumericalValue>([
+      const sequence: ImmutableSequence<NumericalValue> = ImmutableSequence.ofArray<NumericalValue>([
         new MockNumericalValue(),
         new MockNumericalValue()
       ]);
@@ -43,10 +44,10 @@ describe('NumericalValues', () => {
     it('normal case', () => {
       expect.assertions(4);
 
-      const values: Array<MockNumericalValue> = [
-        new MockNumericalValue(1),
-        new MockNumericalValue(2),
-        new MockNumericalValue(3)
+      const values: Array<NumericalValue> = [
+        ValueContained.of(1),
+        ValueContained.of(3),
+        ValueContained.of(2)
       ];
 
       const numericalValues: NumericalValues = NumericalValues.ofArray(values);
@@ -70,9 +71,9 @@ describe('NumericalValues', () => {
     it('normal case', () => {
       expect.assertions(4);
 
-      const value1: MockNumericalValue = new MockNumericalValue(1);
-      const value2: MockNumericalValue = new MockNumericalValue(2);
-      const value3: MockNumericalValue = new MockNumericalValue(3);
+      const value1: NumericalValue = ValueContained.of(1);
+      const value2: NumericalValue = ValueContained.of(2);
+      const value3: NumericalValue = ValueContained.of(3);
 
       const numericalValues: NumericalValues = NumericalValues.ofSpread(value1, value2, value3);
 
@@ -101,9 +102,9 @@ describe('NumericalValues', () => {
     it('does not affect the original one', () => {
       expect.assertions(7);
 
-      const value1: MockNumericalValue = new MockNumericalValue();
-      const value2: MockNumericalValue = new MockNumericalValue();
-      const value3: MockNumericalValue = new MockNumericalValue();
+      const value1: NumericalValue = new MockNumericalValue();
+      const value2: NumericalValue = new MockNumericalValue();
+      const value3: NumericalValue = new MockNumericalValue();
 
       const values1: NumericalValues = NumericalValues.ofArray([value1, value2]);
       const values2: NumericalValues = values1.add(value3);
@@ -133,7 +134,9 @@ describe('NumericalValues', () => {
 
       sequence.get = spy;
 
-      const values: NumericalValues = NumericalValues.of(sequence);
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
 
       values.get(0);
 
@@ -155,9 +158,11 @@ describe('NumericalValues', () => {
 
       sequence.contains = spy;
 
-      const values: NumericalValues = NumericalValues.of(sequence);
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
 
-      values.contains(new MockNumericalValue(1));
+      values.contains(new MockNumericalValue());
 
       expect(spy.called).toBe(true);
     });
@@ -177,7 +182,9 @@ describe('NumericalValues', () => {
 
       sequence.size = spy;
 
-      const values: NumericalValues = NumericalValues.of(sequence);
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
 
       values.size();
 
@@ -199,7 +206,9 @@ describe('NumericalValues', () => {
 
       sequence.forEach = spy;
 
-      const values: NumericalValues = NumericalValues.of(sequence);
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
 
       values.forEach(() => {
         // NOOP
@@ -223,7 +232,9 @@ describe('NumericalValues', () => {
 
       sequence.isEmpty = spy;
 
-      const values: NumericalValues = NumericalValues.of(sequence);
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
 
       values.isEmpty();
 
@@ -232,11 +243,11 @@ describe('NumericalValues', () => {
   });
 
   describe('equals', () => {
-    it('same instance', () => {
+    it('returns true if the same instance given', () => {
       expect.assertions(1);
 
-      const value1: MockNumericalValue = new MockNumericalValue(1);
-      const value2: MockNumericalValue = new MockNumericalValue(2);
+      const value1: NumericalValue = ValueContained.of(1);
+      const value2: NumericalValue = ValueContained.of(2);
 
       const values: NumericalValues = NumericalValues.ofArray([value1, value2]);
 
@@ -252,14 +263,16 @@ describe('NumericalValues', () => {
         new MockNumericalValue()
       ]);
 
-      const value1: MockNumericalValue = new MockNumericalValue(1);
-      const value2: MockNumericalValue = new MockNumericalValue(2);
+      const value1: NumericalValue = ValueContained.of(1);
+      const value2: NumericalValue = ValueContained.of(2);
 
       const spy: SinonSpy = sinon.spy();
 
       sequence.equals = spy;
 
-      const values: NumericalValues = NumericalValues.of(sequence);
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
 
       values.equals(NumericalValues.ofArray([value2, value1]));
 
@@ -276,15 +289,16 @@ describe('NumericalValues', () => {
       const nums: Array<number> = [num1, num2];
 
       const values: NumericalValues = NumericalValues.ofArray([
-        new MockNumericalValue(num1),
-        new MockNumericalValue(num2)
+        ValueContained.of(num1),
+        ValueContained.of(num2)
       ]);
 
       const rows: Array<string> = values.row();
 
       expect(rows).toHaveLength(nums.length);
       for (let i: number = 0; i < nums.length; i++) {
-        expect(rows[i]).toBe(nums[i].toString());
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(rows[i]).toBe(nums[i]!.toString());
       }
     });
   });
@@ -303,7 +317,9 @@ describe('NumericalValues', () => {
 
       sequence.toString = spy;
 
-      const values: NumericalValues = NumericalValues.of(sequence);
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
 
       values.toString();
 
@@ -315,14 +331,16 @@ describe('NumericalValues', () => {
     it('normal case', () => {
       expect.assertions(3);
 
-      const value1: MockNumericalValue = new MockNumericalValue();
-      const value2: MockNumericalValue = new MockNumericalValue();
-      const value3: MockNumericalValue = new MockNumericalValue();
-      const arr: Array<MockNumericalValue> = [value1, value2, value3];
+      const value1: NumericalValue = new MockNumericalValue();
+      const value2: NumericalValue = new MockNumericalValue();
+      const value3: NumericalValue = new MockNumericalValue();
+      const arr: Array<NumericalValue> = [value1, value2, value3];
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>(arr);
 
-      const values: NumericalValues = NumericalValues.of(sequence);
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
 
       let i: number = 0;
 
@@ -347,7 +365,9 @@ describe('NumericalValues', () => {
 
       sequence.every = spy;
 
-      const values: NumericalValues = NumericalValues.of(sequence);
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
 
       values.every(() => {
         return true;
@@ -371,7 +391,9 @@ describe('NumericalValues', () => {
 
       sequence.some = spy;
 
-      const values: NumericalValues = NumericalValues.of(sequence);
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
 
       values.some(() => {
         return true;
@@ -395,7 +417,9 @@ describe('NumericalValues', () => {
 
       sequence.values = spy;
 
-      const values: NumericalValues = NumericalValues.of(sequence);
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
 
       values.values();
 
