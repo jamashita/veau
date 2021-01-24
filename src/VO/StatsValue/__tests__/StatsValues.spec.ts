@@ -32,16 +32,16 @@ describe('StatsValues', () => {
           day: 3
         })
       });
-      const project: ImmutableProject<MockAsOf, MockStatsValue> = ImmutableProject.ofMap<MockAsOf, StatsValue>(
+      const vals: ImmutableProject<MockAsOf, MockStatsValue> = ImmutableProject.ofMap<MockAsOf, StatsValue>(
         new Map<MockAsOf, StatsValue>([
           [value1.getAsOf(), value1],
           [value2.getAsOf(), value2]
         ])
       );
 
-      const values: StatsValues = StatsValues.of(project);
+      const values: StatsValues = StatsValues.of(vals);
 
-      expect(values.size()).toBe(project.size());
+      expect(values.size()).toBe(vals.size());
       expect(values.contains(value1)).toBe(true);
       expect(values.contains(value2)).toBe(true);
     });
@@ -394,7 +394,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
         new Map<AsOf, MockStatsValue>([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
@@ -404,11 +404,11 @@ describe('StatsValues', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      project.get = spy;
+      vals.get = spy;
 
-      const values: StatsValues = StatsValues.empty();
+      const values: StatsValues = StatsValues.of(vals);
       // @ts-expect-error
-      values.vals = project;
+      values.vals = vals;
 
       values.get(new MockAsOf());
 
@@ -609,7 +609,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
         new Map<AsOf, MockStatsValue>([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
@@ -619,11 +619,11 @@ describe('StatsValues', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      project.contains = spy;
+      vals.contains = spy;
 
-      const values: StatsValues = StatsValues.empty();
+      const values: StatsValues = StatsValues.of(vals);
       // @ts-expect-error
-      values.vals = project;
+      values.vals = vals;
 
       values.contains(statsValue3);
 
@@ -651,7 +651,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
         new Map<AsOf, MockStatsValue>([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
@@ -661,11 +661,11 @@ describe('StatsValues', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      project.isEmpty = spy;
+      vals.isEmpty = spy;
 
-      const values: StatsValues = StatsValues.empty();
+      const values: StatsValues = StatsValues.of(vals);
       // @ts-expect-error
-      values.vals = project;
+      values.vals = vals;
 
       values.isEmpty();
 
@@ -693,7 +693,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
         new Map<AsOf, MockStatsValue>([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
@@ -703,11 +703,11 @@ describe('StatsValues', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      project.size = spy;
+      vals.size = spy;
 
-      const values: StatsValues = StatsValues.empty();
+      const values: StatsValues = StatsValues.of(vals);
       // @ts-expect-error
-      values.vals = project;
+      values.vals = vals;
 
       values.size();
 
@@ -735,7 +735,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
         new Map<AsOf, MockStatsValue>([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
@@ -745,11 +745,11 @@ describe('StatsValues', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      project.forEach = spy;
+      vals.forEach = spy;
 
-      const values: StatsValues = StatsValues.empty();
+      const values: StatsValues = StatsValues.of(vals);
       // @ts-expect-error
-      values.vals = project;
+      values.vals = vals;
 
       values.forEach(() => {
         // NOOP
@@ -843,7 +843,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
         new Map<AsOf, MockStatsValue>([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
@@ -853,11 +853,11 @@ describe('StatsValues', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      project.equals = spy;
+      vals.equals = spy;
 
-      const values: StatsValues = StatsValues.of(project);
+      const values: StatsValues = StatsValues.of(vals);
       // @ts-expect-error
-      values.vals = project;
+      values.vals = vals;
 
       values.equals(StatsValues.empty());
 
@@ -905,7 +905,7 @@ describe('StatsValues', () => {
 
       const arr: Array<MockStatsValue> = [statsValue1, statsValue2, statsValue3];
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
         new Map<AsOf, MockStatsValue>([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
@@ -913,14 +913,14 @@ describe('StatsValues', () => {
         ])
       );
 
-      const values: StatsValues = StatsValues.of(project);
+      const values: StatsValues = StatsValues.of(vals);
 
       let i: number = 0;
 
-      for (const [, v] of values) {
+      values.forEach((v: StatsValue) => {
         expect(v).toBe(arr[i]);
         i++;
-      }
+      });
     });
   });
 
@@ -944,7 +944,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
         new Map<AsOf, MockStatsValue>([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
@@ -954,11 +954,11 @@ describe('StatsValues', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      project.every = spy;
+      vals.every = spy;
 
-      const values: StatsValues = StatsValues.empty();
+      const values: StatsValues = StatsValues.of(vals);
       // @ts-expect-error
-      values.vals = project;
+      values.vals = vals;
 
       values.every(() => {
         return true;
@@ -988,7 +988,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
         new Map<AsOf, MockStatsValue>([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
@@ -998,11 +998,11 @@ describe('StatsValues', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      project.some = spy;
+      vals.some = spy;
 
-      const values: StatsValues = StatsValues.empty();
+      const values: StatsValues = StatsValues.of(vals);
       // @ts-expect-error
-      values.vals = project;
+      values.vals = vals;
 
       values.some(() => {
         return true;
@@ -1032,7 +1032,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const project: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
         new Map<AsOf, MockStatsValue>([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
@@ -1042,11 +1042,11 @@ describe('StatsValues', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      project.values = spy;
+      vals.values = spy;
 
-      const values: StatsValues = StatsValues.empty();
+      const values: StatsValues = StatsValues.of(vals);
       // @ts-expect-error
-      values.vals = project;
+      values.vals = vals;
 
       values.values();
 
