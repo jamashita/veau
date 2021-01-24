@@ -20,7 +20,7 @@ describe('StatsValue', () => {
       expect(statsValue.getValue().get()).toBe(json.value);
     });
 
-    it('asOf is malformat', () => {
+    it('asOf is mal format', () => {
       expect.assertions(1);
 
       const json: StatsValueJSON = {
@@ -50,7 +50,7 @@ describe('StatsValue', () => {
       expect(statsValue.getValue().get()).toBe(row.value);
     });
 
-    it('asOf is malformat', () => {
+    it('asOf is mal format', () => {
       expect.assertions(1);
 
       const row: StatsValueRow = {

@@ -79,7 +79,7 @@ describe('StatsValues', () => {
       expect(statsValues.contains(statsValue2)).toBe(true);
     });
 
-    it('contains malformat asOf', () => {
+    it('contains mal format asOf', () => {
       expect.assertions(1);
 
       const json: Array<StatsValueJSON> = [
@@ -98,7 +98,7 @@ describe('StatsValues', () => {
       }).toThrow(StatsValueError);
     });
 
-    it('will be multiple malformat asOfs', () => {
+    it('will be multiple mal format asOfs', () => {
       expect.assertions(1);
 
       const json: Array<StatsValueJSON> = [
@@ -152,7 +152,7 @@ describe('StatsValues', () => {
       expect(statsValues.contains(statsValue2)).toBe(true);
     });
 
-    it('contains malformat statsItemID', () => {
+    it('contains mal format statsItemID', () => {
       expect.assertions(1);
 
       const row: Array<StatsValueRow> = [
@@ -173,7 +173,7 @@ describe('StatsValues', () => {
       expect(statsValues.size()).toBe(row.length);
     });
 
-    it('contains malformat asOf', () => {
+    it('contains mal format asOf', () => {
       expect.assertions(1);
 
       const row: Array<StatsValueRow> = [

@@ -67,7 +67,7 @@ describe('StatsOutline', () => {
       expect(statsOutline.getUpdatedAt().toString()).toBe(json.updatedAt);
     });
 
-    it('contains malformat statsID', () => {
+    it('contains mal format statsID', () => {
       expect.assertions(1);
 
       const json: StatsOutlineJSON = {
@@ -85,7 +85,7 @@ describe('StatsOutline', () => {
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat languageID', () => {
+    it('contains mal format languageID', () => {
       expect.assertions(1);
 
       const json: StatsOutlineJSON = {
@@ -103,7 +103,7 @@ describe('StatsOutline', () => {
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat regionID', () => {
+    it('contains mal format regionID', () => {
       expect.assertions(1);
 
       const json: StatsOutlineJSON = {
@@ -121,7 +121,7 @@ describe('StatsOutline', () => {
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat termID', () => {
+    it('contains mal format termID', () => {
       expect.assertions(1);
 
       const json: StatsOutlineJSON = {
@@ -139,7 +139,7 @@ describe('StatsOutline', () => {
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat updatedAt', () => {
+    it('contains mal format updatedAt', () => {
       expect.assertions(1);
 
       const json: StatsOutlineJSON = {
@@ -183,7 +183,7 @@ describe('StatsOutline', () => {
       expect(statsOutline.getUpdatedAt().toString()).toBe(row.updatedAt);
     });
 
-    it('contains malformat statsID', () => {
+    it('contains mal format statsID', () => {
       expect.assertions(1);
 
       const row: StatsOutlineRow = {
@@ -201,7 +201,7 @@ describe('StatsOutline', () => {
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat languageID', () => {
+    it('contains mal format languageID', () => {
       expect.assertions(1);
 
       const row: StatsOutlineRow = {
@@ -219,7 +219,7 @@ describe('StatsOutline', () => {
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat regionID', () => {
+    it('contains mal format regionID', () => {
       expect.assertions(1);
 
       const row: StatsOutlineRow = {
@@ -237,7 +237,7 @@ describe('StatsOutline', () => {
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat termID', () => {
+    it('contains mal format termID', () => {
       expect.assertions(1);
 
       const row: StatsOutlineRow = {
@@ -255,7 +255,7 @@ describe('StatsOutline', () => {
       }).toThrow(StatsOutlineError);
     });
 
-    it('contains malformat updatedAt', () => {
+    it('contains mal format updatedAt', () => {
       expect.assertions(1);
 
       const row: StatsOutlineRow = {

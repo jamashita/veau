@@ -48,7 +48,7 @@ describe('VeauAccount', () => {
       expect(veauAccount.getAccountName().get()).toBe(json.name);
     });
 
-    it('veauAccountID is malformat', () => {
+    it('veauAccountID is mal format', () => {
       expect.assertions(1);
 
       const json: VeauAccountJSON = {
@@ -63,7 +63,7 @@ describe('VeauAccount', () => {
       }).toThrow(VeauAccountError);
     });
 
-    it('languageID is malformat', () => {
+    it('languageID is mal format', () => {
       expect.assertions(1);
 
       const json: VeauAccountJSON = {
@@ -78,7 +78,7 @@ describe('VeauAccount', () => {
       }).toThrow(VeauAccountError);
     });
 
-    it('regionID is malformat', () => {
+    it('regionID is mal format', () => {
       expect.assertions(1);
 
       const json: VeauAccountJSON = {
