@@ -5,7 +5,7 @@ import { TermID } from './TermID';
 
 export class Terms extends Quantity<TermID, Term, 'Terms'> {
   public readonly noun: 'Terms' = 'Terms';
-  private readonly terms: ReadonlyProject<TermID, Term>;
+  private readonly terms: ImmutableProject<TermID, Term>;
 
   private static readonly ALL: Terms = Terms.ofArray([
     Term.DAILY,
@@ -37,7 +37,7 @@ export class Terms extends Quantity<TermID, Term, 'Terms'> {
     return Terms.ofMap(map);
   }
 
-  protected constructor(terms: ReadonlyProject<TermID, Term>) {
+  protected constructor(terms: ImmutableProject<TermID, Term>) {
     super();
     this.terms = terms;
   }
