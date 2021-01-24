@@ -1,7 +1,7 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { INumericalValue } from './INumericalValue';
 
-export class NumericalValue extends ValueObject<INumericalValue<'NumericalValue'>, 'NumericalValue'> implements INumericalValue<'NumericalValue'> {
+export class NumericalValue extends ValueObject<'NumericalValue'> implements INumericalValue<'NumericalValue'> {
   public readonly noun: 'NumericalValue' = 'NumericalValue';
   private readonly value: number;
 

@@ -1,7 +1,7 @@
 import { Nominative } from '@jamashita/publikum-interface';
 
-type NumericalValueType = 'NumericalValue' | 'NoValue';
+type NumericalValueType = 'NoValue' | 'NumericalValue';
 
-export interface INumericalValue<N extends NumericalValueType = NumericalValueType> extends Nominative<INumericalValue<N>, N> {
+export interface INumericalValue<N extends NumericalValueType = NumericalValueType> extends Nominative<N> {
   readonly noun: N;
 }

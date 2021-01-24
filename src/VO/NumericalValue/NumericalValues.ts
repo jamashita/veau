@@ -1,23 +1,23 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
-import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
+import { Collection, ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/publikum-collection';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { INumericalValue } from './INumericalValue';
 
-export class NumericalValues extends Quantity<NumericalValues, number, INumericalValue, 'NumericalValues'> {
+export class NumericalValues extends Quantity<number, INumericalValue, 'NumericalValues'> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
   private readonly vals: Sequence<INumericalValue>;
 
   private static readonly EMPTY: NumericalValues = new NumericalValues(ImmutableSequence.empty<INumericalValue>());
 
-  public static of(values: Sequence<INumericalValue>): NumericalValues {
+  public static of(values: ReadonlySequence<INumericalValue>): NumericalValues {
     if (values.isEmpty()) {
       return NumericalValues.empty();
     }
 
-    return new NumericalValues(values);
+    return new NumericalValues(ImmutableSequence.of<INumericalValue>(values));
   }
 
   public static ofArray(values: ReadonlyArray<INumericalValue>): NumericalValues {
-    return NumericalValues.of(ImmutableSequence.of<INumericalValue>(values));
+    return NumericalValues.of(ImmutableSequence.ofArray<INumericalValue>(values));
   }
 
   public static ofSpread(...values: Array<INumericalValue>): NumericalValues {
@@ -45,7 +45,7 @@ export class NumericalValues extends Quantity<NumericalValues, number, INumerica
     return this.vals.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<number, INumericalValue>): void {
+  public forEach(iteration: Enumerator<number, INumericalValue>): void {
     this.vals.forEach(iteration);
   }
 
@@ -65,10 +65,6 @@ export class NumericalValues extends Quantity<NumericalValues, number, INumerica
     return this.vals.toString();
   }
 
-  public [Symbol.iterator](): Iterator<Pair<number, INumericalValue>> {
-    return this.vals[Symbol.iterator]();
-  }
-
   public every(predicate: BinaryPredicate<INumericalValue, number>): boolean {
     return this.vals.every(predicate);
   }
@@ -79,6 +75,22 @@ export class NumericalValues extends Quantity<NumericalValues, number, INumerica
 
   public values(): Iterable<INumericalValue> {
     return this.vals.values();
+  }
+
+  public iterator(): Iterator<[number, INumericalValue]> {
+    return this.vals[Symbol.iterator]();
+  }
+
+  public filter(predicate: BinaryPredicate<INumericalValue, number>): Collection<number, INumericalValue> {
+    return this.vals.filter(predicate);
+  }
+
+  public find(predicate: BinaryPredicate<INumericalValue, number>): Nullable<INumericalValue> {
+    return this.vals.find(predicate);
+  }
+
+  public map<W>(mapper: Mapper<INumericalValue, W>): Sequence<W> {
+    return this.vals.map<W>(mapper);
   }
 
   public add(value: INumericalValue): NumericalValues {

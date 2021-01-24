@@ -17,7 +17,7 @@ describe('NumericalValues', () => {
     it('normal case', () => {
       expect.assertions(3);
 
-      const sequence: ImmutableSequence<MockNumericalValue> = ImmutableSequence.of<MockNumericalValue>([
+      const sequence: ImmutableSequence<MockNumericalValue> = ImmutableSequence.ofArray<MockNumericalValue>([
         new MockNumericalValue(),
         new MockNumericalValue()
       ]);
@@ -326,8 +326,8 @@ describe('NumericalValues', () => {
 
       let i: number = 0;
 
-      for (const pair of values) {
-        expect(pair.getValue()).toBe(arr[i]);
+      for (const [, v] of values) {
+        expect(v).toBe(arr[i]);
         i++;
       }
     });

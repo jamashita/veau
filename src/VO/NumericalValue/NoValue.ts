@@ -2,7 +2,7 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { NumericalValueError } from './Error/NumericalValueError';
 import { INumericalValue } from './INumericalValue';
 
-export class NoValue extends ValueObject<INumericalValue<'NoValue'>, 'NoValue'> implements INumericalValue<'NoValue'> {
+export class NoValue extends ValueObject<'NoValue'> implements INumericalValue<'NoValue'> {
   public readonly noun: 'NoValue' = 'NoValue';
 
   private static readonly INSTANCE: NoValue = new NoValue();
