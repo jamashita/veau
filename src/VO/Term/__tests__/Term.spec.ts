@@ -1,5 +1,4 @@
 import { UUID } from '@jamashita/publikum-uuid';
-
 import { TermError } from '../Error/TermError';
 import { Term } from '../Term';
 import { TermID } from '../TermID';

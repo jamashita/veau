@@ -200,15 +200,9 @@ describe('Terms', () => {
       // @ts-expect-error
       const terms: Terms = Terms.of(project);
 
-      let i: number = 0;
-
-      for (const [, v] of terms) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const [, t]: [TermID, Term] = arr[i]!;
-
-        expect(v).toBe(t);
-        i++;
-      }
+      arr.forEach(([id, term]: [TermID, Term]) => {
+        expect(term).toBe(terms.get(id));
+      });
     });
   });
 
