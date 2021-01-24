@@ -3,7 +3,7 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfError } from '../AsOf/Error/AsOfError';
-import { NumericalValue } from '../NumericalValue/NumericalValue';
+import { ValueContained } from '../NumericalValue/ValueContained';
 import { StatsValueError } from './Error/StatsValueError';
 
 export type StatsValueJSON = Readonly<{
@@ -16,18 +16,18 @@ export type StatsValueRow = Readonly<{
   value: number;
 }>;
 
-export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements JSONable<StatsValueJSON> {
+export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<StatsValueJSON> {
   public readonly noun: 'StatsValue' = 'StatsValue';
   private readonly asOf: AsOf;
-  private readonly value: NumericalValue;
+  private readonly value: ValueContained;
 
-  public static of(asOf: AsOf, value: NumericalValue): StatsValue {
+  public static of(asOf: AsOf, value: ValueContained): StatsValue {
     return new StatsValue(asOf, value);
   }
 
   public static ofJSON(json: StatsValueJSON): StatsValue {
     try {
-      return StatsValue.of(AsOf.ofString(json.asOf), NumericalValue.of(json.value));
+      return StatsValue.of(AsOf.ofString(json.asOf), ValueContained.of(json.value));
     }
     catch (err: unknown) {
       if (err instanceof AsOfError) {
@@ -40,7 +40,7 @@ export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements
 
   public static ofRow(row: StatsValueRow): StatsValue {
     try {
-      return StatsValue.of(AsOf.ofString(row.asOf), NumericalValue.of(row.value));
+      return StatsValue.of(AsOf.ofString(row.asOf), ValueContained.of(row.value));
     }
     catch (err: unknown) {
       if (err instanceof AsOfError) {
@@ -65,7 +65,7 @@ export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements
     return true;
   }
 
-  protected constructor(asOf: AsOf, value: NumericalValue) {
+  protected constructor(asOf: AsOf, value: ValueContained) {
     super();
     this.asOf = asOf;
     this.value = value;
@@ -105,7 +105,7 @@ export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements
     return this.asOf;
   }
 
-  public getValue(): NumericalValue {
+  public getValue(): ValueContained {
     return this.value;
   }
 }

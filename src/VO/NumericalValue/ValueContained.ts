@@ -14,6 +14,10 @@ export class ValueContained extends ValueObject<'ValueContained'> implements Num
     this.value = value;
   }
 
+  public get(): number {
+    return this.value;
+  }
+
   public equals(other: NumericalValue): boolean {
     if (this === other) {
       return true;
@@ -29,9 +33,5 @@ export class ValueContained extends ValueObject<'ValueContained'> implements Num
 
   public serialize(): string {
     return `${this.value}`;
-  }
-
-  public get(): number {
-    return this.value;
   }
 }

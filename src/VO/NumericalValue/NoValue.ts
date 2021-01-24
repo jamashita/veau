@@ -15,6 +15,10 @@ export class NoValue extends ValueObject<'NoValue'> implements NumericalValue<'N
     super();
   }
 
+  public get(): never {
+    throw new NumericalValueError('ILLEGAL OPERATION');
+  }
+
   public equals(other: NumericalValue): boolean {
     if (this === other) {
       return true;
@@ -25,9 +29,5 @@ export class NoValue extends ValueObject<'NoValue'> implements NumericalValue<'N
 
   public serialize(): string {
     return '';
-  }
-
-  public get(): never {
-    throw new NumericalValueError('ILLEGAL OPERATION');
   }
 }

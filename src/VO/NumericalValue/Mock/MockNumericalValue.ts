@@ -9,11 +9,15 @@ export class MockNumericalValue extends Objet<'ValueContained'> implements Numer
     super();
   }
 
+  public get(): number {
+    throw new UnimplementedError();
+  }
+
   public equals(): boolean {
     throw new UnimplementedError();
   }
 
   public serialize(): string {
-    return 'MOCK NUMERICAL VALUE';
+    throw new UnimplementedError();
   }
 }
