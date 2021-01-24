@@ -5,7 +5,7 @@ import { AsOfError } from './Error/AsOfError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
-export class AsOf extends ValueObject<AsOf, 'AsOf'> {
+export class AsOf extends ValueObject<'AsOf'> {
   public readonly noun: 'AsOf' = 'AsOf';
   private readonly asOf: Zeit;
 

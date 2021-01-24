@@ -4,6 +4,6 @@ import { AsOfs } from '../AsOfs';
 
 export class MockAsOfs extends AsOfs {
   public constructor(...asOfs: ReadonlyArray<AsOf>) {
-    super(ImmutableSequence.of<AsOf>([...asOfs]));
+    super(ImmutableSequence.ofArray<AsOf>([...asOfs]));
   }
 }

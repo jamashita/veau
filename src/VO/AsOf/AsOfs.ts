@@ -1,26 +1,26 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
+import { ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Zeit } from '@jamashita/publikum-zeit';
 import { Term } from '../Term/Term';
 import { AsOf } from './AsOf';
 
-export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Cloneable<AsOfs>, JSONable<Array<string>> {
+export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<AsOfs>, JSONable<Array<string>> {
   public readonly noun: 'AsOfs' = 'AsOfs';
   private readonly asOfs: Sequence<AsOf>;
 
   private static readonly EMPTY: AsOfs = new AsOfs(ImmutableSequence.empty<AsOf>());
 
-  public static of(asOfs: Sequence<AsOf>): AsOfs {
+  public static of(asOfs: ReadonlySequence<AsOf>): AsOfs {
     if (asOfs.isEmpty()) {
       return AsOfs.empty();
     }
 
-    return new AsOfs(asOfs);
+    return AsOfs.ofArray(asOfs.toArray());
   }
 
   public static ofArray(asOfs: ReadonlyArray<AsOf>): AsOfs {
-    return AsOfs.of(ImmutableSequence.of<AsOf>(asOfs));
+    return new AsOfs(ImmutableSequence.ofArray<AsOf>(asOfs));
   }
 
   public static ofSpread(...asOfs: Array<AsOf>): AsOfs {
@@ -36,7 +36,8 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
       return AsOfs.empty();
     }
     if (asOfsArray.length === 1) {
-      return asOfsArray[0];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return asOfsArray[0]!;
     }
 
     const all: Array<Array<AsOf>> = asOfsArray.map<Array<AsOf>>((asOfs: AsOfs) => {
@@ -81,7 +82,7 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
     return this.asOfs.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<number, AsOf>): void {
+  public forEach(iteration: Enumerator<number, AsOf>): void {
     this.asOfs.forEach(iteration);
   }
 
@@ -115,10 +116,6 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
     return this.asOfs.toString();
   }
 
-  public [Symbol.iterator](): Iterator<Pair<number, AsOf>> {
-    return this.asOfs[Symbol.iterator]();
-  }
-
   public every(predicate: BinaryPredicate<AsOf, number>): boolean {
     return this.asOfs.every(predicate);
   }
@@ -129,6 +126,22 @@ export class AsOfs extends Quantity<AsOfs, number, AsOf, 'AsOfs'> implements Clo
 
   public values(): Iterable<AsOf> {
     return this.asOfs.values();
+  }
+
+  public iterator(): Iterator<[number, AsOf]> {
+    return this.asOfs[Symbol.iterator]();
+  }
+
+  public filter(predicate: BinaryPredicate<AsOf, number>): AsOfs {
+    return AsOfs.of(this.asOfs.filter(predicate));
+  }
+
+  public find(predicate: BinaryPredicate<AsOf, number>): Nullable<AsOf> {
+    return this.asOfs.find(predicate);
+  }
+
+  public map<W>(mapper: Mapper<AsOf, W>): Sequence<W> {
+    return this.asOfs.map<W>(mapper);
   }
 
   public add(values: AsOf): AsOfs {

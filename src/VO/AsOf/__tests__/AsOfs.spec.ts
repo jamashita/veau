@@ -17,7 +17,7 @@ describe('AsOfs', () => {
     it('normal case', () => {
       expect.assertions(4);
 
-      const sequence: ImmutableSequence<AsOf> = ImmutableSequence.of<AsOf>([
+      const sequence: ImmutableSequence<AsOf> = ImmutableSequence.ofArray<AsOf>([
         new MockAsOf(),
         new MockAsOf(),
         new MockAsOf()
@@ -533,8 +533,8 @@ describe('AsOfs', () => {
 
       let i: number = 0;
 
-      for (const pair of asOfs) {
-        expect(pair.getValue()).toBe(sequence.get(i));
+      for (const [, v] of asOfs) {
+        expect(v).toBe(sequence.get(i));
         i++;
       }
     });
