@@ -7,19 +7,19 @@ import { AsOf } from './AsOf';
 
 export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<AsOfs>, JSONable<Array<string>> {
   public readonly noun: 'AsOfs' = 'AsOfs';
-  private readonly asOfs: Sequence<AsOf>;
+  private readonly asOfs: ImmutableSequence<AsOf>;
 
   private static readonly EMPTY: AsOfs = new AsOfs(ImmutableSequence.empty<AsOf>());
 
   public static of(asOfs: ReadonlySequence<AsOf>): AsOfs {
-    if (asOfs.isEmpty()) {
-      return AsOfs.empty();
-    }
-
     return AsOfs.ofArray(asOfs.toArray());
   }
 
   public static ofArray(asOfs: ReadonlyArray<AsOf>): AsOfs {
+    if (asOfs.length === 0) {
+      return AsOfs.empty();
+    }
+
     return new AsOfs(ImmutableSequence.ofArray<AsOf>(asOfs));
   }
 
@@ -65,7 +65,7 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
     return asOfs;
   }
 
-  protected constructor(asOfs: Sequence<AsOf>) {
+  protected constructor(asOfs: ImmutableSequence<AsOf>) {
     super();
     this.asOfs = asOfs;
   }

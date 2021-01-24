@@ -26,9 +26,10 @@ describe('AsOfs', () => {
       const asOfs: AsOfs = AsOfs.of(sequence);
 
       expect(asOfs.size()).toBe(sequence.size());
-      for (let i: number = 0; i < asOfs.size(); i++) {
-        expect(asOfs.get(i)).toBe(sequence.get(i));
-      }
+
+      asOfs.forEach((a: AsOf, i: number) => {
+        expect(a).toBe(sequence.get(i));
+      });
     });
   });
 
@@ -42,14 +43,15 @@ describe('AsOfs', () => {
     it('normal case', () => {
       expect.assertions(4);
 
-      const as: Array<AsOf> = [new MockAsOf(), new MockAsOf(), new MockAsOf()];
+      const arr: Array<AsOf> = [new MockAsOf(), new MockAsOf(), new MockAsOf()];
 
-      const asOfs: AsOfs = AsOfs.ofArray(as);
+      const asOfs: AsOfs = AsOfs.ofArray(arr);
 
-      expect(asOfs.size()).toBe(as.length);
-      for (let i: number = 0; i < asOfs.size(); i++) {
-        expect(asOfs.get(i)).toBe(as[i]);
-      }
+      expect(asOfs.size()).toBe(arr.length);
+
+      asOfs.forEach((a: AsOf, i: number) => {
+        expect(a).toBe(arr[i]);
+      });
     });
   });
 
@@ -218,6 +220,8 @@ describe('AsOfs', () => {
       sequence.get = spy;
 
       const asOfs: AsOfs = AsOfs.of(sequence);
+      // @ts-expect-error
+      asOfs.asOfs = sequence;
 
       asOfs.get(0);
 
@@ -241,6 +245,8 @@ describe('AsOfs', () => {
       sequence.contains = spy;
 
       const asOfs: AsOfs = AsOfs.of(sequence);
+      // @ts-expect-error
+      asOfs.asOfs = sequence;
 
       asOfs.contains(asOf);
 
@@ -263,6 +269,8 @@ describe('AsOfs', () => {
       sequence.size = spy;
 
       const asOfs: AsOfs = AsOfs.of(sequence);
+      // @ts-expect-error
+      asOfs.asOfs = sequence;
 
       asOfs.size();
 
@@ -285,6 +293,8 @@ describe('AsOfs', () => {
       sequence.forEach = spy;
 
       const asOfs: AsOfs = AsOfs.of(sequence);
+      // @ts-expect-error
+      asOfs.asOfs = sequence;
 
       asOfs.forEach(() => {
         // NOOP
@@ -391,6 +401,8 @@ describe('AsOfs', () => {
       sequence.isEmpty = spy;
 
       const asOfs: AsOfs = AsOfs.of(sequence);
+      // @ts-expect-error
+      asOfs.asOfs = sequence;
 
       asOfs.isEmpty();
 
@@ -399,7 +411,7 @@ describe('AsOfs', () => {
   });
 
   describe('equals', () => {
-    it('same instance', () => {
+    it('returns true when same instance given', () => {
       expect.assertions(1);
 
       const asOf1: MockAsOf = new MockAsOf({
@@ -433,6 +445,8 @@ describe('AsOfs', () => {
       sequence.equals = spy;
 
       const asOfs: AsOfs = AsOfs.of(sequence);
+      // @ts-expect-error
+      asOfs.asOfs = sequence;
 
       asOfs.equals(AsOfs.ofArray([asOf1, asOf2]));
 
@@ -455,23 +469,12 @@ describe('AsOfs', () => {
 
       expect(asOfs1).not.toBe(asOfs2);
       expect(asOfs1.size()).toBe(asOfs2.size());
-      for (let i: number = 0; i < asOfs1.size(); i++) {
-        const a1: Nullable<AsOf> = asOfs1.get(i);
-        const a2: Nullable<AsOf> = asOfs2.get(i);
 
-        if (a1 === null) {
-          fail();
-
-          return;
-        }
-        if (a2 === null) {
-          fail();
-
-          return;
-        }
+      asOfs1.forEach((a1: AsOf, i: number) => {
+        const a2: AsOf = asOfs2.get(i) as unknown as AsOf;
 
         expect(a1.equals(a2)).toBe(true);
-      }
+      });
     });
 
     it('returns AsOfs.empty() when original AsOfs is empty', () => {
@@ -512,6 +515,8 @@ describe('AsOfs', () => {
       sequence.toString = spy;
 
       const asOfs: AsOfs = AsOfs.of(sequence);
+      // @ts-expect-error
+      asOfs.asOfs = sequence;
 
       asOfs.toString();
 
@@ -531,12 +536,9 @@ describe('AsOfs', () => {
 
       const asOfs: AsOfs = AsOfs.of(sequence);
 
-      let i: number = 0;
-
-      for (const [, v] of asOfs) {
-        expect(v).toBe(sequence.get(i));
-        i++;
-      }
+      asOfs.forEach((a: AsOf, i: number) => {
+        expect(a).toBe(sequence.get(i));
+      });
     });
   });
 
@@ -555,6 +557,8 @@ describe('AsOfs', () => {
       sequence.every = spy;
 
       const asOfs: AsOfs = AsOfs.of(sequence);
+      // @ts-expect-error
+      asOfs.asOfs = sequence;
 
       asOfs.every(() => {
         return true;
@@ -579,6 +583,8 @@ describe('AsOfs', () => {
       sequence.some = spy;
 
       const asOfs: AsOfs = AsOfs.of(sequence);
+      // @ts-expect-error
+      asOfs.asOfs = sequence;
 
       asOfs.some(() => {
         return true;
