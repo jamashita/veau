@@ -14,13 +14,13 @@
 
 ```
 > node -v
-v14.5.0
+v15.5.0
 
 > npm -v
-6.14.5
+7.3.0
 
 > yarn -v
-1.22.5
+1.22.10
 ```
 
 ## Conventional commit
