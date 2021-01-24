@@ -2,7 +2,7 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { UUID, UUIDError } from '@jamashita/publikum-uuid';
 import { VeauAccountError } from './Error/VeauAccountError';
 
-export class VeauAccountID extends ValueObject<VeauAccountID, 'VeauAccountID'> {
+export class VeauAccountID extends ValueObject<'VeauAccountID'> {
   public readonly noun: 'VeauAccountID' = 'VeauAccountID';
   private readonly uuid: UUID;
 

@@ -35,7 +35,9 @@ describe('Terms', () => {
       project.get = spy;
 
       // @ts-expect-error
-      const terms: Terms = Terms.of(project);
+      const terms: Terms = Terms.of(Terms.all().terms);
+      // @ts-expect-error
+      terms.terms = project;
 
       terms.get(Term.MONTHLY.getTermID());
 
@@ -59,7 +61,9 @@ describe('Terms', () => {
       project.contains = spy;
 
       // @ts-expect-error
-      const terms: Terms = Terms.of(project);
+      const terms: Terms = Terms.of(Terms.all().terms);
+      // @ts-expect-error
+      terms.terms = project;
 
       terms.contains(Term.MONTHLY);
 
@@ -83,7 +87,9 @@ describe('Terms', () => {
       project.isEmpty = spy;
 
       // @ts-expect-error
-      const terms: Terms = Terms.of(project);
+      const terms: Terms = Terms.of(Terms.all().terms);
+      // @ts-expect-error
+      terms.terms = project;
 
       terms.isEmpty();
 
@@ -107,7 +113,9 @@ describe('Terms', () => {
       project.forEach = spy;
 
       // @ts-expect-error
-      const terms: Terms = Terms.of(project);
+      const terms: Terms = Terms.of(Terms.all().terms);
+      // @ts-expect-error
+      terms.terms = project;
 
       terms.forEach(() => {
         // NOOP
@@ -118,24 +126,6 @@ describe('Terms', () => {
   });
 
   describe('map', () => {
-    it('normal case', () => {
-      expect.assertions(1);
-
-      const ids: Array<TermID> = Terms.all().map<TermID>((term: Term) => {
-        return term.getTermID();
-      });
-
-      expect(ids).toHaveLength(Terms.all().size());
-    });
-  });
-
-  describe('equals', () => {
-    it('same instance', () => {
-      expect.assertions(1);
-
-      expect(Terms.all()).toBe(Terms.all());
-    });
-
     it('delegates its inner collection instance', () => {
       expect.assertions(1);
 
@@ -148,14 +138,26 @@ describe('Terms', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      project.equals = spy;
+      project.map = spy;
 
       // @ts-expect-error
-      const terms: Terms = Terms.of(project);
+      const terms: Terms = Terms.of(Terms.all().terms);
+      // @ts-expect-error
+      terms.terms = project;
 
-      terms.equals(Terms.all());
+      terms.map<TermID>((term: Term) => {
+        return term.getTermID();
+      });
 
       expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true if the same instance given', () => {
+      expect.assertions(1);
+
+      expect(Terms.all()).toBe(Terms.all());
     });
   });
 
@@ -175,7 +177,9 @@ describe('Terms', () => {
       project.toString = spy;
 
       // @ts-expect-error
-      const terms: Terms = Terms.of(project);
+      const terms: Terms = Terms.of(Terms.all().terms);
+      // @ts-expect-error
+      terms.terms = project;
 
       terms.toString();
 
@@ -184,7 +188,7 @@ describe('Terms', () => {
   });
 
   describe('iterator', () => {
-    it('normal case', () => {
+    it('delegates its inner collection instance', () => {
       expect.assertions(2);
 
       const arr: Array<[TermID, Term]> = [
@@ -198,8 +202,11 @@ describe('Terms', () => {
 
       let i: number = 0;
 
-      for (const pair of terms) {
-        expect(pair.getValue()).toBe(arr[i][1]);
+      for (const [, v] of terms) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const [, t]: [TermID, Term] = arr[i]!;
+
+        expect(v).toBe(t);
         i++;
       }
     });
@@ -221,7 +228,9 @@ describe('Terms', () => {
       project.every = spy;
 
       // @ts-expect-error
-      const terms: Terms = Terms.of(project);
+      const terms: Terms = Terms.of(Terms.all().terms);
+      // @ts-expect-error
+      terms.terms = project;
 
       terms.every(() => {
         return true;
@@ -247,7 +256,9 @@ describe('Terms', () => {
       project.some = spy;
 
       // @ts-expect-error
-      const terms: Terms = Terms.of(project);
+      const terms: Terms = Terms.of(Terms.all().terms);
+      // @ts-expect-error
+      terms.terms = project;
 
       terms.some(() => {
         return true;
@@ -273,7 +284,9 @@ describe('Terms', () => {
       project.values = spy;
 
       // @ts-expect-error
-      const terms: Terms = Terms.of(project);
+      const terms: Terms = Terms.of(Terms.all().terms);
+      // @ts-expect-error
+      terms.terms = project;
 
       terms.values();
 

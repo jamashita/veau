@@ -2,7 +2,7 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { UUID, UUIDError } from '@jamashita/publikum-uuid';
 import { TermError } from './Error/TermError';
 
-export class TermID extends ValueObject<TermID, 'TermID'> {
+export class TermID extends ValueObject<'TermID'> {
   public readonly noun: 'TermID' = 'TermID';
   private readonly uuid: UUID;
 

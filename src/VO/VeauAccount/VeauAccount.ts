@@ -16,7 +16,7 @@ export type VeauAccountJSON = Readonly<{
   name: string;
 }>;
 
-export class VeauAccount extends ValueObject<VeauAccount, 'VeauAccount'> implements JSONable<VeauAccountJSON> {
+export class VeauAccount extends ValueObject<'VeauAccount'> implements JSONable<VeauAccountJSON> {
   public readonly noun: 'VeauAccount' = 'VeauAccount';
   private readonly veauAccountID: VeauAccountID;
   private readonly languageID: LanguageID;

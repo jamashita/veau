@@ -1,9 +1,9 @@
-import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
-import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
+import { ImmutableProject, Project, Quantity, ReadonlyProject } from '@jamashita/publikum-collection';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Term } from './Term';
 import { TermID } from './TermID';
 
-export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
+export class Terms extends Quantity<TermID, Term, 'Terms'> {
   public readonly noun: 'Terms' = 'Terms';
   private readonly terms: Project<TermID, Term>;
 
@@ -19,12 +19,12 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
     return Terms.ALL;
   }
 
-  private static of(terms: Project<TermID, Term>): Terms {
-    return new Terms(terms);
+  private static of(terms: ReadonlyProject<TermID, Term>): Terms {
+    return Terms.ofMap(terms.toMap());
   }
 
   private static ofMap(terms: ReadonlyMap<TermID, Term>): Terms {
-    return Terms.of(ImmutableProject.of<TermID, Term>(terms));
+    return new Terms(ImmutableProject.ofMap<TermID, Term>(terms));
   }
 
   private static ofArray(terms: ReadonlyArray<Term>): Terms {
@@ -58,7 +58,7 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
     return this.terms.isEmpty();
   }
 
-  public forEach(iterator: CancellableEnumerator<TermID, Term>): void {
+  public forEach(iterator: Enumerator<TermID, Term>): void {
     this.terms.forEach(iterator);
   }
 
@@ -67,15 +67,11 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
       return true;
     }
 
-    return this.terms.equals(other.terms);
+    return false;
   }
 
   public serialize(): string {
     return this.terms.toString();
-  }
-
-  public [Symbol.iterator](): Iterator<Pair<TermID, Term>> {
-    return this.terms[Symbol.iterator]();
   }
 
   public every(predicate: BinaryPredicate<Term, TermID>): boolean {
@@ -90,15 +86,20 @@ export class Terms extends Quantity<Terms, TermID, Term, 'Terms'> {
     return this.terms.values();
   }
 
-  public map<U>(mapper: Mapper<Term, U>): Array<U> {
-    const array: Array<U> = [];
-    let i: number = 0;
+  // TODO TESTS
+  public map<U>(mapper: Mapper<Term, U>): Project<TermID, U> {
+    return this.terms.map<U>(mapper);
+  }
 
-    this.forEach((term: Term) => {
-      array.push(mapper(term, i));
-      i++;
-    });
+  public filter(predicate: BinaryPredicate<Term, TermID>): Terms {
+    return Terms.of(this.terms.filter(predicate));
+  }
 
-    return array;
+  public find(predicate: BinaryPredicate<Term, TermID>): Nullable<Term> {
+    return this.terms.find(predicate);
+  }
+
+  public iterator(): Iterator<[TermID, Term]> {
+    return this.terms[Symbol.iterator]();
   }
 }
