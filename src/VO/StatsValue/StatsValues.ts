@@ -1,22 +1,18 @@
-import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
+import { ImmutableProject, Project, Quantity, ReadonlyProject } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfs } from '../AsOf/AsOfs';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
-export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsValues'> implements Cloneable<StatsValues>, JSONable<Array<StatsValueJSON>> {
+export class StatsValues extends Quantity<AsOf, StatsValue, 'StatsValues'> implements Cloneable<StatsValues>, JSONable<Array<StatsValueJSON>> {
   public readonly noun: 'StatsValues' = 'StatsValues';
-  private readonly vals: Project<AsOf, StatsValue>;
+  private readonly vals: ImmutableProject<AsOf, StatsValue>;
 
   private static readonly EMPTY: StatsValues = new StatsValues(ImmutableProject.empty<AsOf, StatsValue>());
 
-  public static of(values: Project<AsOf, StatsValue>): StatsValues {
-    if (values.isEmpty()) {
-      return StatsValues.empty();
-    }
-
-    return new StatsValues(values);
+  public static of(values: ReadonlyProject<AsOf, StatsValue>): StatsValues {
+    return StatsValues.ofMap(values.toMap());
   }
 
   public static ofArray(values: ReadonlyArray<StatsValue>): StatsValues {
@@ -49,6 +45,14 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.ofArray(arr);
   }
 
+  protected static ofMap(values: ReadonlyMap<AsOf, StatsValue>): StatsValues {
+    if (values.size === 0) {
+      return StatsValues.empty();
+    }
+
+    return new StatsValues(ImmutableProject.ofMap<AsOf, StatsValue>(values));
+  }
+
   public static validate(n: unknown): n is Array<StatsValueJSON> {
     if (!Kind.isArray(n)) {
       return false;
@@ -63,11 +67,7 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.EMPTY;
   }
 
-  protected static ofMap(values: ReadonlyMap<AsOf, StatsValue>): StatsValues {
-    return StatsValues.of(ImmutableProject.of<AsOf, StatsValue>(values));
-  }
-
-  protected constructor(values: Project<AsOf, StatsValue>) {
+  protected constructor(values: ImmutableProject<AsOf, StatsValue>) {
     super();
     this.vals = values;
   }
@@ -84,7 +84,7 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return this.vals.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<AsOf, StatsValue>): void {
+  public forEach(iteration: Enumerator<AsOf, StatsValue>): void {
     this.vals.forEach(iteration);
   }
 
@@ -128,10 +128,6 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return strs.join(', ');
   }
 
-  public [Symbol.iterator](): Iterator<Pair<AsOf, StatsValue>> {
-    return this.vals[Symbol.iterator]();
-  }
-
   public every(predicate: BinaryPredicate<StatsValue, AsOf>): boolean {
     return this.vals.every(predicate);
   }
@@ -144,6 +140,22 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return this.vals.values();
   }
 
+  public filter(predicate: BinaryPredicate<StatsValue, AsOf>): StatsValues {
+    return StatsValues.of(this.vals.filter(predicate));
+  }
+
+  public find(predicate: BinaryPredicate<StatsValue, AsOf>): Nullable<StatsValue> {
+    return this.vals.find(predicate);
+  }
+
+  public iterator(): Iterator<[AsOf, StatsValue]> {
+    return this.vals[Symbol.iterator]();
+  }
+
+  public map<W>(mapper: Mapper<StatsValue, W>): Project<AsOf, W> {
+    return this.vals.map<W>(mapper);
+  }
+
   public set(statsValue: StatsValue): StatsValues {
     return StatsValues.of(this.vals.set(statsValue.getAsOf(), statsValue));
   }
@@ -153,6 +165,6 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
   }
 
   public getAsOfs(): AsOfs {
-    return AsOfs.ofArray([...this.vals.toMap().keys()]);
+    return AsOfs.ofSpread(...this.vals.toMap().keys());
   }
 }

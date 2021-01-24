@@ -1,7 +1,6 @@
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
-import { MockNumericalValue } from '../../NumericalValue/Mock/MockNumericalValue';
-import { NumericalValue } from '../../NumericalValue/NumericalValue';
+import { ValueContained } from '../../NumericalValue/ValueContained';
 import { StatsValueError } from '../Error/StatsValueError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 
@@ -139,31 +138,31 @@ describe('StatsValue', () => {
         new MockAsOf({
           day: 1
         }),
-        new MockNumericalValue(5)
+        ValueContained.of(5)
       );
       const statsValue2: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 2
         }),
-        new MockNumericalValue(0)
+        ValueContained.of(0)
       );
       const statsValue3: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 1
         }),
-        new MockNumericalValue(-1)
+        ValueContained.of(-1)
       );
       const statsValue4: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 1
         }),
-        new MockNumericalValue(1)
+        ValueContained.of(1)
       );
       const statsValue5: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 1
         }),
-        new MockNumericalValue(5)
+        ValueContained.of(5)
       );
 
       expect(statsValue1.equals(statsValue1)).toBe(true);
@@ -178,7 +177,7 @@ describe('StatsValue', () => {
     it('normal case', () => {
       expect.assertions(1);
 
-      const statsValue: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), NumericalValue.of(1));
+      const statsValue: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), ValueContained.of(1));
 
       expect(statsValue.toJSON()).toStrictEqual({
         asOf: '2000-01-01',
@@ -193,7 +192,7 @@ describe('StatsValue', () => {
 
       const asOf: string = '2000-01-01';
       const value: number = 1;
-      const statsValue: StatsValue = StatsValue.of(AsOf.ofString(asOf), NumericalValue.of(value));
+      const statsValue: StatsValue = StatsValue.of(AsOf.ofString(asOf), ValueContained.of(value));
 
       expect(statsValue.toString()).toBe(`${asOf} ${value}`);
     });

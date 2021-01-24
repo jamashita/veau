@@ -3,6 +3,7 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfError } from '../AsOf/Error/AsOfError';
+import { NumericalValue } from '../NumericalValue/NumericalValue';
 import { ValueContained } from '../NumericalValue/ValueContained';
 import { StatsValueError } from './Error/StatsValueError';
 
@@ -19,9 +20,9 @@ export type StatsValueRow = Readonly<{
 export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<StatsValueJSON> {
   public readonly noun: 'StatsValue' = 'StatsValue';
   private readonly asOf: AsOf;
-  private readonly value: ValueContained;
+  private readonly value: NumericalValue;
 
-  public static of(asOf: AsOf, value: ValueContained): StatsValue {
+  public static of(asOf: AsOf, value: NumericalValue): StatsValue {
     return new StatsValue(asOf, value);
   }
 
@@ -65,7 +66,7 @@ export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<St
     return true;
   }
 
-  protected constructor(asOf: AsOf, value: ValueContained) {
+  protected constructor(asOf: AsOf, value: NumericalValue) {
     super();
     this.asOf = asOf;
     this.value = value;
@@ -105,7 +106,7 @@ export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<St
     return this.asOf;
   }
 
-  public getValue(): ValueContained {
+  public getValue(): NumericalValue {
     return this.value;
   }
 }

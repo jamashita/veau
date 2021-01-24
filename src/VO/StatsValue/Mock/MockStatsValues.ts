@@ -11,7 +11,7 @@ export class MockStatsValues extends StatsValues {
       map.set(value.getAsOf(), value);
     });
 
-    return ImmutableProject.of<AsOf, StatsValue>(map);
+    return ImmutableProject.ofMap<AsOf, StatsValue>(map);
   }
 
   public constructor(...values: ReadonlyArray<StatsValue>) {
