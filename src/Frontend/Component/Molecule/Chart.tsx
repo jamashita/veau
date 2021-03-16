@@ -1,14 +1,13 @@
 import { Kind, Nullable } from '@jamashita/publikum-type';
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-
+import { Stats } from '../../../Entity/Stats/Stats';
 import { Color } from '../../../VO/Color/Color';
 import { Colors } from '../../../VO/Color/Colors';
-import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 
 type Props = Readonly<{
-  stats: StatsDisplay;
+  stats: Stats;
 }>;
 type State = Readonly<{}>;
 
@@ -21,11 +20,7 @@ export class Chart extends React.Component<Props, State> {
       stats
     } = this.props;
 
-    if (stats.equals(nextProps.stats)) {
-      return false;
-    }
-
-    return true;
+    return !stats.same(nextProps.stats);
   }
 
   public render(): React.ReactNode {

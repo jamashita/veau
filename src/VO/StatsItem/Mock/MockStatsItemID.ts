@@ -1,5 +1,4 @@
 import { UUID } from '@jamashita/publikum-uuid';
-
 import { StatsItemID } from '../StatsItemID';
 
 export class MockStatsItemID extends StatsItemID {

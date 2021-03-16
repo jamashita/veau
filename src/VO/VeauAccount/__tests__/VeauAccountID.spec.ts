@@ -1,12 +1,12 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
-
-import { VeauAccountIDError } from '../Error/VeauAccountIDError';
+import { VeauAccountError } from '../Error/VeauAccountError';
 import { VeauAccountID } from '../VeauAccountID';
 
 describe('VeauAccountID', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
 
       const veauAccountID: VeauAccountID = VeauAccountID.of(uuid);
@@ -16,36 +16,39 @@ describe('VeauAccountID', () => {
   });
 
   describe('ofString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
 
-      const superposition: Superposition<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString(uuid.get());
-      const schrodinger: Schrodinger<VeauAccountID, VeauAccountIDError> = await superposition.terminate();
+      const veauAccountID: VeauAccountID = VeauAccountID.ofString(uuid.get());
 
-      expect(schrodinger.isAlive()).toBe(true);
+      expect(veauAccountID.get().equals(uuid)).toBe(true);
     });
 
-    it('returns Dead when uuid length string is not given', async () => {
-      const superposition: Superposition<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString('cinq');
-      const schrodinger: Schrodinger<VeauAccountID, VeauAccountIDError> = await superposition.terminate();
+    it('returns Dead when uuid length string is not given', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
-      }).toThrow(VeauAccountIDError);
+        VeauAccountID.ofString('cinq');
+      }).toThrow(VeauAccountError);
     });
   });
 
   describe('generate', () => {
     it('always gives UUID length string', () => {
+      expect.assertions(100);
+
       for (let i: number = 0; i < 100; i++) {
-        expect(VeauAccountID.generate().get().get().length).toBe(UUID.size());
+        expect(VeauAccountID.generate().get().get()).toHaveLength(UUID.size());
       }
     });
   });
 
   describe('equals', () => {
     it('returns true if the property is the same', () => {
+      expect.assertions(3);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const veauAccountID1: VeauAccountID = VeauAccountID.of(uuid1);
@@ -60,6 +63,8 @@ describe('VeauAccountID', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
       const veauAccountID: VeauAccountID = VeauAccountID.of(uuid);
 

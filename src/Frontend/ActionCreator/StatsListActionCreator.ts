@@ -1,5 +1,4 @@
 import { Stats } from '../../Entity/Stats/Stats';
-import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import { ISO639 } from '../../VO/Language/ISO639';
 import { ISO3166 } from '../../VO/Region/ISO3166';
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
@@ -14,13 +13,11 @@ import {
   STATS_LIST_NAME_TYPED,
   STATS_LIST_OPEN_STATS_MODAL,
   STATS_LIST_RESET_STATS,
-  STATS_LIST_RESET_STATS_DISPLAY,
   STATS_LIST_RESET_STATS_ITEMS,
   STATS_LIST_SAVE_STATS,
   STATS_LIST_TERM_SELECTED,
   STATS_LIST_UNIT_TYPED,
   STATS_LIST_UPDATE_STATS,
-  STATS_LIST_UPDATE_STATS_DISPLAY,
   STATS_LIST_UPDATE_STATS_ITEMS,
   StatsListCloseNewStatsModalAction,
   StatsListInitializeAction,
@@ -29,13 +26,11 @@ import {
   StatsListNameTypedAction,
   StatsListOpenNewStatsModalAction,
   StatsListResetStatsAction,
-  StatsListResetStatsDisplayAction,
   StatsListResetStatsItemsAction,
   StatsListSaveStatsAction,
   StatsListTermSelectedAction,
   StatsListUnitTypedAction,
   StatsListUpdateStatsAction,
-  StatsListUpdateStatsDisplayAction,
   StatsListUpdateStatsItemsAction
 } from '../Action';
 
@@ -102,19 +97,6 @@ export const updateNewStats = (stats: Stats): StatsListUpdateStatsAction => {
 export const resetNewStats = (): StatsListResetStatsAction => {
   return {
     type: STATS_LIST_RESET_STATS
-  };
-};
-
-export const updateNewStatsDisplay = (display: StatsDisplay): StatsListUpdateStatsDisplayAction => {
-  return {
-    type: STATS_LIST_UPDATE_STATS_DISPLAY,
-    display
-  };
-};
-
-export const resetNewStatsDisplay = (): StatsListResetStatsDisplayAction => {
-  return {
-    type: STATS_LIST_RESET_STATS_DISPLAY
   };
 };
 

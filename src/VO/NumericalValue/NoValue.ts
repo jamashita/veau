@@ -1,7 +1,10 @@
+import { ValueObject } from '@jamashita/publikum-object';
 import { NumericalValueError } from './Error/NumericalValueError';
 import { NumericalValue } from './NumericalValue';
 
-export class NoValue extends NumericalValue {
+export class NoValue extends ValueObject<'NoValue'> implements NumericalValue<'NoValue'> {
+  public readonly noun: 'NoValue' = 'NoValue';
+
   private static readonly INSTANCE: NoValue = new NoValue();
 
   public static of(): NoValue {
@@ -9,7 +12,7 @@ export class NoValue extends NumericalValue {
   }
 
   protected constructor() {
-    super(0);
+    super();
   }
 
   public get(): never {

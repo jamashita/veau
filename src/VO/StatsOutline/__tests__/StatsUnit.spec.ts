@@ -3,20 +3,28 @@ import { StatsUnit } from '../StatsUnit';
 describe('StatsUnit', () => {
   describe('empty', () => {
     it('must be an empty unit', () => {
+      expect.assertions(1);
+
       expect(StatsUnit.empty().get()).toBe('');
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(StatsUnit.empty()).toBe(StatsUnit.empty());
     });
   });
 
   describe('of', () => {
     it('if the unit is empty, returns StatsUnit.empty()', () => {
+      expect.assertions(1);
+
       expect(StatsUnit.of('')).toBe(StatsUnit.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const unit1: string = 'stats item unit 1';
       const unit2: string = 'stats item unit 2';
       const unit3: string = 'stats item unit 3';
@@ -29,6 +37,8 @@ describe('StatsUnit', () => {
 
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
+      expect.assertions(3);
+
       const unit1: StatsUnit = StatsUnit.of('stats unit 1');
       const unit2: StatsUnit = StatsUnit.of('stats unit 2');
       const unit3: StatsUnit = StatsUnit.of('stats unit 1');
@@ -41,6 +51,8 @@ describe('StatsUnit', () => {
 
   describe('isEmpty', () => {
     it('returns true if the unit is empty string', () => {
+      expect.assertions(3);
+
       const unit1: StatsUnit = StatsUnit.empty();
       const unit2: StatsUnit = StatsUnit.of('');
       const unit3: StatsUnit = StatsUnit.of('p');
@@ -53,6 +65,8 @@ describe('StatsUnit', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const unit: string = 'stats unit';
       const statsUnit: StatsUnit = StatsUnit.of(unit);
 

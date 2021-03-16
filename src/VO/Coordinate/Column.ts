@@ -1,7 +1,5 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-
 import { ColumnError } from './Error/ColumnError';
 
 const ORIGIN_VALUE: number = 0;
@@ -11,21 +9,18 @@ export class Column extends ValueObject<Column, 'Column'> {
   private readonly column: number;
   private static readonly ORIGIN: Column = new Column(ORIGIN_VALUE);
 
-  public static of(column: number): Superposition<Column, ColumnError> {
+  public static of(column: number): Column {
     if (column < 0) {
-      return Superposition.dead<Column, ColumnError>(
-        new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`),
-        ColumnError
-      );
+      throw new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`);
     }
     if (column === ORIGIN_VALUE) {
-      return Superposition.alive<Column, ColumnError>(Column.origin(), ColumnError);
+      return Column.origin();
     }
     if (Kind.isInteger(column)) {
-      return Superposition.alive<Column, ColumnError>(new Column(column), ColumnError);
+      return new Column(column);
     }
 
-    return Superposition.dead<Column, ColumnError>(new ColumnError('ILLEGAL COLUMN SPECIFIED'), ColumnError);
+    throw new ColumnError(`ILLEGAL COLUMN SPECIFIED: ${Kind.notate(column)}`);
   }
 
   public static origin(): Column {

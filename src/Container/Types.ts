@@ -1,5 +1,4 @@
-/* eslint-disable  @typescript-eslint/typedef */
-
+// eslint-disable-next-line @typescript-eslint/typedef
 export const Type = {
   SessionAJAXCommand: Symbol(),
   StatsAJAXCommand: Symbol(),
@@ -16,6 +15,7 @@ export const Type = {
   StatsListEpic: Symbol(),
   AJAX: Symbol(),
   Cache: Symbol(),
+  Logger: Symbol(),
   MySQL: Symbol(),
   Redis: Symbol(),
   AuthenticationInteractor: Symbol(),

@@ -1,10 +1,8 @@
-import { Absent, Present } from '@jamashita/publikum-monad';
 import { Kind, Nullable } from '@jamashita/publikum-type';
 import { createMatchSelector, matchSelectorFn, RouterRootState } from 'connected-react-router';
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { match } from 'react-router-dom';
 import { Dispatch } from 'redux';
-
 import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { Column } from '../../../VO/Coordinate/Column';
@@ -49,34 +47,32 @@ type MatchParam = Readonly<{
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   const {
     statsEdit: {
-      display: stats,
+      stats,
       item,
       selectingItem
     },
     locale
   } = state;
 
-  const selector: matchSelectorFn<RouterRootState, MatchParam> = createMatchSelector<RouterRootState, MatchParam>(
-    Endpoints.STATS_EDIT
-  );
+  const selector: matchSelectorFn<RouterRootState, MatchParam> = createMatchSelector<RouterRootState, MatchParam>(Endpoints.STATS_EDIT);
   const matchParam: Nullable<match<MatchParam>> = selector(state);
 
   if (Kind.isNull(matchParam)) {
     return {
       stats,
-      item: item.display(),
+      item,
       selectingItem,
       locale,
-      id: Absent.of<string>()
+      id: null
     };
   }
 
   return {
     stats,
-    item: item.display(),
+    item,
     selectingItem,
     locale,
-    id: Present.of<string>(matchParam.params.id)
+    id: matchParam.params.id
   };
 };
 
@@ -139,10 +135,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const StatsEdit: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps,
-  DispatchProps,
-  OwnProps,
-  State>(
+export const StatsEdit: ConnectedComponent<typeof Component, StateProps> = connect<StateProps, DispatchProps, OwnProps, State>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

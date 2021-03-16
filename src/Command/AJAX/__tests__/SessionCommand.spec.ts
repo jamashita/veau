@@ -1,11 +1,9 @@
 import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
-
-import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { SessionCommand } from '../SessionCommand';
@@ -13,6 +11,8 @@ import { SessionCommand } from '../SessionCommand';
 describe('SessionCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const sessionCommand1: SessionCommand = vault.get<SessionCommand>(Type.SessionAJAXCommand);
       const sessionCommand2: SessionCommand = vault.get<SessionCommand>(Type.SessionAJAXCommand);
 
@@ -23,12 +23,14 @@ describe('SessionCommand', () => {
 
   describe('delete', () => {
     it('normal case', async () => {
-      const ajax: MockAJAX = new MockAJAX();
+      expect.assertions(2);
+
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.delete = stub;
       stub.resolves({
-        status: OK,
+        status: StatusCodes.OK,
         body: {}
       });
 
@@ -40,12 +42,14 @@ describe('SessionCommand', () => {
     });
 
     it('throws AJAXError', async () => {
-      const ajax: MockAJAX = new MockAJAX();
+      expect.assertions(2);
+
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.delete = stub;
       stub.resolves({
-        status: INTERNAL_SERVER_ERROR,
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
         body: {}
       });
 

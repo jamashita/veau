@@ -1,30 +1,21 @@
 import { DataSourceError } from '@jamashita/publikum-error';
-import {
-  Heisenberg,
-  Present,
-  Superposition,
-  Unscharferelation,
-  UnscharferelationError
-} from '@jamashita/publikum-monad';
+import { Kind, Nullable } from '@jamashita/publikum-type';
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
-import { catchError, map, mapTo, mergeMap } from 'rxjs/operators';
-
+import { map, mapTo, mergeMap } from 'rxjs/operators';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Type } from '../../Container/Types';
-import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
+import { StatsItems } from '../../Entity/StatsItem/StatsItems';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsQuery } from '../../Query/Interface/IStatsQuery';
-import { AsOf } from '../../VO/AsOf/AsOf';
-
-import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import { Language } from '../../VO/Language/Language';
 import { Region } from '../../VO/Region/Region';
+import { StatsError } from '../../VO/StatsOutline/Error/StatsError';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
@@ -46,7 +37,6 @@ import {
   STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
   STATS_EDIT_START_DATE_DETERMINED,
   STATS_EDIT_UNIT_TYPED,
-  STATS_EDIT_UPDATE_STATS,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
   StatsEditInitializeAction,
@@ -69,12 +59,10 @@ import { appearNotification } from '../ActionCreator/NotificationActionCreator';
 import { pushToStatsList } from '../ActionCreator/RedirectActionCreator';
 import {
   clearSelectingItem,
-  resetStatsDisplay,
   resetStatsItem,
   selectItem,
   updateSelectingItem,
   updateStats,
-  updateStatsDisplay,
   updateStatsItem
 } from '../ActionCreator/StatsEditActionCreator';
 import { State } from '../State';
@@ -117,8 +105,7 @@ export class StatsEditEpic {
       this.rowMoved(action$, state$),
       this.invalidValueInput(action$),
       this.removeItem(action$, state$),
-      this.save(action$, state$),
-      this.modify(action$, state$)
+      this.save(action$, state$)
     );
   }
 
@@ -127,21 +114,18 @@ export class StatsEditEpic {
       ofType<VeauAction, StatsEditInitializeAction>(STATS_EDIT_INITIALIZE),
       mergeMap<StatsEditInitializeAction, Observable<VeauAction>>((action: StatsEditInitializeAction) => {
         return from<Promise<Observable<VeauAction>>>(
-          this.statsQuery.findByStatsID(action.statsID).transform<Observable<VeauAction>, Error>(
-            (stats: Stats) => {
-              return of<VeauAction>(updateStats(stats), clearSelectingItem());
-            },
-            (err: StatsError | NoSuchElementError | DataSourceError) => {
-              if (err instanceof NoSuchElementError) {
-                return of<VeauAction>(
-                  pushToStatsList(),
-                  appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND')
-                );
-              }
-
-              return of<VeauAction>(pushToStatsList());
+          this.statsQuery.findByStatsID(action.statsID).transform<Observable<VeauAction>, Error>((stats: Stats) => {
+            return of<VeauAction>(updateStats(stats), clearSelectingItem());
+          }, (err: StatsError | NoSuchElementError | DataSourceError) => {
+            if (err instanceof NoSuchElementError) {
+              return of<VeauAction>(
+                pushToStatsList(),
+                appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND')
+              );
             }
-          ).get()
+
+            return of<VeauAction>(pushToStatsList());
+          }).get()
         ).pipe<VeauAction>(
           mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
             return observable;
@@ -228,10 +212,7 @@ export class StatsEditEpic {
     );
   }
 
-  public iso639Selected(
-    action$: ActionsObservable<VeauAction>,
-    state$: StateObservable<State>
-  ): Observable<VeauAction> {
+  public iso639Selected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
     return action$.pipe<StatsEditISO639SelectedAction, VeauAction>(
       ofType<VeauAction, StatsEditISO639SelectedAction>(STATS_EDIT_ISO639_SELECTED),
       mergeMap<StatsEditISO639SelectedAction, Observable<VeauAction>>((action: StatsEditISO639SelectedAction) => {
@@ -244,22 +225,19 @@ export class StatsEditEpic {
         } = state$;
 
         return from<Promise<Observable<VeauAction>>>(
-          this.languageQuery.findByISO639(action.iso639).transform<Observable<VeauAction>, Error>(
-            (language: Language) => {
-              const newStats: Stats = Stats.of(
-                stats.getOutline(),
-                language,
-                stats.getRegion(),
-                stats.getTerm(),
-                stats.getItems()
-              );
+          this.languageQuery.findByISO639(action.iso639).transform<Observable<VeauAction>, Error>((language: Language) => {
+            const newStats: Stats = Stats.of(
+              stats.getOutline(),
+              language,
+              stats.getRegion(),
+              stats.getTerm(),
+              stats.getItems()
+            );
 
-              return of<VeauAction>(updateStats(newStats));
-            },
-            () => {
-              return of<VeauAction>(nothing());
-            }
-          ).get()
+            return of<VeauAction>(updateStats(newStats));
+          }, () => {
+            return of<VeauAction>(nothing());
+          }).get()
         ).pipe<VeauAction>(
           mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
             return observable;
@@ -269,10 +247,7 @@ export class StatsEditEpic {
     );
   }
 
-  public iso3166Selected(
-    action$: ActionsObservable<VeauAction>,
-    state$: StateObservable<State>
-  ): Observable<VeauAction> {
+  public iso3166Selected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
     return action$.pipe<StatsEditISO3166SelectedAction, VeauAction>(
       ofType<VeauAction, StatsEditISO3166SelectedAction>(STATS_EDIT_ISO3166_SELECTED),
       mergeMap<StatsEditISO3166SelectedAction, Observable<VeauAction>>((action: StatsEditISO3166SelectedAction) => {
@@ -285,22 +260,19 @@ export class StatsEditEpic {
         } = state$;
 
         return from<Promise<Observable<VeauAction>>>(
-          this.regionQuery.findByISO3166(action.iso3166).transform<Observable<VeauAction>, Error>(
-            (region: Region) => {
-              const newStats: Stats = Stats.of(
-                stats.getOutline(),
-                stats.getLanguage(),
-                region,
-                stats.getTerm(),
-                stats.getItems()
-              );
+          this.regionQuery.findByISO3166(action.iso3166).transform<Observable<VeauAction>, Error>((region: Region) => {
+            const newStats: Stats = Stats.of(
+              stats.getOutline(),
+              stats.getLanguage(),
+              region,
+              stats.getTerm(),
+              stats.getItems()
+            );
 
-              return of<VeauAction>(updateStats(newStats));
-            },
-            () => {
-              return of<VeauAction>();
-            }
-          ).get()
+            return of<VeauAction>(updateStats(newStats));
+          }, () => {
+            return of<VeauAction>();
+          }).get()
         ).pipe<VeauAction>(
           mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
             return observable;
@@ -322,9 +294,11 @@ export class StatsEditEpic {
           }
         } = state$;
 
-        stats.setData(action.coordinate, action.value);
+        const duplicated: Stats = stats.duplicate();
 
-        return of<VeauAction>(updateStats(stats));
+        duplicated.setData(action.coordinate, action.value);
+
+        return of<VeauAction>(updateStats(duplicated));
       })
     );
   }
@@ -341,9 +315,11 @@ export class StatsEditEpic {
           }
         } = state$;
 
-        stats.deleteData(action.coordinate);
+        const duplicated: Stats = stats.duplicate();
 
-        return of<VeauAction>(updateStats(stats));
+        duplicated.deleteData(action.coordinate);
+
+        return of<VeauAction>(updateStats(duplicated));
       })
     );
   }
@@ -380,12 +356,16 @@ export class StatsEditEpic {
           }
         } = state$;
 
+        const items: StatsItems = stats.getItems();
+
+        items.add(item);
+
         const newStats: Stats = Stats.of(
           stats.getOutline(),
           stats.getLanguage(),
           stats.getRegion(),
           stats.getTerm(),
-          stats.getItems().add(item),
+          items,
           stats.getStartDate()
         );
 
@@ -409,22 +389,21 @@ export class StatsEditEpic {
           }
         } = state$;
 
-        return from<Promise<Heisenberg<StatsItem>>>(stats.getRow(action.row).terminate()).pipe<VeauAction>(
-          mergeMap<Heisenberg<StatsItem>, Observable<VeauAction>>((item: Heisenberg<StatsItem>) => {
-            return of<VeauAction>(
-              selectItem(item, action.row),
-              updateStats(stats)
-            );
-          })
+        const item: Nullable<StatsItem> = stats.getRow(action.row);
+
+        if (Kind.isNull(item)) {
+          return of<VeauAction>(nothing());
+        }
+
+        return of<VeauAction>(
+          selectItem(item, action.row),
+          updateStats(stats)
         );
       })
     );
   }
 
-  public selectingItemNameTyped(
-    action$: ActionsObservable<VeauAction>,
-    state$: StateObservable<State>
-  ): Observable<VeauAction> {
+  public selectingItemNameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
     return action$.pipe<StatsEditSelectingItemNameTypedAction, VeauAction>(
       ofType<VeauAction, StatsEditSelectingItemNameTypedAction>(STATS_EDIT_SELECTING_ITEM_NAME_TYPED),
       mergeMap<StatsEditSelectingItemNameTypedAction, Observable<VeauAction>>(
@@ -439,32 +418,21 @@ export class StatsEditEpic {
             }
           } = state$;
 
-          return from<Promise<Observable<VeauAction>>>(
-            Superposition.playground<StatsItem, UnscharferelationError>(() => {
-              return selectingItem.get();
-            }, UnscharferelationError).transform<Observable<VeauAction>, Error>(
-              (statsItem: StatsItem) => {
-                const newSelectingItem: StatsItem = StatsItem.of(
-                  statsItem.getStatsItemID(),
-                  action.name,
-                  statsItem.getValues()
-                );
+          if (Kind.isNull(selectingItem)) {
+            return of<VeauAction>(nothing());
+          }
 
-                stats.replaceItem(newSelectingItem, selectingRow);
+          const newSelectingItem: StatsItem = StatsItem.of(
+            selectingItem.getStatsItemID(),
+            action.name,
+            selectingItem.getValues()
+          );
 
-                return of<VeauAction>(
-                  updateSelectingItem(Present.of<StatsItem>(newSelectingItem)),
-                  updateStats(stats)
-                );
-              },
-              () => {
-                return of<VeauAction>(nothing());
-              }
-            ).get()
-          ).pipe<VeauAction>(
-            mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
-              return observable;
-            })
+          stats.replaceItem(newSelectingItem, selectingRow);
+
+          return of<VeauAction>(
+            updateSelectingItem(newSelectingItem),
+            updateStats(stats)
           );
         }
       )
@@ -493,7 +461,7 @@ export class StatsEditEpic {
             stats.getRegion(),
             stats.getTerm(),
             stats.getItems(),
-            Unscharferelation.present<AsOf>(action.startDate)
+            action.startDate
           );
 
           return of<VeauAction>(updateStats(newStats));
@@ -585,30 +553,6 @@ export class StatsEditEpic {
             })
           ),
           of<VeauAction>(loaded())
-        );
-      })
-    );
-  }
-
-  public modify(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<VeauAction, VeauAction>(
-      ofType<VeauAction, VeauAction>(STATS_EDIT_UPDATE_STATS),
-      mergeMap<VeauAction, Observable<VeauAction>>(() => {
-        const {
-          value: {
-            statsEdit: {
-              stats
-            }
-          }
-        } = state$;
-
-        return from<Promise<StatsDisplay>>(stats.display().get()).pipe(
-          mergeMap<StatsDisplay, Observable<VeauAction>>((display: StatsDisplay) => {
-            return of<VeauAction>(updateStatsDisplay(display), clearSelectingItem());
-          }),
-          catchError<VeauAction, Observable<VeauAction>>(() => {
-            return of<VeauAction>(resetStatsDisplay());
-          })
         );
       })
     );

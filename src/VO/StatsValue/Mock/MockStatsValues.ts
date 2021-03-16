@@ -1,5 +1,4 @@
 import { ImmutableProject, Project } from '@jamashita/publikum-collection';
-
 import { AsOf } from '../../AsOf/AsOf';
 import { StatsValue } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
@@ -12,10 +11,10 @@ export class MockStatsValues extends StatsValues {
       map.set(value.getAsOf(), value);
     });
 
-    return ImmutableProject.of<AsOf, StatsValue>(map);
+    return ImmutableProject.ofMap<AsOf, StatsValue>(map);
   }
 
-  public constructor(...values: Array<StatsValue>) {
-    super(MockStatsValues.toProject(values));
+  public constructor(...values: ReadonlyArray<StatsValue>) {
+    super(MockStatsValues.toProject([...values]));
   }
 }

@@ -1,16 +1,13 @@
 import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
-import { BinaryPredicate, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
-
-import { RegionError } from './Error/RegionError';
-import { RegionsError } from './Error/RegionsError';
+import { BinaryPredicate, Kind, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
 import { Region, RegionJSON, RegionRow } from './Region';
 import { RegionID } from './RegionID';
 
 export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> implements JSONable<Array<RegionJSON>> {
   public readonly noun: 'Regions' = 'Regions';
   private readonly regions: Project<RegionID, Region>;
+
   private static readonly EMPTY: Regions = new Regions(ImmutableProject.empty<RegionID, Region>());
 
   public static of(regions: Project<RegionID, Region>): Regions {
@@ -21,7 +18,7 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return new Regions(regions);
   }
 
-  public static ofArray(regions: Array<Region>): Regions {
+  public static ofArray(regions: ReadonlyArray<Region>): Regions {
     const map: Map<RegionID, Region> = new Map<RegionID, Region>();
 
     regions.forEach((region: Region) => {
@@ -35,45 +32,37 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return Regions.ofArray(regions);
   }
 
-  public static ofSuperposition(
-    superpositions: Array<Superposition<Region, RegionError>>
-  ): Superposition<Regions, RegionsError> {
-    return Superposition.all<Region, RegionError>(superpositions, RegionError).transform<Regions, RegionsError>(
-      (regions: Array<Region>) => {
-        return Regions.ofArray(regions);
-      },
-      (err: RegionError) => {
-        throw new RegionsError('Regions.ofSuperposition()', err);
-      },
-      RegionsError
-    );
+  public static ofJSON(json: ReadonlyArray<RegionJSON>): Regions {
+    const arr: Array<Region> = json.map<Region>((region: RegionJSON) => {
+      return Region.ofJSON(region);
+    });
+
+    return Regions.ofArray(arr);
   }
 
-  public static ofJSON(json: Array<RegionJSON>): Superposition<Regions, RegionsError> {
-    const superpositions: Array<Superposition<Region, RegionError>> = json.map<Superposition<Region, RegionError>>(
-      (region: RegionJSON) => {
-        return Region.ofJSON(region);
-      }
-    );
+  public static ofRow(rows: ReadonlyArray<RegionRow>): Regions {
+    const arr: Array<Region> = rows.map<Region>((region: RegionRow) => {
+      return Region.ofJSON(region);
+    });
 
-    return Regions.ofSuperposition(superpositions);
-  }
-
-  public static ofRow(rows: Array<RegionRow>): Superposition<Regions, RegionsError> {
-    const superpositions: Array<Superposition<Region, RegionError>> = rows.map<Superposition<Region, RegionError>>(
-      (region: RegionRow) => {
-        return Region.ofRow(region);
-      }
-    );
-
-    return Regions.ofSuperposition(superpositions);
+    return Regions.ofArray(arr);
   }
 
   public static empty(): Regions {
     return Regions.EMPTY;
   }
 
-  private static ofMap(regions: Map<RegionID, Region>): Regions {
+  public static validate(n: unknown): n is ReadonlyArray<RegionJSON> {
+    if (!Kind.isArray(n)) {
+      return false;
+    }
+
+    return n.every((o: unknown) => {
+      return Region.validate(o);
+    });
+  }
+
+  private static ofMap(regions: ReadonlyMap<RegionID, Region>): Regions {
     return Regions.of(ImmutableProject.of<RegionID, Region>(regions));
   }
 
@@ -136,6 +125,10 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return this.regions.some(predicate);
   }
 
+  public values(): Iterable<Region> {
+    return this.regions.values();
+  }
+
   public map<U>(mapper: Mapper<Region, U>): Array<U> {
     const array: Array<U> = [];
     let i: number = 0;
@@ -149,7 +142,7 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
   }
 
   public find(predicate: Predicate<Region>): Nullable<Region> {
-    for (const region of this.regions.toMap().values()) {
+    for (const region of this.regions.values()) {
       if (predicate(region)) {
         return region;
       }

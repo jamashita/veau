@@ -1,15 +1,14 @@
-import { ImmutableProject, Project } from '@jamashita/publikum-collection';
-import { Epoque, Superposition } from '@jamashita/publikum-monad';
+import { ImmutableProject, MutableProject, MutableSequence, Project, Sequence } from '@jamashita/publikum-collection';
+import { Chrono, Superposition } from '@jamashita/publikum-monad';
 import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
-import { Ambiguous, Kind } from '@jamashita/publikum-type';
+import { Kind, Nullable } from '@jamashita/publikum-type';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
-import { StatsItemIDError } from '../../VO/StatsItem/Error/StatsItemIDError';
+import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
-import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
-import { StatsValueRow } from '../../VO/StatsValue/StatsValue';
+import { StatsValueError } from '../../VO/StatsValue/Error/StatsValueError';
+import { StatsValue, StatsValueRow } from '../../VO/StatsValue/StatsValue';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
 import { IMySQLQuery } from './Interface/IMySQLQuery';
@@ -26,7 +25,7 @@ export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuer
 
   public findByStatsID(
     statsID: StatsID
-  ): Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | MySQLError> {
+  ): Superposition<Project<StatsItemID, StatsValues>, StatsValueError | MySQLError> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,
@@ -40,64 +39,59 @@ export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuer
       return this.mysql.execute<Array<StatsValueRow>>(query, {
         statsID: statsID.get().get()
       });
-    }, MySQLError)
-      .map<Project<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>((rows: Array<StatsValueRow>) => {
-        return this.engage(rows).map<Project<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>(
-          (map: Map<StatsItemID, StatsValues>) => {
-            return ImmutableProject.of(map);
-          }
-        );
-      })
-      .recover<Project<StatsItemID, StatsValues>, StatsValuesError | MySQLError>(
-        (err: StatsItemIDError | StatsValuesError | MySQLError) => {
-          if (err instanceof StatsItemIDError) {
-            throw new StatsValuesError('StatsValueQuery.findByStatsID()', err);
-          }
+    }, MySQLError).map<Project<StatsItemID, StatsValues>, StatsItemError | StatsValueError | MySQLError>((rows: Array<StatsValueRow>) => {
+      return this.engage(rows);
+    }).recover<Project<StatsItemID, StatsValues>, StatsValueError | MySQLError>((err: StatsItemError | StatsValueError | MySQLError) => {
+      if (err instanceof StatsItemError) {
+        throw new StatsValueError('StatsValueQuery.findByStatsID()', err);
+      }
 
-          throw err;
-        },
-        StatsValuesError,
-        MySQLError
-      );
+      throw err;
+    }, StatsValueError, MySQLError);
   }
 
-  private engage(
-    rows: Array<StatsValueRow>
-  ): Superposition<Map<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError> {
-    const map1: Map<string, Array<StatsValueRow>> = new Map<string, Array<StatsValueRow>>();
+  private engage(rows: Array<StatsValueRow>): Superposition<Project<StatsItemID, StatsValues>, StatsItemError> {
+    return Superposition.of<Project<StatsItemID, StatsValues>, StatsItemError>((chrono: Chrono<Project<StatsItemID, StatsValues>, StatsItemError>) => {
+      const p1: MutableProject<StatsItemID, MutableSequence<StatsValue>> = MutableProject.empty<StatsItemID, MutableSequence<StatsValue>>();
+      let abort: boolean = false;
 
-    rows.forEach((row: StatsValueRow) => {
-      const value: Ambiguous<Array<StatsValueRow>> = map1.get(row.statsItemID);
+      rows.forEach((row: StatsValueRow) => {
+        if (abort) {
+          return;
+        }
 
-      if (Kind.isUndefined(value)) {
-        map1.set(row.statsItemID, [row]);
+        try {
+          const statsItemID: StatsItemID = StatsItemID.ofString(row.statsItemID);
+          const value: StatsValue = StatsValue.ofRow(row);
+          const sequence: Nullable<MutableSequence<StatsValue>> = p1.get(statsItemID);
 
-        return;
-      }
+          if (Kind.isNull(sequence)) {
+            p1.set(statsItemID, MutableSequence.of<StatsValue>([value]));
 
-      value.push(row);
-    });
+            return;
+          }
 
-    const map2: Map<StatsItemID, StatsValues> = new Map<StatsItemID, StatsValues>();
+          sequence.add(value);
+        }
+        catch (err: unknown) {
+          if (err instanceof StatsItemError) {
+            abort = true;
+            chrono.decline(err);
 
-    return Superposition.of<Map<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>(
-      (epoque: Epoque<Map<StatsItemID, StatsValues>, StatsItemIDError | StatsValuesError>) => {
-        map1.forEach((r: Array<StatsValueRow>, id: string) => {
-          StatsItemID.ofString(id)
-            .map<void, StatsItemIDError | StatsValuesError>((itemID: StatsItemID) => {
-              return StatsValues.ofRow(r).map<void, StatsValuesError>((values: StatsValues) => {
-                map2.set(itemID, values);
+            return;
+          }
+          abort = true;
+          chrono.throw(err);
+        }
+      });
 
-                if (map1.size === map2.size) {
-                  epoque.accept(map2);
-                }
-              });
-            }, StatsValuesError)
-            .recover<void, Error>((err: StatsItemIDError | StatsValuesError) => {
-              epoque.decline(err);
-            });
-        });
-      }
-    );
+      let p2: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.empty<StatsItemID, StatsValues>();
+
+      p1.forEach((sequence: Sequence<StatsValue>, statsItemID: StatsItemID) => {
+        p2 = p2.set(statsItemID, StatsValues.ofArray(sequence.toArray()));
+      });
+
+      chrono.accept(p2);
+    }, StatsItemError);
   }
 }

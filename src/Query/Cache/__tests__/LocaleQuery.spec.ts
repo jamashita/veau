@@ -2,9 +2,7 @@ import { CacheError, MockCache } from '@jamashita/publikum-cache';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
-
 import sinon, { SinonStub } from 'sinon';
-
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
@@ -16,6 +14,8 @@ import { LocaleQuery } from '../LocaleQuery';
 describe('LocaleQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleCacheQuery);
       const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleCacheQuery);
 
@@ -26,6 +26,8 @@ describe('LocaleQuery', () => {
 
   describe('all', () => {
     it('normal case', async () => {
+      expect.assertions(3);
+
       const locale: MockLocale = new MockLocale();
 
       const cache: MockCache = new MockCache();
@@ -43,6 +45,8 @@ describe('LocaleQuery', () => {
     });
 
     it('returns Dead when Cache throws CacheError', async () => {
+      expect.assertions(2);
+
       const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
 

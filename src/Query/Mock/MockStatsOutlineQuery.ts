@@ -1,8 +1,6 @@
 import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
-
 import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
-import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
@@ -17,7 +15,7 @@ export class MockStatsOutlineQuery implements IStatsOutlineQuery, IMockQuery {
     throw new UnimplementedError();
   }
 
-  public findByVeauAccountID(): Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> {
+  public findByVeauAccountID(): Superposition<StatsOutlines, StatsOutlineError | DataSourceError> {
     throw new UnimplementedError();
   }
 }

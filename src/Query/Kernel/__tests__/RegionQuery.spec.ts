@@ -3,14 +3,11 @@ import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MySQLError } from '@jamashita/publikum-mysql';
 import { RedisError } from '@jamashita/publikum-redis';
 import 'reflect-metadata';
-
 import sinon, { SinonStub } from 'sinon';
-
 import { MockRegionCommand } from '../../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
-import { RegionsError } from '../../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
 import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
@@ -24,6 +21,8 @@ import { RegionQuery } from '../RegionQuery';
 describe('RegionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const regionQuery1: RegionQuery = kernel.get<RegionQuery>(Type.RegionKernelQuery);
       const regionQuery2: RegionQuery = kernel.get<RegionQuery>(Type.RegionKernelQuery);
 
@@ -33,7 +32,9 @@ describe('RegionQuery', () => {
   });
 
   describe('all', () => {
-    it('RegionRedisQuery returns Alive', async () => {
+    it('regionRedisQuery returns Alive', async () => {
+      expect.assertions(2);
+
       const regions: MockRegions = new MockRegions();
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
@@ -45,13 +46,15 @@ describe('RegionQuery', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, RegionError | DataSourceError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(regions);
     });
 
-    it('RegionMySQLQuery returns Alive', async () => {
+    it('regionMySQLQuery returns Alive', async () => {
+      expect.assertions(2);
+
       const regions: MockRegions = new MockRegions();
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
@@ -71,13 +74,15 @@ describe('RegionQuery', () => {
       stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, RegionError | DataSourceError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(regions);
     });
 
-    it('RegionRedisQuery nor RegionMySQLQuery returns Dead', async () => {
+    it('regionRedisQuery nor RegionMySQLQuery returns Dead', async () => {
+      expect.assertions(2);
+
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
 
@@ -95,7 +100,7 @@ describe('RegionQuery', () => {
       stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, RegionError | DataSourceError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -103,7 +108,9 @@ describe('RegionQuery', () => {
       }).toThrow(MySQLError);
     });
 
-    it('RegionCommand returns Dead', async () => {
+    it('regionCommand returns Dead', async () => {
+      expect.assertions(2);
+
       const regions: MockRegions = new MockRegions();
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
@@ -123,7 +130,7 @@ describe('RegionQuery', () => {
       stub3.returns(Superposition.dead<unknown, RedisError>(new RedisError('test faied'), RedisError));
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const schrodinger: Schrodinger<Regions, RegionsError | DataSourceError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, RegionError | DataSourceError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -134,6 +141,8 @@ describe('RegionQuery', () => {
 
   describe('findByISO3166', () => {
     it('normal case', async () => {
+      expect.assertions(2);
+
       const region1: MockRegion = new MockRegion({
         iso3166: new MockISO3166('AFG')
       });
@@ -151,16 +160,15 @@ describe('RegionQuery', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const schrodinger: Schrodinger<
-        Region,
-        RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(regions.get(region2.getRegionID()));
     });
 
-    it('RegionQuery.all returns Dead, MySQLError', async () => {
+    it('regionQuery.all returns Dead, MySQLError', async () => {
+      expect.assertions(2);
+
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
 
@@ -174,10 +182,7 @@ describe('RegionQuery', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const schrodinger: Schrodinger<
-        Region,
-        RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -185,7 +190,9 @@ describe('RegionQuery', () => {
       }).toThrow(MySQLError);
     });
 
-    it('RegionQuery.all returns Dead, RegionsError', async () => {
+    it('regionQuery.all returns Dead, RegionError', async () => {
+      expect.assertions(2);
+
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
 
@@ -195,14 +202,11 @@ describe('RegionQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       regionMySQLQuery.all = stub2;
-      stub2.returns(Superposition.dead<Regions, RegionsError>(new RegionsError('test failed'), RegionsError));
+      stub2.returns(Superposition.dead<Regions, RegionError>(new RegionError('test failed'), RegionError));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const schrodinger: Schrodinger<
-        Region,
-        RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -211,6 +215,8 @@ describe('RegionQuery', () => {
     });
 
     it('no match results', async () => {
+      expect.assertions(2);
+
       const regions: MockRegions = new MockRegions(
         new MockRegion({
           iso3166: new MockISO3166('AFG')
@@ -229,10 +235,7 @@ describe('RegionQuery', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const schrodinger: Schrodinger<
-        Region,
-        RegionError | NoSuchElementError | DataSourceError
-      > = await regionQuery.findByISO3166(ISO3166.of('AIO')).terminate();
+      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('AIO')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

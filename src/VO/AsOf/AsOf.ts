@@ -1,13 +1,11 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
-
 import { Term } from '../Term/Term';
 import { AsOfError } from './Error/AsOfError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
-export class AsOf extends ValueObject<AsOf, 'AsOf'> {
+export class AsOf extends ValueObject<'AsOf'> {
   public readonly noun: 'AsOf' = 'AsOf';
   private readonly asOf: Zeit;
 
@@ -15,18 +13,19 @@ export class AsOf extends ValueObject<AsOf, 'AsOf'> {
     return new AsOf(asOf);
   }
 
-  public static ofString(asOf: string): Superposition<AsOf, AsOfError> {
-    return Superposition.playground<Zeit, ZeitError>(() => {
-      return Zeit.ofString(asOf, TERM_FORMAT);
-    }, ZeitError).transform<AsOf, AsOfError>(
-      (zeit: Zeit) => {
-        return AsOf.of(zeit);
-      },
-      (err: ZeitError) => {
+  public static ofString(asOf: string): AsOf {
+    try {
+      const zeit: Zeit = Zeit.ofString(asOf, TERM_FORMAT);
+
+      return AsOf.of(zeit);
+    }
+    catch (err: unknown) {
+      if (err instanceof ZeitError) {
         throw new AsOfError('asOf is not suitable for date time', err);
-      },
-      AsOfError
-    );
+      }
+
+      throw err;
+    }
   }
 
   public static now(): AsOf {

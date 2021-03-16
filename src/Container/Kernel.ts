@@ -1,7 +1,6 @@
 import { IMySQL } from '@jamashita/publikum-mysql';
 import { IRedis } from '@jamashita/publikum-redis';
 import { Container } from 'inversify';
-
 import { StatsCommand as StatsKernelCommand } from '../Command/Kernel/StatsCommand';
 import { LanguageCommand as LanguageRedisCommand } from '../Command/Redis/LanguageCommand';
 import { RegionCommand as RegionRedisCommand } from '../Command/Redis/RegionCommand';
@@ -12,6 +11,8 @@ import { SessionController } from '../Controller/API/SessionController';
 import { StatsController } from '../Controller/API/StatsController';
 import { FEController } from '../Controller/FE/FEController';
 import { AuthenticationMiddleware } from '../Controller/Middleware/AuthenticationMiddleware';
+import { ILogger } from '../Infrastructure/Interface/ILogger';
+import { logger } from '../Infrastructure/Logger';
 import { veauMySQL } from '../Infrastructure/VeauMySQL';
 import { veauRedis } from '../Infrastructure/VeauRedis';
 import { AuthenticationInteractor } from '../Interactor/AuthenticationInteractor';
@@ -30,40 +31,43 @@ import { LanguageQuery as LanguageRedisQuery } from '../Query/Redis/LanguageQuer
 import { RegionQuery as RegionRedisQuery } from '../Query/Redis/RegionQuery';
 import { Type } from './Types';
 
-export const kernel: Container = new Container();
+const k: Container = new Container();
+
+// Infrastructure
+k.bind<ILogger>(Type.Logger).toConstantValue(logger);
+k.bind<IMySQL>(Type.MySQL).toConstantValue(veauMySQL);
+k.bind<IRedis>(Type.Redis).toConstantValue(veauRedis);
 
 // Command
-kernel.bind<StatsKernelCommand>(Type.StatsKernelCommand).to(StatsKernelCommand).inSingletonScope();
-kernel.bind<LanguageRedisCommand>(Type.LanguageRedisCommand).to(LanguageRedisCommand).inSingletonScope();
-kernel.bind<RegionRedisCommand>(Type.RegionRedisCommand).to(RegionRedisCommand).inSingletonScope();
+k.bind<StatsKernelCommand>(Type.StatsKernelCommand).to(StatsKernelCommand).inSingletonScope();
+k.bind<LanguageRedisCommand>(Type.LanguageRedisCommand).to(LanguageRedisCommand).inSingletonScope();
+k.bind<RegionRedisCommand>(Type.RegionRedisCommand).to(RegionRedisCommand).inSingletonScope();
 
 // Controller
-kernel.bind<AccountController>(AccountController).toSelf().inSingletonScope();
-kernel.bind<AuthController>(AuthController).toSelf().inSingletonScope();
-kernel.bind<LocaleController>(LocaleController).toSelf().inSingletonScope();
-kernel.bind<SessionController>(SessionController).toSelf().inSingletonScope();
-kernel.bind<StatsController>(StatsController).toSelf().inSingletonScope();
-kernel.bind<FEController>(FEController).toSelf().inSingletonScope();
-kernel.bind<AuthenticationMiddleware>(AuthenticationMiddleware).toSelf().inSingletonScope();
-
-// Gateway
-kernel.bind<IMySQL>(Type.MySQL).toConstantValue(veauMySQL);
-kernel.bind<IRedis>(Type.Redis).toConstantValue(veauRedis);
+k.bind<AccountController>(AccountController).toSelf().inSingletonScope();
+k.bind<AuthController>(AuthController).toSelf().inSingletonScope();
+k.bind<LocaleController>(LocaleController).toSelf().inSingletonScope();
+k.bind<SessionController>(SessionController).toSelf().inSingletonScope();
+k.bind<StatsController>(StatsController).toSelf().inSingletonScope();
+k.bind<FEController>(FEController).toSelf().inSingletonScope();
+k.bind<AuthenticationMiddleware>(AuthenticationMiddleware).toSelf().inSingletonScope();
 
 // Interactor
-kernel.bind<AuthenticationInteractor>(Type.AuthenticationInteractor).to(AuthenticationInteractor).inSingletonScope();
-kernel.bind<LocaleInteractor>(Type.LocaleInteractor).to(LocaleInteractor).inSingletonScope();
-kernel.bind<StatsInteractor>(Type.StatsInteractor).to(StatsInteractor).inSingletonScope();
+k.bind<AuthenticationInteractor>(Type.AuthenticationInteractor).to(AuthenticationInteractor).inSingletonScope();
+k.bind<LocaleInteractor>(Type.LocaleInteractor).to(LocaleInteractor).inSingletonScope();
+k.bind<StatsInteractor>(Type.StatsInteractor).to(StatsInteractor).inSingletonScope();
 
 // Query
-kernel.bind<LanguageKernelQuery>(Type.LanguageKernelQuery).to(LanguageKernelQuery).inSingletonScope();
-kernel.bind<RegionKernelQuery>(Type.RegionKernelQuery).to(RegionKernelQuery).inSingletonScope();
-kernel.bind<StatsKernelQuery>(Type.StatsKernelQuery).to(StatsKernelQuery).inSingletonScope();
-kernel.bind<AccountMySQLQuery>(Type.AccountMySQLQuery).to(AccountMySQLQuery).inSingletonScope();
-kernel.bind<LanguageMySQLQuery>(Type.LanguageMySQLQuery).to(LanguageMySQLQuery).inSingletonScope();
-kernel.bind<RegionMySQLQuery>(Type.RegionMySQLQuery).to(RegionMySQLQuery).inSingletonScope();
-kernel.bind<StatsItemMySQLQuery>(Type.StatsItemMySQLQuery).to(StatsItemMySQLQuery).inSingletonScope();
-kernel.bind<StatsOutlineMySQLQuery>(Type.StatsOutlineMySQLQuery).to(StatsOutlineMySQLQuery).inSingletonScope();
-kernel.bind<StatsValueMySQLQuery>(Type.StatsValueMySQLQuery).to(StatsValueMySQLQuery).inSingletonScope();
-kernel.bind<LanguageRedisQuery>(Type.LanguageRedisQuery).to(LanguageRedisQuery).inSingletonScope();
-kernel.bind<RegionRedisQuery>(Type.RegionRedisQuery).to(RegionRedisQuery).inSingletonScope();
+k.bind<LanguageKernelQuery>(Type.LanguageKernelQuery).to(LanguageKernelQuery).inSingletonScope();
+k.bind<RegionKernelQuery>(Type.RegionKernelQuery).to(RegionKernelQuery).inSingletonScope();
+k.bind<StatsKernelQuery>(Type.StatsKernelQuery).to(StatsKernelQuery).inSingletonScope();
+k.bind<AccountMySQLQuery>(Type.AccountMySQLQuery).to(AccountMySQLQuery).inSingletonScope();
+k.bind<LanguageMySQLQuery>(Type.LanguageMySQLQuery).to(LanguageMySQLQuery).inSingletonScope();
+k.bind<RegionMySQLQuery>(Type.RegionMySQLQuery).to(RegionMySQLQuery).inSingletonScope();
+k.bind<StatsItemMySQLQuery>(Type.StatsItemMySQLQuery).to(StatsItemMySQLQuery).inSingletonScope();
+k.bind<StatsOutlineMySQLQuery>(Type.StatsOutlineMySQLQuery).to(StatsOutlineMySQLQuery).inSingletonScope();
+k.bind<StatsValueMySQLQuery>(Type.StatsValueMySQLQuery).to(StatsValueMySQLQuery).inSingletonScope();
+k.bind<LanguageRedisQuery>(Type.LanguageRedisQuery).to(LanguageRedisQuery).inSingletonScope();
+k.bind<RegionRedisQuery>(Type.RegionRedisQuery).to(RegionRedisQuery).inSingletonScope();
+
+export const kernel: Container = k;

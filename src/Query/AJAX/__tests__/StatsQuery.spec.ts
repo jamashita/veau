@@ -2,15 +2,13 @@ import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
-
-import { INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { StatsError } from '../../../Entity/Stats/Error/StatsError';
 import { Stats, StatsJSON } from '../../../Entity/Stats/Stats';
+import { StatsError } from '../../../VO/StatsOutline/Error/StatsError';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { Term } from '../../../VO/Term/Term';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
@@ -19,6 +17,8 @@ import { StatsQuery } from '../StatsQuery';
 describe('StatsQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const statsQuery1: StatsQuery = vault.get<StatsQuery>(Type.StatsAJAXQuery);
       const statsQuery2: StatsQuery = vault.get<StatsQuery>(Type.StatsAJAXQuery);
 
@@ -29,6 +29,8 @@ describe('StatsQuery', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
+      expect.assertions(14);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -57,20 +59,17 @@ describe('StatsQuery', () => {
         items: []
       };
 
-      const ajax: MockAJAX = new MockAJAX();
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
       stub.resolves({
-        status: OK,
+        status: StatusCodes.OK,
         body: json
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(stub.withArgs(`/api/stats/${statsID.get().get()}`).called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
@@ -90,23 +89,22 @@ describe('StatsQuery', () => {
       expect(stats.getItems().size()).toBe(0);
     });
 
-    it('returns NO_CONTENT', async () => {
+    it('returns StatusCodes.NO_CONTENT', async () => {
+      expect.assertions(2);
+
       const statsID: MockStatsID = new MockStatsID();
 
-      const ajax: MockAJAX = new MockAJAX();
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
       stub.resolves({
-        status: NO_CONTENT,
+        status: StatusCodes.NO_CONTENT,
         body: {}
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -114,23 +112,22 @@ describe('StatsQuery', () => {
       }).toThrow(NoSuchElementError);
     });
 
-    it('doesn not return OK', async () => {
+    it('does not return StatusCodes.OK', async () => {
+      expect.assertions(2);
+
       const statsID: MockStatsID = new MockStatsID();
 
-      const ajax: MockAJAX = new MockAJAX();
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
       stub.resolves({
-        status: INTERNAL_SERVER_ERROR,
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
         body: {}
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const schrodinger: Schrodinger<
-        Stats,
-        StatsError | NoSuchElementError | DataSourceError
-      > = await statsQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

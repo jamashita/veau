@@ -1,8 +1,6 @@
 import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
-
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
-import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
 import { Language } from '../../VO/Language/Language';
 import { Languages } from '../../VO/Language/Languages';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
@@ -13,7 +11,7 @@ export class MockLanguageQuery implements ILanguageQuery, IMockQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public all(): Superposition<Languages, LanguagesError | DataSourceError> {
+  public all(): Superposition<Languages, LanguageError | DataSourceError> {
     throw new UnimplementedError();
   }
 

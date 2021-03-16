@@ -3,7 +3,6 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
 import { inject, injectable } from 'inversify';
 import { VerifyFunction } from 'passport-local';
-
 import { Type } from '../Container/Types';
 import { logger } from '../Infrastructure/Logger';
 import { NoSuchElementError } from '../Query/Error/NoSuchElementError';
@@ -27,27 +26,24 @@ export class AuthenticationInteractor implements Noun<'AuthenticationInteractor'
 
   public review(): VerifyFunction {
     return (name: string, pass: string, callback: (error: unknown, account?: unknown) => void): unknown => {
-      return this.accountQuery.findByAccount(AccountName.of(name)).transform<unknown, Error>(
-        async (account: Account) => {
-          const correct: boolean = await account.verify(Password.of(pass));
+      return this.accountQuery.findByAccount(AccountName.of(name)).transform<unknown, Error>(async (account: Account) => {
+        const correct: boolean = await account.verify(Password.of(pass));
 
-          if (correct) {
-            callback(null, account.getVeauAccount());
+        if (correct) {
+          callback(null, account.getVeauAccount());
 
-            return;
-          }
-
-          callback(null, false);
-        },
-        async (err: AccountError | NoSuchElementError | DataSourceError) => {
-          // time adjustment
-          await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
-
-          logger.warn(err);
-          logger.info(`invalid account: ${name} and password: ${pass}`);
-          callback(null, false);
+          return;
         }
-      );
+
+        callback(null, false);
+      }, async (err: AccountError | NoSuchElementError | DataSourceError) => {
+        // time adjustment
+        await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
+
+        logger.warn(err);
+        logger.info(`invalid account: ${name} and password: ${pass}`);
+        callback(null, false);
+      });
     };
   }
 }

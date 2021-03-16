@@ -2,7 +2,6 @@ import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-
 import { Type } from '../../Container/Types';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
@@ -59,34 +58,28 @@ export class IdentityEpic {
         return concat<VeauAction>(
           of<VeauAction>(loading()),
           from<Promise<Observable<VeauAction>>>(
-            this.localeQuery.all().transform<Observable<VeauAction>, Error>(
-              (locale: Locale) => {
-                return of<VeauAction>(defineLocale(locale));
-              },
-              () => {
-                return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-              }
-            ).get()
+            this.localeQuery.all().transform<Observable<VeauAction>, Error>((locale: Locale) => {
+              return of<VeauAction>(defineLocale(locale));
+            }, () => {
+              return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+            }).get()
           ).pipe<VeauAction>(
             mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
               return observable;
             })
           ),
           from<Promise<Observable<VeauAction>>>(
-            this.identityQuery.find().transform<Observable<VeauAction>, Error>(
-              (identity: Identity) => {
-                const actions: Array<VeauAction> = [identityAuthenticated(identity), identified()];
+            this.identityQuery.find().transform<Observable<VeauAction>, Error>((identity: Identity) => {
+              const actions: Array<VeauAction> = [identityAuthenticated(identity), identified()];
 
-                if (location.pathname === Endpoints.ENTRANCE) {
-                  actions.push(pushToStatsList());
-                }
-
-                return of<VeauAction>(...actions);
-              },
-              () => {
-                return of<VeauAction>(identityAuthenticationFailed());
+              if (location.pathname === Endpoints.ENTRANCE) {
+                actions.push(pushToStatsList());
               }
-            ).get()
+
+              return of<VeauAction>(...actions);
+            }, () => {
+              return of<VeauAction>(identityAuthenticationFailed());
+            }).get()
           ).pipe<VeauAction>(
             mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
               return observable;
@@ -102,36 +95,31 @@ export class IdentityEpic {
     return action$.pipe<VeauAction, VeauAction>(
       ofType<VeauAction, VeauAction>(IDENTITY_AUTHENTICATION_FAILED),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
-        const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
-          navigator.language
-        );
+        const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(navigator.language);
         const iso639: ISO639 = ISO639.of(supportLanguage);
 
         return from<Promise<Observable<VeauAction>>>(
-          this.languageQuery.findByISO639(iso639).transform<Observable<VeauAction>, Error>(
-            (language: Language) => {
-              const {
-                value: {
-                  identity
-                }
-              } = state$;
+          this.languageQuery.findByISO639(iso639).transform<Observable<VeauAction>, Error>((language: Language) => {
+            const {
+              value: {
+                identity
+              }
+            } = state$;
 
-              return of<VeauAction>(
-                identityAuthenticated(
-                  Identity.of(
-                    identity.getVeauAccountID(),
-                    identity.getAccountName(),
-                    language,
-                    identity.getRegion()
-                  )
-                ),
-                pushToEntrance()
-              );
-            },
-            () => {
-              return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-            }
-          ).get()
+            return of<VeauAction>(
+              identityAuthenticated(
+                Identity.of(
+                  identity.getVeauAccountID(),
+                  identity.getAccountName(),
+                  language,
+                  identity.getRegion()
+                )
+              ),
+              pushToEntrance()
+            );
+          }, () => {
+            return of<VeauAction>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+          }).get()
         ).pipe<VeauAction>(
           mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
             return observable;

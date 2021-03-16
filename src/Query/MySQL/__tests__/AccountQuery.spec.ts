@@ -1,11 +1,8 @@
-import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
 import 'reflect-metadata';
-
 import sinon, { SinonStub } from 'sinon';
-
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { Account, AccountRow } from '../../../VO/Account/Account';
@@ -17,6 +14,8 @@ import { AccountQuery } from '../AccountQuery';
 describe('AccountQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const accountQuery1: AccountQuery = kernel.get<AccountQuery>(Type.AccountMySQLQuery);
       const accountQuery2: AccountQuery = kernel.get<AccountQuery>(Type.AccountMySQLQuery);
 
@@ -27,6 +26,8 @@ describe('AccountQuery', () => {
 
   describe('findByAccount', () => {
     it('normal case', async () => {
+      expect.assertions(7);
+
       const accountName: MockAccountName = new MockAccountName('moloque');
       const rows: Array<AccountRow> = [
         {
@@ -45,14 +46,10 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(accountName).terminate();
+      const schrodinger: Schrodinger<Account, AccountError | NoSuchElementError | MySQLError> = await accountQuery.findByAccount(accountName).terminate();
 
-      expect(
-        stub.withArgs(
-          `SELECT
+      expect(stub.withArgs(
+        `SELECT
       R1.veau_account_id AS veauAccountID,
       R1.language_id AS languageID,
       R1.region_id AS regionID,
@@ -63,11 +60,10 @@ describe('AccountQuery', () => {
       USING(veau_account_id)
       WHERE R1.account = :account
       AND R1.active = true;`,
-          {
-            account: accountName.get()
-          }
-        ).called
-      ).toBe(true);
+        {
+          account: accountName.get()
+        }
+      ).called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
       const account: Account = schrodinger.get();
 
@@ -79,6 +75,8 @@ describe('AccountQuery', () => {
     });
 
     it('returns Dead because MySQL.execute returns 0 results', async () => {
+      expect.assertions(2);
+
       const name: MockAccountName = new MockAccountName();
 
       const mysql: MockMySQL = new MockMySQL();
@@ -88,10 +86,7 @@ describe('AccountQuery', () => {
       stub.resolves([]);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account, AccountError | NoSuchElementError | MySQLError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -100,6 +95,8 @@ describe('AccountQuery', () => {
     });
 
     it('returns Dead because veauAccountID is malformat', async () => {
+      expect.assertions(2);
+
       const name: MockAccountName = new MockAccountName();
       const rows: Array<AccountRow> = [
         {
@@ -118,10 +115,7 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account, AccountError | NoSuchElementError | MySQLError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -130,6 +124,8 @@ describe('AccountQuery', () => {
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
+      expect.assertions(2);
+
       const name: MockAccountName = new MockAccountName();
 
       const mysql: MockMySQL = new MockMySQL();
@@ -139,10 +135,7 @@ describe('AccountQuery', () => {
       stub.rejects(new MySQLError('test faield'));
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<
-        Account,
-        AccountError | NoSuchElementError | DataSourceError
-      > = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account, AccountError | NoSuchElementError | MySQLError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

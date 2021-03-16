@@ -1,178 +1,168 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
-
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
-import { MockNumericalValue } from '../../NumericalValue/Mock/MockNumericalValue';
-import { NumericalValue } from '../../NumericalValue/NumericalValue';
+import { ValueContained } from '../../NumericalValue/ValueContained';
 import { StatsValueError } from '../Error/StatsValueError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 
 describe('StatsValue', () => {
   describe('ofJSON', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(2);
+
       const json: StatsValueJSON = {
         asOf: '2000-01-01',
         value: -1.1
       };
 
-      const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofJSON(json);
-      const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const statsValue: StatsValue = schrodinger.get();
+      const statsValue: StatsValue = StatsValue.ofJSON(json);
 
       expect(statsValue.getAsOf().toString()).toBe(json.asOf);
       expect(statsValue.getValue().get()).toBe(json.value);
     });
 
-    it('asOf is malformat', async () => {
+    it('asOf is mal format', () => {
+      expect.assertions(1);
+
       const json: StatsValueJSON = {
         asOf: 'illegal datetime',
         value: -1.1
       };
 
-      const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofJSON(json);
-      const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsValue.ofJSON(json);
       }).toThrow(StatsValueError);
     });
   });
 
   describe('ofRow', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(2);
+
       const row: StatsValueRow = {
         statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
         asOf: '2000-01-01',
         value: -1.1
       };
 
-      const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
-      const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const statsValue: StatsValue = schrodinger.get();
+      const statsValue: StatsValue = StatsValue.ofRow(row);
 
       expect(statsValue.getAsOf().toString()).toBe(row.asOf);
       expect(statsValue.getValue().get()).toBe(row.value);
     });
 
-    it('statsItemID is malformat', async () => {
-      const row: StatsValueRow = {
-        statsItemID: 'illegal uuid',
-        asOf: '2000-01-01',
-        value: -1.1
-      };
+    it('asOf is mal format', () => {
+      expect.assertions(1);
 
-      const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
-      const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-    });
-
-    it('asOf is malformat', async () => {
       const row: StatsValueRow = {
         statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
         asOf: 'illegal asOf format',
         value: -1.1
       };
 
-      const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
-      const schrodinger: Schrodinger<StatsValue, StatsValueError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        StatsValue.ofRow(row);
       }).toThrow(StatsValueError);
     });
   });
 
-  describe('isJSON', () => {
+  describe('validate', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         asOf: '2000-01-01',
         value: 1
       };
 
-      expect(StatsValue.isJSON(n)).toBe(true);
+      expect(StatsValue.validate(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect(StatsValue.isJSON(null)).toBe(false);
-      expect(StatsValue.isJSON(undefined)).toBe(false);
-      expect(StatsValue.isJSON(56)).toBe(false);
-      expect(StatsValue.isJSON('fjafsd')).toBe(false);
-      expect(StatsValue.isJSON(false)).toBe(false);
+      expect.assertions(5);
+
+      expect(StatsValue.validate(null)).toBe(false);
+      expect(StatsValue.validate(undefined)).toBe(false);
+      expect(StatsValue.validate(56)).toBe(false);
+      expect(StatsValue.validate('fjafsd')).toBe(false);
+      expect(StatsValue.validate(false)).toBe(false);
     });
 
     it('returns false because asOf is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         value: -0.3
       };
 
-      expect(StatsValue.isJSON(n)).toBe(false);
+      expect(StatsValue.validate(n)).toBe(false);
     });
 
     it('returns false because asOf is not string', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         asOf: false,
         value: -0.3
       };
 
-      expect(StatsValue.isJSON(n)).toBe(false);
+      expect(StatsValue.validate(n)).toBe(false);
     });
 
     it('returns false because value is missing', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         asOf: '2000-01-01'
       };
 
-      expect(StatsValue.isJSON(n)).toBe(false);
+      expect(StatsValue.validate(n)).toBe(false);
     });
 
     it('returns false because value is not number', () => {
+      expect.assertions(1);
+
       const n: unknown = {
         asOf: '2000-01-01',
         value: null
       };
 
-      expect(StatsValue.isJSON(n)).toBe(false);
+      expect(StatsValue.validate(n)).toBe(false);
     });
   });
 
   describe('equals', () => {
     it('returns true if the all properties are the same', () => {
+      expect.assertions(5);
+
       const statsValue1: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 1
         }),
-        new MockNumericalValue(5)
+        ValueContained.of(5)
       );
       const statsValue2: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 2
         }),
-        new MockNumericalValue(0)
+        ValueContained.of(0)
       );
       const statsValue3: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 1
         }),
-        new MockNumericalValue(-1)
+        ValueContained.of(-1)
       );
       const statsValue4: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 1
         }),
-        new MockNumericalValue(1)
+        ValueContained.of(1)
       );
       const statsValue5: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 1
         }),
-        new MockNumericalValue(5)
+        ValueContained.of(5)
       );
 
       expect(statsValue1.equals(statsValue1)).toBe(true);
@@ -184,10 +174,12 @@ describe('StatsValue', () => {
   });
 
   describe('toJSON', () => {
-    it('normal case', async () => {
-      const statsValue: StatsValue = StatsValue.of(await AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
+    it('normal case', () => {
+      expect.assertions(1);
 
-      expect(statsValue.toJSON()).toEqual({
+      const statsValue: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), ValueContained.of(1));
+
+      expect(statsValue.toJSON()).toStrictEqual({
         asOf: '2000-01-01',
         value: 1
       });
@@ -195,10 +187,12 @@ describe('StatsValue', () => {
   });
 
   describe('toString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const asOf: string = '2000-01-01';
       const value: number = 1;
-      const statsValue: StatsValue = StatsValue.of(await AsOf.ofString(asOf).get(), NumericalValue.of(value));
+      const statsValue: StatsValue = StatsValue.of(AsOf.ofString(asOf), ValueContained.of(value));
 
       expect(statsValue.toString()).toBe(`${asOf} ${value}`);
     });

@@ -2,9 +2,7 @@ import { AJAXError } from '@jamashita/publikum-ajax';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
-
 import sinon, { SinonStub } from 'sinon';
-
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
@@ -29,6 +27,8 @@ import { IdentityQuery } from '../IdentityQuery';
 describe('IdentityQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const identityQuery1: IdentityQuery = vault.get<IdentityQuery>(Type.IdentityVaultQuery);
       const identityQuery2: IdentityQuery = vault.get<IdentityQuery>(Type.IdentityVaultQuery);
 
@@ -39,6 +39,8 @@ describe('IdentityQuery', () => {
 
   describe('find', () => {
     it('normal case', async () => {
+      expect.assertions(5);
+
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
       const account: MockAccountName = new MockAccountName();
       const veauAccount: MockVeauAccount = new MockVeauAccount({
@@ -67,10 +69,7 @@ describe('IdentityQuery', () => {
       stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.find().terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.find().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       const identity: Identity = schrodinger.get();
@@ -82,22 +81,19 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when VeauAccountQuery returns Dead VeauAccountError', async () => {
+      expect.assertions(2);
+
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.find = stub1;
-      stub1.returns(
-        Superposition.dead<VeauAccount, VeauAccountError>(new VeauAccountError('test failed'), VeauAccountError)
-      );
+      stub1.returns(Superposition.dead<VeauAccount, VeauAccountError>(new VeauAccountError('test failed'), VeauAccountError));
 
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.find().terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.find().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -106,6 +102,8 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when VeauAccountQuery returns Dead AJAXError', async () => {
+      expect.assertions(2);
+
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
 
@@ -116,10 +114,7 @@ describe('IdentityQuery', () => {
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.find().terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.find().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -128,6 +123,8 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when LanguageQuery returns Dead LanguageError', async () => {
+      expect.assertions(2);
+
       const veauAccount: MockVeauAccount = new MockVeauAccount();
       const region: MockRegion = new MockRegion();
 
@@ -150,10 +147,7 @@ describe('IdentityQuery', () => {
       stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.find().terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.find().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -162,6 +156,8 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when LanguageQuery returns Dead AJAXError', async () => {
+      expect.assertions(2);
+
       const veauAccount: MockVeauAccount = new MockVeauAccount();
       const region: MockRegion = new MockRegion();
 
@@ -184,10 +180,7 @@ describe('IdentityQuery', () => {
       stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.find().terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.find().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -196,6 +189,8 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when RegionQuery returns Dead RegionError', async () => {
+      expect.assertions(2);
+
       const veauAccount: MockVeauAccount = new MockVeauAccount();
       const language: MockLanguage = new MockLanguage();
 
@@ -218,10 +213,7 @@ describe('IdentityQuery', () => {
       stub3.returns(Superposition.dead<Region, RegionError>(new RegionError('test failed'), RegionError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.find().terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.find().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -230,6 +222,8 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when RegionQuery returns Dead AJAXError', async () => {
+      expect.assertions(2);
+
       const veauAccount: MockVeauAccount = new MockVeauAccount();
       const language: MockLanguage = new MockLanguage();
 
@@ -252,10 +246,7 @@ describe('IdentityQuery', () => {
       stub3.returns(Superposition.dead<Region, AJAXError>(new AJAXError('test failed', 500), AJAXError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.find().terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.find().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -266,6 +257,8 @@ describe('IdentityQuery', () => {
 
   describe('findByEntranceInfo', () => {
     it('normal case', async () => {
+      expect.assertions(5);
+
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
       const account: MockAccountName = new MockAccountName();
       const veauAccount: MockVeauAccount = new MockVeauAccount({
@@ -294,10 +287,7 @@ describe('IdentityQuery', () => {
       stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       const identity: Identity = schrodinger.get();
@@ -309,21 +299,18 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when VeauAccountQuery returns Dead VeauAccountError', async () => {
+      expect.assertions(2);
+
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.findByEntranceInfo = stub1;
-      stub1.returns(
-        Superposition.dead<VeauAccount, VeauAccountError>(new VeauAccountError('test failed'), VeauAccountError)
-      );
+      stub1.returns(Superposition.dead<VeauAccount, VeauAccountError>(new VeauAccountError('test failed'), VeauAccountError));
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -332,6 +319,8 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when VeauAccountQuery returns Dead AJAXError', async () => {
+      expect.assertions(2);
+
       const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
       const stub1: SinonStub = sinon.stub();
 
@@ -342,10 +331,7 @@ describe('IdentityQuery', () => {
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -354,6 +340,8 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when LanguageQuery returns Dead LanguageError', async () => {
+      expect.assertions(2);
+
       const veauAccount: MockVeauAccount = new MockVeauAccount();
       const region: MockRegion = new MockRegion();
 
@@ -376,10 +364,7 @@ describe('IdentityQuery', () => {
       stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -388,6 +373,8 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when LanguageQuery returns Dead AJAXError', async () => {
+      expect.assertions(2);
+
       const veauAccount: MockVeauAccount = new MockVeauAccount();
       const region: MockRegion = new MockRegion();
 
@@ -410,10 +397,7 @@ describe('IdentityQuery', () => {
       stub3.returns(Superposition.alive<Region, DataSourceError>(region, DataSourceError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -422,6 +406,8 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when RegionQuery returns Dead RegionError', async () => {
+      expect.assertions(2);
+
       const veauAccount: MockVeauAccount = new MockVeauAccount();
       const language: MockLanguage = new MockLanguage();
 
@@ -444,10 +430,7 @@ describe('IdentityQuery', () => {
       stub3.returns(Superposition.dead<Region, RegionError>(new RegionError('test failed'), RegionError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -456,6 +439,8 @@ describe('IdentityQuery', () => {
     });
 
     it('returns Dead when RegionQuery returns Dead AJAXError', async () => {
+      expect.assertions(2);
+
       const veauAccount: MockVeauAccount = new MockVeauAccount();
       const language: MockLanguage = new MockLanguage();
 
@@ -478,10 +463,7 @@ describe('IdentityQuery', () => {
       stub3.returns(Superposition.dead<Region, AJAXError>(new AJAXError('test failed', 500), AJAXError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
-      const schrodinger: Schrodinger<
-        Identity,
-        IdentityError | DataSourceError
-      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
+      const schrodinger: Schrodinger<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

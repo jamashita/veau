@@ -3,15 +3,13 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
-
-import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { MockPage } from '../../../VO/Page/Mock/MockPage';
-import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
+import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { StatsOutline, StatsOutlineJSON } from '../../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../../VO/StatsOutline/StatsOutlines';
@@ -21,6 +19,8 @@ import { StatsOutlineQuery } from '../StatsOutlineQuery';
 describe('StatsOutlineQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const statsOutlineQuery1: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineAJAXQuery);
       const statsOutlineQuery2: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineAJAXQuery);
 
@@ -31,6 +31,8 @@ describe('StatsOutlineQuery', () => {
 
   describe('findByPage', () => {
     it('normal case', async () => {
+      expect.assertions(10);
+
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
       const page: MockPage = new MockPage(3);
       const json: Array<StatsOutlineJSON> = [
@@ -45,20 +47,20 @@ describe('StatsOutlineQuery', () => {
         }
       ];
 
-      const ajax: MockAJAX = new MockAJAX();
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
       stub.resolves({
-        status: OK,
+        status: StatusCodes.OK,
         body: json
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const schrodinger: Schrodinger<
-        StatsOutlines,
-        StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
+      const schrodinger: Schrodinger<StatsOutlines, StatsOutlineError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
+        veauAccountID,
+        page
+      ).terminate();
 
       expect(stub.withArgs('/api/stats/page/3').called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
@@ -66,8 +68,7 @@ describe('StatsOutlineQuery', () => {
 
       expect(outlines.size()).toBe(1);
       for (let i: number = 0; i < outlines.size(); i++) {
-        // eslint-disable-next-line no-await-in-loop
-        const statsID: StatsID = await StatsID.ofString(json[i].statsID).get();
+        const statsID: StatsID = StatsID.ofString(json[i].statsID);
         const outline: Nullable<StatsOutline> = outlines.get(statsID);
 
         expect(outline?.getStatsID().get().get()).toBe(json[i].statsID);
@@ -81,6 +82,8 @@ describe('StatsOutlineQuery', () => {
     });
 
     it('returns Dead when it has wrong format statsID', async () => {
+      expect.assertions(2);
+
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
       const page: MockPage = new MockPage(3);
       const json: Array<StatsOutlineJSON> = [
@@ -95,45 +98,43 @@ describe('StatsOutlineQuery', () => {
         }
       ];
 
-      const ajax: MockAJAX = new MockAJAX();
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
       stub.resolves({
-        status: OK,
+        status: StatusCodes.OK,
         body: json
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const schrodinger: Schrodinger<
-        StatsOutlines,
-        StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
+      const schrodinger: Schrodinger<StatsOutlines,
+        StatsOutlineError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(StatsOutlinesError);
+      }).toThrow(StatsOutlineError);
     });
 
-    it('doesn not return OK', async () => {
+    it('doesn not return StatusCodes.OK', async () => {
+      expect.assertions(2);
+
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
       const page: MockPage = new MockPage(3);
 
-      const ajax: MockAJAX = new MockAJAX();
+      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
       stub.resolves({
-        status: INTERNAL_SERVER_ERROR,
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
         body: []
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const schrodinger: Schrodinger<
-        StatsOutlines,
-        StatsOutlinesError | DataSourceError
-      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
+      const schrodinger: Schrodinger<StatsOutlines,
+        StatsOutlineError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

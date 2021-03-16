@@ -1,25 +1,20 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-
-import { OffsetError } from './Error/OffsetError';
+import { PageError } from './Error/PageError';
 
 export class Offset extends ValueObject<Offset, 'Offset'> {
   public readonly noun: 'Offset' = 'Offset';
   private readonly offset: number;
 
-  public static of(offset: number): Superposition<Offset, OffsetError> {
+  public static of(offset: number): Offset {
     if (offset < 0) {
-      return Superposition.dead<Offset, OffsetError>(
-        new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`),
-        OffsetError
-      );
+      throw new PageError(`ILLEGAL OFFSET SPECIFIED ${offset}`);
     }
     if (Kind.isInteger(offset)) {
-      return Superposition.alive<Offset, OffsetError>(new Offset(offset), OffsetError);
+      return new Offset(offset);
     }
 
-    return Superposition.dead<Offset, OffsetError>(new OffsetError('ILLEGAL OFFSET SPECIFIED'), OffsetError);
+    throw new PageError(`ILLEGAL OFFSET SPECIFIED: ${Kind.notate(offset)}`);
   }
 
   protected constructor(offset: number) {

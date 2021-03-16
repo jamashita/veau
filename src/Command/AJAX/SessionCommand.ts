@@ -1,8 +1,7 @@
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
 import { Superposition } from '@jamashita/publikum-monad';
-import { OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { ISessionCommand } from '../Interface/ISessionCommand';
 import { IAJAXCommand } from './Interface/IAJAXCommand';
@@ -11,18 +10,18 @@ import { IAJAXCommand } from './Interface/IAJAXCommand';
 export class SessionCommand implements ISessionCommand<AJAXError>, IAJAXCommand {
   public readonly noun: 'SessionCommand' = 'SessionCommand';
   public readonly source: 'AJAX' = 'AJAX';
-  private readonly ajax: IAJAX;
+  private readonly ajax: IAJAX<'json'>;
 
-  public constructor(@inject(Type.AJAX) ajax: IAJAX) {
+  public constructor(@inject(Type.AJAX) ajax: IAJAX<'json'>) {
     this.ajax = ajax;
   }
 
   public delete(): Superposition<unknown, AJAXError> {
-    return Superposition.playground<AJAXResponse<unknown>, AJAXError>(() => {
-      return this.ajax.delete<unknown>('/api/session');
-    }, AJAXError).map<unknown, AJAXError>((response: AJAXResponse<unknown>) => {
+    return Superposition.playground<AJAXResponse<'json'>, AJAXError>(() => {
+      return this.ajax.delete('/api/session');
+    }, AJAXError).map<unknown, AJAXError>((response: AJAXResponse<'json'>) => {
       switch (response.status) {
-        case OK: {
+        case StatusCodes.OK: {
           return null;
         }
         default: {

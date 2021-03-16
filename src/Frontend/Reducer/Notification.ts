@@ -1,5 +1,4 @@
 import { Reducer } from 'redux';
-
 import {
   NOTIFICATION_APPEAR,
   NOTIFICATION_DISAPPEAR,
@@ -8,6 +7,15 @@ import {
   NotificationVPosition,
   VeauAction
 } from '../Action';
+
+const initialState: Notification = {
+  kind: 'info',
+  open: false,
+  horizontal: 'center',
+  vertical: 'top',
+  duration: 3000,
+  message: 'GREETING'
+};
 
 export type Notification = Readonly<{
   kind: NotificationKind;
@@ -18,15 +26,6 @@ export type Notification = Readonly<{
   duration: number;
   values?: Record<string, string>;
 }>;
-
-const initialState: Notification = {
-  kind: 'info',
-  open: false,
-  horizontal: 'center',
-  vertical: 'top',
-  duration: 3000,
-  message: 'GREETING'
-};
 
 export const notification: Reducer<Notification, VeauAction> = (
   state: Notification = initialState,

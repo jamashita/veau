@@ -3,9 +3,7 @@ import { CacheError } from '@jamashita/publikum-cache';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
-
 import sinon, { SinonStub } from 'sinon';
-
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
@@ -16,13 +14,13 @@ import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
 import { MockPage } from '../../../VO/Page/Mock/MockPage';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
-import { StatsListItemsError } from '../../../VO/StatsListItem/Error/StatsListItemsError';
+import { StatsListItemError } from '../../../VO/StatsListItem/Error/StatsListItemError';
 import { StatsListItems } from '../../../VO/StatsListItem/StatsListItems';
-import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
+import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
 import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
 import { MockStatsOutlines } from '../../../VO/StatsOutline/Mock/MockStatsOutlines';
 import { StatsOutlines } from '../../../VO/StatsOutline/StatsOutlines';
-import { TermsError } from '../../../VO/Term/Error/TermsError';
+import { TermError } from '../../../VO/Term/Error/TermError';
 import { MockTerm } from '../../../VO/Term/Mock/MockTerm';
 import { MockTermID } from '../../../VO/Term/Mock/MockTermID';
 import { MockTerms } from '../../../VO/Term/Mock/MockTerms';
@@ -36,6 +34,8 @@ import { StatsListItemQuery } from '../StatsListItemQuery';
 describe('StatsListItemQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const statsListItemQuery1: StatsListItemQuery = vault.get<StatsListItemQuery>(Type.StatsListItemVaultQuery);
       const statsListItemQuery2: StatsListItemQuery = vault.get<StatsListItemQuery>(Type.StatsListItemVaultQuery);
 
@@ -46,6 +46,8 @@ describe('StatsListItemQuery', () => {
 
   describe('findByVeauAccountID', () => {
     it('normal case', async () => {
+      expect.assertions(10);
+
       const languageID1: MockLanguageID = new MockLanguageID();
       const language1: MockLanguage = new MockLanguage({
         languageID: languageID1
@@ -106,10 +108,7 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems, StatsListItemError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       const listItems: StatsListItems = schrodinger.get();
@@ -125,7 +124,9 @@ describe('StatsListItemQuery', () => {
       expect(listItems.get(1)?.getTerm()).toBe(term2);
     });
 
-    it('StatsOutlineQuery returns Dead.StatsOutlinesError', async () => {
+    it('statsOutlineQuery returns Dead.StatsOutlineError', async () => {
+      expect.assertions(2);
+
       const locale: MockLocale = new MockLocale();
       const terms: MockTerms = new MockTerms();
 
@@ -135,9 +136,7 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.returns(
-        Superposition.dead<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed'), StatsOutlinesError)
-      );
+      stub1.returns(Superposition.dead<StatsOutlines, StatsOutlineError>(new StatsOutlineError('test failed'), StatsOutlineError));
 
       const stub2: SinonStub = sinon.stub();
 
@@ -150,18 +149,17 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems, StatsListItemError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(StatsListItemsError);
+      }).toThrow(StatsListItemError);
     });
 
-    it('StatsOutlineQuery returns Dead.AJAXError', async () => {
+    it('statsOutlineQuery returns Dead.AJAXError', async () => {
+      expect.assertions(2);
+
       const locale: MockLocale = new MockLocale();
       const terms: MockTerms = new MockTerms();
 
@@ -184,10 +182,7 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems, StatsListItemError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -195,7 +190,9 @@ describe('StatsListItemQuery', () => {
       }).toThrow(AJAXError);
     });
 
-    it('LocaleQuery returns Dead.LocaleError', async () => {
+    it('localeQuery returns Dead.LocaleError', async () => {
+      expect.assertions(2);
+
       const outlines: MockStatsOutlines = new MockStatsOutlines();
       const terms: MockTerms = new MockTerms();
 
@@ -219,18 +216,17 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems, StatsListItemError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(StatsListItemsError);
+      }).toThrow(StatsListItemError);
     });
 
-    it('LocaleQuery returns Dead.AJAXError', async () => {
+    it('localeQuery returns Dead.AJAXError', async () => {
+      expect.assertions(2);
+
       const outlines: MockStatsOutlines = new MockStatsOutlines();
       const terms: MockTerms = new MockTerms();
 
@@ -253,10 +249,7 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems, StatsListItemError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -264,7 +257,9 @@ describe('StatsListItemQuery', () => {
       }).toThrow(AJAXError);
     });
 
-    it('TermQuery returns Dead.TermsError', async () => {
+    it('termQuery returns Dead.TermError', async () => {
+      expect.assertions(2);
+
       const outlines: MockStatsOutlines = new MockStatsOutlines();
       const locale: MockLocale = new MockLocale();
 
@@ -284,21 +279,20 @@ describe('StatsListItemQuery', () => {
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.returns(Superposition.dead<Terms, TermsError>(new TermsError('test failed'), TermsError));
+      stub3.returns(Superposition.dead<Terms, TermError>(new TermError('test failed'), TermError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems, StatsListItemError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(StatsListItemsError);
+      }).toThrow(StatsListItemError);
     });
 
-    it('TermQuery returns Dead.CacheError', async () => {
+    it('termQuery returns Dead.CacheError', async () => {
+      expect.assertions(2);
+
       const outlines: MockStatsOutlines = new MockStatsOutlines();
       const locale: MockLocale = new MockLocale();
 
@@ -321,10 +315,7 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.dead<Terms, CacheError>(new CacheError('test failed'), CacheError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems, StatsListItemError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -332,7 +323,9 @@ describe('StatsListItemQuery', () => {
       }).toThrow(CacheError);
     });
 
-    it('returns Dead.StatsListItemsError because there is no such LanguageID', async () => {
+    it('returns Dead.StatsListItemError because there is no such LanguageID', async () => {
+      expect.assertions(2);
+
       const languageID1: MockLanguageID = new MockLanguageID();
       const language1: MockLanguage = new MockLanguage({
         languageID: languageID1
@@ -366,18 +359,17 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems, StatsListItemError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(StatsListItemsError);
+      }).toThrow(StatsListItemError);
     });
 
-    it('returns Dead.StatsListItemsError because there is no such RegionID', async () => {
+    it('returns Dead.StatsListItemError because there is no such RegionID', async () => {
+      expect.assertions(2);
+
       const languageID1: MockLanguageID = new MockLanguageID();
       const language1: MockLanguage = new MockLanguage({
         languageID: languageID1
@@ -417,18 +409,17 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems, StatsListItemError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(StatsListItemsError);
+      }).toThrow(StatsListItemError);
     });
 
-    it('returns Dead.StatsListItemsError because there is no such TermID', async () => {
+    it('returns Dead.StatsListItemError because there is no such TermID', async () => {
+      expect.assertions(2);
+
       const languageID1: MockLanguageID = new MockLanguageID();
       const language1: MockLanguage = new MockLanguage({
         languageID: languageID1
@@ -473,15 +464,12 @@ describe('StatsListItemQuery', () => {
       stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<
-        StatsListItems,
-        StatsListItemsError | DataSourceError
-      > = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
+      const schrodinger: Schrodinger<StatsListItems, StatsListItemError | DataSourceError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(StatsListItemsError);
+      }).toThrow(StatsListItemError);
     });
   });
 });

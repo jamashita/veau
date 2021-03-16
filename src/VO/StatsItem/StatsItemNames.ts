@@ -1,7 +1,6 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
-
 import { StatsItemName } from './StatsItemName';
 
 export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemName, 'StatsItemNames'>
@@ -18,7 +17,7 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
     return new StatsItemNames(names);
   }
 
-  public static ofArray(names: Array<StatsItemName>): StatsItemNames {
+  public static ofArray(names: ReadonlyArray<StatsItemName>): StatsItemNames {
     return StatsItemNames.of(ImmutableSequence.of<StatsItemName>(names));
   }
 
@@ -83,6 +82,10 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
 
   public some(predicate: BinaryPredicate<StatsItemName, number>): boolean {
     return this.names.some(predicate);
+  }
+
+  public values(): Iterable<StatsItemName> {
+    return this.names.values();
   }
 
   public map<U>(mapper: Mapper<StatsItemName, U>): Array<U> {

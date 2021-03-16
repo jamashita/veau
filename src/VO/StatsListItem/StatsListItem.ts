@@ -1,6 +1,5 @@
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
-
+import { Kind, Nullable } from '@jamashita/publikum-type';
 import { Language } from '../Language/Language';
 import { Locale } from '../Locale/Locale';
 import { Region } from '../Region/Region';
@@ -20,25 +19,26 @@ export class StatsListItem extends ValueObject<StatsListItem, 'StatsListItem'> {
     return new StatsListItem(outline, language, region, term);
   }
 
-  public static ofOutline(
-    outline: StatsOutline,
-    locale: Locale,
-    terms: Terms
-  ): Superposition<StatsListItem, StatsListItemError> {
-    return Unscharferelation.maybe<Language>(locale.getLanguages().get(outline.getLanguageID()))
-      .map<StatsListItem>((language: Language) => {
-        return Unscharferelation.maybe<Region>(locale.getRegions().get(outline.getRegionID())).map<StatsListItem>(
-          (region: Region) => {
-            return Unscharferelation.maybe<Term>(terms.get(outline.getTermID())).map<StatsListItem>((term: Term) => {
-              return StatsListItem.of(outline, language, region, term);
-            });
-          }
-        );
-      })
-      .toSuperposition()
-      .recover<StatsListItem, StatsListItemError>((err: UnscharferelationError) => {
-        throw new StatsListItemError('StatsListItem.ofOutline()', err);
-      }, StatsListItemError);
+  public static ofOutline(outline: StatsOutline, locale: Locale, terms: Terms): StatsListItem {
+    const language: Nullable<Language> = locale.getLanguages().get(outline.getLanguageID());
+
+    if (Kind.isNull(language)) {
+      throw new StatsListItemError('StatsListItem.ofOutline()');
+    }
+
+    const region: Nullable<Region> = locale.getRegions().get(outline.getRegionID());
+
+    if (Kind.isNull(region)) {
+      throw new StatsListItemError('StatsListItem.ofOutline()');
+    }
+
+    const term: Nullable<Term> = terms.get(outline.getTermID());
+
+    if (Kind.isNull(term)) {
+      throw new StatsListItemError('StatsListItem.ofOutline()');
+    }
+
+    return StatsListItem.of(outline, language, region, term);
   }
 
   protected constructor(outline: StatsOutline, language: Language, region: Region, term: Term) {

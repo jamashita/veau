@@ -1,11 +1,7 @@
-import { ImmutableProject, MockAProject } from '@jamashita/publikum-collection';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { ImmutableProject, MockProject } from '@jamashita/publikum-collection';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 import sinon, { SinonSpy } from 'sinon';
-
-import { LanguageError } from '../Error/LanguageError';
-import { LanguagesError } from '../Error/LanguagesError';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';
@@ -20,12 +16,16 @@ import { MockLanguages } from '../Mock/MockLanguages';
 describe('Languages', () => {
   describe('of', () => {
     it('when the ImmutableProject is zero size, returns Languages.empty()', () => {
+      expect.assertions(1);
+
       const languages: Languages = Languages.of(ImmutableProject.empty<LanguageID, Language>());
 
       expect(languages).toBe(Languages.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const array: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
 
       const languages: Languages = Languages.ofArray(array);
@@ -38,90 +38,18 @@ describe('Languages', () => {
     });
   });
 
-  describe('ofSuperposition', () => {
-    it('when empty Array given, returns Alive, and Languages.empty()', async () => {
-      const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([]);
-      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      expect(schrodinger.get()).toBe(Languages.empty());
-    });
-
-    it('normal case', async () => {
-      const array: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
-
-      const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
-        Superposition.alive<Language, LanguageError>(array[0]),
-        Superposition.alive<Language, LanguageError>(array[1])
-      ]);
-      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const languages: Languages = schrodinger.get();
-
-      expect(languages.size()).toBe(array.length);
-      for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(array[i].getLanguageID())).toBe(array[i]);
-      }
-    });
-
-    it('contains failure', async () => {
-      const language: MockLanguage = new MockLanguage();
-
-      const superposition1: Superposition<Language, LanguageError> = Superposition.alive<Language, LanguageError>(
-        language,
-        LanguageError
-      );
-      const superposition2: Superposition<Language, LanguageError> = Superposition.dead<Language, LanguageError>(
-        new LanguageError('test failed'),
-        LanguageError
-      );
-      const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
-        superposition1,
-        superposition2
-      ]);
-      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(LanguagesError);
-    });
-
-    it('contains 2 failures', async () => {
-      const superposition1: Superposition<Language, LanguageError> = Superposition.dead<Language, LanguageError>(
-        new LanguageError('test failed 1'),
-        LanguageError
-      );
-      const superposition2: Superposition<Language, LanguageError> = Superposition.dead<Language, LanguageError>(
-        new LanguageError('test failed 2'),
-        LanguageError
-      );
-      const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
-        superposition1,
-        superposition2
-      ]);
-      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(LanguagesError);
-    });
-  });
-
   describe('ofJSON', () => {
-    it('when empty Array given, returns Languages.empty()', async () => {
-      const superposition: Superposition<Languages, LanguagesError> = Languages.ofJSON([]);
-      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
+    it('when empty Array given, returns Languages.empty()', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isAlive()).toBe(true);
-      const languages: Languages = schrodinger.get();
+      const languages: Languages = Languages.ofJSON([]);
 
       expect(languages).toBe(Languages.empty());
     });
 
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(5);
+
       const json: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -131,16 +59,11 @@ describe('Languages', () => {
         }
       ];
 
-      const superposition: Superposition<Languages, LanguagesError> = Languages.ofJSON(json);
-      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const languages: Languages = schrodinger.get();
+      const languages: Languages = Languages.ofJSON(json);
 
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        // eslint-disable-next-line no-await-in-loop
-        const language: Nullable<Language> = languages.get(await LanguageID.ofString(json[i].languageID).get());
+        const language: Nullable<Language> = languages.get(LanguageID.ofString(json[i].languageID));
 
         expect(language?.getLanguageID().get().get()).toBe(json[i].languageID);
         expect(language?.getName().get()).toBe(json[i].name);
@@ -151,17 +74,17 @@ describe('Languages', () => {
   });
 
   describe('ofRow', () => {
-    it('when empty Array given, returns Languages.empty()', async () => {
-      const superposition: Superposition<Languages, LanguagesError> = Languages.ofRow([]);
-      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
+    it('when empty Array given, returns Languages.empty()', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isAlive()).toBe(true);
-      const languages: Languages = schrodinger.get();
+      const languages: Languages = Languages.ofRow([]);
 
       expect(languages).toBe(Languages.empty());
     });
 
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(5);
+
       const rows: Array<LanguageRow> = [
         {
           languageID: UUID.v4().get(),
@@ -171,16 +94,12 @@ describe('Languages', () => {
         }
       ];
 
-      const superposition: Superposition<Languages, LanguagesError> = Languages.ofJSON(rows);
-      const schrodinger: Schrodinger<Languages, LanguagesError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const languages: Languages = schrodinger.get();
+      const languages: Languages = Languages.ofJSON(rows);
 
       expect(languages.size()).toBe(rows.length);
       for (let i: number = 0; i < languages.size(); i++) {
         // eslint-disable-next-line no-await-in-loop
-        const language: Nullable<Language> = languages.get(await LanguageID.ofString(rows[i].languageID).get());
+        const language: Nullable<Language> = languages.get(LanguageID.ofString(rows[i].languageID));
 
         expect(language?.getLanguageID().get().get()).toBe(rows[i].languageID);
         expect(language?.getName().get()).toBe(rows[i].name);
@@ -192,12 +111,16 @@ describe('Languages', () => {
 
   describe('ofArray', () => {
     it('when empty Array given, returns Languages.empty()', () => {
+      expect.assertions(1);
+
       const languages: Languages = Languages.ofArray([]);
 
       expect(languages).toBe(Languages.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const langs: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
 
       const languages: Languages = Languages.ofArray(langs);
@@ -211,12 +134,16 @@ describe('Languages', () => {
 
   describe('ofSpread', () => {
     it('when no arguments given, returns Languages.empty()', () => {
+      expect.assertions(1);
+
       const languages: Languages = Languages.ofSpread();
 
       expect(languages).toBe(Languages.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(3);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const langs: Array<MockLanguage> = [language1, language2];
@@ -232,21 +159,60 @@ describe('Languages', () => {
 
   describe('empty', () => {
     it('generates 0-length Languages', () => {
+      expect.assertions(1);
+
       expect(Languages.empty().size()).toBe(0);
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(Languages.empty()).toBe(Languages.empty());
+    });
+  });
+
+  describe('validate', () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
+      const n: unknown = [
+        {
+          languageID: 'tis tis',
+          name: 'Afaraf',
+          englishName: 'Afar',
+          iso639: 'aa'
+        }
+      ];
+
+      expect(Languages.validate(n)).toBe(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect.assertions(5);
+
+      expect(Languages.validate(null)).toBe(false);
+      expect(Languages.validate(undefined)).toBe(false);
+      expect(Languages.validate(56)).toBe(false);
+      expect(Languages.validate('fjafsd')).toBe(false);
+      expect(Languages.validate(false)).toBe(false);
+    });
+
+    it('returns false because given parameter is not an array', () => {
+      expect.assertions(1);
+
+      expect(Languages.validate({})).toBe(false);
     });
   });
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
         new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
@@ -268,11 +234,13 @@ describe('Languages', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
         new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
@@ -294,11 +262,13 @@ describe('Languages', () => {
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
         new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
@@ -320,11 +290,13 @@ describe('Languages', () => {
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
         new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
@@ -348,11 +320,13 @@ describe('Languages', () => {
 
   describe('map', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
         new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
@@ -366,12 +340,14 @@ describe('Languages', () => {
         return language.getISO639();
       });
 
-      expect(arr.length).toBe(3);
+      expect(arr).toHaveLength(3);
     });
   });
 
   describe('find', () => {
     it('returns Language if the element exists', () => {
+      expect.assertions(4);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -409,17 +385,19 @@ describe('Languages', () => {
         languages.find((language: Language) => {
           return language4.equals(language);
         })
-      ).toBe(null);
+      ).toBeNull();
     });
   });
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
         new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
@@ -441,6 +419,8 @@ describe('Languages', () => {
 
   describe('equals', () => {
     it('same instance', () => {
+      expect.assertions(1);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage({
         name: new MockLanguageName('language'),
@@ -453,11 +433,13 @@ describe('Languages', () => {
     });
 
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
         new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
@@ -479,6 +461,8 @@ describe('Languages', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
       const languages: Languages = Languages.ofArray([
         Language.of(
@@ -489,7 +473,7 @@ describe('Languages', () => {
         )
       ]);
 
-      expect(languages.toJSON()).toEqual([
+      expect(languages.toJSON()).toStrictEqual([
         {
           languageID: uuid.get(),
           name: 'language 1',
@@ -502,11 +486,13 @@ describe('Languages', () => {
 
   describe('toString', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
         new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
@@ -528,13 +514,15 @@ describe('Languages', () => {
 
   describe('iterator', () => {
     it('normal case', () => {
+      expect.assertions(3);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
       const arr: Array<MockLanguage> = [language1, language2, language3];
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
         new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
@@ -554,11 +542,13 @@ describe('Languages', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
         new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
@@ -582,11 +572,13 @@ describe('Languages', () => {
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
       const language3: MockLanguage = new MockLanguage();
 
-      const project: MockAProject<MockLanguageID, MockLanguage> = new MockAProject<MockLanguageID, MockLanguage>(
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
         new Map<MockLanguageID, MockLanguage>([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
@@ -603,6 +595,34 @@ describe('Languages', () => {
       languages.some(() => {
         return true;
       });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('values', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const language1: MockLanguage = new MockLanguage();
+      const language2: MockLanguage = new MockLanguage();
+      const language3: MockLanguage = new MockLanguage();
+
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
+          [language1.getLanguageID(), language1],
+          [language2.getLanguageID(), language2],
+          [language3.getLanguageID(), language3]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.values = spy;
+
+      const languages: Languages = Languages.of(project);
+
+      languages.values();
 
       expect(spy.called).toBe(true);
     });

@@ -1,6 +1,5 @@
 import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
-
 import { Color } from './Color';
 
 export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
@@ -33,7 +32,7 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
     return new Colors(colors);
   }
 
-  public static ofArray(colors: Array<Color>): Colors {
+  public static ofArray(colors: ReadonlyArray<Color>): Colors {
     return Colors.of(ImmutableSequence.of<Color>(colors));
   }
 
@@ -92,5 +91,9 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
 
   public some(predicate: BinaryPredicate<Color, number>): boolean {
     return this.colors.some(predicate);
+  }
+
+  public values(): Iterable<Color> {
+    return this.colors.values();
   }
 }

@@ -1,12 +1,12 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { UUID } from '@jamashita/publikum-uuid';
-
-import { StatsIDError } from '../Error/StatsIDError';
+import { StatsError } from '../Error/StatsError';
 import { StatsID } from '../StatsID';
 
 describe('StatsID', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
 
       const statsID: StatsID = StatsID.of(uuid);
@@ -16,36 +16,39 @@ describe('StatsID', () => {
   });
 
   describe('ofString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
 
-      const superposition: Superposition<StatsID, StatsIDError> = StatsID.ofString(uuid.get());
-      const schrodinger: Schrodinger<StatsID, StatsIDError> = await superposition.terminate();
+      const statsID: StatsID = StatsID.ofString(uuid.get());
 
-      expect(schrodinger.isAlive()).toBe(true);
+      expect(statsID.get().equals(uuid)).toBe(true);
     });
 
-    it('returns Dead when uuid length string is not given', async () => {
-      const superposition: Superposition<StatsID, StatsIDError> = StatsID.ofString('trois');
-      const schrodinger: Schrodinger<StatsID, StatsIDError> = await superposition.terminate();
+    it('returns Dead when uuid length string is not given', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
-      }).toThrow(StatsIDError);
+        StatsID.ofString('trois');
+      }).toThrow(StatsError);
     });
   });
 
   describe('generate', () => {
     it('always gives UUID length string', () => {
+      expect.assertions(100);
+
       for (let i: number = 0; i < 100; i++) {
-        expect(StatsID.generate().get().get().length).toBe(UUID.size());
+        expect(StatsID.generate().get().get()).toHaveLength(UUID.size());
       }
     });
   });
 
   describe('equals', () => {
     it('returns true if the property is the same', () => {
+      expect.assertions(3);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const statsID1: StatsID = StatsID.of(uuid1);
@@ -60,6 +63,8 @@ describe('StatsID', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const uuid: UUID = UUID.v4();
       const statsID: StatsID = StatsID.of(uuid);
 

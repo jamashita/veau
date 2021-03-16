@@ -1,8 +1,6 @@
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { UUID, UUIDError } from '@jamashita/publikum-uuid';
-
-import { LanguageIDError } from './Error/LanguageIDError';
+import { LanguageError } from './Error/LanguageError';
 
 export class LanguageID extends ValueObject<LanguageID, 'LanguageID'> {
   public readonly noun: 'LanguageID' = 'LanguageID';
@@ -13,18 +11,17 @@ export class LanguageID extends ValueObject<LanguageID, 'LanguageID'> {
     return new LanguageID(uuid);
   }
 
-  public static ofString(id: string): Superposition<LanguageID, LanguageIDError> {
-    return Superposition.playground<UUID, UUIDError>(() => {
-      return UUID.of(id);
-    }, UUIDError).transform<LanguageID, LanguageIDError>(
-      (uuid: UUID) => {
-        return LanguageID.of(uuid);
-      },
-      (err: UUIDError) => {
-        throw new LanguageIDError('LanguageID.ofString()', err);
-      },
-      LanguageIDError
-    );
+  public static ofString(id: string): LanguageID {
+    try {
+      return LanguageID.of(UUID.of(id));
+    }
+    catch (err: unknown) {
+      if (err instanceof UUIDError) {
+        throw new LanguageError('LanguageID.ofString()', err);
+      }
+
+      throw err;
+    }
   }
 
   public static empty(): LanguageID {

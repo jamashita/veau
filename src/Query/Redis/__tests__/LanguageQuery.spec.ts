@@ -1,16 +1,12 @@
-import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
 import 'reflect-metadata';
-
 import sinon, { SinonStub } from 'sinon';
-
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
-import { LanguagesError } from '../../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Language, LanguageJSON } from '../../../VO/Language/Language';
 import { LanguageID } from '../../../VO/Language/LanguageID';
@@ -21,6 +17,8 @@ import { LanguageQuery } from '../LanguageQuery';
 describe('LanguageQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const languageQuery1: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageRedisQuery);
       const languageQuery2: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageRedisQuery);
 
@@ -31,6 +29,8 @@ describe('LanguageQuery', () => {
 
   describe('all', () => {
     it('normal case', async () => {
+      expect.assertions(10);
+
       const json: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -57,16 +57,15 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Languages,
-        LanguagesError | DataSourceError> = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
+
       const languages: Languages = schrodinger.get();
 
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        // eslint-disable-next-line no-await-in-loop
-        const languageID: LanguageID = await LanguageID.ofString(json[i].languageID).get();
+        const languageID: LanguageID = LanguageID.ofString(json[i].languageID);
         const language: Nullable<Language> = languages.get(languageID);
 
         expect(language?.getLanguageID().get().get()).toBe(json[i].languageID);
@@ -76,7 +75,9 @@ describe('LanguageQuery', () => {
       }
     });
 
-    it('Redis returns empty array', async () => {
+    it('redis returns empty array', async () => {
+      expect.assertions(2);
+
       const json: Array<LanguageJSON> = [];
       const jsonStr: string = JSON.stringify(json);
 
@@ -90,14 +91,15 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Languages,
-        LanguagesError | DataSourceError> = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get().size()).toBe(json.length);
     });
 
     it('returns Dead when Redis returns null', async () => {
+      expect.assertions(2);
+
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
 
@@ -108,8 +110,7 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Languages,
-        LanguagesError | DataSourceError> = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -117,7 +118,9 @@ describe('LanguageQuery', () => {
       }).toThrow(RedisError);
     });
 
-    it('Redis returns RedisError', async () => {
+    it('redis returns RedisError', async () => {
+      expect.assertions(2);
+
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
 
@@ -128,8 +131,7 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Languages,
-        LanguagesError | DataSourceError> = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -137,7 +139,9 @@ describe('LanguageQuery', () => {
       }).toThrow(RedisError);
     });
 
-    it('Redis returns JSONAError', async () => {
+    it('redis returns JSONAError', async () => {
+      expect.assertions(2);
+
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
 
@@ -148,18 +152,19 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Languages,
-        LanguagesError | DataSourceError> = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(RedisError);
+      }).toThrow(LanguageError);
     });
   });
 
   describe('findByISO639', () => {
     it('normal case', async () => {
+      expect.assertions(5);
+
       const json: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -186,10 +191,10 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Language,
-        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
+
       const language: Language = schrodinger.get();
 
       expect(language.getLanguageID().get().get()).toBe(json[1].languageID);
@@ -198,7 +203,9 @@ describe('LanguageQuery', () => {
       expect(language.getISO639().get()).toBe(json[1].iso639);
     });
 
-    it('Redis returns empty array', async () => {
+    it('redis returns empty array', async () => {
+      expect.assertions(2);
+
       const json: Array<LanguageJSON> = [];
       const jsonStr: string = JSON.stringify(json);
 
@@ -212,8 +219,7 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Language,
-        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -222,6 +228,8 @@ describe('LanguageQuery', () => {
     });
 
     it('returns Dead because Redis returns null', async () => {
+      expect.assertions(2);
+
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
 
@@ -232,8 +240,7 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Language,
-        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -242,6 +249,8 @@ describe('LanguageQuery', () => {
     });
 
     it('no match results', async () => {
+      expect.assertions(2);
+
       const json: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -268,8 +277,7 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Language,
-        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -278,6 +286,8 @@ describe('LanguageQuery', () => {
     });
 
     it('malformat languageID', async () => {
+      expect.assertions(2);
+
       const json: Array<LanguageJSON> = [
         {
           languageID: 'ccio',
@@ -304,8 +314,7 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Language,
-        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -313,7 +322,9 @@ describe('LanguageQuery', () => {
       }).toThrow(LanguageError);
     });
 
-    it('Redis returns RedisError', async () => {
+    it('redis returns RedisError', async () => {
+      expect.assertions(2);
+
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
 
@@ -324,8 +335,7 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Language,
-        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -333,7 +343,9 @@ describe('LanguageQuery', () => {
       }).toThrow(RedisError);
     });
 
-    it('Redis returns JSONAError', async () => {
+    it('redis returns JSONAError', async () => {
+      expect.assertions(2);
+
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
 
@@ -344,13 +356,12 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const schrodinger: Schrodinger<Language,
-        LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(RedisError);
+      }).toThrow(LanguageError);
     });
   });
 });

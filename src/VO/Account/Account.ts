@@ -1,13 +1,11 @@
 import { Digest } from '@jamashita/publikum-digest';
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
-
 import { Password } from '../EntranceInformation/Password';
-import { LanguageIDError } from '../Language/Error/LanguageIDError';
+import { LanguageError } from '../Language/Error/LanguageError';
 import { LanguageID } from '../Language/LanguageID';
-import { RegionIDError } from '../Region/Error/RegionIDError';
+import { RegionError } from '../Region/Error/RegionError';
 import { RegionID } from '../Region/RegionID';
-import { VeauAccountIDError } from '../VeauAccount/Error/VeauAccountIDError';
+import { VeauAccountError } from '../VeauAccount/Error/VeauAccountError';
 import { VeauAccount } from '../VeauAccount/VeauAccount';
 import { VeauAccountID } from '../VeauAccount/VeauAccountID';
 import { AccountName } from './AccountName';
@@ -31,28 +29,24 @@ export class Account extends ValueObject<Account, 'Account'> {
     return new Account(account, hash);
   }
 
-  public static ofRow(row: AccountRow): Superposition<Account, AccountError> {
-    return VeauAccountID.ofString(row.veauAccountID)
-      .map<Account, VeauAccountIDError | LanguageIDError | RegionIDError>(
-        (veauAccountID: VeauAccountID) => {
-          return LanguageID.ofString(row.languageID).map<Account, LanguageIDError | RegionIDError>(
-            (languageID: LanguageID) => {
-              return RegionID.ofString(row.regionID).map<Account, RegionIDError>((regionID: RegionID) => {
-                return Account.of(
-                  VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(row.name)),
-                  Hash.of(row.hash)
-                );
-              });
-            },
-            RegionIDError
-          );
-        },
-        LanguageIDError,
-        RegionIDError
-      )
-      .recover<Account, AccountError>((err: VeauAccountIDError | LanguageIDError | RegionIDError) => {
+  public static ofRow(row: AccountRow): Account {
+    try {
+      return Account.of(
+        VeauAccount.of(
+          VeauAccountID.ofString(row.veauAccountID),
+          LanguageID.ofString(row.languageID),
+          RegionID.ofString(row.regionID),
+          AccountName.of(row.name)
+        ),
+        Hash.of(row.hash)
+      );
+    }
+    catch (err: unknown) {
+      if (err instanceof VeauAccountError || err instanceof LanguageError || err instanceof RegionError) {
         throw new AccountError('Account.ofRow()', err);
-      }, AccountError);
+      }
+      throw err;
+    }
   }
 
   protected constructor(account: VeauAccount, hash: Hash) {

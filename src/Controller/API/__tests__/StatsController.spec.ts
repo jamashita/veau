@@ -2,24 +2,21 @@ import { DataSourceError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
 import { MySQLError } from '@jamashita/publikum-mysql';
 import { UUID } from '@jamashita/publikum-uuid';
-
-import bodyParser from 'body-parser';
 import express, { Express } from 'express';
 import { NextFunction, Request, Response } from 'express-serve-static-core';
-import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
-
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { StatsError } from '../../../Entity/Stats/Error/StatsError';
 import { MockStats } from '../../../Entity/Stats/Mock/MockStats';
 import { Stats } from '../../../Entity/Stats/Stats';
 import { StatsInteractor } from '../../../Interactor/StatsInteractor';
 import { NoSuchElementError } from '../../../Query/Error/NoSuchElementError';
-import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
+import { StatsError } from '../../../VO/StatsOutline/Error/StatsError';
+import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
 import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
 import { MockStatsOutlines } from '../../../VO/StatsOutline/Mock/MockStatsOutlines';
 import { StatsOutlines } from '../../../VO/StatsOutline/StatsOutlines';
@@ -35,6 +32,8 @@ const fakeAccount = (req: Request, _res: Response, next: NextFunction): void => 
 describe('StatsController', () => {
   describe('GET /page/:page(\\d+)', () => {
     it('normal case', async () => {
+      expect.assertions(2);
+
       const outlines: MockStatsOutlines = new MockStatsOutlines(
         new MockStatsOutline(),
         new MockStatsOutline(),
@@ -59,11 +58,13 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).get('/stats/page/1');
 
-      expect(response.status).toBe(OK);
-      expect(response.body).toEqual(outlines.toJSON());
+      expect(response.status).toBe(StatusCodes.OK);
+      expect(response.body).toStrictEqual(outlines.toJSON());
     });
 
     it('page is 0', async () => {
+      expect.assertions(1);
+
       const app: express.Express = express();
 
       useContainer(kernel);
@@ -74,16 +75,18 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).get('/stats/page/0');
 
-      expect(response.status).toBe(BAD_REQUEST);
+      expect(response.status).toBe(StatusCodes.BAD_REQUEST);
     });
 
-    it('replies INTERNAL_SERVER_ERROR', async () => {
+    it('replies StatusCodes.INTERNAL_SERVER_ERROR', async () => {
+      expect.assertions(1);
+
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByVeauAccountID = stub;
       stub.returns(
-        Superposition.dead<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed'), StatsOutlinesError)
+        Superposition.dead<StatsOutlines, StatsOutlineError>(new StatsOutlineError('test failed'), StatsOutlineError)
       );
 
       const app: express.Express = express();
@@ -96,12 +99,14 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).get('/stats/page/1');
 
-      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
+      expect(response.status).toBe(StatusCodes.INTERNAL_SERVER_ERROR);
     });
   });
 
   describe('GET /:statsID([0-9a-f-]{36})', () => {
     it('normal case', async () => {
+      expect.assertions(2);
+
       const stats: MockStats = new MockStats();
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
@@ -120,18 +125,18 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).get(`/stats/${UUID.v4().get()}`);
 
-      expect(response.status).toBe(OK);
-      expect(response.body).toEqual(stats.toJSON());
+      expect(response.status).toBe(StatusCodes.OK);
+      expect(response.body).toStrictEqual(stats.toJSON());
     });
 
-    it('replies INTERNAL_SERVER_ERROR because uuid is malformat', async () => {
+    it('replies StatusCodes.INTERNAL_SERVER_ERROR because uuid is malformat', async () => {
+      expect.assertions(1);
+
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByStatsID = stub;
-      stub.returns(
-        Superposition.dead<Stats, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError)
-      );
+      stub.returns(Superposition.dead<Stats, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError));
 
       const app: express.Express = express();
 
@@ -143,17 +148,17 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).get('/stats/ffffffffffffffffffffffffffffffffffff');
 
-      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
+      expect(response.status).toBe(StatusCodes.INTERNAL_SERVER_ERROR);
     });
 
-    it('replies NO_CONTENT because StatsIteractor.findByStatsID() returns Dead NoSuchElementError', async () => {
+    it('replies StatusCodes.NO_CONTENT because StatsIteractor.findByStatsID() returns Dead NoSuchElementError', async () => {
+      expect.assertions(1);
+
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByStatsID = stub;
-      stub.returns(
-        Superposition.dead<Stats, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError)
-      );
+      stub.returns(Superposition.dead<Stats, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError));
 
       const app: express.Express = express();
 
@@ -165,10 +170,12 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).get(`/stats/${UUID.v4().get()}`);
 
-      expect(response.status).toBe(NO_CONTENT);
+      expect(response.status).toBe(StatusCodes.NO_CONTENT);
     });
 
-    it('replies INTERNAL_SERVER_ERROR because StatsIteractor.findByStatsID() returns Dead', async () => {
+    it('replies StatusCodes.INTERNAL_SERVER_ERROR because StatsIteractor.findByStatsID() returns Dead', async () => {
+      expect.assertions(1);
+
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
@@ -185,12 +192,14 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).get(`/stats/${UUID.v4().get()}`);
 
-      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
+      expect(response.status).toBe(StatusCodes.INTERNAL_SERVER_ERROR);
     });
   });
 
   describe('POST /', () => {
     it('normal case', async () => {
+      expect.assertions(1);
+
       const stats: MockStats = new MockStats({
         outline: new MockStatsOutline({
           termID: Term.ANNUAL.getTermID()
@@ -206,12 +215,10 @@ describe('StatsController', () => {
       const app: express.Express = express();
 
       useContainer(kernel);
-      app.use(
-        bodyParser.urlencoded({
-          extended: false
-        })
-      );
-      app.use(bodyParser.json());
+      app.use(express.urlencoded({
+        extended: false
+      }));
+      app.use(express.json());
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [StatsController]
@@ -219,19 +226,19 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).post('/stats').send(stats.toJSON());
 
-      expect(response.status).toBe(CREATED);
+      expect(response.status).toBe(StatusCodes.CREATED);
     });
 
-    it('replies BAD_REQUEST because request body is malformat', async () => {
+    it('replies StatusCodes.BAD_REQUEST because request body is malformat', async () => {
+      expect.assertions(1);
+
       const app: express.Express = express();
 
       useContainer(kernel);
-      app.use(
-        bodyParser.urlencoded({
-          extended: false
-        })
-      );
-      app.use(bodyParser.json());
+      app.use(express.urlencoded({
+        extended: false
+      }));
+      app.use(express.json());
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [StatsController]
@@ -249,10 +256,12 @@ describe('StatsController', () => {
         }
       });
 
-      expect(response.status).toBe(BAD_REQUEST);
+      expect(response.status).toBe(StatusCodes.BAD_REQUEST);
     });
 
-    it('replies BAD_REQUEST because UUIDs are malformat', async () => {
+    it('replies StatusCodes.BAD_REQUEST because UUIDs are malformat', async () => {
+      expect.assertions(1);
+
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
@@ -262,12 +271,10 @@ describe('StatsController', () => {
       const app: express.Express = express();
 
       useContainer(kernel);
-      app.use(
-        bodyParser.urlencoded({
-          extended: false
-        })
-      );
-      app.use(bodyParser.json());
+      app.use(express.urlencoded({
+        extended: false
+      }));
+      app.use(express.json());
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [StatsController]
@@ -297,10 +304,12 @@ describe('StatsController', () => {
         items: []
       });
 
-      expect(response.status).toBe(BAD_REQUEST);
+      expect(response.status).toBe(StatusCodes.BAD_REQUEST);
     });
 
-    it('replies INTERNAL_SERVER_ERROR because StatsIteractor.save() returns Dead', async () => {
+    it('replies StatusCodes.INTERNAL_SERVER_ERROR because StatsIteractor.save() returns Dead', async () => {
+      expect.assertions(1);
+
       const stats: MockStats = new MockStats({
         outline: new MockStatsOutline({
           termID: Term.ANNUAL.getTermID()
@@ -316,12 +325,10 @@ describe('StatsController', () => {
       const app: express.Express = express();
 
       useContainer(kernel);
-      app.use(
-        bodyParser.urlencoded({
-          extended: false
-        })
-      );
-      app.use(bodyParser.json());
+      app.use(express.urlencoded({
+        extended: false
+      }));
+      app.use(express.json());
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [StatsController]
@@ -329,7 +336,7 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).post('/stats').send(stats.toJSON());
 
-      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
+      expect(response.status).toBe(StatusCodes.INTERNAL_SERVER_ERROR);
     });
   });
 });

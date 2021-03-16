@@ -7,6 +7,8 @@ import { Row } from '../Row';
 describe('Coordinate', () => {
   describe('equals', () => {
     it('returns true if the all properties are the same', () => {
+      expect.assertions(5);
+
       const coordinate1: Coordinate = Coordinate.of(new MockRow(1), new MockColumn(2));
       const coordinate2: Coordinate = Coordinate.of(new MockRow(2), new MockColumn(2));
       const coordinate3: Coordinate = Coordinate.of(new MockRow(1), new MockColumn(1));
@@ -22,10 +24,12 @@ describe('Coordinate', () => {
   });
 
   describe('toString', () => {
-    it('returns the original string', async () => {
+    it('returns the original string', () => {
+      expect.assertions(1);
+
       const row: number = 1;
       const column: number = 2;
-      const coordinate: Coordinate = Coordinate.of(await Row.of(row).get(), await Column.of(column).get());
+      const coordinate: Coordinate = Coordinate.of(Row.of(row), Column.of(column));
 
       expect(coordinate.toString()).toBe(`${row} ${column}`);
     });

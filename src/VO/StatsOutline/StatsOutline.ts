@@ -1,18 +1,15 @@
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-
-import { LanguageIDError } from '../Language/Error/LanguageIDError';
+import { LanguageError } from '../Language/Error/LanguageError';
 import { LanguageID } from '../Language/LanguageID';
-import { RegionIDError } from '../Region/Error/RegionIDError';
+import { RegionError } from '../Region/Error/RegionError';
 import { RegionID } from '../Region/RegionID';
-import { TermIDError } from '../Term/Error/TermIDError';
+import { TermError } from '../Term/Error/TermError';
 import { Term } from '../Term/Term';
 import { TermID } from '../Term/TermID';
-import { StatsIDError } from './Error/StatsIDError';
+import { StatsError } from './Error/StatsError';
 import { StatsOutlineError } from './Error/StatsOutlineError';
-import { UpdatedAtError } from './Error/UpdatedAtError';
 import { StatsID } from './StatsID';
 import { StatsName } from './StatsName';
 import { StatsUnit } from './StatsUnit';
@@ -59,82 +56,46 @@ export class StatsOutline extends ValueObject<StatsOutline, 'StatsOutline'> impl
     return new StatsOutline(statsID, languageID, regionID, termID, name, unit, updatedAt);
   }
 
-  public static ofJSON(json: StatsOutlineJSON): Superposition<StatsOutline, StatsOutlineError> {
-    return StatsID.ofString(json.statsID)
-      .map<StatsOutline, StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError>(
-        (statsID: StatsID) => {
-          return LanguageID.ofString(json.languageID).map<
-            StatsOutline,
-            LanguageIDError | RegionIDError | TermIDError | UpdatedAtError
-          >((languageID: LanguageID) => {
-            return RegionID.ofString(json.regionID).map<StatsOutline, RegionIDError | TermIDError | UpdatedAtError>(
-              (regionID: RegionID) => {
-                return TermID.ofString(json.termID).map<StatsOutline, TermIDError | UpdatedAtError>(
-                  (termID: TermID) => {
-                    return UpdatedAt.ofString(json.updatedAt).map<StatsOutline, UpdatedAtError>(
-                      (updatedAt: UpdatedAt) => {
-                        return StatsOutline.of(
-                          statsID,
-                          languageID,
-                          regionID,
-                          termID,
-                          StatsName.of(json.name),
-                          StatsUnit.of(json.unit),
-                          updatedAt
-                        );
-                      }
-                    );
-                  },
-                  UpdatedAtError
-                );
-              },
-              TermIDError
-            );
-          }, RegionIDError);
-        },
-        LanguageIDError
-      )
-      .recover((err: StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError) => {
+  public static ofJSON(json: StatsOutlineJSON): StatsOutline {
+    try {
+      return StatsOutline.of(
+        StatsID.ofString(json.statsID),
+        LanguageID.ofString(json.languageID),
+        RegionID.ofString(json.regionID),
+        TermID.ofString(json.termID),
+        StatsName.of(json.name),
+        StatsUnit.of(json.unit),
+        UpdatedAt.ofString(json.updatedAt)
+      );
+    }
+    catch (err: unknown) {
+      if (err instanceof StatsError || err instanceof LanguageError || err instanceof RegionError || err instanceof TermError) {
         throw new StatsOutlineError('StatsOutline.ofJSON()', err);
-      }, StatsOutlineError);
+      }
+
+      throw err;
+    }
   }
 
-  public static ofRow(row: StatsOutlineRow): Superposition<StatsOutline, StatsOutlineError> {
-    return StatsID.ofString(row.statsID)
-      .map<StatsOutline, StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError>(
-        (statsID: StatsID) => {
-          return LanguageID.ofString(row.languageID).map<
-            StatsOutline,
-            LanguageIDError | RegionIDError | TermIDError | UpdatedAtError
-          >((languageID: LanguageID) => {
-            return RegionID.ofString(row.regionID).map<StatsOutline, RegionIDError | TermIDError | UpdatedAtError>(
-              (regionID: RegionID) => {
-                return TermID.ofString(row.termID).map<StatsOutline, TermIDError | UpdatedAtError>((termID: TermID) => {
-                  return UpdatedAt.ofString(row.updatedAt).map<StatsOutline, UpdatedAtError>((updatedAt: UpdatedAt) => {
-                    return StatsOutline.of(
-                      statsID,
-                      languageID,
-                      regionID,
-                      termID,
-                      StatsName.of(row.name),
-                      StatsUnit.of(row.unit),
-                      updatedAt
-                    );
-                  });
-                }, UpdatedAtError);
-              },
-              TermIDError
-            );
-          }, RegionIDError);
-        },
-        LanguageIDError
-      )
-      .recover<StatsOutline, StatsOutlineError>(
-        (err: StatsIDError | LanguageIDError | RegionIDError | TermIDError | UpdatedAtError) => {
-          throw new StatsOutlineError('StatsOutline.ofRow()', err);
-        },
-        StatsOutlineError
+  public static ofRow(row: StatsOutlineRow): StatsOutline {
+    try {
+      return StatsOutline.of(
+        StatsID.ofString(row.statsID),
+        LanguageID.ofString(row.languageID),
+        RegionID.ofString(row.regionID),
+        TermID.ofString(row.termID),
+        StatsName.of(row.name),
+        StatsUnit.of(row.unit),
+        UpdatedAt.ofString(row.updatedAt)
       );
+    }
+    catch (err: unknown) {
+      if (err instanceof StatsError || err instanceof LanguageError || err instanceof RegionError || err instanceof TermError) {
+        throw new StatsOutlineError('StatsOutline.ofJSON()', err);
+      }
+
+      throw err;
+    }
   }
 
   public static default(): StatsOutline {
@@ -149,7 +110,7 @@ export class StatsOutline extends ValueObject<StatsOutline, 'StatsOutline'> impl
     );
   }
 
-  public static isJSON(n: unknown): n is StatsOutlineJSON {
+  public static validate(n: unknown): n is StatsOutlineJSON {
     if (!Kind.isObject<StatsOutlineJSON>(n)) {
       return false;
     }

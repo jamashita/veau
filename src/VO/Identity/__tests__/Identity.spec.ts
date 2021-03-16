@@ -1,5 +1,4 @@
 import { UUID } from '@jamashita/publikum-uuid';
-
 import { AccountName } from '../../Account/AccountName';
 import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { ISO639 } from '../../Language/ISO639';
@@ -21,6 +20,8 @@ import { Identity } from '../Identity';
 describe('Identity', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(4);
+
       const veauAccountID: VeauAccountID = new MockVeauAccountID();
       const language: Language = new MockLanguage();
       const region: Region = new MockRegion();
@@ -37,10 +38,12 @@ describe('Identity', () => {
 
   describe('empty', () => {
     it('has randomly generated id and empty name, language, and region', () => {
+      expect.assertions(5);
+
       const identity1: Identity = Identity.empty();
       const identity2: Identity = Identity.empty();
 
-      expect(identity1.getVeauAccountID().get().get().length).toBe(UUID.size());
+      expect(identity1.getVeauAccountID().get().get()).toHaveLength(UUID.size());
       expect(identity1.getVeauAccountID().equals(identity2.getVeauAccountID())).toBe(false);
       expect(identity1.getRegion()).toBe(Region.empty());
       expect(identity1.getLanguage()).toBe(Language.empty());
@@ -50,6 +53,8 @@ describe('Identity', () => {
 
   describe('equals', () => {
     it('returns true if the all properties are the same', () => {
+      expect.assertions(6);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -129,6 +134,8 @@ describe('Identity', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -137,8 +144,17 @@ describe('Identity', () => {
       const identity: Identity = Identity.of(
         VeauAccountID.of(uuid1),
         AccountName.of(name),
-        Language.of(LanguageID.of(uuid2), LanguageName.of('e'), LanguageName.of('l'), ISO639.of('DU')),
-        Region.of(RegionID.of(uuid3), RegionName.of('r'), ISO3166.of('IU2'))
+        Language.of(
+          LanguageID.of(uuid2),
+          LanguageName.of('e'),
+          LanguageName.of('l'),
+          ISO639.of('DU')
+        ),
+        Region.of(
+          RegionID.of(uuid3),
+          RegionName.of('r'),
+          ISO3166.of('IU2')
+        )
       );
 
       expect(identity.toString()).toBe(`${uuid1.get()} ${name} ${uuid2.get()} e l DU ${uuid3.get()} r IU2`);

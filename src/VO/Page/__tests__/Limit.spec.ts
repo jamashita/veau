@@ -1,69 +1,60 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
-
-import { LimitError } from '../Error/LimitError';
+import { PageError } from '../Error/PageError';
 import { Limit } from '../Limit';
 
 describe('Limit', () => {
   describe('default', () => {
     it('always returns 40', () => {
+      expect.assertions(1);
+
       expect(Limit.default().get()).toBe(40);
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(Limit.default()).toBe(Limit.default());
     });
   });
 
   describe('of', () => {
-    it('returns Dead when the argument is less than 1', async () => {
-      const superposition1: Superposition<Limit, LimitError> = Limit.of(1);
-      const superposition2: Superposition<Limit, LimitError> = Limit.of(0);
-      const superposition3: Superposition<Limit, LimitError> = Limit.of(-1);
-      const schrodinger1: Schrodinger<Limit, LimitError> = await superposition1.terminate();
-      const schrodinger2: Schrodinger<Limit, LimitError> = await superposition2.terminate();
-      const schrodinger3: Schrodinger<Limit, LimitError> = await superposition3.terminate();
+    it('returns Dead when the argument is less than 1', () => {
+      expect.assertions(2);
 
-      expect(schrodinger1.isAlive()).toBe(true);
-      expect(schrodinger2.isDead()).toBe(true);
       expect(() => {
-        schrodinger2.get();
-      }).toThrow(LimitError);
-      expect(schrodinger3.isDead()).toBe(true);
+        Limit.of(0);
+      }).toThrow(PageError);
       expect(() => {
-        schrodinger3.get();
-      }).toThrow(LimitError);
+        Limit.of(-1);
+      }).toThrow(PageError);
     });
 
-    it('returns Dead when the argument is not integer', async () => {
-      const superposition1: Superposition<Limit, LimitError> = Limit.of(1.1);
-      const superposition2: Superposition<Limit, LimitError> = Limit.of(0.2);
-      const schrodinger1: Schrodinger<Limit, LimitError> = await superposition1.terminate();
-      const schrodinger2: Schrodinger<Limit, LimitError> = await superposition2.terminate();
+    it('returns Dead when the argument is not integer', () => {
+      expect.assertions(2);
 
-      expect(schrodinger1.isDead()).toBe(true);
       expect(() => {
-        schrodinger1.get();
-      }).toThrow(LimitError);
-      expect(schrodinger2.isDead()).toBe(true);
+        Limit.of(1.1);
+      }).toThrow(PageError);
       expect(() => {
-        schrodinger2.get();
-      }).toThrow(LimitError);
+        Limit.of(0.2);
+      }).toThrow(PageError);
     });
 
-    it('returns Alive and its value is Limit.default() when the argument 0', async () => {
-      const superposition: Superposition<Limit, LimitError> = Limit.of(40);
-      const schrodinger: Schrodinger<Limit, LimitError> = await superposition.terminate();
+    it('returns Alive and its value is Limit.default() when the argument 0', () => {
+      expect.assertions(1);
 
-      expect(schrodinger.isAlive()).toBe(true);
-      expect(schrodinger.get()).toBe(Limit.default());
+      const limit: Limit = Limit.of(40);
+
+      expect(limit).toBe(Limit.default());
     });
   });
 
   describe('equals', () => {
-    it('returns true if both properties are the same', async () => {
-      const limit1: Limit = await Limit.of(1).get();
-      const limit2: Limit = await Limit.of(2).get();
-      const limit3: Limit = await Limit.of(1).get();
+    it('returns true if both properties are the same', () => {
+      expect.assertions(3);
+
+      const limit1: Limit = Limit.of(1);
+      const limit2: Limit = Limit.of(2);
+      const limit3: Limit = Limit.of(1);
 
       expect(limit1.equals(limit1)).toBe(true);
       expect(limit1.equals(limit2)).toBe(false);
@@ -72,9 +63,11 @@ describe('Limit', () => {
   });
 
   describe('toString', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const num: number = 1;
-      const limit: Limit = await Limit.of(num).get();
+      const limit: Limit = Limit.of(num);
 
       expect(limit.toString()).toBe(num.toString());
     });

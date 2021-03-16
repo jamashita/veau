@@ -1,8 +1,6 @@
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
-import { Ambiguous } from '@jamashita/publikum-type';
+import { Ambiguous, Kind } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
-
 import { TermError } from './Error/TermError';
 import { TermID } from './TermID';
 import { TermKey } from './TermKey';
@@ -13,10 +11,11 @@ const MONTHLY_ID: string = '5a60eb2e-64f4-4d18-b8c1-34d3fa6a6262';
 const QUARTERLY_ID: string = 'fbfe34f4-9757-4133-8353-c9a4bf3479d3';
 const ANNUAL_ID: string = '96f0d8a0-a136-4fb1-bc07-22dad6b8a21c';
 
-export class Term extends ValueObject<Term, 'Term'> {
+export class Term extends ValueObject<'Term'> {
   public readonly noun: 'Term' = 'Term';
   private readonly termID: TermID;
   private readonly key: TermKey;
+
   public static readonly DAILY: Term = new Term(TermID.of(UUID.of(DAILY_ID)), TermKey.of('DAILY'));
   public static readonly WEEKLY: Term = new Term(TermID.of(UUID.of(WEEKLY_ID)), TermKey.of('WEEKLY'));
   public static readonly MONTHLY: Term = new Term(TermID.of(UUID.of(MONTHLY_ID)), TermKey.of('MONTHLY'));
@@ -24,22 +23,22 @@ export class Term extends ValueObject<Term, 'Term'> {
   public static readonly ANNUAL: Term = new Term(TermID.of(UUID.of(ANNUAL_ID)), TermKey.of('ANNUAL'));
   private static readonly all: Map<string, Term> = Term.init();
 
-  public static of(uuid: UUID): Superposition<Term, TermError> {
+  public static of(uuid: UUID): Term {
     return Term.ofString(uuid.get());
   }
 
-  public static ofTermID(termID: TermID): Superposition<Term, TermError> {
+  public static ofTermID(termID: TermID): Term {
     return Term.of(termID.get());
   }
 
-  public static ofString(id: string): Superposition<Term, TermError> {
+  public static ofString(id: string): Term {
     const term: Ambiguous<Term> = Term.all.get(id);
 
-    return Unscharferelation.maybe<Term>(term)
-      .toSuperposition()
-      .recover((err: UnscharferelationError) => {
-        throw new TermError(`${id}`, err);
-      }, TermError);
+    if (Kind.isUndefined(term)) {
+      throw new TermError(`ILLEGAL TERM ID SPECIFIED: ${id}`);
+    }
+
+    return term;
   }
 
   private static init(): Map<string, Term> {

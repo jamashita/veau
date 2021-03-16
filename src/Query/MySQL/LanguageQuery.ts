@@ -1,10 +1,8 @@
 import { Superposition } from '@jamashita/publikum-monad';
 import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
-import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../VO/Language/ISO639';
 import { Language, LanguageRow } from '../../VO/Language/Language';
 import { LanguageID } from '../../VO/Language/LanguageID';
@@ -23,7 +21,7 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public all(): Superposition<Languages, LanguagesError | MySQLError> {
+  public all(): Superposition<Languages, LanguageError | MySQLError> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -35,13 +33,13 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
 
     return Superposition.playground<Array<LanguageRow>, MySQLError>(() => {
       return this.mysql.execute<Array<LanguageRow>>(query);
-    }, MySQLError).map<Languages, LanguagesError | MySQLError>((rows: Array<LanguageRow>) => {
+    }, MySQLError).map<Languages, LanguageError | MySQLError>((rows: Array<LanguageRow>) => {
       if (rows.length === 0) {
         throw new MySQLError('NO LANGUAGES FROM MYSQL');
       }
 
       return Languages.ofRow(rows);
-    }, LanguagesError);
+    }, LanguageError);
   }
 
   public find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | MySQLError> {
@@ -57,17 +55,13 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<LanguageRow>>(query, {
         languageID: languageID.get().get()
       });
-    }, MySQLError).map<Language, LanguageError | NoSuchElementError | MySQLError>(
-      (rows: Array<LanguageRow>) => {
-        if (rows.length === 0) {
-          throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
-        }
+    }, MySQLError).map<Language, LanguageError | NoSuchElementError | MySQLError>((rows: Array<LanguageRow>) => {
+      if (rows.length === 0) {
+        throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
+      }
 
-        return Language.ofRow(rows[0]);
-      },
-      LanguageError,
-      NoSuchElementError
-    );
+      return Language.ofRow(rows[0]);
+    }, LanguageError, NoSuchElementError);
   }
 
   public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | MySQLError> {
@@ -83,16 +77,12 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<LanguageRow>>(query, {
         iso639: iso639.get()
       });
-    }, MySQLError).map<Language, LanguageError | NoSuchElementError | MySQLError>(
-      (rows: Array<LanguageRow>) => {
-        if (rows.length === 0) {
-          throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
-        }
+    }, MySQLError).map<Language, LanguageError | NoSuchElementError | MySQLError>((rows: Array<LanguageRow>) => {
+      if (rows.length === 0) {
+        throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
+      }
 
-        return Language.ofRow(rows[0]);
-      },
-      LanguageError,
-      NoSuchElementError
-    );
+      return Language.ofRow(rows[0]);
+    }, LanguageError, NoSuchElementError);
   }
 }

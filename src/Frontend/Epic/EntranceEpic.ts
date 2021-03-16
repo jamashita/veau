@@ -2,7 +2,6 @@ import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
-
 import { Type } from '../../Container/Types';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
@@ -67,14 +66,11 @@ export class EntranceEpic {
         return concat<VeauAction>(
           of<VeauAction>(loading()),
           from<Promise<Observable<VeauAction>>>(
-            this.identityQuery.findByEntranceInfo(entranceInformation).transform<Observable<VeauAction>, Error>(
-              (identity: Identity) => {
-                return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
-              },
-              () => {
-                return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
-              }
-            ).get()
+            this.identityQuery.findByEntranceInfo(entranceInformation).transform<Observable<VeauAction>, Error>((identity: Identity) => {
+              return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
+            }, () => {
+              return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
+            }).get()
           ).pipe<VeauAction>(
             mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
               return observable;
@@ -86,10 +82,7 @@ export class EntranceEpic {
     );
   }
 
-  public accountNameTyped(
-    action$: ActionsObservable<VeauAction>,
-    state$: StateObservable<State>
-  ): Observable<VeauAction> {
+  public accountNameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
     return action$.pipe<EntranceAccountNameTypedAction, VeauAction>(
       ofType<VeauAction, EntranceAccountNameTypedAction>(ENTRANCE_ACCOUNT_NAME_TYPED),
       map<EntranceAccountNameTypedAction, VeauAction>((action: EntranceAccountNameTypedAction) => {

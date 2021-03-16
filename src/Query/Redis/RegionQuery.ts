@@ -4,11 +4,9 @@ import { Superposition, Unscharferelation, UnscharferelationError } from '@jamas
 import { IRedis, RedisError } from '@jamashita/publikum-redis';
 import { Nullable } from '@jamashita/publikum-type';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { RegionError } from '../../VO/Region/Error/RegionError';
-import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../VO/Region/ISO3166';
 import { Region, RegionJSON } from '../../VO/Region/Region';
 import { RegionID } from '../../VO/Region/RegionID';
@@ -27,34 +25,25 @@ export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {
     this.redis = redis;
   }
 
-  public all(): Superposition<Regions, RegionsError | RedisError> {
+  public all(): Superposition<Regions, RegionError | RedisError> {
     return Superposition.playground<Nullable<string>, RedisError>(() => {
       return this.redis.getString().get(REDIS_REGION_KEY);
-    }, RedisError)
-      .map<Regions, RegionsError | JSONAError | RedisError | UnscharferelationError>((str: Nullable<string>) => {
-        return Unscharferelation.maybe(str)
-          .toSuperposition()
-          .map<Array<RegionJSON>, JSONAError | UnscharferelationError>((j: string) => {
-            return JSONA.parse<Array<RegionJSON>>(j);
-          }, JSONAError)
-          .map<Regions, RegionsError | JSONAError | UnscharferelationError>((json: Array<RegionJSON>) => {
-            return Regions.ofJSON(json);
-          }, RegionsError);
-      })
-      .recover<Regions, RegionsError | RedisError>(
-        (err: RegionsError | JSONAError | RedisError | UnscharferelationError) => {
-          if (err instanceof JSONAError) {
-            throw new RedisError('RegionQuery.all()', err);
-          }
-          if (err instanceof UnscharferelationError) {
-            throw new RedisError('RegionQuery.all()', err);
-          }
+    }, RedisError).map<string, UnscharferelationError | RedisError>((str: Nullable<string>) => {
+      return Unscharferelation.maybe(str).toSuperposition();
+    }).map<Array<RegionJSON>, JSONAError | UnscharferelationError | RedisError>((j: string) => {
+      return JSONA.parse<Array<RegionJSON>>(j);
+    }, JSONAError).map<Regions, RegionError | JSONAError | UnscharferelationError | RedisError>((json: Array<RegionJSON>) => {
+      return Regions.ofJSON(json);
+    }, RegionError).recover<Regions, RegionError | RedisError>((err: RegionError | JSONAError | RedisError | UnscharferelationError) => {
+      if (err instanceof JSONAError) {
+        throw new RedisError('RegionQuery.all()', err);
+      }
+      if (err instanceof UnscharferelationError) {
+        throw new RedisError('RegionQuery.all()', err);
+      }
 
-          throw err;
-        },
-        RegionsError,
-        RedisError
-      );
+      throw err;
+    }, RegionError, RedisError);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -63,28 +52,18 @@ export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {
   }
 
   public findByISO3166(iso3166: ISO3166): Superposition<Region, RegionError | NoSuchElementError | RedisError> {
-    return this.all()
-      .map<Region, RegionsError | RedisError | UnscharferelationError>((regions: Regions) => {
-        const region: Nullable<Region> = regions.find((r: Region) => {
-          return r.getISO3166().equals(iso3166);
-        });
+    return this.all().map<Region, RegionError | RedisError | UnscharferelationError>((regions: Regions) => {
+      const region: Nullable<Region> = regions.find((r: Region) => {
+        return r.getISO3166().equals(iso3166);
+      });
 
-        return Unscharferelation.maybe<Region>(region).toSuperposition();
-      })
-      .recover<Region, RegionError | NoSuchElementError | RedisError>(
-        (err: RegionsError | RedisError | UnscharferelationError) => {
-          if (err instanceof RegionsError) {
-            throw new RegionError('RegionQuery.findByISO3166()', err);
-          }
-          if (err instanceof UnscharferelationError) {
-            throw new NoSuchElementError(iso3166.get());
-          }
+      return Unscharferelation.maybe<Region>(region).toSuperposition();
+    }).recover<Region, RegionError | NoSuchElementError | RedisError>((err: RegionError | RedisError | UnscharferelationError) => {
+      if (err instanceof UnscharferelationError) {
+        throw new NoSuchElementError(iso3166.get());
+      }
 
-          throw err;
-        },
-        RegionError,
-        NoSuchElementError,
-        RedisError
-      );
+      throw err;
+    }, RegionError, NoSuchElementError, RedisError);
   }
 }

@@ -3,9 +3,7 @@ import { JSONA, JSONAError } from '@jamashita/publikum-json';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
 import 'reflect-metadata';
-
 import sinon, { SinonStub } from 'sinon';
-
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
@@ -16,6 +14,8 @@ import { RegionCommand } from '../RegionCommand';
 describe('RegionCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const regionCommand1: RegionCommand = kernel.get<RegionCommand>(Type.RegionRedisCommand);
       const regionCommand2: RegionCommand = kernel.get<RegionCommand>(Type.RegionRedisCommand);
 
@@ -26,6 +26,8 @@ describe('RegionCommand', () => {
 
   describe('insertAll', () => {
     it('normal case', async () => {
+      expect.assertions(3);
+
       const regions: MockRegions = new MockRegions(
         new MockRegion({
           name: new MockRegionName('sorella')
@@ -61,6 +63,8 @@ describe('RegionCommand', () => {
     });
 
     it('returns Dead because the client throws RedisError by MockRedisString.set', async () => {
+      expect.assertions(2);
+
       const regions: MockRegions = new MockRegions();
 
       const string: MockRedisString = new MockRedisString();
@@ -87,6 +91,8 @@ describe('RegionCommand', () => {
     });
 
     it('returns Dead because the client throws JSONAError', async () => {
+      expect.assertions(2);
+
       const regions: MockRegions = new MockRegions();
 
       const stub1: SinonStub = sinon.stub();
@@ -107,6 +113,8 @@ describe('RegionCommand', () => {
 
   describe('deleteAll', () => {
     it('normal case', async () => {
+      expect.assertions(2);
+
       const redis: MockRedis = new MockRedis({});
       const stub: SinonStub = sinon.stub();
 
@@ -121,6 +129,8 @@ describe('RegionCommand', () => {
     });
 
     it('returns Dead with CacheError because Redis.delete fails', async () => {
+      expect.assertions(2);
+
       const redis: MockRedis = new MockRedis({});
       const stub: SinonStub = sinon.stub();
 
@@ -137,6 +147,8 @@ describe('RegionCommand', () => {
     });
 
     it('returns Dead because the client throws RedisError', async () => {
+      expect.assertions(2);
+
       const redis: MockRedis = new MockRedis({});
       const stub: SinonStub = sinon.stub();
 

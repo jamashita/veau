@@ -3,6 +3,7 @@ import { ValueObject } from '@jamashita/publikum-object';
 export class PageProvider extends ValueObject<PageProvider, 'PageProvider'> {
   public readonly noun: 'PageProvider' = 'PageProvider';
   private readonly open: boolean;
+
   private static readonly OPEN: PageProvider = new PageProvider(true);
   private static readonly CLOSE: PageProvider = new PageProvider(false);
 

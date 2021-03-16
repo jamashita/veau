@@ -1,5 +1,4 @@
 import { Reducer } from 'redux';
-
 import { PageProvider } from '../../VO/PageProvider/PageProvider';
 import { LOCATION_CHANGE, PROVIDER_CLOSE, PROVIDER_OPEN, VeauAction } from '../Action';
 

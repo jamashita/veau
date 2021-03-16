@@ -1,6 +1,5 @@
 import { Superposition } from '@jamashita/publikum-monad';
 import { ISQL, MySQLError } from '@jamashita/publikum-mysql';
-
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { IStatsItemCommand } from '../Interface/IStatsItemCommand';

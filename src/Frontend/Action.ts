@@ -1,9 +1,7 @@
-/* eslint-disable  @typescript-eslint/typedef */
-
-import { Heisenberg } from '@jamashita/publikum-monad';
+/* eslint-disable @typescript-eslint/typedef */
+import { Nullable } from '@jamashita/publikum-type';
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
 import { Action } from 'redux';
-
 import { Stats } from '../Entity/Stats/Stats';
 import { StatsItem } from '../Entity/StatsItem/StatsItem';
 import { AccountName } from '../VO/Account/AccountName';
@@ -11,7 +9,6 @@ import { AsOf } from '../VO/AsOf/AsOf';
 import { Column } from '../VO/Coordinate/Column';
 import { Coordinate } from '../VO/Coordinate/Coordinate';
 import { Row } from '../VO/Coordinate/Row';
-import { StatsDisplay } from '../VO/Display/StatsDisplay';
 import { EntranceInformation } from '../VO/EntranceInformation/EntranceInformation';
 import { Password } from '../VO/EntranceInformation/Password';
 import { Identity } from '../VO/Identity/Identity';
@@ -77,8 +74,6 @@ export const STATS_LIST_ISO3166_SELECTED = '@@veau/STATS_LIST_ISO3166_SELECTED' 
 export const STATS_LIST_TERM_SELECTED = '@@veau/STATS_LIST_TERM_SELECTED' as const;
 export const STATS_LIST_UPDATE_STATS = '@@veau/STATS_LIST_UPDATE_STATS' as const;
 export const STATS_LIST_RESET_STATS = '@@veau/STATS_LIST_RESET_STATS' as const;
-export const STATS_LIST_UPDATE_STATS_DISPLAY = '@@veau/STATS_LIST_UPDATE_STATS_DISPLAY' as const;
-export const STATS_LIST_RESET_STATS_DISPLAY = '@@veau/STATS_LIST_RESET_STATS_DISPLAY' as const;
 export const STATS_LIST_UPDATE_STATS_ITEMS = '@@veau/STATS_LIST_UPDATE_STATS_ITEMS' as const;
 export const STATS_LIST_RESET_STATS_ITEMS = '@@veau/STATS_LIST_RESET_STATS_ITEMS' as const;
 export const STATS_LIST_SAVE_STATS = '@@veau/STATS_LIST_SAVE_STATS' as const;
@@ -105,8 +100,6 @@ export const STATS_EDIT_INVALID_DATE_INPUT = '@@veau/STATS_EDIT_INVALID_DATE_INP
 export const STATS_EDIT_INVALID_VALUE_INPUT = '@@veau/STATS_EDIT_INVALID_VALUE_INPUT' as const;
 export const STATS_EDIT_UPDATE_STATS = '@@veau/STATS_EDIT_UPDATE_STATS' as const;
 export const STATS_EDIT_RESET_STATS = '@@veau/STATS_EDIT_RESET_STATS' as const;
-export const STATS_EDIT_UPDATE_STATS_DISPLAY = '@@veau/STATS_EDIT_UPDATE_STATS_DISPLAY' as const;
-export const STATS_EDIT_RESET_STATS_DISPLAY = '@@veau/STATS_EDIT_RESET_STATS_DISPLAY' as const;
 export const STATS_EDIT_UPDATE_STATS_ITEM = '@@veau/STATS_EDIT_UPDATE_STATS_ITEM' as const;
 export const STATS_EDIT_RESET_STATS_ITEM = '@@veau/STATS_EDIT_RESET_STATS_ITEM' as const;
 export const STATS_EDIT_SAVE_STATS = '@@veau/STATS_EDIT_SAVE_STATS' as const;
@@ -131,7 +124,7 @@ export interface ModalRaiseAction extends Action {
   readonly type: typeof MODAL_RAISE;
   readonly title: string;
   readonly description: string;
-  readonly values?: Record<string, string>;
+  readonly values?: { [key: string]: string; };
 }
 
 export interface ModalCloseAction extends Action {
@@ -145,7 +138,7 @@ export interface NotificationAppearAction extends Action {
   readonly vertical: NotificationVPosition;
   readonly message: string;
   readonly duration: number;
-  readonly values?: Record<string, string>;
+  readonly values?: { [key: string]: string; };
 }
 
 export interface NotificationDisappearAction extends Action {
@@ -272,15 +265,6 @@ export interface StatsListResetStatsAction extends Action {
   readonly type: typeof STATS_LIST_RESET_STATS;
 }
 
-export interface StatsListUpdateStatsDisplayAction extends Action {
-  readonly type: typeof STATS_LIST_UPDATE_STATS_DISPLAY;
-  readonly display: StatsDisplay;
-}
-
-export interface StatsListResetStatsDisplayAction extends Action {
-  readonly type: typeof STATS_LIST_RESET_STATS_DISPLAY;
-}
-
 export interface StatsListUpdateStatsItemsAction extends Action {
   readonly type: typeof STATS_LIST_UPDATE_STATS_ITEMS;
   readonly items: StatsListItems;
@@ -334,7 +318,7 @@ export interface StatsEditItemSaveAction extends Action {
 
 export interface StatsEditSelectItemAction extends Action {
   readonly type: typeof STATS_EDIT_SELECT_ITEM;
-  readonly item: Heisenberg<StatsItem>;
+  readonly item: Nullable<StatsItem>;
   readonly row: Row;
 }
 
@@ -345,7 +329,7 @@ export interface StatsEditSelectingItemNameTypedAction extends Action {
 
 export interface StatsEditUpdateSelectingItemAction extends Action {
   readonly type: typeof STATS_EDIT_UPDATE_SELECTING_ITEM;
-  readonly item: Heisenberg<StatsItem>;
+  readonly item: Nullable<StatsItem>;
 }
 
 export interface StatsEditRemoveSelectingItemAction extends Action {
@@ -401,14 +385,6 @@ export interface StatsEditResetStatsAction extends Action {
   readonly type: typeof STATS_EDIT_RESET_STATS;
 }
 
-export interface StatsEditUpdateStatsDisplayAction extends Action {
-  readonly type: typeof STATS_EDIT_UPDATE_STATS_DISPLAY;
-  readonly display: StatsDisplay;
-}
-
-export interface StatsEditResetStatsDisplayAction extends Action {
-  readonly type: typeof STATS_EDIT_RESET_STATS_DISPLAY;
-}
 
 export interface StatsEditUpdateStatsItemAction extends Action {
   readonly type: typeof STATS_EDIT_UPDATE_STATS_ITEM;
@@ -459,8 +435,6 @@ export type VeauAction =
   | StatsListTermSelectedAction
   | StatsListUpdateStatsAction
   | StatsListResetStatsAction
-  | StatsListUpdateStatsDisplayAction
-  | StatsListResetStatsDisplayAction
   | StatsListUpdateStatsItemsAction
   | StatsListResetStatsItemsAction
   | StatsListSaveStatsAction
@@ -486,8 +460,6 @@ export type VeauAction =
   | StatsEditInvalidValueInputAction
   | StatsEditUpdateStatsAction
   | StatsEditResetStatsAction
-  | StatsEditUpdateStatsDisplayAction
-  | StatsEditResetStatsDisplayAction
   | StatsEditUpdateStatsItemAction
   | StatsEditResetStatsItemAction
   | StatsEditSaveStatsAction;

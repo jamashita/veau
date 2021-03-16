@@ -3,6 +3,8 @@ import { TermKey } from '../TermKey';
 describe('TermKey', () => {
   describe('of', () => {
     it('normal case', () => {
+      expect.assertions(3);
+
       const key1: string = 'key 1';
       const key2: string = 'key 2';
       const key3: string = 'key 3';
@@ -15,6 +17,8 @@ describe('TermKey', () => {
 
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
+      expect.assertions(3);
+
       const key1: TermKey = TermKey.of('key 1');
       const key2: TermKey = TermKey.of('key 2');
       const key3: TermKey = TermKey.of('key 1');
@@ -27,6 +31,8 @@ describe('TermKey', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const name: string = 'hash';
       const key: TermKey = TermKey.of(name);
 

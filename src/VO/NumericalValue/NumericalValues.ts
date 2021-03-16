@@ -1,23 +1,23 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
-import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
-
+import { Collection, ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/publikum-collection';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { NumericalValue } from './NumericalValue';
 
-export class NumericalValues extends Quantity<NumericalValues, number, NumericalValue, 'NumericalValues'> {
+export class NumericalValues extends Quantity<number, NumericalValue, 'NumericalValues'> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
-  private readonly values: Sequence<NumericalValue>;
+  private readonly vals: Sequence<NumericalValue>;
+
   private static readonly EMPTY: NumericalValues = new NumericalValues(ImmutableSequence.empty<NumericalValue>());
 
-  public static of(values: Sequence<NumericalValue>): NumericalValues {
-    if (values.isEmpty()) {
+  public static of(values: ReadonlySequence<NumericalValue>): NumericalValues {
+    return NumericalValues.ofArray(values.toArray());
+  }
+
+  public static ofArray(values: ReadonlyArray<NumericalValue>): NumericalValues {
+    if (values.length === 0) {
       return NumericalValues.empty();
     }
 
-    return new NumericalValues(values);
-  }
-
-  public static ofArray(values: Array<NumericalValue>): NumericalValues {
-    return NumericalValues.of(ImmutableSequence.of<NumericalValue>(values));
+    return new NumericalValues(ImmutableSequence.ofArray<NumericalValue>(values));
   }
 
   public static ofSpread(...values: Array<NumericalValue>): NumericalValues {
@@ -30,27 +30,27 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
 
   protected constructor(values: Sequence<NumericalValue>) {
     super();
-    this.values = values;
+    this.vals = values;
   }
 
   public get(index: number): Nullable<NumericalValue> {
-    return this.values.get(index);
+    return this.vals.get(index);
   }
 
   public contains(value: NumericalValue): boolean {
-    return this.values.contains(value);
+    return this.vals.contains(value);
   }
 
   public size(): number {
-    return this.values.size();
+    return this.vals.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<number, NumericalValue>): void {
-    this.values.forEach(iteration);
+  public forEach(iteration: Enumerator<number, NumericalValue>): void {
+    this.vals.forEach(iteration);
   }
 
   public isEmpty(): boolean {
-    return this.values.isEmpty();
+    return this.vals.isEmpty();
   }
 
   public equals(other: NumericalValues): boolean {
@@ -58,35 +58,47 @@ export class NumericalValues extends Quantity<NumericalValues, number, Numerical
       return true;
     }
 
-    return this.values.equals(other.values);
+    return this.vals.equals(other.vals);
   }
 
   public serialize(): string {
-    return this.values.toString();
-  }
-
-  public [Symbol.iterator](): Iterator<Pair<number, NumericalValue>> {
-    return this.values[Symbol.iterator]();
+    return this.vals.toString();
   }
 
   public every(predicate: BinaryPredicate<NumericalValue, number>): boolean {
-    return this.values.every(predicate);
+    return this.vals.every(predicate);
   }
 
   public some(predicate: BinaryPredicate<NumericalValue, number>): boolean {
-    return this.values.some(predicate);
+    return this.vals.some(predicate);
   }
 
-  public add(...values: Array<NumericalValue>): NumericalValues {
-    if (values.length === 0) {
-      return this;
-    }
+  public values(): Iterable<NumericalValue> {
+    return this.vals.values();
+  }
 
-    return NumericalValues.of(this.values.add(...values));
+  public iterator(): Iterator<[number, NumericalValue]> {
+    return this.vals[Symbol.iterator]();
+  }
+
+  public filter(predicate: BinaryPredicate<NumericalValue, number>): Collection<number, NumericalValue> {
+    return this.vals.filter(predicate);
+  }
+
+  public find(predicate: BinaryPredicate<NumericalValue, number>): Nullable<NumericalValue> {
+    return this.vals.find(predicate);
+  }
+
+  public map<W>(mapper: Mapper<NumericalValue, W>): Sequence<W> {
+    return this.vals.map<W>(mapper);
+  }
+
+  public add(value: NumericalValue): NumericalValues {
+    return NumericalValues.of(this.vals.add(value));
   }
 
   public row(): Array<string> {
-    return this.values.toArray().map<string>((value: NumericalValue) => {
+    return this.vals.toArray().map<string>((value: NumericalValue) => {
       return value.toString();
     });
   }

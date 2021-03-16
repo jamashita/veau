@@ -3,7 +3,6 @@
 import { DataSourceError, Superposition } from 'publikum';
 import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
-
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Stats } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
@@ -35,11 +34,7 @@ import { raiseModal } from '../ActionCreator/ModalActionCreator';
 import { appearNotification } from '../ActionCreator/NotificationActionCreator';
 import { pushToStatsEdit } from '../ActionCreator/RedirectActionCreator';
 import { resetStatsListItems, updateStatsListItems } from '../ActionCreator/StatsActionCreator';
-import {
-  closeNewStatsModal,
-  resetNewStatsDisplay,
-  updateNewStatsDisplay
-} from '../ActionCreator/StatsListActionCreator';
+import { closeNewStatsModal } from '../ActionCreator/StatsListActionCreator';
 import { State } from '../State';
 
 export class StatsListSaga {

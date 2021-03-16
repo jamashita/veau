@@ -1,29 +1,21 @@
-import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
+import { ImmutableProject, Project, Quantity, ReadonlyProject } from '@jamashita/publikum-collection';
 import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
-import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
-
+import { BinaryPredicate, Enumerator, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfs } from '../AsOf/AsOfs';
-import { StatsValueError } from './Error/StatsValueError';
-import { StatsValuesError } from './Error/StatsValuesError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
-export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsValues'>
-  implements Cloneable<StatsValues>, JSONable<Array<StatsValueJSON>> {
+export class StatsValues extends Quantity<AsOf, StatsValue, 'StatsValues'> implements Cloneable<StatsValues>, JSONable<Array<StatsValueJSON>> {
   public readonly noun: 'StatsValues' = 'StatsValues';
-  private readonly values: Project<AsOf, StatsValue>;
+  private readonly vals: ImmutableProject<AsOf, StatsValue>;
+
   private static readonly EMPTY: StatsValues = new StatsValues(ImmutableProject.empty<AsOf, StatsValue>());
 
-  public static of(values: Project<AsOf, StatsValue>): StatsValues {
-    if (values.isEmpty()) {
-      return StatsValues.empty();
-    }
-
-    return new StatsValues(values);
+  public static of(values: ReadonlyProject<AsOf, StatsValue>): StatsValues {
+    return StatsValues.ofMap(values.toMap());
   }
 
-  public static ofArray(values: Array<StatsValue>): StatsValues {
+  public static ofArray(values: ReadonlyArray<StatsValue>): StatsValues {
     const map: Map<AsOf, StatsValue> = new Map<AsOf, StatsValue>();
 
     values.forEach((value: StatsValue) => {
@@ -37,50 +29,37 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.ofArray(values);
   }
 
-  public static ofSuperposition(
-    superpositions: Array<Superposition<StatsValue, StatsValueError>>
-  ): Superposition<StatsValues, StatsValuesError> {
-    return Superposition.all<StatsValue, StatsValueError>(superpositions, StatsValueError).transform<
-      StatsValues,
-      StatsValuesError
-    >(
-      (values: Array<StatsValue>) => {
-        return StatsValues.ofArray(values);
-      },
-      (err: StatsValueError) => {
-        throw new StatsValuesError('StatsValues.ofSuperposition()', err);
-      },
-      StatsValuesError
-    );
-  }
-
-  public static ofJSON(json: Array<StatsValueJSON>): Superposition<StatsValues, StatsValuesError> {
-    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = json.map<
-      Superposition<StatsValue, StatsValueError>
-    >((statsValue: StatsValueJSON) => {
+  public static ofJSON(json: ReadonlyArray<StatsValueJSON>): StatsValues {
+    const arr: Array<StatsValue> = json.map<StatsValue>((statsValue: StatsValueJSON) => {
       return StatsValue.ofJSON(statsValue);
     });
 
-    return StatsValues.ofSuperposition(superpositions);
+    return StatsValues.ofArray(arr);
   }
 
-  public static ofRow(rows: Array<StatsValueRow>): Superposition<StatsValues, StatsValuesError> {
-    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = rows.map<
-      Superposition<StatsValue, StatsValueError>
-    >((statsValue: StatsValueRow) => {
+  public static ofRow(rows: ReadonlyArray<StatsValueRow>): StatsValues {
+    const arr: Array<StatsValue> = rows.map<StatsValue>((statsValue: StatsValueRow) => {
       return StatsValue.ofRow(statsValue);
     });
 
-    return StatsValues.ofSuperposition(superpositions);
+    return StatsValues.ofArray(arr);
   }
 
-  public static isJSON(n: unknown): n is Array<StatsValueJSON> {
+  protected static ofMap(values: ReadonlyMap<AsOf, StatsValue>): StatsValues {
+    if (values.size === 0) {
+      return StatsValues.empty();
+    }
+
+    return new StatsValues(ImmutableProject.ofMap<AsOf, StatsValue>(values));
+  }
+
+  public static validate(n: unknown): n is Array<StatsValueJSON> {
     if (!Kind.isArray(n)) {
       return false;
     }
 
     return n.every((o: unknown) => {
-      return StatsValue.isJSON(o);
+      return StatsValue.validate(o);
     });
   }
 
@@ -88,33 +67,29 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
     return StatsValues.EMPTY;
   }
 
-  protected static ofMap(values: Map<AsOf, StatsValue>): StatsValues {
-    return StatsValues.of(ImmutableProject.of<AsOf, StatsValue>(values));
-  }
-
-  protected constructor(values: Project<AsOf, StatsValue>) {
+  protected constructor(values: ImmutableProject<AsOf, StatsValue>) {
     super();
-    this.values = values;
+    this.vals = values;
   }
 
   public get(key: AsOf): Nullable<StatsValue> {
-    return this.values.get(key);
+    return this.vals.get(key);
   }
 
   public contains(value: StatsValue): boolean {
-    return this.values.contains(value);
+    return this.vals.contains(value);
   }
 
   public size(): number {
-    return this.values.size();
+    return this.vals.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<AsOf, StatsValue>): void {
-    this.values.forEach(iteration);
+  public forEach(iteration: Enumerator<AsOf, StatsValue>): void {
+    this.vals.forEach(iteration);
   }
 
   public isEmpty(): boolean {
-    return this.values.isEmpty();
+    return this.vals.isEmpty();
   }
 
   public duplicate(): StatsValues {
@@ -122,7 +97,7 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
       return StatsValues.empty();
     }
 
-    return StatsValues.of(this.values.duplicate());
+    return StatsValues.of(this.vals.duplicate());
   }
 
   public equals(other: StatsValues): boolean {
@@ -130,13 +105,13 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
       return true;
     }
 
-    return this.values.equals(other.values);
+    return this.vals.equals(other.vals);
   }
 
   public toJSON(): Array<StatsValueJSON> {
     const json: Array<StatsValueJSON> = [];
 
-    this.values.forEach((value: StatsValue) => {
+    this.vals.forEach((value: StatsValue) => {
       json.push(value.toJSON());
     });
 
@@ -146,34 +121,50 @@ export class StatsValues extends Quantity<StatsValues, AsOf, StatsValue, 'StatsV
   public serialize(): string {
     const strs: Array<string> = [];
 
-    this.values.forEach((value: StatsValue) => {
+    this.vals.forEach((value: StatsValue) => {
       strs.push(value.toString());
     });
 
     return strs.join(', ');
   }
 
-  public [Symbol.iterator](): Iterator<Pair<AsOf, StatsValue>> {
-    return this.values[Symbol.iterator]();
-  }
-
   public every(predicate: BinaryPredicate<StatsValue, AsOf>): boolean {
-    return this.values.every(predicate);
+    return this.vals.every(predicate);
   }
 
   public some(predicate: BinaryPredicate<StatsValue, AsOf>): boolean {
-    return this.values.some(predicate);
+    return this.vals.some(predicate);
+  }
+
+  public values(): Iterable<StatsValue> {
+    return this.vals.values();
+  }
+
+  public filter(predicate: BinaryPredicate<StatsValue, AsOf>): StatsValues {
+    return StatsValues.of(this.vals.filter(predicate));
+  }
+
+  public find(predicate: BinaryPredicate<StatsValue, AsOf>): Nullable<StatsValue> {
+    return this.vals.find(predicate);
+  }
+
+  public iterator(): Iterator<[AsOf, StatsValue]> {
+    return this.vals[Symbol.iterator]();
+  }
+
+  public map<W>(mapper: Mapper<StatsValue, W>): Project<AsOf, W> {
+    return this.vals.map<W>(mapper);
   }
 
   public set(statsValue: StatsValue): StatsValues {
-    return StatsValues.of(this.values.set(statsValue.getAsOf(), statsValue));
+    return StatsValues.of(this.vals.set(statsValue.getAsOf(), statsValue));
   }
 
   public delete(asOf: AsOf): StatsValues {
-    return StatsValues.of(this.values.remove(asOf));
+    return StatsValues.of(this.vals.remove(asOf));
   }
 
   public getAsOfs(): AsOfs {
-    return AsOfs.ofArray([...this.values.toMap().keys()]);
+    return AsOfs.ofSpread(...this.vals.toMap().keys());
   }
 }

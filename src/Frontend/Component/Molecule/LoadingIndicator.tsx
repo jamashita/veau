@@ -1,14 +1,8 @@
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
 import { LoadingCount } from '../../../VO/LoadingCount/LoadingCount';
 
-export type StateProps = Readonly<{
-  loadingCount: LoadingCount;
-}>;
-export type DispatchProps = Readonly<{}>;
-export type OwnProps = Readonly<{}>;
 type Props = StateProps & DispatchProps & OwnProps;
 type State = Readonly<{}>;
 
@@ -47,6 +41,12 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
     );
   }
 }
+
+export type StateProps = Readonly<{
+  loadingCount: LoadingCount;
+}>;
+export type DispatchProps = Readonly<{}>;
+export type OwnProps = Readonly<{}>;
 
 export const LoadingIndicator: React.ComponentType<WithIntlProps<Props>> = injectIntl(
   LoadingIndicatorImpl

@@ -15,7 +15,7 @@ export class MockLanguages extends Languages {
     return ImmutableProject.of<LanguageID, Language>(map);
   }
 
-  public constructor(...languages: Array<Language>) {
-    super(MockLanguages.toProject(languages));
+  public constructor(...languages: ReadonlyArray<Language>) {
+    super(MockLanguages.toProject([...languages]));
   }
 }

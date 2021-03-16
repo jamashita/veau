@@ -1,5 +1,4 @@
-import { Unscharferelation } from '@jamashita/publikum-monad';
-
+import { Nullable } from '@jamashita/publikum-type';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { Language } from '../../../VO/Language/Language';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
@@ -13,16 +12,14 @@ import { MockStatsItems } from '../../StatsItem/Mock/MockStatsItems';
 import { StatsItems } from '../../StatsItem/StatsItems';
 import { Stats } from '../Stats';
 
-type StatsArgs = Partial<
-  Readonly<{
-    outline: StatsOutline;
-    language: Language;
-    region: Region;
-    term: Term;
-    items: StatsItems;
-    startDate: Unscharferelation<AsOf>;
-  }>
->;
+type StatsArgs = Partial<Readonly<{
+  outline: StatsOutline;
+  language: Language;
+  region: Region;
+  term: Term;
+  items: StatsItems;
+  startDate: Nullable<AsOf>;
+}>>;
 
 export class MockStats extends Stats {
   public constructor({
@@ -31,7 +28,7 @@ export class MockStats extends Stats {
     region = new MockRegion(),
     term = new MockTerm(),
     items = new MockStatsItems(),
-    startDate = Unscharferelation.absent<AsOf>()
+    startDate = null
   }: StatsArgs = {}) {
     super(outline, language, region, term, items, startDate);
   }

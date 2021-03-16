@@ -3,21 +3,19 @@ import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { MySQLError } from '@jamashita/publikum-mysql';
 import { RedisError } from '@jamashita/publikum-redis';
 import 'reflect-metadata';
-
 import sinon, { SinonStub } from 'sinon';
-
 import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';
 import { MockRegionCommand } from '../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
 import { MockLanguageQuery } from '../../Query/Mock/MockLanguageQuery';
 import { MockRegionQuery } from '../../Query/Mock/MockRegionQuery';
-import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
+import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Languages } from '../../VO/Language/Languages';
 import { MockLanguages } from '../../VO/Language/Mock/MockLanguages';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../VO/Locale/Locale';
-import { RegionsError } from '../../VO/Region/Error/RegionsError';
+import { RegionError } from '../../VO/Region/Error/RegionError';
 import { MockRegions } from '../../VO/Region/Mock/MockRegions';
 import { Regions } from '../../VO/Region/Regions';
 import { LocaleInteractor } from '../LocaleInteractor';
@@ -25,6 +23,8 @@ import { LocaleInteractor } from '../LocaleInteractor';
 describe('LocaleInteractor', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const localeInteractor1: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const localeInteractor2: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
 
@@ -35,6 +35,8 @@ describe('LocaleInteractor', () => {
 
   describe('all', () => {
     it('normal case', async () => {
+      expect.assertions(3);
+
       const languages: MockLanguages = new MockLanguages();
       const regions: MockRegions = new MockRegions();
 
@@ -67,14 +69,16 @@ describe('LocaleInteractor', () => {
       expect(schrodinger.get().getRegions()).toBe(regions);
     });
 
-    it('LanguageQuery.all returns Dead by LanguagesError', async () => {
+    it('languageQuery.all returns Dead by LanguageError', async () => {
+      expect.assertions(2);
+
       const regions: MockRegions = new MockRegions();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
 
       languageKernelQuery.all = stub1;
-      stub1.returns(Superposition.dead<Languages, LanguagesError>(new LanguagesError('test failed'), LanguagesError));
+      stub1.returns(Superposition.dead<Languages, LanguageError>(new LanguageError('test failed'), LanguageError));
 
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
@@ -99,7 +103,9 @@ describe('LocaleInteractor', () => {
       }).toThrow(LocaleError);
     });
 
-    it('LanguageQuery.all returns Dead by DataSourceError', async () => {
+    it('languageQuery.all returns Dead by DataSourceError', async () => {
+      expect.assertions(2);
+
       const regions: MockRegions = new MockRegions();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
@@ -131,7 +137,9 @@ describe('LocaleInteractor', () => {
       }).toThrow(MySQLError);
     });
 
-    it('RegionQuery.all returns Dead by RegionsError', async () => {
+    it('regionQuery.all returns Dead by RegionError', async () => {
+      expect.assertions(2);
+
       const languages: MockLanguages = new MockLanguages();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
@@ -144,7 +152,7 @@ describe('LocaleInteractor', () => {
       const stub2: SinonStub = sinon.stub();
 
       regionKernelQuery.all = stub2;
-      stub2.returns(Superposition.dead<Languages, RegionsError>(new RegionsError('test failed'), RegionsError));
+      stub2.returns(Superposition.dead<Languages, RegionError>(new RegionError('test failed'), RegionError));
 
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
@@ -163,7 +171,9 @@ describe('LocaleInteractor', () => {
       }).toThrow(LocaleError);
     });
 
-    it('RegionQuery.all returns Dead by NoSuchElementError', async () => {
+    it('regionQuery.all returns Dead by NoSuchElementError', async () => {
+      expect.assertions(2);
+
       const languages: MockLanguages = new MockLanguages();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
@@ -198,6 +208,8 @@ describe('LocaleInteractor', () => {
 
   describe('delete', () => {
     it('normal case', async () => {
+      expect.assertions(1);
+
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
@@ -222,7 +234,9 @@ describe('LocaleInteractor', () => {
       expect(schrodinger.isAlive()).toBe(true);
     });
 
-    it('LanguageCommand.deleteAll returns Dead by DataSourceError', async () => {
+    it('languageCommand.deleteAll returns Dead by DataSourceError', async () => {
+      expect.assertions(2);
+
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
@@ -251,7 +265,9 @@ describe('LocaleInteractor', () => {
       }).toThrow(DataSourceError);
     });
 
-    it('RegionCommand.deleteAll returns Dead by DataSourceError', async () => {
+    it('regionCommand.deleteAll returns Dead by DataSourceError', async () => {
+      expect.assertions(2);
+
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();

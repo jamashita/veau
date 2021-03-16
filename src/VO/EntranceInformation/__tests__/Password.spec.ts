@@ -3,20 +3,28 @@ import { Password } from '../Password';
 describe('Password', () => {
   describe('empty', () => {
     it('must be an blank password', () => {
+      expect.assertions(1);
+
       expect(Password.empty().get()).toBe('');
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(Password.empty()).toBe(Password.empty());
     });
   });
 
   describe('of', () => {
     it('returns Password.empty() when empty string is given', () => {
+      expect.assertions(1);
+
       expect(Password.of('')).toBe(Password.empty());
     });
 
     it('normal case', () => {
+      expect.assertions(2);
+
       const pasword1: string = 'password 1';
       const pasword2: string = 'password 2';
 
@@ -27,6 +35,8 @@ describe('Password', () => {
 
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
+      expect.assertions(3);
+
       const password1: Password = Password.of('password 1');
       const password2: Password = Password.of('password 2');
       const password3: Password = Password.of('password 1');
@@ -39,14 +49,20 @@ describe('Password', () => {
 
   describe('isEmpty', () => {
     it('when Password.empty() is given, returns true', () => {
+      expect.assertions(1);
+
       expect(Password.empty().isEmpty()).toBe(true);
     });
 
     it('returns true if the password is empty string', () => {
+      expect.assertions(1);
+
       expect(Password.of('').isEmpty()).toBe(true);
     });
 
     it('otherwise, returns false', () => {
+      expect.assertions(2);
+
       expect(Password.of('s').isEmpty()).toBe(false);
       expect(Password.of('public servant').isEmpty()).toBe(false);
     });
@@ -54,6 +70,8 @@ describe('Password', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
+      expect.assertions(1);
+
       const word: string = 'aiutare';
       const password: Password = Password.of(word);
 

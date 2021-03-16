@@ -1,11 +1,10 @@
 import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfError } from '../AsOf/Error/AsOfError';
 import { NumericalValue } from '../NumericalValue/NumericalValue';
+import { ValueContained } from '../NumericalValue/ValueContained';
 import { StatsValueError } from './Error/StatsValueError';
 
 export type StatsValueJSON = Readonly<{
@@ -18,7 +17,7 @@ export type StatsValueRow = Readonly<{
   value: number;
 }>;
 
-export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements JSONable<StatsValueJSON> {
+export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<StatsValueJSON> {
   public readonly noun: 'StatsValue' = 'StatsValue';
   private readonly asOf: AsOf;
   private readonly value: NumericalValue;
@@ -27,31 +26,33 @@ export class StatsValue extends ValueObject<StatsValue, 'StatsValue'> implements
     return new StatsValue(asOf, value);
   }
 
-  public static ofJSON(json: StatsValueJSON): Superposition<StatsValue, StatsValueError> {
-    return AsOf.ofString(json.asOf).transform<StatsValue, StatsValueError>(
-      (asOf: AsOf) => {
-        return StatsValue.of(asOf, NumericalValue.of(json.value));
-      },
-      (err: AsOfError) => {
+  public static ofJSON(json: StatsValueJSON): StatsValue {
+    try {
+      return StatsValue.of(AsOf.ofString(json.asOf), ValueContained.of(json.value));
+    }
+    catch (err: unknown) {
+      if (err instanceof AsOfError) {
         throw new StatsValueError('StatsValue.ofRow()', err);
-      },
-      StatsValueError
-    );
+      }
+
+      throw err;
+    }
   }
 
-  public static ofRow(row: StatsValueRow): Superposition<StatsValue, StatsValueError> {
-    return AsOf.ofString(row.asOf).transform<StatsValue, StatsValueError>(
-      (asOf: AsOf) => {
-        return StatsValue.of(asOf, NumericalValue.of(row.value));
-      },
-      (err: AsOfError) => {
+  public static ofRow(row: StatsValueRow): StatsValue {
+    try {
+      return StatsValue.of(AsOf.ofString(row.asOf), ValueContained.of(row.value));
+    }
+    catch (err: unknown) {
+      if (err instanceof AsOfError) {
         throw new StatsValueError('StatsValue.ofRow()', err);
-      },
-      StatsValueError
-    );
+      }
+
+      throw err;
+    }
   }
 
-  public static isJSON(n: unknown): n is StatsValueJSON {
+  public static validate(n: unknown): n is StatsValueJSON {
     if (!Kind.isObject<StatsValueJSON>(n)) {
       return false;
     }

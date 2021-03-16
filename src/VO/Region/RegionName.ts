@@ -5,6 +5,7 @@ const EMPTY_NAME: string = '';
 export class RegionName extends ValueObject<RegionName, 'RegionName'> {
   public readonly noun: 'RegionName' = 'RegionName';
   private readonly name: string;
+
   private static readonly EMPTY: RegionName = new RegionName(EMPTY_NAME);
 
   public static of(name: string): RegionName {

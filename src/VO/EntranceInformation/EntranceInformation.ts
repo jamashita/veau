@@ -1,6 +1,5 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
-
 import { AccountName } from '../Account/AccountName';
 import { Password } from './Password';
 
@@ -14,6 +13,7 @@ export class EntranceInformation extends ValueObject<EntranceInformation, 'Entra
   public readonly noun: 'EntranceInformation' = 'EntranceInformation';
   private readonly account: AccountName;
   private readonly password: Password;
+
   private static readonly EMPTY: EntranceInformation = new EntranceInformation(AccountName.empty(), Password.empty());
 
   public static of(account: AccountName, password: Password): EntranceInformation {

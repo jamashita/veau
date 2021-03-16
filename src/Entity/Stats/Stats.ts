@@ -1,21 +1,19 @@
-import { Superposition, Unscharferelation } from '@jamashita/publikum-monad';
 import { Entity } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
-
+import { Ambiguous, Kind, Nullable } from '@jamashita/publikum-type';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
 import { Coordinate } from '../../VO/Coordinate/Coordinate';
 import { Row } from '../../VO/Coordinate/Row';
-import { StatsDisplay } from '../../VO/Display/StatsDisplay';
-import { HeaderSizeError } from '../../VO/HeaderSize/Error/HeaderSizeError';
 import { HeaderSize } from '../../VO/HeaderSize/HeaderSize';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Language, LanguageJSON } from '../../VO/Language/Language';
 import { NumericalValue } from '../../VO/NumericalValue/NumericalValue';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { Region, RegionJSON } from '../../VO/Region/Region';
-import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';
+import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
+import { StatsItemNames } from '../../VO/StatsItem/StatsItemNames';
+import { StatsError } from '../../VO/StatsOutline/Error/StatsError';
 import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsName } from '../../VO/StatsOutline/StatsName';
@@ -27,8 +25,8 @@ import { TermError } from '../../VO/Term/Error/TermError';
 import { Term } from '../../VO/Term/Term';
 import { StatsItem, StatsItemJSON } from '../StatsItem/StatsItem';
 import { StatsItems } from '../StatsItem/StatsItems';
-import { StatsError } from './Error/StatsError';
 
+type Chart = Record<string, string | number>;
 export type StatsJSON = Readonly<{
   outline: StatsOutlineJSON;
   language: LanguageJSON;
@@ -42,9 +40,9 @@ export class Stats extends Entity<StatsID, Stats> {
   private readonly language: Language;
   private readonly region: Region;
   private readonly term: Term;
-  private items: StatsItems;
-  private readonly startDate: Unscharferelation<AsOf>;
-  private columns?: AsOfs;
+  private readonly items: StatsItems;
+  private readonly startDate: Nullable<AsOf>;
+  private columns: Nullable<AsOfs>;
 
   public static of(
     outline: StatsOutline,
@@ -52,69 +50,51 @@ export class Stats extends Entity<StatsID, Stats> {
     region: Region,
     term: Term,
     items: StatsItems,
-    startDate: Unscharferelation<AsOf> = Unscharferelation.absent<AsOf>()
+    startDate: Nullable<AsOf> = null
   ): Stats {
-    return new Stats(outline, language, region, term, items, startDate);
+    return new Stats(
+      outline,
+      language,
+      region,
+      term,
+      items,
+      startDate
+    );
   }
 
-  public static ofJSON(json: StatsJSON): Superposition<Stats, StatsError> {
-    return StatsOutline.ofJSON(json.outline)
-      .map<Stats, StatsOutlineError | LanguageError | RegionError | TermError | StatsItemsError>(
-        (outline: StatsOutline) => {
-          return Language.ofJSON(json.language).map<Stats, LanguageError | RegionError | TermError | StatsItemsError>(
-            (language: Language) => {
-              return Region.ofJSON(json.region).map<Stats, RegionError | TermError | StatsItemsError>(
-                (region: Region) => {
-                  return Term.ofString(json.outline.termID).map<Stats, TermError | StatsItemsError>((term: Term) => {
-                    return StatsItems.ofJSON(json.items).map<Stats, StatsItemsError>((statsItems: StatsItems) => {
-                      return Stats.of(outline, language, region, term, statsItems);
-                    });
-                  }, StatsItemsError);
-                },
-                TermError,
-                StatsItemsError
-              );
-            },
-            RegionError,
-            TermError,
-            StatsItemsError
-          );
-        },
-        LanguageError,
-        RegionError,
-        TermError,
-        StatsItemsError
-      )
-      .recover<Stats, StatsError>(
-        (err: StatsOutlineError | LanguageError | RegionError | TermError | StatsItemsError) => {
-          throw new StatsError('Stats.ofJSON()', err);
-        },
-        StatsError
+  public static ofJSON(json: StatsJSON): Stats {
+    try {
+      return Stats.of(
+        StatsOutline.ofJSON(json.outline),
+        Language.ofJSON(json.language),
+        Region.ofJSON(json.region),
+        Term.ofString(json.outline.termID),
+        StatsItems.ofJSON(json.items)
       );
-  }
-
-  public static ofObject(object: object): Superposition<Stats, StatsError> {
-    if (!Stats.isJSON(object)) {
-      return Superposition.dead<Stats, StatsError>(new StatsError('Stats.ofObject()'), StatsError);
     }
+    catch (err: unknown) {
+      if (err instanceof StatsOutlineError || err instanceof LanguageError || err instanceof RegionError || err instanceof TermError || err instanceof StatsItemError) {
+        throw new StatsError('Stats.ofJSON()', err);
+      }
 
-    return Stats.ofJSON(object);
+      throw err;
+    }
   }
 
-  public static isJSON(n: unknown): n is StatsJSON {
+  public static validate(n: unknown): n is StatsJSON {
     if (!Kind.isObject<StatsJSON>(n)) {
       return false;
     }
-    if (!StatsOutline.isJSON(n.outline)) {
+    if (!StatsOutline.validate(n.outline)) {
       return false;
     }
-    if (!Language.isJSON(n.language)) {
+    if (!Language.validate(n.language)) {
       return false;
     }
-    if (!Region.isJSON(n.region)) {
+    if (!Region.validate(n.region)) {
       return false;
     }
-    if (!StatsItems.isJSON(n.items)) {
+    if (!StatsItems.validate(n.items)) {
       return false;
     }
 
@@ -122,7 +102,13 @@ export class Stats extends Entity<StatsID, Stats> {
   }
 
   public static default(): Stats {
-    return Stats.of(StatsOutline.default(), Language.empty(), Region.empty(), Term.DAILY, StatsItems.empty());
+    return Stats.of(
+      StatsOutline.default(),
+      Language.empty(),
+      Region.empty(),
+      Term.DAILY,
+      StatsItems.empty()
+    );
   }
 
   protected constructor(
@@ -131,7 +117,7 @@ export class Stats extends Entity<StatsID, Stats> {
     region: Region,
     term: Term,
     items: StatsItems,
-    startDate: Unscharferelation<AsOf>
+    startDate: Nullable<AsOf>
   ) {
     super();
     this.outline = outline;
@@ -140,6 +126,7 @@ export class Stats extends Entity<StatsID, Stats> {
     this.term = term;
     this.items = items;
     this.startDate = startDate;
+    this.columns = null;
   }
 
   public getIdentifier(): StatsID {
@@ -147,7 +134,14 @@ export class Stats extends Entity<StatsID, Stats> {
   }
 
   public duplicate(): Stats {
-    return new Stats(this.outline, this.language, this.region, this.term, this.items.duplicate(), this.startDate);
+    return Stats.of(
+      this.outline,
+      this.language,
+      this.region,
+      this.term,
+      this.items.duplicate(),
+      this.startDate
+    );
   }
 
   public toJSON(): StatsJSON {
@@ -206,48 +200,66 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.items;
   }
 
-  public getStartDate(): Unscharferelation<AsOf> {
+  public getStartDate(): Nullable<AsOf> {
     return this.startDate;
   }
 
-  public getRow(row: Row): Unscharferelation<StatsItem> {
-    return Unscharferelation.maybe<StatsItem>(this.items.get(row.get()));
+  public getRow(row: Row): Nullable<StatsItem> {
+    return this.items.get(row.get());
   }
 
-  public getColumns(): Unscharferelation<AsOfs> {
-    return Unscharferelation.maybe<AsOfs>(this.columns).recover<AsOfs>(() => {
-      let asOfs: AsOfs = this.items.getAsOfs();
+  public getColumns(): AsOfs {
+    if (!Kind.isNull(this.columns)) {
+      return this.columns;
+    }
 
-      this.startDate.ifPresent((asOf: AsOf) => {
-        asOfs = asOfs.add(asOf);
-      });
+    let asOfs: AsOfs = this.items.getAsOfs();
 
-      if (asOfs.isEmpty()) {
-        return AsOfs.empty();
-      }
+    if (!Kind.isNull(this.startDate)) {
+      asOfs = asOfs.add(this.startDate);
+    }
+    if (asOfs.isEmpty()) {
+      return AsOfs.empty();
+    }
 
-      return asOfs.min().map<AsOfs>((min: AsOf) => {
-        return asOfs.max().map<AsOfs>((max: AsOf) => {
-          this.columns = AsOfs.duration(min, max, this.term);
+    const min: Nullable<AsOf> = asOfs.min();
 
-          return this.columns;
-        });
-      });
-    });
+    if (Kind.isNull(min)) {
+      return AsOfs.empty();
+    }
+
+    const max: Nullable<AsOf> = asOfs.max();
+
+    if (Kind.isNull(max)) {
+      return AsOfs.empty();
+    }
+
+    this.columns = AsOfs.duration(min, max, this.term);
+
+    return this.columns;
   }
 
-  private getColumn(column: Column): Unscharferelation<AsOf> {
-    return this.getColumns().map<AsOf>((asOfs: AsOfs) => {
-      return asOfs.get(column.get());
-    });
+  private getColumn(column: Column): Nullable<AsOf> {
+    const columns: Nullable<AsOfs> = this.getColumns();
+
+    if (Kind.isNull(columns)) {
+      return null;
+    }
+
+    return columns.get(column.get());
   }
 
   private recalculate(): void {
-    this.columns = undefined;
+    this.columns = null;
+
     this.getColumns();
   }
 
-  public getRowHeaderSize(): Superposition<HeaderSize, HeaderSizeError> {
+  public getRowHeaders(): StatsItemNames {
+    return this.items.getNames();
+  }
+
+  public getRowHeaderSize(): HeaderSize {
     const length: number = this.items.maxNameLength();
 
     if (length === 0) {
@@ -258,55 +270,141 @@ export class Stats extends Entity<StatsID, Stats> {
   }
 
   public setData(coordinate: Coordinate, value: NumericalValue): void {
-    Unscharferelation.maybe<StatsItem>(this.items.get(coordinate.getRow().get())).ifPresent((item: StatsItem) => {
-      this.getColumn(coordinate.getColumn()).ifPresent((asOf: AsOf) => {
-        const statsValue: StatsValue = StatsValue.of(asOf, value);
+    const item: Nullable<StatsItem> = this.items.get(coordinate.getRow().get());
 
-        item.set(statsValue);
-        this.recalculate();
-      });
-    });
+    if (Kind.isNull(item)) {
+      return;
+    }
+
+    const asOf: Nullable<AsOf> = this.getColumn(coordinate.getColumn());
+
+    if (Kind.isNull(asOf)) {
+      return;
+    }
+
+    const statsValue: StatsValue = StatsValue.of(asOf, value);
+
+    item.set(statsValue);
+    this.recalculate();
   }
 
   public deleteData(coordinate: Coordinate): void {
-    this.getColumn(coordinate.getColumn()).ifPresent((asOf: AsOf) => {
-      this.getRow(coordinate.getRow()).ifPresent((item: StatsItem) => {
-        item.delete(asOf);
-        this.recalculate();
+    const asOf: Nullable<AsOf> = this.getColumn(coordinate.getColumn());
+
+    if (Kind.isNull(asOf)) {
+      return;
+    }
+
+    const item: Nullable<StatsItem> = this.getRow(coordinate.getRow());
+
+    if (Kind.isNull(item)) {
+      return;
+    }
+
+    item.delete(asOf);
+    this.recalculate();
+  }
+
+  public getData(): Array<Array<string>> {
+    return this.items.map<Array<string>>((item: StatsItem) => {
+      return item.getValuesByColumn(this.getColumns()).row();
+    });
+  }
+
+  public getChart(): Array<Record<string, string | number>> {
+    const chartItems: Map<string, Chart> = new Map<string, Chart>();
+
+    this.getColumns().forEach((column: AsOf) => {
+      const asOf: string = column.toString();
+
+      chartItems.set(asOf, {
+        name: asOf
       });
     });
+    this.items.forEach((statsItem: StatsItem) => {
+      statsItem.getValues().forEach((statsValue: StatsValue) => {
+        const line: Ambiguous<Chart> = chartItems.get(statsValue.getAsOf().toString());
+
+        if (!Kind.isUndefined(line)) {
+          line[statsItem.getName().get()] = statsValue.getValue().get();
+        }
+      });
+    });
+
+    const chart: Array<Chart> = [];
+
+    chartItems.forEach((value: Chart) => {
+      chart.push(value);
+    });
+
+    return chart;
+  }
+
+  public getItemNames(): StatsItemNames {
+    return this.items.getNames();
+  }
+
+  public isDetermined(): boolean {
+    return this.items.haveValues();
+  }
+
+  public isFilled(): boolean {
+    if (this.language.isEmpty()) {
+      return false;
+    }
+    if (this.region.isEmpty()) {
+      return false;
+    }
+    if (this.outline.getName().isEmpty()) {
+      return false;
+    }
+    if (this.outline.getUnit().isEmpty()) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public isValid(): boolean {
+    if (!this.isFilled()) {
+      return false;
+    }
+
+    return this.items.areFilled();
   }
 
   public replaceItem(statsItem: StatsItem, to: Row): void {
-    this.items = this.items.replace(statsItem, to);
+    this.items.replace(statsItem, to);
   }
 
   public moveItem(from: Column, to: Column): void {
-    this.items = this.items.move(from, to);
+    this.items.move(from, to);
   }
 
   public removeItem(statsItem: StatsItem): void {
-    this.items = this.items.remove(statsItem);
+    this.items.remove(statsItem);
   }
 
-  public display(): Unscharferelation<StatsDisplay> {
-    return this.startDate.map<StatsDisplay>((startDate: AsOf) => {
-      return this.getColumns().map<StatsDisplay>((columns: AsOfs) => {
-        return this.getRowHeaderSize()
-          .toUnscharferelation()
-          .map<StatsDisplay>((headerSize: HeaderSize) => {
-            return StatsDisplay.of(
-              this.outline,
-              this.language,
-              this.region,
-              this.term,
-              this.items.display(),
-              startDate,
-              columns,
-              headerSize
-            );
-          });
-      });
-    });
+  public same(other: Stats): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!this.outline.equals(other.outline)) {
+      return false;
+    }
+    if (!this.language.equals(other.language)) {
+      return false;
+    }
+    if (!this.region.equals(other.region)) {
+      return false;
+    }
+    if (!this.term.equals(other.term)) {
+      return false;
+    }
+    if (!this.items.equals(other.items)) {
+      return false;
+    }
+
+    return true;
   }
 }

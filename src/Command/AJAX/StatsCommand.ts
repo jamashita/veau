@@ -1,9 +1,8 @@
 import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Superposition } from '@jamashita/publikum-monad';
-import { CREATED } from 'http-status';
+import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
@@ -14,18 +13,18 @@ import { IAJAXCommand } from './Interface/IAJAXCommand';
 export class StatsCommand implements IStatsCommand<AJAXError>, IAJAXCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'AJAX' = 'AJAX';
-  private readonly ajax: IAJAX;
+  private readonly ajax: IAJAX<'json'>;
 
-  public constructor(@inject(Type.AJAX) ajax: IAJAX) {
+  public constructor(@inject(Type.AJAX) ajax: IAJAX<'json'>) {
     this.ajax = ajax;
   }
 
   public create(stats: Stats): Superposition<unknown, AJAXError> {
-    return Superposition.playground<AJAXResponse<unknown>, AJAXError>(() => {
-      return this.ajax.post<unknown>('/api/stats', stats.toJSON());
-    }, AJAXError).map<unknown, AJAXError>((response: AJAXResponse<unknown>) => {
+    return Superposition.playground<AJAXResponse<'json'>, AJAXError>(() => {
+      return this.ajax.post('/api/stats', stats.toJSON());
+    }, AJAXError).map<unknown, AJAXError>((response: AJAXResponse<'json'>) => {
       switch (response.status) {
-        case CREATED: {
+        case StatusCodes.CREATED: {
           return null;
         }
         default: {

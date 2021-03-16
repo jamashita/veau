@@ -1,8 +1,6 @@
 import { Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
-
 import sinon, { SinonStub } from 'sinon';
-
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
@@ -15,12 +13,10 @@ import { AuthenticationInteractor } from '../AuthenticationInteractor';
 describe('AuthenticationInteractor', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const authenticationInteractor1: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(
-        Type.AuthenticationInteractor
-      );
-      const authenticationInteractor2: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(
-        Type.AuthenticationInteractor
-      );
+      expect.assertions(2);
+
+      const authenticationInteractor1: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
+      const authenticationInteractor2: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
 
       expect(authenticationInteractor1).toBeInstanceOf(AuthenticationInteractor);
       expect(authenticationInteractor1).toBe(authenticationInteractor2);
@@ -29,6 +25,8 @@ describe('AuthenticationInteractor', () => {
 
   describe('review', () => {
     it('normal case', (done: jest.DoneCallback) => {
+      expect.assertions(2);
+
       const name: string = 'dummy name';
       const password: string = 'dummy password';
       const account: MockAccount = new MockAccount();
@@ -47,13 +45,15 @@ describe('AuthenticationInteractor', () => {
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
 
       authenticationInteractor.review()(name, password, (err: unknown, ret: VeauAccount) => {
-        expect(err).toBe(null);
+        expect(err).toBeNull();
         expect(ret).toBe(account.getVeauAccount());
         done();
       });
     });
 
     it('name not found', (done: jest.DoneCallback) => {
+      expect.assertions(2);
+
       const name: string = 'dummy name';
       const password: string = 'dummy password';
 
@@ -61,20 +61,20 @@ describe('AuthenticationInteractor', () => {
       const stub: SinonStub = sinon.stub();
 
       accountQuery.findByAccount = stub;
-      stub.returns(
-        Superposition.dead<Account, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError)
-      );
+      stub.returns(Superposition.dead<Account, NoSuchElementError>(new NoSuchElementError('test failed'), NoSuchElementError));
 
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
 
       authenticationInteractor.review()(name, password, (err: unknown, ret: unknown) => {
-        expect(err).toBe(null);
+        expect(err).toBeNull();
         expect(ret).toBe(false);
         done();
       });
     }, 20000);
 
-    it('Account.verify returns false', (done: jest.DoneCallback) => {
+    it('account.verify returns false', (done: jest.DoneCallback) => {
+      expect.assertions(2);
+
       const name: string = 'dummy name';
       const password: string = 'dummy password';
       const account: MockAccount = new MockAccount();
@@ -93,7 +93,7 @@ describe('AuthenticationInteractor', () => {
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
 
       authenticationInteractor.review()(name, password, (err: unknown, ret: unknown) => {
-        expect(err).toBe(null);
+        expect(err).toBeNull();
         expect(ret).toBe(false);
         done();
       });

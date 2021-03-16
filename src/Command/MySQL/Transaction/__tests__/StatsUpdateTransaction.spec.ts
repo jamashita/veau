@@ -12,7 +12,6 @@ import { MockStatsValue } from '../../../../VO/StatsValue/Mock/MockStatsValue';
 import { MockStatsValues } from '../../../../VO/StatsValue/Mock/MockStatsValues';
 import { MockVeauAccountID } from '../../../../VO/VeauAccount/Mock/MockVeauAccountID';
 import { VeauAccountID } from '../../../../VO/VeauAccount/VeauAccountID';
-
 import { MockStatsCommand } from '../../../Mock/MockStatsCommand';
 import { MockStatsItemCommand } from '../../../Mock/MockStatsItemCommand';
 import { MockStatsValueCommand } from '../../../Mock/MockStatsValueCommand';
@@ -21,6 +20,8 @@ import { StatsUpdateTransaction } from '../StatsUpdateTransaction';
 describe('StatsUpdateTransaction', () => {
   describe('with', () => {
     it('normal case', async () => {
+      expect.assertions(7);
+
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
       const statsItemID2: MockStatsItemID = new MockStatsItemID();
       const stats: MockStats = new MockStats({
@@ -120,7 +121,9 @@ describe('StatsUpdateTransaction', () => {
       expect(stub6.callCount).toBe(5);
     });
 
-    it('StatsCommand.deleteByStatsID() returns Dead', async () => {
+    it('statsCommand.deleteByStatsID() returns Dead', async () => {
+      expect.assertions(5);
+
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
@@ -175,7 +178,9 @@ describe('StatsUpdateTransaction', () => {
       expect(stub3.called).toBe(true);
     });
 
-    it('StatsItemCommand.deleteByStatsID() returns Dead', async () => {
+    it('statsItemCommand.deleteByStatsID() returns Dead', async () => {
+      expect.assertions(5);
+
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
@@ -230,7 +235,9 @@ describe('StatsUpdateTransaction', () => {
       expect(stub3.called).toBe(true);
     });
 
-    it('StatsValueCommand.deleteByStatsID() returns Dead', async () => {
+    it('statsValueCommand.deleteByStatsID() returns Dead', async () => {
+      expect.assertions(5);
+
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
@@ -285,7 +292,9 @@ describe('StatsUpdateTransaction', () => {
       expect(stub3.called).toBe(true);
     });
 
-    it('StatsCommand.create() returns Dead', async () => {
+    it('statsCommand.create() returns Dead', async () => {
+      expect.assertions(8);
+
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
@@ -358,7 +367,9 @@ describe('StatsUpdateTransaction', () => {
       expect(stub6.called).toBe(true);
     });
 
-    it('StatsItemCommand.create() returns Dead', async () => {
+    it('statsItemCommand.create() returns Dead', async () => {
+      expect.assertions(8);
+
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
@@ -431,7 +442,9 @@ describe('StatsUpdateTransaction', () => {
       expect(stub6.called).toBe(true);
     });
 
-    it('StatsValueCommand.create() returns Dead', async () => {
+    it('statsValueCommand.create() returns Dead', async () => {
+      expect.assertions(8);
+
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({

@@ -3,9 +3,7 @@ import { CacheError } from '@jamashita/publikum-cache';
 import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import 'reflect-metadata';
-
 import sinon, { SinonStub } from 'sinon';
-
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
@@ -18,6 +16,8 @@ import { LocaleQuery } from '../LocaleQuery';
 describe('LocaleQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleVaultQuery);
       const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleVaultQuery);
 
@@ -28,6 +28,8 @@ describe('LocaleQuery', () => {
 
   describe('all', () => {
     it('returns Alive because Cache has', async () => {
+      expect.assertions(5);
+
       const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -57,6 +59,8 @@ describe('LocaleQuery', () => {
     });
 
     it('returns Alive because AJAX has', async () => {
+      expect.assertions(5);
+
       const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -88,6 +92,8 @@ describe('LocaleQuery', () => {
     });
 
     it('returns Dead Cache nor AJAX returned nothing', async () => {
+      expect.assertions(5);
+
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
@@ -118,6 +124,8 @@ describe('LocaleQuery', () => {
     });
 
     it('returns Dead Cache because saving Cache failure', async () => {
+      expect.assertions(5);
+
       const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();

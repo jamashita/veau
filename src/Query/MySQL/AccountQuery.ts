@@ -1,7 +1,6 @@
 import { Superposition } from '@jamashita/publikum-monad';
 import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { Account, AccountRow } from '../../VO/Account/Account';
 import { AccountName } from '../../VO/Account/AccountName';
@@ -37,16 +36,12 @@ export class AccountQuery implements IAccountQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<AccountRow>>(query, {
         account: account.get()
       });
-    }, MySQLError).map<Account, AccountError | NoSuchElementError | MySQLError>(
-      (rows: Array<AccountRow>) => {
-        if (rows.length === 0) {
-          throw new NoSuchElementError(account.get());
-        }
+    }, MySQLError).map<Account, AccountError | NoSuchElementError | MySQLError>((rows: Array<AccountRow>) => {
+      if (rows.length === 0) {
+        throw new NoSuchElementError(account.get());
+      }
 
-        return Account.ofRow(rows[0]);
-      },
-      AccountError,
-      NoSuchElementError
-    );
+      return Account.ofRow(rows[0]);
+    }, AccountError, NoSuchElementError);
   }
 }

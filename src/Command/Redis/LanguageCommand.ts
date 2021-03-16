@@ -2,7 +2,6 @@ import { JSONA, JSONAError } from '@jamashita/publikum-json';
 import { Superposition } from '@jamashita/publikum-monad';
 import { IRedis, RedisError } from '@jamashita/publikum-redis';
 import { inject, injectable } from 'inversify';
-
 import { Type } from '../../Container/Types';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
 import { Languages } from '../../VO/Language/Languages';
@@ -24,17 +23,13 @@ export class LanguageCommand implements ILanguageCommand<RedisError>, IRedisComm
   public insertAll(languages: Languages): Superposition<unknown, RedisError> {
     return Superposition.playground<string, JSONAError>(() => {
       return JSONA.stringify(languages.toJSON());
-    }, JSONAError).transform<unknown, RedisError>(
-      async (str: string) => {
-        await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
+    }, JSONAError).transform<unknown, RedisError>(async (str: string) => {
+      await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
 
-        return this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
-      },
-      (err: JSONAError) => {
-        throw new RedisError('LanguageCommand.insertAll()', err);
-      },
-      RedisError
-    );
+      return this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
+    }, (err: JSONAError) => {
+      throw new RedisError('LanguageCommand.insertAll()', err);
+    }, RedisError);
   }
 
   public deleteAll(): Superposition<unknown, RedisError> {

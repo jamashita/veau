@@ -1,12 +1,9 @@
-import { Heisenberg } from '@jamashita/publikum-monad';
 import { Stats } from '../../Entity/Stats/Stats';
-
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { Column } from '../../VO/Coordinate/Column';
 import { Coordinate } from '../../VO/Coordinate/Coordinate';
 import { Row } from '../../VO/Coordinate/Row';
-import { StatsDisplay } from '../../VO/Display/StatsDisplay';
 import { ISO639 } from '../../VO/Language/ISO639';
 import { NumericalValue } from '../../VO/NumericalValue/NumericalValue';
 import { ISO3166 } from '../../VO/Region/ISO3166';
@@ -29,7 +26,6 @@ import {
   STATS_EDIT_NAME_TYPED,
   STATS_EDIT_REMOVE_SELECTING_ITEM,
   STATS_EDIT_RESET_STATS,
-  STATS_EDIT_RESET_STATS_DISPLAY,
   STATS_EDIT_RESET_STATS_ITEM,
   STATS_EDIT_ROW_MOVED,
   STATS_EDIT_ROW_SELECTED,
@@ -40,7 +36,6 @@ import {
   STATS_EDIT_UNIT_TYPED,
   STATS_EDIT_UPDATE_SELECTING_ITEM,
   STATS_EDIT_UPDATE_STATS,
-  STATS_EDIT_UPDATE_STATS_DISPLAY,
   STATS_EDIT_UPDATE_STATS_ITEM,
   StatsEditClearSelectingItemAction,
   StatsEditDataDeletedAction,
@@ -56,7 +51,6 @@ import {
   StatsEditNameTypedAction,
   StatsEditRemoveSelectingItemAction,
   StatsEditResetStatsAction,
-  StatsEditResetStatsDisplayAction,
   StatsEditResetStatsItemAction,
   StatsEditRowMovedAction,
   StatsEditRowSelectedAction,
@@ -67,7 +61,6 @@ import {
   StatsEditUnitTypedAction,
   StatsEditUpdateSelectingItemAction,
   StatsEditUpdateStatsAction,
-  StatsEditUpdateStatsDisplayAction,
   StatsEditUpdateStatsItemAction
 } from '../Action';
 
@@ -147,7 +140,7 @@ export const rowSelected = (row: Row): StatsEditRowSelectedAction => {
   };
 };
 
-export const selectItem = (item: Heisenberg<StatsItem>, row: Row): StatsEditSelectItemAction => {
+export const selectItem = (item: StatsItem, row: Row): StatsEditSelectItemAction => {
   return {
     type: STATS_EDIT_SELECT_ITEM,
     item,
@@ -175,7 +168,7 @@ export const invalidDateInput = (): StatsEditInvalidDateInputAction => {
   };
 };
 
-export const updateSelectingItem = (item: Heisenberg<StatsItem>): StatsEditUpdateSelectingItemAction => {
+export const updateSelectingItem = (item: StatsItem): StatsEditUpdateSelectingItemAction => {
   return {
     type: STATS_EDIT_UPDATE_SELECTING_ITEM,
     item
@@ -225,19 +218,6 @@ export const updateStats = (stats: Stats): StatsEditUpdateStatsAction => {
 export const resetStats = (): StatsEditResetStatsAction => {
   return {
     type: STATS_EDIT_RESET_STATS
-  };
-};
-
-export const updateStatsDisplay = (display: StatsDisplay): StatsEditUpdateStatsDisplayAction => {
-  return {
-    type: STATS_EDIT_UPDATE_STATS_DISPLAY,
-    display
-  };
-};
-
-export const resetStatsDisplay = (): StatsEditResetStatsDisplayAction => {
-  return {
-    type: STATS_EDIT_RESET_STATS_DISPLAY
   };
 };
 

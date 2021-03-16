@@ -1,6 +1,5 @@
 import { connectRouter, RouterState } from 'connected-react-router';
 import { combineReducers, Reducer } from 'redux';
-
 import { VeauAction } from '../Action';
 import { history } from '../History';
 import { State } from '../State';

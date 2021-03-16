@@ -1,18 +1,15 @@
 import { Project } from '@jamashita/publikum-collection';
-import { DataSourceError } from '@jamashita/publikum-error';
 import { Schrodinger } from '@jamashita/publikum-monad';
 import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
 import { Nullable } from '@jamashita/publikum-type';
 import 'reflect-metadata';
-
 import sinon, { SinonStub } from 'sinon';
-
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
-import { StatsValuesError } from '../../../VO/StatsValue/Error/StatsValuesError';
+import { StatsValueError } from '../../../VO/StatsValue/Error/StatsValueError';
 import { StatsValueRow } from '../../../VO/StatsValue/StatsValue';
 import { StatsValues } from '../../../VO/StatsValue/StatsValues';
 import { StatsValueQuery } from '../StatsValueQuery';
@@ -20,6 +17,8 @@ import { StatsValueQuery } from '../StatsValueQuery';
 describe('StatsValueQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
+      expect.assertions(2);
+
       const statsValueQuery1: StatsValueQuery = kernel.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
       const statsValueQuery2: StatsValueQuery = kernel.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
 
@@ -30,6 +29,8 @@ describe('StatsValueQuery', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
+      expect.assertions(8);
+
       const statsID: MockStatsID = new MockStatsID();
       const statsItemID1: string = '98d1e9b5-6b18-44de-b615-d8016f49977d';
       const statsItemID2: string = '5318ad74-f15f-4835-9fd7-890be4cce933';
@@ -71,14 +72,10 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const schrodinger: Schrodinger<
-        Project<StatsItemID, StatsValues>,
-        StatsValuesError | DataSourceError
-      > = await statsValueQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>, StatsValueError | MySQLError> = await statsValueQuery.findByStatsID(statsID).terminate();
 
-      expect(
-        stub.withArgs(
-          `SELECT
+      expect(stub.withArgs(
+        `SELECT
       R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,
       R1.value
@@ -86,50 +83,27 @@ describe('StatsValueQuery', () => {
       INNER JOIN stats_items R2
       USING(stats_item_id)
       WHERE R2.stats_id = :statsID;`,
-          {
-            statsID: statsID.get().get()
-          }
-        ).called
-      ).toBe(true);
+        {
+          statsID: statsID.get().get()
+        }
+      ).called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
-      const project: Project<StatsItemID, StatsValues> = schrodinger.get();
-      const statsValues1: Nullable<StatsValues> = project.get(await StatsItemID.ofString(statsItemID1).get());
-      const statsValues2: Nullable<StatsValues> = project.get(await StatsItemID.ofString(statsItemID2).get());
 
-      expect(
-        statsValues1
-          ?.get(await AsOf.ofString(asOf1).get())
-          ?.getValue()
-          .get()
-      ).toBe(1);
-      expect(
-        statsValues1
-          ?.get(await AsOf.ofString(asOf2).get())
-          ?.getValue()
-          .get()
-      ).toBe(2);
-      expect(
-        statsValues1
-          ?.get(await AsOf.ofString(asOf3).get())
-          ?.getValue()
-          .get()
-      ).toBe(3);
-      expect(
-        statsValues2
-          ?.get(await AsOf.ofString(asOf1).get())
-          ?.getValue()
-          .get()
-      ).toBe(11);
-      expect(
-        statsValues2
-          ?.get(await AsOf.ofString(asOf2).get())
-          ?.getValue()
-          .get()
-      ).toBe(12);
-      expect(statsValues2?.get(await AsOf.ofString(asOf3).get())).toBe(null);
+      const project: Project<StatsItemID, StatsValues> = schrodinger.get();
+      const statsValues1: Nullable<StatsValues> = project.get(StatsItemID.ofString(statsItemID1));
+      const statsValues2: Nullable<StatsValues> = project.get(StatsItemID.ofString(statsItemID2));
+
+      expect(statsValues1?.get(AsOf.ofString(asOf1))?.getValue().get()).toBe(1);
+      expect(statsValues1?.get(AsOf.ofString(asOf2))?.getValue().get()).toBe(2);
+      expect(statsValues1?.get(AsOf.ofString(asOf3))?.getValue().get()).toBe(3);
+      expect(statsValues2?.get(AsOf.ofString(asOf1))?.getValue().get()).toBe(11);
+      expect(statsValues2?.get(AsOf.ofString(asOf2))?.getValue().get()).toBe(12);
+      expect(statsValues2?.get(AsOf.ofString(asOf3))).toBeNull();
     });
 
     it('returns Dead when statsItemID is malformat', async () => {
+      expect.assertions(2);
+
       const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsValueRow> = [
         {
@@ -166,18 +140,17 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const schrodinger: Schrodinger<
-        Project<StatsItemID, StatsValues>,
-        StatsValuesError | DataSourceError
-      > = await statsValueQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>, StatsValueError | MySQLError> = await statsValueQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(StatsValuesError);
+      }).toThrow(StatsValueError);
     });
 
     it('returns Dead because the client throws MySQLError', async () => {
+      expect.assertions(2);
+
       const statsID: MockStatsID = new MockStatsID();
 
       const mysql: MockMySQL = new MockMySQL();
@@ -187,10 +160,7 @@ describe('StatsValueQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const schrodinger: Schrodinger<
-        Project<StatsItemID, StatsValues>,
-        StatsValuesError | DataSourceError
-      > = await statsValueQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>, StatsValueError | MySQLError> = await statsValueQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

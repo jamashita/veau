@@ -1,7 +1,5 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
 import { Nullable } from '@jamashita/publikum-type';
 import { UUID } from '@jamashita/publikum-uuid';
-
 import { ISO639 } from '../../Language/ISO639';
 import { Language, LanguageJSON } from '../../Language/Language';
 import { LanguageID } from '../../Language/LanguageID';
@@ -24,6 +22,8 @@ import { Locale } from '../Locale';
 describe('Locale', () => {
   describe('empty', () => {
     it('generates 0-length Regions, and Languages', () => {
+      expect.assertions(2);
+
       const locale: Locale = Locale.empty();
 
       expect(locale.getLanguages()).toBe(Languages.empty());
@@ -31,12 +31,16 @@ describe('Locale', () => {
     });
 
     it('returns singleton instance', () => {
+      expect.assertions(1);
+
       expect(Locale.empty()).toBe(Locale.empty());
     });
   });
 
   describe('ofJSON', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(9);
+
       const languages: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -53,29 +57,24 @@ describe('Locale', () => {
         }
       ];
 
-      const superposition: Superposition<Locale, LocaleError> = Locale.ofJSON({
+      const locale: Locale = Locale.ofJSON({
         languages,
         regions
       });
-      const schrodinger: Schrodinger<Locale, LocaleError> = await superposition.terminate();
-
-      expect(schrodinger.isAlive()).toBe(true);
-      const locale: Locale = schrodinger.get();
 
       expect(locale.getLanguages().size()).toBe(languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
-        // eslint-disable-next-line no-await-in-loop
-        const language: Nullable<Language> = locale.getLanguages().get(await LanguageID.ofString(languages[i].languageID).get());
+        const language: Nullable<Language> = locale.getLanguages().get(LanguageID.ofString(languages[i].languageID));
 
         expect(language?.getLanguageID().get().get()).toBe(languages[i].languageID);
         expect(language?.getName().get()).toBe(languages[i].name);
         expect(language?.getEnglishName().get()).toBe(languages[i].englishName);
         expect(language?.getISO639().get()).toBe(languages[i].iso639);
       }
+
       expect(locale.getRegions().size()).toBe(regions.length);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
-        // eslint-disable-next-line no-await-in-loop
-        const region: Nullable<Region> = locale.getRegions().get(await RegionID.ofString(regions[i].regionID).get());
+        const region: Nullable<Region> = locale.getRegions().get(RegionID.ofString(regions[i].regionID));
 
         expect(region?.getRegionID().get().get()).toBe(regions[i].regionID);
         expect(region?.getName().get()).toBe(regions[i].name);
@@ -83,7 +82,9 @@ describe('Locale', () => {
       }
     });
 
-    it('has malformat languageID ', async () => {
+    it('has malformat languageID', () => {
+      expect.assertions(1);
+
       const languages: Array<LanguageJSON> = [
         {
           languageID: 'cinque',
@@ -100,19 +101,17 @@ describe('Locale', () => {
         }
       ];
 
-      const superposition: Superposition<Locale, LocaleError> = Locale.ofJSON({
-        languages,
-        regions
-      });
-      const schrodinger: Schrodinger<Locale, LocaleError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        Locale.ofJSON({
+          languages,
+          regions
+        });
       }).toThrow(LocaleError);
     });
 
-    it('has malformat regionID ', async () => {
+    it('has malformat regionID', () => {
+      expect.assertions(1);
+
       const languages: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -129,21 +128,19 @@ describe('Locale', () => {
         }
       ];
 
-      const superposition: Superposition<Locale, LocaleError> = Locale.ofJSON({
-        languages,
-        regions
-      });
-      const schrodinger: Schrodinger<Locale, LocaleError> = await superposition.terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
       expect(() => {
-        schrodinger.get();
+        Locale.ofJSON({
+          languages,
+          regions
+        });
       }).toThrow(LocaleError);
     });
   });
 
   describe('equals', () => {
     it('returns true if languages and regions are the same', () => {
+      expect.assertions(5);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const locale1: Locale = Locale.of(
@@ -234,7 +231,9 @@ describe('Locale', () => {
   });
 
   describe('toJSON', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const languages: Array<LanguageJSON> = [
@@ -253,16 +252,12 @@ describe('Locale', () => {
         }
       ];
 
-      const superposition: Superposition<Locale, LocaleError> = Locale.ofJSON({
+      const locale: Locale = Locale.ofJSON({
         languages,
         regions
       });
-      const schrodinger: Schrodinger<Locale, LocaleError> = await superposition.terminate();
 
-      expect(schrodinger.isAlive()).toBe(true);
-      const locale: Locale = schrodinger.get();
-
-      expect(locale.toJSON()).toEqual({
+      expect(locale.toJSON()).toStrictEqual({
         languages: [
           {
             languageID: uuid1.get(),
@@ -282,8 +277,52 @@ describe('Locale', () => {
     });
   });
 
+  describe('validate', () => {
+    it('normal case', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        languages: [
+          {
+            languageID: 'qui',
+            name: 'language name',
+            englishName: 'english language name',
+            iso639: 'ab'
+          }
+        ],
+        regions: [
+          {
+            regionID: 'qua',
+            name: 'region name',
+            iso3166: 'abc'
+          }
+        ]
+      };
+
+      expect(Locale.validate(n)).toBe(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect.assertions(5);
+
+      expect(Locale.validate(null)).toBe(false);
+      expect(Locale.validate(undefined)).toBe(false);
+      expect(Locale.validate(56)).toBe(false);
+      expect(Locale.validate('fjafsd')).toBe(false);
+      expect(Locale.validate(false)).toBe(false);
+    });
+
+    it('returns false because given parameter is not an array', () => {
+      expect.assertions(1);
+
+      expect(Locale.validate({})).toBe(false);
+    });
+  });
+
   describe('toString', () => {
     it('normal case', () => {
+      expect.assertions(1);
+
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -310,9 +349,7 @@ describe('Locale', () => {
         ])
       );
 
-      expect(locale.toString()).toBe(
-        `{${uuid1.get()}: ${uuid1.get()} ${name1} ${englishName1} ${iso6391}}, {${uuid2.get()}: ${uuid2.get()} ${name2} ${englishName2} ${iso6392}} {${uuid3.get()}: ${uuid3.get()} ${name3} ${iso31661}}, {${uuid4.get()}: ${uuid4.get()} ${name4} ${iso31662}}`
-      );
+      expect(locale.toString()).toBe(`{${uuid1.get()}: ${uuid1.get()} ${name1} ${englishName1} ${iso6391}}, {${uuid2.get()}: ${uuid2.get()} ${name2} ${englishName2} ${iso6392}} {${uuid3.get()}: ${uuid3.get()} ${name3} ${iso31661}}, {${uuid4.get()}: ${uuid4.get()} ${name4} ${iso31662}}`);
     });
   });
 });
