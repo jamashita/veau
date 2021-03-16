@@ -43,6 +43,10 @@ if you haven't installed docker for desktop, install it first.
 1. access `http://localhost:4000` and you will see the app login page
 1. the account and password are already provided, please see the *Account and Password* section.
 
+## TODO
+
+- [ ] fastly
+
 ## License
 
 [MIT](LICENSE)
