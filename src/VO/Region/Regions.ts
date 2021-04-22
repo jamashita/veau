@@ -1,10 +1,9 @@
-import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
-import { JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Kind, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { Collection, ImmutableProject, Project, Quantity } from '@jamashita/lluvia-collection';
 import { Region, RegionJSON, RegionRow } from './Region';
 import { RegionID } from './RegionID';
 
-export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> implements JSONable<Array<RegionJSON>> {
+export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JSONable<Array<RegionJSON>> {
   public readonly noun: 'Regions' = 'Regions';
   private readonly regions: Project<RegionID, Region>;
 
@@ -63,7 +62,7 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
   }
 
   private static ofMap(regions: ReadonlyMap<RegionID, Region>): Regions {
-    return Regions.of(ImmutableProject.of<RegionID, Region>(regions));
+    return Regions.of(ImmutableProject.ofMap<RegionID, Region>(regions));
   }
 
   protected constructor(regions: Project<RegionID, Region>) {
@@ -83,7 +82,7 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return this.regions.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<RegionID, Region>): void {
+  public forEach(iteration: Enumerator<RegionID, Region>): void {
     this.regions.forEach(iteration);
   }
 
@@ -113,8 +112,12 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return this.regions.toString();
   }
 
-  public [Symbol.iterator](): Iterator<Pair<RegionID, Region>> {
+  public iterator(): Iterator<[RegionID, Region]> {
     return this.regions[Symbol.iterator]();
+  }
+
+  public [Symbol.iterator](): Iterator<[RegionID, Region]> {
+    return this.iterator();
   }
 
   public every(predicate: BinaryPredicate<Region, RegionID>): boolean {
@@ -129,25 +132,15 @@ export class Regions extends Quantity<Regions, RegionID, Region, 'Regions'> impl
     return this.regions.values();
   }
 
-  public map<U>(mapper: Mapper<Region, U>): Array<U> {
-    const array: Array<U> = [];
-    let i: number = 0;
-
-    this.forEach((region: Region) => {
-      array.push(mapper(region, i));
-      i++;
-    });
-
-    return array;
+  public filter(predicate: BinaryPredicate<Region, RegionID>): Collection<RegionID, Region> {
+    return this.regions.filter(predicate);
   }
 
-  public find(predicate: Predicate<Region>): Nullable<Region> {
-    for (const region of this.regions.values()) {
-      if (predicate(region)) {
-        return region;
-      }
-    }
+  public find(predicate: BinaryPredicate<Region, RegionID>): Nullable<Region> {
+    return this.regions.find(predicate);
+  }
 
-    return null;
+  public map<W>(mapper: Mapper<Region, W>): Collection<RegionID, W> {
+    return this.regions.map<W>(mapper);
   }
 }

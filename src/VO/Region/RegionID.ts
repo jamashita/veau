@@ -1,8 +1,8 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { UUID, UUIDError } from '@jamashita/publikum-uuid';
+import { ValueObject } from '@jamashita/anden-object';
+import { UUID, UUIDError } from '@jamashita/anden-uuid';
 import { RegionError } from './Error/RegionError';
 
-export class RegionID extends ValueObject<RegionID, 'RegionID'> {
+export class RegionID extends ValueObject<'RegionID'> {
   public readonly noun: 'RegionID' = 'RegionID';
   private readonly uuid: UUID;
 

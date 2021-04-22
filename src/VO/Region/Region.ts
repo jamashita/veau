@@ -1,6 +1,6 @@
-import { JSONable } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { JSONable } from '@jamashita/anden-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { Kind } from '@jamashita/anden-type';
 import { ISO3166 } from './ISO3166';
 import { RegionID } from './RegionID';
 import { RegionName } from './RegionName';

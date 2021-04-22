@@ -1,8 +1,8 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
 
 const EMPTY_NAME: string = '';
 
-export class RegionName extends ValueObject<RegionName, 'RegionName'> {
+export class RegionName extends ValueObject<'RegionName'> {
   public readonly noun: 'RegionName' = 'RegionName';
   private readonly name: string;
 

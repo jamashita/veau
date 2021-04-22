@@ -1,4 +1,4 @@
-import { UUID } from '@jamashita/publikum-uuid';
+import { UUID } from '@jamashita/anden-uuid';
 import { RegionID } from '../RegionID';
 
 export class MockRegionID extends RegionID {
