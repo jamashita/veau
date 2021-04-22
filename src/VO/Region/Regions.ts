@@ -113,11 +113,7 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
   }
 
   public iterator(): Iterator<[RegionID, Region]> {
-    return this.regions[Symbol.iterator]();
-  }
-
-  public [Symbol.iterator](): Iterator<[RegionID, Region]> {
-    return this.iterator();
+    return this.regions.iterator();
   }
 
   public every(predicate: BinaryPredicate<Region, RegionID>): boolean {
