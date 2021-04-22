@@ -1,5 +1,4 @@
-import { ImmutableProject, Project } from '@jamashita/publikum-collection';
-
+import { ImmutableProject, Project } from '@jamashita/lluvia-collection';
 import { Language } from '../Language';
 import { LanguageID } from '../LanguageID';
 import { Languages } from '../Languages';

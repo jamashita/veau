@@ -1,6 +1,5 @@
-import { JSONable } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { JSONable, Kind } from '@jamashita/anden-type';
 import { ISO639 } from './ISO639';
 import { LanguageID } from './LanguageID';
 import { LanguageName } from './LanguageName';

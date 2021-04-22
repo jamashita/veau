@@ -1,5 +1,4 @@
-import { UUID } from '@jamashita/publikum-uuid';
-
+import { UUID } from '@jamashita/anden-uuid';
 import { LanguageID } from '../LanguageID';
 
 export class MockLanguageID extends LanguageID {

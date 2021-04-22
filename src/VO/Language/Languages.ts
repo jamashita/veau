@@ -1,10 +1,9 @@
-import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
-import { JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Kind, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { Collection, ImmutableProject, Project, Quantity } from '@jamashita/lluvia-collection';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 import { LanguageID } from './LanguageID';
 
-export class Languages extends Quantity<Languages, LanguageID, Language, 'Languages'>
+export class Languages extends Quantity<LanguageID, Language, 'Languages'>
   implements JSONable<Array<LanguageJSON>> {
   public readonly noun: 'Languages' = 'Languages';
   private readonly languages: Project<LanguageID, Language>;
@@ -64,7 +63,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
   }
 
   private static ofMap(languages: ReadonlyMap<LanguageID, Language>): Languages {
-    return Languages.of(ImmutableProject.of<LanguageID, Language>(languages));
+    return Languages.of(ImmutableProject.ofMap<LanguageID, Language>(languages));
   }
 
   protected constructor(languages: Project<LanguageID, Language>) {
@@ -84,7 +83,7 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return this.languages.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<LanguageID, Language>): void {
+  public forEach(iteration: Enumerator<LanguageID, Language>): void {
     this.languages.forEach(iteration);
   }
 
@@ -114,8 +113,8 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return this.languages.toString();
   }
 
-  public [Symbol.iterator](): Iterator<Pair<LanguageID, Language>> {
-    return this.languages[Symbol.iterator]();
+  public iterator(): Iterator<[LanguageID, Language]> {
+    return this.languages.iterator();
   }
 
   public every(predicate: BinaryPredicate<Language, LanguageID>): boolean {
@@ -130,25 +129,15 @@ export class Languages extends Quantity<Languages, LanguageID, Language, 'Langua
     return this.languages.values();
   }
 
-  public map<U>(mapper: Mapper<Language, U>): Array<U> {
-    const array: Array<U> = [];
-    let i: number = 0;
-
-    this.forEach((language: Language) => {
-      array.push(mapper(language, i));
-      i++;
-    });
-
-    return array;
+  public filter(predicate: BinaryPredicate<Language, LanguageID>): Collection<LanguageID, Language> {
+    return this.languages.filter(predicate);
   }
 
-  public find(predicate: Predicate<Language>): Nullable<Language> {
-    for (const language of this.values()) {
-      if (predicate(language)) {
-        return language;
-      }
-    }
+  public find(predicate: BinaryPredicate<Language, LanguageID>): Nullable<Language> {
+    return this.languages.find(predicate);
+  }
 
-    return null;
+  public map<W>(mapper: Mapper<Language, W>): Collection<LanguageID, W> {
+    return this.languages.map<W>(mapper);
   }
 }
