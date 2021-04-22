@@ -1,10 +1,10 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { Kind } from '@jamashita/anden-type';
 import { HeaderSizeError } from './Error/HeaderSizeError';
 
 const REVISED_VALUE: number = 14;
 
-export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
+export class HeaderSize extends ValueObject<'HeaderSize'> {
   public readonly noun: 'HeaderSize' = 'HeaderSize';
   private readonly chars: number;
 
@@ -16,7 +16,7 @@ export class HeaderSize extends ValueObject<HeaderSize, 'HeaderSize'> {
       return HeaderSize.ofPositiveInteger(chars);
     }
 
-    throw new HeaderSizeError(`ILLEGAL SIZE SPECIFIED: ${Kind.notate(chars)}`);
+    throw new HeaderSizeError(`ILLEGAL SIZE SPECIFIED: ${chars}`);
   }
 
   public static ofString(str: string): HeaderSize {
