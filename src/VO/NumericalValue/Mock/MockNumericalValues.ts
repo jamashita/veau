@@ -1,6 +1,5 @@
 import { ImmutableSequence } from '@jamashita/lluvia-collection';
 import { NumericalValues } from '../NumericalValues';
-
 import { ValueContained } from '../ValueContained';
 
 export class MockNumericalValues extends NumericalValues {

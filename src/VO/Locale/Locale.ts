@@ -1,6 +1,5 @@
-import { JSONable } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { JSONable, Kind } from '@jamashita/anden-type';
 import { LanguageError } from '../Language/Error/LanguageError';
 import { LanguageJSON } from '../Language/Language';
 import { Languages } from '../Language/Languages';
@@ -14,7 +13,7 @@ export type LocaleJSON = Readonly<{
   regions: Array<RegionJSON>;
 }>;
 
-export class Locale extends ValueObject<Locale, 'Locale'> implements JSONable<LocaleJSON> {
+export class Locale extends ValueObject<'Locale'> implements JSONable<LocaleJSON> {
   public readonly noun: 'Locale' = 'Locale';
   private readonly languages: Languages;
   private readonly regions: Regions;
