@@ -1,10 +1,10 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { Kind } from '@jamashita/anden-type';
 import { ColumnError } from './Error/ColumnError';
 
 const ORIGIN_VALUE: number = 0;
 
-export class Column extends ValueObject<Column, 'Column'> {
+export class Column extends ValueObject<'Column'> {
   public readonly noun: 'Column' = 'Column';
   private readonly column: number;
   private static readonly ORIGIN: Column = new Column(ORIGIN_VALUE);
@@ -20,7 +20,7 @@ export class Column extends ValueObject<Column, 'Column'> {
       return new Column(column);
     }
 
-    throw new ColumnError(`ILLEGAL COLUMN SPECIFIED: ${Kind.notate(column)}`);
+    throw new ColumnError(`ILLEGAL COLUMN SPECIFIED: ${column}`);
   }
 
   public static origin(): Column {

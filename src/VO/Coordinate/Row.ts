@@ -1,10 +1,10 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { Kind } from '@jamashita/anden-type';
 import { RowError } from './Error/RowError';
 
 const ORIGIN_VALUE: number = 0;
 
-export class Row extends ValueObject<Row, 'Row'> {
+export class Row extends ValueObject<'Row'> {
   public readonly noun: 'Row' = 'Row';
   private readonly row: number;
   private static readonly ORIGIN: Row = new Row(ORIGIN_VALUE);
@@ -20,7 +20,7 @@ export class Row extends ValueObject<Row, 'Row'> {
       return new Row(row);
     }
 
-    throw new RowError(`ILLEGAL ROW SPECIFIED: ${Kind.notate(row)}`);
+    throw new RowError(`ILLEGAL ROW SPECIFIED: ${row}`);
   }
 
   public static origin(): Row {

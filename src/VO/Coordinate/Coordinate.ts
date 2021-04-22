@@ -1,8 +1,8 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
 import { Column } from './Column';
 import { Row } from './Row';
 
-export class Coordinate extends ValueObject<Coordinate, 'Coordinate'> {
+export class Coordinate extends ValueObject<'Coordinate'> {
   public readonly noun: 'Coordinate' = 'Coordinate';
   private readonly row: Row;
   private readonly column: Column;

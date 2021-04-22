@@ -1,4 +1,4 @@
-import { RuntimeError } from '@jamashita/publikum-error';
+import { RuntimeError } from '@jamashita/anden-error';
 
 export class RowError extends RuntimeError<'RowError'> {
   public readonly noun: 'RowError' = 'RowError';
