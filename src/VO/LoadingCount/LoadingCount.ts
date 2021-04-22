@@ -1,10 +1,10 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { Kind } from '@jamashita/anden-type';
 import { LoadingCountError } from './Error/LoadingCountError';
 
 const DEFAULT_COUNT: number = 0;
 
-export class LoadingCount extends ValueObject<LoadingCount, 'LoadingCount'> {
+export class LoadingCount extends ValueObject<'LoadingCount'> {
   public readonly noun: 'LoadingCount' = 'LoadingCount';
   private readonly count: number;
 
@@ -21,7 +21,7 @@ export class LoadingCount extends ValueObject<LoadingCount, 'LoadingCount'> {
       return new LoadingCount(count);
     }
 
-    throw new LoadingCountError(`ILLEGAL COUNT SPECIFIED: ${Kind.notate(count)}`);
+    throw new LoadingCountError(`ILLEGAL COUNT SPECIFIED: ${count}`);
   }
 
   public static default(): LoadingCount {

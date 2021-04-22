@@ -1,4 +1,4 @@
-import { RuntimeError } from '@jamashita/publikum-error';
+import { RuntimeError } from '@jamashita/anden-error';
 
 export class LoadingCountError extends RuntimeError<'LoadingCountError'> {
   public readonly noun: 'LoadingCountError' = 'LoadingCountError';
