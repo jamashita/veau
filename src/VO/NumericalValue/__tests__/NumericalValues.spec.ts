@@ -1,4 +1,4 @@
-import { ImmutableSequence, MockSequence } from '@jamashita/publikum-collection';
+import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { NumericalValue } from '../NumericalValue';

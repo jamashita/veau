@@ -1,4 +1,4 @@
-import { RuntimeError } from '@jamashita/publikum-error';
+import { RuntimeError } from '@jamashita/anden-error';
 
 export class NumericalValueError extends RuntimeError<'NumericalValueError'> {
   public readonly noun: 'NumericalValueError' = 'NumericalValueError';

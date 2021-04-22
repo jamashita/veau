@@ -1,4 +1,4 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
 import { NumericalValueError } from './Error/NumericalValueError';
 import { NumericalValue } from './NumericalValue';
 

@@ -1,5 +1,5 @@
-import { UnimplementedError } from '@jamashita/publikum-error';
-import { Objet } from '@jamashita/publikum-object';
+import { UnimplementedError } from '@jamashita/anden-error';
+import { Objet } from '@jamashita/anden-object';
 import { NumericalValue } from '../NumericalValue';
 
 export class MockNumericalValue extends Objet<'ValueContained'> implements NumericalValue {

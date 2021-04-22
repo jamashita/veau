@@ -1,5 +1,5 @@
-import { Collection, ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/publikum-collection';
-import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/anden-type';
+import { Collection, ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/lluvia-collection';
 import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues extends Quantity<number, NumericalValue, 'NumericalValues'> {

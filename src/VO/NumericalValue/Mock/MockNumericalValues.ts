@@ -1,4 +1,4 @@
-import { ImmutableSequence } from '@jamashita/publikum-collection';
+import { ImmutableSequence } from '@jamashita/lluvia-collection';
 import { NumericalValues } from '../NumericalValues';
 
 import { ValueContained } from '../ValueContained';

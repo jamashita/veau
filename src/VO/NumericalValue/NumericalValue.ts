@@ -1,4 +1,4 @@
-import { Nominative } from '@jamashita/publikum-interface';
+import { Nominative } from '@jamashita/anden-type';
 
 type NumericalValueType = 'NoValue' | 'ValueContained';
 

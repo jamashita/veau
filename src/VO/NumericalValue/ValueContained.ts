@@ -1,4 +1,4 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
 import { NumericalValue } from './NumericalValue';
 
 export class ValueContained extends ValueObject<'ValueContained'> implements NumericalValue<'ValueContained'> {
