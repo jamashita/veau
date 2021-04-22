@@ -1,5 +1,5 @@
-import { Digest } from '@jamashita/publikum-digest';
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
+import { Digest } from '@jamashita/steckdose-digest';
 import { Password } from '../EntranceInformation/Password';
 import { LanguageError } from '../Language/Error/LanguageError';
 import { LanguageID } from '../Language/LanguageID';
@@ -20,7 +20,7 @@ export type AccountRow = Readonly<{
   hash: string;
 }>;
 
-export class Account extends ValueObject<Account, 'Account'> {
+export class Account extends ValueObject<'Account'> {
   public readonly noun: 'Account' = 'Account';
   private readonly account: VeauAccount;
   private readonly hash: Hash;

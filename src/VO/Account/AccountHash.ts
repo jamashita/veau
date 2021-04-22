@@ -1,8 +1,8 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
 import { VeauAccountID } from '../VeauAccount/VeauAccountID';
 import { Hash } from './Hash';
 
-export class AccountHash extends ValueObject<AccountHash, 'AccountHash'> {
+export class AccountHash extends ValueObject<'AccountHash'> {
   public readonly noun: 'AccountHash' = 'AccountHash';
   private readonly veauAccountID: VeauAccountID;
   private readonly hash: Hash;

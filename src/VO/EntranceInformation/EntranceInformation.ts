@@ -1,5 +1,5 @@
-import { JSONable } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
+import { JSONable } from '@jamashita/anden-type';
 import { AccountName } from '../Account/AccountName';
 import { Password } from './Password';
 
@@ -8,8 +8,7 @@ export type EntranceInformationJSON = Readonly<{
   password: string;
 }>;
 
-export class EntranceInformation extends ValueObject<EntranceInformation, 'EntranceInformation'>
-  implements JSONable<EntranceInformationJSON> {
+export class EntranceInformation extends ValueObject<'EntranceInformation'> implements JSONable<EntranceInformationJSON> {
   public readonly noun: 'EntranceInformation' = 'EntranceInformation';
   private readonly account: AccountName;
   private readonly password: Password;

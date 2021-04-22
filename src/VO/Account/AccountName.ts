@@ -1,8 +1,8 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
 
 const EMPTY_NAME: string = '';
 
-export class AccountName extends ValueObject<AccountName, 'AccountName'> {
+export class AccountName extends ValueObject<'AccountName'> {
   public readonly noun: 'AccountName' = 'AccountName';
   private readonly name: string;
 

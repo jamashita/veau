@@ -1,6 +1,6 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
 
-export class Hash extends ValueObject<Hash, 'Hash'> {
+export class Hash extends ValueObject<'Hash'> {
   public readonly noun: 'Hash' = 'Hash';
   private readonly hash: string;
 
