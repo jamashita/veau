@@ -42,7 +42,6 @@
     "@jamashita/lluvia-collection": "1.2.0",
     "@jamashita/steckdose-digest": "1.0.0",
     "@jamashita/steckdose-json": "1.0.1",
-    "@jamashita/steckdose-random": "1.0.0",
     "@material-ui/core": "4.11.3",
     "bourbon-neat": "4.0.0",
     "class-transformer": "0.4.0",
