@@ -1,4 +1,4 @@
-import { MockProject } from '@jamashita/publikum-collection';
+import { MockProject } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { Term } from '../Term';
 import { TermID } from '../TermID';

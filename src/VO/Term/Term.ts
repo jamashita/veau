@@ -1,6 +1,6 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Ambiguous, Kind } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { ValueObject } from '@jamashita/anden-object';
+import { Ambiguous, Kind } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
 import { TermError } from './Error/TermError';
 import { TermID } from './TermID';
 import { TermKey } from './TermKey';

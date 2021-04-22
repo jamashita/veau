@@ -1,4 +1,4 @@
-import { UUID } from '@jamashita/publikum-uuid';
+import { UUID } from '@jamashita/anden-uuid';
 import { TermID } from '../TermID';
 
 export class MockTermID extends TermID {

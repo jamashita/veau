@@ -1,5 +1,5 @@
-import { ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/publikum-collection';
-import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/anden-type';
+import { ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
 import { Term } from './Term';
 import { TermID } from './TermID';
 

@@ -1,4 +1,4 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
 
 export class TermKey extends ValueObject<'TermKey'> {
   public readonly noun: 'TermKey' = 'TermKey';
