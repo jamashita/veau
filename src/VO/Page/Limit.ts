@@ -1,10 +1,10 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { Kind } from '@jamashita/anden-type';
 import { PageError } from './Error/PageError';
 
 const DEFAULT_VALUE: number = 40;
 
-export class Limit extends ValueObject<Limit, 'Limit'> {
+export class Limit extends ValueObject<'Limit'> {
   public readonly noun: 'Limit' = 'Limit';
   private readonly limit: number;
 
@@ -21,7 +21,7 @@ export class Limit extends ValueObject<Limit, 'Limit'> {
       return new Limit(limit);
     }
 
-    throw new PageError(`ILLEGAL LIMIT SPECIFIED: ${Kind.notate(limit)}`);
+    throw new PageError(`ILLEGAL LIMIT SPECIFIED: ${limit}`);
   }
 
   public static default(): Limit {

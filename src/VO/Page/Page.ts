@@ -1,12 +1,12 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { Kind } from '@jamashita/anden-type';
 import { PageError } from './Error/PageError';
 import { Limit } from './Limit';
 import { Offset } from './Offset';
 
 const MIN_PAGE: number = 1;
 
-export class Page extends ValueObject<Page, 'Page'> {
+export class Page extends ValueObject<'Page'> {
   public readonly noun: 'Page' = 'Page';
   private readonly page: number;
 
@@ -23,7 +23,7 @@ export class Page extends ValueObject<Page, 'Page'> {
       return new Page(page);
     }
 
-    throw new PageError(`ILLEGAL PAGE SPECIFIED: ${Kind.notate(page)}`);
+    throw new PageError(`ILLEGAL PAGE SPECIFIED: ${page}`);
   }
 
   public static min(): Page {

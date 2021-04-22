@@ -1,8 +1,8 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { Kind } from '@jamashita/anden-type';
 import { PageError } from './Error/PageError';
 
-export class Offset extends ValueObject<Offset, 'Offset'> {
+export class Offset extends ValueObject<'Offset'> {
   public readonly noun: 'Offset' = 'Offset';
   private readonly offset: number;
 
@@ -14,7 +14,7 @@ export class Offset extends ValueObject<Offset, 'Offset'> {
       return new Offset(offset);
     }
 
-    throw new PageError(`ILLEGAL OFFSET SPECIFIED: ${Kind.notate(offset)}`);
+    throw new PageError(`ILLEGAL OFFSET SPECIFIED: ${offset}`);
   }
 
   protected constructor(offset: number) {

@@ -1,4 +1,4 @@
-import { RuntimeError } from '@jamashita/publikum-error';
+import { RuntimeError } from '@jamashita/anden-error';
 
 export class PageError extends RuntimeError<'PageError'> {
   public readonly noun: 'PageError' = 'PageError';
