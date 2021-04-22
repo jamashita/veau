@@ -1,8 +1,8 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
-import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/anden-type';
+import { Collection, ImmutableSequence, Quantity, Sequence } from '@jamashita/lluvia-collection';
 import { Color } from './Color';
 
-export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
+export class Colors extends Quantity<number, Color, 'Colors'> {
   public readonly noun: 'Colors' = 'Colors';
   private readonly colors: Sequence<Color>;
   private static readonly DEFAULT: Colors = Colors.ofSpread(
@@ -33,7 +33,7 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
   }
 
   public static ofArray(colors: ReadonlyArray<Color>): Colors {
-    return Colors.of(ImmutableSequence.of<Color>(colors));
+    return Colors.of(ImmutableSequence.ofArray<Color>(colors));
   }
 
   public static ofSpread(...colors: Array<Color>): Colors {
@@ -61,7 +61,7 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
     return this.colors.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<number, Color>): void {
+  public forEach(iteration: Enumerator<number, Color>): void {
     this.colors.forEach(iteration);
   }
 
@@ -81,10 +81,6 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
     return this.colors.toString();
   }
 
-  public [Symbol.iterator](): Iterator<Pair<number, Color>> {
-    return this.colors[Symbol.iterator]();
-  }
-
   public every(predicate: BinaryPredicate<Color, number>): boolean {
     return this.colors.every(predicate);
   }
@@ -95,5 +91,21 @@ export class Colors extends Quantity<Colors, number, Color, 'Colors'> {
 
   public values(): Iterable<Color> {
     return this.colors.values();
+  }
+
+  public filter(predicate: BinaryPredicate<Color, number>): Collection<number, Color> {
+    return this.colors.filter(predicate);
+  }
+
+  public find(predicate: BinaryPredicate<Color, number>): Nullable<Color> {
+    return this.colors.find(predicate);
+  }
+
+  public map<W>(mapper: Mapper<Color, W>): Collection<number, W> {
+    return this.colors.map<W>(mapper);
+  }
+
+  public iterator(): Iterator<[number, Color]> {
+    return this.colors.iterator();
   }
 }
