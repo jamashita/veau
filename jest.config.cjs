@@ -1,9 +1,7 @@
 module.exports = {
   verbose: true,
   bail: true,
-  roots: [
-    'src'
-  ],
+  forceExit: true,
   testRegex: '/__tests__/.+\\.spec\\.tsx?$',
   testPathIgnorePatterns: [
     'node_modules',
