@@ -1,4 +1,4 @@
-import { RuntimeError } from '@jamashita/publikum-error';
+import { RuntimeError } from '@jamashita/anden-error';
 
 export class AsOfError extends RuntimeError<'AsOfError'> {
   public readonly noun: 'AsOfError' = 'AsOfError';

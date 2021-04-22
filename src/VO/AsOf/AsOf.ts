@@ -1,5 +1,5 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
+import { ValueObject } from '@jamashita/anden-object';
+import { Zeit, ZeitError } from '@jamashita/anden-zeit';
 import { Term } from '../Term/Term';
 import { AsOfError } from './Error/AsOfError';
 

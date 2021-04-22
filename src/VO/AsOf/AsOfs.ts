@@ -1,7 +1,6 @@
-import { ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/publikum-collection';
-import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
-import { Zeit } from '@jamashita/publikum-zeit';
+import { BinaryPredicate, Cloneable, Enumerator, JSONable, Mapper, Nullable } from '@jamashita/anden-type';
+import { Zeit } from '@jamashita/anden-zeit';
+import { ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/lluvia-collection';
 import { Term } from '../Term/Term';
 import { AsOf } from './AsOf';
 
