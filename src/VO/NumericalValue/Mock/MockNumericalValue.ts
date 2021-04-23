@@ -4,19 +4,17 @@ import { NumericalValue } from '../NumericalValue';
 
 export class MockNumericalValue extends Objet<'ValueContained'> implements NumericalValue {
   public readonly noun: 'ValueContained' = 'ValueContained';
-  private readonly v: number;
 
-  public constructor(v: number) {
+  public constructor() {
     super();
-    this.v = v;
   }
 
   public get(): number {
-    return this.v;
+    throw new UnimplementedError();
   }
 
-  public equals(other: MockNumericalValue): boolean {
-    return this.v === other.v;
+  public equals(): boolean {
+    throw new UnimplementedError();
   }
 
   public serialize(): string {

@@ -1,5 +1,5 @@
-import { UUID } from '@jamashita/anden-uuid';
 import { Nullable } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
 import sinon, { SinonStub } from 'sinon';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
@@ -15,7 +15,6 @@ import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
 import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
-import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
 import { ValueContained } from '../../../VO/NumericalValue/ValueContained';
 import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
@@ -900,7 +899,7 @@ describe('Stats', () => {
       expect(stats.getStatsID().get().get()).toHaveLength(UUID.size());
       expect(stats.getName()).toBe(StatsName.empty());
       expect(stats.getUnit()).toBe(StatsUnit.empty());
-      expect(stats.getItems().equals(StatsItems.empty())).toBe(true);
+      expect(stats.getItems().isEmpty()).toBeTruthy();
       expect(stats.getLanguage()).toBe(Language.empty());
       expect(stats.getRegion()).toBe(Region.empty());
       expect(stats.getTerm()).toBe(Term.DAILY);
@@ -1218,14 +1217,14 @@ describe('Stats', () => {
                   month: 1,
                   day: 1
                 }),
-                value: new MockNumericalValue(1)
+                value: ValueContained.of(1)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               })
             )
           }),
@@ -1236,21 +1235,21 @@ describe('Stats', () => {
                   month: 1,
                   day: 1
                 }),
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 2
                 }),
-                value: new MockNumericalValue(4)
+                value: ValueContained.of(4)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 5
                 }),
-                value: new MockNumericalValue(6)
+                value: ValueContained.of(6)
               })
             )
           })
@@ -1285,14 +1284,14 @@ describe('Stats', () => {
                   month: 1,
                   day: 1
                 }),
-                value: new MockNumericalValue(1)
+                value: ValueContained.of(1)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               })
             )
           }),
@@ -1303,21 +1302,21 @@ describe('Stats', () => {
                   month: 1,
                   day: 1
                 }),
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 2
                 }),
-                value: new MockNumericalValue(4)
+                value: ValueContained.of(4)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 5
                 }),
-                value: new MockNumericalValue(6)
+                value: ValueContained.of(6)
               })
             )
           })
@@ -1368,14 +1367,14 @@ describe('Stats', () => {
               month: 1,
               day: 1
             }),
-            value: new MockNumericalValue(1)
+            value: ValueContained.of(1)
           }),
           new MockStatsValue({
             asOf: new MockAsOf({
               month: 1,
               day: 3
             }),
-            value: new MockNumericalValue(2)
+            value: ValueContained.of(2)
           })
         )
       });
@@ -1386,21 +1385,21 @@ describe('Stats', () => {
               month: 1,
               day: 1
             }),
-            value: new MockNumericalValue(2)
+            value: ValueContained.of(2)
           }),
           new MockStatsValue({
             asOf: new MockAsOf({
               month: 1,
               day: 2
             }),
-            value: new MockNumericalValue(4)
+            value: ValueContained.of(4)
           }),
           new MockStatsValue({
             asOf: new MockAsOf({
               month: 1,
               day: 5
             }),
-            value: new MockNumericalValue(6)
+            value: ValueContained.of(6)
           })
         )
       });
@@ -1438,14 +1437,14 @@ describe('Stats', () => {
                   month: 1,
                   day: 1
                 }),
-                value: new MockNumericalValue(1)
+                value: ValueContained.of(1)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               })
             )
           }),
@@ -1457,21 +1456,21 @@ describe('Stats', () => {
                   month: 1,
                   day: 1
                 }),
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 2
                 }),
-                value: new MockNumericalValue(4)
+                value: ValueContained.of(4)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 5
                 }),
-                value: new MockNumericalValue(6)
+                value: ValueContained.of(6)
               })
             )
           })
@@ -1519,11 +1518,11 @@ describe('Stats', () => {
             values: new MockStatsValues(
               new MockStatsValue({
                 asOf: asOf1,
-                value: new MockNumericalValue(1)
+                value: ValueContained.of(1)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               })
             )
           })
@@ -1556,11 +1555,11 @@ describe('Stats', () => {
             values: new MockStatsValues(
               new MockStatsValue({
                 asOf: asOf1,
-                value: new MockNumericalValue(1)
+                value: ValueContained.of(1)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: new MockNumericalValue(3)
+                value: ValueContained.of(3)
               })
             )
           })
@@ -1597,11 +1596,11 @@ describe('Stats', () => {
             values: new MockStatsValues(
               new MockStatsValue({
                 asOf: asOf1,
-                value: new MockNumericalValue(1)
+                value: ValueContained.of(1)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               })
             )
           }),
@@ -1609,15 +1608,15 @@ describe('Stats', () => {
             values: new MockStatsValues(
               new MockStatsValue({
                 asOf: asOf1,
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: new MockNumericalValue(4)
+                value: ValueContained.of(4)
               }),
               new MockStatsValue({
                 asOf: asOf4,
-                value: new MockNumericalValue(6)
+                value: ValueContained.of(6)
               })
             )
           })
@@ -1747,14 +1746,14 @@ describe('Stats', () => {
                   month: 1,
                   day: 1
                 }),
-                value: new MockNumericalValue(1)
+                value: ValueContained.of(1)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               })
             )
           }),
@@ -1765,21 +1764,21 @@ describe('Stats', () => {
                   month: 1,
                   day: 1
                 }),
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 2
                 }),
-                value: new MockNumericalValue(4)
+                value: ValueContained.of(4)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 5
                 }),
-                value: new MockNumericalValue(6)
+                value: ValueContained.of(6)
               })
             )
           })
@@ -2118,14 +2117,14 @@ describe('Stats', () => {
                   month: 1,
                   day: 1
                 }),
-                value: new MockNumericalValue(1)
+                value: ValueContained.of(1)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               })
             )
           }),
@@ -2137,21 +2136,21 @@ describe('Stats', () => {
                   month: 1,
                   day: 2
                 }),
-                value: new MockNumericalValue(12)
+                value: ValueContained.of(12)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: new MockNumericalValue(13)
+                value: ValueContained.of(13)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 4
                 }),
-                value: new MockNumericalValue(14)
+                value: ValueContained.of(14)
               })
             )
           })
@@ -2206,7 +2205,7 @@ describe('Stats', () => {
                   month: 1,
                   day: 3
                 }),
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               })
             )
           })

@@ -144,15 +144,6 @@ export class Stats extends Entity<StatsID, Stats> {
     );
   }
 
-  public toJSON(): StatsJSON {
-    return {
-      outline: this.outline.toJSON(),
-      language: this.language.toJSON(),
-      region: this.region.toJSON(),
-      items: this.items.toJSON()
-    };
-  }
-
   public serialize(): string {
     const properties: Array<string> = [];
 
@@ -162,6 +153,15 @@ export class Stats extends Entity<StatsID, Stats> {
     properties.push(this.term.toString());
 
     return properties.join(' ');
+  }
+
+  public toJSON(): StatsJSON {
+    return {
+      outline: this.outline.toJSON(),
+      language: this.language.toJSON(),
+      region: this.region.toJSON(),
+      items: this.items.toJSON()
+    };
   }
 
   public getStatsID(): StatsID {
@@ -308,7 +308,7 @@ export class Stats extends Entity<StatsID, Stats> {
   public getData(): Array<Array<string>> {
     return this.items.map<Array<string>>((item: StatsItem) => {
       return item.getValuesByColumn(this.getColumns()).row();
-    });
+    }).toArray();
   }
 
   public getChart(): Array<{ [key: string]: number | string; }> {

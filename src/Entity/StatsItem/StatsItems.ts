@@ -1,5 +1,12 @@
 import { BinaryPredicate, Cloneable, Enumerator, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
-import { Collection, MutableSequence, Project, Quantity, Sequence } from '@jamashita/lluvia-collection';
+import {
+  Collection,
+  MutableSequence,
+  Project,
+  Quantity,
+  ReadonlySequence,
+  Sequence
+} from '@jamashita/lluvia-collection';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
 import { Row } from '../../VO/Coordinate/Row';
@@ -11,18 +18,18 @@ import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 
 export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implements Cloneable<StatsItems>, JSONable {
   public readonly noun: 'StatsItems' = 'StatsItems';
-  private items: Sequence<StatsItem>;
+  private items: MutableSequence<StatsItem>;
 
-  public static of(items: Sequence<StatsItem>): StatsItems {
+  public static of(items: ReadonlySequence<StatsItem>): StatsItems {
     if (items.isEmpty()) {
       return StatsItems.empty();
     }
 
-    return new StatsItems(items);
+    return new StatsItems(MutableSequence.of<StatsItem>(items));
   }
 
   public static ofArray(items: ReadonlyArray<StatsItem>): StatsItems {
-    return StatsItems.of(MutableSequence.of<StatsItem>(items));
+    return StatsItems.of(MutableSequence.ofArray<StatsItem>(items));
   }
 
   public static ofSpread(...items: Array<StatsItem>): StatsItems {
@@ -59,7 +66,7 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     return new StatsItems(MutableSequence.empty<StatsItem>());
   }
 
-  protected constructor(items: Sequence<StatsItem>) {
+  protected constructor(items: MutableSequence<StatsItem>) {
     super();
     this.items = items;
   }
@@ -134,7 +141,7 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     return this.items.iterator();
   }
 
-  public map<W>(mapper: Mapper<StatsItem, W>): Collection<number, W> {
+  public map<W>(mapper: Mapper<StatsItem, W>): Sequence<W> {
     return this.items.map<W>(mapper);
   }
 
