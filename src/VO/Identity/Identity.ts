@@ -1,10 +1,10 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
 import { AccountName } from '../Account/AccountName';
 import { Language } from '../Language/Language';
 import { Region } from '../Region/Region';
 import { VeauAccountID } from '../VeauAccount/VeauAccountID';
 
-export class Identity extends ValueObject<Identity, 'Identity'> {
+export class Identity extends ValueObject<'Identity'> {
   public readonly noun: 'Identity' = 'Identity';
   private readonly veauAccountID: VeauAccountID;
   private readonly name: AccountName;
