@@ -1,5 +1,5 @@
-import { Cache } from '@jamashita/catacombe-heap';
+import { Heap } from '@jamashita/catacombe-heap';
 
-export const veauCache: Cache = new Cache();
+export const veauHeap: Heap = new Heap();
 
 export const VAULT_LOCALE_KEY: symbol = Symbol();

@@ -1,8 +1,8 @@
-import { ImmutableProject, Project } from '@jamashita/lluvia-collection';
-import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
-import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Ambiguous } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
+import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
+import { ImmutableProject, Project } from '@jamashita/lluvia-collection';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -10,7 +10,7 @@ import { Type } from '../../../Container/Types';
 import { StatsItemRow } from '../../../Entity/StatsItem/StatsItem';
 import { StatsItems } from '../../../Entity/StatsItem/StatsItems';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
-import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
+import { ValueContained } from '../../../VO/NumericalValue/ValueContained';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
@@ -69,22 +69,22 @@ describe('StatsItemQuery', () => {
           name: itemName3
         }
       ];
-      const project: Project<StatsItemID, StatsValues> = ImmutableProject.of<StatsItemID, StatsValues>(
+      const project: Project<StatsItemID, StatsValues> = ImmutableProject.ofMap<StatsItemID, StatsValues>(
         new Map<StatsItemID, StatsValues>([
           [
             StatsItemID.of(uuid2),
             new MockStatsValues(
               new MockStatsValue({
                 asOf: asOf1,
-                value: new MockNumericalValue(1)
+                value: ValueContained.of(1)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: new MockNumericalValue(2)
+                value: ValueContained.of(2)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: new MockNumericalValue(4)
+                value: ValueContained.of(4)
               })
             )
           ],
@@ -93,11 +93,11 @@ describe('StatsItemQuery', () => {
             new MockStatsValues(
               new MockStatsValue({
                 asOf: asOf1,
-                value: new MockNumericalValue(11)
+                value: ValueContained.of(11)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: new MockNumericalValue(12)
+                value: ValueContained.of(12)
               })
             )
           ]
@@ -134,8 +134,10 @@ describe('StatsItemQuery', () => {
 
       expect(statsItems.size()).toBe(3);
       for (let i: number = 0; i < statsItems.size(); i++) {
-        expect(statsItems.get(i)?.getStatsItemID().get().get()).toBe(rows[i].statsItemID);
-        expect(statsItems.get(i)?.getName().get()).toBe(rows[i].name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(statsItems.get(i)?.getStatsItemID().get().get()).toBe(rows[i]!.statsItemID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(statsItems.get(i)?.getName().get()).toBe(rows[i]!.name);
       }
 
       const values2: Ambiguous<StatsValues> = statsItems.get(0)?.getValues();

@@ -12,15 +12,15 @@ import { IFetchQuery } from './Interface/IFetchQuery';
 export class LocaleQuery implements ILocaleQuery<FetchError>, IFetchQuery {
   public readonly noun: 'LocaleQuery' = 'LocaleQuery';
   public readonly source: 'Fetch' = 'Fetch';
-  private readonly ajax: IFetch<'json'>;
+  private readonly fetch: IFetch<'json'>;
 
-  public constructor(@inject(Type.Fetch) ajax: IFetch<'json'>) {
-    this.ajax = ajax;
+  public constructor(@inject(Type.Fetch) fetch: IFetch<'json'>) {
+    this.fetch = fetch;
   }
 
   public all(): Superposition<Locale, FetchError | LocaleError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
-      return this.ajax.get('/api/locale');
+      return this.fetch.get('/api/locale');
     }, FetchError).map<Locale, FetchError | LocaleError>(({ status, body }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
@@ -31,7 +31,7 @@ export class LocaleQuery implements ILocaleQuery<FetchError>, IFetchQuery {
           throw new LocaleError('LocaleQuery.all()');
         }
         default: {
-          throw new FetchError('GET LOCALE FAILED', status);
+          throw new FetchError('GET LOCALE FAILED');
         }
       }
     }, LocaleError);

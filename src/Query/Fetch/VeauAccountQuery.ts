@@ -13,15 +13,15 @@ import { IFetchQuery } from './Interface/IFetchQuery';
 export class VeauAccountQuery implements IVeauAccountQuery<FetchError>, IFetchQuery {
   public readonly noun: 'VeauAccountQuery' = 'VeauAccountQuery';
   public readonly source: 'Fetch' = 'Fetch';
-  private readonly ajax: IFetch<'json'>;
+  private readonly fetch: IFetch<'json'>;
 
-  public constructor(@inject(Type.Fetch) ajax: IFetch<'json'>) {
-    this.ajax = ajax;
+  public constructor(@inject(Type.Fetch) fetch: IFetch<'json'>) {
+    this.fetch = fetch;
   }
 
   public find(): Superposition<VeauAccount, FetchError | VeauAccountError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
-      return this.ajax.get('/api/accounts');
+      return this.fetch.get('/api/accounts');
     }, FetchError).map<VeauAccount, FetchError | VeauAccountError>(({ status, body }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
@@ -32,7 +32,7 @@ export class VeauAccountQuery implements IVeauAccountQuery<FetchError>, IFetchQu
           throw new VeauAccountError('VeauAccountQuery.find()');
         }
         default: {
-          throw new FetchError('IDENTITY DID NOT RETURN StatusCodes.OK', status);
+          throw new FetchError('IDENTITY DID NOT RETURN StatusCodes.OK');
         }
       }
     }, VeauAccountError);
@@ -40,7 +40,7 @@ export class VeauAccountQuery implements IVeauAccountQuery<FetchError>, IFetchQu
 
   public findByEntranceInfo(entranceInformation: EntranceInformation): Superposition<VeauAccount, FetchError | VeauAccountError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
-      return this.ajax.post('/api/auth', entranceInformation.toJSON());
+      return this.fetch.post('/api/auth', entranceInformation.toJSON());
     }, FetchError).map<VeauAccount, FetchError | VeauAccountError>(({ status, body }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
@@ -51,10 +51,10 @@ export class VeauAccountQuery implements IVeauAccountQuery<FetchError>, IFetchQu
           throw new VeauAccountError('VeauAccountQuery.findByEntranceInfo()');
         }
         case StatusCodes.UNAUTHORIZED: {
-          throw new FetchError('StatusCodes.UNAUTHORIZED', StatusCodes.UNAUTHORIZED);
+          throw new FetchError('StatusCodes.UNAUTHORIZED');
         }
         default: {
-          throw new FetchError('UNKNOWN ERROR', status);
+          throw new FetchError('UNKNOWN ERROR');
         }
       }
     }, VeauAccountError);

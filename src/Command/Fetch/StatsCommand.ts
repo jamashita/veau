@@ -1,5 +1,5 @@
-import { FetchError, FetchResponse, IFetch } from '@jamashita/catacombe-fetch';
 import { UnimplementedError } from '@jamashita/anden-error';
+import { FetchError, FetchResponse, IFetch } from '@jamashita/catacombe-fetch';
 import { Superposition } from '@jamashita/genitore-superposition';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
@@ -13,22 +13,22 @@ import { IFetchCommand } from './Interface/IFetchCommand';
 export class StatsCommand implements IStatsCommand<FetchError>, IFetchCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'Fetch' = 'Fetch';
-  private readonly ajax: IFetch<'json'>;
+  private readonly fetch: IFetch<'json'>;
 
-  public constructor(@inject(Type.Fetch) ajax: IFetch<'json'>) {
-    this.ajax = ajax;
+  public constructor(@inject(Type.Fetch) fetch: IFetch<'json'>) {
+    this.fetch = fetch;
   }
 
   public create(stats: Stats): Superposition<unknown, FetchError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
-      return this.ajax.post('/api/stats', stats.toJSON());
+      return this.fetch.post('/api/stats', stats.toJSON());
     }, FetchError).map<unknown, FetchError>((response: FetchResponse<'json'>) => {
       switch (response.status) {
         case StatusCodes.CREATED: {
           return null;
         }
         default: {
-          throw new FetchError('UNKNOWN ERROR', response.status);
+          throw new FetchError('UNKNOWN ERROR');
         }
       }
     });

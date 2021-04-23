@@ -128,7 +128,7 @@ describe('RegionCommand', () => {
       expect(schrodinger.isAlive()).toBe(true);
     });
 
-    it('returns Dead with CacheError because Redis.delete fails', async () => {
+    it('returns Dead with HeapError because Redis.delete fails', async () => {
       expect.assertions(2);
 
       const redis: MockRedis = new MockRedis({});

@@ -1,7 +1,7 @@
-import { Schrodinger } from '@jamashita/genitore-superposition';
-import { MockRedis, MockRedisString, RedisError } from '@jamashita/catacombe-redis';
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
+import { MockRedis, MockRedisString, RedisError } from '@jamashita/catacombe-redis';
+import { Schrodinger } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -65,13 +65,18 @@ describe('LanguageQuery', () => {
 
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        const languageID: LanguageID = LanguageID.ofString(json[i].languageID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const languageID: LanguageID = LanguageID.ofString(json[i]!.languageID);
         const language: Nullable<Language> = languages.get(languageID);
 
-        expect(language?.getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(language?.getName().get()).toBe(json[i].name);
-        expect(language?.getEnglishName().get()).toBe(json[i].englishName);
-        expect(language?.getISO639().get()).toBe(json[i].iso639);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getLanguageID().get().get()).toBe(json[i]!.languageID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getName().get()).toBe(json[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getEnglishName().get()).toBe(json[i]!.englishName);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getISO639().get()).toBe(json[i]!.iso639);
       }
     });
 
@@ -197,10 +202,14 @@ describe('LanguageQuery', () => {
 
       const language: Language = schrodinger.get();
 
-      expect(language.getLanguageID().get().get()).toBe(json[1].languageID);
-      expect(language.getName().get()).toBe(json[1].name);
-      expect(language.getEnglishName().get()).toBe(json[1].englishName);
-      expect(language.getISO639().get()).toBe(json[1].iso639);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getLanguageID().get().get()).toBe(json[1]!.languageID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getName().get()).toBe(json[1]!.name);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getEnglishName().get()).toBe(json[1]!.englishName);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getISO639().get()).toBe(json[1]!.iso639);
     });
 
     it('redis returns empty array', async () => {

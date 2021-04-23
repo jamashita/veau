@@ -1,5 +1,5 @@
 import { FetchError } from '@jamashita/catacombe-fetch';
-import { CacheError } from '@jamashita/catacombe-heap';
+import { HeapError } from '@jamashita/catacombe-heap';
 import { DataSourceError } from '@jamashita/anden-error';
 import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
@@ -69,7 +69,7 @@ describe('LocaleQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       localeCacheQuery.all = stub1;
-      stub1.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
+      stub1.returns(Superposition.dead<Locale, HeapError>(new HeapError('test failed'), HeapError));
 
       const stub2: SinonStub = sinon.stub();
 
@@ -100,7 +100,7 @@ describe('LocaleQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       localeCacheQuery.all = stub1;
-      stub1.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
+      stub1.returns(Superposition.dead<Locale, HeapError>(new HeapError('test failed'), HeapError));
 
       const stub2: SinonStub = sinon.stub();
 
@@ -134,7 +134,7 @@ describe('LocaleQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       localeCacheQuery.all = stub1;
-      stub1.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
+      stub1.returns(Superposition.dead<Locale, HeapError>(new HeapError('test failed'), HeapError));
 
       const stub2: SinonStub = sinon.stub();
 
@@ -144,7 +144,7 @@ describe('LocaleQuery', () => {
       const stub3: SinonStub = sinon.stub();
 
       localeCommand.create = stub3;
-      stub3.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
+      stub3.returns(Superposition.dead<Locale, HeapError>(new HeapError('test failed'), HeapError));
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeFetchQuery, localeCacheQuery, localeCommand);
       const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeQuery.all().terminate();
@@ -155,7 +155,7 @@ describe('LocaleQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(CacheError);
+      }).toThrow(HeapError);
     });
   });
 });

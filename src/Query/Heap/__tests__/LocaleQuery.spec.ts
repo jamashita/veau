@@ -1,4 +1,4 @@
-import { CacheError, MockHeap } from '@jamashita/catacombe-heap';
+import { HeapError, MockHeap } from '@jamashita/catacombe-heap';
 import { DataSourceError } from '@jamashita/anden-error';
 import { Schrodinger } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
@@ -44,14 +44,14 @@ describe('LocaleQuery', () => {
       expect(schrodinger.get()).toBe(locale);
     });
 
-    it('returns Dead when Cache throws CacheError', async () => {
+    it('returns Dead when Cache throws HeapError', async () => {
       expect.assertions(2);
 
       const cache: MockHeap = new MockHeap();
       const stub: SinonStub = sinon.stub();
 
       cache.get = stub;
-      stub.throws(new CacheError('test failed'));
+      stub.throws(new HeapError('test failed'));
 
       const localeQuery: LocaleQuery = new LocaleQuery(cache);
       const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeQuery.all().terminate();
@@ -59,7 +59,7 @@ describe('LocaleQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(CacheError);
+      }).toThrow(HeapError);
     });
   });
 });

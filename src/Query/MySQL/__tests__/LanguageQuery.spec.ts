@@ -1,6 +1,6 @@
-import { Schrodinger } from '@jamashita/genitore-superposition';
-import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { UUID } from '@jamashita/anden-uuid';
+import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Schrodinger } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -69,12 +69,17 @@ describe('LanguageQuery', () => {
 
       expect(languages.size()).toBe(2);
       for (let i: number = 0; i < languages.size(); i++) {
-        const languageID: LanguageID = LanguageID.ofString(rows[i].languageID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const languageID: LanguageID = LanguageID.ofString(rows[i]!.languageID);
 
-        expect(languages.get(languageID)?.getLanguageID().get().get()).toBe(rows[i].languageID);
-        expect(languages.get(languageID)?.getName().get()).toBe(rows[i].name);
-        expect(languages.get(languageID)?.getEnglishName().get()).toBe(rows[i].englishName);
-        expect(languages.get(languageID)?.getISO639().get()).toBe(rows[i].iso639);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(languages.get(languageID)?.getLanguageID().get().get()).toBe(rows[i]!.languageID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(languages.get(languageID)?.getName().get()).toBe(rows[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(languages.get(languageID)?.getEnglishName().get()).toBe(rows[i]!.englishName);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(languages.get(languageID)?.getISO639().get()).toBe(rows[i]!.iso639);
       }
     });
 
@@ -154,10 +159,14 @@ describe('LanguageQuery', () => {
 
       const language: Language = schrodinger.get();
 
-      expect(language.getLanguageID().get().get()).toBe(rows[0].languageID);
-      expect(language.getName().get()).toBe(rows[0].name);
-      expect(language.getEnglishName().get()).toBe(rows[0].englishName);
-      expect(language.getISO639().get()).toBe(rows[0].iso639);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getLanguageID().get().get()).toBe(rows[0]!.languageID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getName().get()).toBe(rows[0]!.name);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getEnglishName().get()).toBe(rows[0]!.englishName);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getISO639().get()).toBe(rows[0]!.iso639);
     });
 
     it('returns Dead because MySQL returns 0 results', async () => {
@@ -234,10 +243,14 @@ describe('LanguageQuery', () => {
       expect(schrodinger.isAlive()).toBe(true);
       const language: Language = schrodinger.get();
 
-      expect(language.getLanguageID().get().get()).toBe(rows[0].languageID);
-      expect(language.getName().get()).toBe(rows[0].name);
-      expect(language.getEnglishName().get()).toBe(rows[0].englishName);
-      expect(language.getISO639().get()).toBe(rows[0].iso639);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getLanguageID().get().get()).toBe(rows[0]!.languageID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getName().get()).toBe(rows[0]!.name);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getEnglishName().get()).toBe(rows[0]!.englishName);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(language.getISO639().get()).toBe(rows[0]!.iso639);
     });
 
     it('returns Dead because MySQL returns 0 results', async () => {

@@ -1,6 +1,6 @@
-import { Schrodinger } from '@jamashita/genitore-superposition';
-import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { UUID } from '@jamashita/anden-uuid';
+import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Schrodinger } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -66,11 +66,15 @@ describe('RegionQuery', () => {
 
       expect(regions.size()).toBe(2);
       for (let i: number = 0; i < regions.size(); i++) {
-        const regionID: RegionID = RegionID.ofString(rows[i].regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const regionID: RegionID = RegionID.ofString(rows[i]!.regionID);
 
-        expect(regions.get(regionID)?.getRegionID().get().get()).toBe(rows[i].regionID);
-        expect(regions.get(regionID)?.getName().get()).toBe(rows[i].name);
-        expect(regions.get(regionID)?.getISO3166().get()).toBe(rows[i].iso3166);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(regions.get(regionID)?.getRegionID().get().get()).toBe(rows[i]!.regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(regions.get(regionID)?.getName().get()).toBe(rows[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(regions.get(regionID)?.getISO3166().get()).toBe(rows[i]!.iso3166);
       }
     });
 
@@ -147,9 +151,12 @@ describe('RegionQuery', () => {
       expect(schrodinger.isAlive()).toBe(true);
       const region: Region = schrodinger.get();
 
-      expect(region.getRegionID().get().get()).toBe(rows[0].regionID);
-      expect(region.getName().get()).toBe(rows[0].name);
-      expect(region.getISO3166().get()).toBe(rows[0].iso3166);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(region.getRegionID().get().get()).toBe(rows[0]!.regionID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(region.getName().get()).toBe(rows[0]!.name);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(region.getISO3166().get()).toBe(rows[0]!.iso3166);
     });
 
     it('returns Dead because MySQL returns 0 results', async () => {
@@ -224,9 +231,12 @@ describe('RegionQuery', () => {
       expect(schrodinger.isAlive()).toBe(true);
       const region: Region = schrodinger.get();
 
-      expect(region.getRegionID().get().get()).toBe(rows[0].regionID);
-      expect(region.getName().get()).toBe(rows[0].name);
-      expect(region.getISO3166().get()).toBe(rows[0].iso3166);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(region.getRegionID().get().get()).toBe(rows[0]!.regionID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(region.getName().get()).toBe(rows[0]!.name);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(region.getISO3166().get()).toBe(rows[0]!.iso3166);
     });
 
     it('returns Dead because MySQL returns 0 results', async () => {

@@ -1,5 +1,5 @@
-import { FetchError, FetchResponse, IFetch } from '@jamashita/catacombe-fetch';
 import { UnimplementedError } from '@jamashita/anden-error';
+import { FetchError, FetchResponse, IFetch } from '@jamashita/catacombe-fetch';
 import { Superposition } from '@jamashita/genitore-superposition';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
@@ -18,10 +18,10 @@ import { IFetchQuery } from './Interface/IFetchQuery';
 export class StatsOutlineQuery implements IStatsOutlineQuery<FetchError>, IFetchQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'Fetch' = 'Fetch';
-  private readonly ajax: IFetch<'json'>;
+  private readonly fetch: IFetch<'json'>;
 
-  public constructor(@inject(Type.Fetch) ajax: IFetch<'json'>) {
-    this.ajax = ajax;
+  public constructor(@inject(Type.Fetch) fetch: IFetch<'json'>) {
+    this.fetch = fetch;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -31,7 +31,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<FetchError>, IFetch
 
   public findByVeauAccountID(_veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, FetchError | StatsOutlineError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
-      return this.ajax.get(`/api/stats/page/${page.get()}`);
+      return this.fetch.get(`/api/stats/page/${page.get()}`);
     }, FetchError).map<StatsOutlines, FetchError | StatsOutlineError>(({ status, body }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
@@ -42,7 +42,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<FetchError>, IFetch
           throw new StatsOutlineError('StatsOutlineQuery.findByVeauAccountID()');
         }
         default: {
-          throw new FetchError('UNKNOWN ERROR', status);
+          throw new FetchError('UNKNOWN ERROR');
         }
       }
     }, StatsOutlineError);

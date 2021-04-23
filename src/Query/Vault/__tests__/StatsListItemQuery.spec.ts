@@ -1,5 +1,5 @@
 import { FetchError } from '@jamashita/catacombe-fetch';
-import { CacheError } from '@jamashita/catacombe-heap';
+import { HeapError } from '@jamashita/catacombe-heap';
 import { DataSourceError } from '@jamashita/anden-error';
 import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
@@ -290,7 +290,7 @@ describe('StatsListItemQuery', () => {
       }).toThrow(StatsListItemError);
     });
 
-    it('termQuery returns Dead.CacheError', async () => {
+    it('termQuery returns Dead.HeapError', async () => {
       expect.assertions(2);
 
       const outlines: MockStatsOutlines = new MockStatsOutlines();
@@ -312,7 +312,7 @@ describe('StatsListItemQuery', () => {
       const stub3: SinonStub = sinon.stub();
 
       termQuery.all = stub3;
-      stub3.returns(Superposition.dead<Terms, CacheError>(new CacheError('test failed'), CacheError));
+      stub3.returns(Superposition.dead<Terms, HeapError>(new HeapError('test failed'), HeapError));
 
       const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
       const schrodinger: Schrodinger<StatsListItems, DataSourceError | StatsListItemError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
@@ -320,7 +320,7 @@ describe('StatsListItemQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(CacheError);
+      }).toThrow(HeapError);
     });
 
     it('returns Dead.StatsListItemError because there is no such LanguageID', async () => {

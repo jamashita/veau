@@ -10,22 +10,22 @@ import { IFetchCommand } from './Interface/IFetchCommand';
 export class SessionCommand implements ISessionCommand<FetchError>, IFetchCommand {
   public readonly noun: 'SessionCommand' = 'SessionCommand';
   public readonly source: 'Fetch' = 'Fetch';
-  private readonly ajax: IFetch<'json'>;
+  private readonly fetch: IFetch<'json'>;
 
-  public constructor(@inject(Type.Fetch) ajax: IFetch<'json'>) {
-    this.ajax = ajax;
+  public constructor(@inject(Type.Fetch) fetch: IFetch<'json'>) {
+    this.fetch = fetch;
   }
 
   public delete(): Superposition<unknown, FetchError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
-      return this.ajax.delete('/api/session');
+      return this.fetch.delete('/api/session');
     }, FetchError).map<unknown, FetchError>((response: FetchResponse<'json'>) => {
       switch (response.status) {
         case StatusCodes.OK: {
           return null;
         }
         default: {
-          throw new FetchError('UNKNOWN ERROR', response.status);
+          throw new FetchError('UNKNOWN ERROR');
         }
       }
     });

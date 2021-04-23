@@ -1,7 +1,7 @@
-import { Schrodinger } from '@jamashita/genitore-superposition';
-import { MockRedis, MockRedisString, RedisError } from '@jamashita/catacombe-redis';
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
+import { MockRedis, MockRedisString, RedisError } from '@jamashita/catacombe-redis';
+import { Schrodinger } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -64,12 +64,16 @@ describe('RegionQuery', () => {
 
       expect(regions.size()).toBe(json.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        const regionID: RegionID = RegionID.ofString(json[i].regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const regionID: RegionID = RegionID.ofString(json[i]!.regionID);
         const region: Nullable<Region> = regions.get(regionID);
 
-        expect(region?.getRegionID().get().get()).toBe(json[i].regionID);
-        expect(region?.getName().get()).toBe(json[i].name);
-        expect(region?.getISO3166().get()).toBe(json[i].iso3166);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getRegionID().get().get()).toBe(json[i]!.regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getName().get()).toBe(json[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getISO3166().get()).toBe(json[i]!.iso3166);
       }
     });
 
@@ -192,9 +196,12 @@ describe('RegionQuery', () => {
       expect(schrodinger.isAlive()).toBe(true);
       const region: Region = schrodinger.get();
 
-      expect(region.getRegionID().get().get()).toBe(json[1].regionID);
-      expect(region.getName().get()).toBe(json[1].name);
-      expect(region.getISO3166().get()).toBe(json[1].iso3166);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(region.getRegionID().get().get()).toBe(json[1]!.regionID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(region.getName().get()).toBe(json[1]!.name);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(region.getISO3166().get()).toBe(json[1]!.iso3166);
     });
 
     it('redis returns empty array', async () => {
