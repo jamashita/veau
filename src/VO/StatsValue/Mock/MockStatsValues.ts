@@ -1,4 +1,4 @@
-import { ImmutableProject, Project } from '@jamashita/publikum-collection';
+import { ImmutableProject, Project } from '@jamashita/lluvia-collection';
 import { AsOf } from '../../AsOf/AsOf';
 import { StatsValue } from '../StatsValue';
 import { StatsValues } from '../StatsValues';

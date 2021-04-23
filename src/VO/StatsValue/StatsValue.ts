@@ -1,6 +1,5 @@
-import { JSONable } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { JSONable, Kind } from '@jamashita/anden-type';
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfError } from '../AsOf/Error/AsOfError';
 import { NumericalValue } from '../NumericalValue/NumericalValue';

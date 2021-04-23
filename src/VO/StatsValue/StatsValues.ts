@@ -1,6 +1,5 @@
-import { ImmutableProject, Project, Quantity, ReadonlyProject } from '@jamashita/publikum-collection';
-import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Enumerator, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Cloneable, Enumerator, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { ImmutableProject, Project, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfs } from '../AsOf/AsOfs';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
