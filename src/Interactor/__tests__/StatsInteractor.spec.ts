@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';

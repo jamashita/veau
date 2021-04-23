@@ -1,7 +1,7 @@
-import { AJAXError } from '@jamashita/publikum-ajax';
-import { CacheError } from '@jamashita/publikum-cache';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { FetchError } from '@jamashita/catacombe-fetch';
+import { CacheError } from '@jamashita/catacombe-heap';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
@@ -33,7 +33,7 @@ describe('LocaleQuery', () => {
       const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
-      const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeFetchQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
 
@@ -42,13 +42,13 @@ describe('LocaleQuery', () => {
 
       const stub2: SinonStub = sinon.stub();
 
-      localeAJAXQuery.all = stub2;
+      localeFetchQuery.all = stub2;
 
       const stub3: SinonStub = sinon.stub();
 
       localeCommand.create = stub3;
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(localeFetchQuery, localeCacheQuery, localeCommand);
       const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
@@ -58,13 +58,13 @@ describe('LocaleQuery', () => {
       expect(schrodinger.get()).toBe(locale);
     });
 
-    it('returns Alive because AJAX has', async () => {
+    it('returns Alive because Fetch has', async () => {
       expect.assertions(5);
 
       const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
-      const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeFetchQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
 
@@ -73,7 +73,7 @@ describe('LocaleQuery', () => {
 
       const stub2: SinonStub = sinon.stub();
 
-      localeAJAXQuery.all = stub2;
+      localeFetchQuery.all = stub2;
       stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const stub3: SinonStub = sinon.stub();
@@ -81,7 +81,7 @@ describe('LocaleQuery', () => {
       localeCommand.create = stub3;
       stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(localeFetchQuery, localeCacheQuery, localeCommand);
       const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
@@ -91,11 +91,11 @@ describe('LocaleQuery', () => {
       expect(schrodinger.get()).toBe(locale);
     });
 
-    it('returns Dead Cache nor AJAX returned nothing', async () => {
+    it('returns Dead Cache nor Fetch returned nothing', async () => {
       expect.assertions(5);
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
-      const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeFetchQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
 
@@ -104,14 +104,14 @@ describe('LocaleQuery', () => {
 
       const stub2: SinonStub = sinon.stub();
 
-      localeAJAXQuery.all = stub2;
-      stub2.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test failed', 500), AJAXError));
+      localeFetchQuery.all = stub2;
+      stub2.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 500), FetchError));
 
       const stub3: SinonStub = sinon.stub();
 
       localeCommand.create = stub3;
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(localeFetchQuery, localeCacheQuery, localeCommand);
       const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
@@ -120,7 +120,7 @@ describe('LocaleQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
 
     it('returns Dead Cache because saving Cache failure', async () => {
@@ -129,7 +129,7 @@ describe('LocaleQuery', () => {
       const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
-      const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeFetchQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
 
@@ -138,7 +138,7 @@ describe('LocaleQuery', () => {
 
       const stub2: SinonStub = sinon.stub();
 
-      localeAJAXQuery.all = stub2;
+      localeFetchQuery.all = stub2;
       stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const stub3: SinonStub = sinon.stub();
@@ -146,7 +146,7 @@ describe('LocaleQuery', () => {
       localeCommand.create = stub3;
       stub3.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(localeFetchQuery, localeCacheQuery, localeCommand);
       const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);

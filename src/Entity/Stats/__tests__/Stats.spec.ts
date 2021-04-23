@@ -1,5 +1,5 @@
-import { Nullable } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { UUID } from '@jamashita/anden-uuid';
+import { Nullable } from '@jamashita/anden-type';
 import sinon, { SinonStub } from 'sinon';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
@@ -16,7 +16,7 @@ import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
 import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
-import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
+import { ValueContained } from '../../../VO/NumericalValue/ValueContained';
 import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
@@ -135,9 +135,12 @@ describe('Stats', () => {
       expect(stats.getItems().size()).toBe(json.items.length);
 
       for (let i: number = 0; i < stats.getItems().size(); i++) {
-        expect(stats.getItems().get(i)?.getStatsItemID().get().get()).toBe(json.items[i].statsItemID);
-        expect(stats.getItems().get(i)?.getName().get()).toBe(json.items[i].name);
-        expect(stats.getItems().get(i)?.getValues().size()).toBe(json.items[i].values.length);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(stats.getItems().get(i)?.getStatsItemID().get().get()).toBe(json.items[i]!.statsItemID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(stats.getItems().get(i)?.getName().get()).toBe(json.items[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(stats.getItems().get(i)?.getValues().size()).toBe(json.items[i]!.values.length);
         const item: Nullable<StatsItem> = stats.getItems().get(i);
 
         if (item === null) {
@@ -147,10 +150,13 @@ describe('Stats', () => {
         }
 
         for (let j: number = 0; j < item.getValues().size(); j++) {
-          const asOf: AsOf = AsOf.ofString(json.items[i].values[j].asOf);
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const asOf: AsOf = AsOf.ofString(json.items[i]!.values[j]!.asOf);
 
-          expect(item.getValues().get(asOf)?.getAsOf().toString()).toBe(json.items[i].values[j].asOf);
-          expect(item.getValues().get(asOf)?.getValue().get()).toBe(json.items[i].values[j].value);
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          expect(item.getValues().get(asOf)?.getAsOf().toString()).toBe(json.items[i]!.values[j]!.asOf);
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          expect(item.getValues().get(asOf)?.getValue().get()).toBe(json.items[i]!.values[j]!.value);
         }
       }
     });
@@ -1524,7 +1530,7 @@ describe('Stats', () => {
         )
       );
 
-      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), NumericalValue.of(4));
+      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), ValueContained.of(4));
 
       expect(stats.getItems().get(0)?.getValues().size()).toBe(2);
       expect(stats.getItems().get(0)?.getValues().get(asOf1)?.getValue().get()).toBe(1);
@@ -1561,7 +1567,7 @@ describe('Stats', () => {
         )
       );
 
-      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), NumericalValue.of(2));
+      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), ValueContained.of(2));
 
       expect(stats.getItems().get(0)?.getValues().size()).toBe(3);
       expect(stats.getItems().get(0)?.getValues().get(asOf1)?.getValue().get()).toBe(1);

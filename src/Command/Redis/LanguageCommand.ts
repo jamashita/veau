@@ -1,6 +1,6 @@
-import { JSONA, JSONAError } from '@jamashita/publikum-json';
-import { Superposition } from '@jamashita/publikum-monad';
-import { IRedis, RedisError } from '@jamashita/publikum-redis';
+import { JSONA, JSONAError } from '@jamashita/steckdose-json';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { IRedis, RedisError } from '@jamashita/catacombe-redis';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';

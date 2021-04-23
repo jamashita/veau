@@ -1,4 +1,4 @@
-import { ISQL } from '@jamashita/publikum-mysql';
+import { ISQL } from '@jamashita/catacombe-mysql';
 
 import { StatsCommand } from '../Command/MySQL/StatsCommand';
 import { StatsItemCommand } from '../Command/MySQL/StatsItemCommand';

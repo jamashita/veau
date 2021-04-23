@@ -1,4 +1,4 @@
-import { Kind } from '@jamashita/publikum-type';
+import { Kind } from '@jamashita/anden-type';
 import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';

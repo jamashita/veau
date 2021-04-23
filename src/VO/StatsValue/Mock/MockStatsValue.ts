@@ -10,7 +10,7 @@ type StatsValueArgs = Partial<Readonly<{
 }>>;
 
 export class MockStatsValue extends StatsValue {
-  public constructor({ asOf = new MockAsOf(), value = new MockNumericalValue() }: StatsValueArgs = {}) {
+  public constructor({ asOf = new MockAsOf(), value = new MockNumericalValue(0) }: StatsValueArgs = {}) {
     super(asOf, value);
   }
 }

@@ -1,4 +1,4 @@
-import { Nullable } from '@jamashita/publikum-type';
+import { Nullable } from '@jamashita/anden-type';
 import { Reducer } from 'redux';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';

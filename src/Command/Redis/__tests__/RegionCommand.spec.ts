@@ -1,7 +1,7 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { JSONA, JSONAError } from '@jamashita/publikum-json';
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
+import { DataSourceError } from '@jamashita/anden-error';
+import { JSONA, JSONAError } from '@jamashita/steckdose-json';
+import { Schrodinger } from '@jamashita/genitore-superposition';
+import { MockRedis, MockRedisString, RedisError } from '@jamashita/catacombe-redis';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';

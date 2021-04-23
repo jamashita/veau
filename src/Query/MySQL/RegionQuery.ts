@@ -1,5 +1,5 @@
-import { Superposition } from '@jamashita/publikum-monad';
-import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { RegionError } from '../../VO/Region/Error/RegionError';

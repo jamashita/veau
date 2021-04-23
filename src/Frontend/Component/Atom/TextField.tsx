@@ -1,4 +1,4 @@
-import { Kind } from '@jamashita/publikum-type';
+import { Kind } from '@jamashita/anden-type';
 import Text from '@material-ui/core/TextField';
 import React from 'react';
 

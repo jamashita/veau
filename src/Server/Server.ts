@@ -1,4 +1,4 @@
-import { Ambiguous, Kind } from '@jamashita/publikum-type';
+import { Ambiguous, Kind } from '@jamashita/anden-type';
 
 import compression from 'compression';
 import config from 'config';

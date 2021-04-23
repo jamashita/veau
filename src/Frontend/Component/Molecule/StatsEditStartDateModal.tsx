@@ -1,4 +1,4 @@
-import { Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';

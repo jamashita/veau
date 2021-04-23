@@ -1,6 +1,6 @@
-import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
-import { Nullable } from '@jamashita/publikum-type';
+import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
+import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore-superposition';
+import { Nullable } from '@jamashita/anden-type';
 import { inject, injectable } from 'inversify';
 import { ILanguageCommand } from '../../Command/Interface/ILanguageCommand';
 import { Type } from '../../Container/Types';

@@ -1,10 +1,10 @@
-import { ImmutableProject, Project } from '@jamashita/lluvia-collection';
+import { ImmutableProject } from '@jamashita/lluvia-collection';
 import { AsOf } from '../../AsOf/AsOf';
 import { StatsValue } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
 
 export class MockStatsValues extends StatsValues {
-  private static toProject(values: Array<StatsValue>): Project<AsOf, StatsValue> {
+  private static toProject(values: Array<StatsValue>): ImmutableProject<AsOf, StatsValue> {
     const map: Map<AsOf, StatsValue> = new Map<AsOf, StatsValue>();
 
     values.forEach((value: StatsValue) => {

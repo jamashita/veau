@@ -1,5 +1,5 @@
-import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { Locale } from '../../VO/Locale/Locale';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IMockQuery } from './Interface/IMockQuery';

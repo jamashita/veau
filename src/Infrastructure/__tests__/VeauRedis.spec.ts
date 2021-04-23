@@ -1,4 +1,4 @@
-import { IRedis, Redis } from '@jamashita/publikum-redis';
+import { IRedis, Redis } from '@jamashita/catacombe-redis';
 import 'reflect-metadata';
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';

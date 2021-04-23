@@ -1,5 +1,5 @@
-import { Entity } from '@jamashita/publikum-object';
-import { Ambiguous, Kind, Nullable } from '@jamashita/publikum-type';
+import { Entity } from '@jamashita/anden-object';
+import { Ambiguous, Kind, Nullable } from '@jamashita/anden-type';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';

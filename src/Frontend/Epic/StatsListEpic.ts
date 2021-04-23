@@ -53,7 +53,7 @@ export class StatsListEpic {
     @inject(Type.StatsListItemVaultQuery) statsListItemQuery: IStatsListItemQuery,
     @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery,
-    @inject(Type.StatsAJAXCommand) statsCommand: IStatsCommand
+    @inject(Type.StatsFetchCommand) statsCommand: IStatsCommand
   ) {
     this.statsListItemQuery = statsListItemQuery;
     this.languageQuery = languageQuery;

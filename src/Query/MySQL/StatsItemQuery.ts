@@ -1,7 +1,7 @@
-import { Project } from '@jamashita/publikum-collection';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
-import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
+import { Project } from '@jamashita/lluvia-collection';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { StatsItemRow } from '../../Entity/StatsItem/StatsItem';

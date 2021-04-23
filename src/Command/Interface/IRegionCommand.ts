@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
 
 import { Regions } from '../../VO/Region/Regions';
 import { ICommand } from './ICommand';

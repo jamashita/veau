@@ -1,7 +1,7 @@
-import { AJAXError } from '@jamashita/publikum-ajax';
-import { CacheError } from '@jamashita/publikum-cache';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { FetchError } from '@jamashita/catacombe-fetch';
+import { CacheError } from '@jamashita/catacombe-heap';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
@@ -157,7 +157,7 @@ describe('StatsListItemQuery', () => {
       }).toThrow(StatsListItemError);
     });
 
-    it('statsOutlineQuery returns Dead.AJAXError', async () => {
+    it('statsOutlineQuery returns Dead.FetchError', async () => {
       expect.assertions(2);
 
       const locale: MockLocale = new MockLocale();
@@ -169,7 +169,7 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.returns(Superposition.dead<StatsOutlines, AJAXError>(new AJAXError('test failed', 500), AJAXError));
+      stub1.returns(Superposition.dead<StatsOutlines, FetchError>(new FetchError('test failed', 500), FetchError));
 
       const stub2: SinonStub = sinon.stub();
 
@@ -187,7 +187,7 @@ describe('StatsListItemQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
 
     it('localeQuery returns Dead.LocaleError', async () => {
@@ -224,7 +224,7 @@ describe('StatsListItemQuery', () => {
       }).toThrow(StatsListItemError);
     });
 
-    it('localeQuery returns Dead.AJAXError', async () => {
+    it('localeQuery returns Dead.FetchError', async () => {
       expect.assertions(2);
 
       const outlines: MockStatsOutlines = new MockStatsOutlines();
@@ -241,7 +241,7 @@ describe('StatsListItemQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test faield', 500), AJAXError));
+      stub2.returns(Superposition.dead<Locale, FetchError>(new FetchError('test faield', 500), FetchError));
 
       const stub3: SinonStub = sinon.stub();
 
@@ -254,7 +254,7 @@ describe('StatsListItemQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
 
     it('termQuery returns Dead.TermError', async () => {

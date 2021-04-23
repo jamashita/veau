@@ -1,5 +1,5 @@
-import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { IStatsValueCommand } from '../Interface/IStatsValueCommand';
 import { IMockCommand } from './Interface/IMockCommand';
 

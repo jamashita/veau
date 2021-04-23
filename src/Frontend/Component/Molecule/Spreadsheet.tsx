@@ -1,5 +1,5 @@
 import { HotTable } from '@handsontable/react';
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import { Kind, Nullable } from '@jamashita/anden-type';
 import React from 'react';
 
 import { Column } from '../../../VO/Coordinate/Column';

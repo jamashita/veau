@@ -1,5 +1,5 @@
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
-import { ISQL, ITransaction, MySQLError } from '@jamashita/publikum-mysql';
+import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
+import { ISQL, ITransaction, MySQLError } from '@jamashita/catacombe-mysql';
 import { Stats } from '../../../Entity/Stats/Stats';
 import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
 import { IStatsUpdateFactory } from '../../../Factory/Interface/IStatsUpdateFactory';

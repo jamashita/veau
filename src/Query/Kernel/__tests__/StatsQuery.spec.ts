@@ -1,7 +1,7 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
-import { MySQLError } from '@jamashita/publikum-mysql';
-import { UUID } from '@jamashita/publikum-uuid';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
+import { MySQLError } from '@jamashita/catacombe-mysql';
+import { UUID } from '@jamashita/anden-uuid';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';

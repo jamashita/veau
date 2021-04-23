@@ -1,8 +1,8 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
-import { Nullable } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger } from '@jamashita/genitore-superposition';
+import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Nullable } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';

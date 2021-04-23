@@ -1,27 +1,27 @@
-import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
-import { Superposition } from '@jamashita/publikum-monad';
+import { FetchError, FetchResponse, IFetch } from '@jamashita/catacombe-fetch';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../VO/Locale/Locale';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
-import { IAJAXQuery } from './Interface/IAJAXQuery';
+import { IFetchQuery } from './Interface/IFetchQuery';
 
 @injectable()
-export class LocaleQuery implements ILocaleQuery<AJAXError>, IAJAXQuery {
+export class LocaleQuery implements ILocaleQuery<FetchError>, IFetchQuery {
   public readonly noun: 'LocaleQuery' = 'LocaleQuery';
-  public readonly source: 'AJAX' = 'AJAX';
-  private readonly ajax: IAJAX<'json'>;
+  public readonly source: 'Fetch' = 'Fetch';
+  private readonly ajax: IFetch<'json'>;
 
-  public constructor(@inject(Type.AJAX) ajax: IAJAX<'json'>) {
+  public constructor(@inject(Type.Fetch) ajax: IFetch<'json'>) {
     this.ajax = ajax;
   }
 
-  public all(): Superposition<Locale, LocaleError | AJAXError> {
-    return Superposition.playground<AJAXResponse<'json'>, AJAXError>(() => {
+  public all(): Superposition<Locale, LocaleError | FetchError> {
+    return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
       return this.ajax.get('/api/locale');
-    }, AJAXError).map<Locale, LocaleError | AJAXError>(({ status, body }: AJAXResponse<'json'>) => {
+    }, FetchError).map<Locale, LocaleError | FetchError>(({ status, body }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
           if (Locale.validate(body)) {
@@ -31,7 +31,7 @@ export class LocaleQuery implements ILocaleQuery<AJAXError>, IAJAXQuery {
           throw new LocaleError('LocaleQuery.all()');
         }
         default: {
-          throw new AJAXError('GET LOCALE FAILED', status);
+          throw new FetchError('GET LOCALE FAILED', status);
         }
       }
     }, LocaleError);

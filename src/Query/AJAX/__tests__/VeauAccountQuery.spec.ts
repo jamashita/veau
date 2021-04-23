@@ -1,7 +1,7 @@
-import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { UUID } from '@jamashita/publikum-uuid';
+import { FetchError, MockFetch } from '@jamashita/catacombe-fetch';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger } from '@jamashita/genitore-superposition';
+import { UUID } from '@jamashita/anden-uuid';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
@@ -17,8 +17,8 @@ describe('VeauAccountQuery', () => {
   // describe('container', () => {
   // eslint-disable-next-line jest/no-commented-out-tests
   //   it('must be a singleton', () => {
-  //     const veauAccountQuery1: VeauAccountQuery = v.get<VeauAccountQuery>(Type.VeauAccountAJAXQuery);
-  //     const veauAccountQuery2: VeauAccountQuery = v.get<VeauAccountQuery>(Type.VeauAccountAJAXQuery);
+  //     const veauAccountQuery1: VeauAccountQuery = v.get<VeauAccountQuery>(Type.VeauAccountFetchQuery);
+  //     const veauAccountQuery2: VeauAccountQuery = v.get<VeauAccountQuery>(Type.VeauAccountFetchQuery);
   //
   //     expect(veauAccountQuery1).toBeInstanceOf(VeauAccountQuery);
   //     expect(veauAccountQuery1).toBe(veauAccountQuery2);
@@ -36,7 +36,7 @@ describe('VeauAccountQuery', () => {
         name: 'name'
       };
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
@@ -69,7 +69,7 @@ describe('VeauAccountQuery', () => {
         name: 'name'
       };
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
@@ -90,7 +90,7 @@ describe('VeauAccountQuery', () => {
     it('does not return OK', async () => {
       expect.assertions(2);
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
@@ -106,7 +106,7 @@ describe('VeauAccountQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
   });
 
@@ -121,7 +121,7 @@ describe('VeauAccountQuery', () => {
         name: 'name'
       };
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.post = stub;
@@ -161,7 +161,7 @@ describe('VeauAccountQuery', () => {
         name: 'name'
       };
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.post = stub;
@@ -184,7 +184,7 @@ describe('VeauAccountQuery', () => {
     it('returns UNAUTHORIZED', async () => {
       expect.assertions(2);
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.post = stub;
@@ -200,13 +200,13 @@ describe('VeauAccountQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
 
     it('does not return OK nor UNAUTHORIZED', async () => {
       expect.assertions(2);
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.post = stub;
@@ -222,7 +222,7 @@ describe('VeauAccountQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
   });
 });

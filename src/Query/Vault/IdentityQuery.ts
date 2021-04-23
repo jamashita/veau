@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
@@ -27,7 +27,7 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
   private readonly regionQuery: IRegionQuery;
 
   public constructor(
-    @inject(Type.VeauAccountAJAXQuery) accountQuery: IVeauAccountQuery,
+    @inject(Type.VeauAccountFetchQuery) accountQuery: IVeauAccountQuery,
     @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery
   ) {

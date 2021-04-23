@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { JSONable } from '@jamashita/publikum-interface';
+import { DataSourceError } from '@jamashita/anden-error';
+import { JSONable } from '@jamashita/anden-type';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';

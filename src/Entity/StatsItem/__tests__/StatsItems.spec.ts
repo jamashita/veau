@@ -1,6 +1,6 @@
-import { ImmutableProject, ImmutableSequence, MockSequence } from '@jamashita/publikum-collection';
-import { Nullable } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { ImmutableProject, ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
+import { Nullable } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
 import sinon, { SinonSpy } from 'sinon';
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';

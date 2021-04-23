@@ -1,7 +1,7 @@
-import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { UUID } from '@jamashita/publikum-uuid';
+import { FetchError, MockFetch } from '@jamashita/catacombe-fetch';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger } from '@jamashita/genitore-superposition';
+import { UUID } from '@jamashita/anden-uuid';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
@@ -25,8 +25,8 @@ describe('StatsCommand', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsCommand1: StatsCommand = vault.get<StatsCommand>(Type.StatsAJAXCommand);
-      const statsCommand2: StatsCommand = vault.get<StatsCommand>(Type.StatsAJAXCommand);
+      const statsCommand1: StatsCommand = vault.get<StatsCommand>(Type.StatsFetchCommand);
+      const statsCommand2: StatsCommand = vault.get<StatsCommand>(Type.StatsFetchCommand);
 
       expect(statsCommand1).toBeInstanceOf(StatsCommand);
       expect(statsCommand1).toBe(statsCommand2);
@@ -63,7 +63,7 @@ describe('StatsCommand', () => {
         })
       });
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.post = stub;
@@ -103,12 +103,12 @@ describe('StatsCommand', () => {
       expect(schrodinger.isAlive()).toBe(true);
     });
 
-    it('throws AJAXError', async () => {
+    it('throws FetchError', async () => {
       expect.assertions(2);
 
       const stats: MockStats = new MockStats();
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.post = stub;
@@ -123,7 +123,7 @@ describe('StatsCommand', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
   });
 });

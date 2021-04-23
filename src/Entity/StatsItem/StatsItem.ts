@@ -1,6 +1,6 @@
-import { Project } from '@jamashita/publikum-collection';
-import { Entity } from '@jamashita/publikum-object';
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import { Project } from '@jamashita/lluvia-collection';
+import { Entity } from '@jamashita/anden-object';
+import { Kind, Nullable } from '@jamashita/anden-type';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { NoValue } from '../../VO/NumericalValue/NoValue';

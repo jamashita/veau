@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { inject, injectable } from 'inversify';
 import { ILocaleCommand } from '../../Command/Interface/ILocaleCommand';
 import { Type } from '../../Container/Types';
@@ -17,7 +17,7 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   private readonly cacheCommand: ILocaleCommand;
 
   public constructor(
-    @inject(Type.LocaleAJAXQuery) ajaxQuery: ILocaleQuery,
+    @inject(Type.LocaleFetchQuery) ajaxQuery: ILocaleQuery,
     @inject(Type.LocaleCacheQuery) cacheQuery: ILocaleQuery,
     @inject(Type.LocaleCacheCommand) cacheCommand: ILocaleCommand
   ) {

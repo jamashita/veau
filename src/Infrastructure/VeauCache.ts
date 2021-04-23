@@ -1,4 +1,4 @@
-import { Cache } from '@jamashita/publikum-cache';
+import { Cache } from '@jamashita/catacombe-heap';
 
 export const veauCache: Cache = new Cache();
 

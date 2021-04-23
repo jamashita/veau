@@ -1,8 +1,8 @@
-import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { Nullable } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { FetchError, MockFetch } from '@jamashita/catacombe-fetch';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger } from '@jamashita/genitore-superposition';
+import { Nullable } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
@@ -21,8 +21,8 @@ describe('StatsOutlineQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsOutlineQuery1: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineAJAXQuery);
-      const statsOutlineQuery2: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineAJAXQuery);
+      const statsOutlineQuery1: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineFetchQuery);
+      const statsOutlineQuery2: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineFetchQuery);
 
       expect(statsOutlineQuery1).toBeInstanceOf(StatsOutlineQuery);
       expect(statsOutlineQuery1).toBe(statsOutlineQuery2);
@@ -47,7 +47,7 @@ describe('StatsOutlineQuery', () => {
         }
       ];
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
@@ -98,7 +98,7 @@ describe('StatsOutlineQuery', () => {
         }
       ];
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
@@ -123,7 +123,7 @@ describe('StatsOutlineQuery', () => {
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
       const page: MockPage = new MockPage(3);
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
@@ -139,7 +139,7 @@ describe('StatsOutlineQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
   });
 });

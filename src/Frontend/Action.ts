@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/typedef */
-import { Nullable } from '@jamashita/publikum-type';
+import { Nullable } from '@jamashita/anden-type';
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
 import { Action } from 'redux';
 import { Stats } from '../Entity/Stats/Stats';

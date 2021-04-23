@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Kind, Nullable } from '@jamashita/anden-type';
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
@@ -75,10 +75,10 @@ export class StatsEditEpic {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(Type.StatsAJAXQuery) statsQuery: IStatsQuery,
+    @inject(Type.StatsFetchQuery) statsQuery: IStatsQuery,
     @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery,
-    @inject(Type.StatsAJAXCommand) statsCommand: IStatsCommand
+    @inject(Type.StatsFetchCommand) statsCommand: IStatsCommand
   ) {
     this.statsQuery = statsQuery;
     this.languageQuery = languageQuery;

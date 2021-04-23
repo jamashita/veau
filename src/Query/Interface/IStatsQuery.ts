@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsError } from '../../VO/StatsOutline/Error/StatsError';
 import { StatsID } from '../../VO/StatsOutline/StatsID';

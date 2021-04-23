@@ -14,7 +14,7 @@ import { pushToEntrance } from '../ActionCreator/RedirectActionCreator';
 export class LogoutEpic {
   private readonly sessionCommand: ISessionCommand;
 
-  public constructor(@inject(Type.SessionAJAXCommand) sessionCommand: ISessionCommand) {
+  public constructor(@inject(Type.SessionFetchCommand) sessionCommand: ISessionCommand) {
     this.sessionCommand = sessionCommand;
   }
 

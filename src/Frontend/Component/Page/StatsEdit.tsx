@@ -4,7 +4,7 @@ import {
   Superposition,
   Unscharferelation,
   UnscharferelationError
-} from '@jamashita/publikum-monad';
+} from '@jamashita/genitore-superposition';
 import { Button, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';

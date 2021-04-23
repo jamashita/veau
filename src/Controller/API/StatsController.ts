@@ -1,7 +1,7 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { JSONable } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
-import { PlainObject } from '@jamashita/publikum-type';
+import { DataSourceError } from '@jamashita/anden-error';
+import { JSONable } from '@jamashita/anden-type';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { PlainObject } from '@jamashita/anden-type';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';

@@ -1,7 +1,7 @@
-import { Project } from '@jamashita/publikum-collection';
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
-import { Nullable } from '@jamashita/publikum-type';
+import { Project } from '@jamashita/lluvia-collection';
+import { Schrodinger } from '@jamashita/genitore-superposition';
+import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Nullable } from '@jamashita/anden-type';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';

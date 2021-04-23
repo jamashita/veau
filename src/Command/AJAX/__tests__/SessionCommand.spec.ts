@@ -1,6 +1,6 @@
-import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger } from '@jamashita/publikum-monad';
+import { FetchError, MockFetch } from '@jamashita/catacombe-fetch';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger } from '@jamashita/genitore-superposition';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
@@ -13,8 +13,8 @@ describe('SessionCommand', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const sessionCommand1: SessionCommand = vault.get<SessionCommand>(Type.SessionAJAXCommand);
-      const sessionCommand2: SessionCommand = vault.get<SessionCommand>(Type.SessionAJAXCommand);
+      const sessionCommand1: SessionCommand = vault.get<SessionCommand>(Type.SessionFetchCommand);
+      const sessionCommand2: SessionCommand = vault.get<SessionCommand>(Type.SessionFetchCommand);
 
       expect(sessionCommand1).toBeInstanceOf(SessionCommand);
       expect(sessionCommand1).toBe(sessionCommand2);
@@ -25,7 +25,7 @@ describe('SessionCommand', () => {
     it('normal case', async () => {
       expect.assertions(2);
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.delete = stub;
@@ -41,10 +41,10 @@ describe('SessionCommand', () => {
       expect(stub.withArgs('/api/session').called).toBe(true);
     });
 
-    it('throws AJAXError', async () => {
+    it('throws FetchError', async () => {
       expect.assertions(2);
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.delete = stub;
@@ -59,7 +59,7 @@ describe('SessionCommand', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
   });
 });

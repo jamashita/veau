@@ -1,7 +1,7 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
-import { MySQLError } from '@jamashita/publikum-mysql';
-import { UUID } from '@jamashita/publikum-uuid';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { MySQLError } from '@jamashita/catacombe-mysql';
+import { UUID } from '@jamashita/anden-uuid';
 import express, { Express } from 'express';
 import { NextFunction, Request, Response } from 'express-serve-static-core';
 import { StatusCodes } from 'http-status-codes';

@@ -1,6 +1,6 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
-import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
+import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';

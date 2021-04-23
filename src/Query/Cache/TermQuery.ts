@@ -1,5 +1,5 @@
-import { CacheError } from '@jamashita/publikum-cache';
-import { Superposition } from '@jamashita/publikum-monad';
+import { CacheError } from '@jamashita/catacombe-heap';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { injectable } from 'inversify';
 import { TermError } from '../../VO/Term/Error/TermError';
 import { Terms } from '../../VO/Term/Terms';

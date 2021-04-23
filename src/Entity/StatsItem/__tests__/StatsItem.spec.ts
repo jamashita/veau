@@ -1,12 +1,12 @@
-import { ImmutableProject } from '@jamashita/publikum-collection';
-import { Nullable } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { Nullable } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
+import { ImmutableProject } from '@jamashita/lluvia-collection';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { MockAsOfs } from '../../../VO/AsOf/Mock/MockAsOfs';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
-import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
 import { NumericalValues } from '../../../VO/NumericalValue/NumericalValues';
+import { ValueContained } from '../../../VO/NumericalValue/ValueContained';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
@@ -63,13 +63,17 @@ describe('StatsItem', () => {
       expect(statsItem.getValues().size()).toBe(json.values.length);
       const statsValue1: Nullable<StatsValue> = statsItem.getValues().get(AsOf.ofString(asOf1));
 
-      expect(statsValue1?.getAsOf().toString()).toBe(json.values[0].asOf);
-      expect(statsValue1?.getValue().get()).toBe(json.values[0].value);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(statsValue1?.getAsOf().toString()).toBe(json.values[0]!.asOf);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(statsValue1?.getValue().get()).toBe(json.values[0]!.value);
 
       const statsValue2: Nullable<StatsValue> = statsItem.getValues().get(AsOf.ofString(asOf2));
 
-      expect(statsValue2?.getAsOf().toString()).toBe(json.values[1].asOf);
-      expect(statsValue2?.getValue().get()).toBe(json.values[1].value);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(statsValue2?.getAsOf().toString()).toBe(json.values[1]!.asOf);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(statsValue2?.getValue().get()).toBe(json.values[1]!.value);
     });
 
     it('statsItemID is malformat', () => {
@@ -161,7 +165,7 @@ describe('StatsItem', () => {
       const asOf3: MockAsOf = new MockAsOf({
         day: 3
       });
-      const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.of<StatsItemID, StatsValues>(
+      const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.ofMap<StatsItemID, StatsValues>(
         new Map<StatsItemID, StatsValues>([
           [
             StatsItemID.ofString(statsItemID1),
@@ -257,7 +261,7 @@ describe('StatsItem', () => {
 
       const statsItem: StatsItem = StatsItem.ofRow(
         row,
-        ImmutableProject.of(
+        ImmutableProject.ofMap(
           new Map<StatsItemID, StatsValues>([
             [StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d2'), statsValues]
           ])
@@ -300,7 +304,7 @@ describe('StatsItem', () => {
       expect(() => {
         StatsItem.ofRow(
           row,
-          ImmutableProject.of(
+          ImmutableProject.ofMap(
             new Map<StatsItemID, StatsValues>([
               [StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d1'), statsValues]
             ])
@@ -489,8 +493,8 @@ describe('StatsItem', () => {
         statsItemID,
         StatsItemName.of('name 1'),
         StatsValues.ofSpread(
-          StatsValue.of(AsOf.ofString('2000-01-01'), NumericalValue.of(10)),
-          StatsValue.of(AsOf.ofString('2000-01-02'), NumericalValue.of(100))
+          StatsValue.of(AsOf.ofString('2000-01-01'), ValueContained.of(10)),
+          StatsValue.of(AsOf.ofString('2000-01-02'), ValueContained.of(100))
         )
       );
 

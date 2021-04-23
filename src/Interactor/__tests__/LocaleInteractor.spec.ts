@@ -1,7 +1,7 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
-import { MySQLError } from '@jamashita/publikum-mysql';
-import { RedisError } from '@jamashita/publikum-redis';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
+import { MySQLError } from '@jamashita/catacombe-mysql';
+import { RedisError } from '@jamashita/catacombe-redis';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';

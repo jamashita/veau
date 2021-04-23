@@ -1,6 +1,6 @@
-import { CacheError, MockCache } from '@jamashita/publikum-cache';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger } from '@jamashita/publikum-monad';
+import { CacheError, MockHeap } from '@jamashita/catacombe-heap';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
@@ -29,7 +29,7 @@ describe('LocaleCommand', () => {
 
       const locale: Locale = new MockLocale();
 
-      const cache: MockCache = new MockCache();
+      const cache: MockHeap = new MockHeap();
       const stub: SinonStub = sinon.stub();
 
       cache.set = stub;
@@ -47,7 +47,7 @@ describe('LocaleCommand', () => {
 
       const locale: Locale = new MockLocale();
 
-      const cache: MockCache = new MockCache();
+      const cache: MockHeap = new MockHeap();
       const stub: SinonStub = sinon.stub();
 
       cache.set = stub;

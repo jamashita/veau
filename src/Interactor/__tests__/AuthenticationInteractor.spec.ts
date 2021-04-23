@@ -1,4 +1,4 @@
-import { Superposition } from '@jamashita/publikum-monad';
+import { Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../Container/Kernel';

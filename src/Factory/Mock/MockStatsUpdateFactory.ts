@@ -1,4 +1,4 @@
-import { MySQLError } from '@jamashita/publikum-mysql';
+import { MySQLError } from '@jamashita/catacombe-mysql';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../../Command/Interface/IStatsItemCommand';

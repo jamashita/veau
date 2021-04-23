@@ -1,8 +1,8 @@
-import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { Nullable } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { FetchError, MockFetch } from '@jamashita/catacombe-fetch';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger } from '@jamashita/genitore-superposition';
+import { Nullable } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
@@ -21,8 +21,8 @@ describe('LocaleQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleAJAXQuery);
-      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleAJAXQuery);
+      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleFetchQuery);
+      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleFetchQuery);
 
       expect(localeQuery1).toBeInstanceOf(LocaleQuery);
       expect(localeQuery1).toBe(localeQuery2);
@@ -51,7 +51,7 @@ describe('LocaleQuery', () => {
         ]
       };
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
@@ -89,10 +89,10 @@ describe('LocaleQuery', () => {
       }
     });
 
-    it('returns Dead when AJAX call doesn not return StatusCodes.OK', async () => {
+    it('returns Dead when Fetch call doesn not return StatusCodes.OK', async () => {
       expect.assertions(2);
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
@@ -107,7 +107,7 @@ describe('LocaleQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
   });
 });

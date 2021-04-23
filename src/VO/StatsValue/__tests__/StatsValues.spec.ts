@@ -403,13 +403,10 @@ describe('StatsValues', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      vals.get = spy;
-
       const values: StatsValues = StatsValues.of(vals);
-      // @ts-expect-error
-      values.vals = vals;
 
+      // @ts-expect-error
+      values.vals.get = spy;
       values.get(new MockAsOf());
 
       expect(spy.called).toBe(true);
@@ -618,13 +615,10 @@ describe('StatsValues', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      vals.contains = spy;
-
       const values: StatsValues = StatsValues.of(vals);
-      // @ts-expect-error
-      values.vals = vals;
 
+      // @ts-expect-error
+      values.vals.contains = spy;
       values.contains(statsValue3);
 
       expect(spy.called).toBe(true);
@@ -660,13 +654,10 @@ describe('StatsValues', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      vals.isEmpty = spy;
-
       const values: StatsValues = StatsValues.of(vals);
-      // @ts-expect-error
-      values.vals = vals;
 
+      // @ts-expect-error
+      values.vals.isEmpty = spy;
       values.isEmpty();
 
       expect(spy.called).toBe(true);
@@ -702,13 +693,10 @@ describe('StatsValues', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      vals.size = spy;
-
       const values: StatsValues = StatsValues.of(vals);
-      // @ts-expect-error
-      values.vals = vals;
 
+      // @ts-expect-error
+      values.vals.size = spy;
       values.size();
 
       expect(spy.called).toBe(true);
@@ -744,13 +732,10 @@ describe('StatsValues', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      vals.forEach = spy;
-
       const values: StatsValues = StatsValues.of(vals);
-      // @ts-expect-error
-      values.vals = vals;
 
+      // @ts-expect-error
+      values.vals.forEach = spy;
       values.forEach(() => {
         // NOOP
       });
@@ -852,13 +837,10 @@ describe('StatsValues', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      vals.equals = spy;
-
       const values: StatsValues = StatsValues.of(vals);
-      // @ts-expect-error
-      values.vals = vals;
 
+      // @ts-expect-error
+      values.vals.equals = spy;
       values.equals(StatsValues.empty());
 
       expect(spy.called).toBe(true);
@@ -953,13 +935,10 @@ describe('StatsValues', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      vals.every = spy;
-
       const values: StatsValues = StatsValues.of(vals);
-      // @ts-expect-error
-      values.vals = vals;
 
+      // @ts-expect-error
+      values.vals.every = spy;
       values.every(() => {
         return true;
       });
@@ -997,13 +976,10 @@ describe('StatsValues', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      vals.some = spy;
-
       const values: StatsValues = StatsValues.of(vals);
-      // @ts-expect-error
-      values.vals = vals;
 
+      // @ts-expect-error
+      values.vals.some = spy;
       values.some(() => {
         return true;
       });
@@ -1041,13 +1017,10 @@ describe('StatsValues', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      vals.values = spy;
-
       const values: StatsValues = StatsValues.of(vals);
-      // @ts-expect-error
-      values.vals = vals;
 
+      // @ts-expect-error
+      values.vals.values = spy;
       values.values();
 
       expect(spy.called).toBe(true);

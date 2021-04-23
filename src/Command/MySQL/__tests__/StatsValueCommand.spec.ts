@@ -1,7 +1,7 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { MockSQL, MySQLError } from '@jamashita/publikum-mysql';
-import { UUID } from '@jamashita/publikum-uuid';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger } from '@jamashita/genitore-superposition';
+import { MockSQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { UUID } from '@jamashita/anden-uuid';
 import sinon, { SinonStub } from 'sinon';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';

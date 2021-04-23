@@ -1,13 +1,5 @@
-import {
-  CancellableEnumerator,
-  MutableSequence,
-  Pair,
-  Project,
-  Quantity,
-  Sequence
-} from '@jamashita/publikum-collection';
-import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Cloneable, Enumerator, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { Collection, MutableSequence, Project, Quantity, Sequence } from '@jamashita/lluvia-collection';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';
 import { Row } from '../../VO/Coordinate/Row';
@@ -17,8 +9,7 @@ import { StatsItemNames } from '../../VO/StatsItem/StatsItemNames';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 
-export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsItems'>
-  implements Cloneable<StatsItems>, JSONable {
+export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implements Cloneable<StatsItems>, JSONable {
   public readonly noun: 'StatsItems' = 'StatsItems';
   private items: Sequence<StatsItem>;
 
@@ -85,7 +76,7 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     return this.items.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<number, StatsItem>): void {
+  public forEach(iteration: Enumerator<number, StatsItem>): void {
     this.items.forEach(iteration);
   }
 
@@ -119,10 +110,6 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     return this.items.toString();
   }
 
-  public [Symbol.iterator](): Iterator<Pair<number, StatsItem>> {
-    return this.items[Symbol.iterator]();
-  }
-
   public every(predicate: BinaryPredicate<StatsItem, number>): boolean {
     return this.items.every(predicate);
   }
@@ -133,6 +120,22 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
 
   public values(): Iterable<StatsItem> {
     return this.items.values();
+  }
+
+  public filter(predicate: BinaryPredicate<StatsItem, number>): Collection<number, StatsItem> {
+    return this.items.filter(predicate);
+  }
+
+  public find(predicate: BinaryPredicate<StatsItem, number>): Nullable<StatsItem> {
+    return this.items.find(predicate);
+  }
+
+  public iterator(): Iterator<[number, StatsItem]> {
+    return this.items.iterator();
+  }
+
+  public map<W>(mapper: Mapper<StatsItem, W>): Collection<number, W> {
+    return this.items.map<W>(mapper);
   }
 
   public add(statsItem: StatsItem): void {
@@ -194,10 +197,6 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
     });
   }
 
-  public map<U>(mapper: Mapper<StatsItem, U>): Array<U> {
-    return this.items.toArray().map<U>(mapper);
-  }
-
   public areFilled(): boolean {
     return this.items.every((statsItem: StatsItem) => {
       return statsItem.isFilled();
@@ -209,7 +208,7 @@ export class StatsItems extends Quantity<StatsItems, number, StatsItem, 'StatsIt
       return false;
     }
 
-    const rowLengths: Array<number> = this.map<number>((item: StatsItem) => {
+    const rowLengths: Array<number> = [...this.items.values()].map<number>((item: StatsItem) => {
       return item.getValues().size();
     });
 

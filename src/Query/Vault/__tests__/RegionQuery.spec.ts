@@ -1,6 +1,6 @@
-import { AJAXError } from '@jamashita/publikum-ajax';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { FetchError } from '@jamashita/catacombe-fetch';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
@@ -57,7 +57,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test failed', 500), AJAXError));
+      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 500), FetchError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Regions, RegionError | DataSourceError> = await regionQuery.all().terminate();
@@ -65,7 +65,7 @@ describe('RegionQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
   });
 
@@ -97,7 +97,7 @@ describe('RegionQuery', () => {
       expect(schrodinger.get()).toBe(region1);
     });
 
-    it('localeQuery.all returns Dead, AJAXError', async () => {
+    it('localeQuery.all returns Dead, FetchError', async () => {
       expect.assertions(2);
 
       const regionID: MockRegionID = new MockRegionID();
@@ -106,7 +106,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test failed', 100), AJAXError));
+      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 100), FetchError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.find(regionID).terminate();
@@ -114,7 +114,7 @@ describe('RegionQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
 
     it('localeQuery.all returns Dead, RegionError', async () => {
@@ -194,14 +194,14 @@ describe('RegionQuery', () => {
       expect(schrodinger.get()).toBe(region2);
     });
 
-    it('localeQuery.all returns Dead, AJAXError', async () => {
+    it('localeQuery.all returns Dead, FetchError', async () => {
       expect.assertions(2);
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test failed', 100), AJAXError));
+      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 100), FetchError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
@@ -209,7 +209,7 @@ describe('RegionQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
 
     it('localeQuery.all returns Dead, RegionError', async () => {

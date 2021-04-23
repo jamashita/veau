@@ -1,7 +1,7 @@
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { MockRedis, MockRedisString, RedisError } from '@jamashita/publikum-redis';
-import { Nullable } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { Schrodinger } from '@jamashita/genitore-superposition';
+import { MockRedis, MockRedisString, RedisError } from '@jamashita/catacombe-redis';
+import { Nullable } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';

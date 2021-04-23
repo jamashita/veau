@@ -1,5 +1,5 @@
-import { AJAXError, AJAXResponse, IAJAX } from '@jamashita/publikum-ajax';
-import { Superposition } from '@jamashita/publikum-monad';
+import { FetchError, FetchResponse, IFetch } from '@jamashita/catacombe-fetch';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
@@ -8,22 +8,22 @@ import { StatsError } from '../../VO/StatsOutline/Error/StatsError';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IStatsQuery } from '../Interface/IStatsQuery';
-import { IAJAXQuery } from './Interface/IAJAXQuery';
+import { IFetchQuery } from './Interface/IFetchQuery';
 
 @injectable()
-export class StatsQuery implements IStatsQuery<AJAXError>, IAJAXQuery {
+export class StatsQuery implements IStatsQuery<FetchError>, IFetchQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';
-  public readonly source: 'AJAX' = 'AJAX';
-  private readonly ajax: IAJAX<'json'>;
+  public readonly source: 'Fetch' = 'Fetch';
+  private readonly ajax: IFetch<'json'>;
 
-  public constructor(@inject(Type.AJAX) ajax: IAJAX<'json'>) {
+  public constructor(@inject(Type.Fetch) ajax: IFetch<'json'>) {
     this.ajax = ajax;
   }
 
-  public findByStatsID(statsID: StatsID): Superposition<Stats, StatsError | NoSuchElementError | AJAXError> {
-    return Superposition.playground<AJAXResponse<'json'>, AJAXError>(() => {
+  public findByStatsID(statsID: StatsID): Superposition<Stats, StatsError | NoSuchElementError | FetchError> {
+    return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
       return this.ajax.get(`/api/stats/${statsID.get().get()}`);
-    }, AJAXError).map<Stats, StatsError | NoSuchElementError | AJAXError>(({ status, body }: AJAXResponse<'json'>) => {
+    }, FetchError).map<Stats, StatsError | NoSuchElementError | FetchError>(({ status, body }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
           if (Stats.validate(body)) {
@@ -36,7 +36,7 @@ export class StatsQuery implements IStatsQuery<AJAXError>, IAJAXQuery {
           throw new NoSuchElementError('NOT FOUND');
         }
         default: {
-          throw new AJAXError('UNKNOWN ERROR', status);
+          throw new FetchError('UNKNOWN ERROR', status);
         }
       }
     }, StatsError, NoSuchElementError);

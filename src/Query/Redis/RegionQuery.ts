@@ -1,8 +1,8 @@
-import { UnimplementedError } from '@jamashita/publikum-error';
-import { JSONA, JSONAError } from '@jamashita/publikum-json';
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/publikum-monad';
-import { IRedis, RedisError } from '@jamashita/publikum-redis';
-import { Nullable } from '@jamashita/publikum-type';
+import { UnimplementedError } from '@jamashita/anden-error';
+import { JSONA, JSONAError } from '@jamashita/steckdose-json';
+import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore-superposition';
+import { IRedis, RedisError } from '@jamashita/catacombe-redis';
+import { Nullable } from '@jamashita/anden-type';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';

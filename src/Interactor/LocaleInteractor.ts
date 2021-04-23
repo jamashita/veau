@@ -1,6 +1,6 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Noun } from '@jamashita/publikum-interface';
-import { Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Noun } from '@jamashita/anden-type';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { inject, injectable } from 'inversify';
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';

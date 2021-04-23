@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
@@ -29,7 +29,7 @@ export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {
   private readonly termQuery: ITermQuery;
 
   public constructor(
-    @inject(Type.StatsOutlineAJAXQuery) outlineQuery: IStatsOutlineQuery,
+    @inject(Type.StatsOutlineFetchQuery) outlineQuery: IStatsOutlineQuery,
     @inject(Type.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(Type.TermCacheQuery) termQuery: ITermQuery
   ) {

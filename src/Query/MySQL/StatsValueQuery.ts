@@ -1,7 +1,7 @@
-import { ImmutableProject, MutableProject, MutableSequence, Project, Sequence } from '@jamashita/publikum-collection';
-import { Chrono, Superposition } from '@jamashita/publikum-monad';
-import { IMySQL, MySQLError } from '@jamashita/publikum-mysql';
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import { ImmutableProject, MutableProject, MutableSequence, Project, Sequence } from '@jamashita/lluvia-collection';
+import { Chrono, Superposition } from '@jamashita/genitore-superposition';
+import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Kind, Nullable } from '@jamashita/anden-type';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';

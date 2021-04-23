@@ -16,7 +16,7 @@ import {
   faTimes,
   faTrash
 } from '@fortawesome/free-solid-svg-icons';
-import { Supplier } from '@jamashita/publikum-type';
+import { Supplier } from '@jamashita/anden-type';
 import { createMuiTheme, MuiThemeProvider, Theme } from '@material-ui/core';
 import { grey, lightGreen, pink } from '@material-ui/core/colors';
 import { ConnectedRouter } from 'connected-react-router';

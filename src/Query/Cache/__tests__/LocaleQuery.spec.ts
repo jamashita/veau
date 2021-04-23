@@ -1,6 +1,6 @@
-import { CacheError, MockCache } from '@jamashita/publikum-cache';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger } from '@jamashita/publikum-monad';
+import { CacheError, MockHeap } from '@jamashita/catacombe-heap';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
@@ -30,7 +30,7 @@ describe('LocaleQuery', () => {
 
       const locale: MockLocale = new MockLocale();
 
-      const cache: MockCache = new MockCache();
+      const cache: MockHeap = new MockHeap();
       const stub: SinonStub = sinon.stub();
 
       cache.get = stub;
@@ -47,7 +47,7 @@ describe('LocaleQuery', () => {
     it('returns Dead when Cache throws CacheError', async () => {
       expect.assertions(2);
 
-      const cache: MockCache = new MockCache();
+      const cache: MockHeap = new MockHeap();
       const stub: SinonStub = sinon.stub();
 
       cache.get = stub;

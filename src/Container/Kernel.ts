@@ -1,5 +1,5 @@
-import { IMySQL } from '@jamashita/publikum-mysql';
-import { IRedis } from '@jamashita/publikum-redis';
+import { IMySQL } from '@jamashita/catacombe-mysql';
+import { IRedis } from '@jamashita/catacombe-redis';
 import { Container } from 'inversify';
 import { StatsCommand as StatsKernelCommand } from '../Command/Kernel/StatsCommand';
 import { LanguageCommand as LanguageRedisCommand } from '../Command/Redis/LanguageCommand';

@@ -1,5 +1,5 @@
-import { Noun } from '@jamashita/publikum-interface';
-import { ISQL, MySQLError } from '@jamashita/publikum-mysql';
+import { Noun } from '@jamashita/anden-type';
+import { ISQL, MySQLError } from '@jamashita/catacombe-mysql';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../../Command/Interface/IStatsItemCommand';

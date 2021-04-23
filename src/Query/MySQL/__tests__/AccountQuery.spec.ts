@@ -1,6 +1,6 @@
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { MockMySQL, MySQLError } from '@jamashita/publikum-mysql';
-import { UUID } from '@jamashita/publikum-uuid';
+import { Schrodinger } from '@jamashita/genitore-superposition';
+import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { UUID } from '@jamashita/anden-uuid';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';

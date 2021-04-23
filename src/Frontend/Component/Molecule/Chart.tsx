@@ -1,4 +1,4 @@
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import { Kind, Nullable } from '@jamashita/anden-type';
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Stats } from '../../../Entity/Stats/Stats';

@@ -1,4 +1,4 @@
-import { Nullable } from '@jamashita/publikum-type';
+import { Nullable } from '@jamashita/anden-type';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { Language } from '../../../VO/Language/Language';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';

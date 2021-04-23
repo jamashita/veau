@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { ISO639 } from '../../VO/Language/ISO639';
 import { Language } from '../../VO/Language/Language';

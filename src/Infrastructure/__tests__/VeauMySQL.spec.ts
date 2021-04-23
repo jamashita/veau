@@ -1,4 +1,4 @@
-import { IMySQL, MySQL } from '@jamashita/publikum-mysql';
+import { IMySQL, MySQL } from '@jamashita/catacombe-mysql';
 import 'reflect-metadata';
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';

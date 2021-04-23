@@ -1,6 +1,6 @@
-import { AJAXError } from '@jamashita/publikum-ajax';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger, Superposition } from '@jamashita/publikum-monad';
+import { FetchError } from '@jamashita/catacombe-fetch';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
@@ -57,7 +57,7 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, AJAXError>(new AJAXError('test failed', 500), AJAXError));
+      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 500), FetchError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Languages, LanguageError | DataSourceError> = await languageQuery.all().terminate();
@@ -65,7 +65,7 @@ describe('LanguageQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
   });
 
@@ -97,7 +97,7 @@ describe('LanguageQuery', () => {
       expect(schrodinger.get()).toBe(language1);
     });
 
-    it('localeQuery.all returns Dead, AJAXError', async () => {
+    it('localeQuery.all returns Dead, FetchError', async () => {
       expect.assertions(2);
 
       const languageID: MockLanguageID = new MockLanguageID();
@@ -106,7 +106,7 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, DataSourceError>(new AJAXError('test failed', 500), AJAXError));
+      stub.returns(Superposition.dead<Locale, DataSourceError>(new FetchError('test failed', 500), FetchError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.find(languageID).terminate();
@@ -114,7 +114,7 @@ describe('LanguageQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
 
     it('localeQuery.all returns Dead, LanguageError', async () => {
@@ -194,14 +194,14 @@ describe('LanguageQuery', () => {
       expect(schrodinger.get()).toBe(language2);
     });
 
-    it('localeQuery.all returns Dead, AJAXError', async () => {
+    it('localeQuery.all returns Dead, FetchError', async () => {
       expect.assertions(2);
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, DataSourceError>(new AJAXError('test failed', 500), AJAXError));
+      stub.returns(Superposition.dead<Locale, DataSourceError>(new FetchError('test failed', 500), FetchError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
@@ -209,7 +209,7 @@ describe('LanguageQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
 
     it('localeQuery.all returns Dead, LanguageError', async () => {

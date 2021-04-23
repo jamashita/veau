@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { TermError } from '../../VO/Term/Error/TermError';
 import { Terms } from '../../VO/Term/Terms';
 import { IQuery } from './IQuery';

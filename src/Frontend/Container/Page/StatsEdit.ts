@@ -1,4 +1,4 @@
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import { Kind, Nullable } from '@jamashita/anden-type';
 import { createMatchSelector, matchSelectorFn, RouterRootState } from 'connected-react-router';
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { match } from 'react-router-dom';

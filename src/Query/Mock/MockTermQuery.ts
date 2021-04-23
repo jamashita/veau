@@ -1,5 +1,5 @@
-import { DataSourceError, UnimplementedError } from '@jamashita/publikum-error';
-import { Superposition } from '@jamashita/publikum-monad';
+import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { TermError } from '../../VO/Term/Error/TermError';
 import { Terms } from '../../VO/Term/Terms';
 import { ITermQuery } from '../Interface/ITermQuery';

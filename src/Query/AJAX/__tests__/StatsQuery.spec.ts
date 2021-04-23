@@ -1,7 +1,7 @@
-import { AJAXError, MockAJAX } from '@jamashita/publikum-ajax';
-import { DataSourceError } from '@jamashita/publikum-error';
-import { Schrodinger } from '@jamashita/publikum-monad';
-import { UUID } from '@jamashita/publikum-uuid';
+import { FetchError, MockFetch } from '@jamashita/catacombe-fetch';
+import { DataSourceError } from '@jamashita/anden-error';
+import { Schrodinger } from '@jamashita/genitore-superposition';
+import { UUID } from '@jamashita/anden-uuid';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
@@ -19,8 +19,8 @@ describe('StatsQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsQuery1: StatsQuery = vault.get<StatsQuery>(Type.StatsAJAXQuery);
-      const statsQuery2: StatsQuery = vault.get<StatsQuery>(Type.StatsAJAXQuery);
+      const statsQuery1: StatsQuery = vault.get<StatsQuery>(Type.StatsFetchQuery);
+      const statsQuery2: StatsQuery = vault.get<StatsQuery>(Type.StatsFetchQuery);
 
       expect(statsQuery1).toBeInstanceOf(StatsQuery);
       expect(statsQuery1).toBe(statsQuery2);
@@ -59,7 +59,7 @@ describe('StatsQuery', () => {
         items: []
       };
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
@@ -94,7 +94,7 @@ describe('StatsQuery', () => {
 
       const statsID: MockStatsID = new MockStatsID();
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
@@ -117,7 +117,7 @@ describe('StatsQuery', () => {
 
       const statsID: MockStatsID = new MockStatsID();
 
-      const ajax: MockAJAX<'json'> = new MockAJAX<'json'>();
+      const ajax: MockFetch<'json'> = new MockFetch<'json'>();
       const stub: SinonStub = sinon.stub();
 
       ajax.get = stub;
@@ -132,7 +132,7 @@ describe('StatsQuery', () => {
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(AJAXError);
+      }).toThrow(FetchError);
     });
   });
 });
