@@ -1,5 +1,5 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { UUID, UUIDError } from '@jamashita/publikum-uuid';
+import { ValueObject } from '@jamashita/anden-object';
+import { UUID, UUIDError } from '@jamashita/anden-uuid';
 import { VeauAccountError } from './Error/VeauAccountError';
 
 export class VeauAccountID extends ValueObject<'VeauAccountID'> {
