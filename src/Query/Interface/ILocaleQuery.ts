@@ -7,5 +7,5 @@ import { IQuery } from './IQuery';
 export interface ILocaleQuery<E extends DataSourceError = DataSourceError> extends IQuery<'LocaleQuery'> {
   readonly noun: 'LocaleQuery';
 
-  all(): Superposition<Locale, LocaleError | E>;
+  all(): Superposition<Locale, E | LocaleError>;
 }

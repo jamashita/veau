@@ -10,7 +10,7 @@ export class MockAccountQuery implements IAccountQuery, IMockQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public findByAccount(): Superposition<Account, AccountError | NoSuchElementError | DataSourceError> {
+  public findByAccount(): Superposition<Account, AccountError | DataSourceError | NoSuchElementError> {
     throw new UnimplementedError();
   }
 }

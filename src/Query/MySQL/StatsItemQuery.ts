@@ -30,7 +30,7 @@ export class StatsItemQuery implements IStatsItemQuery<MySQLError>, IMySQLQuery 
     this.statsValueQuery = statsValueQuery;
   }
 
-  public findByStatsID(statsID: StatsID): Superposition<StatsItems, StatsItemError | MySQLError> {
+  public findByStatsID(statsID: StatsID): Superposition<StatsItems, MySQLError | StatsItemError> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.name
@@ -42,11 +42,11 @@ export class StatsItemQuery implements IStatsItemQuery<MySQLError>, IMySQLQuery 
       return this.mysql.execute<Array<StatsItemRow>>(query, {
         statsID: statsID.get().get()
       });
-    }, MySQLError).map<StatsItems, StatsValueError | StatsItemError | DataSourceError>((rows: Array<StatsItemRow>) => {
-      return this.statsValueQuery.findByStatsID(statsID).map<StatsItems, StatsValueError | StatsItemError | DataSourceError>((values: Project<StatsItemID, StatsValues>) => {
+    }, MySQLError).map<StatsItems, DataSourceError | StatsItemError | StatsValueError>((rows: Array<StatsItemRow>) => {
+      return this.statsValueQuery.findByStatsID(statsID).map<StatsItems, DataSourceError | StatsItemError | StatsValueError>((values: Project<StatsItemID, StatsValues>) => {
         return StatsItems.ofRow(rows, values);
       }, StatsItemError);
-    }).recover<StatsItems, StatsItemError | MySQLError>((err: StatsValueError | StatsItemError | DataSourceError) => {
+    }).recover<StatsItems, MySQLError | StatsItemError>((err: DataSourceError | StatsItemError | StatsValueError) => {
       if (err instanceof MySQLError || err instanceof StatsItemError) {
         throw err;
       }

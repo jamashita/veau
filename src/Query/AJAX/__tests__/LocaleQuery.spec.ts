@@ -61,7 +61,7 @@ describe('LocaleQuery', () => {
       });
 
       const localeQuery: LocaleQuery = new LocaleQuery(ajax);
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
+      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeQuery.all().terminate();
 
       expect(stub.withArgs('/api/locale').called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
@@ -102,7 +102,7 @@ describe('LocaleQuery', () => {
       });
 
       const localeQuery: LocaleQuery = new LocaleQuery(ajax);
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
+      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

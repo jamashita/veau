@@ -25,7 +25,7 @@ describe('TermQuery', () => {
       expect.assertions(2);
 
       const termQuery: TermQuery = new TermQuery();
-      const schrodinger: Schrodinger<Terms, TermError | DataSourceError> = await termQuery.all().terminate();
+      const schrodinger: Schrodinger<Terms, DataSourceError | TermError> = await termQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(Terms.all());

@@ -47,7 +47,7 @@ describe('VeauAccountQuery', () => {
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
       const schrodinger: Schrodinger<VeauAccount,
-        VeauAccountError | DataSourceError> = await veauAccountQuery.find().terminate();
+        DataSourceError | VeauAccountError> = await veauAccountQuery.find().terminate();
 
       expect(stub.withArgs('/api/accounts').called).toBe(true);
       expect(schrodinger.isAlive()).toBe(true);
@@ -79,7 +79,7 @@ describe('VeauAccountQuery', () => {
       });
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const schrodinger: Schrodinger<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.find().terminate();
+      const schrodinger: Schrodinger<VeauAccount, DataSourceError | VeauAccountError> = await veauAccountQuery.find().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -101,7 +101,7 @@ describe('VeauAccountQuery', () => {
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
       const schrodinger: Schrodinger<VeauAccount,
-        VeauAccountError | DataSourceError> = await veauAccountQuery.find().terminate();
+        DataSourceError | VeauAccountError> = await veauAccountQuery.find().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -136,7 +136,7 @@ describe('VeauAccountQuery', () => {
       });
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
       const schrodinger: Schrodinger<VeauAccount,
-        VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
+        DataSourceError | VeauAccountError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
       expect(stub.withArgs('/api/auth', {
         account: 'name',
@@ -173,7 +173,7 @@ describe('VeauAccountQuery', () => {
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
       const schrodinger: Schrodinger<VeauAccount,
-        VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
+        DataSourceError | VeauAccountError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -195,7 +195,7 @@ describe('VeauAccountQuery', () => {
 
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const schrodinger: Schrodinger<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
+      const schrodinger: Schrodinger<VeauAccount, DataSourceError | VeauAccountError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -217,7 +217,7 @@ describe('VeauAccountQuery', () => {
 
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const schrodinger: Schrodinger<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
+      const schrodinger: Schrodinger<VeauAccount, DataSourceError | VeauAccountError> = await veauAccountQuery.findByEntranceInfo(info).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

@@ -42,7 +42,7 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
     }, LanguageError);
   }
 
-  public find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | MySQLError> {
+  public find(languageID: LanguageID): Superposition<Language, LanguageError | MySQLError | NoSuchElementError> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -55,7 +55,7 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<LanguageRow>>(query, {
         languageID: languageID.get().get()
       });
-    }, MySQLError).map<Language, LanguageError | NoSuchElementError | MySQLError>((rows: Array<LanguageRow>) => {
+    }, MySQLError).map<Language, LanguageError | MySQLError | NoSuchElementError>((rows: Array<LanguageRow>) => {
       if (rows.length === 0) {
         throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
       }
@@ -64,7 +64,7 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
     }, LanguageError, NoSuchElementError);
   }
 
-  public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | MySQLError> {
+  public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | MySQLError | NoSuchElementError> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -77,7 +77,7 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<LanguageRow>>(query, {
         iso639: iso639.get()
       });
-    }, MySQLError).map<Language, LanguageError | NoSuchElementError | MySQLError>((rows: Array<LanguageRow>) => {
+    }, MySQLError).map<Language, LanguageError | MySQLError | NoSuchElementError>((rows: Array<LanguageRow>) => {
       if (rows.length === 0) {
         throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
       }

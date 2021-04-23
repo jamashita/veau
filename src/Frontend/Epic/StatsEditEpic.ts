@@ -116,7 +116,7 @@ export class StatsEditEpic {
         return from<Promise<Observable<VeauAction>>>(
           this.statsQuery.findByStatsID(action.statsID).transform<Observable<VeauAction>, Error>((stats: Stats) => {
             return of<VeauAction>(updateStats(stats), clearSelectingItem());
-          }, (err: StatsError | NoSuchElementError | DataSourceError) => {
+          }, (err: DataSourceError | NoSuchElementError | StatsError) => {
             if (err instanceof NoSuchElementError) {
               return of<VeauAction>(
                 pushToStatsList(),

@@ -62,7 +62,7 @@ export type DispatchProps = Readonly<{
   save(): void;
 }>;
 export type OwnProps = Readonly<{}>;
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = DispatchProps & OwnProps & StateProps;
 type State = Readonly<{
   openNewStatsItemModal: boolean;
   openStartDateModal: boolean;

@@ -9,7 +9,7 @@ import { IQuery } from './IQuery';
 export interface IIdentityQuery<E extends DataSourceError = DataSourceError> extends IQuery<'IdentityQuery'> {
   readonly noun: 'IdentityQuery';
 
-  find(): Superposition<Identity, IdentityError | E>;
+  find(): Superposition<Identity, E | IdentityError>;
 
-  findByEntranceInfo(entranceInformation: EntranceInformation): Superposition<Identity, IdentityError | E>;
+  findByEntranceInfo(entranceInformation: EntranceInformation): Superposition<Identity, E | IdentityError>;
 }

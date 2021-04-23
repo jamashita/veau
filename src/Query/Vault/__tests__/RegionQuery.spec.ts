@@ -44,7 +44,7 @@ describe('RegionQuery', () => {
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Regions, RegionError | DataSourceError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, DataSourceError | RegionError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(locale.getRegions());
@@ -60,7 +60,7 @@ describe('RegionQuery', () => {
       stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 500), FetchError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Regions, RegionError | DataSourceError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, DataSourceError | RegionError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -91,7 +91,7 @@ describe('RegionQuery', () => {
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.find(regionID).terminate();
+      const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.find(regionID).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(region1);
@@ -109,7 +109,7 @@ describe('RegionQuery', () => {
       stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 100), FetchError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.find(regionID).terminate();
+      const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.find(regionID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -129,7 +129,7 @@ describe('RegionQuery', () => {
       stub.returns(Superposition.dead<Locale, RegionError>(new RegionError('test failed'), RegionError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.find(regionID).terminate();
+      const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.find(regionID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -158,7 +158,7 @@ describe('RegionQuery', () => {
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.find(regionID).terminate();
+      const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.find(regionID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -188,7 +188,7 @@ describe('RegionQuery', () => {
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(region2);
@@ -204,7 +204,7 @@ describe('RegionQuery', () => {
       stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 100), FetchError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -222,7 +222,7 @@ describe('RegionQuery', () => {
       stub.returns(Superposition.dead<Locale, RegionError>(new RegionError('test failed'), RegionError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -251,7 +251,7 @@ describe('RegionQuery', () => {
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('OOP')).terminate();
+      const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('OOP')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

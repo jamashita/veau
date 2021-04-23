@@ -25,10 +25,10 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
     this.localeQuery = localeVaultQuery;
   }
 
-  public all(): Superposition<Regions, RegionError | DataSourceError> {
-    return this.localeQuery.all().map<Regions, LocaleError | DataSourceError>((locale: Locale) => {
+  public all(): Superposition<Regions, DataSourceError | RegionError> {
+    return this.localeQuery.all().map<Regions, DataSourceError | LocaleError>((locale: Locale) => {
       return locale.getRegions();
-    }).recover<Regions, RegionError | DataSourceError>((err: LocaleError | DataSourceError) => {
+    }).recover<Regions, DataSourceError | RegionError>((err: DataSourceError | LocaleError) => {
       if (err instanceof LocaleError) {
         throw new RegionError('RegionQuery.all()', err);
       }
@@ -37,14 +37,14 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
     }, RegionError, DataSourceError);
   }
 
-  public find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
-    return this.all().map<Region, RegionError | UnscharferelationError | DataSourceError>((regions: Regions) => {
+  public find(regionID: RegionID): Superposition<Region, DataSourceError | NoSuchElementError | RegionError> {
+    return this.all().map<Region, DataSourceError | RegionError | UnscharferelationError>((regions: Regions) => {
       const region: Nullable<Region> = regions.find((r: Region) => {
         return r.getRegionID().equals(regionID);
       });
 
       return Unscharferelation.maybe<Region>(region).toSuperposition();
-    }).recover<Region, RegionError | NoSuchElementError | DataSourceError>((err: RegionError | UnscharferelationError | DataSourceError) => {
+    }).recover<Region, DataSourceError | NoSuchElementError | RegionError>((err: DataSourceError | RegionError | UnscharferelationError) => {
       if (err instanceof UnscharferelationError) {
         throw new NoSuchElementError(regionID.get().get());
       }
@@ -53,14 +53,14 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
     }, RegionError, NoSuchElementError, DataSourceError);
   }
 
-  public findByISO3166(iso3166: ISO3166): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
-    return this.all().map<Region, RegionError | DataSourceError | UnscharferelationError>((regions: Regions) => {
+  public findByISO3166(iso3166: ISO3166): Superposition<Region, DataSourceError | NoSuchElementError | RegionError> {
+    return this.all().map<Region, DataSourceError | RegionError | UnscharferelationError>((regions: Regions) => {
       const region: Nullable<Region> = regions.find((r: Region) => {
         return r.getISO3166().equals(iso3166);
       });
 
       return Unscharferelation.maybe<Region>(region).toSuperposition();
-    }).recover<Region, RegionError | NoSuchElementError | DataSourceError>((err: RegionError | UnscharferelationError | DataSourceError) => {
+    }).recover<Region, DataSourceError | NoSuchElementError | RegionError>((err: DataSourceError | RegionError | UnscharferelationError) => {
       if (err instanceof UnscharferelationError) {
         throw new NoSuchElementError(iso3166.get());
       }

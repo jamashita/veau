@@ -1,1 +1,1 @@
-export type SystemSupportLanguage = 'en' | 'fr' | 'es' | 'ja';
+export type SystemSupportLanguage = 'en' | 'es' | 'fr' | 'ja';

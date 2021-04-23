@@ -136,7 +136,7 @@ describe('LanguageQuery', () => {
       stub.resolves(rows);
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | MySQLError> = await languageQuery.find(LanguageID.of(uuid)).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | MySQLError | NoSuchElementError> = await languageQuery.find(LanguageID.of(uuid)).terminate();
 
       expect(stub.withArgs(
         `SELECT
@@ -170,7 +170,7 @@ describe('LanguageQuery', () => {
       stub.resolves([]);
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | MySQLError> = await languageQuery.find(new MockLanguageID()).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | MySQLError | NoSuchElementError> = await languageQuery.find(new MockLanguageID()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -188,7 +188,7 @@ describe('LanguageQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | MySQLError> = await languageQuery.find(new MockLanguageID()).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | MySQLError | NoSuchElementError> = await languageQuery.find(new MockLanguageID()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -217,7 +217,7 @@ describe('LanguageQuery', () => {
       stub.resolves(rows);
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | MySQLError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | MySQLError | NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(stub.withArgs(
         `SELECT
@@ -250,7 +250,7 @@ describe('LanguageQuery', () => {
       stub.resolves([]);
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | MySQLError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | MySQLError | NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -268,7 +268,7 @@ describe('LanguageQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | MySQLError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language, LanguageError | MySQLError | NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

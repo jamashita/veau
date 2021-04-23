@@ -31,9 +31,9 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
     this.redisCommand = redisCommand;
   }
 
-  public all(): Superposition<Regions, RegionError | DataSourceError> {
-    return this.redisQuery.all().recover<Regions, RegionError | DataSourceError>(() => {
-      return this.mysqlQuery.all().map<Regions, RegionError | DataSourceError>((regions: Regions) => {
+  public all(): Superposition<Regions, DataSourceError | RegionError> {
+    return this.redisQuery.all().recover<Regions, DataSourceError | RegionError>(() => {
+      return this.mysqlQuery.all().map<Regions, DataSourceError | RegionError>((regions: Regions) => {
         return this.redisCommand.insertAll(regions).map<Regions, DataSourceError>(() => {
           return regions;
         });
@@ -42,18 +42,18 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(_regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
+  public find(_regionID: RegionID): Superposition<Region, DataSourceError | NoSuchElementError | RegionError> {
     throw new UnimplementedError();
   }
 
-  public findByISO3166(iso3166: ISO3166): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
-    return this.all().map<Region, RegionError | UnscharferelationError | DataSourceError>((regions: Regions) => {
+  public findByISO3166(iso3166: ISO3166): Superposition<Region, DataSourceError | NoSuchElementError | RegionError> {
+    return this.all().map<Region, DataSourceError | RegionError | UnscharferelationError>((regions: Regions) => {
       const region: Nullable<Region> = regions.find((r: Region) => {
         return r.getISO3166().equals(iso3166);
       });
 
       return Unscharferelation.maybe<Region>(region).toSuperposition();
-    }).recover<Region, RegionError | NoSuchElementError | DataSourceError>((err: RegionError | UnscharferelationError | DataSourceError) => {
+    }).recover<Region, DataSourceError | NoSuchElementError | RegionError>((err: DataSourceError | RegionError | UnscharferelationError) => {
       if (err instanceof UnscharferelationError) {
         throw new NoSuchElementError(iso3166.toString());
       }

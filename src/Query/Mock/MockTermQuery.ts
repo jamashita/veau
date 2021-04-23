@@ -9,7 +9,7 @@ export class MockTermQuery implements ITermQuery, IMockQuery {
   public readonly noun: 'TermQuery' = 'TermQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public all(): Superposition<Terms, TermError | DataSourceError> {
+  public all(): Superposition<Terms, DataSourceError | TermError> {
     throw new UnimplementedError();
   }
 }

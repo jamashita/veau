@@ -22,7 +22,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<MySQLError>, IMySQL
     this.mysql = mysql;
   }
 
-  public find(statsID: StatsID): Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | MySQLError> {
+  public find(statsID: StatsID): Superposition<StatsOutline, MySQLError | NoSuchElementError | StatsOutlineError> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
@@ -38,7 +38,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<MySQLError>, IMySQL
       return this.mysql.execute<Array<StatsOutlineRow>>(query, {
         statsID: statsID.get().get()
       });
-    }, MySQLError).map<StatsOutline, StatsOutlineError | NoSuchElementError | MySQLError>((rows: Array<StatsOutlineRow>) => {
+    }, MySQLError).map<StatsOutline, MySQLError | NoSuchElementError | StatsOutlineError>((rows: Array<StatsOutlineRow>) => {
       if (rows.length === 0) {
         throw new NoSuchElementError(statsID.toString());
       }
@@ -47,7 +47,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<MySQLError>, IMySQL
     }, StatsOutlineError, NoSuchElementError);
   }
 
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, StatsOutlineError | MySQLError> {
+  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, MySQLError | StatsOutlineError> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
@@ -67,7 +67,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<MySQLError>, IMySQL
         limit: page.getLimit().get(),
         offset: page.getOffset().get()
       });
-    }, MySQLError).map<StatsOutlines, StatsOutlineError | MySQLError>((rows: Array<StatsOutlineRow>) => {
+    }, MySQLError).map<StatsOutlines, MySQLError | StatsOutlineError>((rows: Array<StatsOutlineRow>) => {
       return StatsOutlines.ofRow(rows);
     }, StatsOutlineError);
   }

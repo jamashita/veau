@@ -7,5 +7,5 @@ import { IQuery } from './IQuery';
 export interface ITermQuery<E extends DataSourceError = DataSourceError> extends IQuery<'TermQuery'> {
   readonly noun: 'TermQuery';
 
-  all(): Superposition<Terms, TermError | E>;
+  all(): Superposition<Terms, E | TermError>;
 }

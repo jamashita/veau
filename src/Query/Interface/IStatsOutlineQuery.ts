@@ -12,7 +12,7 @@ import { IQuery } from './IQuery';
 export interface IStatsOutlineQuery<E extends DataSourceError = DataSourceError> extends IQuery<'StatsOutlineQuery'> {
   readonly noun: 'StatsOutlineQuery';
 
-  find(statsID: StatsID): Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | E>;
+  find(statsID: StatsID): Superposition<StatsOutline, E | NoSuchElementError | StatsOutlineError>;
 
-  findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, StatsOutlineError | E>;
+  findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, E | StatsOutlineError>;
 }

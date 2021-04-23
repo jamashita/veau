@@ -56,7 +56,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Regions, RegionError | RedisError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -89,7 +89,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Regions, RegionError | RedisError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get().size()).toBe(json.length);
@@ -108,7 +108,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Regions, RegionError | RedisError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -129,7 +129,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Regions, RegionError | RedisError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -150,7 +150,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Regions, RegionError | RedisError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -187,7 +187,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | RedisError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       const region: Region = schrodinger.get();
@@ -213,7 +213,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | RedisError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -234,7 +234,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | RedisError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -269,7 +269,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | RedisError> = await regionQuery.findByISO3166(ISO3166.of('OOP')).terminate();
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('OOP')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -304,7 +304,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | RedisError> = await regionQuery.findByISO3166(ISO3166.of('OOP')).terminate();
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('OOP')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -325,7 +325,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | RedisError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -346,7 +346,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | RedisError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

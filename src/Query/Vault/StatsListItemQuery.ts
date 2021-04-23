@@ -38,10 +38,10 @@ export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {
     this.termQuery = termQuery;
   }
 
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsListItems, StatsListItemError | DataSourceError> {
-    return this.outlineQuery.findByVeauAccountID(veauAccountID, page).map<StatsListItems, StatsOutlineError | LocaleError | TermError | StatsListItemError | DataSourceError>((outlines: StatsOutlines) => {
-      return this.localeQuery.all().map<StatsListItems, LocaleError | TermError | StatsListItemError | DataSourceError>((locale: Locale) => {
-        return this.termQuery.all().map<StatsListItems, TermError | StatsListItemError | DataSourceError>((terms: Terms) => {
+  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsListItems, DataSourceError | StatsListItemError> {
+    return this.outlineQuery.findByVeauAccountID(veauAccountID, page).map<StatsListItems, DataSourceError | LocaleError | StatsListItemError | StatsOutlineError | TermError>((outlines: StatsOutlines) => {
+      return this.localeQuery.all().map<StatsListItems, DataSourceError | LocaleError | StatsListItemError | TermError>((locale: Locale) => {
+        return this.termQuery.all().map<StatsListItems, DataSourceError | StatsListItemError | TermError>((terms: Terms) => {
           const items: Array<StatsListItem> = outlines.map<StatsListItem>((outline: StatsOutline) => {
             return StatsListItem.ofOutline(outline, locale, terms);
           });
@@ -49,7 +49,7 @@ export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {
           return StatsListItems.ofArray(items);
         }, StatsListItemError);
       }, TermError);
-    }, LocaleError).recover<StatsListItems, StatsListItemError | DataSourceError>((err: StatsOutlineError | LocaleError | TermError | StatsListItemError | DataSourceError) => {
+    }, LocaleError).recover<StatsListItems, DataSourceError | StatsListItemError>((err: DataSourceError | LocaleError | StatsListItemError | StatsOutlineError | TermError) => {
       if (err instanceof DataSourceError) {
         throw err;
       }

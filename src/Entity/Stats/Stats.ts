@@ -26,7 +26,7 @@ import { Term } from '../../VO/Term/Term';
 import { StatsItem, StatsItemJSON } from '../StatsItem/StatsItem';
 import { StatsItems } from '../StatsItem/StatsItems';
 
-type Chart = Record<string, string | number>;
+type Chart = { [key: string]: number | string; };
 export type StatsJSON = Readonly<{
   outline: StatsOutlineJSON;
   language: LanguageJSON;
@@ -311,7 +311,7 @@ export class Stats extends Entity<StatsID, Stats> {
     });
   }
 
-  public getChart(): Array<Record<string, string | number>> {
+  public getChart(): Array<{ [key: string]: number | string; }> {
     const chartItems: Map<string, Chart> = new Map<string, Chart>();
 
     this.getColumns().forEach((column: AsOf) => {

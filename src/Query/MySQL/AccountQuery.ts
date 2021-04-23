@@ -19,7 +19,7 @@ export class AccountQuery implements IAccountQuery<MySQLError>, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public findByAccount(account: AccountName): Superposition<Account, AccountError | NoSuchElementError | MySQLError> {
+  public findByAccount(account: AccountName): Superposition<Account, AccountError | MySQLError | NoSuchElementError> {
     const query: string = `SELECT
       R1.veau_account_id AS veauAccountID,
       R1.language_id AS languageID,
@@ -36,7 +36,7 @@ export class AccountQuery implements IAccountQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<AccountRow>>(query, {
         account: account.get()
       });
-    }, MySQLError).map<Account, AccountError | NoSuchElementError | MySQLError>((rows: Array<AccountRow>) => {
+    }, MySQLError).map<Account, AccountError | MySQLError | NoSuchElementError>((rows: Array<AccountRow>) => {
       if (rows.length === 0) {
         throw new NoSuchElementError(account.get());
       }

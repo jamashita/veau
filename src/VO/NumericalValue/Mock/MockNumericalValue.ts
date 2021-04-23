@@ -4,7 +4,7 @@ import { NumericalValue } from '../NumericalValue';
 
 export class MockNumericalValue extends Objet<'ValueContained'> implements NumericalValue {
   public readonly noun: 'ValueContained' = 'ValueContained';
-  private v: number;
+  private readonly v: number;
 
   public constructor(v: number) {
     super();

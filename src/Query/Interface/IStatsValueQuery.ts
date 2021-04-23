@@ -10,5 +10,5 @@ import { IQuery } from './IQuery';
 export interface IStatsValueQuery<E extends DataSourceError = DataSourceError> extends IQuery<'StatsValueQuery'> {
   readonly noun: 'StatsValueQuery';
 
-  findByStatsID(statsID: StatsID): Superposition<Project<StatsItemID, StatsValues>, StatsValueError | E>;
+  findByStatsID(statsID: StatsID): Superposition<Project<StatsItemID, StatsValues>, E | StatsValueError>;
 }

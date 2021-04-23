@@ -145,7 +145,7 @@ describe('AsOf', () => {
         expect(() => {
           const t: Nullable<Term> = allTerm.get(term.getTermID());
 
-          asOf.previous(t as Term);
+          asOf.previous(t!);
         }).not.toThrow(AsOfError);
       });
     });
@@ -223,7 +223,7 @@ describe('AsOf', () => {
         expect(() => {
           const t: Nullable<Term> = allTerm.get(term.getTermID());
 
-          asOf.next(t as Term);
+          asOf.next(t!);
         }).not.toThrow(AsOfError);
       });
     });

@@ -11,15 +11,15 @@ export class MockRegionQuery implements IRegionQuery, IMockQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public all(): Superposition<Regions, RegionError | DataSourceError> {
+  public all(): Superposition<Regions, DataSourceError | RegionError> {
     throw new UnimplementedError();
   }
 
-  public find(): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
+  public find(): Superposition<Region, DataSourceError | NoSuchElementError | RegionError> {
     throw new UnimplementedError();
   }
 
-  public findByISO3166(): Superposition<Region, RegionError | NoSuchElementError | DataSourceError> {
+  public findByISO3166(): Superposition<Region, DataSourceError | NoSuchElementError | RegionError> {
     throw new UnimplementedError();
   }
 }

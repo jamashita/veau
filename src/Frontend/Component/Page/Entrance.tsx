@@ -16,7 +16,7 @@ export type DispatchProps = Readonly<{
   loginClicked(): void;
 }>;
 export type OwnProps = Readonly<{}>;
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = DispatchProps & OwnProps & StateProps;
 type State = Readonly<{}>;
 
 class EntranceImpl extends React.Component<Props & WrappedComponentProps, State> {

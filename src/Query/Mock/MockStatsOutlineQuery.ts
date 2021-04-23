@@ -11,11 +11,11 @@ export class MockStatsOutlineQuery implements IStatsOutlineQuery, IMockQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public find(): Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError> {
+  public find(): Superposition<StatsOutline, DataSourceError | NoSuchElementError | StatsOutlineError> {
     throw new UnimplementedError();
   }
 
-  public findByVeauAccountID(): Superposition<StatsOutlines, StatsOutlineError | DataSourceError> {
+  public findByVeauAccountID(): Superposition<StatsOutlines, DataSourceError | StatsOutlineError> {
     throw new UnimplementedError();
   }
 }

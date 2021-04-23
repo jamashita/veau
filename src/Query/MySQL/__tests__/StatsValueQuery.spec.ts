@@ -72,7 +72,7 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>, StatsValueError | MySQLError> = await statsValueQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>, MySQLError | StatsValueError> = await statsValueQuery.findByStatsID(statsID).terminate();
 
       expect(stub.withArgs(
         `SELECT
@@ -140,7 +140,7 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>, StatsValueError | MySQLError> = await statsValueQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>, MySQLError | StatsValueError> = await statsValueQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -160,7 +160,7 @@ describe('StatsValueQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>, StatsValueError | MySQLError> = await statsValueQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<Project<StatsItemID, StatsValues>, MySQLError | StatsValueError> = await statsValueQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

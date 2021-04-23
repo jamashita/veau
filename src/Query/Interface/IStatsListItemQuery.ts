@@ -9,5 +9,5 @@ import { IQuery } from './IQuery';
 export interface IStatsListItemQuery<E extends DataSourceError = DataSourceError> extends IQuery<'StatsListItemQuery'> {
   readonly noun: 'StatsListItemQuery';
 
-  findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsListItems, StatsListItemError | E>;
+  findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsListItems, E | StatsListItemError>;
 }

@@ -10,7 +10,7 @@ export class MockStatsQuery implements IStatsQuery, IMockQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public findByStatsID(): Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> {
+  public findByStatsID(): Superposition<Stats, DataSourceError | NoSuchElementError | StatsError> {
     throw new UnimplementedError();
   }
 }

@@ -9,11 +9,11 @@ export class MockVeauAccountQuery implements IVeauAccountQuery, IMockQuery {
   public readonly noun: 'VeauAccountQuery' = 'VeauAccountQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public find(): Superposition<VeauAccount, VeauAccountError | DataSourceError> {
+  public find(): Superposition<VeauAccount, DataSourceError | VeauAccountError> {
     throw new UnimplementedError();
   }
 
-  public findByEntranceInfo(): Superposition<VeauAccount, VeauAccountError | DataSourceError> {
+  public findByEntranceInfo(): Superposition<VeauAccount, DataSourceError | VeauAccountError> {
     throw new UnimplementedError();
   }
 }

@@ -46,7 +46,7 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<Account, AccountError | NoSuchElementError | MySQLError> = await accountQuery.findByAccount(accountName).terminate();
+      const schrodinger: Schrodinger<Account, AccountError | MySQLError | NoSuchElementError> = await accountQuery.findByAccount(accountName).terminate();
 
       expect(stub.withArgs(
         `SELECT
@@ -86,7 +86,7 @@ describe('AccountQuery', () => {
       stub.resolves([]);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<Account, AccountError | NoSuchElementError | MySQLError> = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account, AccountError | MySQLError | NoSuchElementError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -115,7 +115,7 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<Account, AccountError | NoSuchElementError | MySQLError> = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account, AccountError | MySQLError | NoSuchElementError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -135,7 +135,7 @@ describe('AccountQuery', () => {
       stub.rejects(new MySQLError('test faield'));
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const schrodinger: Schrodinger<Account, AccountError | NoSuchElementError | MySQLError> = await accountQuery.findByAccount(name).terminate();
+      const schrodinger: Schrodinger<Account, AccountError | MySQLError | NoSuchElementError> = await accountQuery.findByAccount(name).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

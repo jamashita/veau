@@ -25,14 +25,14 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<FetchError>, IFetch
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(_statsID: StatsID): Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | FetchError> {
+  public find(_statsID: StatsID): Superposition<StatsOutline, FetchError | NoSuchElementError | StatsOutlineError> {
     throw new UnimplementedError();
   }
 
-  public findByVeauAccountID(_veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, StatsOutlineError | FetchError> {
+  public findByVeauAccountID(_veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, FetchError | StatsOutlineError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
       return this.ajax.get(`/api/stats/page/${page.get()}`);
-    }, FetchError).map<StatsOutlines, StatsOutlineError | FetchError>(({ status, body }: FetchResponse<'json'>) => {
+    }, FetchError).map<StatsOutlines, FetchError | StatsOutlineError>(({ status, body }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
           if (StatsOutlines.validate(body)) {

@@ -21,7 +21,7 @@ export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public all(): Superposition<Regions, RegionError | MySQLError> {
+  public all(): Superposition<Regions, MySQLError | RegionError> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
@@ -32,7 +32,7 @@ export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
 
     return Superposition.playground<Array<RegionRow>, MySQLError>(() => {
       return this.mysql.execute<Array<RegionRow>>(query);
-    }, MySQLError).map<Regions, RegionError | MySQLError>((rows: Array<RegionRow>) => {
+    }, MySQLError).map<Regions, MySQLError | RegionError>((rows: Array<RegionRow>) => {
       if (rows.length === 0) {
         throw new MySQLError('NO REGIONS FROM MYSQL');
       }
@@ -41,7 +41,7 @@ export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
     }, RegionError);
   }
 
-  public find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | MySQLError> {
+  public find(regionID: RegionID): Superposition<Region, MySQLError | NoSuchElementError | RegionError> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
@@ -53,7 +53,7 @@ export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<RegionRow>>(query, {
         regionID: regionID.get().get()
       });
-    }, MySQLError).map<Region, RegionError | NoSuchElementError | MySQLError>((rows: Array<RegionRow>) => {
+    }, MySQLError).map<Region, MySQLError | NoSuchElementError | RegionError>((rows: Array<RegionRow>) => {
       if (rows.length === 0) {
         throw new NoSuchElementError('NO REGIONS FROM MYSQL');
       }
@@ -62,7 +62,7 @@ export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
     }, RegionError, NoSuchElementError);
   }
 
-  public findByISO3166(iso3166: ISO3166): Superposition<Region, RegionError | NoSuchElementError | MySQLError> {
+  public findByISO3166(iso3166: ISO3166): Superposition<Region, MySQLError | NoSuchElementError | RegionError> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
@@ -74,7 +74,7 @@ export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
       return this.mysql.execute<Array<RegionRow>>(query, {
         iso3166: iso3166.get()
       });
-    }, MySQLError).map<Region, RegionError | NoSuchElementError | MySQLError>((rows: Array<RegionRow>) => {
+    }, MySQLError).map<Region, MySQLError | NoSuchElementError | RegionError>((rows: Array<RegionRow>) => {
       if (rows.length === 0) {
         throw new NoSuchElementError('NO REGIONS FROM MYSQL');
       }

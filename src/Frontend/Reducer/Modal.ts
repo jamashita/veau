@@ -11,7 +11,7 @@ export type Modal = Readonly<{
   open: boolean;
   title: string;
   description: string;
-  values?: Record<string, string>;
+  values?: { [key: string]: string; };
 }>;
 
 export const modal: Reducer<Modal, VeauAction> = (

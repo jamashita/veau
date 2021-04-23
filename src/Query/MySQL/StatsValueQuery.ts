@@ -25,7 +25,7 @@ export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuer
 
   public findByStatsID(
     statsID: StatsID
-  ): Superposition<Project<StatsItemID, StatsValues>, StatsValueError | MySQLError> {
+  ): Superposition<Project<StatsItemID, StatsValues>, MySQLError | StatsValueError> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,
@@ -39,9 +39,9 @@ export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuer
       return this.mysql.execute<Array<StatsValueRow>>(query, {
         statsID: statsID.get().get()
       });
-    }, MySQLError).map<Project<StatsItemID, StatsValues>, StatsItemError | StatsValueError | MySQLError>((rows: Array<StatsValueRow>) => {
+    }, MySQLError).map<Project<StatsItemID, StatsValues>, MySQLError | StatsItemError | StatsValueError>((rows: Array<StatsValueRow>) => {
       return this.engage(rows);
-    }).recover<Project<StatsItemID, StatsValues>, StatsValueError | MySQLError>((err: StatsItemError | StatsValueError | MySQLError) => {
+    }).recover<Project<StatsItemID, StatsValues>, MySQLError | StatsValueError>((err: MySQLError | StatsItemError | StatsValueError) => {
       if (err instanceof StatsItemError) {
         throw new StatsValueError('StatsValueQuery.findByStatsID()', err);
       }

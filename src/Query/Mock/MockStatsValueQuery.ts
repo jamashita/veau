@@ -11,7 +11,7 @@ export class MockStatsValueQuery implements IStatsValueQuery, IMockQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public findByStatsID(): Superposition<Project<StatsItemID, StatsValues>, StatsValueError | DataSourceError> {
+  public findByStatsID(): Superposition<Project<StatsItemID, StatsValues>, DataSourceError | StatsValueError> {
     throw new UnimplementedError();
   }
 }

@@ -51,7 +51,7 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<Regions, RegionError | MySQLError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, MySQLError | RegionError> = await regionQuery.all().terminate();
 
       expect(stub.withArgs(`SELECT
       R1.region_id AS regionID,
@@ -84,7 +84,7 @@ describe('RegionQuery', () => {
       stub.resolves([]);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<Regions, RegionError | MySQLError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, MySQLError | RegionError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -102,7 +102,7 @@ describe('RegionQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<Regions, RegionError | MySQLError> = await regionQuery.all().terminate();
+      const schrodinger: Schrodinger<Regions, MySQLError | RegionError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -131,7 +131,7 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | MySQLError> = await regionQuery.find(RegionID.of(uuid)).terminate();
+      const schrodinger: Schrodinger<Region, MySQLError | NoSuchElementError | RegionError> = await regionQuery.find(RegionID.of(uuid)).terminate();
 
       expect(stub.withArgs(
         `SELECT
@@ -162,7 +162,7 @@ describe('RegionQuery', () => {
       stub.resolves([]);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | MySQLError> = await regionQuery.find(new MockRegionID()).terminate();
+      const schrodinger: Schrodinger<Region, MySQLError | NoSuchElementError | RegionError> = await regionQuery.find(new MockRegionID()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -180,7 +180,7 @@ describe('RegionQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | MySQLError> = await regionQuery.find(new MockRegionID()).terminate();
+      const schrodinger: Schrodinger<Region, MySQLError | NoSuchElementError | RegionError> = await regionQuery.find(new MockRegionID()).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -208,7 +208,7 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | MySQLError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, MySQLError | NoSuchElementError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(stub.withArgs(
         `SELECT
@@ -239,7 +239,7 @@ describe('RegionQuery', () => {
       stub.resolves([]);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | MySQLError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, MySQLError | NoSuchElementError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -257,7 +257,7 @@ describe('RegionQuery', () => {
       stub.rejects(new MySQLError('test faied'));
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const schrodinger: Schrodinger<Region, RegionError | NoSuchElementError | MySQLError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const schrodinger: Schrodinger<Region, MySQLError | NoSuchElementError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

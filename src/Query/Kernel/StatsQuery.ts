@@ -44,11 +44,11 @@ export class StatsQuery implements IStatsQuery, IKernelQuery {
     this.regionQuery = regionQuery;
   }
 
-  public findByStatsID(statsID: StatsID): Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> {
-    return this.outlineQuery.find(statsID).map<Stats, StatsOutlineError | StatsItemError | LanguageError | RegionError | TermError | NoSuchElementError | DataSourceError>((outline: StatsOutline) => {
-      return this.itemQuery.findByStatsID(statsID).map<Stats, LanguageError | RegionError | TermError | NoSuchElementError | DataSourceError>((items: StatsItems) => {
-        return this.languageQuery.find(outline.getLanguageID()).map<Stats, LanguageError | RegionError | TermError | NoSuchElementError | DataSourceError>((language: Language) => {
-          return this.regionQuery.find(outline.getRegionID()).map<Stats, RegionError | TermError | NoSuchElementError | DataSourceError>((region: Region) => {
+  public findByStatsID(statsID: StatsID): Superposition<Stats, DataSourceError | NoSuchElementError | StatsError> {
+    return this.outlineQuery.find(statsID).map<Stats, DataSourceError | LanguageError | NoSuchElementError | RegionError | StatsItemError | StatsOutlineError | TermError>((outline: StatsOutline) => {
+      return this.itemQuery.findByStatsID(statsID).map<Stats, DataSourceError | LanguageError | NoSuchElementError | RegionError | TermError>((items: StatsItems) => {
+        return this.languageQuery.find(outline.getLanguageID()).map<Stats, DataSourceError | LanguageError | NoSuchElementError | RegionError | TermError>((language: Language) => {
+          return this.regionQuery.find(outline.getRegionID()).map<Stats, DataSourceError | NoSuchElementError | RegionError | TermError>((region: Region) => {
             return Stats.of(
               outline,
               language,
@@ -59,7 +59,7 @@ export class StatsQuery implements IStatsQuery, IKernelQuery {
           }, TermError);
         });
       });
-    }).recover<Stats, StatsError | NoSuchElementError | DataSourceError>((err: StatsOutlineError | StatsItemError | LanguageError | RegionError | TermError | NoSuchElementError | DataSourceError) => {
+    }).recover<Stats, DataSourceError | NoSuchElementError | StatsError>((err: DataSourceError | LanguageError | NoSuchElementError | RegionError | StatsItemError | StatsOutlineError | TermError) => {
       if (err instanceof NoSuchElementError || err instanceof DataSourceError) {
         throw err;
       }

@@ -36,7 +36,7 @@ export class AuthenticationInteractor implements Noun<'AuthenticationInteractor'
         }
 
         callback(null, false);
-      }, async (err: AccountError | NoSuchElementError | DataSourceError) => {
+      }, async (err: AccountError | DataSourceError | NoSuchElementError) => {
         // time adjustment
         await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
 

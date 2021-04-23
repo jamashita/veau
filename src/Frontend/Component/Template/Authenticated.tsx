@@ -8,7 +8,7 @@ export type DispatchProps = Readonly<{
   menuClicked(): void;
 }>;
 export type OwnProps = Readonly<{}>;
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = DispatchProps & OwnProps & StateProps;
 type State = Readonly<{}>;
 
 export class Authenticated extends React.Component<Props, State> {

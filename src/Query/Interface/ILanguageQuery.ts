@@ -11,9 +11,9 @@ import { IQuery } from './IQuery';
 export interface ILanguageQuery<E extends DataSourceError = DataSourceError> extends IQuery<'LanguageQuery'> {
   readonly noun: 'LanguageQuery';
 
-  all(): Superposition<Languages, LanguageError | E>;
+  all(): Superposition<Languages, E | LanguageError>;
 
-  find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | E>;
+  find(languageID: LanguageID): Superposition<Language, E | LanguageError | NoSuchElementError>;
 
-  findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | E>;
+  findByISO639(iso639: ISO639): Superposition<Language, E | LanguageError | NoSuchElementError>;
 }

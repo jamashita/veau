@@ -26,9 +26,9 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
     this.cacheCommand = cacheCommand;
   }
 
-  public all(): Superposition<Locale, LocaleError | DataSourceError> {
-    return this.cacheQuery.all().recover<Locale, LocaleError | DataSourceError>(() => {
-      return this.ajaxQuery.all().map<Locale, LocaleError | DataSourceError>((locale: Locale) => {
+  public all(): Superposition<Locale, DataSourceError | LocaleError> {
+    return this.cacheQuery.all().recover<Locale, DataSourceError | LocaleError>(() => {
+      return this.ajaxQuery.all().map<Locale, DataSourceError | LocaleError>((locale: Locale) => {
         return this.cacheCommand.create(locale).map<Locale, DataSourceError>(() => {
           return locale;
         });

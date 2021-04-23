@@ -14,7 +14,7 @@ export const appearNotification = (
   vertical: NotificationVPosition,
   message: string,
   duration: number = 3000,
-  values?: Record<string, string>
+  values?: { [key: string]: string; }
 ): NotificationAppearAction => {
   return {
     type: NOTIFICATION_APPEAR,

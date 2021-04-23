@@ -23,9 +23,9 @@ import { StatsName } from '../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../VO/StatsOutline/StatsUnit';
 import { Term } from '../VO/Term/Term';
 
-export type NotificationKind = 'info' | 'success' | 'warn' | 'error';
-export type NotificationHPosition = 'left' | 'center' | 'right';
-export type NotificationVPosition = 'top' | 'bottom';
+export type NotificationKind = 'error' | 'info' | 'success' | 'warn';
+export type NotificationHPosition = 'center' | 'left' | 'right';
+export type NotificationVPosition = 'bottom' | 'top';
 
 export const LOCATION_CHANGE = '@@router/LOCATION_CHANGE' as const;
 export const CALL_HISTORY_METHOD = '@@router/CALL_HISTORY_METHOD' as const;
@@ -400,66 +400,4 @@ export interface StatsEditSaveStatsAction extends Action {
 }
 
 export type VeauAction =
-  | ChangeAction
-  | CallHistoryAction
-  | NothingAction
-  | OnLoadAction
-  | ModalRaiseAction
-  | ModalCloseAction
-  | NotificationAppearAction
-  | NotificationDisappearAction
-  | LoadingStartAction
-  | LoadingFinishAction
-  | IdentityAuthenticateAction
-  | IdentityAuthenticatedAction
-  | IdentityAuthenticationFailedAction
-  | IdentityInitializeAction
-  | IdentityIdentifiedAction
-  | LogoutAction
-  | PushToStatsListAction
-  | PushToStatsEditAction
-  | PushToEntranceAction
-  | ProviderOpenAction
-  | ProviderCloseAction
-  | LocaleDefinedAction
-  | EntranceAccountNameTypedAction
-  | EntrancePasswordTypedAction
-  | EntranceUpdateAction
-  | StatsListInitializeAction
-  | StatsListOpenNewStatsModalAction
-  | StatsListCloseNewStatsModalAction
-  | StatsListNameTypedAction
-  | StatsListUnitTypedAction
-  | StatsListISO639SelectedAction
-  | StatsListISO3166SelectedAction
-  | StatsListTermSelectedAction
-  | StatsListUpdateStatsAction
-  | StatsListResetStatsAction
-  | StatsListUpdateStatsItemsAction
-  | StatsListResetStatsItemsAction
-  | StatsListSaveStatsAction
-  | StatsEditInitializeAction
-  | StatsEditInitializationFailureAction
-  | StatsEditNameTypedAction
-  | StatsEditUnitTypedAction
-  | StatsEditISO639SelectedAction
-  | StatsEditISO3166SelectedAction
-  | StatsEditItemNameTypedAction
-  | StatsEditItemSaveAction
-  | StatsEditSelectItemAction
-  | StatsEditSelectingItemNameTypedAction
-  | StatsEditUpdateSelectingItemAction
-  | StatsEditRemoveSelectingItemAction
-  | StatsEditClearSelectingItemAction
-  | StatsEditStartDateDeterminedAction
-  | StatsEditDataFilledAction
-  | StatsEditDataDeletedAction
-  | StatsEditRowSelectedAction
-  | StatsEditRowMovedAction
-  | StatsEditInvalidDateInputAction
-  | StatsEditInvalidValueInputAction
-  | StatsEditUpdateStatsAction
-  | StatsEditResetStatsAction
-  | StatsEditUpdateStatsItemAction
-  | StatsEditResetStatsItemAction
-  | StatsEditSaveStatsAction;
+  CallHistoryAction | ChangeAction | EntranceAccountNameTypedAction | EntrancePasswordTypedAction | EntranceUpdateAction | IdentityAuthenticateAction | IdentityAuthenticatedAction | IdentityAuthenticationFailedAction | IdentityIdentifiedAction | IdentityInitializeAction | LoadingFinishAction | LoadingStartAction | LocaleDefinedAction | LogoutAction | ModalCloseAction | ModalRaiseAction | NothingAction | NotificationAppearAction | NotificationDisappearAction | OnLoadAction | ProviderCloseAction | ProviderOpenAction | PushToEntranceAction | PushToStatsEditAction | PushToStatsListAction | StatsEditClearSelectingItemAction | StatsEditDataDeletedAction | StatsEditDataFilledAction | StatsEditInitializationFailureAction | StatsEditInitializeAction | StatsEditInvalidDateInputAction | StatsEditInvalidValueInputAction | StatsEditISO639SelectedAction | StatsEditISO3166SelectedAction | StatsEditItemNameTypedAction | StatsEditItemSaveAction | StatsEditNameTypedAction | StatsEditRemoveSelectingItemAction | StatsEditResetStatsAction | StatsEditResetStatsItemAction | StatsEditRowMovedAction | StatsEditRowSelectedAction | StatsEditSaveStatsAction | StatsEditSelectingItemNameTypedAction | StatsEditSelectItemAction | StatsEditStartDateDeterminedAction | StatsEditUnitTypedAction | StatsEditUpdateSelectingItemAction | StatsEditUpdateStatsAction | StatsEditUpdateStatsItemAction | StatsListCloseNewStatsModalAction | StatsListInitializeAction | StatsListISO639SelectedAction | StatsListISO3166SelectedAction | StatsListNameTypedAction | StatsListOpenNewStatsModalAction | StatsListResetStatsAction | StatsListResetStatsItemsAction | StatsListSaveStatsAction | StatsListTermSelectedAction | StatsListUnitTypedAction | StatsListUpdateStatsAction | StatsListUpdateStatsItemsAction;

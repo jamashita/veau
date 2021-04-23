@@ -4,7 +4,7 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { NotificationHPosition, NotificationKind, NotificationVPosition } from '../../Action';
 
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = DispatchProps & OwnProps & StateProps;
 type State = Readonly<{}>;
 
 class NotificationImpl extends React.Component<Props & WrappedComponentProps, State> {

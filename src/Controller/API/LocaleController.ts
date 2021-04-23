@@ -23,7 +23,7 @@ export class LocaleController {
   public async all(@Res() res: Response): Promise<Response> {
     return this.localeInteractor.all().transform<Response, Error>((locale: JSONable) => {
       return res.status(StatusCodes.OK).send(locale.toJSON());
-    }, (err: LocaleError | DataSourceError) => {
+    }, (err: DataSourceError | LocaleError) => {
       logger.error(err);
 
       return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);

@@ -18,10 +18,10 @@ export class LocaleQuery implements ILocaleQuery<FetchError>, IFetchQuery {
     this.ajax = ajax;
   }
 
-  public all(): Superposition<Locale, LocaleError | FetchError> {
+  public all(): Superposition<Locale, FetchError | LocaleError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
       return this.ajax.get('/api/locale');
-    }, FetchError).map<Locale, LocaleError | FetchError>(({ status, body }: FetchResponse<'json'>) => {
+    }, FetchError).map<Locale, FetchError | LocaleError>(({ status, body }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
           if (Locale.validate(body)) {

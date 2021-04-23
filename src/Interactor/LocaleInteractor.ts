@@ -34,12 +34,12 @@ export class LocaleInteractor implements Noun<'LocaleInteractor'> {
     this.regionCommand = regionCommand;
   }
 
-  public all(): Superposition<Locale, LocaleError | DataSourceError> {
-    return this.languageQuery.all().map<Locale, LanguageError | RegionError | DataSourceError>((languages: Languages) => {
-      return this.regionQuery.all().map<Locale, RegionError | DataSourceError>((regions: Regions) => {
+  public all(): Superposition<Locale, DataSourceError | LocaleError> {
+    return this.languageQuery.all().map<Locale, DataSourceError | LanguageError | RegionError>((languages: Languages) => {
+      return this.regionQuery.all().map<Locale, DataSourceError | RegionError>((regions: Regions) => {
         return Locale.of(languages, regions);
       });
-    }).recover<Locale, LocaleError>((err: LanguageError | RegionError | DataSourceError) => {
+    }).recover<Locale, LocaleError>((err: DataSourceError | LanguageError | RegionError) => {
       if (err instanceof DataSourceError) {
         throw err;
       }

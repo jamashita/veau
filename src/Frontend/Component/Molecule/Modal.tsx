@@ -2,7 +2,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from 
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = DispatchProps & OwnProps & StateProps;
 type State = Readonly<{}>;
 
 class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
@@ -72,7 +72,7 @@ export type StateProps = Readonly<{
   open: boolean;
   title: string;
   description: string;
-  values?: Record<string, string>;
+  values?: { [key: string]: string; };
 }>;
 export type DispatchProps = Readonly<{
   closeClicked(): void;

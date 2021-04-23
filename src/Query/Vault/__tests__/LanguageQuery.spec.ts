@@ -44,7 +44,7 @@ describe('LanguageQuery', () => {
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Languages, LanguageError | DataSourceError> = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages, DataSourceError | LanguageError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(locale.getLanguages());
@@ -60,7 +60,7 @@ describe('LanguageQuery', () => {
       stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 500), FetchError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Languages, LanguageError | DataSourceError> = await languageQuery.all().terminate();
+      const schrodinger: Schrodinger<Languages, DataSourceError | LanguageError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -91,7 +91,7 @@ describe('LanguageQuery', () => {
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.find(languageID).terminate();
+      const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.find(languageID).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(language1);
@@ -109,7 +109,7 @@ describe('LanguageQuery', () => {
       stub.returns(Superposition.dead<Locale, DataSourceError>(new FetchError('test failed', 500), FetchError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.find(languageID).terminate();
+      const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.find(languageID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -129,7 +129,7 @@ describe('LanguageQuery', () => {
       stub.returns(Superposition.dead<Locale, LanguageError>(new LanguageError('test failed'), LanguageError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.find(languageID).terminate();
+      const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.find(languageID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -158,7 +158,7 @@ describe('LanguageQuery', () => {
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.find(languageID).terminate();
+      const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.find(languageID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -188,7 +188,7 @@ describe('LanguageQuery', () => {
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(language2);
@@ -204,7 +204,7 @@ describe('LanguageQuery', () => {
       stub.returns(Superposition.dead<Locale, DataSourceError>(new FetchError('test failed', 500), FetchError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -222,7 +222,7 @@ describe('LanguageQuery', () => {
       stub.returns(Superposition.dead<Locale, LanguageError>(new LanguageError('test failed'), LanguageError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -251,7 +251,7 @@ describe('LanguageQuery', () => {
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
+      const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

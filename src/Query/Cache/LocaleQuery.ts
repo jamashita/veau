@@ -18,7 +18,7 @@ export class LocaleQuery implements ILocaleQuery<CacheError>, ICacheQuery {
     this.cache = cache;
   }
 
-  public all(): Superposition<Locale, LocaleError | CacheError> {
+  public all(): Superposition<Locale, CacheError | LocaleError> {
     return Superposition.playground<Locale, CacheError>(() => {
       return this.cache.get<Locale>(VAULT_LOCALE_KEY);
     }, CacheError);

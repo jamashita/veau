@@ -49,7 +49,7 @@ describe('LocaleQuery', () => {
       localeCommand.create = stub3;
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeFetchQuery, localeCacheQuery, localeCommand);
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
+      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(false);
@@ -82,7 +82,7 @@ describe('LocaleQuery', () => {
       stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeFetchQuery, localeCacheQuery, localeCommand);
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
+      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -112,7 +112,7 @@ describe('LocaleQuery', () => {
       localeCommand.create = stub3;
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeFetchQuery, localeCacheQuery, localeCommand);
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
+      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -147,7 +147,7 @@ describe('LocaleQuery', () => {
       stub3.returns(Superposition.dead<Locale, CacheError>(new CacheError('test failed'), CacheError));
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeFetchQuery, localeCacheQuery, localeCommand);
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
+      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);

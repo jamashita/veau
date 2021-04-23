@@ -62,7 +62,7 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeInteractor.all().terminate();
+      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeInteractor.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get().getLanguages()).toBe(languages);
@@ -95,7 +95,7 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeInteractor.all().terminate();
+      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeInteractor.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -129,7 +129,7 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeInteractor.all().terminate();
+      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeInteractor.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -163,7 +163,7 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeInteractor.all().terminate();
+      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeInteractor.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -197,7 +197,7 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeInteractor.all().terminate();
+      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeInteractor.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

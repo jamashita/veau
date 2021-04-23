@@ -3,7 +3,7 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { LoadingCount } from '../../../VO/LoadingCount/LoadingCount';
 
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = DispatchProps & OwnProps & StateProps;
 type State = Readonly<{}>;
 
 const SIZE: number = 100;

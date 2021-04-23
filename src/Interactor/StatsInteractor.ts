@@ -32,11 +32,11 @@ export class StatsInteractor implements Noun<'StatsInteractor'> {
     this.statsCommand = statsCommand;
   }
 
-  public findByStatsID(statsID: StatsID): Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> {
+  public findByStatsID(statsID: StatsID): Superposition<Stats, DataSourceError | NoSuchElementError | StatsError> {
     return this.statsQuery.findByStatsID(statsID);
   }
 
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, StatsOutlineError | DataSourceError> {
+  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Superposition<StatsOutlines, DataSourceError | StatsOutlineError> {
     return this.outlineQuery.findByVeauAccountID(veauAccountID, page);
   }
 

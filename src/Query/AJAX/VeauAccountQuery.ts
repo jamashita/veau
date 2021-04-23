@@ -19,10 +19,10 @@ export class VeauAccountQuery implements IVeauAccountQuery<FetchError>, IFetchQu
     this.ajax = ajax;
   }
 
-  public find(): Superposition<VeauAccount, VeauAccountError | FetchError> {
+  public find(): Superposition<VeauAccount, FetchError | VeauAccountError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
       return this.ajax.get('/api/accounts');
-    }, FetchError).map<VeauAccount, VeauAccountError | FetchError>(({ status, body }: FetchResponse<'json'>) => {
+    }, FetchError).map<VeauAccount, FetchError | VeauAccountError>(({ status, body }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
           if (VeauAccount.validate(body)) {
@@ -38,10 +38,10 @@ export class VeauAccountQuery implements IVeauAccountQuery<FetchError>, IFetchQu
     }, VeauAccountError);
   }
 
-  public findByEntranceInfo(entranceInformation: EntranceInformation): Superposition<VeauAccount, VeauAccountError | FetchError> {
+  public findByEntranceInfo(entranceInformation: EntranceInformation): Superposition<VeauAccount, FetchError | VeauAccountError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
       return this.ajax.post('/api/auth', entranceInformation.toJSON());
-    }, FetchError).map<VeauAccount, VeauAccountError | FetchError>(({ status, body }: FetchResponse<'json'>) => {
+    }, FetchError).map<VeauAccount, FetchError | VeauAccountError>(({ status, body }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
           if (VeauAccount.validate(body)) {

@@ -25,10 +25,10 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
     this.localeQuery = localeQuery;
   }
 
-  public all(): Superposition<Languages, LanguageError | DataSourceError> {
-    return this.localeQuery.all().map<Languages, LocaleError | DataSourceError>((locale: Locale) => {
+  public all(): Superposition<Languages, DataSourceError | LanguageError> {
+    return this.localeQuery.all().map<Languages, DataSourceError | LocaleError>((locale: Locale) => {
       return locale.getLanguages();
-    }).recover<Languages, LanguageError | DataSourceError>((err: LocaleError | DataSourceError) => {
+    }).recover<Languages, DataSourceError | LanguageError>((err: DataSourceError | LocaleError) => {
       if (err instanceof LocaleError) {
         throw new LanguageError('LanguageQuery.all()', err);
       }
@@ -37,14 +37,14 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
     }, LanguageError, DataSourceError);
   }
 
-  public find(languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
-    return this.all().map<Language, LanguageError | UnscharferelationError | DataSourceError>((languages: Languages) => {
+  public find(languageID: LanguageID): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
+    return this.all().map<Language, DataSourceError | LanguageError | UnscharferelationError>((languages: Languages) => {
       const language: Nullable<Language> = languages.find((l: Language) => {
         return l.getLanguageID().equals(languageID);
       });
 
       return Unscharferelation.maybe<Language>(language).toSuperposition();
-    }).recover<Language, LanguageError | NoSuchElementError | DataSourceError>((err: LanguageError | UnscharferelationError | DataSourceError) => {
+    }).recover<Language, DataSourceError | LanguageError | NoSuchElementError>((err: DataSourceError | LanguageError | UnscharferelationError) => {
       if (err instanceof UnscharferelationError) {
         throw new NoSuchElementError(languageID.get().get());
       }
@@ -53,14 +53,14 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
     }, LanguageError, NoSuchElementError, DataSourceError);
   }
 
-  public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
-    return this.all().map<Language, LanguageError | UnscharferelationError | DataSourceError>((languages: Languages) => {
+  public findByISO639(iso639: ISO639): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
+    return this.all().map<Language, DataSourceError | LanguageError | UnscharferelationError>((languages: Languages) => {
       const language: Nullable<Language> = languages.find((l: Language) => {
         return l.getISO639().equals(iso639);
       });
 
       return Unscharferelation.maybe<Language>(language).toSuperposition();
-    }).recover<Language, LanguageError | NoSuchElementError | DataSourceError>((err: LanguageError | UnscharferelationError | DataSourceError) => {
+    }).recover<Language, DataSourceError | LanguageError | NoSuchElementError>((err: DataSourceError | LanguageError | UnscharferelationError) => {
       if (err instanceof UnscharferelationError) {
         throw new NoSuchElementError(iso639.get());
       }

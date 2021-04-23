@@ -1,7 +1,7 @@
 import { DataSourceError } from '@jamashita/anden-error';
-import { JSONable } from '@jamashita/anden-type';
+import { JSONable, PlainObject } from '@jamashita/anden-type';
 import { Superposition } from '@jamashita/genitore-superposition';
-import { PlainObject } from '@jamashita/anden-type';
+
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
@@ -32,11 +32,11 @@ export class StatsController {
   public list(@Param('page') pg: number, @Res() res: Response): Promise<Response> {
     return Superposition.playground<Page, PageError>(() => {
       return Page.of(pg);
-    }, PageError).map<JSONable, PageError | StatsOutlineError | PageError | DataSourceError>((page: Page) => {
+    }, PageError).map<JSONable, DataSourceError | PageError | PageError | StatsOutlineError>((page: Page) => {
       return this.statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), page);
-    }).map<Response, StatsOutlineError | PageError | DataSourceError>((outlines: JSONable) => {
+    }).map<Response, DataSourceError | PageError | StatsOutlineError>((outlines: JSONable) => {
       return res.status(StatusCodes.OK).send(outlines.toJSON());
-    }).recover<Response, Error>((err: StatsOutlineError | PageError | DataSourceError) => {
+    }).recover<Response, Error>((err: DataSourceError | PageError | StatsOutlineError) => {
       logger.fatal(err);
 
       if (err instanceof PageError) {
@@ -52,11 +52,11 @@ export class StatsController {
   public refer(@Param('statsID') id: string, @Res() res: Response): Promise<Response> {
     return Superposition.playground<StatsID, StatsError>(() => {
       return StatsID.ofString(id);
-    }, StatsError).map<JSONable, StatsError | NoSuchElementError | DataSourceError>((statsID: StatsID) => {
+    }, StatsError).map<JSONable, DataSourceError | NoSuchElementError | StatsError>((statsID: StatsID) => {
       return this.statsInteractor.findByStatsID(statsID);
-    }).map<Response, StatsError | NoSuchElementError | DataSourceError>((stats: JSONable) => {
+    }).map<Response, DataSourceError | NoSuchElementError | StatsError>((stats: JSONable) => {
       return res.status(StatusCodes.OK).send(stats.toJSON());
-    }).recover<Response, Error>((err: StatsError | NoSuchElementError | DataSourceError) => {
+    }).recover<Response, Error>((err: DataSourceError | NoSuchElementError | StatsError) => {
       if (err instanceof NoSuchElementError) {
         logger.warn(err);
 
@@ -78,11 +78,11 @@ export class StatsController {
       }
 
       return Stats.ofJSON(body);
-    }, StatsError).map<unknown, StatsError | DataSourceError>((stats: Stats) => {
+    }, StatsError).map<unknown, DataSourceError | StatsError>((stats: Stats) => {
       return this.statsInteractor.save(stats, res.locals.account.getVeauAccountID());
-    }).map<Response, StatsError | DataSourceError>(() => {
+    }).map<Response, DataSourceError | StatsError>(() => {
       return res.sendStatus(StatusCodes.CREATED);
-    }).recover<Response, Error>((err: StatsError | DataSourceError) => {
+    }).recover<Response, Error>((err: DataSourceError | StatsError) => {
       logger.warn(err);
 
       if (err instanceof StatsError) {

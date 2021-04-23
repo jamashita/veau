@@ -1,6 +1,6 @@
 import { MODAL_CLOSE, MODAL_RAISE, ModalCloseAction, ModalRaiseAction } from '../Action';
 
-export const raiseModal = (title: string, description: string, values?: Record<string, string>): ModalRaiseAction => {
+export const raiseModal = (title: string, description: string, values?: { [key: string]: string; }): ModalRaiseAction => {
   return {
     type: MODAL_RAISE,
     title,

@@ -8,7 +8,7 @@ import { Row } from '../../../VO/Coordinate/Row';
 import { StatsDisplay } from '../../../VO/Display/StatsDisplay';
 import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
 
-type CellChange = [number, string | number, Nullable<string>, Nullable<string>];
+type CellChange = [number, number | string, Nullable<string>, Nullable<string>];
 type Props = Readonly<{
   stats: StatsDisplay;
   invalidValueInput(): void;

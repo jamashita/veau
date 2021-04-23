@@ -24,7 +24,7 @@ export type Notification = Readonly<{
   vertical: NotificationVPosition;
   message: string;
   duration: number;
-  values?: Record<string, string>;
+  values?: { [key: string]: string; };
 }>;
 
 export const notification: Reducer<Notification, VeauAction> = (

@@ -11,9 +11,9 @@ import { IQuery } from './IQuery';
 export interface IRegionQuery<E extends DataSourceError = DataSourceError> extends IQuery<'RegionQuery'> {
   readonly noun: 'RegionQuery';
 
-  all(): Superposition<Regions, RegionError | E>;
+  all(): Superposition<Regions, E | RegionError>;
 
-  find(regionID: RegionID): Superposition<Region, RegionError | NoSuchElementError | E>;
+  find(regionID: RegionID): Superposition<Region, E | NoSuchElementError | RegionError>;
 
-  findByISO3166(iso3166: ISO3166): Superposition<Region, RegionError | NoSuchElementError | E>;
+  findByISO3166(iso3166: ISO3166): Superposition<Region, E | NoSuchElementError | RegionError>;
 }

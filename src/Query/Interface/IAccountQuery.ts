@@ -10,5 +10,5 @@ import { IQuery } from './IQuery';
 export interface IAccountQuery<E extends DataSourceError = DataSourceError> extends IQuery<'AccountQuery'> {
   readonly noun: 'AccountQuery';
 
-  findByAccount(account: AccountName): Superposition<Account, AccountError | NoSuchElementError | E>;
+  findByAccount(account: AccountName): Superposition<Account, AccountError | E | NoSuchElementError>;
 }

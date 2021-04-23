@@ -31,9 +31,9 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
     this.redisCommand = redisCommand;
   }
 
-  public all(): Superposition<Languages, LanguageError | DataSourceError> {
-    return this.redisQuery.all().recover<Languages, LanguageError | DataSourceError>(() => {
-      return this.mysqlQuery.all().map<Languages, LanguageError | DataSourceError>((languages: Languages) => {
+  public all(): Superposition<Languages, DataSourceError | LanguageError> {
+    return this.redisQuery.all().recover<Languages, DataSourceError | LanguageError>(() => {
+      return this.mysqlQuery.all().map<Languages, DataSourceError | LanguageError>((languages: Languages) => {
         return this.redisCommand.insertAll(languages).map<Languages, DataSourceError>(() => {
           return languages;
         });
@@ -42,18 +42,18 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(_languageID: LanguageID): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
+  public find(_languageID: LanguageID): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
     throw new UnimplementedError();
   }
 
-  public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
-    return this.all().map<Language, LanguageError | UnscharferelationError | DataSourceError>((languages: Languages) => {
+  public findByISO639(iso639: ISO639): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
+    return this.all().map<Language, DataSourceError | LanguageError | UnscharferelationError>((languages: Languages) => {
       const language: Nullable<Language> = languages.find((l: Language) => {
         return l.getISO639().equals(iso639);
       });
 
       return Unscharferelation.maybe(language).toSuperposition();
-    }).recover<Language, LanguageError | NoSuchElementError | DataSourceError>((err: LanguageError | UnscharferelationError | DataSourceError) => {
+    }).recover<Language, DataSourceError | LanguageError | NoSuchElementError>((err: DataSourceError | LanguageError | UnscharferelationError) => {
       if (err instanceof UnscharferelationError) {
         throw new NoSuchElementError(iso639.toString());
       }

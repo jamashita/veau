@@ -11,15 +11,15 @@ export class MockLanguageQuery implements ILanguageQuery, IMockQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  public all(): Superposition<Languages, LanguageError | DataSourceError> {
+  public all(): Superposition<Languages, DataSourceError | LanguageError> {
     throw new UnimplementedError();
   }
 
-  public find(): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
+  public find(): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
     throw new UnimplementedError();
   }
 
-  public findByISO639(): Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> {
+  public findByISO639(): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
     throw new UnimplementedError();
   }
 }

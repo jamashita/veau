@@ -113,10 +113,10 @@ describe('StatsItemQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       statsValueQuery.findByStatsID = stub2;
-      stub2.returns(Superposition.alive<Project<StatsItemID, StatsValues>, StatsValueError | MySQLError>(project));
+      stub2.returns(Superposition.alive<Project<StatsItemID, StatsValues>, MySQLError | StatsValueError>(project));
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<StatsItems, StatsItemError | MySQLError> = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems, MySQLError | StatsItemError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(stub1.withArgs(
         `SELECT
@@ -181,10 +181,10 @@ describe('StatsItemQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       statsValueQuery.findByStatsID = stub2;
-      stub2.returns(Superposition.alive<StatsValues, StatsValueError | MySQLError>(values));
+      stub2.returns(Superposition.alive<StatsValues, MySQLError | StatsValueError>(values));
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<StatsItems, StatsItemError | MySQLError> = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems, MySQLError | StatsItemError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -220,10 +220,10 @@ describe('StatsItemQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       statsValueQuery.findByStatsID = stub2;
-      stub2.returns(Superposition.dead<StatsValues, StatsValueError | MySQLError>(new StatsValueError('test failed'), StatsValueError));
+      stub2.returns(Superposition.dead<StatsValues, MySQLError | StatsValueError>(new StatsValueError('test failed'), StatsValueError));
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<StatsItems, StatsItemError | MySQLError> = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems, MySQLError | StatsItemError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -259,10 +259,10 @@ describe('StatsItemQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       statsValueQuery.findByStatsID = stub2;
-      stub2.returns(Superposition.dead<StatsValues, StatsValueError | MySQLError>(new MySQLError('test faied'), MySQLError));
+      stub2.returns(Superposition.dead<StatsValues, MySQLError | StatsValueError>(new MySQLError('test faied'), MySQLError));
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const schrodinger: Schrodinger<StatsItems, StatsItemError | MySQLError> = await statsItemQuery.findByStatsID(statsID).terminate();
+      const schrodinger: Schrodinger<StatsItems, MySQLError | StatsItemError> = await statsItemQuery.findByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

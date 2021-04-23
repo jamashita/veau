@@ -34,7 +34,7 @@ export type DispatchProps = Readonly<{
   saveNewStats(): void;
 }>;
 export type OwnProps = Readonly<{}>;
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = DispatchProps & OwnProps & StateProps;
 type State = Readonly<{}>;
 
 class StatsListImpl extends React.Component<Props & WrappedComponentProps, State> {

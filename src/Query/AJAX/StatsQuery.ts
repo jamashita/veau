@@ -20,10 +20,10 @@ export class StatsQuery implements IStatsQuery<FetchError>, IFetchQuery {
     this.ajax = ajax;
   }
 
-  public findByStatsID(statsID: StatsID): Superposition<Stats, StatsError | NoSuchElementError | FetchError> {
+  public findByStatsID(statsID: StatsID): Superposition<Stats, FetchError | NoSuchElementError | StatsError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
       return this.ajax.get(`/api/stats/${statsID.get().get()}`);
-    }, FetchError).map<Stats, StatsError | NoSuchElementError | FetchError>(({ status, body }: FetchResponse<'json'>) => {
+    }, FetchError).map<Stats, FetchError | NoSuchElementError | StatsError>(({ status, body }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
           if (Stats.validate(body)) {

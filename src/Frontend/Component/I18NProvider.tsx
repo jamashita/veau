@@ -11,7 +11,7 @@ export type StateProps = Readonly<{
 }>;
 export type DispatchProps = Readonly<{}>;
 export type OwnProps = Readonly<{}>;
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = DispatchProps & OwnProps & StateProps;
 type State = Readonly<{}>;
 
 export class I18NProvider extends React.Component<Props, State> {
