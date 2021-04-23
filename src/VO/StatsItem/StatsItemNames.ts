@@ -1,9 +1,8 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
-import { JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator, JSONable, Mapper, Nullable } from '@jamashita/anden-type';
+import { Collection, ImmutableSequence, Quantity, Sequence } from '@jamashita/lluvia-collection';
 import { StatsItemName } from './StatsItemName';
 
-export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemName, 'StatsItemNames'>
+export class StatsItemNames extends Quantity<number, StatsItemName, 'StatsItemNames'>
   implements JSONable<Array<string>> {
   public readonly noun: 'StatsItemNames' = 'StatsItemNames';
   private readonly names: Sequence<StatsItemName>;
@@ -18,7 +17,7 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
   }
 
   public static ofArray(names: ReadonlyArray<StatsItemName>): StatsItemNames {
-    return StatsItemNames.of(ImmutableSequence.of<StatsItemName>(names));
+    return StatsItemNames.of(ImmutableSequence.ofArray<StatsItemName>(names));
   }
 
   public static ofSpread(...names: Array<StatsItemName>): StatsItemNames {
@@ -46,7 +45,7 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
     return this.names.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<number, StatsItemName>): void {
+  public forEach(iteration: Enumerator<number, StatsItemName>): void {
     this.names.forEach(iteration);
   }
 
@@ -72,10 +71,6 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
     return this.names.toString();
   }
 
-  public [Symbol.iterator](): Iterator<Pair<number, StatsItemName>> {
-    return this.names[Symbol.iterator]();
-  }
-
   public every(predicate: BinaryPredicate<StatsItemName, number>): boolean {
     return this.names.every(predicate);
   }
@@ -88,15 +83,19 @@ export class StatsItemNames extends Quantity<StatsItemNames, number, StatsItemNa
     return this.names.values();
   }
 
-  public map<U>(mapper: Mapper<StatsItemName, U>): Array<U> {
-    const array: Array<U> = [];
-    let i: number = 0;
+  public filter(predicate: BinaryPredicate<StatsItemName, number>): Collection<number, StatsItemName> {
+    return this.names.filter(predicate);
+  }
 
-    this.forEach((item: StatsItemName) => {
-      array.push(mapper(item, i));
-      i++;
-    });
+  public find(predicate: BinaryPredicate<StatsItemName, number>): Nullable<StatsItemName> {
+    return this.names.find(predicate);
+  }
 
-    return array;
+  public iterator(): Iterator<[number, StatsItemName]> {
+    return this.names.iterator();
+  }
+
+  public map<W>(mapper: Mapper<StatsItemName, W>): Collection<number, W> {
+    return this.names.map<W>(mapper);
   }
 }

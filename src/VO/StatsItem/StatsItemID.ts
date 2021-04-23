@@ -1,8 +1,8 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { UUID, UUIDError } from '@jamashita/publikum-uuid';
+import { ValueObject } from '@jamashita/anden-object';
+import { UUID, UUIDError } from '@jamashita/anden-uuid';
 import { StatsItemError } from './Error/StatsItemError';
 
-export class StatsItemID extends ValueObject<StatsItemID, 'StatsItemID'> {
+export class StatsItemID extends ValueObject<'StatsItemID'> {
   public readonly noun: 'StatsItemID' = 'StatsItemID';
   private readonly uuid: UUID;
 
