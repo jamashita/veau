@@ -1,10 +1,10 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Zeit, ZeitError } from '@jamashita/publikum-zeit';
+import { ValueObject } from '@jamashita/anden-object';
+import { Zeit, ZeitError } from '@jamashita/anden-zeit';
 import { StatsError } from './Error/StatsError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 
-export class UpdatedAt extends ValueObject<UpdatedAt, 'UpdatedAt'> {
+export class UpdatedAt extends ValueObject<'UpdatedAt'> {
   public readonly noun: 'UpdatedAt' = 'UpdatedAt';
   private readonly at: Zeit;
 

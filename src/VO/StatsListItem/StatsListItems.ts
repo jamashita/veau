@@ -1,5 +1,5 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/publikum-collection';
-import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
+import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/lluvia-collection';
+import { BinaryPredicate, Mapper, Nullable } from '@jamashita/anden-type';
 import { StatsListItem } from './StatsListItem';
 
 export class StatsListItems extends Quantity<StatsListItems, number, StatsListItem, 'StatsListItems'> {

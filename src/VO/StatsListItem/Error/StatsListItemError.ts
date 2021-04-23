@@ -1,4 +1,4 @@
-import { RuntimeError } from '@jamashita/publikum-error';
+import { RuntimeError } from '@jamashita/anden-error';
 
 export class StatsListItemError extends RuntimeError<'StatsListItemError'> {
   public readonly noun: 'StatsListItemError' = 'StatsListItemError';

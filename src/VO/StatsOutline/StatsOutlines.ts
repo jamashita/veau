@@ -1,22 +1,21 @@
-import { CancellableEnumerator, ImmutableProject, Pair, Project, Quantity } from '@jamashita/publikum-collection';
-import { Cloneable, JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Cloneable, Enumerator, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { Collection, ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
 import { StatsID } from './StatsID';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
-export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline, 'StatsOutlines'>
+export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutlines'>
   implements Cloneable<StatsOutlines>, JSONable<Array<StatsOutlineJSON>> {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
-  private readonly outlines: Project<StatsID, StatsOutline>;
+  private readonly outlines: ImmutableProject<StatsID, StatsOutline>;
 
   private static readonly EMPTY: StatsOutlines = new StatsOutlines(ImmutableProject.empty<StatsID, StatsOutline>());
 
-  public static of(outlines: Project<StatsID, StatsOutline>): StatsOutlines {
+  public static of(outlines: ReadonlyProject<StatsID, StatsOutline>): StatsOutlines {
     if (outlines.isEmpty()) {
       return StatsOutlines.empty();
     }
 
-    return new StatsOutlines(outlines);
+    return new StatsOutlines(ImmutableProject.of<StatsID, StatsOutline>(outlines));
   }
 
   public static ofArray(outlines: ReadonlyArray<StatsOutline>): StatsOutlines {
@@ -64,10 +63,10 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
   }
 
   private static ofMap(outlines: ReadonlyMap<StatsID, StatsOutline>): StatsOutlines {
-    return StatsOutlines.of(ImmutableProject.of<StatsID, StatsOutline>(outlines));
+    return StatsOutlines.of(ImmutableProject.ofMap<StatsID, StatsOutline>(outlines));
   }
 
-  protected constructor(outlines: Project<StatsID, StatsOutline>) {
+  protected constructor(outlines: ImmutableProject<StatsID, StatsOutline>) {
     super();
     this.outlines = outlines;
   }
@@ -84,7 +83,7 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
     return this.outlines.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<StatsID, StatsOutline>): void {
+  public forEach(iteration: Enumerator<StatsID, StatsOutline>): void {
     this.outlines.forEach(iteration);
   }
 
@@ -122,10 +121,6 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
     return this.outlines.toString();
   }
 
-  public [Symbol.iterator](): Iterator<Pair<StatsID, StatsOutline>> {
-    return this.outlines[Symbol.iterator]();
-  }
-
   public every(predicate: BinaryPredicate<StatsOutline, StatsID>): boolean {
     return this.outlines.every(predicate);
   }
@@ -138,15 +133,19 @@ export class StatsOutlines extends Quantity<StatsOutlines, StatsID, StatsOutline
     return this.outlines.values();
   }
 
-  public map<U>(mapper: Mapper<StatsOutline, U>): Array<U> {
-    const array: Array<U> = [];
-    let i: number = 0;
+  public filter(predicate: BinaryPredicate<StatsOutline, StatsID>): Collection<StatsID, StatsOutline> {
+    return this.outlines.filter(predicate);
+  }
 
-    this.forEach((outline: StatsOutline) => {
-      array.push(mapper(outline, i));
-      i++;
-    });
+  public find(predicate: BinaryPredicate<StatsOutline, StatsID>): Nullable<StatsOutline> {
+    return this.outlines.find(predicate);
+  }
 
-    return array;
+  public iterator(): Iterator<[StatsID, StatsOutline]> {
+    return this.outlines.iterator();
+  }
+
+  public map<W>(mapper: Mapper<StatsOutline, W>): Collection<StatsID, W> {
+    return this.outlines.map<W>(mapper);
   }
 }

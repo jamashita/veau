@@ -1,8 +1,8 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/anden-object';
 
 const EMPTY_UNIT: string = '';
 
-export class StatsUnit extends ValueObject<StatsUnit, 'StatsUnit'> {
+export class StatsUnit extends ValueObject<'StatsUnit'> {
   public readonly noun: 'StatsUnit' = 'StatsUnit';
   private readonly unit: string;
 

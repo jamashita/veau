@@ -1,5 +1,5 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind, Nullable } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { Kind, Nullable } from '@jamashita/anden-type';
 import { Language } from '../Language/Language';
 import { Locale } from '../Locale/Locale';
 import { Region } from '../Region/Region';
@@ -8,7 +8,7 @@ import { Term } from '../Term/Term';
 import { Terms } from '../Term/Terms';
 import { StatsListItemError } from './Error/StatsListItemError';
 
-export class StatsListItem extends ValueObject<StatsListItem, 'StatsListItem'> {
+export class StatsListItem extends ValueObject<'StatsListItem'> {
   public readonly noun: 'StatsListItem' = 'StatsListItem';
   private readonly outline: StatsOutline;
   private readonly language: Language;

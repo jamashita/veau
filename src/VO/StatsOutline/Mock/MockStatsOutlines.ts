@@ -1,5 +1,4 @@
-import { ImmutableProject, Project } from '@jamashita/publikum-collection';
-
+import { ImmutableProject, Project } from '@jamashita/lluvia-collection';
 import { StatsID } from '../StatsID';
 import { StatsOutline } from '../StatsOutline';
 import { StatsOutlines } from '../StatsOutlines';

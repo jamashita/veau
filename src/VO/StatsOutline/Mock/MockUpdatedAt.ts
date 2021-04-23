@@ -1,5 +1,4 @@
-import { Zeit } from '@jamashita/publikum-zeit';
-
+import { Zeit } from '@jamashita/anden-zeit';
 import { UpdatedAt } from '../UpdatedAt';
 
 type UpdatedAtArgs = Partial<Readonly<{

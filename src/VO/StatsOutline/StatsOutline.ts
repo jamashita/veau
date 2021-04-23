@@ -1,6 +1,5 @@
-import { JSONable } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/anden-object';
+import { JSONable, Kind } from '@jamashita/anden-type';
 import { LanguageError } from '../Language/Error/LanguageError';
 import { LanguageID } from '../Language/LanguageID';
 import { RegionError } from '../Region/Error/RegionError';
@@ -34,7 +33,7 @@ export type StatsOutlineRow = Readonly<{
   updatedAt: string;
 }>;
 
-export class StatsOutline extends ValueObject<StatsOutline, 'StatsOutline'> implements JSONable<StatsOutlineJSON> {
+export class StatsOutline extends ValueObject<'StatsOutline'> implements JSONable<StatsOutlineJSON> {
   public readonly noun: 'StatsOutline' = 'StatsOutline';
   private readonly statsID: StatsID;
   private readonly languageID: LanguageID;

@@ -1,5 +1,4 @@
-import { ImmutableSequence } from '@jamashita/publikum-collection';
-
+import { ImmutableSequence } from '@jamashita/lluvia-collection';
 import { StatsListItem } from '../StatsListItem';
 import { StatsListItems } from '../StatsListItems';
 
