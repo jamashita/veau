@@ -1,4 +1,4 @@
-import { UUID } from '@jamashita/publikum-uuid';
+import { UUID } from '@jamashita/anden-uuid';
 import { Password } from '../../EntranceInformation/Password';
 import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';

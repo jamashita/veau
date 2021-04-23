@@ -1,5 +1,5 @@
-import { ImmutableSequence, MockSequence } from '@jamashita/publikum-collection';
-import { Nullable } from '@jamashita/publikum-type';
+import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
+import { Nullable } from '@jamashita/anden-type';
 import sinon, { SinonSpy } from 'sinon';
 import { Term } from '../../Term/Term';
 import { AsOf } from '../AsOf';

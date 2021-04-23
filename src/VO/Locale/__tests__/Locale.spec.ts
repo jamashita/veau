@@ -1,5 +1,5 @@
-import { Nullable } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { Nullable } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
 import { ISO639 } from '../../Language/ISO639';
 import { Language, LanguageJSON } from '../../Language/Language';
 import { LanguageID } from '../../Language/LanguageID';
@@ -64,21 +64,30 @@ describe('Locale', () => {
 
       expect(locale.getLanguages().size()).toBe(languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
-        const language: Nullable<Language> = locale.getLanguages().get(LanguageID.ofString(languages[i].languageID));
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const language: Nullable<Language> = locale.getLanguages().get(LanguageID.ofString(languages[i]!.languageID));
 
-        expect(language?.getLanguageID().get().get()).toBe(languages[i].languageID);
-        expect(language?.getName().get()).toBe(languages[i].name);
-        expect(language?.getEnglishName().get()).toBe(languages[i].englishName);
-        expect(language?.getISO639().get()).toBe(languages[i].iso639);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getLanguageID().get().get()).toBe(languages[i]!.languageID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getName().get()).toBe(languages[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getEnglishName().get()).toBe(languages[i]!.englishName);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getISO639().get()).toBe(languages[i]!.iso639);
       }
 
       expect(locale.getRegions().size()).toBe(regions.length);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
-        const region: Nullable<Region> = locale.getRegions().get(RegionID.ofString(regions[i].regionID));
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const region: Nullable<Region> = locale.getRegions().get(RegionID.ofString(regions[i]!.regionID));
 
-        expect(region?.getRegionID().get().get()).toBe(regions[i].regionID);
-        expect(region?.getName().get()).toBe(regions[i].name);
-        expect(region?.getISO3166().get()).toBe(regions[i].iso3166);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getRegionID().get().get()).toBe(regions[i]!.regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getName().get()).toBe(regions[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getISO3166().get()).toBe(regions[i]!.iso3166);
       }
     });
 

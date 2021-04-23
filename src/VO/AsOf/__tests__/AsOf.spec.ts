@@ -1,4 +1,4 @@
-import { Nullable } from '@jamashita/publikum-type';
+import { Nullable } from '@jamashita/anden-type';
 import { MockTerm } from '../../Term/Mock/MockTerm';
 import { Term } from '../../Term/Term';
 import { Terms } from '../../Term/Terms';

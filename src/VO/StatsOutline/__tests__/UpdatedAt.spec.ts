@@ -1,4 +1,4 @@
-import { Zeit } from '@jamashita/publikum-zeit';
+import { Zeit } from '@jamashita/anden-zeit';
 import { StatsError } from '../Error/StatsError';
 import { UpdatedAt } from '../UpdatedAt';
 

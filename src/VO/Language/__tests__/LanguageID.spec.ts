@@ -1,4 +1,4 @@
-import { UUID } from '@jamashita/publikum-uuid';
+import { UUID } from '@jamashita/anden-uuid';
 import { LanguageError } from '../Error/LanguageError';
 import { LanguageID } from '../LanguageID';
 

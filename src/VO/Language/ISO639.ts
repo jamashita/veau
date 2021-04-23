@@ -2,7 +2,7 @@ import { ValueObject } from '@jamashita/anden-object';
 
 const EMPTY_CODE: string = '';
 
-export class ISO639 extends ValueObject<ISO639, 'ISO639'> {
+export class ISO639 extends ValueObject<'ISO639'> {
   public readonly noun: 'ISO639' = 'ISO639';
   private readonly iso639: string;
   private static readonly EMPTY: ISO639 = new ISO639(EMPTY_CODE);

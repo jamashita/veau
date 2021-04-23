@@ -1,6 +1,5 @@
-import { JSONable } from '@jamashita/anden-type';
 import { ValueObject } from '@jamashita/anden-object';
-import { Kind } from '@jamashita/anden-type';
+import { JSONable, Kind } from '@jamashita/anden-type';
 import { ISO3166 } from './ISO3166';
 import { RegionID } from './RegionID';
 import { RegionName } from './RegionName';
@@ -16,7 +15,7 @@ export type RegionRow = Readonly<{
   iso3166: string;
 }>;
 
-export class Region extends ValueObject<Region, 'Region'> implements JSONable<RegionJSON> {
+export class Region extends ValueObject<'Region'> implements JSONable<RegionJSON> {
   public readonly noun: 'Region' = 'Region';
   private readonly regionID: RegionID;
   private readonly name: RegionName;

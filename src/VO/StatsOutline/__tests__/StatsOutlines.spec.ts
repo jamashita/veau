@@ -1,6 +1,6 @@
-import { ImmutableProject, MockProject } from '@jamashita/publikum-collection';
-import { Nullable } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { Nullable } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
+import { ImmutableProject, MockProject } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { LanguageID } from '../../Language/LanguageID';
 import { RegionID } from '../../Region/RegionID';
@@ -33,7 +33,8 @@ describe('StatsOutlines', () => {
 
       expect(outlines.size()).toBe(array.length);
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(array[i].getStatsID())).toBe(array[i]);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion®
+        expect(outlines.get(array[i]!.getStatsID())).toBe(array[i]);
       }
     });
   });
@@ -66,15 +67,16 @@ describe('StatsOutlines', () => {
       const outlines: StatsOutlines = StatsOutlines.ofJSON(json);
 
       for (let i: number = 0; i < 2; i++) {
-        const outline: Nullable<StatsOutline> = outlines.get(StatsID.ofString(json[i].statsID));
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const outline: Nullable<StatsOutline> = outlines.get(StatsID.ofString(json[i]!.statsID));
 
-        expect(outline?.getStatsID().get().get()).toBe(json[i].statsID);
-        expect(outline?.getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(outline?.getRegionID().get().get()).toBe(json[i].regionID);
-        expect(outline?.getTermID().get().get()).toBe(json[i].termID);
-        expect(outline?.getName().get()).toBe(json[i].name);
-        expect(outline?.getUnit().get()).toBe(json[i].unit);
-        expect(outline?.getUpdatedAt().toString()).toBe(json[i].updatedAt);
+        expect(outline?.getStatsID().get().get()).toBe(json[i]?.statsID);
+        expect(outline?.getLanguageID().get().get()).toBe(json[i]?.languageID);
+        expect(outline?.getRegionID().get().get()).toBe(json[i]?.regionID);
+        expect(outline?.getTermID().get().get()).toBe(json[i]?.termID);
+        expect(outline?.getName().get()).toBe(json[i]?.name);
+        expect(outline?.getUnit().get()).toBe(json[i]?.unit);
+        expect(outline?.getUpdatedAt().toString()).toBe(json[i]?.updatedAt);
       }
     });
 
@@ -136,15 +138,16 @@ describe('StatsOutlines', () => {
       const outlines: StatsOutlines = StatsOutlines.ofRow(rows);
 
       for (let i: number = 0; i < 2; i++) {
-        const outline: Nullable<StatsOutline> = outlines.get(StatsID.ofString(rows[i].statsID));
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const outline: Nullable<StatsOutline> = outlines.get(StatsID.ofString(rows[i]!.statsID));
 
-        expect(outline?.getStatsID().get().get()).toBe(rows[i].statsID);
-        expect(outline?.getLanguageID().get().get()).toBe(rows[i].languageID);
-        expect(outline?.getRegionID().get().get()).toBe(rows[i].regionID);
-        expect(outline?.getTermID().get().get()).toBe(rows[i].termID);
-        expect(outline?.getName().get()).toBe(rows[i].name);
-        expect(outline?.getUnit().get()).toBe(rows[i].unit);
-        expect(outline?.getUpdatedAt().toString()).toBe(rows[i].updatedAt);
+        expect(outline?.getStatsID().get().get()).toBe(rows[i]?.statsID);
+        expect(outline?.getLanguageID().get().get()).toBe(rows[i]?.languageID);
+        expect(outline?.getRegionID().get().get()).toBe(rows[i]?.regionID);
+        expect(outline?.getTermID().get().get()).toBe(rows[i]?.termID);
+        expect(outline?.getName().get()).toBe(rows[i]?.name);
+        expect(outline?.getUnit().get()).toBe(rows[i]?.unit);
+        expect(outline?.getUpdatedAt().toString()).toBe(rows[i]?.updatedAt);
       }
     });
 
@@ -194,7 +197,8 @@ describe('StatsOutlines', () => {
 
       expect(statsOutlines.size()).toBe(outlines.length);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
-        expect(statsOutlines.get(outlines[i].getStatsID())).toBe(outlines[i]);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(statsOutlines.get(outlines[i]!.getStatsID())).toBe(outlines[i]);
       }
     });
   });
@@ -287,10 +291,10 @@ describe('StatsOutlines', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.get = spy;
-
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      // @ts-expect-error
+      statsOutlines.outlines.get = spy;
 
       statsOutlines.get(new MockStatsID());
 
@@ -315,10 +319,10 @@ describe('StatsOutlines', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.contains = spy;
-
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      // @ts-expect-error
+      statsOutlines.outlines.contains = spy;
 
       statsOutlines.contains(outline1);
 
@@ -399,10 +403,10 @@ describe('StatsOutlines', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.forEach = spy;
-
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      // @ts-expect-error
+      statsOutlines.outlines.forEach = spy;
 
       statsOutlines.forEach(() => {
         // NOOP
@@ -430,7 +434,7 @@ describe('StatsOutlines', () => {
 
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
-      const arr: Array<StatsID> = statsOutlines.map<StatsID>((outline: StatsOutline) => {
+      const arr: Array<StatsID> = [...statsOutlines.values()].map<StatsID>((outline: StatsOutline) => {
         return outline.getStatsID();
       });
 
@@ -466,10 +470,10 @@ describe('StatsOutlines', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.equals = spy;
-
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      // @ts-expect-error
+      statsOutlines.outlines.equals = spy;
 
       statsOutlines.equals(new MockStatsOutlines());
 
@@ -489,9 +493,10 @@ describe('StatsOutlines', () => {
       expect(outlines.equals(duplicated)).toBe(true);
       expect(outlines.size()).toBe(duplicated.size());
       for (let i: number = 0; i < outlines.size(); i++) {
-        const statsID: StatsID = array[i].getStatsID();
-        const o: Nullable<StatsOutline> = outlines.get(statsID);
-        const d: Nullable<StatsOutline> = duplicated.get(statsID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const o: Nullable<StatsOutline> = outlines.get(array[i]!.getStatsID());
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const d: Nullable<StatsOutline> = duplicated.get(array[i]!.getStatsID());
 
         expect(o).not.toBeNull();
         expect(d).not.toBeNull();
@@ -581,10 +586,10 @@ describe('StatsOutlines', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.toString = spy;
-
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      // @ts-expect-error
+      statsOutlines.outlines.toString = spy;
 
       statsOutlines.toString();
 
@@ -613,8 +618,8 @@ describe('StatsOutlines', () => {
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
       let i: number = 0;
 
-      for (const pair of statsOutlines) {
-        expect(pair.getValue()).toBe(arr[i]);
+      for (const [, v] of statsOutlines) {
+        expect(v).toBe(arr[i]);
         i++;
       }
     });
@@ -637,10 +642,10 @@ describe('StatsOutlines', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.every = spy;
-
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      // @ts-expect-error
+      statsOutlines.outlines.every = spy;
 
       statsOutlines.every(() => {
         return true;
@@ -667,10 +672,10 @@ describe('StatsOutlines', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.some = spy;
-
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      // @ts-expect-error
+      statsOutlines.outlines.some = spy;
 
       statsOutlines.some(() => {
         return true;
@@ -697,12 +702,72 @@ describe('StatsOutlines', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.values = spy;
-
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
+      // @ts-expect-error
+      statsOutlines.outlines.values = spy;
+
       statsOutlines.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('filter', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      // @ts-expect-error
+      statsOutlines.outlines.filter = spy;
+
+      statsOutlines.filter(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('find', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
+        new Map<MockStatsID, MockStatsOutline>([
+          [outline1.getStatsID(), outline1],
+          [outline2.getStatsID(), outline2],
+          [outline3.getStatsID(), outline3]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      // @ts-expect-error
+      statsOutlines.outlines.find = spy;
+
+      statsOutlines.find(() => {
+        return true;
+      });
 
       expect(spy.called).toBe(true);
     });

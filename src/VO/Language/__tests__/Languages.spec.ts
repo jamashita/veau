@@ -1,6 +1,6 @@
-import { ImmutableProject, MockProject } from '@jamashita/publikum-collection';
-import { Nullable } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { Nullable } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
+import { ImmutableProject, MockProject } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
@@ -32,8 +32,8 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(array.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        // eslint-disable-next-line no-await-in-loop
-        expect(languages.get(array[i].getLanguageID())).toBe(array[i]);
+        // eslint-disable-next-line no-await-in-loop, @typescript-eslint/no-non-null-assertion
+        expect(languages.get(array[i]!.getLanguageID())).toBe(array[i]);
       }
     });
   });
@@ -63,12 +63,17 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        const language: Nullable<Language> = languages.get(LanguageID.ofString(json[i].languageID));
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const language: Nullable<Language> = languages.get(LanguageID.ofString(json[i]!.languageID));
 
-        expect(language?.getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(language?.getName().get()).toBe(json[i].name);
-        expect(language?.getEnglishName().get()).toBe(json[i].englishName);
-        expect(language?.getISO639().get()).toBe(json[i].iso639);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getLanguageID().get().get()).toBe(json[i]!.languageID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getName().get()).toBe(json[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getEnglishName().get()).toBe(json[i]!.englishName);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getISO639().get()).toBe(json[i]!.iso639);
       }
     });
   });
@@ -98,13 +103,17 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(rows.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        // eslint-disable-next-line no-await-in-loop
-        const language: Nullable<Language> = languages.get(LanguageID.ofString(rows[i].languageID));
+        // eslint-disable-next-line no-await-in-loop, @typescript-eslint/no-non-null-assertion
+        const language: Nullable<Language> = languages.get(LanguageID.ofString(rows[i]!.languageID));
 
-        expect(language?.getLanguageID().get().get()).toBe(rows[i].languageID);
-        expect(language?.getName().get()).toBe(rows[i].name);
-        expect(language?.getEnglishName().get()).toBe(rows[i].englishName);
-        expect(language?.getISO639().get()).toBe(rows[i].iso639);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getLanguageID().get().get()).toBe(rows[i]!.languageID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getName().get()).toBe(rows[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getEnglishName().get()).toBe(rows[i]!.englishName);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getISO639().get()).toBe(rows[i]!.iso639);
       }
     });
   });
@@ -127,7 +136,8 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(langs.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(langs[i].getLanguageID())).toBe(langs[i]);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(languages.get(langs[i]!.getLanguageID())).toBe(langs[i]);
       }
     });
   });
@@ -152,7 +162,8 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(langs.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(langs[i].getLanguageID())).toBe(langs[i]);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(languages.get(langs[i]!.getLanguageID())).toBe(langs[i]);
       }
     });
   });
@@ -336,7 +347,7 @@ describe('Languages', () => {
 
       const languages: Languages = Languages.of(project);
 
-      const arr: Array<ISO639> = languages.map<ISO639>((language: Language) => {
+      const arr: Array<ISO639> = [...languages.values()].map<ISO639>((language: Language) => {
         return language.getISO639();
       });
 
@@ -533,8 +544,8 @@ describe('Languages', () => {
       const languages: Languages = Languages.of(project);
       let i: number = 0;
 
-      for (const pair of languages) {
-        expect(pair.getValue()).toBe(arr[i]);
+      for (const [, v] of languages) {
+        expect(v).toBe(arr[i]);
         i++;
       }
     });

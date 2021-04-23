@@ -2,7 +2,7 @@ import { ValueObject } from '@jamashita/anden-object';
 
 const EMPTY_NAME: string = '';
 
-export class LanguageName extends ValueObject<LanguageName, 'LanguageName'> {
+export class LanguageName extends ValueObject<'LanguageName'> {
   public readonly noun: 'LanguageName' = 'LanguageName';
   private readonly name: string;
   private static readonly EMPTY: LanguageName = new LanguageName(EMPTY_NAME);

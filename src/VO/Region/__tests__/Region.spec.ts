@@ -1,5 +1,4 @@
-import { UUID } from '@jamashita/publikum-uuid';
-
+import { UUID } from '@jamashita/anden-uuid';
 import { RegionError } from '../Error/RegionError';
 import { ISO3166 } from '../ISO3166';
 import { MockISO3166 } from '../Mock/MockISO3166';

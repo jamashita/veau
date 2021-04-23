@@ -1,6 +1,6 @@
-import { ImmutableProject, MockProject } from '@jamashita/publikum-collection';
-import { Nullable } from '@jamashita/publikum-type';
-import { UUID } from '@jamashita/publikum-uuid';
+import { Nullable } from '@jamashita/anden-type';
+import { UUID } from '@jamashita/anden-uuid';
+import { ImmutableProject, MockProject } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { ISO3166 } from '../ISO3166';
 import { MockISO3166 } from '../Mock/MockISO3166';
@@ -32,7 +32,8 @@ describe('Regions', () => {
 
       expect(regions.size()).toBe(array.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        const mock: MockRegion = array[i];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const mock: MockRegion = array[i]!;
 
         expect(regions.get(mock.getRegionID())).toBe(mock);
       }
@@ -63,12 +64,16 @@ describe('Regions', () => {
 
       expect(regions.size()).toBe(json.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        const regionID: RegionID = RegionID.ofString(json[i].regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const regionID: RegionID = RegionID.ofString(json[i]!.regionID);
         const region: Nullable<Region> = regions.get(regionID);
 
-        expect(region?.getRegionID().get().get()).toBe(json[i].regionID);
-        expect(region?.getName().get()).toBe(json[i].name);
-        expect(region?.getISO3166().get()).toBe(json[i].iso3166);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getRegionID().get().get()).toBe(json[i]!.regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getName().get()).toBe(json[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getISO3166().get()).toBe(json[i]!.iso3166);
       }
     });
   });
@@ -97,12 +102,16 @@ describe('Regions', () => {
 
       expect(regions.size()).toBe(rows.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        const regionID: RegionID = RegionID.ofString(rows[i].regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const regionID: RegionID = RegionID.ofString(rows[i]!.regionID);
         const region: Nullable<Region> = regions.get(regionID);
 
-        expect(region?.getRegionID().get().get()).toBe(rows[i].regionID);
-        expect(region?.getName().get()).toBe(rows[i].name);
-        expect(region?.getISO3166().get()).toBe(rows[i].iso3166);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getRegionID().get().get()).toBe(rows[i]!.regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getName().get()).toBe(rows[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getISO3166().get()).toBe(rows[i]!.iso3166);
       }
     });
   });
@@ -125,7 +134,8 @@ describe('Regions', () => {
 
       expect(regions.size()).toBe(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(regs[i].getRegionID())).toBe(regs[i]);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(regions.get(regs[i]!.getRegionID())).toBe(regs[i]);
       }
     });
   });
@@ -150,7 +160,8 @@ describe('Regions', () => {
 
       expect(regions.size()).toBe(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(regs[i].getRegionID())).toBe(regs[i]);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(regions.get(regs[i]!.getRegionID())).toBe(regs[i]);
       }
     });
   });
@@ -333,7 +344,7 @@ describe('Regions', () => {
 
       const regions: Regions = Regions.of(project);
 
-      const arr: Array<ISO3166> = regions.map<ISO3166>((region: Region) => {
+      const arr: Array<ISO3166> = [...regions.values()].map<ISO3166>((region: Region) => {
         return region.getISO3166();
       });
 
@@ -524,8 +535,8 @@ describe('Regions', () => {
       const regions: Regions = Regions.of(project);
       let i: number = 0;
 
-      for (const pair of regions) {
-        expect(pair.getValue()).toBe(arr[i]);
+      for (const [, v] of regions) {
+        expect(v).toBe(arr[i]);
         i++;
       }
     });

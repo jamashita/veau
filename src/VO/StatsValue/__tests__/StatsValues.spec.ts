@@ -1,4 +1,4 @@
-import { ImmutableProject } from '@jamashita/publikum-collection';
+import { ImmutableProject } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';

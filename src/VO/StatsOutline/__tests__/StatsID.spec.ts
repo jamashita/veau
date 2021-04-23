@@ -1,4 +1,4 @@
-import { UUID } from '@jamashita/publikum-uuid';
+import { UUID } from '@jamashita/anden-uuid';
 import { StatsError } from '../Error/StatsError';
 import { StatsID } from '../StatsID';
 
