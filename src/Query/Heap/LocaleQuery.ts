@@ -2,7 +2,7 @@ import { HeapError, IHeap } from '@jamashita/catacombe-heap';
 import { Superposition } from '@jamashita/genitore-superposition';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
-import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';
+import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauHeap';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../VO/Locale/Locale';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';

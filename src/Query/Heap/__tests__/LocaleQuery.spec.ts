@@ -1,11 +1,11 @@
-import { HeapError, MockHeap } from '@jamashita/catacombe-heap';
 import { DataSourceError } from '@jamashita/anden-error';
+import { HeapError, MockHeap } from '@jamashita/catacombe-heap';
 import { Schrodinger } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
+import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauHeap';
 import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../../VO/Locale/Locale';
 import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';

@@ -1,8 +1,8 @@
 import { DataSourceError } from '@jamashita/anden-error';
-import { Schrodinger } from '@jamashita/genitore-superposition';
-import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
+import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Schrodinger } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -74,13 +74,20 @@ describe('StatsOutlineQuery', () => {
       expect(schrodinger.isAlive()).toBe(true);
       const statsOutline: StatsOutline = schrodinger.get();
 
-      expect(statsOutline.getStatsID().get().get()).toBe(rows[0].statsID);
-      expect(statsOutline.getLanguageID().get().get()).toBe(rows[0].languageID);
-      expect(statsOutline.getRegionID().get().get()).toBe(rows[0].regionID);
-      expect(statsOutline.getTermID().get().get()).toBe(rows[0].termID);
-      expect(statsOutline.getName().get()).toBe(rows[0].name);
-      expect(statsOutline.getUnit().get()).toBe(rows[0].unit);
-      expect(statsOutline.getUpdatedAt().toString()).toBe(rows[0].updatedAt);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(statsOutline.getStatsID().get().get()).toBe(rows[0]!.statsID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(statsOutline.getLanguageID().get().get()).toBe(rows[0]!.languageID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(statsOutline.getRegionID().get().get()).toBe(rows[0]!.regionID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(statsOutline.getTermID().get().get()).toBe(rows[0]!.termID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(statsOutline.getName().get()).toBe(rows[0]!.name);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(statsOutline.getUnit().get()).toBe(rows[0]!.unit);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(statsOutline.getUpdatedAt().toString()).toBe(rows[0]!.updatedAt);
     });
 
     it('returns no results', async () => {
@@ -186,15 +193,23 @@ describe('StatsOutlineQuery', () => {
 
       expect(statsOutlines.size()).toBe(2);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
-        const statsOutline: Nullable<StatsOutline> = statsOutlines.get(StatsID.ofString(rows[i].statsID));
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const statsOutline: Nullable<StatsOutline> = statsOutlines.get(StatsID.ofString(rows[i]!.statsID));
 
-        expect(statsOutline?.getStatsID().get().get()).toBe(rows[i].statsID);
-        expect(statsOutline?.getLanguageID().get().get()).toBe(rows[i].languageID);
-        expect(statsOutline?.getRegionID().get().get()).toBe(rows[i].regionID);
-        expect(statsOutline?.getTermID().get().get()).toBe(rows[i].termID);
-        expect(statsOutline?.getName().get()).toBe(rows[i].name);
-        expect(statsOutline?.getUnit().get()).toBe(rows[i].unit);
-        expect(statsOutline?.getUpdatedAt().toString()).toBe(rows[i].updatedAt);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(statsOutline?.getStatsID().get().get()).toBe(rows[i]!.statsID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(statsOutline?.getLanguageID().get().get()).toBe(rows[i]!.languageID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(statsOutline?.getRegionID().get().get()).toBe(rows[i]!.regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(statsOutline?.getTermID().get().get()).toBe(rows[i]!.termID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(statsOutline?.getName().get()).toBe(rows[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(statsOutline?.getUnit().get()).toBe(rows[i]!.unit);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(statsOutline?.getUpdatedAt().toString()).toBe(rows[i]!.updatedAt);
       }
     });
 

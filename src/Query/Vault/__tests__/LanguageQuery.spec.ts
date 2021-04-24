@@ -1,5 +1,5 @@
-import { FetchError } from '@jamashita/catacombe-fetch';
 import { DataSourceError } from '@jamashita/anden-error';
+import { FetchError } from '@jamashita/catacombe-fetch';
 import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
@@ -57,7 +57,7 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 500), FetchError));
+      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed'), FetchError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Languages, DataSourceError | LanguageError> = await languageQuery.all().terminate();
@@ -106,7 +106,7 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, DataSourceError>(new FetchError('test failed', 500), FetchError));
+      stub.returns(Superposition.dead<Locale, DataSourceError>(new FetchError('test failed'), FetchError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.find(languageID).terminate();
@@ -201,7 +201,7 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, DataSourceError>(new FetchError('test failed', 500), FetchError));
+      stub.returns(Superposition.dead<Locale, DataSourceError>(new FetchError('test failed'), FetchError));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();

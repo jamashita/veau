@@ -1,5 +1,5 @@
-import { FetchError } from '@jamashita/catacombe-fetch';
 import { DataSourceError } from '@jamashita/anden-error';
+import { FetchError } from '@jamashita/catacombe-fetch';
 import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
@@ -57,7 +57,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 500), FetchError));
+      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed'), FetchError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Regions, DataSourceError | RegionError> = await regionQuery.all().terminate();
@@ -106,7 +106,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 100), FetchError));
+      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed'), FetchError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.find(regionID).terminate();
@@ -201,7 +201,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;
-      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed', 100), FetchError));
+      stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed'), FetchError));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
       const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();

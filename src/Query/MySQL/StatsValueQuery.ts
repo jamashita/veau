@@ -1,7 +1,7 @@
-import { ImmutableProject, MutableProject, MutableSequence, Project, Sequence } from '@jamashita/lluvia-collection';
-import { Chrono, Superposition } from '@jamashita/genitore-superposition';
-import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Kind, Nullable } from '@jamashita/anden-type';
+import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Chrono, Superposition } from '@jamashita/genitore-superposition';
+import { ImmutableProject, MutableProject, MutableSequence, Project, Sequence } from '@jamashita/lluvia-collection';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
@@ -66,7 +66,7 @@ export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuer
           const sequence: Nullable<MutableSequence<StatsValue>> = p1.get(statsItemID);
 
           if (Kind.isNull(sequence)) {
-            p1.set(statsItemID, MutableSequence.of<StatsValue>([value]));
+            p1.set(statsItemID, MutableSequence.ofArray<StatsValue>([value]));
 
             return;
           }

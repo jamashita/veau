@@ -2,7 +2,7 @@ import { SystemSupportLanguage } from '../VO/System/SystemSupportLanguage';
 
 export class LanguageIdentificationService {
   private static split(language: string): string {
-    return language.split('-')[0];
+    return language.split('-')[0]!;
   }
 
   public static toSupportLanguage(language: string): SystemSupportLanguage {

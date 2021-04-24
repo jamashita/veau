@@ -23,7 +23,10 @@ export class StatsQuery implements IStatsQuery<FetchError>, IFetchQuery {
   public findByStatsID(statsID: StatsID): Superposition<Stats, FetchError | NoSuchElementError | StatsError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
       return this.ajax.get(`/api/stats/${statsID.get().get()}`);
-    }, FetchError).map<Stats, FetchError | NoSuchElementError | StatsError>(({ status, body }: FetchResponse<'json'>) => {
+    }, FetchError).map<Stats, FetchError | NoSuchElementError | StatsError>(({
+      status,
+      body
+    }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
           if (Stats.validate(body)) {
@@ -36,7 +39,7 @@ export class StatsQuery implements IStatsQuery<FetchError>, IFetchQuery {
           throw new NoSuchElementError('NOT FOUND');
         }
         default: {
-          throw new FetchError('UNKNOWN ERROR', status);
+          throw new FetchError('UNKNOWN ERROR');
         }
       }
     }, StatsError, NoSuchElementError);

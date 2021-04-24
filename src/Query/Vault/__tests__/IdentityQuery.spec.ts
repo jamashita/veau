@@ -1,5 +1,5 @@
-import { FetchError } from '@jamashita/catacombe-fetch';
 import { DataSourceError } from '@jamashita/anden-error';
+import { FetchError } from '@jamashita/catacombe-fetch';
 import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
@@ -108,7 +108,7 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.find = stub1;
-      stub1.returns(Superposition.dead<VeauAccount, FetchError>(new FetchError('test failed', 500), FetchError));
+      stub1.returns(Superposition.dead<VeauAccount, FetchError>(new FetchError('test failed'), FetchError));
 
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
@@ -138,7 +138,7 @@ describe('IdentityQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.returns(Superposition.dead<Language, LanguageError>(new LanguageError('test faield'), LanguageError));
+      stub2.returns(Superposition.dead<Language, LanguageError>(new LanguageError('test failed'), LanguageError));
 
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
@@ -171,7 +171,7 @@ describe('IdentityQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.returns(Superposition.dead<Language, FetchError>(new FetchError('test faield', 500), FetchError));
+      stub2.returns(Superposition.dead<Language, FetchError>(new FetchError('test failed'), FetchError));
 
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
@@ -243,7 +243,7 @@ describe('IdentityQuery', () => {
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.returns(Superposition.dead<Region, FetchError>(new FetchError('test failed', 500), FetchError));
+      stub3.returns(Superposition.dead<Region, FetchError>(new FetchError('test failed'), FetchError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
       const schrodinger: Schrodinger<Identity, DataSourceError | IdentityError> = await identityQuery.find().terminate();
@@ -325,7 +325,7 @@ describe('IdentityQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       veauAccountQuery.findByEntranceInfo = stub1;
-      stub1.returns(Superposition.dead<VeauAccount, FetchError>(new FetchError('test failed', 500), FetchError));
+      stub1.returns(Superposition.dead<VeauAccount, FetchError>(new FetchError('test failed'), FetchError));
 
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionQuery: MockRegionQuery = new MockRegionQuery();
@@ -355,7 +355,7 @@ describe('IdentityQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.returns(Superposition.dead<Language, LanguageError>(new LanguageError('test faield'), LanguageError));
+      stub2.returns(Superposition.dead<Language, LanguageError>(new LanguageError('test failed'), LanguageError));
 
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
@@ -388,7 +388,7 @@ describe('IdentityQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       languageQuery.find = stub2;
-      stub2.returns(Superposition.dead<Language, FetchError>(new FetchError('test faield', 500), FetchError));
+      stub2.returns(Superposition.dead<Language, FetchError>(new FetchError('test failed'), FetchError));
 
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub3: SinonStub = sinon.stub();
@@ -460,7 +460,7 @@ describe('IdentityQuery', () => {
       const stub3: SinonStub = sinon.stub();
 
       regionQuery.find = stub3;
-      stub3.returns(Superposition.dead<Region, FetchError>(new FetchError('test failed', 500), FetchError));
+      stub3.returns(Superposition.dead<Region, FetchError>(new FetchError('test failed'), FetchError));
 
       const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
       const schrodinger: Schrodinger<Identity, DataSourceError | IdentityError> = await identityQuery.findByEntranceInfo(new MockEntranceInformation()).terminate();

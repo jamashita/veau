@@ -1,6 +1,6 @@
-import { Schrodinger } from '@jamashita/genitore-superposition';
-import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { UUID } from '@jamashita/anden-uuid';
+import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Schrodinger } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -67,11 +67,16 @@ describe('AccountQuery', () => {
       expect(schrodinger.isAlive()).toBe(true);
       const account: Account = schrodinger.get();
 
-      expect(account.getVeauAccountID().get().get()).toBe(rows[0].veauAccountID);
-      expect(account.getLanguageID().get().get()).toBe(rows[0].languageID);
-      expect(account.getRegionID().get().get()).toBe(rows[0].regionID);
-      expect(account.getAccountName().get()).toBe(rows[0].name);
-      expect(account.getHash().get()).toBe(rows[0].hash);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(account.getVeauAccountID().get().get()).toBe(rows[0]!.veauAccountID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(account.getLanguageID().get().get()).toBe(rows[0]!.languageID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(account.getRegionID().get().get()).toBe(rows[0]!.regionID);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(account.getAccountName().get()).toBe(rows[0]!.name);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(account.getHash().get()).toBe(rows[0]!.hash);
     });
 
     it('returns Dead because MySQL.execute returns 0 results', async () => {

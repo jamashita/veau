@@ -1,6 +1,6 @@
+import { DataSourceError } from '@jamashita/anden-error';
 import { FetchError } from '@jamashita/catacombe-fetch';
 import { HeapError } from '@jamashita/catacombe-heap';
-import { DataSourceError } from '@jamashita/anden-error';
 import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
@@ -169,7 +169,7 @@ describe('StatsListItemQuery', () => {
       const stub1: SinonStub = sinon.stub();
 
       statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.returns(Superposition.dead<StatsOutlines, FetchError>(new FetchError('test failed', 500), FetchError));
+      stub1.returns(Superposition.dead<StatsOutlines, FetchError>(new FetchError('test failed'), FetchError));
 
       const stub2: SinonStub = sinon.stub();
 
@@ -241,7 +241,7 @@ describe('StatsListItemQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       localeQuery.all = stub2;
-      stub2.returns(Superposition.dead<Locale, FetchError>(new FetchError('test faield', 500), FetchError));
+      stub2.returns(Superposition.dead<Locale, FetchError>(new FetchError('test faield'), FetchError));
 
       const stub3: SinonStub = sinon.stub();
 
