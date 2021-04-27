@@ -713,15 +713,6 @@
     eslint-plugin-react "7.23.2"
     eslint-plugin-react-hooks "4.2.0"
 
-"@jamashita/genitore-plan@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@jamashita/genitore-plan/-/genitore-plan-1.1.0.tgz#8e44633fbca8e9a346336dcf827b350f289dc359"
-  integrity sha512-Xial1vLRy96ZcY5/FhC683H9o5on8Ext+y7VOff/Hdqolv7brwpyYXvUtPrEuCmvCuQpMV78w0ZarJVm+ycnVg==
-  dependencies:
-    "@jamashita/anden-error" "1.5.0"
-    "@jamashita/anden-object" "1.6.0"
-    "@jamashita/anden-type" "1.5.0"
-
 "@jamashita/genitore-plan@1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@jamashita/genitore-plan/-/genitore-plan-1.2.0.tgz#e5d8447b050fcc28dfd9c376726fad4da47b8d78"
@@ -731,15 +722,14 @@
     "@jamashita/anden-object" "1.6.0"
     "@jamashita/anden-type" "1.8.0"
 
-"@jamashita/genitore-superposition@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@jamashita/genitore-superposition/-/genitore-superposition-1.2.0.tgz#7a0c8b325bfa934224d438a8fa61ecd7e8660c26"
-  integrity sha512-259jEqgaljHEaGliFv2MnZfx5tm2XlsEP09yx3AmRsFVCcIC3gTMV5zGlYy2kzHzux6ZE8lPIQEt6hsZ33e8IQ==
+"@jamashita/genitore-plan@1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/genitore-plan/-/genitore-plan-1.2.2.tgz#48214652981efdee5bce8b261cb6915bb167ac20"
+  integrity sha512-zfil9BxvolcQdG1qfcKd4QstWNsn112UjApzjFsqT1yhS46ThWAiv2M19BlRducA3T0Q3LA0zKkm9XEiDC/avQ==
   dependencies:
     "@jamashita/anden-error" "1.5.0"
     "@jamashita/anden-object" "1.6.0"
     "@jamashita/anden-type" "1.8.0"
-    "@jamashita/genitore-plan" "1.1.0"
 
 "@jamashita/genitore-superposition@1.4.1":
   version "1.4.1"
@@ -751,16 +741,26 @@
     "@jamashita/anden-type" "1.8.0"
     "@jamashita/genitore-plan" "1.2.0"
 
-"@jamashita/genitore-unscharferelation@1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@jamashita/genitore-unscharferelation/-/genitore-unscharferelation-1.4.1.tgz#f545df27c36eaa7edaadd05180932f9ff8e7b4c1"
-  integrity sha512-EEPICEWj/JnN2y9QUXOGb062+CazTIVN381FTm/+Tlx5T2eEKG5sasM5MeGyQZ+M8uA/3ahQN2crmhgMmWGong==
+"@jamashita/genitore-superposition@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@jamashita/genitore-superposition/-/genitore-superposition-1.5.0.tgz#09f3cf227a73adebaf26792ba488150deb9791f7"
+  integrity sha512-eVWtKm5gsZMx67jlwsDRmsyvsv4m4ll+PNOcsyAJV6ViQFjFAlAd+6wXMO0i09rRAoJ7J0x1Oc0MKgWcPkoNog==
   dependencies:
-    "@jamashita/anden-error" "1.5.0"
-    "@jamashita/anden-object" "1.6.0"
-    "@jamashita/anden-type" "1.8.0"
-    "@jamashita/genitore-plan" "1.2.0"
-    "@jamashita/genitore-superposition" "1.2.0"
+    "@jamashita/anden-error" "1.6.0"
+    "@jamashita/anden-object" "1.7.0"
+    "@jamashita/anden-type" "1.9.0"
+    "@jamashita/genitore-plan" "1.2.2"
+
+"@jamashita/genitore-unscharferelation@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@jamashita/genitore-unscharferelation/-/genitore-unscharferelation-1.5.0.tgz#355da68806832520aca96a2dfeb23ce09db7631c"
+  integrity sha512-FWM7xIN2MVWgtFR5TyjbWyKdbTZBiWerJwy4VlcwI0YekBmCZ15yRWR1S5nuuH4gXdztvBAQEtfq9H8GE/96JQ==
+  dependencies:
+    "@jamashita/anden-error" "1.6.0"
+    "@jamashita/anden-object" "1.7.0"
+    "@jamashita/anden-type" "1.9.0"
+    "@jamashita/genitore-plan" "1.2.2"
+    "@jamashita/genitore-superposition" "1.4.1"
 
 "@jamashita/lluvia-collection@1.3.0":
   version "1.3.0"
@@ -2146,7 +2146,7 @@ acorn@^7.1.1, acorn@^7.4.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
-acorn@^8.0.4, acorn@^8.1.0:
+acorn@^8.1.0, acorn@^8.2.1:
   version "8.2.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.2.1.tgz#0d36af126fb6755095879c1dc6fd7edf7d60a5fb"
   integrity sha512-z716cpm5TX4uzOzILx8PavOE6C6DKshHDw1aQN52M/yNSqE9s5O8SMfyhCCfCJ3HmTL0NkVOi+8a/55T7YB3bg==
@@ -13585,17 +13585,17 @@ webpack-stream@6.1.2:
     vinyl "^2.1.0"
     webpack "^4.26.1"
 
-webpack@5.35.1, webpack@^5:
-  version "5.35.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.35.1.tgz#857670799465c8a5cbb94c4c175d60ac42d18ba3"
-  integrity sha512-uWKYStqJ23+N6/EnMEwUjPSSKUG1tFmcuKhALEh/QXoUxwN8eb3ATNIZB38A+fO6QZ0xfc7Cu7KNV9LXNhDCsw==
+webpack@5.36.0, webpack@^5:
+  version "5.36.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.36.0.tgz#d008da31b721f8fecce88ef2adaf1b16dc2161d1"
+  integrity sha512-HdOhLXClUEwTnzQnzpSG9iL00ej23ojvfnGpF49ba0MkuAT2q+WhQilHFFJHOIVRBqbzakQ1vCWQV2K+QLX0Qw==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.47"
     "@webassemblyjs/ast" "1.11.0"
     "@webassemblyjs/wasm-edit" "1.11.0"
     "@webassemblyjs/wasm-parser" "1.11.0"
-    acorn "^8.0.4"
+    acorn "^8.2.1"
     browserslist "^4.14.5"
     chrome-trace-event "^1.0.2"
     enhanced-resolve "^5.8.0"
