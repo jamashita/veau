@@ -18,8 +18,8 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
 
   public constructor(
     @inject(Type.LocaleFetchQuery) ajaxQuery: ILocaleQuery,
-    @inject(Type.LocaleCacheQuery) cacheQuery: ILocaleQuery,
-    @inject(Type.LocaleCacheCommand) cacheCommand: ILocaleCommand
+    @inject(Type.LocaleHeapQuery) cacheQuery: ILocaleQuery,
+    @inject(Type.LocaleHeapCommand) cacheCommand: ILocaleCommand
   ) {
     this.ajaxQuery = ajaxQuery;
     this.cacheQuery = cacheQuery;

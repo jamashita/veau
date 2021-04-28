@@ -1,6 +1,7 @@
 import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore-superposition';
 import { Nullable } from '@jamashita/anden-type';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { Unscharferelation, UnscharferelationError } from '@jamashita/genitore-unscharferelation';
 import { inject, injectable } from 'inversify';
 import { IRegionCommand } from '../../Command/Interface/IRegionCommand';
 import { Type } from '../../Container/Types';
