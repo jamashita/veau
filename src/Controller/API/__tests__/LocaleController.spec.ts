@@ -1,6 +1,6 @@
-import { DataSourceError } from '@jamashita/anden-error';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { RedisError } from '@jamashita/catacombe-redis';
+import { Superposition } from '@jamashita/genitore';
 import express, { Express } from 'express';
 import { NextFunction, Request, Response } from 'express-serve-static-core';
 import { StatusCodes } from 'http-status-codes';

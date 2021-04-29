@@ -1,5 +1,5 @@
 import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { Superposition } from '@jamashita/genitore';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Language } from '../../VO/Language/Language';
 import { Languages } from '../../VO/Language/Languages';

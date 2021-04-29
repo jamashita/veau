@@ -1,5 +1,5 @@
 import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { Superposition } from '@jamashita/genitore';
 import { ILocaleCommand } from '../Interface/ILocaleCommand';
 import { IMockCommand } from './Interface/IMockCommand';
 

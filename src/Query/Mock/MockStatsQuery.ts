@@ -1,5 +1,5 @@
 import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { Superposition } from '@jamashita/genitore';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsError } from '../../VO/StatsOutline/Error/StatsError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';

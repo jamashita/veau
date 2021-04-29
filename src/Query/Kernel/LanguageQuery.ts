@@ -1,7 +1,6 @@
 import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
 import { Nullable } from '@jamashita/anden-type';
-import { Superposition } from '@jamashita/genitore-superposition';
-import { Unscharferelation, UnscharferelationError } from '@jamashita/genitore-unscharferelation';
+import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { ILanguageCommand } from '../../Command/Interface/ILanguageCommand';
 import { Type } from '../../Container/Types';

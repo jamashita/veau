@@ -1,6 +1,6 @@
-import { Digest } from '@jamashita/steckdose-digest';
-import { DataSourceError } from '@jamashita/anden-error';
 import { Noun } from '@jamashita/anden-type';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
+import { Digest } from '@jamashita/steckdose-digest';
 import { inject, injectable } from 'inversify';
 import { VerifyFunction } from 'passport-local';
 import { Type } from '../Container/Types';

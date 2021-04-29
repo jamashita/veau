@@ -1,6 +1,6 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { FetchError, FetchResponse, IFetch } from '@jamashita/catacombe-fetch';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { Superposition } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';

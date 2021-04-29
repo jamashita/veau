@@ -1,5 +1,5 @@
-import { Superposition } from '@jamashita/genitore-superposition';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { RegionError } from '../../VO/Region/Error/RegionError';
@@ -58,7 +58,8 @@ export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
         throw new NoSuchElementError('NO REGIONS FROM MYSQL');
       }
 
-      return Region.ofRow(rows[0]);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return Region.ofRow(rows[0]!);
     }, RegionError, NoSuchElementError);
   }
 
@@ -79,7 +80,8 @@ export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
         throw new NoSuchElementError('NO REGIONS FROM MYSQL');
       }
 
-      return Region.ofRow(rows[0]);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return Region.ofRow(rows[0]!);
     }, RegionError, NoSuchElementError);
   }
 }

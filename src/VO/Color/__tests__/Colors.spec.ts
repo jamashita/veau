@@ -12,7 +12,7 @@ describe('Colors', () => {
       const color1: MockColor = new MockColor();
       const color2: MockColor = new MockColor();
       const color3: MockColor = new MockColor();
-      const sequence: ImmutableSequence<Color> = ImmutableSequence.of<Color>([color1, color2, color3]);
+      const sequence: ImmutableSequence<Color> = ImmutableSequence.ofArray<Color>([color1, color2, color3]);
 
       const colors: Colors = Colors.of(sequence);
 
@@ -215,8 +215,8 @@ describe('Colors', () => {
 
       let i: number = 0;
 
-      for (const color of colors) {
-        expect(color.getValue()).toBe(arr[i]);
+      for (const [, v] of colors) {
+        expect(v).toBe(arr[i]);
         i++;
       }
     });

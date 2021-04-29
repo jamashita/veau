@@ -1,7 +1,6 @@
-import { DataSourceError } from '@jamashita/anden-error';
 import { Nullable } from '@jamashita/anden-type';
-import { Superposition } from '@jamashita/genitore-superposition';
-import { Unscharferelation, UnscharferelationError } from '@jamashita/genitore-unscharferelation';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
+import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';

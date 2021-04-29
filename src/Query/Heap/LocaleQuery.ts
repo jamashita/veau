@@ -1,5 +1,5 @@
 import { HeapError, IHeap } from '@jamashita/catacombe-heap';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauHeap';

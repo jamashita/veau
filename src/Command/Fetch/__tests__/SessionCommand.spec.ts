@@ -1,6 +1,6 @@
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { FetchError, MockFetch } from '@jamashita/catacombe-fetch';
-import { DataSourceError } from '@jamashita/anden-error';
-import { Schrodinger } from '@jamashita/genitore-superposition';
+import { Schrodinger } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';

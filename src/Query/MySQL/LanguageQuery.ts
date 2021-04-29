@@ -1,5 +1,5 @@
-import { Superposition } from '@jamashita/genitore-superposition';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
@@ -60,7 +60,8 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
         throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
       }
 
-      return Language.ofRow(rows[0]);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return Language.ofRow(rows[0]!);
     }, LanguageError, NoSuchElementError);
   }
 
@@ -82,7 +83,8 @@ export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
         throw new NoSuchElementError('NO LANGUAGES FROM MYSQL');
       }
 
-      return Language.ofRow(rows[0]);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return Language.ofRow(rows[0]!);
     }, LanguageError, NoSuchElementError);
   }
 }

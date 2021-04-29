@@ -1,6 +1,6 @@
-import { Project } from '@jamashita/lluvia-collection';
 import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { Superposition } from '@jamashita/genitore';
+import { Project } from '@jamashita/lluvia-collection';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsValueError } from '../../VO/StatsValue/Error/StatsValueError';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';

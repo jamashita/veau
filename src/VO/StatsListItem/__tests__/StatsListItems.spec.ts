@@ -17,7 +17,7 @@ describe('StatsListItems', () => {
     it('normal case', () => {
       expect.assertions(3);
 
-      const sequence: ImmutableSequence<MockStatsListItem> = ImmutableSequence.of<MockStatsListItem>([
+      const sequence: ImmutableSequence<MockStatsListItem> = ImmutableSequence.ofArray<MockStatsListItem>([
         new MockStatsListItem(),
         new MockStatsListItem()
       ]);

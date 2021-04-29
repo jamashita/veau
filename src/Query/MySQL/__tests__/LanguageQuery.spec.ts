@@ -1,6 +1,6 @@
 import { UUID } from '@jamashita/anden-uuid';
 import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Schrodinger } from '@jamashita/genitore-superposition';
+import { Schrodinger } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';

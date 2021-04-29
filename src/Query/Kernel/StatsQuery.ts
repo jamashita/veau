@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/anden-error';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
+import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';

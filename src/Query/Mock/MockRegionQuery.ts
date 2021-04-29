@@ -1,5 +1,5 @@
 import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { Superposition } from '@jamashita/genitore';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { Region } from '../../VO/Region/Region';
 import { Regions } from '../../VO/Region/Regions';

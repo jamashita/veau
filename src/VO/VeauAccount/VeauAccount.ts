@@ -1,5 +1,5 @@
-import { JSONable, Kind } from '@jamashita/anden-type';
 import { ValueObject } from '@jamashita/anden-object';
+import { JSONable, Kind } from '@jamashita/anden-type';
 
 import { AccountName } from '../Account/AccountName';
 import { LanguageError } from '../Language/Error/LanguageError';

@@ -1,23 +1,23 @@
-import { CancellableEnumerator, ImmutableSequence, Pair, Quantity, Sequence } from '@jamashita/lluvia-collection';
-import { BinaryPredicate, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/anden-type';
+import { Collection, ImmutableSequence, Quantity, ReadonlySequence } from '@jamashita/lluvia-collection';
 import { StatsListItem } from './StatsListItem';
 
-export class StatsListItems extends Quantity<StatsListItems, number, StatsListItem, 'StatsListItems'> {
+export class StatsListItems extends Quantity<number, StatsListItem, 'StatsListItems'> {
   public readonly noun: 'StatsListItems' = 'StatsListItems';
-  private readonly items: Sequence<StatsListItem>;
+  private readonly items: ImmutableSequence<StatsListItem>;
 
   private static readonly EMPTY: StatsListItems = new StatsListItems(ImmutableSequence.empty<StatsListItem>());
 
-  public static of(items: Sequence<StatsListItem>): StatsListItems {
+  public static of(items: ReadonlySequence<StatsListItem>): StatsListItems {
     if (items.isEmpty()) {
       return StatsListItems.empty();
     }
 
-    return new StatsListItems(items);
+    return new StatsListItems(ImmutableSequence.of<StatsListItem>(items));
   }
 
   public static ofArray(items: ReadonlyArray<StatsListItem>): StatsListItems {
-    return StatsListItems.of(ImmutableSequence.of<StatsListItem>(items));
+    return StatsListItems.of(ImmutableSequence.ofArray<StatsListItem>(items));
   }
 
   public static ofSpread(...items: Array<StatsListItem>): StatsListItems {
@@ -28,7 +28,7 @@ export class StatsListItems extends Quantity<StatsListItems, number, StatsListIt
     return StatsListItems.EMPTY;
   }
 
-  protected constructor(items: Sequence<StatsListItem>) {
+  protected constructor(items: ImmutableSequence<StatsListItem>) {
     super();
     this.items = items;
   }
@@ -45,7 +45,7 @@ export class StatsListItems extends Quantity<StatsListItems, number, StatsListIt
     return this.items.size();
   }
 
-  public forEach(iteration: CancellableEnumerator<number, StatsListItem>): void {
+  public forEach(iteration: Enumerator<number, StatsListItem>): void {
     this.items.forEach(iteration);
   }
 
@@ -65,10 +65,6 @@ export class StatsListItems extends Quantity<StatsListItems, number, StatsListIt
     return this.items.toString();
   }
 
-  public [Symbol.iterator](): Iterator<Pair<number, StatsListItem>> {
-    return this.items[Symbol.iterator]();
-  }
-
   public every(predicate: BinaryPredicate<StatsListItem, number>): boolean {
     return this.items.every(predicate);
   }
@@ -81,7 +77,19 @@ export class StatsListItems extends Quantity<StatsListItems, number, StatsListIt
     return this.items.values();
   }
 
-  public map<U>(mapper: Mapper<StatsListItem, U>): Array<U> {
-    return this.items.toArray().map<U>(mapper);
+  public filter(predicate: BinaryPredicate<StatsListItem, number>): Collection<number, StatsListItem> {
+    return this.items.filter(predicate);
+  }
+
+  public find(predicate: BinaryPredicate<StatsListItem, number>): Nullable<StatsListItem> {
+    return this.items.find(predicate);
+  }
+
+  public iterator(): Iterator<[number, StatsListItem]> {
+    return this.items.iterator();
+  }
+
+  public map<W>(mapper: Mapper<StatsListItem, W>): Collection<number, W> {
+    return this.items.map<W>(mapper);
   }
 }

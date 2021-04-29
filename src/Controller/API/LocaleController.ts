@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/anden-error';
 import { JSONable } from '@jamashita/anden-type';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';

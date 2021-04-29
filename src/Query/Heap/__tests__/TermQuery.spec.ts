@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/anden-error';
-import { Schrodinger } from '@jamashita/genitore-superposition';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
+import { Schrodinger } from '@jamashita/genitore';
 import 'reflect-metadata';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';

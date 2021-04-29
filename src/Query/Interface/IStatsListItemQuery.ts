@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/anden-error';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
+import { Superposition } from '@jamashita/genitore';
 import { Page } from '../../VO/Page/Page';
 import { StatsListItemError } from '../../VO/StatsListItem/Error/StatsListItemError';
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';

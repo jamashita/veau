@@ -1,7 +1,7 @@
 import { Ambiguous } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
 import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
+import { Schrodinger, Superposition } from '@jamashita/genitore';
 import { ImmutableProject, Project } from '@jamashita/lluvia-collection';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';

@@ -1,6 +1,6 @@
 import { Kind, Nullable } from '@jamashita/anden-type';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Chrono, Superposition } from '@jamashita/genitore-superposition';
+import { Chrono, Superposition } from '@jamashita/genitore';
 import { ImmutableProject, MutableProject, MutableSequence, Project, Sequence } from '@jamashita/lluvia-collection';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';

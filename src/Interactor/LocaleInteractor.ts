@@ -1,6 +1,6 @@
-import { DataSourceError } from '@jamashita/anden-error';
 import { Noun } from '@jamashita/anden-type';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
+import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';

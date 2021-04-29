@@ -1,5 +1,5 @@
 import { HeapError } from '@jamashita/catacombe-heap';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { Superposition } from '@jamashita/genitore';
 import { injectable } from 'inversify';
 import { TermError } from '../../VO/Term/Error/TermError';
 import { Terms } from '../../VO/Term/Terms';

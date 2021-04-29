@@ -1,6 +1,6 @@
-import { JSONA, JSONAError } from '@jamashita/steckdose-json';
-import { Superposition } from '@jamashita/genitore-superposition';
 import { IRedis, RedisError } from '@jamashita/catacombe-redis';
+import { Superposition } from '@jamashita/genitore';
+import { JSONA, JSONAError } from '@jamashita/steckdose-json';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';

@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/anden-error';
 import { Kind, Nullable } from '@jamashita/anden-type';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';

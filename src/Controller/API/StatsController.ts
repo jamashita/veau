@@ -1,7 +1,6 @@
-import { DataSourceError } from '@jamashita/anden-error';
 import { JSONable, PlainObject } from '@jamashita/anden-type';
-import { Superposition } from '@jamashita/genitore-superposition';
-
+import { DataSourceError } from '@jamashita/catacombe-datasource';
+import { Superposition } from '@jamashita/genitore';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';

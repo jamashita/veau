@@ -1,12 +1,12 @@
-import { ImmutableProject, ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
+import { ImmutableProject, ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { MockColumn } from '../../../VO/Coordinate/Mock/MockColumn';
 import { MockRow } from '../../../VO/Coordinate/Mock/MockRow';
-import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
+import { ValueContained } from '../../../VO/NumericalValue/ValueContained';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
@@ -44,8 +44,8 @@ describe('StatsItems', () => {
       for (let i: number = 0; i < items.size(); i++) {
         const item: Nullable<StatsItem> = items.get(i);
 
-        expect(item?.getStatsItemID().get().get()).toBe(json[i].statsItemID);
-        expect(item?.getName().get()).toBe(json[i].name);
+        expect(item?.getStatsItemID().get().get()).toBe(json[i]!.statsItemID);
+        expect(item?.getName().get()).toBe(json[i]!.name);
       }
     });
 
@@ -117,18 +117,18 @@ describe('StatsItems', () => {
       const asOf3: MockAsOf = new MockAsOf({
         day: 3
       });
-      const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.of<StatsItemID, StatsValues>(
+      const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.ofMap<StatsItemID, StatsValues>(
         new Map<StatsItemID, StatsValues>([
           [
             StatsItemID.of(UUID.of(statsItemID1)),
             new MockStatsValues(
               new MockStatsValue({
                 asOf: asOf2,
-                value: new MockNumericalValue(1)
+                value: ValueContained.of(1)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: new MockNumericalValue(3)
+                value: ValueContained.of(3)
               })
             )
           ],
@@ -137,11 +137,11 @@ describe('StatsItems', () => {
             new MockStatsValues(
               new MockStatsValue({
                 asOf: asOf1,
-                value: new MockNumericalValue(0)
+                value: ValueContained.of(0)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: new MockNumericalValue(3)
+                value: ValueContained.of(3)
               })
             )
           ]
@@ -152,8 +152,8 @@ describe('StatsItems', () => {
 
       expect(items.size()).toBe(2);
       for (let i: number = 0; i < items.size(); i++) {
-        expect(items.get(i)?.getStatsItemID().get().get()).toBe(row[i].statsItemID);
-        expect(items.get(i)?.getName().get()).toBe(row[i].name);
+        expect(items.get(i)?.getStatsItemID().get().get()).toBe(row[i]!.statsItemID);
+        expect(items.get(i)?.getName().get()).toBe(row[i]!.name);
       }
       expect(items.get(0)?.getValues().size()).toBe(2);
       expect(items.get(0)?.getValues().get(asOf1)).toBeNull();
@@ -381,7 +381,7 @@ describe('StatsItems', () => {
     it('normal case', () => {
       expect.assertions(1);
 
-      const statsItems: StatsItems = StatsItems.of(ImmutableSequence.of<StatsItem>([new MockStatsItem(), new MockStatsItem()]));
+      const statsItems: StatsItems = StatsItems.of(ImmutableSequence.ofArray<StatsItem>([new MockStatsItem(), new MockStatsItem()]));
 
       expect(statsItems).not.toBe(StatsItems.empty());
     });
@@ -917,8 +917,8 @@ describe('StatsItems', () => {
 
       let i: number = 0;
 
-      for (const pair of statsItems) {
-        expect(pair.getValue()).toBe(statsItems.get(i));
+      for (const [, v] of statsItems) {
+        expect(v).toBe(statsItems.get(i));
         i++;
       }
     });
@@ -1029,7 +1029,7 @@ describe('StatsItems', () => {
         new MockStatsItem({
           values: new MockStatsValues(
             new MockStatsValue({
-              value: new MockNumericalValue()
+              value: ValueContained.of()
             })
           )
         })

@@ -1,5 +1,5 @@
-import { Superposition } from '@jamashita/genitore-superposition';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { Page } from '../../VO/Page/Page';
@@ -43,7 +43,8 @@ export class StatsOutlineQuery implements IStatsOutlineQuery<MySQLError>, IMySQL
         throw new NoSuchElementError(statsID.toString());
       }
 
-      return StatsOutline.ofRow(rows[0]);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return StatsOutline.ofRow(rows[0]!);
     }, StatsOutlineError, NoSuchElementError);
   }
 

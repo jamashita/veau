@@ -1,7 +1,7 @@
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/catacombe-redis';
-import { Schrodinger } from '@jamashita/genitore-superposition';
+import { Schrodinger } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';

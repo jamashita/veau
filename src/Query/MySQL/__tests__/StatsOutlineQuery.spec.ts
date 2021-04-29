@@ -1,8 +1,8 @@
-import { DataSourceError } from '@jamashita/anden-error';
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Schrodinger } from '@jamashita/genitore-superposition';
+import { Schrodinger } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';

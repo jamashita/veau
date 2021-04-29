@@ -4,7 +4,6 @@ import { ImmutableProject } from '@jamashita/lluvia-collection';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { MockAsOfs } from '../../../VO/AsOf/Mock/MockAsOfs';
-import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
 import { NumericalValues } from '../../../VO/NumericalValue/NumericalValues';
 import { ValueContained } from '../../../VO/NumericalValue/ValueContained';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
@@ -172,15 +171,15 @@ describe('StatsItem', () => {
             StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
-                value: new MockNumericalValue(10)
+                value: ValueContained.of(10)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: new MockNumericalValue(100)
+                value: ValueContained.of(100)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: new MockNumericalValue(1000)
+                value: ValueContained.of(1000)
               })
             )
           ],
@@ -189,15 +188,15 @@ describe('StatsItem', () => {
             StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
-                value: new MockNumericalValue(11)
+                value: ValueContained.of(11)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: new MockNumericalValue(101)
+                value: ValueContained.of(101)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: new MockNumericalValue(1001)
+                value: ValueContained.of(1001)
               })
             )
           ]
@@ -247,15 +246,15 @@ describe('StatsItem', () => {
       const statsValues: StatsValues = StatsValues.ofArray([
         new MockStatsValue({
           asOf: asOf1,
-          value: new MockNumericalValue(10)
+          value: ValueContained.of(10)
         }),
         new MockStatsValue({
           asOf: asOf2,
-          value: new MockNumericalValue(100)
+          value: ValueContained.of(100)
         }),
         new MockStatsValue({
           asOf: asOf3,
-          value: new MockNumericalValue(1000)
+          value: ValueContained.of(1000)
         })
       ]);
 
@@ -285,19 +284,19 @@ describe('StatsItem', () => {
           asOf: new MockAsOf({
             day: 1
           }),
-          value: new MockNumericalValue(10)
+          value: ValueContained.of(10)
         }),
         new MockStatsValue({
           asOf: new MockAsOf({
             day: 2
           }),
-          value: new MockNumericalValue(100)
+          value: ValueContained.of(100)
         }),
         new MockStatsValue({
           asOf: new MockAsOf({
             day: 3
           }),
-          value: new MockNumericalValue(1000)
+          value: ValueContained.of(1000)
         })
       ]);
 
@@ -616,13 +615,13 @@ describe('StatsItem', () => {
             asOf: new MockAsOf({
               day: 1
             }),
-            value: new MockNumericalValue(1)
+            value: ValueContained.of(1)
           }),
           new MockStatsValue({
             asOf: new MockAsOf({
               day: 3
             }),
-            value: new MockNumericalValue(3)
+            value: ValueContained.of(3)
           })
         )
       );

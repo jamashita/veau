@@ -1,5 +1,5 @@
-import { DataSourceError } from '@jamashita/anden-error';
-import { Superposition } from '@jamashita/genitore-superposition';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
+import { Superposition } from '@jamashita/genitore';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { ISO3166 } from '../../VO/Region/ISO3166';
 import { Region } from '../../VO/Region/Region';

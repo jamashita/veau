@@ -1,7 +1,7 @@
-import { DataSourceError } from '@jamashita/anden-error';
-import { Schrodinger } from '@jamashita/genitore-superposition';
-import { MockSQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { UUID } from '@jamashita/anden-uuid';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
+import { MockSQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Schrodinger } from '@jamashita/genitore';
 import sinon, { SinonStub } from 'sinon';
 import { MockStats } from '../../../Entity/Stats/Mock/MockStats';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';

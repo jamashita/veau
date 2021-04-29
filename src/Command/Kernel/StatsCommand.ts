@@ -1,6 +1,6 @@
 import { UnimplementedError } from '@jamashita/anden-error';
-import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Schrodinger, Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';

@@ -1,5 +1,5 @@
-import { Superposition } from '@jamashita/genitore-superposition';
 import { ISQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Superposition } from '@jamashita/genitore';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { IStatsItemCommand } from '../Interface/IStatsItemCommand';

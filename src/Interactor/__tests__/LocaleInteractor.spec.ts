@@ -1,7 +1,7 @@
-import { DataSourceError } from '@jamashita/anden-error';
-import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { MySQLError } from '@jamashita/catacombe-mysql';
 import { RedisError } from '@jamashita/catacombe-redis';
+import { Schrodinger, Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';
@@ -130,6 +130,7 @@ describe('LocaleInteractor', () => {
         regionRedisCommand
       );
       const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeInteractor.all().terminate();
+      console.log(schrodinger);
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

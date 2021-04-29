@@ -1,5 +1,5 @@
-import { Superposition } from '@jamashita/genitore-superposition';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
+import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { Account, AccountRow } from '../../VO/Account/Account';
@@ -41,7 +41,8 @@ export class AccountQuery implements IAccountQuery<MySQLError>, IMySQLQuery {
         throw new NoSuchElementError(account.get());
       }
 
-      return Account.ofRow(rows[0]);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return Account.ofRow(rows[0]!);
     }, AccountError, NoSuchElementError);
   }
 }

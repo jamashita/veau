@@ -20,7 +20,7 @@ describe('StatsItemNames', () => {
 
       const statsItemName1: MockStatsItemName = new MockStatsItemName();
       const statsItemName2: MockStatsItemName = new MockStatsItemName();
-      const sequence: ImmutableSequence<MockStatsItemName> = ImmutableSequence.of<StatsItemName>([
+      const sequence: ImmutableSequence<MockStatsItemName> = ImmutableSequence.ofArray<StatsItemName>([
         statsItemName1,
         statsItemName2
       ]);
@@ -220,9 +220,10 @@ describe('StatsItemNames', () => {
 
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
-      const arr: Array<string> = names.map<string>((name: StatsItemName) => {
+      const iterable: Iterable<string> = names.map<string>((name: StatsItemName) => {
         return name.get();
-      });
+      }).values();
+      const arr: Array<string> = [...iterable];
 
       expect(arr).toHaveLength(3);
     });
@@ -308,8 +309,8 @@ describe('StatsItemNames', () => {
       const names: StatsItemNames = StatsItemNames.of(sequence);
       let i: number = 0;
 
-      for (const pair of names) {
-        expect(pair.getValue()).toBe(arr[i]);
+      for (const [, v] of names) {
+        expect(v).toBe(arr[i]);
         i++;
       }
     });
