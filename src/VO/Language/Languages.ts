@@ -132,8 +132,7 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
   }
 
   public filter(predicate: BinaryPredicate<Language, LanguageID>): Languages {
-    const a = this.languages.filter(predicate);
-    return Languages.of(a);
+    return Languages.of(this.languages.filter(predicate));
   }
 
   public find(predicate: BinaryPredicate<Language, LanguageID>): Nullable<Language> {

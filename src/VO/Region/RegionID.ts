@@ -34,9 +34,12 @@ export class RegionID extends ValueObject<'RegionID'> {
     this.uuid = uuid;
   }
 
-  public equals(other: RegionID): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof RegionID)) {
+      return false;
     }
 
     return this.uuid.equals(other.uuid);
@@ -51,10 +54,6 @@ export class RegionID extends ValueObject<'RegionID'> {
   }
 
   public isEmpty(): boolean {
-    if (this === RegionID.empty()) {
-      return true;
-    }
-
-    return false;
+    return this === RegionID.empty();
   }
 }

@@ -7,7 +7,6 @@ import { MockISO3166 } from '../Mock/MockISO3166';
 import { MockRegion } from '../Mock/MockRegion';
 import { MockRegionID } from '../Mock/MockRegionID';
 import { MockRegionName } from '../Mock/MockRegionName';
-import { MockRegions } from '../Mock/MockRegions';
 import { Region, RegionJSON, RegionRow } from '../Region';
 import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';
@@ -229,11 +228,10 @@ describe('Regions', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.get = spy;
-
       const regions: Regions = Regions.of(project);
 
+      // @ts-expect-error
+      regions.regions.get = spy;
       regions.get(new MockRegionID());
 
       expect(spy.called).toBe(true);
@@ -257,11 +255,10 @@ describe('Regions', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.contains = spy;
-
       const regions: Regions = Regions.of(project);
 
+      // @ts-expect-error
+      regions.regions.contains = spy;
       regions.contains(region1);
 
       expect(spy.called).toBe(true);
@@ -285,11 +282,10 @@ describe('Regions', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.size = spy;
-
       const regions: Regions = Regions.of(project);
 
+      // @ts-expect-error
+      regions.regions.size = spy;
       regions.size();
 
       expect(spy.called).toBe(true);
@@ -313,11 +309,10 @@ describe('Regions', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.forEach = spy;
-
       const regions: Regions = Regions.of(project);
 
+      // @ts-expect-error
+      regions.regions.forEach = spy;
       regions.forEach(() => {
         // NOOP
       });
@@ -327,7 +322,7 @@ describe('Regions', () => {
   });
 
   describe('map', () => {
-    it('normal case', () => {
+    it('does not affect the length, only change the instance', () => {
       expect.assertions(1);
 
       const region1: MockRegion = new MockRegion();
@@ -354,46 +349,62 @@ describe('Regions', () => {
 
   describe('find', () => {
     it('returns Region if the element exists', () => {
-      expect.assertions(4);
+      expect.assertions(1);
 
-      const uuid1: UUID = UUID.v4();
-      const uuid2: UUID = UUID.v4();
-      const uuid3: UUID = UUID.v4();
+      const region1: MockRegion = new MockRegion();
+      const region2: MockRegion = new MockRegion();
+      const region3: MockRegion = new MockRegion();
+
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
+          [region1.getRegionID(), region1],
+          [region2.getRegionID(), region2],
+          [region3.getRegionID(), region3]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+      const regions: Regions = Regions.of(project);
+
+      // @ts-expect-error
+      regions.regions.find = spy;
+      regions.find(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('filter', () => {
+    it('returns matching elements by predicate', () => {
+      expect.assertions(1);
+
       const region1: MockRegion = new MockRegion({
-        regionID: new MockRegionID(uuid1)
+        name: new MockRegionName('name 1')
       });
       const region2: MockRegion = new MockRegion({
-        regionID: new MockRegionID(uuid2)
+        name: new MockRegionName('name 2')
       });
       const region3: MockRegion = new MockRegion({
-        regionID: new MockRegionID(uuid1)
-      });
-      const region4: MockRegion = new MockRegion({
-        regionID: new MockRegionID(uuid3)
+        name: new MockRegionName('name 0')
       });
 
-      const regions: Regions = Regions.ofArray([region1, region2]);
+      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
+        new Map<MockRegionID, MockRegion>([
+          [region1.getRegionID(), region1],
+          [region2.getRegionID(), region2],
+          [region3.getRegionID(), region3]
+        ])
+      );
 
-      expect(
-        regions.find((region: Region) => {
-          return region1.equals(region);
-        })
-      ).toBe(region1);
-      expect(
-        regions.find((region: Region) => {
-          return region2.equals(region);
-        })
-      ).toBe(region2);
-      expect(
-        regions.find((region: Region) => {
-          return region3.equals(region);
-        })
-      ).toBe(region1);
-      expect(
-        regions.find((region: Region) => {
-          return region4.equals(region);
-        })
-      ).toBeNull();
+      const regions: Regions = Regions.of(project);
+
+      const filtered: Regions = regions.filter((r: Region) => {
+        return r.getName().get() === 'name 0';
+      });
+
+      expect(filtered.size()).toBe(1);
     });
   });
 
@@ -414,11 +425,10 @@ describe('Regions', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.isEmpty = spy;
-
       const regions: Regions = Regions.of(project);
 
+      // @ts-expect-error
+      regions.regions.isEmpty = spy;
       regions.isEmpty();
 
       expect(spy.called).toBe(true);
@@ -426,7 +436,30 @@ describe('Regions', () => {
   });
 
   describe('equals', () => {
-    it('same instance', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const regions: Regions = Regions.empty();
+
+      expect(regions.equals(null)).toBe(false);
+      expect(regions.equals(undefined)).toBe(false);
+      expect(regions.equals('')).toBe(false);
+      expect(regions.equals('123')).toBe(false);
+      expect(regions.equals('abcd')).toBe(false);
+      expect(regions.equals(123)).toBe(false);
+      expect(regions.equals(0)).toBe(false);
+      expect(regions.equals(-12)).toBe(false);
+      expect(regions.equals(0.3)).toBe(false);
+      expect(regions.equals(false)).toBe(false);
+      expect(regions.equals(true)).toBe(false);
+      expect(regions.equals(Symbol('p'))).toBe(false);
+      expect(regions.equals(20n)).toBe(false);
+      expect(regions.equals({})).toBe(false);
+      expect(regions.equals([])).toBe(false);
+      expect(regions.equals(Object.create(null))).toBe(false);
+    });
+
+    it('returns true if the same instance given', () => {
       expect.assertions(1);
 
       const region1: MockRegion = new MockRegion();
@@ -456,12 +489,11 @@ describe('Regions', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.equals = spy;
-
       const regions: Regions = Regions.of(project);
 
-      regions.equals(new MockRegions());
+      // @ts-expect-error
+      regions.regions.equals = spy;
+      regions.equals(Regions.empty());
 
       expect(spy.called).toBe(true);
     });
@@ -503,11 +535,10 @@ describe('Regions', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.toString = spy;
-
       const regions: Regions = Regions.of(project);
 
+      // @ts-expect-error
+      regions.regions.toString = spy;
       regions.toString();
 
       expect(spy.called).toBe(true);
@@ -559,11 +590,10 @@ describe('Regions', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.every = spy;
-
       const regions: Regions = Regions.of(project);
 
+      // @ts-expect-error
+      regions.regions.every = spy;
       regions.every(() => {
         return true;
       });
@@ -589,11 +619,10 @@ describe('Regions', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.some = spy;
-
       const regions: Regions = Regions.of(project);
 
+      // @ts-expect-error
+      regions.regions.some = spy;
       regions.some(() => {
         return true;
       });
@@ -619,11 +648,10 @@ describe('Regions', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.values = spy;
-
       const regions: Regions = Regions.of(project);
 
+      // @ts-expect-error
+      regions.regions.values = spy;
       regions.values();
 
       expect(spy.called).toBe(true);

@@ -1,11 +1,11 @@
 import { BinaryPredicate, Enumerator, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
-import { Collection, ImmutableProject, Project, Quantity } from '@jamashita/lluvia-collection';
+import { ImmutableProject, Project, Quantity } from '@jamashita/lluvia-collection';
 import { Region, RegionJSON, RegionRow } from './Region';
 import { RegionID } from './RegionID';
 
 export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JSONable<Array<RegionJSON>> {
   public readonly noun: 'Regions' = 'Regions';
-  private readonly regions: Project<RegionID, Region>;
+  private readonly regions: ImmutableProject<RegionID, Region>;
 
   private static readonly EMPTY: Regions = new Regions(ImmutableProject.empty<RegionID, Region>());
 
@@ -14,7 +14,7 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
       return Regions.empty();
     }
 
-    return new Regions(regions);
+    return new Regions(ImmutableProject.of<RegionID, Region>(regions));
   }
 
   public static ofArray(regions: ReadonlyArray<Region>): Regions {
@@ -65,7 +65,7 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     return Regions.of(ImmutableProject.ofMap<RegionID, Region>(regions));
   }
 
-  protected constructor(regions: Project<RegionID, Region>) {
+  protected constructor(regions: ImmutableProject<RegionID, Region>) {
     super();
     this.regions = regions;
   }
@@ -90,9 +90,12 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     return this.regions.isEmpty();
   }
 
-  public equals(other: Regions): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Regions)) {
+      return false;
     }
 
     return this.regions.equals(other.regions);
@@ -128,15 +131,15 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     return this.regions.values();
   }
 
-  public filter(predicate: BinaryPredicate<Region, RegionID>): Collection<RegionID, Region> {
-    return this.regions.filter(predicate);
+  public filter(predicate: BinaryPredicate<Region, RegionID>): Regions {
+    return Regions.of(this.regions.filter(predicate));
   }
 
   public find(predicate: BinaryPredicate<Region, RegionID>): Nullable<Region> {
     return this.regions.find(predicate);
   }
 
-  public map<W>(mapper: Mapper<Region, W>): Collection<RegionID, W> {
+  public map<W>(mapper: Mapper<Region, W>): ImmutableProject<RegionID, W> {
     return this.regions.map<W>(mapper);
   }
 }

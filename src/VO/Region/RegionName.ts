@@ -25,9 +25,12 @@ export class RegionName extends ValueObject<'RegionName'> {
     this.name = name;
   }
 
-  public equals(other: RegionName): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof RegionName)) {
+      return false;
     }
     if (this.name === other.name) {
       return true;
@@ -45,10 +48,6 @@ export class RegionName extends ValueObject<'RegionName'> {
   }
 
   public isEmpty(): boolean {
-    if (this === RegionName.empty()) {
-      return true;
-    }
-
-    return false;
+    return this === RegionName.empty();
   }
 }

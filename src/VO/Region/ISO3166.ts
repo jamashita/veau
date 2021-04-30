@@ -25,9 +25,12 @@ export class ISO3166 extends ValueObject<'ISO3166'> {
     this.iso3166 = iso3166;
   }
 
-  public equals(other: ISO3166): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof ISO3166)) {
+      return false;
     }
     if (this.iso3166 === other.iso3166) {
       return true;
@@ -45,10 +48,6 @@ export class ISO3166 extends ValueObject<'ISO3166'> {
   }
 
   public isEmpty(): boolean {
-    if (this === ISO3166.empty()) {
-      return true;
-    }
-
-    return false;
+    return this === ISO3166.empty();
   }
 }

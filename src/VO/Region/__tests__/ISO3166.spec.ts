@@ -52,6 +52,29 @@ describe('ISO3166', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const iso3166: ISO3166 = ISO3166.of('ab');
+
+      expect(iso3166.equals(null)).toBe(false);
+      expect(iso3166.equals(undefined)).toBe(false);
+      expect(iso3166.equals('')).toBe(false);
+      expect(iso3166.equals('123')).toBe(false);
+      expect(iso3166.equals('abcd')).toBe(false);
+      expect(iso3166.equals(123)).toBe(false);
+      expect(iso3166.equals(0)).toBe(false);
+      expect(iso3166.equals(-12)).toBe(false);
+      expect(iso3166.equals(0.3)).toBe(false);
+      expect(iso3166.equals(false)).toBe(false);
+      expect(iso3166.equals(true)).toBe(false);
+      expect(iso3166.equals(Symbol('p'))).toBe(false);
+      expect(iso3166.equals(20n)).toBe(false);
+      expect(iso3166.equals({})).toBe(false);
+      expect(iso3166.equals([])).toBe(false);
+      expect(iso3166.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the property is the same', () => {
       expect.assertions(3);
 

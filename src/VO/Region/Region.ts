@@ -21,7 +21,11 @@ export class Region extends ValueObject<'Region'> implements JSONable<RegionJSON
   private readonly name: RegionName;
   private readonly iso3166: ISO3166;
 
-  private static readonly EMPTY: Region = new Region(RegionID.empty(), RegionName.empty(), ISO3166.empty());
+  private static readonly EMPTY: Region = new Region(
+    RegionID.empty(),
+    RegionName.empty(),
+    ISO3166.empty()
+  );
 
   public static of(regionID: RegionID, name: RegionName, iso3166: ISO3166): Region {
     if (regionID.isEmpty()) {
@@ -81,9 +85,12 @@ export class Region extends ValueObject<'Region'> implements JSONable<RegionJSON
     this.iso3166 = iso3166;
   }
 
-  public equals(other: Region): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Region)) {
+      return false;
     }
     if (!this.regionID.equals(other.regionID)) {
       return false;
@@ -107,13 +114,13 @@ export class Region extends ValueObject<'Region'> implements JSONable<RegionJSON
   }
 
   public serialize(): string {
-    const properties: Array<string> = [];
+    const props: Array<string> = [];
 
-    properties.push(this.regionID.toString());
-    properties.push(this.name.toString());
-    properties.push(this.iso3166.toString());
+    props.push(this.regionID.toString());
+    props.push(this.name.toString());
+    props.push(this.iso3166.toString());
 
-    return properties.join(' ');
+    return props.join(' ');
   }
 
   public getRegionID(): RegionID {
@@ -129,10 +136,6 @@ export class Region extends ValueObject<'Region'> implements JSONable<RegionJSON
   }
 
   public isEmpty(): boolean {
-    if (this === Region.empty()) {
-      return true;
-    }
-
-    return false;
+    return this === Region.empty();
   }
 }

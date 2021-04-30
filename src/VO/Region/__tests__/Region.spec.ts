@@ -225,6 +225,29 @@ describe('Region', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const region: Region = Region.empty();
+
+      expect(region.equals(null)).toBe(false);
+      expect(region.equals(undefined)).toBe(false);
+      expect(region.equals('')).toBe(false);
+      expect(region.equals('123')).toBe(false);
+      expect(region.equals('abcd')).toBe(false);
+      expect(region.equals(123)).toBe(false);
+      expect(region.equals(0)).toBe(false);
+      expect(region.equals(-12)).toBe(false);
+      expect(region.equals(0.3)).toBe(false);
+      expect(region.equals(false)).toBe(false);
+      expect(region.equals(true)).toBe(false);
+      expect(region.equals(Symbol('p'))).toBe(false);
+      expect(region.equals(20n)).toBe(false);
+      expect(region.equals({})).toBe(false);
+      expect(region.equals([])).toBe(false);
+      expect(region.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the all properties are the same', () => {
       expect.assertions(5);
 

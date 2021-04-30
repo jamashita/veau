@@ -50,6 +50,30 @@ describe('RegionID', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const uuid: UUID = UUID.v4();
+      const regionID: RegionID = RegionID.of(uuid);
+
+      expect(regionID.equals(null)).toBe(false);
+      expect(regionID.equals(undefined)).toBe(false);
+      expect(regionID.equals('')).toBe(false);
+      expect(regionID.equals('123')).toBe(false);
+      expect(regionID.equals('abcd')).toBe(false);
+      expect(regionID.equals(123)).toBe(false);
+      expect(regionID.equals(0)).toBe(false);
+      expect(regionID.equals(-12)).toBe(false);
+      expect(regionID.equals(0.3)).toBe(false);
+      expect(regionID.equals(false)).toBe(false);
+      expect(regionID.equals(true)).toBe(false);
+      expect(regionID.equals(Symbol('p'))).toBe(false);
+      expect(regionID.equals(20n)).toBe(false);
+      expect(regionID.equals({})).toBe(false);
+      expect(regionID.equals([])).toBe(false);
+      expect(regionID.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the property is the same', () => {
       expect.assertions(3);
 
