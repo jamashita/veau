@@ -1,21 +1,20 @@
 import { BinaryPredicate, Enumerator, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
-import { Collection, ImmutableProject, Project, Quantity } from '@jamashita/lluvia-collection';
+import { ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 import { LanguageID } from './LanguageID';
 
-export class Languages extends Quantity<LanguageID, Language, 'Languages'>
-  implements JSONable<Array<LanguageJSON>> {
+export class Languages extends Quantity<LanguageID, Language, 'Languages'> implements JSONable<Array<LanguageJSON>> {
   public readonly noun: 'Languages' = 'Languages';
-  private readonly languages: Project<LanguageID, Language>;
+  private readonly languages: ImmutableProject<LanguageID, Language>;
 
   private static readonly EMPTY: Languages = new Languages(ImmutableProject.empty<LanguageID, Language>());
 
-  public static of(languages: Project<LanguageID, Language>): Languages {
+  public static of(languages: ReadonlyProject<LanguageID, Language>): Languages {
     if (languages.isEmpty()) {
       return Languages.empty();
     }
 
-    return new Languages(languages);
+    return new Languages(ImmutableProject.of<LanguageID, Language>(languages));
   }
 
   public static ofArray(languages: ReadonlyArray<Language>): Languages {
@@ -42,7 +41,7 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'>
 
   public static ofRow(rows: ReadonlyArray<LanguageRow>): Languages {
     const arr: Array<Language> = rows.map<Language>((language: LanguageRow) => {
-      return Language.ofJSON(language);
+      return Language.ofRow(language);
     });
 
     return Languages.ofArray(arr);
@@ -66,7 +65,7 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'>
     return Languages.of(ImmutableProject.ofMap<LanguageID, Language>(languages));
   }
 
-  protected constructor(languages: Project<LanguageID, Language>) {
+  protected constructor(languages: ImmutableProject<LanguageID, Language>) {
     super();
     this.languages = languages;
   }
@@ -91,9 +90,12 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'>
     return this.languages.isEmpty();
   }
 
-  public equals(other: Languages): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Languages)) {
+      return false;
     }
 
     return this.languages.equals(other.languages);
@@ -129,15 +131,16 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'>
     return this.languages.values();
   }
 
-  public filter(predicate: BinaryPredicate<Language, LanguageID>): Collection<LanguageID, Language> {
-    return this.languages.filter(predicate);
+  public filter(predicate: BinaryPredicate<Language, LanguageID>): Languages {
+    const a = this.languages.filter(predicate);
+    return Languages.of(a);
   }
 
   public find(predicate: BinaryPredicate<Language, LanguageID>): Nullable<Language> {
     return this.languages.find(predicate);
   }
 
-  public map<W>(mapper: Mapper<Language, W>): Collection<LanguageID, W> {
+  public map<W>(mapper: Mapper<Language, W>): ImmutableProject<LanguageID, W> {
     return this.languages.map<W>(mapper);
   }
 }

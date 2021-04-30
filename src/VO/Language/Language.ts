@@ -98,9 +98,12 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
     this.iso639 = iso639;
   }
 
-  public equals(other: Language): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Language)) {
+      return false;
     }
     if (!this.languageID.equals(other.languageID)) {
       return false;
@@ -128,14 +131,14 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
   }
 
   public serialize(): string {
-    const properties: Array<string> = [];
+    const props: Array<string> = [];
 
-    properties.push(this.languageID.toString());
-    properties.push(this.name.toString());
-    properties.push(this.englishName.toString());
-    properties.push(this.iso639.toString());
+    props.push(this.languageID.toString());
+    props.push(this.name.toString());
+    props.push(this.englishName.toString());
+    props.push(this.iso639.toString());
 
-    return properties.join(' ');
+    return props.join(' ');
   }
 
   public getLanguageID(): LanguageID {
@@ -155,10 +158,6 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
   }
 
   public isEmpty(): boolean {
-    if (this === Language.empty()) {
-      return true;
-    }
-
-    return false;
+    return this === Language.empty();
   }
 }

@@ -50,6 +50,30 @@ describe('LanguageID', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const uuid: UUID = UUID.v4();
+      const languageID: LanguageID = LanguageID.of(uuid);
+
+      expect(languageID.equals(null)).toBe(false);
+      expect(languageID.equals(undefined)).toBe(false);
+      expect(languageID.equals('')).toBe(false);
+      expect(languageID.equals('123')).toBe(false);
+      expect(languageID.equals('abcd')).toBe(false);
+      expect(languageID.equals(123)).toBe(false);
+      expect(languageID.equals(0)).toBe(false);
+      expect(languageID.equals(-12)).toBe(false);
+      expect(languageID.equals(0.3)).toBe(false);
+      expect(languageID.equals(false)).toBe(false);
+      expect(languageID.equals(true)).toBe(false);
+      expect(languageID.equals(Symbol('p'))).toBe(false);
+      expect(languageID.equals(20n)).toBe(false);
+      expect(languageID.equals({})).toBe(false);
+      expect(languageID.equals([])).toBe(false);
+      expect(languageID.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the property is the same', () => {
       expect.assertions(3);
 

@@ -1,4 +1,3 @@
-import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
 import { ImmutableProject, MockProject } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
@@ -11,11 +10,10 @@ import { MockISO639 } from '../Mock/MockISO639';
 import { MockLanguage } from '../Mock/MockLanguage';
 import { MockLanguageID } from '../Mock/MockLanguageID';
 import { MockLanguageName } from '../Mock/MockLanguageName';
-import { MockLanguages } from '../Mock/MockLanguages';
 
 describe('Languages', () => {
   describe('of', () => {
-    it('when the ImmutableProject is zero size, returns Languages.empty()', () => {
+    it('returns Languages.empty() if the size is 0', () => {
       expect.assertions(1);
 
       const languages: Languages = Languages.of(ImmutableProject.empty<LanguageID, Language>());
@@ -23,31 +21,36 @@ describe('Languages', () => {
       expect(languages).toBe(Languages.empty());
     });
 
-    it('normal case', () => {
+    it('returns normal-length project', () => {
       expect.assertions(3);
 
       const array: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
-
       const languages: Languages = Languages.ofArray(array);
 
       expect(languages.size()).toBe(array.length);
-      for (let i: number = 0; i < languages.size(); i++) {
-        // eslint-disable-next-line no-await-in-loop, @typescript-eslint/no-non-null-assertion
-        expect(languages.get(array[i]!.getLanguageID())).toBe(array[i]);
-      }
+
+      array.forEach((l: MockLanguage) => {
+        expect(l).toBe(languages.get(l.getLanguageID()));
+      });
+    });
+  });
+  describe('ofArray', () => {
+    it('returns normal-length project', () => {
+      expect.assertions(3);
+
+      const array: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
+      const languages: Languages = Languages.ofArray(array);
+
+      expect(languages.size()).toBe(array.length);
+
+      array.forEach((l: MockLanguage) => {
+        expect(l).toBe(languages.get(l.getLanguageID()));
+      });
     });
   });
 
   describe('ofJSON', () => {
-    it('when empty Array given, returns Languages.empty()', () => {
-      expect.assertions(1);
-
-      const languages: Languages = Languages.ofJSON([]);
-
-      expect(languages).toBe(Languages.empty());
-    });
-
-    it('normal case', () => {
+    it('returns parsed class instance', () => {
       expect.assertions(5);
 
       const json: Array<LanguageJSON> = [
@@ -58,36 +61,23 @@ describe('Languages', () => {
           iso639: 'aa'
         }
       ];
-
       const languages: Languages = Languages.ofJSON(json);
 
       expect(languages.size()).toBe(json.length);
-      for (let i: number = 0; i < languages.size(); i++) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const language: Nullable<Language> = languages.get(LanguageID.ofString(json[i]!.languageID));
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getLanguageID().get().get()).toBe(json[i]!.languageID);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getName().get()).toBe(json[i]!.name);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getEnglishName().get()).toBe(json[i]!.englishName);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getISO639().get()).toBe(json[i]!.iso639);
-      }
+      json.forEach((j: LanguageJSON) => {
+        const id: LanguageID = LanguageID.ofString(j.languageID);
+
+        expect(j.languageID).toBe(languages.get(id)?.getLanguageID().toString());
+        expect(j.name).toBe(languages.get(id)?.getName().toString());
+        expect(j.englishName).toBe(languages.get(id)?.getEnglishName().toString());
+        expect(j.iso639).toBe(languages.get(id)?.getISO639().toString());
+      });
     });
   });
 
   describe('ofRow', () => {
-    it('when empty Array given, returns Languages.empty()', () => {
-      expect.assertions(1);
-
-      const languages: Languages = Languages.ofRow([]);
-
-      expect(languages).toBe(Languages.empty());
-    });
-
-    it('normal case', () => {
+    it('returns parsed class instance', () => {
       expect.assertions(5);
 
       const rows: Array<LanguageRow> = [
@@ -98,73 +88,18 @@ describe('Languages', () => {
           iso639: 'aa'
         }
       ];
-
-      const languages: Languages = Languages.ofJSON(rows);
+      const languages: Languages = Languages.ofRow(rows);
 
       expect(languages.size()).toBe(rows.length);
-      for (let i: number = 0; i < languages.size(); i++) {
-        // eslint-disable-next-line no-await-in-loop, @typescript-eslint/no-non-null-assertion
-        const language: Nullable<Language> = languages.get(LanguageID.ofString(rows[i]!.languageID));
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getLanguageID().get().get()).toBe(rows[i]!.languageID);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getName().get()).toBe(rows[i]!.name);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getEnglishName().get()).toBe(rows[i]!.englishName);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getISO639().get()).toBe(rows[i]!.iso639);
-      }
-    });
-  });
+      rows.forEach((r: LanguageRow) => {
+        const id: LanguageID = LanguageID.ofString(r.languageID);
 
-  describe('ofArray', () => {
-    it('when empty Array given, returns Languages.empty()', () => {
-      expect.assertions(1);
-
-      const languages: Languages = Languages.ofArray([]);
-
-      expect(languages).toBe(Languages.empty());
-    });
-
-    it('normal case', () => {
-      expect.assertions(3);
-
-      const langs: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
-
-      const languages: Languages = Languages.ofArray(langs);
-
-      expect(languages.size()).toBe(langs.length);
-      for (let i: number = 0; i < languages.size(); i++) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(languages.get(langs[i]!.getLanguageID())).toBe(langs[i]);
-      }
-    });
-  });
-
-  describe('ofSpread', () => {
-    it('when no arguments given, returns Languages.empty()', () => {
-      expect.assertions(1);
-
-      const languages: Languages = Languages.ofSpread();
-
-      expect(languages).toBe(Languages.empty());
-    });
-
-    it('normal case', () => {
-      expect.assertions(3);
-
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const langs: Array<MockLanguage> = [language1, language2];
-
-      const languages: Languages = Languages.ofSpread(language1, language2);
-
-      expect(languages.size()).toBe(langs.length);
-      for (let i: number = 0; i < languages.size(); i++) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(languages.get(langs[i]!.getLanguageID())).toBe(langs[i]);
-      }
+        expect(r.languageID).toBe(languages.get(id)?.getLanguageID().toString());
+        expect(r.name).toBe(languages.get(id)?.getName().toString());
+        expect(r.englishName).toBe(languages.get(id)?.getEnglishName().toString());
+        expect(r.iso639).toBe(languages.get(id)?.getISO639().toString());
+      });
     });
   });
 
@@ -183,7 +118,7 @@ describe('Languages', () => {
   });
 
   describe('validate', () => {
-    it('normal case', () => {
+    it('returns true if given parameter is json', () => {
       expect.assertions(1);
 
       const n: unknown = [
@@ -232,11 +167,10 @@ describe('Languages', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.get = spy;
-
       const languages: Languages = Languages.of(project);
 
+      // @ts-expect-error
+      languages.languages.get = spy;
       languages.get(new MockLanguageID());
 
       expect(spy.called).toBe(true);
@@ -260,11 +194,10 @@ describe('Languages', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.contains = spy;
-
       const languages: Languages = Languages.of(project);
 
+      // @ts-expect-error
+      languages.languages.contains = spy;
       languages.contains(language1);
 
       expect(spy.called).toBe(true);
@@ -288,11 +221,10 @@ describe('Languages', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.size = spy;
-
       const languages: Languages = Languages.of(project);
 
+      // @ts-expect-error
+      languages.languages.size = spy;
       languages.size();
 
       expect(spy.called).toBe(true);
@@ -316,87 +248,15 @@ describe('Languages', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.forEach = spy;
-
       const languages: Languages = Languages.of(project);
 
+      // @ts-expect-error
+      languages.languages.forEach = spy;
       languages.forEach(() => {
         // NOOP
       });
 
       expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('map', () => {
-    it('normal case', () => {
-      expect.assertions(1);
-
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
-          [language1.getLanguageID(), language1],
-          [language2.getLanguageID(), language2],
-          [language3.getLanguageID(), language3]
-        ])
-      );
-
-      const languages: Languages = Languages.of(project);
-
-      const arr: Array<ISO639> = [...languages.values()].map<ISO639>((language: Language) => {
-        return language.getISO639();
-      });
-
-      expect(arr).toHaveLength(3);
-    });
-  });
-
-  describe('find', () => {
-    it('returns Language if the element exists', () => {
-      expect.assertions(4);
-
-      const uuid1: UUID = UUID.v4();
-      const uuid2: UUID = UUID.v4();
-      const uuid3: UUID = UUID.v4();
-      const language1: MockLanguage = new MockLanguage({
-        languageID: new MockLanguageID(uuid1)
-      });
-      const language2: MockLanguage = new MockLanguage({
-        languageID: new MockLanguageID(uuid2)
-      });
-      const language3: MockLanguage = new MockLanguage({
-        languageID: new MockLanguageID(uuid1)
-      });
-      const language4: MockLanguage = new MockLanguage({
-        languageID: new MockLanguageID(uuid3)
-      });
-
-      const languages: Languages = Languages.ofArray([language1, language2]);
-
-      expect(
-        languages.find((language: Language) => {
-          return language1.equals(language);
-        })
-      ).toBe(language1);
-      expect(
-        languages.find((language: Language) => {
-          return language2.equals(language);
-        })
-      ).toBe(language2);
-      expect(
-        languages.find((language: Language) => {
-          return language3.equals(language);
-        })
-      ).toBe(language1);
-      expect(
-        languages.find((language: Language) => {
-          return language4.equals(language);
-        })
-      ).toBeNull();
     });
   });
 
@@ -417,11 +277,10 @@ describe('Languages', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.isEmpty = spy;
-
       const languages: Languages = Languages.of(project);
 
+      // @ts-expect-error
+      languages.languages.isEmpty = spy;
       languages.isEmpty();
 
       expect(spy.called).toBe(true);
@@ -429,7 +288,30 @@ describe('Languages', () => {
   });
 
   describe('equals', () => {
-    it('same instance', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const languages: Languages = Languages.empty();
+
+      expect(languages.equals(null)).toBe(false);
+      expect(languages.equals(undefined)).toBe(false);
+      expect(languages.equals('')).toBe(false);
+      expect(languages.equals('123')).toBe(false);
+      expect(languages.equals('abcd')).toBe(false);
+      expect(languages.equals(123)).toBe(false);
+      expect(languages.equals(0)).toBe(false);
+      expect(languages.equals(-12)).toBe(false);
+      expect(languages.equals(0.3)).toBe(false);
+      expect(languages.equals(false)).toBe(false);
+      expect(languages.equals(true)).toBe(false);
+      expect(languages.equals(Symbol('p'))).toBe(false);
+      expect(languages.equals(20n)).toBe(false);
+      expect(languages.equals({})).toBe(false);
+      expect(languages.equals([])).toBe(false);
+      expect(languages.equals(Object.create(null))).toBe(false);
+    });
+
+    it('returns true if the same instance given', () => {
       expect.assertions(1);
 
       const language1: MockLanguage = new MockLanguage();
@@ -459,12 +341,11 @@ describe('Languages', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.equals = spy;
-
       const languages: Languages = Languages.of(project);
 
-      languages.equals(new MockLanguages());
+      // @ts-expect-error
+      languages.languages.equals = spy;
+      languages.equals(Languages.empty());
 
       expect(spy.called).toBe(true);
     });
@@ -512,11 +393,10 @@ describe('Languages', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.toString = spy;
-
       const languages: Languages = Languages.of(project);
 
+      // @ts-expect-error
+      languages.languages.toString = spy;
       languages.toString();
 
       expect(spy.called).toBe(true);
@@ -524,7 +404,7 @@ describe('Languages', () => {
   });
 
   describe('iterator', () => {
-    it('normal case', () => {
+    it('returns [LanguageID, Language]', () => {
       expect.assertions(3);
 
       const language1: MockLanguage = new MockLanguage();
@@ -568,11 +448,10 @@ describe('Languages', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.every = spy;
-
       const languages: Languages = Languages.of(project);
 
+      // @ts-expect-error
+      languages.languages.every = spy;
       languages.every(() => {
         return true;
       });
@@ -598,11 +477,10 @@ describe('Languages', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.some = spy;
-
       const languages: Languages = Languages.of(project);
 
+      // @ts-expect-error
+      languages.languages.some = spy;
       languages.some(() => {
         return true;
       });
@@ -628,14 +506,100 @@ describe('Languages', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-
-      project.values = spy;
-
       const languages: Languages = Languages.of(project);
 
+      // @ts-expect-error
+      languages.languages.values = spy;
       languages.values();
 
       expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('filter', () => {
+    it('returns matching element by predicate', () => {
+      expect.assertions(1);
+
+      const language1: MockLanguage = new MockLanguage({
+        name: new MockLanguageName('name 1')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        name: new MockLanguageName('name 2')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        name: new MockLanguageName('name 1')
+      });
+
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
+          [language1.getLanguageID(), language1],
+          [language2.getLanguageID(), language2],
+          [language3.getLanguageID(), language3]
+        ])
+      );
+
+      const languages: Languages = Languages.of(project);
+
+      const filtered: Languages = languages.filter((l: Language) => {
+        return l.getName().get() === 'name 1';
+      });
+
+      expect(filtered.size()).toBe(2);
+    });
+  });
+
+  describe('find', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const language1: MockLanguage = new MockLanguage();
+      const language2: MockLanguage = new MockLanguage();
+      const language3: MockLanguage = new MockLanguage();
+
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
+          [language1.getLanguageID(), language1],
+          [language2.getLanguageID(), language2],
+          [language3.getLanguageID(), language3]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+      const languages: Languages = Languages.of(project);
+
+      // @ts-expect-error
+      languages.languages.find = spy;
+      languages.find(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('map', () => {
+    it('does not affect the length, only change the instance', () => {
+      expect.assertions(1);
+
+      const language1: MockLanguage = new MockLanguage();
+      const language2: MockLanguage = new MockLanguage();
+      const language3: MockLanguage = new MockLanguage();
+
+      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
+        new Map<MockLanguageID, MockLanguage>([
+          [language1.getLanguageID(), language1],
+          [language2.getLanguageID(), language2],
+          [language3.getLanguageID(), language3]
+        ])
+      );
+
+      const languages: Languages = Languages.of(project);
+
+      const mapped: ImmutableProject<LanguageID, ISO639> = languages.map<ISO639>((language: Language) => {
+        return language.getISO639();
+      });
+
+      expect(mapped.size()).toBe(3);
     });
   });
 });

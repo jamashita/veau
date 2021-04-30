@@ -294,6 +294,29 @@ describe('Language', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const language: Language = Language.empty();
+
+      expect(language.equals(null)).toBe(false);
+      expect(language.equals(undefined)).toBe(false);
+      expect(language.equals('')).toBe(false);
+      expect(language.equals('123')).toBe(false);
+      expect(language.equals('abcd')).toBe(false);
+      expect(language.equals(123)).toBe(false);
+      expect(language.equals(0)).toBe(false);
+      expect(language.equals(-12)).toBe(false);
+      expect(language.equals(0.3)).toBe(false);
+      expect(language.equals(false)).toBe(false);
+      expect(language.equals(true)).toBe(false);
+      expect(language.equals(Symbol('p'))).toBe(false);
+      expect(language.equals(20n)).toBe(false);
+      expect(language.equals({})).toBe(false);
+      expect(language.equals([])).toBe(false);
+      expect(language.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the all of the properties are the same', () => {
       expect.assertions(6);
 

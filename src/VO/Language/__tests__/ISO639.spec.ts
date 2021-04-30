@@ -52,6 +52,29 @@ describe('ISO639', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const iso639: ISO639 = ISO639.of('ab');
+
+      expect(iso639.equals(null)).toBe(false);
+      expect(iso639.equals(undefined)).toBe(false);
+      expect(iso639.equals('')).toBe(false);
+      expect(iso639.equals('123')).toBe(false);
+      expect(iso639.equals('abcd')).toBe(false);
+      expect(iso639.equals(123)).toBe(false);
+      expect(iso639.equals(0)).toBe(false);
+      expect(iso639.equals(-12)).toBe(false);
+      expect(iso639.equals(0.3)).toBe(false);
+      expect(iso639.equals(false)).toBe(false);
+      expect(iso639.equals(true)).toBe(false);
+      expect(iso639.equals(Symbol('p'))).toBe(false);
+      expect(iso639.equals(20n)).toBe(false);
+      expect(iso639.equals({})).toBe(false);
+      expect(iso639.equals([])).toBe(false);
+      expect(iso639.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the property is the same', () => {
       expect.assertions(3);
 

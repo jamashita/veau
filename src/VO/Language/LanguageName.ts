@@ -5,6 +5,7 @@ const EMPTY_NAME: string = '';
 export class LanguageName extends ValueObject<'LanguageName'> {
   public readonly noun: 'LanguageName' = 'LanguageName';
   private readonly name: string;
+
   private static readonly EMPTY: LanguageName = new LanguageName(EMPTY_NAME);
 
   public static of(name: string): LanguageName {
@@ -24,9 +25,12 @@ export class LanguageName extends ValueObject<'LanguageName'> {
     this.name = name;
   }
 
-  public equals(other: LanguageName): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof LanguageName)) {
+      return false;
     }
     if (this.name === other.name) {
       return true;
@@ -44,10 +48,6 @@ export class LanguageName extends ValueObject<'LanguageName'> {
   }
 
   public isEmpty(): boolean {
-    if (this === LanguageName.empty()) {
-      return true;
-    }
-
-    return false;
+    return this === LanguageName.empty();
   }
 }
