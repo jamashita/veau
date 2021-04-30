@@ -16,8 +16,8 @@ describe('LocaleQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleCacheQuery);
-      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleCacheQuery);
+      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleHeapQuery);
+      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleHeapQuery);
 
       expect(localeQuery1).toBeInstanceOf(LocaleQuery);
       expect(localeQuery1).toBe(localeQuery2);

@@ -1,5 +1,6 @@
-import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
+import { UnimplementedError } from '@jamashita/anden-error';
 import { Nullable } from '@jamashita/anden-type';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { ILanguageCommand } from '../../Command/Interface/ILanguageCommand';

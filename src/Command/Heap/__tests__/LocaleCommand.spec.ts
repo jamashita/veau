@@ -15,8 +15,8 @@ describe('LocaleCommand', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const localeCommand1: LocaleCommand = vault.get<LocaleCommand>(Type.LocaleCacheCommand);
-      const localeCommand2: LocaleCommand = vault.get<LocaleCommand>(Type.LocaleCacheCommand);
+      const localeCommand1: LocaleCommand = vault.get<LocaleCommand>(Type.LocaleHeapCommand);
+      const localeCommand2: LocaleCommand = vault.get<LocaleCommand>(Type.LocaleHeapCommand);
 
       expect(localeCommand1).toBeInstanceOf(LocaleCommand);
       expect(localeCommand1).toBe(localeCommand2);

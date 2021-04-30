@@ -31,7 +31,7 @@ export class StatsController {
   public list(@Param('page') pg: number, @Res() res: Response): Promise<Response> {
     return Superposition.playground<Page, PageError>(() => {
       return Page.of(pg);
-    }, PageError).map<JSONable, DataSourceError | PageError | PageError | StatsOutlineError>((page: Page) => {
+    }, PageError).map<JSONable, DataSourceError | PageError | StatsOutlineError>((page: Page) => {
       return this.statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), page);
     }).map<Response, DataSourceError | PageError | StatsOutlineError>((outlines: JSONable) => {
       return res.status(StatusCodes.OK).send(outlines.toJSON());

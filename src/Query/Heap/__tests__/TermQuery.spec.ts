@@ -12,8 +12,8 @@ describe('TermQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const termQuery1: TermQuery = vault.get<TermQuery>(Type.TermCacheQuery);
-      const termQuery2: TermQuery = vault.get<TermQuery>(Type.TermCacheQuery);
+      const termQuery1: TermQuery = vault.get<TermQuery>(Type.TermHeapQuery);
+      const termQuery2: TermQuery = vault.get<TermQuery>(Type.TermHeapQuery);
 
       expect(termQuery1).toBeInstanceOf(TermQuery);
       expect(termQuery1).toBe(termQuery2);
