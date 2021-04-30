@@ -1,3 +1,4 @@
+import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
 import { ImmutableProject, MockProject } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
@@ -51,14 +52,26 @@ describe('Languages', () => {
 
   describe('ofJSON', () => {
     it('returns parsed class instance', () => {
-      expect.assertions(5);
+      expect.assertions(13);
 
       const json: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
-          name: 'language name',
-          englishName: 'english language name',
+          name: 'language name 1',
+          englishName: 'english language name 1',
           iso639: 'aa'
+        },
+        {
+          languageID: UUID.v4().get(),
+          name: 'language name 2',
+          englishName: 'english language name 2',
+          iso639: 'bb'
+        },
+        {
+          languageID: UUID.v4().get(),
+          name: 'language name 3',
+          englishName: 'english language name 3',
+          iso639: 'cc'
         }
       ];
       const languages: Languages = Languages.ofJSON(json);
@@ -66,12 +79,12 @@ describe('Languages', () => {
       expect(languages.size()).toBe(json.length);
 
       json.forEach((j: LanguageJSON) => {
-        const id: LanguageID = LanguageID.ofString(j.languageID);
+        const l: Nullable<Language> = languages.get(LanguageID.ofString(j.languageID));
 
-        expect(j.languageID).toBe(languages.get(id)?.getLanguageID().toString());
-        expect(j.name).toBe(languages.get(id)?.getName().toString());
-        expect(j.englishName).toBe(languages.get(id)?.getEnglishName().toString());
-        expect(j.iso639).toBe(languages.get(id)?.getISO639().toString());
+        expect(j.languageID).toBe(l?.getLanguageID().toString());
+        expect(j.name).toBe(l?.getName().toString());
+        expect(j.englishName).toBe(l?.getEnglishName().toString());
+        expect(j.iso639).toBe(l?.getISO639().toString());
       });
     });
   });

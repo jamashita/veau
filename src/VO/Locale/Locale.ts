@@ -9,8 +9,8 @@ import { Regions } from '../Region/Regions';
 import { LocaleError } from './Error/LocaleError';
 
 export type LocaleJSON = Readonly<{
-  languages: Array<LanguageJSON>;
-  regions: Array<RegionJSON>;
+  languages: ReadonlyArray<LanguageJSON>;
+  regions: ReadonlyArray<RegionJSON>;
 }>;
 
 export class Locale extends ValueObject<'Locale'> implements JSONable<LocaleJSON> {
@@ -61,9 +61,12 @@ export class Locale extends ValueObject<'Locale'> implements JSONable<LocaleJSON
     this.regions = regions;
   }
 
-  public equals(other: Locale): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Locale)) {
+      return false;
     }
     if (!this.languages.equals(other.languages)) {
       return false;
@@ -83,12 +86,12 @@ export class Locale extends ValueObject<'Locale'> implements JSONable<LocaleJSON
   }
 
   public serialize(): string {
-    const properties: Array<string> = [];
+    const props: Array<string> = [];
 
-    properties.push(this.languages.toString());
-    properties.push(this.regions.toString());
+    props.push(this.languages.toString());
+    props.push(this.regions.toString());
 
-    return properties.join(' ');
+    return props.join(' ');
   }
 
   public getLanguages(): Languages {

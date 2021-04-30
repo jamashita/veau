@@ -7,11 +7,9 @@ import { LanguageName } from '../../Language/LanguageName';
 import { Languages } from '../../Language/Languages';
 import { MockLanguage } from '../../Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
-import { MockLanguages } from '../../Language/Mock/MockLanguages';
 import { ISO3166 } from '../../Region/ISO3166';
 import { MockRegion } from '../../Region/Mock/MockRegion';
 import { MockRegionID } from '../../Region/Mock/MockRegionID';
-import { MockRegions } from '../../Region/Mock/MockRegions';
 import { Region, RegionJSON } from '../../Region/Region';
 import { RegionID } from '../../Region/RegionID';
 import { RegionName } from '../../Region/RegionName';
@@ -63,32 +61,24 @@ describe('Locale', () => {
       });
 
       expect(locale.getLanguages().size()).toBe(languages.length);
-      for (let i: number = 0; i < locale.getLanguages().size(); i++) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const language: Nullable<Language> = locale.getLanguages().get(LanguageID.ofString(languages[i]!.languageID));
-
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getLanguageID().get().get()).toBe(languages[i]!.languageID);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getName().get()).toBe(languages[i]!.name);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getEnglishName().get()).toBe(languages[i]!.englishName);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(language?.getISO639().get()).toBe(languages[i]!.iso639);
-      }
-
       expect(locale.getRegions().size()).toBe(regions.length);
-      for (let i: number = 0; i < locale.getRegions().size(); i++) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const region: Nullable<Region> = locale.getRegions().get(RegionID.ofString(regions[i]!.regionID));
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(region?.getRegionID().get().get()).toBe(regions[i]!.regionID);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(region?.getName().get()).toBe(regions[i]!.name);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(region?.getISO3166().get()).toBe(regions[i]!.iso3166);
-      }
+      languages.forEach((json: LanguageJSON) => {
+        const l: Nullable<Language> = locale.getLanguages().get(LanguageID.ofString(json.languageID));
+
+        expect(json.languageID).toBe(l?.getLanguageID().toString());
+        expect(json.name).toBe(l?.getName().toString());
+        expect(json.englishName).toBe(l?.getEnglishName().toString());
+        expect(json.iso639).toBe(l?.getISO639().toString());
+      });
+
+      regions.forEach((json: RegionJSON) => {
+        const r: Nullable<Region> = locale.getRegions().get(RegionID.ofString(json.regionID));
+
+        expect(json.regionID).toBe(r?.getRegionID().toString());
+        expect(json.name).toBe(r?.getName().toString());
+        expect(json.iso3166).toBe(r?.getISO3166().toString());
+      });
     });
 
     it('has malformat languageID', () => {
@@ -153,7 +143,7 @@ describe('Locale', () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const locale1: Locale = Locale.of(
-        new MockLanguages(
+        Languages.ofSpread(
           new MockLanguage({
             languageID: new MockLanguageID(uuid1)
           }),
@@ -161,7 +151,7 @@ describe('Locale', () => {
             languageID: new MockLanguageID(uuid2)
           })
         ),
-        new MockRegions(
+        Regions.ofSpread(
           new MockRegion({
             regionID: new MockRegionID(uuid1)
           }),
@@ -171,12 +161,12 @@ describe('Locale', () => {
         )
       );
       const locale2: Locale = Locale.of(
-        new MockLanguages(
+        Languages.ofSpread(
           new MockLanguage({
             languageID: new MockLanguageID(uuid1)
           })
         ),
-        new MockRegions(
+        Regions.ofSpread(
           new MockRegion({
             regionID: new MockRegionID(uuid1)
           }),
@@ -186,7 +176,7 @@ describe('Locale', () => {
         )
       );
       const locale3: Locale = Locale.of(
-        new MockLanguages(
+        Languages.ofSpread(
           new MockLanguage({
             languageID: new MockLanguageID(uuid1)
           }),
@@ -194,26 +184,26 @@ describe('Locale', () => {
             languageID: new MockLanguageID(uuid2)
           })
         ),
-        new MockRegions(
+        Regions.ofSpread(
           new MockRegion({
             regionID: new MockRegionID(uuid2)
           })
         )
       );
       const locale4: Locale = Locale.of(
-        new MockLanguages(
+        Languages.ofSpread(
           new MockLanguage({
             languageID: new MockLanguageID(uuid1)
           })
         ),
-        new MockRegions(
+        Regions.ofSpread(
           new MockRegion({
             regionID: new MockRegionID(uuid1)
           })
         )
       );
       const locale5: Locale = Locale.of(
-        new MockLanguages(
+        Languages.ofSpread(
           new MockLanguage({
             languageID: new MockLanguageID(uuid1)
           }),
@@ -221,7 +211,7 @@ describe('Locale', () => {
             languageID: new MockLanguageID(uuid2)
           })
         ),
-        new MockRegions(
+        Regions.ofSpread(
           new MockRegion({
             regionID: new MockRegionID(uuid1)
           }),

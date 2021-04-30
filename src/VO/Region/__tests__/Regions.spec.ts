@@ -49,31 +49,31 @@ describe('Regions', () => {
     });
 
     it('normal case', () => {
-      expect.assertions(4);
+      expect.assertions(7);
 
       const json: Array<RegionJSON> = [
         {
           regionID: UUID.v4().get(),
           name: 'region 1',
           iso3166: 'abc'
+        },
+        {
+          regionID: UUID.v4().get(),
+          name: 'region 2',
+          iso3166: 'def'
         }
       ];
-
       const regions: Regions = Regions.ofJSON(json);
 
       expect(regions.size()).toBe(json.length);
-      for (let i: number = 0; i < regions.size(); i++) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const regionID: RegionID = RegionID.ofString(json[i]!.regionID);
-        const region: Nullable<Region> = regions.get(regionID);
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(region?.getRegionID().get().get()).toBe(json[i]!.regionID);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(region?.getName().get()).toBe(json[i]!.name);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(region?.getISO3166().get()).toBe(json[i]!.iso3166);
-      }
+      json.forEach((j: RegionJSON) => {
+        const r: Nullable<Region> = regions.get(RegionID.ofString(j.regionID));
+
+        expect(j.regionID).toBe(r?.getRegionID().toString());
+        expect(j.name).toBe(r?.getName().toString());
+        expect(j.iso3166).toBe(r?.getISO3166().toString());
+      });
     });
   });
 
