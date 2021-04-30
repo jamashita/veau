@@ -1,4 +1,3 @@
-import { Nullable } from '@jamashita/anden-type';
 import { MockTerm } from '../../Term/Mock/MockTerm';
 import { Term } from '../../Term/Term';
 import { Terms } from '../../Term/Terms';
@@ -43,6 +42,29 @@ describe('AsOf', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const asOf: AsOf = AsOf.now();
+
+      expect(asOf.equals(null)).toBe(false);
+      expect(asOf.equals(undefined)).toBe(false);
+      expect(asOf.equals('')).toBe(false);
+      expect(asOf.equals('123')).toBe(false);
+      expect(asOf.equals('abcd')).toBe(false);
+      expect(asOf.equals(123)).toBe(false);
+      expect(asOf.equals(0)).toBe(false);
+      expect(asOf.equals(-12)).toBe(false);
+      expect(asOf.equals(0.3)).toBe(false);
+      expect(asOf.equals(false)).toBe(false);
+      expect(asOf.equals(true)).toBe(false);
+      expect(asOf.equals(Symbol('p'))).toBe(false);
+      expect(asOf.equals(20n)).toBe(false);
+      expect(asOf.equals({})).toBe(false);
+      expect(asOf.equals([])).toBe(false);
+      expect(asOf.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if both properties are the same', () => {
       expect.assertions(3);
 
@@ -139,13 +161,11 @@ describe('AsOf', () => {
       expect.assertions(5);
 
       const asOf: AsOf = AsOf.ofString('2000-01-01');
-      const allTerm: Terms = Terms.all();
+      const terms: Terms = Terms.all();
 
-      allTerm.map<void>((term: Term) => {
+      terms.forEach((term: Term) => {
         expect(() => {
-          const t: Nullable<Term> = allTerm.get(term.getTermID());
-
-          asOf.previous(t!);
+          asOf.previous(term);
         }).not.toThrow(AsOfError);
       });
     });
@@ -217,13 +237,11 @@ describe('AsOf', () => {
       expect.assertions(5);
 
       const asOf: AsOf = AsOf.ofString('2000-01-01');
-      const allTerm: Terms = Terms.all();
+      const terms: Terms = Terms.all();
 
-      allTerm.map<void>((term: Term) => {
+      terms.forEach((term: Term) => {
         expect(() => {
-          const t: Nullable<Term> = allTerm.get(term.getTermID());
-
-          asOf.next(t!);
+          asOf.next(term);
         }).not.toThrow(AsOfError);
       });
     });

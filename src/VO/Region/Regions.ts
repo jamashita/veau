@@ -82,8 +82,8 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     return this.regions.size();
   }
 
-  public forEach(iteration: Enumerator<RegionID, Region>): void {
-    this.regions.forEach(iteration);
+  public forEach(enumerator: Enumerator<RegionID, Region>): void {
+    this.regions.forEach(enumerator);
   }
 
   public isEmpty(): boolean {

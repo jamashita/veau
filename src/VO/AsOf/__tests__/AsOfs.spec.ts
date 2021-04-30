@@ -1,4 +1,4 @@
-import { Nullable } from '@jamashita/anden-type';
+import { Zeit } from '@jamashita/anden-zeit';
 import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { Term } from '../../Term/Term';
@@ -216,10 +216,9 @@ describe('AsOfs', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
+      const asOfs: AsOfs = AsOfs.of(sequence);
 
       sequence.get = spy;
-
-      const asOfs: AsOfs = AsOfs.of(sequence);
       // @ts-expect-error
       asOfs.asOfs = sequence;
 
@@ -241,10 +240,9 @@ describe('AsOfs', () => {
       const asOf: MockAsOf = new MockAsOf();
 
       const spy: SinonSpy = sinon.spy();
+      const asOfs: AsOfs = AsOfs.of(sequence);
 
       sequence.contains = spy;
-
-      const asOfs: AsOfs = AsOfs.of(sequence);
       // @ts-expect-error
       asOfs.asOfs = sequence;
 
@@ -265,10 +263,9 @@ describe('AsOfs', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
+      const asOfs: AsOfs = AsOfs.of(sequence);
 
       sequence.size = spy;
-
-      const asOfs: AsOfs = AsOfs.of(sequence);
       // @ts-expect-error
       asOfs.asOfs = sequence;
 
@@ -289,10 +286,9 @@ describe('AsOfs', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
+      const asOfs: AsOfs = AsOfs.of(sequence);
 
       sequence.forEach = spy;
-
-      const asOfs: AsOfs = AsOfs.of(sequence);
       // @ts-expect-error
       asOfs.asOfs = sequence;
 
@@ -321,9 +317,8 @@ describe('AsOfs', () => {
         day: 1
       });
       const asOfs: AsOfs = AsOfs.ofArray([asOf1, asOf2, asOf3, asOf4]);
-      const a: Nullable<AsOf> = asOfs.min();
 
-      expect(a?.equals(asOf2)).toBe(true);
+      expect(asOfs.min()?.equals(asOf2)).toBe(true);
     });
 
     it('returns asOf itself when the elements are only one', () => {
@@ -333,9 +328,8 @@ describe('AsOfs', () => {
         day: 3
       });
       const asOfs: AsOfs = AsOfs.ofArray([asOf]);
-      const a: Nullable<AsOf> = asOfs.min();
 
-      expect(a).toBe(asOf);
+      expect(asOfs.min()).toBe(asOf);
     });
 
     it('returns null when AsOfs are empty', () => {
@@ -362,9 +356,8 @@ describe('AsOfs', () => {
         day: 3
       });
       const asOfs: AsOfs = AsOfs.ofArray([asOf1, asOf2, asOf3, asOf4]);
-      const a: Nullable<AsOf> = asOfs.max();
 
-      expect(a?.equals(asOf4)).toBe(true);
+      expect(asOfs.max()?.equals(asOf4)).toBe(true);
     });
 
     it('returns asOf itself when the elements are only one', () => {
@@ -374,9 +367,8 @@ describe('AsOfs', () => {
         day: 3
       });
       const asOfs: AsOfs = AsOfs.ofArray([asOf]);
-      const a: Nullable<AsOf> = asOfs.max();
 
-      expect(a).toBe(asOf);
+      expect(asOfs.max()).toBe(asOf);
     });
 
     it('returns null when AsOfs are empty', () => {
@@ -397,10 +389,9 @@ describe('AsOfs', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
+      const asOfs: AsOfs = AsOfs.of(sequence);
 
       sequence.isEmpty = spy;
-
-      const asOfs: AsOfs = AsOfs.of(sequence);
       // @ts-expect-error
       asOfs.asOfs = sequence;
 
@@ -411,6 +402,29 @@ describe('AsOfs', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const asOfs: AsOfs = AsOfs.empty();
+
+      expect(asOfs.equals(null)).toBe(false);
+      expect(asOfs.equals(undefined)).toBe(false);
+      expect(asOfs.equals('')).toBe(false);
+      expect(asOfs.equals('123')).toBe(false);
+      expect(asOfs.equals('abcd')).toBe(false);
+      expect(asOfs.equals(123)).toBe(false);
+      expect(asOfs.equals(0)).toBe(false);
+      expect(asOfs.equals(-12)).toBe(false);
+      expect(asOfs.equals(0.3)).toBe(false);
+      expect(asOfs.equals(false)).toBe(false);
+      expect(asOfs.equals(true)).toBe(false);
+      expect(asOfs.equals(Symbol('p'))).toBe(false);
+      expect(asOfs.equals(20n)).toBe(false);
+      expect(asOfs.equals({})).toBe(false);
+      expect(asOfs.equals([])).toBe(false);
+      expect(asOfs.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true when same instance given', () => {
       expect.assertions(1);
 
@@ -441,10 +455,9 @@ describe('AsOfs', () => {
       });
 
       const spy: SinonSpy = sinon.spy();
+      const asOfs: AsOfs = AsOfs.of(sequence);
 
       sequence.equals = spy;
-
-      const asOfs: AsOfs = AsOfs.of(sequence);
       // @ts-expect-error
       asOfs.asOfs = sequence;
 
@@ -511,10 +524,9 @@ describe('AsOfs', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
+      const asOfs: AsOfs = AsOfs.of(sequence);
 
       sequence.toString = spy;
-
-      const asOfs: AsOfs = AsOfs.of(sequence);
       // @ts-expect-error
       asOfs.asOfs = sequence;
 
@@ -553,10 +565,9 @@ describe('AsOfs', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
+      const asOfs: AsOfs = AsOfs.of(sequence);
 
       sequence.every = spy;
-
-      const asOfs: AsOfs = AsOfs.of(sequence);
       // @ts-expect-error
       asOfs.asOfs = sequence;
 
@@ -579,10 +590,9 @@ describe('AsOfs', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
+      const asOfs: AsOfs = AsOfs.of(sequence);
 
       sequence.some = spy;
-
-      const asOfs: AsOfs = AsOfs.of(sequence);
       // @ts-expect-error
       asOfs.asOfs = sequence;
 
@@ -591,6 +601,75 @@ describe('AsOfs', () => {
       });
 
       expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('filter', () => {
+    it('returns matching elements by predicate', () => {
+      expect.assertions(1);
+
+      const sequence: MockSequence<AsOf> = new MockSequence<AsOf>([
+        AsOf.ofString('2000-01-01'),
+        AsOf.ofString('2000-01-02'),
+        AsOf.ofString('2000-01-03')
+      ]);
+
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      const filtered: AsOfs = asOfs.filter((a: AsOf) => {
+        return a.isAfter(AsOf.ofString('2000-01-02'));
+      });
+
+      expect(filtered.size()).toBe(1);
+    });
+  });
+
+  describe('find', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const sequence: MockSequence<AsOf> = new MockSequence<AsOf>([
+        AsOf.ofString('2000-01-01'),
+        AsOf.ofString('2000-01-02'),
+        AsOf.ofString('2000-01-03')
+      ]);
+
+      const spy: SinonSpy = sinon.spy();
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      sequence.find = spy;
+      // @ts-expect-error
+      asOfs.asOfs = sequence;
+
+      asOfs.find(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('map', () => {
+    it('does not affect the length, only change the instance', () => {
+      expect.assertions(1);
+
+      const asOf1: AsOf = AsOf.ofString('2000-01-01');
+      const asOf2: AsOf = AsOf.ofString('2000-01-02');
+      const asOf3: AsOf = AsOf.ofString('2000-01-03');
+
+      const sequence: MockSequence<AsOf> = new MockSequence<AsOf>([
+        asOf1,
+        asOf2,
+        asOf3
+      ]);
+
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      const mapped: ImmutableSequence<Zeit> = asOfs.map<Zeit>((asOf: AsOf) => {
+        return asOf.get();
+      });
+
+      expect(mapped.size()).toBe(3);
     });
   });
 });

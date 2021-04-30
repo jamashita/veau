@@ -530,7 +530,7 @@ describe('Languages', () => {
   });
 
   describe('filter', () => {
-    it('returns matching element by predicate', () => {
+    it('returns matching elements by predicate', () => {
       expect.assertions(1);
 
       const language1: MockLanguage = new MockLanguage({

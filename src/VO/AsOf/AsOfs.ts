@@ -81,17 +81,20 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
     return this.asOfs.size();
   }
 
-  public forEach(iteration: Enumerator<number, AsOf>): void {
-    this.asOfs.forEach(iteration);
+  public forEach(enumerator: Enumerator<number, AsOf>): void {
+    this.asOfs.forEach(enumerator);
   }
 
   public isEmpty(): boolean {
     return this.asOfs.isEmpty();
   }
 
-  public equals(other: AsOfs): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof AsOfs)) {
+      return false;
     }
 
     return this.asOfs.equals(other.asOfs);
@@ -139,7 +142,7 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
     return this.asOfs.find(predicate);
   }
 
-  public map<W>(mapper: Mapper<AsOf, W>): Sequence<W> {
+  public map<W>(mapper: Mapper<AsOf, W>): ImmutableSequence<W> {
     return this.asOfs.map<W>(mapper);
   }
 

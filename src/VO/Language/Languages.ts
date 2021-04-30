@@ -82,8 +82,8 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return this.languages.size();
   }
 
-  public forEach(iteration: Enumerator<LanguageID, Language>): void {
-    this.languages.forEach(iteration);
+  public forEach(enumerator: Enumerator<LanguageID, Language>): void {
+    this.languages.forEach(enumerator);
   }
 
   public isEmpty(): boolean {

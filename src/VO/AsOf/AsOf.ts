@@ -41,9 +41,12 @@ export class AsOf extends ValueObject<'AsOf'> {
     this.asOf = asOf;
   }
 
-  public equals(other: AsOf): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof AsOf)) {
+      return false;
     }
 
     return this.asOf.equals(other.asOf);
