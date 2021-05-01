@@ -1,7 +1,6 @@
 import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { MockStatsItemName } from '../Mock/MockStatsItemName';
-import { MockStatsItemNames } from '../Mock/MockStatsItemNames';
 import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';
 
@@ -272,7 +271,7 @@ describe('StatsItemNames', () => {
 
       // @ts-expect-error
       names.names.equals = spy;
-      names.equals(new MockStatsItemNames());
+      names.equals(StatsItemNames.empty());
 
       expect(spy.called).toBe(true);
     });
