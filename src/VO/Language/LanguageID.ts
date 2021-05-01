@@ -8,6 +8,10 @@ export class LanguageID extends ValueObject<'LanguageID'> {
 
   private static readonly EMPTY: LanguageID = new LanguageID(UUID.v5());
 
+  public static empty(): LanguageID {
+    return LanguageID.EMPTY;
+  }
+
   public static of(uuid: UUID): LanguageID {
     return new LanguageID(uuid);
   }
@@ -23,10 +27,6 @@ export class LanguageID extends ValueObject<'LanguageID'> {
 
       throw err;
     }
-  }
-
-  public static empty(): LanguageID {
-    return LanguageID.EMPTY;
   }
 
   protected constructor(uuid: UUID) {

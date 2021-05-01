@@ -8,16 +8,16 @@ export class ISO3166 extends ValueObject<'ISO3166'> {
 
   private static readonly EMPTY: ISO3166 = new ISO3166(EMPTY_CODE);
 
+  public static empty(): ISO3166 {
+    return ISO3166.EMPTY;
+  }
+
   public static of(iso3166: string): ISO3166 {
     if (iso3166 === EMPTY_CODE) {
       return ISO3166.empty();
     }
 
     return new ISO3166(iso3166);
-  }
-
-  public static empty(): ISO3166 {
-    return ISO3166.EMPTY;
   }
 
   protected constructor(iso3166: string) {

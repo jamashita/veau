@@ -8,16 +8,16 @@ export class RegionName extends ValueObject<'RegionName'> {
 
   private static readonly EMPTY: RegionName = new RegionName(EMPTY_NAME);
 
+  public static empty(): RegionName {
+    return RegionName.EMPTY;
+  }
+
   public static of(name: string): RegionName {
     if (name === EMPTY_NAME) {
       return RegionName.empty();
     }
 
     return new RegionName(name);
-  }
-
-  public static empty(): RegionName {
-    return RegionName.EMPTY;
   }
 
   protected constructor(name: string) {

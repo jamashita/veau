@@ -8,16 +8,16 @@ export class LanguageName extends ValueObject<'LanguageName'> {
 
   private static readonly EMPTY: LanguageName = new LanguageName(EMPTY_NAME);
 
+  public static empty(): LanguageName {
+    return LanguageName.EMPTY;
+  }
+
   public static of(name: string): LanguageName {
     if (name === EMPTY_NAME) {
       return LanguageName.empty();
     }
 
     return new LanguageName(name);
-  }
-
-  public static empty(): LanguageName {
-    return LanguageName.EMPTY;
   }
 
   protected constructor(name: string) {

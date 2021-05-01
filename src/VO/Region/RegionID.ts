@@ -8,6 +8,10 @@ export class RegionID extends ValueObject<'RegionID'> {
 
   private static readonly EMPTY: RegionID = new RegionID(UUID.v5());
 
+  public static empty(): RegionID {
+    return RegionID.EMPTY;
+  }
+
   public static of(uuid: UUID): RegionID {
     return new RegionID(uuid);
   }
@@ -23,10 +27,6 @@ export class RegionID extends ValueObject<'RegionID'> {
 
       throw err;
     }
-  }
-
-  public static empty(): RegionID {
-    return RegionID.EMPTY;
   }
 
   protected constructor(uuid: UUID) {

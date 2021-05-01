@@ -1,5 +1,5 @@
-import { BinaryPredicate, Enumerator, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
-import { ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
+import { BinaryPredicate, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { Collection, ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 import { LanguageID } from './LanguageID';
 
@@ -8,6 +8,10 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
   private readonly languages: ImmutableProject<LanguageID, Language>;
 
   private static readonly EMPTY: Languages = new Languages(ImmutableProject.empty<LanguageID, Language>());
+
+  public static empty(): Languages {
+    return Languages.EMPTY;
+  }
 
   public static of(languages: ReadonlyProject<LanguageID, Language>): Languages {
     if (languages.isEmpty()) {
@@ -27,16 +31,16 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return Languages.ofMap(map);
   }
 
-  public static ofSpread(...languages: Array<Language>): Languages {
-    return Languages.ofArray(languages);
-  }
-
   public static ofJSON(json: ReadonlyArray<LanguageJSON>): Languages {
     const arr: Array<Language> = json.map<Language>((language: LanguageJSON) => {
       return Language.ofJSON(language);
     });
 
     return Languages.ofArray(arr);
+  }
+
+  private static ofMap(languages: ReadonlyMap<LanguageID, Language>): Languages {
+    return Languages.of(ImmutableProject.ofMap<LanguageID, Language>(languages));
   }
 
   public static ofRow(rows: ReadonlyArray<LanguageRow>): Languages {
@@ -47,8 +51,8 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return Languages.ofArray(arr);
   }
 
-  public static empty(): Languages {
-    return Languages.EMPTY;
+  public static ofSpread(...languages: Array<Language>): Languages {
+    return Languages.ofArray(languages);
   }
 
   public static validate(n: unknown): n is ReadonlyArray<LanguageJSON> {
@@ -61,33 +65,13 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     });
   }
 
-  private static ofMap(languages: ReadonlyMap<LanguageID, Language>): Languages {
-    return Languages.of(ImmutableProject.ofMap<LanguageID, Language>(languages));
-  }
-
   protected constructor(languages: ImmutableProject<LanguageID, Language>) {
     super();
     this.languages = languages;
   }
 
-  public get(key: LanguageID): Nullable<Language> {
-    return this.languages.get(key);
-  }
-
   public contains(value: Language): boolean {
     return this.languages.contains(value);
-  }
-
-  public size(): number {
-    return this.languages.size();
-  }
-
-  public forEach(enumerator: Enumerator<LanguageID, Language>): void {
-    this.languages.forEach(enumerator);
-  }
-
-  public isEmpty(): boolean {
-    return this.languages.isEmpty();
   }
 
   public equals(other: unknown): boolean {
@@ -101,6 +85,46 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return this.languages.equals(other.languages);
   }
 
+  public every(predicate: BinaryPredicate<Language, LanguageID>): boolean {
+    return this.languages.every(predicate);
+  }
+
+  public filter(predicate: BinaryPredicate<Language, LanguageID>): Collection<LanguageID, Language> {
+    return this.languages.filter(predicate);
+  }
+
+  public find(predicate: BinaryPredicate<Language, LanguageID>): Nullable<Language> {
+    return this.languages.find(predicate);
+  }
+
+  public get(key: LanguageID): Nullable<Language> {
+    return this.languages.get(key);
+  }
+
+  public isEmpty(): boolean {
+    return this.languages.isEmpty();
+  }
+
+  public iterator(): Iterator<[LanguageID, Language]> {
+    return this.languages.iterator();
+  }
+
+  public map<W>(mapper: Mapper<Language, W>): ImmutableProject<LanguageID, W> {
+    return this.languages.map<W>(mapper);
+  }
+
+  public serialize(): string {
+    return this.languages.toString();
+  }
+
+  public size(): number {
+    return this.languages.size();
+  }
+
+  public some(predicate: BinaryPredicate<Language, LanguageID>): boolean {
+    return this.languages.some(predicate);
+  }
+
   public toJSON(): Array<LanguageJSON> {
     const json: Array<LanguageJSON> = [];
 
@@ -111,35 +135,7 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return json;
   }
 
-  public serialize(): string {
-    return this.languages.toString();
-  }
-
-  public iterator(): Iterator<[LanguageID, Language]> {
-    return this.languages.iterator();
-  }
-
-  public every(predicate: BinaryPredicate<Language, LanguageID>): boolean {
-    return this.languages.every(predicate);
-  }
-
-  public some(predicate: BinaryPredicate<Language, LanguageID>): boolean {
-    return this.languages.some(predicate);
-  }
-
   public values(): Iterable<Language> {
     return this.languages.values();
-  }
-
-  public filter(predicate: BinaryPredicate<Language, LanguageID>): Languages {
-    return Languages.of(this.languages.filter(predicate));
-  }
-
-  public find(predicate: BinaryPredicate<Language, LanguageID>): Nullable<Language> {
-    return this.languages.find(predicate);
-  }
-
-  public map<W>(mapper: Mapper<Language, W>): ImmutableProject<LanguageID, W> {
-    return this.languages.map<W>(mapper);
   }
 }

@@ -31,6 +31,10 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
     ISO639.empty()
   );
 
+  public static empty(): Language {
+    return Language.EMPTY;
+  }
+
   public static of(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639): Language {
     if (languageID.isEmpty()) {
       return Language.empty();
@@ -64,10 +68,6 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
       LanguageName.of(row.englishName),
       ISO639.of(row.iso639)
     );
-  }
-
-  public static empty(): Language {
-    return Language.EMPTY;
   }
 
   public static validate(n: unknown): n is LanguageJSON {
@@ -121,15 +121,6 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
     return true;
   }
 
-  public toJSON(): LanguageJSON {
-    return {
-      languageID: this.languageID.get().get(),
-      name: this.name.get(),
-      englishName: this.englishName.get(),
-      iso639: this.iso639.get()
-    };
-  }
-
   public serialize(): string {
     const props: Array<string> = [];
 
@@ -141,12 +132,13 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
     return props.join(' ');
   }
 
-  public getLanguageID(): LanguageID {
-    return this.languageID;
-  }
-
-  public getName(): LanguageName {
-    return this.name;
+  public toJSON(): LanguageJSON {
+    return {
+      languageID: this.languageID.get().get(),
+      name: this.name.get(),
+      englishName: this.englishName.get(),
+      iso639: this.iso639.get()
+    };
   }
 
   public getEnglishName(): LanguageName {
@@ -155,6 +147,14 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
 
   public getISO639(): ISO639 {
     return this.iso639;
+  }
+
+  public getLanguageID(): LanguageID {
+    return this.languageID;
+  }
+
+  public getName(): LanguageName {
+    return this.name;
   }
 
   public isEmpty(): boolean {
