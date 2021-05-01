@@ -23,6 +23,15 @@ export class VeauAccount extends ValueObject<'VeauAccount'> implements JSONable<
   private readonly regionID: RegionID;
   private readonly name: AccountName;
 
+  public static empty(): VeauAccount {
+    return VeauAccount.of(
+      VeauAccountID.generate(),
+      LanguageID.empty(),
+      RegionID.empty(),
+      AccountName.empty()
+    );
+  }
+
   public static of(
     veauAccountID: VeauAccountID,
     languageID: LanguageID,
@@ -48,15 +57,6 @@ export class VeauAccount extends ValueObject<'VeauAccount'> implements JSONable<
 
       throw err;
     }
-  }
-
-  public static empty(): VeauAccount {
-    return VeauAccount.of(
-      VeauAccountID.generate(),
-      LanguageID.empty(),
-      RegionID.empty(),
-      AccountName.empty()
-    );
   }
 
   public static validate(n: unknown): n is VeauAccountJSON {
@@ -92,9 +92,12 @@ export class VeauAccount extends ValueObject<'VeauAccount'> implements JSONable<
     this.name = account;
   }
 
-  public equals(other: VeauAccount): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof VeauAccount)) {
+      return false;
     }
     if (!this.veauAccountID.equals(other.veauAccountID)) {
       return false;
@@ -112,15 +115,6 @@ export class VeauAccount extends ValueObject<'VeauAccount'> implements JSONable<
     return true;
   }
 
-  public toJSON(): VeauAccountJSON {
-    return {
-      veauAccountID: this.veauAccountID.get().get(),
-      languageID: this.languageID.get().get(),
-      regionID: this.regionID.get().get(),
-      name: this.name.get()
-    };
-  }
-
   public serialize(): string {
     const properties: Array<string> = [];
 
@@ -132,8 +126,17 @@ export class VeauAccount extends ValueObject<'VeauAccount'> implements JSONable<
     return properties.join(' ');
   }
 
-  public getVeauAccountID(): VeauAccountID {
-    return this.veauAccountID;
+  public toJSON(): VeauAccountJSON {
+    return {
+      veauAccountID: this.veauAccountID.get().get(),
+      languageID: this.languageID.get().get(),
+      regionID: this.regionID.get().get(),
+      name: this.name.get()
+    };
+  }
+
+  public getAccountName(): AccountName {
+    return this.name;
   }
 
   public getLanguageID(): LanguageID {
@@ -144,7 +147,7 @@ export class VeauAccount extends ValueObject<'VeauAccount'> implements JSONable<
     return this.regionID;
   }
 
-  public getAccountName(): AccountName {
-    return this.name;
+  public getVeauAccountID(): VeauAccountID {
+    return this.veauAccountID;
   }
 }

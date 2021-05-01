@@ -46,6 +46,29 @@ describe('VeauAccountID', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const veauAccountID: VeauAccountID = VeauAccountID.of(UUID.v4());
+
+      expect(veauAccountID.equals(null)).toBe(false);
+      expect(veauAccountID.equals(undefined)).toBe(false);
+      expect(veauAccountID.equals('')).toBe(false);
+      expect(veauAccountID.equals('123')).toBe(false);
+      expect(veauAccountID.equals('abcd')).toBe(false);
+      expect(veauAccountID.equals(123)).toBe(false);
+      expect(veauAccountID.equals(0)).toBe(false);
+      expect(veauAccountID.equals(-12)).toBe(false);
+      expect(veauAccountID.equals(0.3)).toBe(false);
+      expect(veauAccountID.equals(false)).toBe(false);
+      expect(veauAccountID.equals(true)).toBe(false);
+      expect(veauAccountID.equals(Symbol('p'))).toBe(false);
+      expect(veauAccountID.equals(20n)).toBe(false);
+      expect(veauAccountID.equals({})).toBe(false);
+      expect(veauAccountID.equals([])).toBe(false);
+      expect(veauAccountID.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the property is the same', () => {
       expect.assertions(3);
 

@@ -6,6 +6,10 @@ export class VeauAccountID extends ValueObject<'VeauAccountID'> {
   public readonly noun: 'VeauAccountID' = 'VeauAccountID';
   private readonly uuid: UUID;
 
+  public static generate(): VeauAccountID {
+    return VeauAccountID.of(UUID.v4());
+  }
+
   public static of(uuid: UUID): VeauAccountID {
     return new VeauAccountID(uuid);
   }
@@ -23,18 +27,17 @@ export class VeauAccountID extends ValueObject<'VeauAccountID'> {
     }
   }
 
-  public static generate(): VeauAccountID {
-    return VeauAccountID.of(UUID.v4());
-  }
-
   protected constructor(uuid: UUID) {
     super();
     this.uuid = uuid;
   }
 
-  public equals(other: VeauAccountID): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof VeauAccountID)) {
+      return false;
     }
 
     return this.uuid.equals(other.uuid);

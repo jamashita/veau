@@ -235,6 +235,29 @@ describe('VeauAccount', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const account: VeauAccount = VeauAccount.empty();
+
+      expect(account.equals(null)).toBe(false);
+      expect(account.equals(undefined)).toBe(false);
+      expect(account.equals('')).toBe(false);
+      expect(account.equals('123')).toBe(false);
+      expect(account.equals('abcd')).toBe(false);
+      expect(account.equals(123)).toBe(false);
+      expect(account.equals(0)).toBe(false);
+      expect(account.equals(-12)).toBe(false);
+      expect(account.equals(0.3)).toBe(false);
+      expect(account.equals(false)).toBe(false);
+      expect(account.equals(true)).toBe(false);
+      expect(account.equals(Symbol('p'))).toBe(false);
+      expect(account.equals(20n)).toBe(false);
+      expect(account.equals({})).toBe(false);
+      expect(account.equals([])).toBe(false);
+      expect(account.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the all properties are the same', () => {
       expect.assertions(6);
 
