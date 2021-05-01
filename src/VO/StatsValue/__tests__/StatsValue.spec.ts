@@ -1,6 +1,6 @@
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
-import { ValueContained } from '../../NumericalValue/ValueContained';
+import { NumericalValue } from '../../NumericalValue/NumericalValue';
 import { StatsValueError } from '../Error/StatsValueError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 
@@ -131,6 +131,29 @@ describe('StatsValue', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const value: StatsValue = StatsValue.of(new MockAsOf(), NumericalValue.of(1));
+
+      expect(value.equals(null)).toBe(false);
+      expect(value.equals(undefined)).toBe(false);
+      expect(value.equals('')).toBe(false);
+      expect(value.equals('123')).toBe(false);
+      expect(value.equals('abcd')).toBe(false);
+      expect(value.equals(123)).toBe(false);
+      expect(value.equals(0)).toBe(false);
+      expect(value.equals(-12)).toBe(false);
+      expect(value.equals(0.3)).toBe(false);
+      expect(value.equals(false)).toBe(false);
+      expect(value.equals(true)).toBe(false);
+      expect(value.equals(Symbol('p'))).toBe(false);
+      expect(value.equals(20n)).toBe(false);
+      expect(value.equals({})).toBe(false);
+      expect(value.equals([])).toBe(false);
+      expect(value.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the all properties are the same', () => {
       expect.assertions(5);
 
@@ -138,31 +161,31 @@ describe('StatsValue', () => {
         new MockAsOf({
           day: 1
         }),
-        ValueContained.of(5)
+        NumericalValue.of(5)
       );
       const statsValue2: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 2
         }),
-        ValueContained.of(0)
+        NumericalValue.of(0)
       );
       const statsValue3: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 1
         }),
-        ValueContained.of(-1)
+        NumericalValue.of(-1)
       );
       const statsValue4: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 1
         }),
-        ValueContained.of(1)
+        NumericalValue.of(1)
       );
       const statsValue5: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 1
         }),
-        ValueContained.of(5)
+        NumericalValue.of(5)
       );
 
       expect(statsValue1.equals(statsValue1)).toBe(true);
@@ -177,7 +200,7 @@ describe('StatsValue', () => {
     it('normal case', () => {
       expect.assertions(1);
 
-      const statsValue: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), ValueContained.of(1));
+      const statsValue: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), NumericalValue.of(1));
 
       expect(statsValue.toJSON()).toStrictEqual({
         asOf: '2000-01-01',
@@ -192,7 +215,7 @@ describe('StatsValue', () => {
 
       const asOf: string = '2000-01-01';
       const value: number = 1;
-      const statsValue: StatsValue = StatsValue.of(AsOf.ofString(asOf), ValueContained.of(value));
+      const statsValue: StatsValue = StatsValue.of(AsOf.ofString(asOf), NumericalValue.of(value));
 
       expect(statsValue.toString()).toBe(`${asOf} ${value}`);
     });

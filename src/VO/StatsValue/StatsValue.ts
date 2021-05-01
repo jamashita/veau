@@ -3,7 +3,6 @@ import { JSONable, Kind } from '@jamashita/anden-type';
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfError } from '../AsOf/Error/AsOfError';
 import { NumericalValue } from '../NumericalValue/NumericalValue';
-import { ValueContained } from '../NumericalValue/ValueContained';
 import { StatsValueError } from './Error/StatsValueError';
 
 export type StatsValueJSON = Readonly<{
@@ -27,7 +26,7 @@ export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<St
 
   public static ofJSON(json: StatsValueJSON): StatsValue {
     try {
-      return StatsValue.of(AsOf.ofString(json.asOf), ValueContained.of(json.value));
+      return StatsValue.of(AsOf.ofString(json.asOf), NumericalValue.of(json.value));
     }
     catch (err: unknown) {
       if (err instanceof AsOfError) {
@@ -40,7 +39,7 @@ export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<St
 
   public static ofRow(row: StatsValueRow): StatsValue {
     try {
-      return StatsValue.of(AsOf.ofString(row.asOf), ValueContained.of(row.value));
+      return StatsValue.of(AsOf.ofString(row.asOf), NumericalValue.of(row.value));
     }
     catch (err: unknown) {
       if (err instanceof AsOfError) {
@@ -71,9 +70,12 @@ export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<St
     this.value = value;
   }
 
-  public equals(other: StatsValue): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof StatsValue)) {
+      return false;
     }
     if (!this.asOf.equals(other.asOf)) {
       return false;
@@ -85,13 +87,6 @@ export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<St
     return true;
   }
 
-  public toJSON(): StatsValueJSON {
-    return {
-      asOf: this.asOf.toString(),
-      value: this.value.get()
-    };
-  }
-
   public serialize(): string {
     const properties: Array<string> = [];
 
@@ -99,6 +94,13 @@ export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<St
     properties.push(this.value.toString());
 
     return properties.join(' ');
+  }
+
+  public toJSON(): StatsValueJSON {
+    return {
+      asOf: this.asOf.toString(),
+      value: this.value.get()
+    };
   }
 
   public getAsOf(): AsOf {

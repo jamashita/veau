@@ -1,9 +1,9 @@
 import { ImmutableProject } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { AsOf } from '../../AsOf/AsOf';
+import { AsOfs } from '../../AsOf/AsOfs';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
-import { MockAsOfs } from '../../AsOf/Mock/MockAsOfs';
-import { ValueContained } from '../../NumericalValue/ValueContained';
+import { NumericalValue } from '../../NumericalValue/NumericalValue';
 import { StatsValueError } from '../Error/StatsValueError';
 import { MockStatsValue } from '../Mock/MockStatsValue';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
@@ -69,8 +69,8 @@ describe('StatsValues', () => {
           value: 2
         }
       ];
-      const statsValue1: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), ValueContained.of(1));
-      const statsValue2: StatsValue = StatsValue.of(AsOf.ofString('2000-01-02'), ValueContained.of(2));
+      const statsValue1: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(AsOf.ofString('2000-01-02'), NumericalValue.of(2));
 
       const statsValues: StatsValues = StatsValues.ofJSON(json);
 
@@ -142,8 +142,8 @@ describe('StatsValues', () => {
           value: 2
         }
       ];
-      const statsValue1: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), ValueContained.of(1));
-      const statsValue2: StatsValue = StatsValue.of(AsOf.ofString('2000-01-02'), ValueContained.of(2));
+      const statsValue1: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(AsOf.ofString('2000-01-02'), NumericalValue.of(2));
 
       const statsValues: StatsValues = StatsValues.ofRow(row);
 
@@ -418,12 +418,12 @@ describe('StatsValues', () => {
       expect.assertions(3);
 
       const statsValue1: StatsValue = new MockStatsValue({
-        value: ValueContained.of(1)
+        value: NumericalValue.of(1)
       });
 
       const statsValues: StatsValues = StatsValues.ofArray([statsValue1]);
       const statsValue: MockStatsValue = new MockStatsValue({
-        value: ValueContained.of(1)
+        value: NumericalValue.of(1)
       });
 
       const set: StatsValues = statsValues.set(statsValue);
@@ -440,19 +440,19 @@ describe('StatsValues', () => {
         asOf: new MockAsOf({
           day: 1
         }),
-        value: ValueContained.of(1)
+        value: NumericalValue.of(1)
       });
       const statsValue2: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
         }),
-        value: ValueContained.of(2)
+        value: NumericalValue.of(2)
       });
       const statsValue3: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 3
         }),
-        value: ValueContained.of(3)
+        value: NumericalValue.of(3)
       });
 
       const statsValues: StatsValues = StatsValues.ofArray([statsValue1, statsValue2, statsValue3]);
@@ -460,7 +460,7 @@ describe('StatsValues', () => {
         asOf: new MockAsOf({
           day: 2
         }),
-        value: ValueContained.of(4)
+        value: NumericalValue.of(4)
       });
 
       const set: StatsValues = statsValues.set(statsValue);
@@ -479,13 +479,13 @@ describe('StatsValues', () => {
         asOf: new MockAsOf({
           day: 1
         }),
-        value: ValueContained.of(1)
+        value: NumericalValue.of(1)
       });
       const statsValue2: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 3
         }),
-        value: ValueContained.of(3)
+        value: NumericalValue.of(3)
       });
 
       const statsValues: StatsValues = StatsValues.ofArray([statsValue1, statsValue2]);
@@ -493,7 +493,7 @@ describe('StatsValues', () => {
         asOf: new MockAsOf({
           day: 2
         }),
-        value: ValueContained.of(2)
+        value: NumericalValue.of(2)
       });
 
       const set: StatsValues = statsValues.set(statsValue);
@@ -513,19 +513,19 @@ describe('StatsValues', () => {
         asOf: new MockAsOf({
           day: 1
         }),
-        value: ValueContained.of(1)
+        value: NumericalValue.of(1)
       });
       const statsValue2: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
         }),
-        value: ValueContained.of(2)
+        value: NumericalValue.of(2)
       });
       const statsValue3: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 3
         }),
-        value: ValueContained.of(3)
+        value: NumericalValue.of(3)
       });
 
       const statsValues: StatsValues = StatsValues.ofArray([statsValue1, statsValue2, statsValue3]);
@@ -570,7 +570,7 @@ describe('StatsValues', () => {
       const asOf2: MockAsOf = new MockAsOf({
         day: 5
       });
-      const asOfs: MockAsOfs = new MockAsOfs(asOf1, asOf2);
+      const asOfs: AsOfs = AsOfs.ofSpread(asOf1, asOf2);
 
       const statsValues: StatsValues = StatsValues.ofArray([
         new MockStatsValue({
@@ -788,6 +788,29 @@ describe('StatsValues', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const values: StatsValues = StatsValues.empty();
+
+      expect(values.equals(null)).toBe(false);
+      expect(values.equals(undefined)).toBe(false);
+      expect(values.equals('')).toBe(false);
+      expect(values.equals('123')).toBe(false);
+      expect(values.equals('abcd')).toBe(false);
+      expect(values.equals(123)).toBe(false);
+      expect(values.equals(0)).toBe(false);
+      expect(values.equals(-12)).toBe(false);
+      expect(values.equals(0.3)).toBe(false);
+      expect(values.equals(false)).toBe(false);
+      expect(values.equals(true)).toBe(false);
+      expect(values.equals(Symbol('p'))).toBe(false);
+      expect(values.equals(20n)).toBe(false);
+      expect(values.equals({})).toBe(false);
+      expect(values.equals([])).toBe(false);
+      expect(values.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true when the same instance given', () => {
       expect.assertions(1);
 
@@ -795,13 +818,13 @@ describe('StatsValues', () => {
         asOf: new MockAsOf({
           day: 2
         }),
-        value: ValueContained.of(1)
+        value: NumericalValue.of(1)
       });
       const statsValue2: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 3
         }),
-        value: ValueContained.of(2)
+        value: NumericalValue.of(2)
       });
 
       const statsValues: StatsValues = StatsValues.ofArray([statsValue1, statsValue2]);
@@ -857,8 +880,8 @@ describe('StatsValues', () => {
       const value2: number = 2;
 
       const statsValues: StatsValues = StatsValues.ofArray([
-        StatsValue.of(AsOf.ofString(asOf1), ValueContained.of(value1)),
-        StatsValue.of(AsOf.ofString(asOf2), ValueContained.of(value2))
+        StatsValue.of(AsOf.ofString(asOf1), NumericalValue.of(value1)),
+        StatsValue.of(AsOf.ofString(asOf2), NumericalValue.of(value2))
       ]);
 
       expect(statsValues.toString()).toBe(`${asOf1} ${value1}, ${asOf2} ${value2}`);

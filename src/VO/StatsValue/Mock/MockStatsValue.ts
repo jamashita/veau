@@ -1,6 +1,5 @@
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
-import { MockNumericalValue } from '../../NumericalValue/Mock/MockNumericalValue';
 import { NumericalValue } from '../../NumericalValue/NumericalValue';
 import { StatsValue } from '../StatsValue';
 
@@ -10,7 +9,7 @@ type StatsValueArgs = Partial<Readonly<{
 }>>;
 
 export class MockStatsValue extends StatsValue {
-  public constructor({ asOf = new MockAsOf(), value = new MockNumericalValue() }: StatsValueArgs = {}) {
+  public constructor({ asOf = new MockAsOf(), value = NumericalValue.of(0) }: StatsValueArgs = {}) {
     super(asOf, value);
   }
 }
