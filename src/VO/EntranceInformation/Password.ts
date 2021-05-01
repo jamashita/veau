@@ -8,6 +8,10 @@ export class Password extends ValueObject<'Password'> {
 
   private static readonly EMPTY: Password = new Password(EMPTY_PASSWORD);
 
+  public static empty(): Password {
+    return Password.EMPTY;
+  }
+
   public static of(password: string): Password {
     if (password === EMPTY_PASSWORD) {
       return Password.empty();
@@ -16,18 +20,17 @@ export class Password extends ValueObject<'Password'> {
     return new Password(password);
   }
 
-  public static empty(): Password {
-    return Password.EMPTY;
-  }
-
   protected constructor(password: string) {
     super();
     this.password = password;
   }
 
-  public equals(other: Password): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Password)) {
+      return false;
     }
     if (this.password === other.password) {
       return true;

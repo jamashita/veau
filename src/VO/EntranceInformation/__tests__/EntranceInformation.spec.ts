@@ -90,6 +90,29 @@ describe('EntranceInformation', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const information: EntranceInformation = EntranceInformation.empty();
+
+      expect(information.equals(null)).toBe(false);
+      expect(information.equals(undefined)).toBe(false);
+      expect(information.equals('')).toBe(false);
+      expect(information.equals('123')).toBe(false);
+      expect(information.equals('abcd')).toBe(false);
+      expect(information.equals(123)).toBe(false);
+      expect(information.equals(0)).toBe(false);
+      expect(information.equals(-12)).toBe(false);
+      expect(information.equals(0.3)).toBe(false);
+      expect(information.equals(false)).toBe(false);
+      expect(information.equals(true)).toBe(false);
+      expect(information.equals(Symbol('p'))).toBe(false);
+      expect(information.equals(20n)).toBe(false);
+      expect(information.equals({})).toBe(false);
+      expect(information.equals([])).toBe(false);
+      expect(information.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the all properties are the same', () => {
       expect.assertions(5);
 

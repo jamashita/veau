@@ -15,6 +15,10 @@ export class EntranceInformation extends ValueObject<'EntranceInformation'> impl
 
   private static readonly EMPTY: EntranceInformation = new EntranceInformation(AccountName.empty(), Password.empty());
 
+  public static empty(): EntranceInformation {
+    return EntranceInformation.EMPTY;
+  }
+
   public static of(account: AccountName, password: Password): EntranceInformation {
     if (account.isEmpty()) {
       if (password.isEmpty()) {
@@ -25,19 +29,18 @@ export class EntranceInformation extends ValueObject<'EntranceInformation'> impl
     return new EntranceInformation(account, password);
   }
 
-  public static empty(): EntranceInformation {
-    return EntranceInformation.EMPTY;
-  }
-
   protected constructor(account: AccountName, password: Password) {
     super();
     this.account = account;
     this.password = password;
   }
 
-  public equals(other: EntranceInformation): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof EntranceInformation)) {
+      return false;
     }
     if (!this.account.equals(other.account)) {
       return false;
@@ -49,13 +52,6 @@ export class EntranceInformation extends ValueObject<'EntranceInformation'> impl
     return true;
   }
 
-  public toJSON(): EntranceInformationJSON {
-    return {
-      account: this.account.get(),
-      password: this.password.get()
-    };
-  }
-
   public serialize(): string {
     const properties: Array<string> = [];
 
@@ -63,6 +59,13 @@ export class EntranceInformation extends ValueObject<'EntranceInformation'> impl
     properties.push(this.password.toString());
 
     return properties.join(' ');
+  }
+
+  public toJSON(): EntranceInformationJSON {
+    return {
+      account: this.account.get(),
+      password: this.password.get()
+    };
   }
 
   public getAccount(): AccountName {
