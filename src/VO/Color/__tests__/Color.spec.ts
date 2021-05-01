@@ -2,6 +2,29 @@ import { Color } from '../Color';
 
 describe('Color', () => {
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const color: Color = Color.of('#f0f0f0');
+
+      expect(color.equals(null)).toBe(false);
+      expect(color.equals(undefined)).toBe(false);
+      expect(color.equals('')).toBe(false);
+      expect(color.equals('123')).toBe(false);
+      expect(color.equals('abcd')).toBe(false);
+      expect(color.equals(123)).toBe(false);
+      expect(color.equals(0)).toBe(false);
+      expect(color.equals(-12)).toBe(false);
+      expect(color.equals(0.3)).toBe(false);
+      expect(color.equals(false)).toBe(false);
+      expect(color.equals(true)).toBe(false);
+      expect(color.equals(Symbol('p'))).toBe(false);
+      expect(color.equals(20n)).toBe(false);
+      expect(color.equals({})).toBe(false);
+      expect(color.equals([])).toBe(false);
+      expect(color.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the property is the same', () => {
       expect.assertions(3);
 

@@ -1,10 +1,10 @@
-import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/anden-type';
-import { Collection, ImmutableSequence, Quantity, Sequence } from '@jamashita/lluvia-collection';
+import { BinaryPredicate, Catalogue, Mapper, Nullable } from '@jamashita/anden-type';
+import { ImmutableSequence, Quantity, ReadonlySequence } from '@jamashita/lluvia-collection';
 import { Color } from './Color';
 
 export class Colors extends Quantity<number, Color, 'Colors'> {
   public readonly noun: 'Colors' = 'Colors';
-  private readonly colors: Sequence<Color>;
+  private readonly colors: ImmutableSequence<Color>;
   private static readonly DEFAULT: Colors = Colors.ofSpread(
     Color.of('#8aa399'),
     Color.of('#7d84b2'),
@@ -28,61 +28,80 @@ export class Colors extends Quantity<number, Color, 'Colors'> {
     Color.of('#7c3238')
   );
 
-  public static of(colors: Sequence<Color>): Colors {
-    return new Colors(colors);
+  public static chartScheme(): Colors {
+    return Colors.DEFAULT;
+  }
+
+  public static of(colors: ReadonlySequence<Color>): Colors {
+    return Colors.ofArray(colors.toArray());
   }
 
   public static ofArray(colors: ReadonlyArray<Color>): Colors {
-    return Colors.of(ImmutableSequence.ofArray<Color>(colors));
+    return new Colors(ImmutableSequence.ofArray<Color>(colors));
   }
 
   public static ofSpread(...colors: Array<Color>): Colors {
     return Colors.ofArray(colors);
   }
 
-  public static chartScheme(): Colors {
-    return Colors.DEFAULT;
-  }
-
-  protected constructor(colors: Sequence<Color>) {
+  protected constructor(colors: ImmutableSequence<Color>) {
     super();
     this.colors = colors;
-  }
-
-  public get(index: number): Nullable<Color> {
-    return this.colors.get(index % this.colors.size());
   }
 
   public contains(value: Color): boolean {
     return this.colors.contains(value);
   }
 
-  public size(): number {
-    return this.colors.size();
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof Colors)) {
+      return false;
+    }
+
+    return this.colors.equals(other.colors);
   }
 
-  public forEach(iteration: Enumerator<number, Color>): void {
-    this.colors.forEach(iteration);
+  public every(predicate: BinaryPredicate<Color, number>): boolean {
+    return this.colors.every(predicate);
+  }
+
+  public filter(predicate: BinaryPredicate<Color, number>): Colors {
+    return Colors.of(this.colors.filter(predicate));
+  }
+
+  public find(predicate: BinaryPredicate<Color, number>): Nullable<Color> {
+    return this.colors.find(predicate);
+  }
+
+  public forEach(catalogue: Catalogue<number, Color>): void {
+    this.colors.forEach(catalogue);
+  }
+
+  public get(index: number): Nullable<Color> {
+    return this.colors.get(index % this.colors.size());
   }
 
   public isEmpty(): boolean {
     return this.colors.isEmpty();
   }
 
-  public equals(other: Colors): boolean {
-    if (this === other) {
-      return true;
-    }
+  public iterator(): Iterator<[number, Color]> {
+    return this.colors.iterator();
+  }
 
-    return this.colors.equals(other.colors);
+  public map<W>(mapper: Mapper<Color, W>): ImmutableSequence<W> {
+    return this.colors.map<W>(mapper);
   }
 
   public serialize(): string {
     return this.colors.toString();
   }
 
-  public every(predicate: BinaryPredicate<Color, number>): boolean {
-    return this.colors.every(predicate);
+  public size(): number {
+    return this.colors.size();
   }
 
   public some(predicate: BinaryPredicate<Color, number>): boolean {
@@ -91,21 +110,5 @@ export class Colors extends Quantity<number, Color, 'Colors'> {
 
   public values(): Iterable<Color> {
     return this.colors.values();
-  }
-
-  public filter(predicate: BinaryPredicate<Color, number>): Collection<number, Color> {
-    return this.colors.filter(predicate);
-  }
-
-  public find(predicate: BinaryPredicate<Color, number>): Nullable<Color> {
-    return this.colors.find(predicate);
-  }
-
-  public map<W>(mapper: Mapper<Color, W>): Collection<number, W> {
-    return this.colors.map<W>(mapper);
-  }
-
-  public iterator(): Iterator<[number, Color]> {
-    return this.colors.iterator();
   }
 }

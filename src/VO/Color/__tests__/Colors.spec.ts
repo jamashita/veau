@@ -75,11 +75,10 @@ describe('Colors', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.get = spy;
-
       const colors: Colors = Colors.of(sequence);
 
+      // @ts-expect-error
+      colors.colors.get = spy;
       colors.get(0);
 
       expect(spy.called).toBe(true);
@@ -96,11 +95,10 @@ describe('Colors', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.contains = spy;
-
       const colors: Colors = Colors.of(sequence);
 
+      // @ts-expect-error
+      colors.colors.contains = spy;
       colors.contains(new MockColor(''));
 
       expect(spy.called).toBe(true);
@@ -117,11 +115,10 @@ describe('Colors', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.size = spy;
-
       const colors: Colors = Colors.of(sequence);
 
+      // @ts-expect-error
+      colors.colors.size = spy;
       colors.size();
 
       expect(spy.called).toBe(true);
@@ -138,11 +135,10 @@ describe('Colors', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.isEmpty = spy;
-
       const colors: Colors = Colors.of(sequence);
 
+      // @ts-expect-error
+      colors.colors.isEmpty = spy;
       colors.isEmpty();
 
       expect(spy.called).toBe(true);
@@ -150,6 +146,29 @@ describe('Colors', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const colors: Colors = Colors.ofSpread();
+
+      expect(colors.equals(null)).toBe(false);
+      expect(colors.equals(undefined)).toBe(false);
+      expect(colors.equals('')).toBe(false);
+      expect(colors.equals('123')).toBe(false);
+      expect(colors.equals('abcd')).toBe(false);
+      expect(colors.equals(123)).toBe(false);
+      expect(colors.equals(0)).toBe(false);
+      expect(colors.equals(-12)).toBe(false);
+      expect(colors.equals(0.3)).toBe(false);
+      expect(colors.equals(false)).toBe(false);
+      expect(colors.equals(true)).toBe(false);
+      expect(colors.equals(Symbol('p'))).toBe(false);
+      expect(colors.equals(20n)).toBe(false);
+      expect(colors.equals({})).toBe(false);
+      expect(colors.equals([])).toBe(false);
+      expect(colors.equals(Object.create(null))).toBe(false);
+    });
+
     it('same instance', () => {
       expect.assertions(1);
 
@@ -169,11 +188,10 @@ describe('Colors', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.equals = spy;
-
       const colors: Colors = Colors.of(sequence);
 
+      // @ts-expect-error
+      colors.colors.equals = spy;
       colors.equals(Colors.ofArray([]));
 
       expect(spy.called).toBe(true);
@@ -190,11 +208,10 @@ describe('Colors', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.toString = spy;
-
       const colors: Colors = Colors.of(sequence);
 
+      // @ts-expect-error
+      colors.colors.toString = spy;
       colors.toString();
 
       expect(spy.called).toBe(true);
@@ -232,11 +249,10 @@ describe('Colors', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.forEach = spy;
-
       const colors: Colors = Colors.of(sequence);
 
+      // @ts-expect-error
+      colors.colors.forEach = spy;
       colors.forEach(() => {
         // NOOP
       });
@@ -255,11 +271,10 @@ describe('Colors', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.every = spy;
-
       const colors: Colors = Colors.of(sequence);
 
+      // @ts-expect-error
+      colors.colors.every = spy;
       colors.every(() => {
         return true;
       });
@@ -278,11 +293,10 @@ describe('Colors', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.some = spy;
-
       const colors: Colors = Colors.of(sequence);
 
+      // @ts-expect-error
+      colors.colors.some = spy;
       colors.some(() => {
         return true;
       });
@@ -301,14 +315,73 @@ describe('Colors', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.values = spy;
-
       const colors: Colors = Colors.of(sequence);
 
+      // @ts-expect-error
+      colors.colors.values = spy;
       colors.values();
 
       expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('filter', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
+
+      const colors: Colors = Colors.of(sequence);
+
+      const filtered: Colors = colors.filter((c: Color) => {
+        return c.equals(sequence.get(1));
+      });
+
+      expect(filtered.size()).toBe(1);
+    });
+  });
+
+  describe('find', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
+
+      const spy: SinonSpy = sinon.spy();
+      const colors: Colors = Colors.of(sequence);
+
+      // @ts-expect-error
+      colors.colors.find = spy;
+      colors.find(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('map', () => {
+    it('does not affect the length, only change the instance', () => {
+      expect.assertions(1);
+
+      const sequence: MockSequence<Color> = new MockSequence<Color>([
+        new MockColor('#ffffff'),
+        new MockColor('#000000')
+      ]);
+
+      const colors: Colors = Colors.of(sequence);
+
+      const mapped: ImmutableSequence<string> = colors.map<string>((c: Color) => {
+        return c.get();
+      });
+
+      expect(mapped.size()).toBe(2);
     });
   });
 });
