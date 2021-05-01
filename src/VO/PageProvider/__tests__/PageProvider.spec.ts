@@ -47,6 +47,29 @@ describe('PageProvider', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const pageProvider: PageProvider = PageProvider.close();
+
+      expect(pageProvider.equals(null)).toBe(false);
+      expect(pageProvider.equals(undefined)).toBe(false);
+      expect(pageProvider.equals('')).toBe(false);
+      expect(pageProvider.equals('123')).toBe(false);
+      expect(pageProvider.equals('abcd')).toBe(false);
+      expect(pageProvider.equals(123)).toBe(false);
+      expect(pageProvider.equals(0)).toBe(false);
+      expect(pageProvider.equals(-12)).toBe(false);
+      expect(pageProvider.equals(0.3)).toBe(false);
+      expect(pageProvider.equals(false)).toBe(false);
+      expect(pageProvider.equals(true)).toBe(false);
+      expect(pageProvider.equals(Symbol('p'))).toBe(false);
+      expect(pageProvider.equals(20n)).toBe(false);
+      expect(pageProvider.equals({})).toBe(false);
+      expect(pageProvider.equals([])).toBe(false);
+      expect(pageProvider.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the property is the same', () => {
       expect.assertions(3);
 

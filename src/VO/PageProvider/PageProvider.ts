@@ -7,6 +7,10 @@ export class PageProvider extends ValueObject<'PageProvider'> {
   private static readonly OPEN: PageProvider = new PageProvider(true);
   private static readonly CLOSE: PageProvider = new PageProvider(false);
 
+  public static close(): PageProvider {
+    return PageProvider.CLOSE;
+  }
+
   public static of(open: boolean): PageProvider {
     if (open) {
       return PageProvider.open();
@@ -19,21 +23,13 @@ export class PageProvider extends ValueObject<'PageProvider'> {
     return PageProvider.OPEN;
   }
 
-  public static close(): PageProvider {
-    return PageProvider.CLOSE;
-  }
-
   protected constructor(open: boolean) {
     super();
     this.open = open;
   }
 
-  public equals(other: PageProvider): boolean {
-    if (this === other) {
-      return true;
-    }
-
-    return false;
+  public equals(other: unknown): boolean {
+    return this === other;
   }
 
   public serialize(): string {
