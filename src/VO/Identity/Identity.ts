@@ -11,12 +11,12 @@ export class Identity extends ValueObject<'Identity'> {
   private readonly language: Language;
   private readonly region: Region;
 
-  public static of(veauAccountID: VeauAccountID, name: AccountName, language: Language, region: Region): Identity {
-    return new Identity(veauAccountID, name, language, region);
-  }
-
   public static empty(): Identity {
     return Identity.of(VeauAccountID.generate(), AccountName.empty(), Language.empty(), Region.empty());
+  }
+
+  public static of(veauAccountID: VeauAccountID, name: AccountName, language: Language, region: Region): Identity {
+    return new Identity(veauAccountID, name, language, region);
   }
 
   protected constructor(veauAccountID: VeauAccountID, name: AccountName, language: Language, region: Region) {
@@ -27,9 +27,12 @@ export class Identity extends ValueObject<'Identity'> {
     this.region = region;
   }
 
-  public equals(other: Identity): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Identity)) {
+      return false;
     }
     if (!this.veauAccountID.equals(other.veauAccountID)) {
       return false;
@@ -58,10 +61,6 @@ export class Identity extends ValueObject<'Identity'> {
     return properties.join(' ');
   }
 
-  public getVeauAccountID(): VeauAccountID {
-    return this.veauAccountID;
-  }
-
   public getAccountName(): AccountName {
     return this.name;
   }
@@ -72,5 +71,9 @@ export class Identity extends ValueObject<'Identity'> {
 
   public getRegion(): Region {
     return this.region;
+  }
+
+  public getVeauAccountID(): VeauAccountID {
+    return this.veauAccountID;
   }
 }
