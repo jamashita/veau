@@ -13,9 +13,12 @@ export class Hash extends ValueObject<'Hash'> {
     this.hash = hash;
   }
 
-  public equals(other: Hash): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Hash)) {
+      return false;
     }
     if (this.hash === other.hash) {
       return true;

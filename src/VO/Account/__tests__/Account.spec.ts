@@ -12,7 +12,6 @@ import { Account, AccountRow } from '../Account';
 import { AccountName } from '../AccountName';
 import { AccountError } from '../Error/AccountError';
 import { Hash } from '../Hash';
-import { MockHash } from '../Mock/MockHash';
 
 describe('Account', () => {
   describe('of', () => {
@@ -20,7 +19,7 @@ describe('Account', () => {
       expect.assertions(2);
 
       const acccunt: MockVeauAccount = new MockVeauAccount();
-      const hash: MockHash = new MockHash();
+      const hash: Hash = Hash.of('hash');
 
       const account: Account = Account.of(acccunt, hash);
 
@@ -121,6 +120,29 @@ describe('Account', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const account: Account = Account.of(new MockVeauAccount(), Hash.of('hash'));
+
+      expect(account.equals(null)).toBe(false);
+      expect(account.equals(undefined)).toBe(false);
+      expect(account.equals('')).toBe(false);
+      expect(account.equals('123')).toBe(false);
+      expect(account.equals('abcd')).toBe(false);
+      expect(account.equals(123)).toBe(false);
+      expect(account.equals(0)).toBe(false);
+      expect(account.equals(-12)).toBe(false);
+      expect(account.equals(0.3)).toBe(false);
+      expect(account.equals(false)).toBe(false);
+      expect(account.equals(true)).toBe(false);
+      expect(account.equals(Symbol('p'))).toBe(false);
+      expect(account.equals(20n)).toBe(false);
+      expect(account.equals({})).toBe(false);
+      expect(account.equals([])).toBe(false);
+      expect(account.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the all properties are the same', () => {
       expect.assertions(3);
 
@@ -134,7 +156,7 @@ describe('Account', () => {
           languageID: new MockLanguageID(uuid3),
           regionID: new MockRegionID(uuid4)
         }),
-        new MockHash()
+        Hash.of('hash')
       );
       const account2: Account = Account.of(
         new MockVeauAccount({
@@ -142,7 +164,7 @@ describe('Account', () => {
           languageID: new MockLanguageID(uuid3),
           regionID: new MockRegionID(uuid4)
         }),
-        new MockHash()
+        Hash.of('hash')
       );
       const account3: Account = Account.of(
         new MockVeauAccount({
@@ -150,7 +172,7 @@ describe('Account', () => {
           languageID: new MockLanguageID(uuid3),
           regionID: new MockRegionID(uuid4)
         }),
-        new MockHash()
+        Hash.of('hash')
       );
 
       expect(account1.equals(account1)).toBe(true);

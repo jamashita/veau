@@ -17,9 +17,12 @@ export class AccountHash extends ValueObject<'AccountHash'> {
     this.hash = hash;
   }
 
-  public equals(other: AccountHash): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof AccountHash)) {
+      return false;
     }
     if (!this.veauAccountID.equals(other.veauAccountID)) {
       return false;
@@ -40,11 +43,11 @@ export class AccountHash extends ValueObject<'AccountHash'> {
     return properties.join(' ');
   }
 
-  public getVeauAccountID(): VeauAccountID {
-    return this.veauAccountID;
-  }
-
   public getHash(): Hash {
     return this.hash;
+  }
+
+  public getVeauAccountID(): VeauAccountID {
+    return this.veauAccountID;
   }
 }

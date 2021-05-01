@@ -1,5 +1,4 @@
 import { AccountName } from '../../Account/AccountName';
-import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
 import { MockRegionID } from '../../Region/Mock/MockRegionID';
@@ -20,7 +19,7 @@ export class MockVeauAccount extends VeauAccount {
     veauAccountID = new MockVeauAccountID(),
     languageID = new MockLanguageID(),
     regionID = new MockRegionID(),
-    account = new MockAccountName()
+    account = AccountName.empty()
   }: VeauAccountArgs = {}) {
     super(veauAccountID, languageID, regionID, account);
   }

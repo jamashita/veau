@@ -55,9 +55,12 @@ export class Account extends ValueObject<'Account'> {
     this.hash = hash;
   }
 
-  public equals(other: Account): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Account)) {
+      return false;
     }
     if (!this.account.equals(other.account)) {
       return false;
@@ -78,8 +81,12 @@ export class Account extends ValueObject<'Account'> {
     return properties.join(' ');
   }
 
-  public getVeauAccountID(): VeauAccountID {
-    return this.account.getVeauAccountID();
+  public getAccountName(): AccountName {
+    return this.account.getAccountName();
+  }
+
+  public getHash(): Hash {
+    return this.hash;
   }
 
   public getLanguageID(): LanguageID {
@@ -90,16 +97,12 @@ export class Account extends ValueObject<'Account'> {
     return this.account.getRegionID();
   }
 
-  public getAccountName(): AccountName {
-    return this.account.getAccountName();
-  }
-
   public getVeauAccount(): VeauAccount {
     return this.account;
   }
 
-  public getHash(): Hash {
-    return this.hash;
+  public getVeauAccountID(): VeauAccountID {
+    return this.account.getVeauAccountID();
   }
 
   public verify(password: Password): Promise<boolean> {
