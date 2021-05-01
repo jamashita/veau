@@ -1,9 +1,7 @@
 import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
-import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';
-import { ValueContained } from '../ValueContained';
 
 describe('NumericalValues', () => {
   describe('of', () => {
@@ -19,8 +17,8 @@ describe('NumericalValues', () => {
       expect.assertions(3);
 
       const sequence: ImmutableSequence<NumericalValue> = ImmutableSequence.ofArray<NumericalValue>([
-        new MockNumericalValue(),
-        new MockNumericalValue()
+        NumericalValue.of(1),
+        NumericalValue.of(2)
       ]);
 
       const values: NumericalValues = NumericalValues.of(sequence);
@@ -45,9 +43,9 @@ describe('NumericalValues', () => {
       expect.assertions(4);
 
       const values: Array<NumericalValue> = [
-        ValueContained.of(1),
-        ValueContained.of(3),
-        ValueContained.of(2)
+        NumericalValue.of(1),
+        NumericalValue.of(3),
+        NumericalValue.of(2)
       ];
 
       const numericalValues: NumericalValues = NumericalValues.ofArray(values);
@@ -71,9 +69,9 @@ describe('NumericalValues', () => {
     it('normal case', () => {
       expect.assertions(4);
 
-      const value1: NumericalValue = ValueContained.of(1);
-      const value2: NumericalValue = ValueContained.of(2);
-      const value3: NumericalValue = ValueContained.of(3);
+      const value1: NumericalValue = NumericalValue.of(1);
+      const value2: NumericalValue = NumericalValue.of(2);
+      const value3: NumericalValue = NumericalValue.of(3);
 
       const numericalValues: NumericalValues = NumericalValues.ofSpread(value1, value2, value3);
 
@@ -102,9 +100,9 @@ describe('NumericalValues', () => {
     it('does not affect the original one', () => {
       expect.assertions(7);
 
-      const value1: NumericalValue = new MockNumericalValue();
-      const value2: NumericalValue = new MockNumericalValue();
-      const value3: NumericalValue = new MockNumericalValue();
+      const value1: NumericalValue = NumericalValue.of(1);
+      const value2: NumericalValue = NumericalValue.of(1);
+      const value3: NumericalValue = NumericalValue.of(1);
 
       const values1: NumericalValues = NumericalValues.ofArray([value1, value2]);
       const values2: NumericalValues = values1.add(value3);
@@ -125,9 +123,9 @@ describe('NumericalValues', () => {
       expect.assertions(1);
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
       ]);
 
       const spy: SinonSpy = sinon.spy();
@@ -149,9 +147,9 @@ describe('NumericalValues', () => {
       expect.assertions(1);
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
       ]);
 
       const spy: SinonSpy = sinon.spy();
@@ -162,7 +160,7 @@ describe('NumericalValues', () => {
       // @ts-expect-error
       values.vals = sequence;
 
-      values.contains(new MockNumericalValue());
+      values.contains(NumericalValue.of(1));
 
       expect(spy.called).toBe(true);
     });
@@ -173,9 +171,9 @@ describe('NumericalValues', () => {
       expect.assertions(1);
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
       ]);
 
       const spy: SinonSpy = sinon.spy();
@@ -197,9 +195,9 @@ describe('NumericalValues', () => {
       expect.assertions(1);
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
       ]);
 
       const spy: SinonSpy = sinon.spy();
@@ -223,9 +221,9 @@ describe('NumericalValues', () => {
       expect.assertions(1);
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
       ]);
 
       const spy: SinonSpy = sinon.spy();
@@ -246,8 +244,8 @@ describe('NumericalValues', () => {
     it('returns true if the same instance given', () => {
       expect.assertions(1);
 
-      const value1: NumericalValue = ValueContained.of(1);
-      const value2: NumericalValue = ValueContained.of(2);
+      const value1: NumericalValue = NumericalValue.of(1);
+      const value2: NumericalValue = NumericalValue.of(2);
 
       const values: NumericalValues = NumericalValues.ofArray([value1, value2]);
 
@@ -258,13 +256,13 @@ describe('NumericalValues', () => {
       expect.assertions(1);
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
       ]);
 
-      const value1: NumericalValue = ValueContained.of(1);
-      const value2: NumericalValue = ValueContained.of(2);
+      const value1: NumericalValue = NumericalValue.of(1);
+      const value2: NumericalValue = NumericalValue.of(2);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -289,8 +287,8 @@ describe('NumericalValues', () => {
       const nums: Array<number> = [num1, num2];
 
       const values: NumericalValues = NumericalValues.ofArray([
-        ValueContained.of(num1),
-        ValueContained.of(num2)
+        NumericalValue.of(num1),
+        NumericalValue.of(num2)
       ]);
 
       const rows: Array<string> = values.row();
@@ -308,9 +306,9 @@ describe('NumericalValues', () => {
       expect.assertions(1);
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
       ]);
 
       const spy: SinonSpy = sinon.spy();
@@ -331,9 +329,9 @@ describe('NumericalValues', () => {
     it('normal case', () => {
       expect.assertions(3);
 
-      const value1: NumericalValue = new MockNumericalValue();
-      const value2: NumericalValue = new MockNumericalValue();
-      const value3: NumericalValue = new MockNumericalValue();
+      const value1: NumericalValue = NumericalValue.of(1);
+      const value2: NumericalValue = NumericalValue.of(1);
+      const value3: NumericalValue = NumericalValue.of(1);
       const arr: Array<NumericalValue> = [value1, value2, value3];
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>(arr);
@@ -356,9 +354,9 @@ describe('NumericalValues', () => {
       expect.assertions(1);
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
       ]);
 
       const spy: SinonSpy = sinon.spy();
@@ -382,9 +380,9 @@ describe('NumericalValues', () => {
       expect.assertions(1);
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
       ]);
 
       const spy: SinonSpy = sinon.spy();
@@ -408,9 +406,9 @@ describe('NumericalValues', () => {
       expect.assertions(1);
 
       const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
       ]);
 
       const spy: SinonSpy = sinon.spy();

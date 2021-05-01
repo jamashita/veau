@@ -1,12 +1,16 @@
-import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/anden-type';
-import { Collection, ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/lluvia-collection';
+import { BinaryPredicate, Catalogue, Mapper, Nullable } from '@jamashita/anden-type';
+import { ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/lluvia-collection';
 import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues extends Quantity<number, NumericalValue, 'NumericalValues'> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
-  private readonly vals: Sequence<NumericalValue>;
+  private readonly vals: ImmutableSequence<NumericalValue>;
 
   private static readonly EMPTY: NumericalValues = new NumericalValues(ImmutableSequence.empty<NumericalValue>());
+
+  public static empty(): NumericalValues {
+    return NumericalValues.EMPTY;
+  }
 
   public static of(values: ReadonlySequence<NumericalValue>): NumericalValues {
     return NumericalValues.ofArray(values.toArray());
@@ -24,49 +28,64 @@ export class NumericalValues extends Quantity<number, NumericalValue, 'Numerical
     return NumericalValues.ofArray(values);
   }
 
-  public static empty(): NumericalValues {
-    return NumericalValues.EMPTY;
-  }
-
-  protected constructor(values: Sequence<NumericalValue>) {
+  protected constructor(values: ImmutableSequence<NumericalValue>) {
     super();
     this.vals = values;
-  }
-
-  public get(index: number): Nullable<NumericalValue> {
-    return this.vals.get(index);
   }
 
   public contains(value: NumericalValue): boolean {
     return this.vals.contains(value);
   }
 
-  public size(): number {
-    return this.vals.size();
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof NumericalValues)) {
+      return false;
+    }
+
+    return this.vals.equals(other.vals);
   }
 
-  public forEach(iteration: Enumerator<number, NumericalValue>): void {
-    this.vals.forEach(iteration);
+  public every(predicate: BinaryPredicate<NumericalValue, number>): boolean {
+    return this.vals.every(predicate);
+  }
+
+  public filter(predicate: BinaryPredicate<NumericalValue, number>): NumericalValues {
+    return NumericalValues.of(this.vals.filter(predicate));
+  }
+
+  public find(predicate: BinaryPredicate<NumericalValue, number>): Nullable<NumericalValue> {
+    return this.vals.find(predicate);
+  }
+
+  public forEach(catalogue: Catalogue<number, NumericalValue>): void {
+    this.vals.forEach(catalogue);
+  }
+
+  public get(index: number): Nullable<NumericalValue> {
+    return this.vals.get(index);
   }
 
   public isEmpty(): boolean {
     return this.vals.isEmpty();
   }
 
-  public equals(other: NumericalValues): boolean {
-    if (this === other) {
-      return true;
-    }
+  public iterator(): Iterator<[number, NumericalValue]> {
+    return this.vals.iterator();
+  }
 
-    return this.vals.equals(other.vals);
+  public map<W>(mapper: Mapper<NumericalValue, W>): Sequence<W> {
+    return this.vals.map<W>(mapper);
   }
 
   public serialize(): string {
     return this.vals.toString();
   }
 
-  public every(predicate: BinaryPredicate<NumericalValue, number>): boolean {
-    return this.vals.every(predicate);
+  public size(): number {
+    return this.vals.size();
   }
 
   public some(predicate: BinaryPredicate<NumericalValue, number>): boolean {
@@ -75,22 +94,6 @@ export class NumericalValues extends Quantity<number, NumericalValue, 'Numerical
 
   public values(): Iterable<NumericalValue> {
     return this.vals.values();
-  }
-
-  public iterator(): Iterator<[number, NumericalValue]> {
-    return this.vals[Symbol.iterator]();
-  }
-
-  public filter(predicate: BinaryPredicate<NumericalValue, number>): Collection<number, NumericalValue> {
-    return this.vals.filter(predicate);
-  }
-
-  public find(predicate: BinaryPredicate<NumericalValue, number>): Nullable<NumericalValue> {
-    return this.vals.find(predicate);
-  }
-
-  public map<W>(mapper: Mapper<NumericalValue, W>): Sequence<W> {
-    return this.vals.map<W>(mapper);
   }
 
   public add(value: NumericalValue): NumericalValues {
