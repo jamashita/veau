@@ -6,9 +6,9 @@ import { MockRegion } from '../../Region/Mock/MockRegion';
 import { MockRegionID } from '../../Region/Mock/MockRegionID';
 import { MockStatsID } from '../../StatsOutline/Mock/MockStatsID';
 import { MockStatsOutline } from '../../StatsOutline/Mock/MockStatsOutline';
-import { MockTerm } from '../../Term/Mock/MockTerm';
-import { MockTermID } from '../../Term/Mock/MockTermID';
-import { MockTerms } from '../../Term/Mock/MockTerms';
+import { Term } from '../../Term/Term';
+import { TermID } from '../../Term/TermID';
+import { Terms } from '../../Term/Terms';
 import { StatsListItemError } from '../Error/StatsListItemError';
 import { StatsListItem } from '../StatsListItem';
 
@@ -20,7 +20,7 @@ describe('StatsListItem', () => {
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
-      const term: MockTerm = new MockTerm();
+      const term: Term = Term.DAILY;
 
       const statsListItem: StatsListItem = StatsListItem.of(outline, language, region, term);
 
@@ -37,7 +37,7 @@ describe('StatsListItem', () => {
 
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
-      const termID: MockTermID = new MockTermID();
+      const termID: TermID = Term.QUARTERLY.getTermID();
       const outline: MockStatsOutline = new MockStatsOutline({
         languageID,
         regionID,
@@ -48,9 +48,6 @@ describe('StatsListItem', () => {
       });
       const region: MockRegion = new MockRegion({
         regionID
-      });
-      const term: MockTerm = new MockTerm({
-        termID
       });
       const locale: MockLocale = new MockLocale({
         languages: [
@@ -71,17 +68,7 @@ describe('StatsListItem', () => {
           new MockRegion()
         ]
       });
-      const terms: MockTerms = new MockTerms(
-        new MockTerm(),
-        term,
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm()
-      );
+      const terms: Terms = Terms.all();
 
       const statsListItem: StatsListItem = StatsListItem.ofOutline(
         outline,
@@ -92,7 +79,7 @@ describe('StatsListItem', () => {
       expect(statsListItem.getOutline()).toBe(outline);
       expect(statsListItem.getLanguage()).toBe(language);
       expect(statsListItem.getRegion()).toBe(region);
-      expect(statsListItem.getTerm()).toBe(term);
+      expect(statsListItem.getTerm()).toBe(Term.QUARTERLY);
     });
 
     it('no match language', () => {
@@ -100,7 +87,7 @@ describe('StatsListItem', () => {
 
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
-      const termID: MockTermID = new MockTermID();
+      const termID: TermID = TermID.of(UUID.v4());
       const outline: MockStatsOutline = new MockStatsOutline({
         languageID,
         regionID,
@@ -108,9 +95,6 @@ describe('StatsListItem', () => {
       });
       const region: MockRegion = new MockRegion({
         regionID
-      });
-      const term: MockTerm = new MockTerm({
-        termID
       });
       const locale: MockLocale = new MockLocale({
         languages: [new MockLanguage(), new MockLanguage(), new MockLanguage(), new MockLanguage(), new MockLanguage()],
@@ -124,17 +108,7 @@ describe('StatsListItem', () => {
           new MockRegion()
         ]
       });
-      const terms: MockTerms = new MockTerms(
-        new MockTerm(),
-        term,
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm()
-      );
+      const terms: Terms = Terms.all();
 
       expect(() => {
         StatsListItem.ofOutline(
@@ -150,7 +124,7 @@ describe('StatsListItem', () => {
 
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
-      const termID: MockTermID = new MockTermID();
+      const termID: TermID = TermID.of(UUID.v4());
       const outline: MockStatsOutline = new MockStatsOutline({
         languageID,
         regionID,
@@ -158,9 +132,6 @@ describe('StatsListItem', () => {
       });
       const language: MockLanguage = new MockLanguage({
         languageID
-      });
-      const term: MockTerm = new MockTerm({
-        termID
       });
       const locale: MockLocale = new MockLocale({
         languages: [
@@ -180,17 +151,7 @@ describe('StatsListItem', () => {
           new MockRegion()
         ]
       });
-      const terms: MockTerms = new MockTerms(
-        new MockTerm(),
-        term,
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm()
-      );
+      const terms: Terms = Terms.all();
 
       expect(() => {
         StatsListItem.ofOutline(
@@ -206,7 +167,7 @@ describe('StatsListItem', () => {
 
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
-      const termID: MockTermID = new MockTermID();
+      const termID: TermID = TermID.of(UUID.v4());
       const outline: MockStatsOutline = new MockStatsOutline({
         languageID,
         regionID,
@@ -237,16 +198,7 @@ describe('StatsListItem', () => {
           new MockRegion()
         ]
       });
-      const terms: MockTerms = new MockTerms(
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm(),
-        new MockTerm()
-      );
+      const terms: Terms = Terms.all();
 
       expect(() => {
         StatsListItem.ofOutline(
@@ -275,7 +227,7 @@ describe('StatsListItem', () => {
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid3),
           regionID: new MockRegionID(uuid5),
-          termID: new MockTermID(uuid7)
+          termID: TermID.of(uuid7)
         }),
         new MockLanguage({
           languageID: new MockLanguageID(uuid3)
@@ -283,16 +235,14 @@ describe('StatsListItem', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        })
+        Term.MONTHLY
       );
       const statsListItem2: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid2),
           languageID: new MockLanguageID(uuid3),
           regionID: new MockRegionID(uuid5),
-          termID: new MockTermID(uuid7)
+          termID: TermID.of(uuid7)
         }),
         new MockLanguage({
           languageID: new MockLanguageID(uuid3)
@@ -300,16 +250,14 @@ describe('StatsListItem', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        })
+        Term.MONTHLY
       );
       const statsListItem3: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid4),
           regionID: new MockRegionID(uuid5),
-          termID: new MockTermID(uuid7)
+          termID: TermID.of(uuid7)
         }),
         new MockLanguage({
           languageID: new MockLanguageID(uuid4)
@@ -317,16 +265,14 @@ describe('StatsListItem', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        })
+        Term.MONTHLY
       );
       const statsListItem4: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid3),
           regionID: new MockRegionID(uuid6),
-          termID: new MockTermID(uuid7)
+          termID: TermID.of(uuid7)
         }),
         new MockLanguage({
           languageID: new MockLanguageID(uuid3)
@@ -334,16 +280,14 @@ describe('StatsListItem', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid6)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        })
+        Term.MONTHLY
       );
       const statsListItem5: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid3),
           regionID: new MockRegionID(uuid5),
-          termID: new MockTermID(uuid8)
+          termID: TermID.of(uuid8)
         }),
         new MockLanguage({
           languageID: new MockLanguageID(uuid3)
@@ -351,16 +295,14 @@ describe('StatsListItem', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid8)
-        })
+        Term.MONTHLY
       );
       const statsListItem6: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid3),
           regionID: new MockRegionID(uuid5),
-          termID: new MockTermID(uuid7)
+          termID: TermID.of(uuid7)
         }),
         new MockLanguage({
           languageID: new MockLanguageID(uuid4)
@@ -368,16 +310,14 @@ describe('StatsListItem', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        })
+        Term.MONTHLY
       );
       const statsListItem7: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid3),
           regionID: new MockRegionID(uuid5),
-          termID: new MockTermID(uuid7)
+          termID: TermID.of(uuid7)
         }),
         new MockLanguage({
           languageID: new MockLanguageID(uuid3)
@@ -385,16 +325,14 @@ describe('StatsListItem', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid6)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        })
+        Term.MONTHLY
       );
       const statsListItem8: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid3),
           regionID: new MockRegionID(uuid5),
-          termID: new MockTermID(uuid7)
+          termID: TermID.of(uuid7)
         }),
         new MockLanguage({
           languageID: new MockLanguageID(uuid3)
@@ -402,16 +340,14 @@ describe('StatsListItem', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid8)
-        })
+        Term.QUARTERLY
       );
       const statsListItem9: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid3),
           regionID: new MockRegionID(uuid5),
-          termID: new MockTermID(uuid7)
+          termID: TermID.of(uuid7)
         }),
         new MockLanguage({
           languageID: new MockLanguageID(uuid3)
@@ -419,9 +355,7 @@ describe('StatsListItem', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        })
+        Term.MONTHLY
       );
 
       expect(statsListItem1.equals(statsListItem1)).toBe(true);
@@ -443,13 +377,12 @@ describe('StatsListItem', () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
-      const uuid4: UUID = UUID.v4();
       const statsListItem: StatsListItem = StatsListItem.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid2),
           regionID: new MockRegionID(uuid3),
-          termID: new MockTermID(uuid4)
+          termID: Term.DAILY.getTermID()
         }),
         new MockLanguage({
           languageID: new MockLanguageID(uuid2)
@@ -457,13 +390,11 @@ describe('StatsListItem', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid3)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid4)
-        })
+        Term.DAILY
       );
 
       expect(statsListItem.toString()).toBe(
-        `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()}   2000-01-02 01:02:03 ${uuid2.get()}    ${uuid3.get()}   ${uuid4.get()} `
+        `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${Term.DAILY.getTermID().get()}   2000-01-02 01:02:03 ${uuid2.get()}    ${uuid3.get()}   ${Term.DAILY.toString()}`
       );
     });
   });

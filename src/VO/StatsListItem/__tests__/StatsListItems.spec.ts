@@ -211,7 +211,7 @@ describe('StatsListItems', () => {
 
       const items: StatsListItems = StatsListItems.of(sequence);
 
-      const arr: Array<StatsOutline> = items.map<StatsOutline>((item: StatsListItem) => {
+      const arr: Array<StatsOutline> = [...items.values()].map<StatsOutline>((item: StatsListItem) => {
         return item.getOutline();
       });
 
@@ -289,8 +289,8 @@ describe('StatsListItems', () => {
       const items: StatsListItems = StatsListItems.of(sequence);
       let i: number = 0;
 
-      for (const pair of items) {
-        expect(pair.getValue()).toBe(arr[i]);
+      for (const [, v] of items) {
+        expect(v).toBe(arr[i]);
         i++;
       }
     });

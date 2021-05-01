@@ -49,9 +49,12 @@ export class StatsListItem extends ValueObject<'StatsListItem'> {
     this.term = term;
   }
 
-  public equals(other: StatsListItem): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof StatsListItem)) {
+      return false;
     }
     if (!this.outline.equals(other.outline)) {
       return false;
@@ -70,22 +73,22 @@ export class StatsListItem extends ValueObject<'StatsListItem'> {
   }
 
   public serialize(): string {
-    const properties: Array<string> = [];
+    const props: Array<string> = [];
 
-    properties.push(this.outline.toString());
-    properties.push(this.language.toString());
-    properties.push(this.region.toString());
-    properties.push(this.term.toString());
+    props.push(this.outline.toString());
+    props.push(this.language.toString());
+    props.push(this.region.toString());
+    props.push(this.term.toString());
 
-    return properties.join(' ');
-  }
-
-  public getOutline(): StatsOutline {
-    return this.outline;
+    return props.join(' ');
   }
 
   public getLanguage(): Language {
     return this.language;
+  }
+
+  public getOutline(): StatsOutline {
+    return this.outline;
   }
 
   public getRegion(): Region {
