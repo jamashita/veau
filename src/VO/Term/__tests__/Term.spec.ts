@@ -72,6 +72,29 @@ describe('Term', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const term: Term = Term.ANNUAL;
+
+      expect(term.equals(null)).toBe(false);
+      expect(term.equals(undefined)).toBe(false);
+      expect(term.equals('')).toBe(false);
+      expect(term.equals('123')).toBe(false);
+      expect(term.equals('abcd')).toBe(false);
+      expect(term.equals(123)).toBe(false);
+      expect(term.equals(0)).toBe(false);
+      expect(term.equals(-12)).toBe(false);
+      expect(term.equals(0.3)).toBe(false);
+      expect(term.equals(false)).toBe(false);
+      expect(term.equals(true)).toBe(false);
+      expect(term.equals(Symbol('p'))).toBe(false);
+      expect(term.equals(20n)).toBe(false);
+      expect(term.equals({})).toBe(false);
+      expect(term.equals([])).toBe(false);
+      expect(term.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the objects are the same', () => {
       expect.assertions(5);
 

@@ -16,6 +16,29 @@ describe('TermKey', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const key: TermKey = TermKey.of('key');
+
+      expect(key.equals(null)).toBe(false);
+      expect(key.equals(undefined)).toBe(false);
+      expect(key.equals('')).toBe(false);
+      expect(key.equals('123')).toBe(false);
+      expect(key.equals('abcd')).toBe(false);
+      expect(key.equals(123)).toBe(false);
+      expect(key.equals(0)).toBe(false);
+      expect(key.equals(-12)).toBe(false);
+      expect(key.equals(0.3)).toBe(false);
+      expect(key.equals(false)).toBe(false);
+      expect(key.equals(true)).toBe(false);
+      expect(key.equals(Symbol('p'))).toBe(false);
+      expect(key.equals(20n)).toBe(false);
+      expect(key.equals({})).toBe(false);
+      expect(key.equals([])).toBe(false);
+      expect(key.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if both properties are the same', () => {
       expect.assertions(3);
 

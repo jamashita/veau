@@ -28,9 +28,12 @@ export class TermID extends ValueObject<'TermID'> {
     this.uuid = uuid;
   }
 
-  public equals(other: TermID): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof TermID)) {
+      return false;
     }
 
     return this.uuid.equals(other.uuid);

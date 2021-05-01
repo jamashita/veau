@@ -154,6 +154,29 @@ describe('Terms', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const terms: Terms = Terms.all();
+
+      expect(terms.equals(null)).toBe(false);
+      expect(terms.equals(undefined)).toBe(false);
+      expect(terms.equals('')).toBe(false);
+      expect(terms.equals('123')).toBe(false);
+      expect(terms.equals('abcd')).toBe(false);
+      expect(terms.equals(123)).toBe(false);
+      expect(terms.equals(0)).toBe(false);
+      expect(terms.equals(-12)).toBe(false);
+      expect(terms.equals(0.3)).toBe(false);
+      expect(terms.equals(false)).toBe(false);
+      expect(terms.equals(true)).toBe(false);
+      expect(terms.equals(Symbol('p'))).toBe(false);
+      expect(terms.equals(20n)).toBe(false);
+      expect(terms.equals({})).toBe(false);
+      expect(terms.equals([])).toBe(false);
+      expect(terms.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the same instance given', () => {
       expect.assertions(1);
 
@@ -283,6 +306,59 @@ describe('Terms', () => {
       terms.terms = project;
 
       terms.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('filter', () => {
+    it('returns matching elements by predicate', () => {
+      expect.assertions(1);
+
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
+        new Map<TermID, Term>([
+          [Term.DAILY.getTermID(), Term.DAILY],
+          [Term.MONTHLY.getTermID(), Term.MONTHLY]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.values = spy;
+
+      const terms: Terms = Terms.all();
+
+      const filtered: Terms = terms.filter((t: Term) => {
+        return t === Term.DAILY;
+      });
+
+      expect(filtered.size()).toBe(1);
+    });
+  });
+
+  describe('find', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
+        new Map<TermID, Term>([
+          [Term.DAILY.getTermID(), Term.DAILY],
+          [Term.MONTHLY.getTermID(), Term.MONTHLY]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      project.find = spy;
+
+      // @ts-expect-error
+      const terms: Terms = Terms.of(Terms.all().terms);
+      // @ts-expect-error
+      terms.terms = project;
+
+      terms.find(() => {
+        return true;
+      });
 
       expect(spy.called).toBe(true);
     });

@@ -13,9 +13,12 @@ export class TermKey extends ValueObject<'TermKey'> {
     this.key = key;
   }
 
-  public equals(other: TermKey): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof TermKey)) {
+      return false;
     }
     if (this.key === other.key) {
       return true;
