@@ -10,6 +10,10 @@ export class LoadingCount extends ValueObject<'LoadingCount'> {
 
   private static readonly DEFAULT: LoadingCount = new LoadingCount(DEFAULT_COUNT);
 
+  public static default(): LoadingCount {
+    return LoadingCount.DEFAULT;
+  }
+
   public static of(count: number): LoadingCount {
     if (count < 0) {
       throw new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`);
@@ -24,18 +28,17 @@ export class LoadingCount extends ValueObject<'LoadingCount'> {
     throw new LoadingCountError(`ILLEGAL COUNT SPECIFIED: ${count}`);
   }
 
-  public static default(): LoadingCount {
-    return LoadingCount.DEFAULT;
-  }
-
   protected constructor(count: number) {
     super();
     this.count = count;
   }
 
-  public equals(other: LoadingCount): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof LoadingCount)) {
+      return false;
     }
     if (this.count === other.count) {
       return true;
@@ -48,22 +51,6 @@ export class LoadingCount extends ValueObject<'LoadingCount'> {
     return `${this.count}`;
   }
 
-  public get(): number {
-    return this.count;
-  }
-
-  public isLoading(): boolean {
-    if (this.count === 0) {
-      return false;
-    }
-
-    return true;
-  }
-
-  public increment(): LoadingCount {
-    return new LoadingCount(this.count + 1);
-  }
-
   public decrement(): LoadingCount {
     if (this.count === 1) {
       return LoadingCount.default();
@@ -73,5 +60,21 @@ export class LoadingCount extends ValueObject<'LoadingCount'> {
     }
 
     return new LoadingCount(this.count - 1);
+  }
+
+  public get(): number {
+    return this.count;
+  }
+
+  public increment(): LoadingCount {
+    return new LoadingCount(this.count + 1);
+  }
+
+  public isLoading(): boolean {
+    if (this.count === 0) {
+      return false;
+    }
+
+    return true;
   }
 }

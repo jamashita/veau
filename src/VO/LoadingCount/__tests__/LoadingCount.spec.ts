@@ -61,6 +61,29 @@ describe('LoadingCount', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const loadingCount: LoadingCount = LoadingCount.default();
+
+      expect(loadingCount.equals(null)).toBe(false);
+      expect(loadingCount.equals(undefined)).toBe(false);
+      expect(loadingCount.equals('')).toBe(false);
+      expect(loadingCount.equals('123')).toBe(false);
+      expect(loadingCount.equals('abcd')).toBe(false);
+      expect(loadingCount.equals(123)).toBe(false);
+      expect(loadingCount.equals(0)).toBe(false);
+      expect(loadingCount.equals(-12)).toBe(false);
+      expect(loadingCount.equals(0.3)).toBe(false);
+      expect(loadingCount.equals(false)).toBe(false);
+      expect(loadingCount.equals(true)).toBe(false);
+      expect(loadingCount.equals(Symbol('p'))).toBe(false);
+      expect(loadingCount.equals(20n)).toBe(false);
+      expect(loadingCount.equals({})).toBe(false);
+      expect(loadingCount.equals([])).toBe(false);
+      expect(loadingCount.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if both properties are the same', () => {
       expect.assertions(3);
 
