@@ -1,5 +1,5 @@
-import { BinaryPredicate, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
-import { Collection, ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
+import { BinaryPredicate, Catalogue, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 import { LanguageID } from './LanguageID';
 
@@ -89,12 +89,16 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return this.languages.every(predicate);
   }
 
-  public filter(predicate: BinaryPredicate<Language, LanguageID>): Collection<LanguageID, Language> {
-    return this.languages.filter(predicate);
+  public filter(predicate: BinaryPredicate<Language, LanguageID>): Languages {
+    return Languages.of(this.languages.filter(predicate));
   }
 
   public find(predicate: BinaryPredicate<Language, LanguageID>): Nullable<Language> {
     return this.languages.find(predicate);
+  }
+
+  public forEach(catalogue: Catalogue<LanguageID, Language>): void {
+    this.languages.forEach(catalogue);
   }
 
   public get(key: LanguageID): Nullable<Language> {

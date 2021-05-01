@@ -1,4 +1,4 @@
-import { BinaryPredicate, Enumerator, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, Catalogue, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
 import { ImmutableProject, Project, Quantity } from '@jamashita/lluvia-collection';
 import { Region, RegionJSON, RegionRow } from './Region';
 import { RegionID } from './RegionID';
@@ -97,8 +97,8 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     return this.regions.find(predicate);
   }
 
-  public forEach(enumerator: Enumerator<RegionID, Region>): void {
-    this.regions.forEach(enumerator);
+  public forEach(catalogue: Catalogue<RegionID, Region>): void {
+    this.regions.forEach(catalogue);
   }
 
   public get(key: RegionID): Nullable<Region> {

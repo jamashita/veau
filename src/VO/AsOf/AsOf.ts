@@ -9,6 +9,14 @@ export class AsOf extends ValueObject<'AsOf'> {
   public readonly noun: 'AsOf' = 'AsOf';
   private readonly asOf: Zeit;
 
+  public static format(): string {
+    return TERM_FORMAT;
+  }
+
+  public static now(): AsOf {
+    return AsOf.of(Zeit.now(TERM_FORMAT));
+  }
+
   public static of(asOf: Zeit): AsOf {
     return new AsOf(asOf);
   }
@@ -26,14 +34,6 @@ export class AsOf extends ValueObject<'AsOf'> {
 
       throw err;
     }
-  }
-
-  public static now(): AsOf {
-    return AsOf.of(Zeit.now(TERM_FORMAT));
-  }
-
-  public static format(): string {
-    return TERM_FORMAT;
   }
 
   protected constructor(asOf: Zeit) {
@@ -60,35 +60,12 @@ export class AsOf extends ValueObject<'AsOf'> {
     return this.asOf;
   }
 
-  public isBefore(other: AsOf): boolean {
-    return this.asOf.isBefore(other.asOf);
-  }
-
   public isAfter(other: AsOf): boolean {
     return this.asOf.isAfter(other.asOf);
   }
 
-  public previous(term: Term): AsOf {
-    switch (term) {
-      case Term.DAILY: {
-        return AsOf.of(this.asOf.past(1, 'day'));
-      }
-      case Term.WEEKLY: {
-        return AsOf.of(this.asOf.past(1, 'week'));
-      }
-      case Term.MONTHLY: {
-        return AsOf.of(this.asOf.past(1, 'month'));
-      }
-      case Term.QUARTERLY: {
-        return AsOf.of(this.asOf.past(3, 'month'));
-      }
-      case Term.ANNUAL: {
-        return AsOf.of(this.asOf.past(1, 'year'));
-      }
-      default: {
-        throw new AsOfError(`UNEXPECTED VALUE: ${term.getTermID().get().get()}`);
-      }
-    }
+  public isBefore(other: AsOf): boolean {
+    return this.asOf.isBefore(other.asOf);
   }
 
   public next(term: Term): AsOf {
@@ -107,6 +84,29 @@ export class AsOf extends ValueObject<'AsOf'> {
       }
       case Term.ANNUAL: {
         return AsOf.of(this.asOf.future(1, 'year'));
+      }
+      default: {
+        throw new AsOfError(`UNEXPECTED VALUE: ${term.getTermID().get().get()}`);
+      }
+    }
+  }
+
+  public previous(term: Term): AsOf {
+    switch (term) {
+      case Term.DAILY: {
+        return AsOf.of(this.asOf.past(1, 'day'));
+      }
+      case Term.WEEKLY: {
+        return AsOf.of(this.asOf.past(1, 'week'));
+      }
+      case Term.MONTHLY: {
+        return AsOf.of(this.asOf.past(1, 'month'));
+      }
+      case Term.QUARTERLY: {
+        return AsOf.of(this.asOf.past(3, 'month'));
+      }
+      case Term.ANNUAL: {
+        return AsOf.of(this.asOf.past(1, 'year'));
       }
       default: {
         throw new AsOfError(`UNEXPECTED VALUE: ${term.getTermID().get().get()}`);

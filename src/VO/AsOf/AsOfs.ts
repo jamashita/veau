@@ -1,4 +1,4 @@
-import { BinaryPredicate, Cloneable, Enumerator, JSONable, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, Catalogue, Cloneable, JSONable, Mapper, Nullable } from '@jamashita/anden-type';
 import { Zeit } from '@jamashita/anden-zeit';
 import { ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/lluvia-collection';
 import { Term } from '../Term/Term';
@@ -10,20 +10,16 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
 
   private static readonly EMPTY: AsOfs = new AsOfs(ImmutableSequence.empty<AsOf>());
 
-  public static of(asOfs: ReadonlySequence<AsOf>): AsOfs {
-    return AsOfs.ofArray(asOfs.toArray());
-  }
+  public static duration(min: AsOf, max: AsOf, term: Term): AsOfs {
+    let asOfs: AsOfs = AsOfs.empty();
 
-  public static ofArray(asOfs: ReadonlyArray<AsOf>): AsOfs {
-    if (asOfs.length === 0) {
-      return AsOfs.empty();
+    asOfs = asOfs.add(min.previous(term));
+    for (let asOf: AsOf = min; !asOf.isAfter(max); asOf = asOf.next(term)) {
+      asOfs = asOfs.add(asOf);
     }
+    asOfs = asOfs.add(max.next(term));
 
-    return new AsOfs(ImmutableSequence.ofArray<AsOf>(asOfs));
-  }
-
-  public static ofSpread(...asOfs: Array<AsOf>): AsOfs {
-    return AsOfs.ofArray(asOfs);
+    return asOfs;
   }
 
   public static empty(): AsOfs {
@@ -52,16 +48,20 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
     return AsOfs.ofArray(merged);
   }
 
-  public static duration(min: AsOf, max: AsOf, term: Term): AsOfs {
-    let asOfs: AsOfs = AsOfs.empty();
+  public static of(asOfs: ReadonlySequence<AsOf>): AsOfs {
+    return AsOfs.ofArray(asOfs.toArray());
+  }
 
-    asOfs = asOfs.add(min.previous(term));
-    for (let asOf: AsOf = min; !asOf.isAfter(max); asOf = asOf.next(term)) {
-      asOfs = asOfs.add(asOf);
+  public static ofArray(asOfs: ReadonlyArray<AsOf>): AsOfs {
+    if (asOfs.length === 0) {
+      return AsOfs.empty();
     }
-    asOfs = asOfs.add(max.next(term));
 
-    return asOfs;
+    return new AsOfs(ImmutableSequence.ofArray<AsOf>(asOfs));
+  }
+
+  public static ofSpread(...asOfs: Array<AsOf>): AsOfs {
+    return AsOfs.ofArray(asOfs);
   }
 
   protected constructor(asOfs: ImmutableSequence<AsOf>) {
@@ -69,24 +69,16 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
     this.asOfs = asOfs;
   }
 
-  public get(index: number): Nullable<AsOf> {
-    return this.asOfs.get(index);
-  }
-
   public contains(value: AsOf): boolean {
     return this.asOfs.contains(value);
   }
 
-  public size(): number {
-    return this.asOfs.size();
-  }
+  public duplicate(): AsOfs {
+    if (this.isEmpty()) {
+      return AsOfs.empty();
+    }
 
-  public forEach(enumerator: Enumerator<number, AsOf>): void {
-    this.asOfs.forEach(enumerator);
-  }
-
-  public isEmpty(): boolean {
-    return this.asOfs.isEmpty();
+    return AsOfs.of(this.asOfs.duplicate());
   }
 
   public equals(other: unknown): boolean {
@@ -100,38 +92,8 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
     return this.asOfs.equals(other.asOfs);
   }
 
-  public duplicate(): AsOfs {
-    if (this.isEmpty()) {
-      return AsOfs.empty();
-    }
-
-    return AsOfs.of(this.asOfs.duplicate());
-  }
-
-  public toJSON(): Array<string> {
-    return this.asOfs.toArray().map<string>((asOf: AsOf) => {
-      return asOf.toString();
-    });
-  }
-
-  public serialize(): string {
-    return this.asOfs.toString();
-  }
-
   public every(predicate: BinaryPredicate<AsOf, number>): boolean {
     return this.asOfs.every(predicate);
-  }
-
-  public some(predicate: BinaryPredicate<AsOf, number>): boolean {
-    return this.asOfs.some(predicate);
-  }
-
-  public values(): Iterable<AsOf> {
-    return this.asOfs.values();
-  }
-
-  public iterator(): Iterator<[number, AsOf]> {
-    return this.asOfs[Symbol.iterator]();
   }
 
   public filter(predicate: BinaryPredicate<AsOf, number>): AsOfs {
@@ -142,32 +104,50 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
     return this.asOfs.find(predicate);
   }
 
+  public forEach(catalogue: Catalogue<number, AsOf>): void {
+    this.asOfs.forEach(catalogue);
+  }
+
+  public get(index: number): Nullable<AsOf> {
+    return this.asOfs.get(index);
+  }
+
+  public isEmpty(): boolean {
+    return this.asOfs.isEmpty();
+  }
+
+  public iterator(): Iterator<[number, AsOf]> {
+    return this.asOfs[Symbol.iterator]();
+  }
+
   public map<W>(mapper: Mapper<AsOf, W>): ImmutableSequence<W> {
     return this.asOfs.map<W>(mapper);
   }
 
-  public add(values: AsOf): AsOfs {
-    return AsOfs.of(this.asOfs.add(values));
+  public serialize(): string {
+    return this.asOfs.toString();
   }
 
-  public min(): Nullable<AsOf> {
-    if (this.isEmpty()) {
-      return null;
-    }
-    if (this.asOfs.size() === 1) {
-      return this.asOfs.get(0);
-    }
+  public size(): number {
+    return this.asOfs.size();
+  }
 
-    const zeiten: Sequence<Zeit> = this.asOfs.map<Zeit>((asOf: AsOf) => {
-      return asOf.get();
+  public some(predicate: BinaryPredicate<AsOf, number>): boolean {
+    return this.asOfs.some(predicate);
+  }
+
+  public toJSON(): Array<string> {
+    return this.asOfs.toArray().map<string>((asOf: AsOf) => {
+      return asOf.toString();
     });
+  }
 
-    try {
-      return AsOf.of(Zeit.min(zeiten.toArray(), AsOf.format()));
-    }
-    catch (err: unknown) {
-      return null;
-    }
+  public values(): Iterable<AsOf> {
+    return this.asOfs.values();
+  }
+
+  public add(values: AsOf): AsOfs {
+    return AsOfs.of(this.asOfs.add(values));
   }
 
   public max(): Nullable<AsOf> {
@@ -184,6 +164,26 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
 
     try {
       return AsOf.of(Zeit.max(zeiten.toArray(), AsOf.format()));
+    }
+    catch (err: unknown) {
+      return null;
+    }
+  }
+
+  public min(): Nullable<AsOf> {
+    if (this.isEmpty()) {
+      return null;
+    }
+    if (this.asOfs.size() === 1) {
+      return this.asOfs.get(0);
+    }
+
+    const zeiten: Sequence<Zeit> = this.asOfs.map<Zeit>((asOf: AsOf) => {
+      return asOf.get();
+    });
+
+    try {
+      return AsOf.of(Zeit.min(zeiten.toArray(), AsOf.format()));
     }
     catch (err: unknown) {
       return null;
