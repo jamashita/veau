@@ -81,6 +81,29 @@ describe('Column', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const column: Column = Column.origin();
+
+      expect(column.equals(null)).toBe(false);
+      expect(column.equals(undefined)).toBe(false);
+      expect(column.equals('')).toBe(false);
+      expect(column.equals('123')).toBe(false);
+      expect(column.equals('abcd')).toBe(false);
+      expect(column.equals(123)).toBe(false);
+      expect(column.equals(0)).toBe(false);
+      expect(column.equals(-12)).toBe(false);
+      expect(column.equals(0.3)).toBe(false);
+      expect(column.equals(false)).toBe(false);
+      expect(column.equals(true)).toBe(false);
+      expect(column.equals(Symbol('p'))).toBe(false);
+      expect(column.equals(20n)).toBe(false);
+      expect(column.equals({})).toBe(false);
+      expect(column.equals([])).toBe(false);
+      expect(column.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if both properties are the same', () => {
       expect.assertions(3);
 

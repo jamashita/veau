@@ -7,6 +7,7 @@ const ORIGIN_VALUE: number = 0;
 export class Row extends ValueObject<'Row'> {
   public readonly noun: 'Row' = 'Row';
   private readonly row: number;
+
   private static readonly ORIGIN: Row = new Row(ORIGIN_VALUE);
 
   public static of(row: number): Row {
@@ -32,9 +33,12 @@ export class Row extends ValueObject<'Row'> {
     this.row = row;
   }
 
-  public equals(other: Row): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Row)) {
+      return false;
     }
     if (this.row === other.row) {
       return true;

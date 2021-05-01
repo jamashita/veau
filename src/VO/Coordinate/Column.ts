@@ -7,6 +7,7 @@ const ORIGIN_VALUE: number = 0;
 export class Column extends ValueObject<'Column'> {
   public readonly noun: 'Column' = 'Column';
   private readonly column: number;
+
   private static readonly ORIGIN: Column = new Column(ORIGIN_VALUE);
 
   public static of(column: number): Column {
@@ -32,9 +33,12 @@ export class Column extends ValueObject<'Column'> {
     this.column = column;
   }
 
-  public equals(other: Column): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Column)) {
+      return false;
     }
     if (this.column === other.column) {
       return true;

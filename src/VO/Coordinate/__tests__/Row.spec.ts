@@ -81,6 +81,29 @@ describe('Row', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const row: Row = Row.origin();
+
+      expect(row.equals(null)).toBe(false);
+      expect(row.equals(undefined)).toBe(false);
+      expect(row.equals('')).toBe(false);
+      expect(row.equals('123')).toBe(false);
+      expect(row.equals('abcd')).toBe(false);
+      expect(row.equals(123)).toBe(false);
+      expect(row.equals(0)).toBe(false);
+      expect(row.equals(-12)).toBe(false);
+      expect(row.equals(0.3)).toBe(false);
+      expect(row.equals(false)).toBe(false);
+      expect(row.equals(true)).toBe(false);
+      expect(row.equals(Symbol('p'))).toBe(false);
+      expect(row.equals(20n)).toBe(false);
+      expect(row.equals({})).toBe(false);
+      expect(row.equals([])).toBe(false);
+      expect(row.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if both properties are the same', () => {
       expect.assertions(3);
 
