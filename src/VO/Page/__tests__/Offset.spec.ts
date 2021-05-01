@@ -27,6 +27,29 @@ describe('Offset', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const offset: Offset = Offset.of(1);
+
+      expect(offset.equals(null)).toBe(false);
+      expect(offset.equals(undefined)).toBe(false);
+      expect(offset.equals('')).toBe(false);
+      expect(offset.equals('123')).toBe(false);
+      expect(offset.equals('abcd')).toBe(false);
+      expect(offset.equals(123)).toBe(false);
+      expect(offset.equals(0)).toBe(false);
+      expect(offset.equals(-12)).toBe(false);
+      expect(offset.equals(0.3)).toBe(false);
+      expect(offset.equals(false)).toBe(false);
+      expect(offset.equals(true)).toBe(false);
+      expect(offset.equals(Symbol('p'))).toBe(false);
+      expect(offset.equals(20n)).toBe(false);
+      expect(offset.equals({})).toBe(false);
+      expect(offset.equals([])).toBe(false);
+      expect(offset.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true i f both properties are the same', () => {
       expect.assertions(3);
 

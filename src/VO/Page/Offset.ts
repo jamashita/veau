@@ -22,9 +22,12 @@ export class Offset extends ValueObject<'Offset'> {
     this.offset = offset;
   }
 
-  public equals(other: Offset): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Offset)) {
+      return false;
     }
     if (this.offset === other.offset) {
       return true;

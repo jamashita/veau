@@ -49,6 +49,29 @@ describe('Limit', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const limit: Limit = Limit.of(1);
+
+      expect(limit.equals(null)).toBe(false);
+      expect(limit.equals(undefined)).toBe(false);
+      expect(limit.equals('')).toBe(false);
+      expect(limit.equals('123')).toBe(false);
+      expect(limit.equals('abcd')).toBe(false);
+      expect(limit.equals(123)).toBe(false);
+      expect(limit.equals(0)).toBe(false);
+      expect(limit.equals(-12)).toBe(false);
+      expect(limit.equals(0.3)).toBe(false);
+      expect(limit.equals(false)).toBe(false);
+      expect(limit.equals(true)).toBe(false);
+      expect(limit.equals(Symbol('p'))).toBe(false);
+      expect(limit.equals(20n)).toBe(false);
+      expect(limit.equals({})).toBe(false);
+      expect(limit.equals([])).toBe(false);
+      expect(limit.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if both properties are the same', () => {
       expect.assertions(3);
 

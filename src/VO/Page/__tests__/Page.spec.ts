@@ -60,6 +60,29 @@ describe('Page', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const page: Page = Page.min();
+
+      expect(page.equals(null)).toBe(false);
+      expect(page.equals(undefined)).toBe(false);
+      expect(page.equals('')).toBe(false);
+      expect(page.equals('123')).toBe(false);
+      expect(page.equals('abcd')).toBe(false);
+      expect(page.equals(123)).toBe(false);
+      expect(page.equals(0)).toBe(false);
+      expect(page.equals(-12)).toBe(false);
+      expect(page.equals(0.3)).toBe(false);
+      expect(page.equals(false)).toBe(false);
+      expect(page.equals(true)).toBe(false);
+      expect(page.equals(Symbol('p'))).toBe(false);
+      expect(page.equals(20n)).toBe(false);
+      expect(page.equals({})).toBe(false);
+      expect(page.equals([])).toBe(false);
+      expect(page.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if both properties are the same', () => {
       expect.assertions(3);
 

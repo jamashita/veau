@@ -12,6 +12,10 @@ export class Page extends ValueObject<'Page'> {
 
   private static readonly MIN: Page = new Page(MIN_PAGE);
 
+  public static min(): Page {
+    return Page.MIN;
+  }
+
   public static of(page: number): Page {
     if (page <= 0) {
       throw new PageError(`ILLEGAL PAGE SPECIFIED ${page}`);
@@ -26,18 +30,17 @@ export class Page extends ValueObject<'Page'> {
     throw new PageError(`ILLEGAL PAGE SPECIFIED: ${page}`);
   }
 
-  public static min(): Page {
-    return Page.MIN;
-  }
-
   protected constructor(page: number) {
     super();
     this.page = page;
   }
 
-  public equals(other: Page): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Page)) {
+      return false;
     }
     if (this.page === other.page) {
       return true;

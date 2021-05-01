@@ -10,6 +10,10 @@ export class Limit extends ValueObject<'Limit'> {
 
   private static readonly DEFAULT: Limit = new Limit(DEFAULT_VALUE);
 
+  public static default(): Limit {
+    return Limit.DEFAULT;
+  }
+
   public static of(limit: number): Limit {
     if (limit <= 0) {
       throw new PageError(`ILLEGAL LIMIT SPECIFIED ${limit}`);
@@ -24,18 +28,17 @@ export class Limit extends ValueObject<'Limit'> {
     throw new PageError(`ILLEGAL LIMIT SPECIFIED: ${limit}`);
   }
 
-  public static default(): Limit {
-    return Limit.DEFAULT;
-  }
-
   protected constructor(limit: number) {
     super();
     this.limit = limit;
   }
 
-  public equals(other: Limit): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Limit)) {
+      return false;
     }
     if (this.limit === other.limit) {
       return true;
