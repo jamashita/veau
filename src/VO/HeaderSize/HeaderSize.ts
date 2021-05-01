@@ -8,6 +8,10 @@ export class HeaderSize extends ValueObject<'HeaderSize'> {
   public readonly noun: 'HeaderSize' = 'HeaderSize';
   private readonly chars: number;
 
+  public static default(): HeaderSize {
+    return HeaderSize.ofPositiveInteger(1);
+  }
+
   public static of(chars: number): HeaderSize {
     if (chars < 0) {
       throw new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${chars}`);
@@ -19,16 +23,12 @@ export class HeaderSize extends ValueObject<'HeaderSize'> {
     throw new HeaderSizeError(`ILLEGAL SIZE SPECIFIED: ${chars}`);
   }
 
-  public static ofString(str: string): HeaderSize {
-    return HeaderSize.ofPositiveInteger(str.length);
-  }
-
   private static ofPositiveInteger(num: number): HeaderSize {
     return new HeaderSize(num * REVISED_VALUE);
   }
 
-  public static default(): HeaderSize {
-    return HeaderSize.ofPositiveInteger(1);
+  public static ofString(str: string): HeaderSize {
+    return HeaderSize.ofPositiveInteger(str.length);
   }
 
   protected constructor(chars: number) {
@@ -36,9 +36,12 @@ export class HeaderSize extends ValueObject<'HeaderSize'> {
     this.chars = chars;
   }
 
-  public equals(other: HeaderSize): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof HeaderSize)) {
+      return false;
     }
     if (this.chars === other.chars) {
       return true;
