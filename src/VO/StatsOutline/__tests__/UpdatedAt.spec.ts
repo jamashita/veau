@@ -32,6 +32,29 @@ describe('UpdatedAt', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 00:00:00');
+
+      expect(updatedAt.equals(null)).toBe(false);
+      expect(updatedAt.equals(undefined)).toBe(false);
+      expect(updatedAt.equals('')).toBe(false);
+      expect(updatedAt.equals('123')).toBe(false);
+      expect(updatedAt.equals('abcd')).toBe(false);
+      expect(updatedAt.equals(123)).toBe(false);
+      expect(updatedAt.equals(0)).toBe(false);
+      expect(updatedAt.equals(-12)).toBe(false);
+      expect(updatedAt.equals(0.3)).toBe(false);
+      expect(updatedAt.equals(false)).toBe(false);
+      expect(updatedAt.equals(true)).toBe(false);
+      expect(updatedAt.equals(Symbol('p'))).toBe(false);
+      expect(updatedAt.equals(20n)).toBe(false);
+      expect(updatedAt.equals({})).toBe(false);
+      expect(updatedAt.equals([])).toBe(false);
+      expect(updatedAt.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if both properties are the same', () => {
       expect.assertions(3);
 

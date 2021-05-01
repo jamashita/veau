@@ -3,13 +3,10 @@ import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
 import { MockRegionID } from '../../Region/Mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
-import { MockTermID } from '../../Term/Mock/MockTermID';
 import { Term } from '../../Term/Term';
 import { TermID } from '../../Term/TermID';
 import { StatsOutlineError } from '../Error/StatsOutlineError';
 import { MockStatsID } from '../Mock/MockStatsID';
-import { MockStatsName } from '../Mock/MockStatsName';
-import { MockStatsUnit } from '../Mock/MockStatsUnit';
 import { MockUpdatedAt } from '../Mock/MockUpdatedAt';
 import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
@@ -25,9 +22,9 @@ describe('StatsOutline', () => {
       const statsID: MockStatsID = new MockStatsID();
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
-      const termID: MockTermID = new MockTermID();
-      const name: MockStatsName = new MockStatsName();
-      const unit: MockStatsUnit = new MockStatsUnit();
+      const termID: TermID = TermID.of(UUID.v4());
+      const name: StatsName = StatsName.empty();
+      const unit: StatsUnit = StatsUnit.empty();
       const updatedAt: MockUpdatedAt = new MockUpdatedAt();
 
       const statsOutline: StatsOutline = StatsOutline.of(statsID, languageID, regionID, termID, name, unit, updatedAt);
@@ -519,8 +516,32 @@ describe('StatsOutline', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const outline: StatsOutline = StatsOutline.default();
+
+      expect(outline.equals(null)).toBe(false);
+      expect(outline.equals(undefined)).toBe(false);
+      expect(outline.equals('')).toBe(false);
+      expect(outline.equals('123')).toBe(false);
+      expect(outline.equals('abcd')).toBe(false);
+      expect(outline.equals(123)).toBe(false);
+      expect(outline.equals(0)).toBe(false);
+      expect(outline.equals(-12)).toBe(false);
+      expect(outline.equals(0.3)).toBe(false);
+      expect(outline.equals(false)).toBe(false);
+      expect(outline.equals(true)).toBe(false);
+      expect(outline.equals(Symbol('p'))).toBe(false);
+      expect(outline.equals(20n)).toBe(false);
+      expect(outline.equals({})).toBe(false);
+      expect(outline.equals([])).toBe(false);
+      expect(outline.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if all the properties are the same', () => {
       expect.assertions(9);
+
 
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
@@ -534,72 +555,72 @@ describe('StatsOutline', () => {
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTermID(uuid7),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        TermID.of(uuid7),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline2: StatsOutline = StatsOutline.of(
         new MockStatsID(uuid2),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTermID(uuid7),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        TermID.of(uuid7),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline3: StatsOutline = StatsOutline.of(
         new MockStatsID(uuid1),
         new MockLanguageID(uuid4),
         new MockRegionID(uuid5),
-        new MockTermID(uuid7),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        TermID.of(uuid7),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline4: StatsOutline = StatsOutline.of(
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid6),
-        new MockTermID(uuid7),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        TermID.of(uuid7),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline5: StatsOutline = StatsOutline.of(
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTermID(uuid8),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        TermID.of(uuid8),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline6: StatsOutline = StatsOutline.of(
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTermID(uuid7),
-        new MockStatsName('NO TOFU'),
-        new MockStatsUnit(),
+        TermID.of(uuid7),
+        StatsName.of('NO TOFU'),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline7: StatsOutline = StatsOutline.of(
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTermID(uuid7),
-        new MockStatsName(),
-        new MockStatsUnit('NO TOFU'),
+        TermID.of(uuid7),
+        StatsName.empty(),
+        StatsUnit.of('NO TOFU'),
         new MockUpdatedAt()
       );
       const statsOutline8: StatsOutline = StatsOutline.of(
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTermID(uuid7),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        TermID.of(uuid7),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt({
           year: 2070
         })
@@ -608,9 +629,9 @@ describe('StatsOutline', () => {
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTermID(uuid7),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        TermID.of(uuid7),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
 
@@ -692,63 +713,63 @@ describe('StatsOutline', () => {
         new MockStatsID(),
         LanguageID.empty(),
         RegionID.empty(),
-        new MockTermID(),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        TermID.of(UUID.v4()),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline2: StatsOutline = StatsOutline.of(
         new MockStatsID(),
         new MockLanguageID(),
         RegionID.empty(),
-        new MockTermID(),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        TermID.of(UUID.v4()),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline3: StatsOutline = StatsOutline.of(
         new MockStatsID(),
         LanguageID.empty(),
         new MockRegionID(),
-        new MockTermID(),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        TermID.of(UUID.v4()),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline4: StatsOutline = StatsOutline.of(
         new MockStatsID(),
         new MockLanguageID(),
         new MockRegionID(),
-        new MockTermID(),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        TermID.of(UUID.v4()),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline5: StatsOutline = StatsOutline.of(
         new MockStatsID(),
         new MockLanguageID(),
         new MockRegionID(),
-        new MockTermID(),
-        new MockStatsName('stats name'),
-        new MockStatsUnit(),
+        TermID.of(UUID.v4()),
+        StatsName.of('stats name'),
+        StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline6: StatsOutline = StatsOutline.of(
         new MockStatsID(),
         new MockLanguageID(),
         new MockRegionID(),
-        new MockTermID(),
-        new MockStatsName(),
-        new MockStatsUnit('stats unit'),
+        TermID.of(UUID.v4()),
+        StatsName.empty(),
+        StatsUnit.of('stats unit'),
         new MockUpdatedAt()
       );
       const statsOutline7: StatsOutline = StatsOutline.of(
         new MockStatsID(),
         new MockLanguageID(),
         new MockRegionID(),
-        new MockTermID(),
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
+        TermID.of(UUID.v4()),
+        StatsName.of('stats name'),
+        StatsUnit.of('stats unit'),
         new MockUpdatedAt()
       );
 

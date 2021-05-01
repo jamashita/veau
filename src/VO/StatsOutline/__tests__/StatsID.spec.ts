@@ -46,6 +46,29 @@ describe('StatsID', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const statsID: StatsID = StatsID.of(UUID.v4());
+
+      expect(statsID.equals(null)).toBe(false);
+      expect(statsID.equals(undefined)).toBe(false);
+      expect(statsID.equals('')).toBe(false);
+      expect(statsID.equals('123')).toBe(false);
+      expect(statsID.equals('abcd')).toBe(false);
+      expect(statsID.equals(123)).toBe(false);
+      expect(statsID.equals(0)).toBe(false);
+      expect(statsID.equals(-12)).toBe(false);
+      expect(statsID.equals(0.3)).toBe(false);
+      expect(statsID.equals(false)).toBe(false);
+      expect(statsID.equals(true)).toBe(false);
+      expect(statsID.equals(Symbol('p'))).toBe(false);
+      expect(statsID.equals(20n)).toBe(false);
+      expect(statsID.equals({})).toBe(false);
+      expect(statsID.equals([])).toBe(false);
+      expect(statsID.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the property is the same', () => {
       expect.assertions(3);
 

@@ -8,6 +8,10 @@ export class StatsName extends ValueObject<'StatsName'> {
 
   private static readonly EMPTY: StatsName = new StatsName(EMPTY_NAME);
 
+  public static empty(): StatsName {
+    return StatsName.EMPTY;
+  }
+
   public static of(name: string): StatsName {
     if (name === EMPTY_NAME) {
       return StatsName.empty();
@@ -16,18 +20,17 @@ export class StatsName extends ValueObject<'StatsName'> {
     return new StatsName(name);
   }
 
-  public static empty(): StatsName {
-    return StatsName.EMPTY;
-  }
-
   protected constructor(name: string) {
     super();
     this.name = name;
   }
 
-  public equals(other: StatsName): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof StatsName)) {
+      return false;
     }
     if (this.name === other.name) {
       return true;

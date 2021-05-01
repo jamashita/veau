@@ -8,6 +8,10 @@ export class StatsUnit extends ValueObject<'StatsUnit'> {
 
   private static readonly EMPTY: StatsUnit = new StatsUnit(EMPTY_UNIT);
 
+  public static empty(): StatsUnit {
+    return StatsUnit.EMPTY;
+  }
+
   public static of(unit: string): StatsUnit {
     if (unit === EMPTY_UNIT) {
       return StatsUnit.empty();
@@ -16,18 +20,17 @@ export class StatsUnit extends ValueObject<'StatsUnit'> {
     return new StatsUnit(unit);
   }
 
-  public static empty(): StatsUnit {
-    return StatsUnit.EMPTY;
-  }
-
   protected constructor(unit: string) {
     super();
     this.unit = unit;
   }
 
-  public equals(other: StatsUnit): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof StatsUnit)) {
+      return false;
     }
     if (this.unit === other.unit) {
       return true;

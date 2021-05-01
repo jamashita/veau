@@ -8,6 +8,14 @@ export class UpdatedAt extends ValueObject<'UpdatedAt'> {
   public readonly noun: 'UpdatedAt' = 'UpdatedAt';
   private readonly at: Zeit;
 
+  public static format(): string {
+    return TERM_FORMAT;
+  }
+
+  public static now(): UpdatedAt {
+    return UpdatedAt.of(Zeit.now(TERM_FORMAT));
+  }
+
   public static of(at: Zeit): UpdatedAt {
     return new UpdatedAt(at);
   }
@@ -25,22 +33,17 @@ export class UpdatedAt extends ValueObject<'UpdatedAt'> {
     }
   }
 
-  public static now(): UpdatedAt {
-    return UpdatedAt.of(Zeit.now(TERM_FORMAT));
-  }
-
-  public static format(): string {
-    return TERM_FORMAT;
-  }
-
   protected constructor(at: Zeit) {
     super();
     this.at = at;
   }
 
-  public equals(other: UpdatedAt): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof UpdatedAt)) {
+      return false;
     }
 
     return this.at.equals(other.at);

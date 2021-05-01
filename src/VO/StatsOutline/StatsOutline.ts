@@ -43,6 +43,18 @@ export class StatsOutline extends ValueObject<'StatsOutline'> implements JSONabl
   private readonly unit: StatsUnit;
   private readonly updatedAt: UpdatedAt;
 
+  public static default(): StatsOutline {
+    return StatsOutline.of(
+      StatsID.generate(),
+      LanguageID.empty(),
+      RegionID.empty(),
+      Term.DAILY.getTermID(),
+      StatsName.empty(),
+      StatsUnit.empty(),
+      UpdatedAt.now()
+    );
+  }
+
   public static of(
     statsID: StatsID,
     languageID: LanguageID,
@@ -97,18 +109,6 @@ export class StatsOutline extends ValueObject<'StatsOutline'> implements JSONabl
     }
   }
 
-  public static default(): StatsOutline {
-    return StatsOutline.of(
-      StatsID.generate(),
-      LanguageID.empty(),
-      RegionID.empty(),
-      Term.DAILY.getTermID(),
-      StatsName.empty(),
-      StatsUnit.empty(),
-      UpdatedAt.now()
-    );
-  }
-
   public static validate(n: unknown): n is StatsOutlineJSON {
     if (!Kind.isObject<StatsOutlineJSON>(n)) {
       return false;
@@ -157,9 +157,12 @@ export class StatsOutline extends ValueObject<'StatsOutline'> implements JSONabl
     this.updatedAt = updatedAt;
   }
 
-  public equals(other: StatsOutline): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof StatsOutline)) {
+      return false;
     }
     if (!this.statsID.equals(other.statsID)) {
       return false;
@@ -186,18 +189,6 @@ export class StatsOutline extends ValueObject<'StatsOutline'> implements JSONabl
     return true;
   }
 
-  public toJSON(): StatsOutlineJSON {
-    return {
-      statsID: this.statsID.get().get(),
-      languageID: this.languageID.get().get(),
-      regionID: this.regionID.get().get(),
-      termID: this.termID.get().get(),
-      name: this.name.get(),
-      unit: this.unit.get(),
-      updatedAt: this.updatedAt.toString()
-    };
-  }
-
   public serialize(): string {
     const properties: Array<string> = [];
 
@@ -212,24 +203,36 @@ export class StatsOutline extends ValueObject<'StatsOutline'> implements JSONabl
     return properties.join(' ');
   }
 
-  public getStatsID(): StatsID {
-    return this.statsID;
+  public toJSON(): StatsOutlineJSON {
+    return {
+      statsID: this.statsID.get().get(),
+      languageID: this.languageID.get().get(),
+      regionID: this.regionID.get().get(),
+      termID: this.termID.get().get(),
+      name: this.name.get(),
+      unit: this.unit.get(),
+      updatedAt: this.updatedAt.toString()
+    };
   }
 
   public getLanguageID(): LanguageID {
     return this.languageID;
   }
 
+  public getName(): StatsName {
+    return this.name;
+  }
+
   public getRegionID(): RegionID {
     return this.regionID;
   }
 
-  public getTermID(): TermID {
-    return this.termID;
+  public getStatsID(): StatsID {
+    return this.statsID;
   }
 
-  public getName(): StatsName {
-    return this.name;
+  public getTermID(): TermID {
+    return this.termID;
   }
 
   public getUnit(): StatsUnit {

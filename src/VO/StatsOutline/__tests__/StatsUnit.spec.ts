@@ -36,6 +36,29 @@ describe('StatsUnit', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const unit: StatsUnit = StatsUnit.empty();
+
+      expect(unit.equals(null)).toBe(false);
+      expect(unit.equals(undefined)).toBe(false);
+      expect(unit.equals('')).toBe(false);
+      expect(unit.equals('123')).toBe(false);
+      expect(unit.equals('abcd')).toBe(false);
+      expect(unit.equals(123)).toBe(false);
+      expect(unit.equals(0)).toBe(false);
+      expect(unit.equals(-12)).toBe(false);
+      expect(unit.equals(0.3)).toBe(false);
+      expect(unit.equals(false)).toBe(false);
+      expect(unit.equals(true)).toBe(false);
+      expect(unit.equals(Symbol('p'))).toBe(false);
+      expect(unit.equals(20n)).toBe(false);
+      expect(unit.equals({})).toBe(false);
+      expect(unit.equals([])).toBe(false);
+      expect(unit.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if both properties are the same', () => {
       expect.assertions(3);
 

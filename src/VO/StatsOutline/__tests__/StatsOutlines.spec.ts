@@ -32,10 +32,10 @@ describe('StatsOutlines', () => {
       const outlines: StatsOutlines = StatsOutlines.ofArray(array);
 
       expect(outlines.size()).toBe(array.length);
-      for (let i: number = 0; i < outlines.size(); i++) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion®
-        expect(outlines.get(array[i]!.getStatsID())).toBe(array[i]);
-      }
+
+      array.forEach((o: MockStatsOutline) => {
+        expect(outlines.get(o.getStatsID())).toBe(o);
+      });
     });
   });
 
@@ -443,7 +443,30 @@ describe('StatsOutlines', () => {
   });
 
   describe('equals', () => {
-    it('same instance', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const outlines: StatsOutlines = StatsOutlines.empty();
+
+      expect(outlines.equals(null)).toBe(false);
+      expect(outlines.equals(undefined)).toBe(false);
+      expect(outlines.equals('')).toBe(false);
+      expect(outlines.equals('123')).toBe(false);
+      expect(outlines.equals('abcd')).toBe(false);
+      expect(outlines.equals(123)).toBe(false);
+      expect(outlines.equals(0)).toBe(false);
+      expect(outlines.equals(-12)).toBe(false);
+      expect(outlines.equals(0.3)).toBe(false);
+      expect(outlines.equals(false)).toBe(false);
+      expect(outlines.equals(true)).toBe(false);
+      expect(outlines.equals(Symbol('p'))).toBe(false);
+      expect(outlines.equals(20n)).toBe(false);
+      expect(outlines.equals({})).toBe(false);
+      expect(outlines.equals([])).toBe(false);
+      expect(outlines.equals(Object.create(null))).toBe(false);
+    });
+
+    it('returns true if the same instance given', () => {
       expect.assertions(1);
 
       const outline1: MockStatsOutline = new MockStatsOutline();
@@ -717,9 +740,15 @@ describe('StatsOutlines', () => {
     it('delegates its inner collection instance', () => {
       expect.assertions(1);
 
-      const outline1: MockStatsOutline = new MockStatsOutline();
-      const outline2: MockStatsOutline = new MockStatsOutline();
-      const outline3: MockStatsOutline = new MockStatsOutline();
+      const outline1: MockStatsOutline = new MockStatsOutline({
+        name: StatsName.of('outline 1')
+      });
+      const outline2: MockStatsOutline = new MockStatsOutline({
+        name: StatsName.of('outline 2')
+      });
+      const outline3: MockStatsOutline = new MockStatsOutline({
+        name: StatsName.of('outline 1')
+      });
 
       const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
         new Map<MockStatsID, MockStatsOutline>([
@@ -729,17 +758,13 @@ describe('StatsOutlines', () => {
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
-      // @ts-expect-error
-      statsOutlines.outlines.filter = spy;
-
-      statsOutlines.filter(() => {
-        return true;
+      const filtered: StatsOutlines = statsOutlines.filter((o: StatsOutline) => {
+        return o.getName().get() === 'outline 1';
       });
 
-      expect(spy.called).toBe(true);
+      expect(filtered.size()).toBe(2);
     });
   });
 
