@@ -1,86 +1,56 @@
-import { BinaryPredicate, Enumerator, JSONable, Mapper, Nullable } from '@jamashita/anden-type';
-import { Collection, ImmutableSequence, Quantity, Sequence } from '@jamashita/lluvia-collection';
+import { BinaryPredicate, Catalogue, JSONable, Mapper, Nullable } from '@jamashita/anden-type';
+import { Collection, ImmutableSequence, Quantity, ReadonlySequence } from '@jamashita/lluvia-collection';
 import { StatsItemName } from './StatsItemName';
 
 export class StatsItemNames extends Quantity<number, StatsItemName, 'StatsItemNames'>
   implements JSONable<Array<string>> {
   public readonly noun: 'StatsItemNames' = 'StatsItemNames';
-  private readonly names: Sequence<StatsItemName>;
+  private readonly names: ImmutableSequence<StatsItemName>;
+
   private static readonly EMPTY: StatsItemNames = new StatsItemNames(ImmutableSequence.empty<StatsItemName>());
 
-  public static of(names: Sequence<StatsItemName>): StatsItemNames {
-    if (names.isEmpty()) {
-      return StatsItemNames.empty();
-    }
+  public static empty(): StatsItemNames {
+    return StatsItemNames.EMPTY;
+  }
 
-    return new StatsItemNames(names);
+  public static of(names: ReadonlySequence<StatsItemName>): StatsItemNames {
+    return StatsItemNames.ofArray(names.toArray());
   }
 
   public static ofArray(names: ReadonlyArray<StatsItemName>): StatsItemNames {
-    return StatsItemNames.of(ImmutableSequence.ofArray<StatsItemName>(names));
+    if (names.length === 0) {
+      return StatsItemNames.empty();
+    }
+
+    return new StatsItemNames(ImmutableSequence.ofArray<StatsItemName>(names));
   }
 
   public static ofSpread(...names: Array<StatsItemName>): StatsItemNames {
     return StatsItemNames.ofArray(names);
   }
 
-  public static empty(): StatsItemNames {
-    return StatsItemNames.EMPTY;
-  }
-
-  protected constructor(names: Sequence<StatsItemName>) {
+  protected constructor(names: ImmutableSequence<StatsItemName>) {
     super();
     this.names = names;
-  }
-
-  public get(index: number): Nullable<StatsItemName> {
-    return this.names.get(index);
   }
 
   public contains(value: StatsItemName): boolean {
     return this.names.contains(value);
   }
 
-  public size(): number {
-    return this.names.size();
-  }
-
-  public forEach(iteration: Enumerator<number, StatsItemName>): void {
-    this.names.forEach(iteration);
-  }
-
-  public isEmpty(): boolean {
-    return this.names.isEmpty();
-  }
-
-  public equals(other: StatsItemNames): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof StatsItemNames)) {
+      return false;
     }
 
     return this.names.equals(other.names);
   }
 
-  public toJSON(): Array<string> {
-    return this.names.toArray().map<string>((name: StatsItemName) => {
-      return name.get();
-    });
-  }
-
-  public serialize(): string {
-    return this.names.toString();
-  }
-
   public every(predicate: BinaryPredicate<StatsItemName, number>): boolean {
     return this.names.every(predicate);
-  }
-
-  public some(predicate: BinaryPredicate<StatsItemName, number>): boolean {
-    return this.names.some(predicate);
-  }
-
-  public values(): Iterable<StatsItemName> {
-    return this.names.values();
   }
 
   public filter(predicate: BinaryPredicate<StatsItemName, number>): Collection<number, StatsItemName> {
@@ -91,11 +61,45 @@ export class StatsItemNames extends Quantity<number, StatsItemName, 'StatsItemNa
     return this.names.find(predicate);
   }
 
+  public forEach(catalogue: Catalogue<number, StatsItemName>): void {
+    this.names.forEach(catalogue);
+  }
+
+  public get(index: number): Nullable<StatsItemName> {
+    return this.names.get(index);
+  }
+
+  public isEmpty(): boolean {
+    return this.names.isEmpty();
+  }
+
   public iterator(): Iterator<[number, StatsItemName]> {
     return this.names.iterator();
   }
 
-  public map<W>(mapper: Mapper<StatsItemName, W>): Collection<number, W> {
+  public map<W>(mapper: Mapper<StatsItemName, W>): ImmutableSequence<W> {
     return this.names.map<W>(mapper);
+  }
+
+  public serialize(): string {
+    return this.names.toString();
+  }
+
+  public size(): number {
+    return this.names.size();
+  }
+
+  public some(predicate: BinaryPredicate<StatsItemName, number>): boolean {
+    return this.names.some(predicate);
+  }
+
+  public toJSON(): Array<string> {
+    return this.names.toArray().map<string>((name: StatsItemName) => {
+      return name.get();
+    });
+  }
+
+  public values(): Iterable<StatsItemName> {
+    return this.names.values();
   }
 }

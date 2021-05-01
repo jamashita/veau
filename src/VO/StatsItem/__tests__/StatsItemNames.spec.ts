@@ -107,11 +107,10 @@ describe('StatsItemNames', () => {
       const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.get = spy;
-
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
+      // @ts-expect-error
+      names.names.get = spy;
       names.get(0);
 
       expect(spy.called).toBe(true);
@@ -129,11 +128,10 @@ describe('StatsItemNames', () => {
       const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.contains = spy;
-
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
+      // @ts-expect-error
+      names.names.contains = spy;
       names.contains(name2);
 
       expect(spy.called).toBe(true);
@@ -151,11 +149,10 @@ describe('StatsItemNames', () => {
       const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.size = spy;
-
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
+      // @ts-expect-error
+      names.names.size = spy;
       names.size();
 
       expect(spy.called).toBe(true);
@@ -173,11 +170,10 @@ describe('StatsItemNames', () => {
       const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.forEach = spy;
-
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
+      // @ts-expect-error
+      names.names.forEach = spy;
       names.forEach(() => {
         // NOOP
       });
@@ -197,11 +193,10 @@ describe('StatsItemNames', () => {
       const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.isEmpty = spy;
-
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
+      // @ts-expect-error
+      names.names.isEmpty = spy;
       names.isEmpty();
 
       expect(spy.called).toBe(true);
@@ -220,17 +215,39 @@ describe('StatsItemNames', () => {
 
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
-      const iterable: Iterable<string> = names.map<string>((name: StatsItemName) => {
+      const mapped: ImmutableSequence<string> = names.map<string>((name: StatsItemName) => {
         return name.get();
-      }).values();
-      const arr: Array<string> = [...iterable];
+      });
 
-      expect(arr).toHaveLength(3);
+      expect(mapped.size()).toBe(3);
     });
   });
 
   describe('equals', () => {
-    it('same instance', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const names: StatsItemNames = StatsItemNames.empty();
+
+      expect(names.equals(null)).toBe(false);
+      expect(names.equals(undefined)).toBe(false);
+      expect(names.equals('')).toBe(false);
+      expect(names.equals('123')).toBe(false);
+      expect(names.equals('abcd')).toBe(false);
+      expect(names.equals(123)).toBe(false);
+      expect(names.equals(0)).toBe(false);
+      expect(names.equals(-12)).toBe(false);
+      expect(names.equals(0.3)).toBe(false);
+      expect(names.equals(false)).toBe(false);
+      expect(names.equals(true)).toBe(false);
+      expect(names.equals(Symbol('p'))).toBe(false);
+      expect(names.equals(20n)).toBe(false);
+      expect(names.equals({})).toBe(false);
+      expect(names.equals([])).toBe(false);
+      expect(names.equals(Object.create(null))).toBe(false);
+    });
+
+    it('returns true if the same instance given', () => {
       expect.assertions(1);
 
       const name1: MockStatsItemName = new MockStatsItemName('item 1');
@@ -251,11 +268,10 @@ describe('StatsItemNames', () => {
       const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.equals = spy;
-
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
+      // @ts-expect-error
+      names.names.equals = spy;
       names.equals(new MockStatsItemNames());
 
       expect(spy.called).toBe(true);
@@ -283,11 +299,10 @@ describe('StatsItemNames', () => {
       const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.toString = spy;
-
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
+      // @ts-expect-error
+      names.names.toString = spy;
       names.toString();
 
       expect(spy.called).toBe(true);
@@ -327,11 +342,10 @@ describe('StatsItemNames', () => {
       const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.every = spy;
-
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
+      // @ts-expect-error
+      names.names.every = spy;
       names.every(() => {
         return true;
       });
@@ -351,11 +365,10 @@ describe('StatsItemNames', () => {
       const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.some = spy;
-
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
+      // @ts-expect-error
+      names.names.some = spy;
       names.some(() => {
         return true;
       });
@@ -375,12 +388,57 @@ describe('StatsItemNames', () => {
       const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.values = spy;
-
       const names: StatsItemNames = StatsItemNames.of(sequence);
 
+      // @ts-expect-error
+      names.names.values = spy;
       names.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('filter', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
+
+      const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
+
+      const spy: SinonSpy = sinon.spy();
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      // @ts-expect-error
+      names.names.filter = spy;
+      names.filter(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('find', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const name1: MockStatsItemName = new MockStatsItemName();
+      const name2: MockStatsItemName = new MockStatsItemName();
+      const name3: MockStatsItemName = new MockStatsItemName();
+
+      const sequence: MockSequence<MockStatsItemName> = new MockSequence<MockStatsItemName>([name1, name2, name3]);
+
+      const spy: SinonSpy = sinon.spy();
+      const names: StatsItemNames = StatsItemNames.of(sequence);
+
+      // @ts-expect-error
+      names.names.find = spy;
+      names.find(() => {
+        return true;
+      });
 
       expect(spy.called).toBe(true);
     });

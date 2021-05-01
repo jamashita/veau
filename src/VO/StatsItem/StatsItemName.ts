@@ -8,6 +8,10 @@ export class StatsItemName extends ValueObject<'StatsItemName'> {
 
   private static readonly EMPTY: StatsItemName = new StatsItemName(EMPTY_NAME);
 
+  public static empty(): StatsItemName {
+    return StatsItemName.EMPTY;
+  }
+
   public static of(name: string): StatsItemName {
     if (name === EMPTY_NAME) {
       return StatsItemName.empty();
@@ -16,18 +20,17 @@ export class StatsItemName extends ValueObject<'StatsItemName'> {
     return new StatsItemName(name);
   }
 
-  public static empty(): StatsItemName {
-    return StatsItemName.EMPTY;
-  }
-
   protected constructor(name: string) {
     super();
     this.name = name;
   }
 
-  public equals(other: StatsItemName): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof StatsItemName)) {
+      return false;
     }
     if (this.name === other.name) {
       return true;
@@ -44,15 +47,15 @@ export class StatsItemName extends ValueObject<'StatsItemName'> {
     return this.name;
   }
 
-  public length(): number {
-    return this.name.length;
-  }
-
   public isEmpty(): boolean {
     if (this === StatsItemName.empty()) {
       return true;
     }
 
     return false;
+  }
+
+  public length(): number {
+    return this.name.length;
   }
 }

@@ -6,6 +6,10 @@ export class StatsItemID extends ValueObject<'StatsItemID'> {
   public readonly noun: 'StatsItemID' = 'StatsItemID';
   private readonly uuid: UUID;
 
+  public static generate(): StatsItemID {
+    return StatsItemID.of(UUID.v4());
+  }
+
   public static of(uuid: UUID): StatsItemID {
     return new StatsItemID(uuid);
   }
@@ -23,18 +27,17 @@ export class StatsItemID extends ValueObject<'StatsItemID'> {
     }
   }
 
-  public static generate(): StatsItemID {
-    return StatsItemID.of(UUID.v4());
-  }
-
   protected constructor(uuid: UUID) {
     super();
     this.uuid = uuid;
   }
 
-  public equals(other: StatsItemID): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof StatsItemID)) {
+      return false;
     }
 
     return this.uuid.equals(other.uuid);
