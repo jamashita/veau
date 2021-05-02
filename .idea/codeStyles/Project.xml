@@ -83,7 +83,20 @@
           <section>
             <rule>
               <match>
-                <FIELD>true</FIELD>
+                <AND>
+                  <FIELD>true</FIELD>
+                  <READONLY>true</READONLY>
+                </AND>
+              </match>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FIELD>true</FIELD>
+                  <READONLY>false</READONLY>
+                </AND>
               </match>
             </rule>
           </section>
@@ -105,6 +118,7 @@
                   <STATIC>true</STATIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -122,6 +136,7 @@
                   <METHOD>true</METHOD>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -132,13 +147,18 @@
                   <OVERRIDDEN />
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
             <rule>
               <match>
-                <METHOD>true</METHOD>
+                <AND>
+                  <ABSTRACT>false</ABSTRACT>
+                  <METHOD>true</METHOD>
+                </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
         </rules>
