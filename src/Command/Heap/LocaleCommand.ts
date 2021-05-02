@@ -19,7 +19,7 @@ export class LocaleCommand implements ILocaleCommand<HeapError>, IHeapCommand {
 
   public create(locale: Locale): Superposition<unknown, HeapError> {
     return Superposition.playground<unknown, HeapError>(() => {
-      return this.Heap.set(VAULT_LOCALE_KEY, locale);
+      this.Heap.set(VAULT_LOCALE_KEY, locale);
     }, HeapError);
   }
 }
