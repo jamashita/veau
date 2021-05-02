@@ -241,6 +241,29 @@ describe('NumericalValues', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const values: NumericalValues = NumericalValues.empty();
+
+      expect(values.equals(null)).toBe(false);
+      expect(values.equals(undefined)).toBe(false);
+      expect(values.equals('')).toBe(false);
+      expect(values.equals('123')).toBe(false);
+      expect(values.equals('abcd')).toBe(false);
+      expect(values.equals(123)).toBe(false);
+      expect(values.equals(0)).toBe(false);
+      expect(values.equals(-12)).toBe(false);
+      expect(values.equals(0.3)).toBe(false);
+      expect(values.equals(false)).toBe(false);
+      expect(values.equals(true)).toBe(false);
+      expect(values.equals(Symbol('p'))).toBe(false);
+      expect(values.equals(20n)).toBe(false);
+      expect(values.equals({})).toBe(false);
+      expect(values.equals([])).toBe(false);
+      expect(values.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the same instance given', () => {
       expect.assertions(1);
 
@@ -422,6 +445,72 @@ describe('NumericalValues', () => {
       values.values();
 
       expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('find', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
+      ]);
+
+      const spy: SinonSpy = sinon.spy();
+
+      sequence.find = spy;
+
+      const values: NumericalValues = NumericalValues.empty();
+      // @ts-expect-error
+      values.vals = sequence;
+
+      values.find(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('filter', () => {
+    it('returns matching elements by predicate', () => {
+      expect.assertions(1);
+
+      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(3)
+      ]);
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      const filtered: NumericalValues = values.filter((n: NumericalValue) => {
+        return n.get() === 1;
+      });
+
+      expect(filtered.size()).toBe(2);
+    });
+  });
+
+  describe('map', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+        NumericalValue.of(1),
+        NumericalValue.of(1),
+        NumericalValue.of(1)
+      ]);
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      const mapped: ImmutableSequence<number> = values.map<number>((v: NumericalValue) => {
+        return v.get();
+      });
+
+      expect(mapped.size()).toBe(3);
     });
   });
 });

@@ -137,6 +137,29 @@ describe('Locale', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const locale: Locale = Locale.empty();
+
+      expect(locale.equals(null)).toBe(false);
+      expect(locale.equals(undefined)).toBe(false);
+      expect(locale.equals('')).toBe(false);
+      expect(locale.equals('123')).toBe(false);
+      expect(locale.equals('abcd')).toBe(false);
+      expect(locale.equals(123)).toBe(false);
+      expect(locale.equals(0)).toBe(false);
+      expect(locale.equals(-12)).toBe(false);
+      expect(locale.equals(0.3)).toBe(false);
+      expect(locale.equals(false)).toBe(false);
+      expect(locale.equals(true)).toBe(false);
+      expect(locale.equals(Symbol('p'))).toBe(false);
+      expect(locale.equals(20n)).toBe(false);
+      expect(locale.equals({})).toBe(false);
+      expect(locale.equals([])).toBe(false);
+      expect(locale.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if languages and regions are the same', () => {
       expect.assertions(5);
 

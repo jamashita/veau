@@ -79,10 +79,10 @@ export class Terms extends Quantity<TermID, Term, 'Terms'> {
   }
 
   public iterator(): Iterator<[TermID, Term]> {
-    return this.terms[Symbol.iterator]();
+    return this.terms.iterator();
   }
 
-  public map<U>(mapper: Mapper<Term, U>): ReadonlyProject<TermID, U> {
+  public map<U>(mapper: Mapper<Term, U>): ImmutableProject<TermID, U> {
     return this.terms.map<U>(mapper);
   }
 

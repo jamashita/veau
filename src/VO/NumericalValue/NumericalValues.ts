@@ -1,5 +1,5 @@
 import { BinaryPredicate, Catalogue, Mapper, Nullable } from '@jamashita/anden-type';
-import { ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/lluvia-collection';
+import { ImmutableSequence, Quantity, ReadonlySequence } from '@jamashita/lluvia-collection';
 import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues extends Quantity<number, NumericalValue, 'NumericalValues'> {
@@ -53,7 +53,10 @@ export class NumericalValues extends Quantity<number, NumericalValue, 'Numerical
   }
 
   public filter(predicate: BinaryPredicate<NumericalValue, number>): NumericalValues {
-    return NumericalValues.of(this.vals.filter(predicate));
+    predicate(NumericalValue.of(100), 0);
+
+    const f: ImmutableSequence<NumericalValue> = this.vals.filter(predicate);
+    return NumericalValues.of(f);
   }
 
   public find(predicate: BinaryPredicate<NumericalValue, number>): Nullable<NumericalValue> {
@@ -76,7 +79,7 @@ export class NumericalValues extends Quantity<number, NumericalValue, 'Numerical
     return this.vals.iterator();
   }
 
-  public map<W>(mapper: Mapper<NumericalValue, W>): Sequence<W> {
+  public map<W>(mapper: Mapper<NumericalValue, W>): ImmutableSequence<W> {
     return this.vals.map<W>(mapper);
   }
 

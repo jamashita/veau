@@ -211,21 +211,44 @@ describe('Terms', () => {
   });
 
   describe('iterator', () => {
-    it('delegates its inner collection instance', () => {
-      expect.assertions(2);
+    it('returns [TermID, Term]', () => {
+      expect.assertions(5);
 
-      const arr: Array<[TermID, Term]> = [
-        [Term.DAILY.getTermID(), Term.DAILY],
-        [Term.MONTHLY.getTermID(), Term.MONTHLY]
-      ];
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(new Map<TermID, Term>(arr));
+      const terms: Terms = Terms.all();
+      let i: number = 0;
 
-      // @ts-expect-error
-      const terms: Terms = Terms.of(project);
-
-      arr.forEach(([id, term]: [TermID, Term]) => {
-        expect(term).toBe(terms.get(id));
-      });
+      for (const [, v] of terms) {
+        switch (i) {
+          case 0: {
+            expect(v).toBe(Term.DAILY);
+            i++;
+            break;
+          }
+          case 1: {
+            expect(v).toBe(Term.WEEKLY);
+            i++;
+            break;
+          }
+          case 2: {
+            expect(v).toBe(Term.MONTHLY);
+            i++;
+            break;
+          }
+          case 3: {
+            expect(v).toBe(Term.QUARTERLY);
+            i++;
+            break;
+          }
+          case 4: {
+            expect(v).toBe(Term.ANNUAL);
+            i++;
+            break;
+          }
+          default: {
+            fail();
+          }
+        }
+      }
     });
   });
 

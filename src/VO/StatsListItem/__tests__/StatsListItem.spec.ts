@@ -211,6 +211,34 @@ describe('StatsListItem', () => {
   });
 
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const item: StatsListItem = StatsListItem.of(
+        new MockStatsOutline(),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.QUARTERLY
+      );
+
+      expect(item.equals(null)).toBe(false);
+      expect(item.equals(undefined)).toBe(false);
+      expect(item.equals('')).toBe(false);
+      expect(item.equals('123')).toBe(false);
+      expect(item.equals('abcd')).toBe(false);
+      expect(item.equals(123)).toBe(false);
+      expect(item.equals(0)).toBe(false);
+      expect(item.equals(-12)).toBe(false);
+      expect(item.equals(0.3)).toBe(false);
+      expect(item.equals(false)).toBe(false);
+      expect(item.equals(true)).toBe(false);
+      expect(item.equals(Symbol('p'))).toBe(false);
+      expect(item.equals(20n)).toBe(false);
+      expect(item.equals({})).toBe(false);
+      expect(item.equals([])).toBe(false);
+      expect(item.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if all the properties are the same', () => {
       expect.assertions(9);
 

@@ -1,6 +1,6 @@
 import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
-import { StatsOutline } from '../../StatsOutline/StatsOutline';
+import { Term } from '../../Term/Term';
 import { MockStatsListItem } from '../Mock/MockStatsListItem';
 import { MockStatsListItems } from '../Mock/MockStatsListItems';
 import { StatsListItem } from '../StatsListItem';
@@ -194,27 +194,30 @@ describe('StatsListItems', () => {
     });
   });
 
-  describe('map', () => {
-    it('normal case', () => {
-      expect.assertions(1);
-
-      const item1: MockStatsListItem = new MockStatsListItem();
-      const item2: MockStatsListItem = new MockStatsListItem();
-      const item3: MockStatsListItem = new MockStatsListItem();
-
-      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
-
-      const items: StatsListItems = StatsListItems.of(sequence);
-
-      const arr: Array<StatsOutline> = [...items.values()].map<StatsOutline>((item: StatsListItem) => {
-        return item.getOutline();
-      });
-
-      expect(arr).toHaveLength(3);
-    });
-  });
-
   describe('equals', () => {
+    it('returns false if others given', () => {
+      expect.assertions(16);
+
+      const items: StatsListItems = StatsListItems.empty();
+
+      expect(items.equals(null)).toBe(false);
+      expect(items.equals(undefined)).toBe(false);
+      expect(items.equals('')).toBe(false);
+      expect(items.equals('123')).toBe(false);
+      expect(items.equals('abcd')).toBe(false);
+      expect(items.equals(123)).toBe(false);
+      expect(items.equals(0)).toBe(false);
+      expect(items.equals(-12)).toBe(false);
+      expect(items.equals(0.3)).toBe(false);
+      expect(items.equals(false)).toBe(false);
+      expect(items.equals(true)).toBe(false);
+      expect(items.equals(Symbol('p'))).toBe(false);
+      expect(items.equals(20n)).toBe(false);
+      expect(items.equals({})).toBe(false);
+      expect(items.equals([])).toBe(false);
+      expect(items.equals(Object.create(null))).toBe(false);
+    });
+
     it('returns true if the same instance given', () => {
       expect.assertions(1);
 
@@ -353,6 +356,72 @@ describe('StatsListItems', () => {
       items.values();
 
       expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('filter', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const item1: MockStatsListItem = new MockStatsListItem();
+      const item2: MockStatsListItem = new MockStatsListItem();
+      const item3: MockStatsListItem = new MockStatsListItem();
+
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
+
+      const spy: SinonSpy = sinon.spy();
+      const items: StatsListItems = StatsListItems.of(sequence);
+
+      // @ts-expect-error
+      items.items.filter = spy;
+      items.filter(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('find', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const item1: MockStatsListItem = new MockStatsListItem();
+      const item2: MockStatsListItem = new MockStatsListItem();
+      const item3: MockStatsListItem = new MockStatsListItem();
+
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
+
+      const spy: SinonSpy = sinon.spy();
+      const items: StatsListItems = StatsListItems.of(sequence);
+
+      // @ts-expect-error
+      items.items.find = spy;
+      items.find(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('map', () => {
+    it('does not affect the length, only change the instance', () => {
+      expect.assertions(1);
+
+      const item1: MockStatsListItem = new MockStatsListItem();
+      const item2: MockStatsListItem = new MockStatsListItem();
+      const item3: MockStatsListItem = new MockStatsListItem();
+
+      const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
+
+      const items: StatsListItems = StatsListItems.of(sequence);
+
+      const mapped: ImmutableSequence<Term> = items.map<Term>((i: StatsListItem) => {
+        return i.getTerm();
+      });
+
+      expect(mapped.size()).toBe(3);
     });
   });
 });

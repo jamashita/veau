@@ -76,7 +76,7 @@ export class StatsListItems extends Quantity<number, StatsListItem, 'StatsListIt
     return this.items.iterator();
   }
 
-  public map<W>(mapper: Mapper<StatsListItem, W>): Collection<number, W> {
+  public map<W>(mapper: Mapper<StatsListItem, W>): ImmutableSequence<W> {
     return this.items.map<W>(mapper);
   }
 
