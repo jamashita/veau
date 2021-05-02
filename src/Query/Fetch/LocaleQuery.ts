@@ -3,8 +3,8 @@ import { Superposition } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
-import { LocaleError } from '../../domain/VO/Locale/Error/LocaleError';
-import { Locale } from '../../domain/VO/Locale/Locale';
+import { LocaleError } from '../../domain/vo/Locale/Error/LocaleError';
+import { Locale } from '../../domain/vo/Locale/Locale';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IFetchQuery } from './Interface/IFetchQuery';
 

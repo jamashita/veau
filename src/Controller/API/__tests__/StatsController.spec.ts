@@ -11,17 +11,17 @@ import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { MockStats } from '../../../domain/Entity/Stats/Mock/MockStats';
-import { Stats } from '../../../domain/Entity/Stats/Stats';
+import { MockStats } from '../../../domain/entity/Stats/Mock/MockStats';
+import { Stats } from '../../../domain/entity/Stats/Stats';
 import { StatsInteractor } from '../../../Interactor/StatsInteractor';
 import { NoSuchElementError } from '../../../Query/Error/NoSuchElementError';
-import { StatsError } from '../../../domain/VO/StatsOutline/Error/StatsError';
-import { StatsOutlineError } from '../../../domain/VO/StatsOutline/Error/StatsOutlineError';
-import { MockStatsOutline } from '../../../domain/VO/StatsOutline/Mock/MockStatsOutline';
-import { MockStatsOutlines } from '../../../domain/VO/StatsOutline/Mock/MockStatsOutlines';
-import { StatsOutlines } from '../../../domain/VO/StatsOutline/StatsOutlines';
-import { Term } from '../../../domain/VO/Term/Term';
-import { MockVeauAccount } from '../../../domain/VO/VeauAccount/Mock/MockVeauAccount';
+import { StatsError } from '../../../domain/vo/StatsOutline/Error/StatsError';
+import { StatsOutlineError } from '../../../domain/vo/StatsOutline/Error/StatsOutlineError';
+import { MockStatsOutline } from '../../../domain/vo/StatsOutline/Mock/MockStatsOutline';
+import { MockStatsOutlines } from '../../../domain/vo/StatsOutline/Mock/MockStatsOutlines';
+import { StatsOutlines } from '../../../domain/vo/StatsOutline/StatsOutlines';
+import { Term } from '../../../domain/vo/Term/Term';
+import { MockVeauAccount } from '../../../domain/vo/VeauAccount/Mock/MockVeauAccount';
 import { StatsController } from '../StatsController';
 
 const fakeAccount = (req: Request, _res: Response, next: NextFunction): void => {

@@ -2,7 +2,7 @@ import { Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemTe
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import { PageProvider as Provider } from '../../../domain/VO/PageProvider/PageProvider';
+import { PageProvider as Provider } from '../../../domain/vo/PageProvider/PageProvider';
 
 export type StateProps = Readonly<{
   provider: Provider;

@@ -2,14 +2,14 @@ import { Kind } from '@jamashita/anden-type';
 import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { Stats } from '../../../domain/Entity/Stats/Stats';
-import { ISO639 } from '../../../domain/VO/Language/ISO639';
-import { Language } from '../../../domain/VO/Language/Language';
-import { Locale } from '../../../domain/VO/Locale/Locale';
-import { ISO3166 } from '../../../domain/VO/Region/ISO3166';
-import { Region } from '../../../domain/VO/Region/Region';
-import { StatsName } from '../../../domain/VO/StatsOutline/StatsName';
-import { StatsUnit } from '../../../domain/VO/StatsOutline/StatsUnit';
+import { Stats } from '../../../domain/entity/Stats/Stats';
+import { ISO639 } from '../../../domain/vo/Language/ISO639';
+import { Language } from '../../../domain/vo/Language/Language';
+import { Locale } from '../../../domain/vo/Locale/Locale';
+import { ISO3166 } from '../../../domain/vo/Region/ISO3166';
+import { Region } from '../../../domain/vo/Region/Region';
+import { StatsName } from '../../../domain/vo/StatsOutline/StatsName';
+import { StatsUnit } from '../../../domain/vo/StatsOutline/StatsUnit';
 import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{

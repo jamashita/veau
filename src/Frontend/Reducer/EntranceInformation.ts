@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { EntranceInformation } from '../../domain/VO/EntranceInformation/EntranceInformation';
+import { EntranceInformation } from '../../domain/vo/EntranceInformation/EntranceInformation';
 import { ENTRANCE_UPDATE, IDENTITY_IDENTIFIED, VeauAction } from '../Action';
 
 const initialState: EntranceInformation = EntranceInformation.empty();

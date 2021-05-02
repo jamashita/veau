@@ -4,7 +4,7 @@ import { JSONA, JSONAError } from '@jamashita/steckdose-json';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
-import { Regions } from '../../domain/VO/Region/Regions';
+import { Regions } from '../../domain/vo/Region/Regions';
 import { IRegionCommand } from '../Interface/IRegionCommand';
 import { IRedisCommand } from './Interface/IRedisCommand';
 

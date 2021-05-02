@@ -1,7 +1,7 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { AccountName } from '../../../domain/VO/Account/AccountName';
-import { Password } from '../../../domain/VO/EntranceInformation/Password';
+import { AccountName } from '../../../domain/vo/Account/AccountName';
+import { Password } from '../../../domain/vo/EntranceInformation/Password';
 import { VeauAction } from '../../Action';
 import { accountTyped, attemptLogin, passwordTyped } from '../../ActionCreator/EntranceActionCreator';
 import { DispatchProps, Entrance as Component, OwnProps, StateProps } from '../../Component/Page/Entrance';

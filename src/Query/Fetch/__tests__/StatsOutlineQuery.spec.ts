@@ -8,12 +8,12 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { MockPage } from '../../../domain/VO/Page/Mock/MockPage';
-import { StatsOutlineError } from '../../../domain/VO/StatsOutline/Error/StatsOutlineError';
-import { StatsID } from '../../../domain/VO/StatsOutline/StatsID';
-import { StatsOutline, StatsOutlineJSON } from '../../../domain/VO/StatsOutline/StatsOutline';
-import { StatsOutlines } from '../../../domain/VO/StatsOutline/StatsOutlines';
-import { MockVeauAccountID } from '../../../domain/VO/VeauAccount/Mock/MockVeauAccountID';
+import { MockPage } from '../../../domain/vo/Page/Mock/MockPage';
+import { StatsOutlineError } from '../../../domain/vo/StatsOutline/Error/StatsOutlineError';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
+import { StatsOutline, StatsOutlineJSON } from '../../../domain/vo/StatsOutline/StatsOutline';
+import { StatsOutlines } from '../../../domain/vo/StatsOutline/StatsOutlines';
+import { MockVeauAccountID } from '../../../domain/vo/VeauAccount/Mock/MockVeauAccountID';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
 
 describe('StatsOutlineQuery', () => {

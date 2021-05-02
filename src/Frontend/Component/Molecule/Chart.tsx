@@ -1,10 +1,10 @@
 import { Kind, Nullable } from '@jamashita/anden-type';
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { Stats } from '../../../domain/Entity/Stats/Stats';
-import { Color } from '../../../domain/VO/Color/Color';
-import { Colors } from '../../../domain/VO/Color/Colors';
-import { StatsItemName } from '../../../domain/VO/StatsItem/StatsItemName';
+import { Stats } from '../../../domain/entity/Stats/Stats';
+import { Color } from '../../../domain/vo/Color/Color';
+import { Colors } from '../../../domain/vo/Color/Colors';
+import { StatsItemName } from '../../../domain/vo/StatsItem/StatsItemName';
 
 type Props = Readonly<{
   stats: Stats;

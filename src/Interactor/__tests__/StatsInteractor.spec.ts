@@ -5,18 +5,18 @@ import sinon, { SinonStub } from 'sinon';
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
-import { MockStats } from '../../domain/Entity/Stats/Mock/MockStats';
-import { Stats } from '../../domain/Entity/Stats/Stats';
+import { MockStats } from '../../domain/entity/Stats/Mock/MockStats';
+import { Stats } from '../../domain/entity/Stats/Stats';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { MockStatsOutlineQuery } from '../../Query/Mock/MockStatsOutlineQuery';
 import { MockStatsQuery } from '../../Query/Mock/MockStatsQuery';
-import { MockPage } from '../../domain/VO/Page/Mock/MockPage';
-import { StatsError } from '../../domain/VO/StatsOutline/Error/StatsError';
-import { StatsOutlineError } from '../../domain/VO/StatsOutline/Error/StatsOutlineError';
-import { MockStatsID } from '../../domain/VO/StatsOutline/Mock/MockStatsID';
-import { MockStatsOutlines } from '../../domain/VO/StatsOutline/Mock/MockStatsOutlines';
-import { StatsOutlines } from '../../domain/VO/StatsOutline/StatsOutlines';
-import { MockVeauAccountID } from '../../domain/VO/VeauAccount/Mock/MockVeauAccountID';
+import { MockPage } from '../../domain/vo/Page/Mock/MockPage';
+import { StatsError } from '../../domain/vo/StatsOutline/Error/StatsError';
+import { StatsOutlineError } from '../../domain/vo/StatsOutline/Error/StatsOutlineError';
+import { MockStatsID } from '../../domain/vo/StatsOutline/Mock/MockStatsID';
+import { MockStatsOutlines } from '../../domain/vo/StatsOutline/Mock/MockStatsOutlines';
+import { StatsOutlines } from '../../domain/vo/StatsOutline/StatsOutlines';
+import { MockVeauAccountID } from '../../domain/vo/VeauAccount/Mock/MockVeauAccountID';
 import { StatsInteractor } from '../StatsInteractor';
 
 describe('StatsInteractor', () => {

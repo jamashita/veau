@@ -1,8 +1,8 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { VeauAccountError } from '../../domain/VO/VeauAccount/Error/VeauAccountError';
-import { VeauAccount } from '../../domain/VO/VeauAccount/VeauAccount';
+import { VeauAccountError } from '../../domain/vo/VeauAccount/Error/VeauAccountError';
+import { VeauAccount } from '../../domain/vo/VeauAccount/VeauAccount';
 import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
 import { IMockQuery } from './Interface/IMockQuery';
 

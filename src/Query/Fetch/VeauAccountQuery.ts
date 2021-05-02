@@ -3,9 +3,9 @@ import { Superposition } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
-import { EntranceInformation } from '../../domain/VO/EntranceInformation/EntranceInformation';
-import { VeauAccountError } from '../../domain/VO/VeauAccount/Error/VeauAccountError';
-import { VeauAccount } from '../../domain/VO/VeauAccount/VeauAccount';
+import { EntranceInformation } from '../../domain/vo/EntranceInformation/EntranceInformation';
+import { VeauAccountError } from '../../domain/vo/VeauAccount/Error/VeauAccountError';
+import { VeauAccount } from '../../domain/vo/VeauAccount/VeauAccount';
 import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
 import { IFetchQuery } from './Interface/IFetchQuery';
 

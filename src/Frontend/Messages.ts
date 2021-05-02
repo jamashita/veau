@@ -1,4 +1,4 @@
-import { SystemSupportLanguage } from '../domain/VO/System/SystemSupportLanguage';
+import { SystemSupportLanguage } from '../domain/vo/System/SystemSupportLanguage';
 
 const en: Messages = {
   GREETING: 'Hello',

@@ -13,16 +13,16 @@ import {
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import { StatsDisplay } from '../../../domain/VO/Display/StatsDisplay';
-import { ISO639 } from '../../../domain/VO/Language/ISO639';
-import { Language } from '../../../domain/VO/Language/Language';
-import { Locale } from '../../../domain/VO/Locale/Locale';
-import { ISO3166 } from '../../../domain/VO/Region/ISO3166';
-import { Region } from '../../../domain/VO/Region/Region';
-import { StatsName } from '../../../domain/VO/StatsOutline/StatsName';
-import { StatsUnit } from '../../../domain/VO/StatsOutline/StatsUnit';
-import { Term } from '../../../domain/VO/Term/Term';
-import { Terms } from '../../../domain/VO/Term/Terms';
+import { StatsDisplay } from '../../../domain/vo/Display/StatsDisplay';
+import { ISO639 } from '../../../domain/vo/Language/ISO639';
+import { Language } from '../../../domain/vo/Language/Language';
+import { Locale } from '../../../domain/vo/Locale/Locale';
+import { ISO3166 } from '../../../domain/vo/Region/ISO3166';
+import { Region } from '../../../domain/vo/Region/Region';
+import { StatsName } from '../../../domain/vo/StatsOutline/StatsName';
+import { StatsUnit } from '../../../domain/vo/StatsOutline/StatsUnit';
+import { Term } from '../../../domain/vo/Term/Term';
+import { Terms } from '../../../domain/vo/Term/Terms';
 import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{

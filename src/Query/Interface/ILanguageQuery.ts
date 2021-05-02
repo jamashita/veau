@@ -1,10 +1,10 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { LanguageError } from '../../domain/VO/Language/Error/LanguageError';
-import { ISO639 } from '../../domain/VO/Language/ISO639';
-import { Language } from '../../domain/VO/Language/Language';
-import { LanguageID } from '../../domain/VO/Language/LanguageID';
-import { Languages } from '../../domain/VO/Language/Languages';
+import { LanguageError } from '../../domain/vo/Language/Error/LanguageError';
+import { ISO639 } from '../../domain/vo/Language/ISO639';
+import { Language } from '../../domain/vo/Language/Language';
+import { LanguageID } from '../../domain/vo/Language/LanguageID';
+import { Languages } from '../../domain/vo/Language/Languages';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IQuery } from './IQuery';
 

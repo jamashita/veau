@@ -4,8 +4,8 @@ import { Superposition } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
-import { Stats } from '../../domain/Entity/Stats/Stats';
-import { StatsID } from '../../domain/VO/StatsOutline/StatsID';
+import { Stats } from '../../domain/entity/Stats/Stats';
+import { StatsID } from '../../domain/vo/StatsOutline/StatsID';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 import { IFetchCommand } from './Interface/IFetchCommand';
 

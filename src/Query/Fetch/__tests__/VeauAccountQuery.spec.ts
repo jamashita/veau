@@ -5,11 +5,11 @@ import { Schrodinger } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { AccountName } from '../../../domain/VO/Account/AccountName';
-import { MockEntranceInformation } from '../../../domain/VO/EntranceInformation/Mock/MockEntranceInformation';
-import { MockPassword } from '../../../domain/VO/EntranceInformation/Mock/MockPassword';
-import { VeauAccountError } from '../../../domain/VO/VeauAccount/Error/VeauAccountError';
-import { VeauAccount, VeauAccountJSON } from '../../../domain/VO/VeauAccount/VeauAccount';
+import { AccountName } from '../../../domain/vo/Account/AccountName';
+import { MockEntranceInformation } from '../../../domain/vo/EntranceInformation/Mock/MockEntranceInformation';
+import { MockPassword } from '../../../domain/vo/EntranceInformation/Mock/MockPassword';
+import { VeauAccountError } from '../../../domain/vo/VeauAccount/Error/VeauAccountError';
+import { VeauAccount, VeauAccountJSON } from '../../../domain/vo/VeauAccount/VeauAccount';
 import { VeauAccountQuery } from '../VeauAccountQuery';
 
 describe('VeauAccountQuery', () => {

@@ -5,12 +5,12 @@ import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
 import { kernel } from '../../../Container/Kernel';
-import { AccountName } from '../../../domain/VO/Account/AccountName';
-import { MockLanguageID } from '../../../domain/VO/Language/Mock/MockLanguageID';
-import { MockRegionID } from '../../../domain/VO/Region/Mock/MockRegionID';
-import { MockVeauAccount } from '../../../domain/VO/VeauAccount/Mock/MockVeauAccount';
-import { MockVeauAccountID } from '../../../domain/VO/VeauAccount/Mock/MockVeauAccountID';
-import { VeauAccount } from '../../../domain/VO/VeauAccount/VeauAccount';
+import { AccountName } from '../../../domain/vo/Account/AccountName';
+import { MockLanguageID } from '../../../domain/vo/Language/Mock/MockLanguageID';
+import { MockRegionID } from '../../../domain/vo/Region/Mock/MockRegionID';
+import { MockVeauAccount } from '../../../domain/vo/VeauAccount/Mock/MockVeauAccount';
+import { MockVeauAccountID } from '../../../domain/vo/VeauAccount/Mock/MockVeauAccountID';
+import { VeauAccount } from '../../../domain/vo/VeauAccount/VeauAccount';
 import { AccountController } from '../AccountController';
 
 const setAccount = (account: VeauAccount) => {

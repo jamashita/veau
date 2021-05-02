@@ -6,18 +6,18 @@ import { concat, from, merge, Observable, of } from 'rxjs';
 import { map, mapTo, mergeMap } from 'rxjs/operators';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Type } from '../../Container/Types';
-import { Stats } from '../../domain/Entity/Stats/Stats';
-import { StatsItem } from '../../domain/Entity/StatsItem/StatsItem';
-import { StatsItems } from '../../domain/Entity/StatsItem/StatsItems';
+import { Stats } from '../../domain/entity/Stats/Stats';
+import { StatsItem } from '../../domain/entity/StatsItem/StatsItem';
+import { StatsItems } from '../../domain/entity/StatsItem/StatsItems';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsQuery } from '../../Query/Interface/IStatsQuery';
-import { Language } from '../../domain/VO/Language/Language';
-import { Region } from '../../domain/VO/Region/Region';
-import { StatsError } from '../../domain/VO/StatsOutline/Error/StatsError';
-import { StatsOutline } from '../../domain/VO/StatsOutline/StatsOutline';
-import { VeauAccountID } from '../../domain/VO/VeauAccount/VeauAccountID';
+import { Language } from '../../domain/vo/Language/Language';
+import { Region } from '../../domain/vo/Region/Region';
+import { StatsError } from '../../domain/vo/StatsOutline/Error/StatsError';
+import { StatsOutline } from '../../domain/vo/StatsOutline/StatsOutline';
+import { VeauAccountID } from '../../domain/vo/VeauAccount/VeauAccountID';
 import {
   STATS_EDIT_DATA_DELETED,
   STATS_EDIT_DATA_FILLED,

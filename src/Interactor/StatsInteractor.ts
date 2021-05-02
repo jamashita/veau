@@ -4,16 +4,16 @@ import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { Type } from '../Container/Types';
-import { Stats } from '../domain/Entity/Stats/Stats';
+import { Stats } from '../domain/entity/Stats/Stats';
 import { NoSuchElementError } from '../Query/Error/NoSuchElementError';
 import { IStatsOutlineQuery } from '../Query/Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../Query/Interface/IStatsQuery';
-import { Page } from '../domain/VO/Page/Page';
-import { StatsError } from '../domain/VO/StatsOutline/Error/StatsError';
-import { StatsOutlineError } from '../domain/VO/StatsOutline/Error/StatsOutlineError';
-import { StatsID } from '../domain/VO/StatsOutline/StatsID';
-import { StatsOutlines } from '../domain/VO/StatsOutline/StatsOutlines';
-import { VeauAccountID } from '../domain/VO/VeauAccount/VeauAccountID';
+import { Page } from '../domain/vo/Page/Page';
+import { StatsError } from '../domain/vo/StatsOutline/Error/StatsError';
+import { StatsOutlineError } from '../domain/vo/StatsOutline/Error/StatsOutlineError';
+import { StatsID } from '../domain/vo/StatsOutline/StatsID';
+import { StatsOutlines } from '../domain/vo/StatsOutline/StatsOutlines';
+import { VeauAccountID } from '../domain/vo/VeauAccount/VeauAccountID';
 
 @injectable()
 export class StatsInteractor implements Noun<'StatsInteractor'> {

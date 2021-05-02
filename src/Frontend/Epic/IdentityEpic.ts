@@ -7,13 +7,13 @@ import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { LanguageIdentificationService } from '../../Service/LanguageIdentificationService';
-import { AccountName } from '../../domain/VO/Account/AccountName';
-import { Identity } from '../../domain/VO/Identity/Identity';
-import { ISO639 } from '../../domain/VO/Language/ISO639';
-import { Language } from '../../domain/VO/Language/Language';
-import { Locale } from '../../domain/VO/Locale/Locale';
-import { SystemSupportLanguage } from '../../domain/VO/System/SystemSupportLanguage';
-import { VeauAccountID } from '../../domain/VO/VeauAccount/VeauAccountID';
+import { AccountName } from '../../domain/vo/Account/AccountName';
+import { Identity } from '../../domain/vo/Identity/Identity';
+import { ISO639 } from '../../domain/vo/Language/ISO639';
+import { Language } from '../../domain/vo/Language/Language';
+import { Locale } from '../../domain/vo/Locale/Locale';
+import { SystemSupportLanguage } from '../../domain/vo/System/SystemSupportLanguage';
+import { VeauAccountID } from '../../domain/vo/VeauAccount/VeauAccountID';
 import { IDENTITY_AUTHENTICATION_FAILED, IDENTITY_INITIALIZE, ON_LOAD, VeauAction } from '../Action';
 import {
   identified,

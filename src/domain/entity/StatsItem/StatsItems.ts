@@ -7,13 +7,13 @@ import {
   ReadonlySequence,
   Sequence
 } from '@jamashita/lluvia-collection';
-import { AsOfs } from '../../VO/AsOf/AsOfs';
-import { Column } from '../../VO/Coordinate/Column';
-import { Row } from '../../VO/Coordinate/Row';
-import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
-import { StatsItemName } from '../../VO/StatsItem/StatsItemName';
-import { StatsItemNames } from '../../VO/StatsItem/StatsItemNames';
-import { StatsValues } from '../../VO/StatsValue/StatsValues';
+import { AsOfs } from '../../vo/AsOf/AsOfs';
+import { Column } from '../../vo/Coordinate/Column';
+import { Row } from '../../vo/Coordinate/Row';
+import { StatsItemID } from '../../vo/StatsItem/StatsItemID';
+import { StatsItemName } from '../../vo/StatsItem/StatsItemName';
+import { StatsItemNames } from '../../vo/StatsItem/StatsItemNames';
+import { StatsValues } from '../../vo/StatsValue/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 
 export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implements Cloneable<StatsItems>, JSONable {

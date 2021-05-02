@@ -1,19 +1,19 @@
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
 import { ImmutableProject } from '@jamashita/lluvia-collection';
-import { AsOf } from '../../../VO/AsOf/AsOf';
-import { AsOfs } from '../../../VO/AsOf/AsOfs';
-import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
-import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
-import { NumericalValues } from '../../../VO/NumericalValue/NumericalValues';
-import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
-import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
-import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
-import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
-import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
-import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
-import { StatsValue } from '../../../VO/StatsValue/StatsValue';
-import { StatsValues } from '../../../VO/StatsValue/StatsValues';
+import { AsOf } from '../../../vo/AsOf/AsOf';
+import { AsOfs } from '../../../vo/AsOf/AsOfs';
+import { MockAsOf } from '../../../vo/AsOf/Mock/MockAsOf';
+import { NumericalValue } from '../../../vo/NumericalValue/NumericalValue';
+import { NumericalValues } from '../../../vo/NumericalValue/NumericalValues';
+import { StatsItemError } from '../../../vo/StatsItem/Error/StatsItemError';
+import { MockStatsItemID } from '../../../vo/StatsItem/Mock/MockStatsItemID';
+import { MockStatsItemName } from '../../../vo/StatsItem/Mock/MockStatsItemName';
+import { StatsItemID } from '../../../vo/StatsItem/StatsItemID';
+import { StatsItemName } from '../../../vo/StatsItem/StatsItemName';
+import { MockStatsValue } from '../../../vo/StatsValue/Mock/MockStatsValue';
+import { StatsValue } from '../../../vo/StatsValue/StatsValue';
+import { StatsValues } from '../../../vo/StatsValue/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
 
 describe('StatsItem', () => {

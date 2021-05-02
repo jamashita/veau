@@ -1,4 +1,4 @@
-import { SystemSupportLanguage } from '../domain/VO/System/SystemSupportLanguage';
+import { SystemSupportLanguage } from '../domain/vo/System/SystemSupportLanguage';
 
 export class LanguageIdentificationService {
   private static split(language: string): string {

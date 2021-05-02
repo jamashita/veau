@@ -1,16 +1,16 @@
 import { Entity } from '@jamashita/anden-object';
 import { Kind, Nullable } from '@jamashita/anden-type';
 import { Project } from '@jamashita/lluvia-collection';
-import { AsOf } from '../../VO/AsOf/AsOf';
-import { AsOfs } from '../../VO/AsOf/AsOfs';
-import { NoValue } from '../../VO/NumericalValue/NoValue';
-import { NumericalValues } from '../../VO/NumericalValue/NumericalValues';
-import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
-import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
-import { StatsItemName } from '../../VO/StatsItem/StatsItemName';
-import { StatsValueError } from '../../VO/StatsValue/Error/StatsValueError';
-import { StatsValue, StatsValueJSON } from '../../VO/StatsValue/StatsValue';
-import { StatsValues } from '../../VO/StatsValue/StatsValues';
+import { AsOf } from '../../vo/AsOf/AsOf';
+import { AsOfs } from '../../vo/AsOf/AsOfs';
+import { NoValue } from '../../vo/NumericalValue/NoValue';
+import { NumericalValues } from '../../vo/NumericalValue/NumericalValues';
+import { StatsItemError } from '../../vo/StatsItem/Error/StatsItemError';
+import { StatsItemID } from '../../vo/StatsItem/StatsItemID';
+import { StatsItemName } from '../../vo/StatsItem/StatsItemName';
+import { StatsValueError } from '../../vo/StatsValue/Error/StatsValueError';
+import { StatsValue, StatsValueJSON } from '../../vo/StatsValue/StatsValue';
+import { StatsValues } from '../../vo/StatsValue/StatsValues';
 
 export type StatsItemJSON = Readonly<{
   statsItemID: string;

@@ -6,12 +6,12 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { LanguageJSON } from '../../../domain/VO/Language/Language';
-import { RegionError } from '../../../domain/VO/Region/Error/RegionError';
-import { ISO3166 } from '../../../domain/VO/Region/ISO3166';
-import { Region, RegionJSON } from '../../../domain/VO/Region/Region';
-import { RegionID } from '../../../domain/VO/Region/RegionID';
-import { Regions } from '../../../domain/VO/Region/Regions';
+import { LanguageJSON } from '../../../domain/vo/Language/Language';
+import { RegionError } from '../../../domain/vo/Region/Error/RegionError';
+import { ISO3166 } from '../../../domain/vo/Region/ISO3166';
+import { Region, RegionJSON } from '../../../domain/vo/Region/Region';
+import { RegionID } from '../../../domain/vo/Region/RegionID';
+import { Regions } from '../../../domain/vo/Region/Regions';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionQuery } from '../RegionQuery';
 

@@ -3,10 +3,10 @@ import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { MockSQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Schrodinger } from '@jamashita/genitore';
 import sinon, { SinonStub } from 'sinon';
-import { MockStatsItem } from '../../../domain/Entity/StatsItem/Mock/MockStatsItem';
-import { MockStatsItemID } from '../../../domain/VO/StatsItem/Mock/MockStatsItemID';
-import { MockStatsItemName } from '../../../domain/VO/StatsItem/Mock/MockStatsItemName';
-import { MockStatsID } from '../../../domain/VO/StatsOutline/Mock/MockStatsID';
+import { MockStatsItem } from '../../../domain/entity/StatsItem/Mock/MockStatsItem';
+import { MockStatsItemID } from '../../../domain/vo/StatsItem/Mock/MockStatsItemID';
+import { MockStatsItemName } from '../../../domain/vo/StatsItem/Mock/MockStatsItemName';
+import { MockStatsID } from '../../../domain/vo/StatsOutline/Mock/MockStatsID';
 import { StatsItemCommand } from '../StatsItemCommand';
 
 describe('StatsItemCommand', () => {

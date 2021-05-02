@@ -1,4 +1,4 @@
-import { Identity } from '../../domain/VO/Identity/Identity';
+import { Identity } from '../../domain/vo/Identity/Identity';
 import {
   IDENTITY_AUTHENTICATED,
   IDENTITY_AUTHENTICATION_FAILED,

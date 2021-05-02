@@ -1,11 +1,11 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { Page } from '../../domain/VO/Page/Page';
-import { StatsOutlineError } from '../../domain/VO/StatsOutline/Error/StatsOutlineError';
-import { StatsID } from '../../domain/VO/StatsOutline/StatsID';
-import { StatsOutline } from '../../domain/VO/StatsOutline/StatsOutline';
-import { StatsOutlines } from '../../domain/VO/StatsOutline/StatsOutlines';
-import { VeauAccountID } from '../../domain/VO/VeauAccount/VeauAccountID';
+import { Page } from '../../domain/vo/Page/Page';
+import { StatsOutlineError } from '../../domain/vo/StatsOutline/Error/StatsOutlineError';
+import { StatsID } from '../../domain/vo/StatsOutline/StatsID';
+import { StatsOutline } from '../../domain/vo/StatsOutline/StatsOutline';
+import { StatsOutlines } from '../../domain/vo/StatsOutline/StatsOutlines';
+import { VeauAccountID } from '../../domain/vo/VeauAccount/VeauAccountID';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IQuery } from './IQuery';
 

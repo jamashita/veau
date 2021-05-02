@@ -7,10 +7,10 @@ import { Type } from '../Container/Types';
 import { logger } from '../Infrastructure/Logger';
 import { NoSuchElementError } from '../Query/Error/NoSuchElementError';
 import { IAccountQuery } from '../Query/Interface/IAccountQuery';
-import { Account } from '../domain/VO/Account/Account';
-import { AccountName } from '../domain/VO/Account/AccountName';
-import { AccountError } from '../domain/VO/Account/Error/AccountError';
-import { Password } from '../domain/VO/EntranceInformation/Password';
+import { Account } from '../domain/vo/Account/Account';
+import { AccountName } from '../domain/vo/Account/AccountName';
+import { AccountError } from '../domain/vo/Account/Error/AccountError';
+import { Password } from '../domain/vo/EntranceInformation/Password';
 
 const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
 const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';

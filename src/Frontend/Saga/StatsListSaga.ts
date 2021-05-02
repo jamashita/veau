@@ -4,17 +4,17 @@ import { DataSourceError, Superposition } from 'publikum';
 import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
-import { Stats } from '../../domain/Entity/Stats/Stats';
+import { Stats } from '../../domain/entity/Stats/Stats';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsOutlineQuery } from '../../Query/Interface/IStatsOutlineQuery';
-import { Language } from '../../domain/VO/Language/Language';
-import { Page } from '../../domain/VO/Page/Page';
-import { Region } from '../../domain/VO/Region/Region';
-import { StatsOutlinesError } from '../../domain/VO/StatsOutline/Error/StatsOutlinesError';
-import { StatsOutlines } from '../../domain/VO/StatsOutline/StatsOutlines';
-import { VeauAccountID } from '../../domain/VO/VeauAccount/VeauAccountID';
+import { Language } from '../../domain/vo/Language/Language';
+import { Page } from '../../domain/vo/Page/Page';
+import { Region } from '../../domain/vo/Region/Region';
+import { StatsOutlinesError } from '../../domain/vo/StatsOutline/Error/StatsOutlinesError';
+import { StatsOutlines } from '../../domain/vo/StatsOutline/StatsOutlines';
+import { VeauAccountID } from '../../domain/vo/VeauAccount/VeauAccountID';
 import {
   STATS_LIST_INITIALIZE,
   STATS_LIST_ISO3166_SELECTED,

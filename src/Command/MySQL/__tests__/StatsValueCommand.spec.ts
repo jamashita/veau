@@ -3,12 +3,12 @@ import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { MockSQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Schrodinger } from '@jamashita/genitore';
 import sinon, { SinonStub } from 'sinon';
-import { MockAsOf } from '../../../domain/VO/AsOf/Mock/MockAsOf';
-import { NumericalValue } from '../../../domain/VO/NumericalValue/NumericalValue';
-import { MockStatsItemID } from '../../../domain/VO/StatsItem/Mock/MockStatsItemID';
-import { MockStatsID } from '../../../domain/VO/StatsOutline/Mock/MockStatsID';
-import { MockStatsValue } from '../../../domain/VO/StatsValue/Mock/MockStatsValue';
-import { StatsValue } from '../../../domain/VO/StatsValue/StatsValue';
+import { MockAsOf } from '../../../domain/vo/AsOf/Mock/MockAsOf';
+import { NumericalValue } from '../../../domain/vo/NumericalValue/NumericalValue';
+import { MockStatsItemID } from '../../../domain/vo/StatsItem/Mock/MockStatsItemID';
+import { MockStatsID } from '../../../domain/vo/StatsOutline/Mock/MockStatsID';
+import { MockStatsValue } from '../../../domain/vo/StatsValue/Mock/MockStatsValue';
+import { StatsValue } from '../../../domain/vo/StatsValue/StatsValue';
 import { StatsValueCommand } from '../StatsValueCommand';
 
 describe('StatsValueCommand', () => {

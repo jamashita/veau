@@ -1,10 +1,10 @@
-import { Stats } from '../../domain/Entity/Stats/Stats';
-import { ISO639 } from '../../domain/VO/Language/ISO639';
-import { ISO3166 } from '../../domain/VO/Region/ISO3166';
-import { StatsListItems } from '../../domain/VO/StatsListItem/StatsListItems';
-import { StatsName } from '../../domain/VO/StatsOutline/StatsName';
-import { StatsUnit } from '../../domain/VO/StatsOutline/StatsUnit';
-import { Term } from '../../domain/VO/Term/Term';
+import { Stats } from '../../domain/entity/Stats/Stats';
+import { ISO639 } from '../../domain/vo/Language/ISO639';
+import { ISO3166 } from '../../domain/vo/Region/ISO3166';
+import { StatsListItems } from '../../domain/vo/StatsListItem/StatsListItems';
+import { StatsName } from '../../domain/vo/StatsOutline/StatsName';
+import { StatsUnit } from '../../domain/vo/StatsOutline/StatsUnit';
+import { Term } from '../../domain/vo/Term/Term';
 import {
   STATS_LIST_CLOSE_STATS_MODAL,
   STATS_LIST_INITIALIZE,

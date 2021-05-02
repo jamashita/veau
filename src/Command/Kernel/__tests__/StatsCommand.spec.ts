@@ -5,8 +5,8 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { MockStats } from '../../../domain/Entity/Stats/Mock/MockStats';
-import { MockVeauAccountID } from '../../../domain/VO/VeauAccount/Mock/MockVeauAccountID';
+import { MockStats } from '../../../domain/entity/Stats/Mock/MockStats';
+import { MockVeauAccountID } from '../../../domain/vo/VeauAccount/Mock/MockVeauAccountID';
 import { StatsCommand } from '../StatsCommand';
 
 describe('StatsCommand', () => {

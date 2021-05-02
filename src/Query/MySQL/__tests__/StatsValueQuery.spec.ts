@@ -6,12 +6,12 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { AsOf } from '../../../domain/VO/AsOf/AsOf';
-import { StatsItemID } from '../../../domain/VO/StatsItem/StatsItemID';
-import { MockStatsID } from '../../../domain/VO/StatsOutline/Mock/MockStatsID';
-import { StatsValueError } from '../../../domain/VO/StatsValue/Error/StatsValueError';
-import { StatsValueRow } from '../../../domain/VO/StatsValue/StatsValue';
-import { StatsValues } from '../../../domain/VO/StatsValue/StatsValues';
+import { AsOf } from '../../../domain/vo/AsOf/AsOf';
+import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID';
+import { MockStatsID } from '../../../domain/vo/StatsOutline/Mock/MockStatsID';
+import { StatsValueError } from '../../../domain/vo/StatsValue/Error/StatsValueError';
+import { StatsValueRow } from '../../../domain/vo/StatsValue/StatsValue';
+import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues';
 import { StatsValueQuery } from '../StatsValueQuery';
 
 describe('StatsValueQuery', () => {

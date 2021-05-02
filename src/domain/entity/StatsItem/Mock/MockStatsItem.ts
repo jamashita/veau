@@ -1,8 +1,8 @@
-import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
-import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
-import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
-import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
-import { StatsValues } from '../../../VO/StatsValue/StatsValues';
+import { MockStatsItemID } from '../../../vo/StatsItem/Mock/MockStatsItemID';
+import { MockStatsItemName } from '../../../vo/StatsItem/Mock/MockStatsItemName';
+import { StatsItemID } from '../../../vo/StatsItem/StatsItemID';
+import { StatsItemName } from '../../../vo/StatsItem/StatsItemName';
+import { StatsValues } from '../../../vo/StatsValue/StatsValues';
 import { StatsItem } from '../StatsItem';
 
 type StatsItemArgs = Partial<Readonly<{

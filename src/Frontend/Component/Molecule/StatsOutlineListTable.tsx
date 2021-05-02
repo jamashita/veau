@@ -2,9 +2,9 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/c
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import { StatsListItem } from '../../../domain/VO/StatsListItem/StatsListItem';
-import { StatsListItems } from '../../../domain/VO/StatsListItem/StatsListItems';
-import { StatsID } from '../../../domain/VO/StatsOutline/StatsID';
+import { StatsListItem } from '../../../domain/vo/StatsListItem/StatsListItem';
+import { StatsListItems } from '../../../domain/vo/StatsListItem/StatsListItems';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
 
 type Props = Readonly<{
   statsListItems: StatsListItems;

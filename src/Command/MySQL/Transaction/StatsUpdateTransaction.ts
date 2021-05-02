@@ -1,11 +1,11 @@
 import { ISQL, ITransaction, MySQLError } from '@jamashita/catacombe-mysql';
 import { Schrodinger, Superposition } from '@jamashita/genitore';
-import { Stats } from '../../../domain/Entity/Stats/Stats';
-import { StatsItem } from '../../../domain/Entity/StatsItem/StatsItem';
+import { Stats } from '../../../domain/entity/Stats/Stats';
+import { StatsItem } from '../../../domain/entity/StatsItem/StatsItem';
 import { IStatsUpdateFactory } from '../../../Factory/Interface/IStatsUpdateFactory';
-import { StatsID } from '../../../domain/VO/StatsOutline/StatsID';
-import { StatsValue } from '../../../domain/VO/StatsValue/StatsValue';
-import { VeauAccountID } from '../../../domain/VO/VeauAccount/VeauAccountID';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
+import { StatsValue } from '../../../domain/vo/StatsValue/StatsValue';
+import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
 import { IStatsCommand } from '../../Interface/IStatsCommand';
 import { IStatsItemCommand } from '../../Interface/IStatsItemCommand';
 import { IStatsValueCommand } from '../../Interface/IStatsValueCommand';

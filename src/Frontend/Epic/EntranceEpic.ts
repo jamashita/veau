@@ -4,8 +4,8 @@ import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { Type } from '../../Container/Types';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
-import { EntranceInformation } from '../../domain/VO/EntranceInformation/EntranceInformation';
-import { Identity } from '../../domain/VO/Identity/Identity';
+import { EntranceInformation } from '../../domain/vo/EntranceInformation/EntranceInformation';
+import { Identity } from '../../domain/vo/Identity/Identity';
 import {
   ENTRANCE_ACCOUNT_NAME_TYPED,
   ENTRANCE_PASSWORD_TYPED,

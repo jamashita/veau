@@ -2,8 +2,8 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 
 import { LanguageIdentificationService } from '../../Service/LanguageIdentificationService';
-import { Identity } from '../../domain/VO/Identity/Identity';
-import { SystemSupportLanguage } from '../../domain/VO/System/SystemSupportLanguage';
+import { Identity } from '../../domain/vo/Identity/Identity';
+import { SystemSupportLanguage } from '../../domain/vo/System/SystemSupportLanguage';
 import { i18nMessages, Messages } from '../Messages';
 
 export type StateProps = Readonly<{

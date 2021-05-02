@@ -1,8 +1,8 @@
 import { HeapError } from '@jamashita/catacombe-heap';
 import { Superposition } from '@jamashita/genitore';
 import { injectable } from 'inversify';
-import { TermError } from '../../domain/VO/Term/Error/TermError';
-import { Terms } from '../../domain/VO/Term/Terms';
+import { TermError } from '../../domain/vo/Term/Error/TermError';
+import { Terms } from '../../domain/vo/Term/Terms';
 import { ITermQuery } from '../Interface/ITermQuery';
 import { IHeapQuery } from './Interface/IHeapQuery';
 

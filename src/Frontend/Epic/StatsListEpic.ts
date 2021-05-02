@@ -4,15 +4,15 @@ import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Type } from '../../Container/Types';
-import { Stats } from '../../domain/Entity/Stats/Stats';
+import { Stats } from '../../domain/entity/Stats/Stats';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsListItemQuery } from '../../Query/Interface/IStatsListItemQuery';
-import { Language } from '../../domain/VO/Language/Language';
-import { Page } from '../../domain/VO/Page/Page';
-import { Region } from '../../domain/VO/Region/Region';
-import { StatsListItems } from '../../domain/VO/StatsListItem/StatsListItems';
-import { StatsOutline } from '../../domain/VO/StatsOutline/StatsOutline';
+import { Language } from '../../domain/vo/Language/Language';
+import { Page } from '../../domain/vo/Page/Page';
+import { Region } from '../../domain/vo/Region/Region';
+import { StatsListItems } from '../../domain/vo/StatsListItem/StatsListItems';
+import { StatsOutline } from '../../domain/vo/StatsOutline/StatsOutline';
 import {
   STATS_LIST_INITIALIZE,
   STATS_LIST_ISO3166_SELECTED,

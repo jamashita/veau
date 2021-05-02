@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { Identity } from '../../domain/VO/Identity/Identity';
+import { Identity } from '../../domain/vo/Identity/Identity';
 import { IDENTITY_AUTHENTICATED, VeauAction } from '../Action';
 
 const initialState: Identity = Identity.empty();

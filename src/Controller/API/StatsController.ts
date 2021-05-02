@@ -6,15 +6,15 @@ import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { Body, Controller, Get, Param, Post, Res, UseBefore } from 'routing-controllers';
 import { Type } from '../../Container/Types';
-import { Stats } from '../../domain/Entity/Stats/Stats';
+import { Stats } from '../../domain/entity/Stats/Stats';
 import { logger } from '../../Infrastructure/Logger';
 import { StatsInteractor } from '../../Interactor/StatsInteractor';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
-import { PageError } from '../../domain/VO/Page/Error/PageError';
-import { Page } from '../../domain/VO/Page/Page';
-import { StatsError } from '../../domain/VO/StatsOutline/Error/StatsError';
-import { StatsOutlineError } from '../../domain/VO/StatsOutline/Error/StatsOutlineError';
-import { StatsID } from '../../domain/VO/StatsOutline/StatsID';
+import { PageError } from '../../domain/vo/Page/Error/PageError';
+import { Page } from '../../domain/vo/Page/Page';
+import { StatsError } from '../../domain/vo/StatsOutline/Error/StatsError';
+import { StatsOutlineError } from '../../domain/vo/StatsOutline/Error/StatsOutlineError';
+import { StatsID } from '../../domain/vo/StatsOutline/StatsID';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
 @injectable()

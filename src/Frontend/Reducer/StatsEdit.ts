@@ -1,8 +1,8 @@
 import { Nullable } from '@jamashita/anden-type';
 import { Reducer } from 'redux';
-import { Stats } from '../../domain/Entity/Stats/Stats';
-import { StatsItem } from '../../domain/Entity/StatsItem/StatsItem';
-import { Row } from '../../domain/VO/Coordinate/Row';
+import { Stats } from '../../domain/entity/Stats/Stats';
+import { StatsItem } from '../../domain/entity/StatsItem/StatsItem';
+import { Row } from '../../domain/vo/Coordinate/Row';
 import {
   STATS_EDIT_CLEAR_SELECTING_ITEM,
   STATS_EDIT_RESET_STATS,

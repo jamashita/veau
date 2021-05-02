@@ -3,8 +3,8 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from 
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import { AsOf } from '../../../domain/VO/AsOf/AsOf';
-import { AsOfError } from '../../../domain/VO/AsOf/Error/AsOfError';
+import { AsOf } from '../../../domain/vo/AsOf/AsOf';
+import { AsOfError } from '../../../domain/vo/AsOf/Error/AsOfError';
 import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{

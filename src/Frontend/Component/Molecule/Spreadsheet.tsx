@@ -2,11 +2,11 @@ import { HotTable } from '@handsontable/react';
 import { Kind, Nullable } from '@jamashita/anden-type';
 import React from 'react';
 
-import { Column } from '../../../domain/VO/Coordinate/Column';
-import { Coordinate } from '../../../domain/VO/Coordinate/Coordinate';
-import { Row } from '../../../domain/VO/Coordinate/Row';
-import { StatsDisplay } from '../../../domain/VO/Display/StatsDisplay';
-import { NumericalValue } from '../../../domain/VO/NumericalValue/NumericalValue';
+import { Column } from '../../../domain/vo/Coordinate/Column';
+import { Coordinate } from '../../../domain/vo/Coordinate/Coordinate';
+import { Row } from '../../../domain/vo/Coordinate/Row';
+import { StatsDisplay } from '../../../domain/vo/Display/StatsDisplay';
+import { NumericalValue } from '../../../domain/vo/NumericalValue/NumericalValue';
 
 type CellChange = [number, number | string, Nullable<string>, Nullable<string>];
 type Props = Readonly<{

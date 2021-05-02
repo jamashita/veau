@@ -1,8 +1,8 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { Stats } from '../../domain/Entity/Stats/Stats';
-import { StatsError } from '../../domain/VO/StatsOutline/Error/StatsError';
-import { StatsID } from '../../domain/VO/StatsOutline/StatsID';
+import { Stats } from '../../domain/entity/Stats/Stats';
+import { StatsError } from '../../domain/vo/StatsOutline/Error/StatsError';
+import { StatsID } from '../../domain/vo/StatsOutline/StatsID';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IQuery } from './IQuery';
 

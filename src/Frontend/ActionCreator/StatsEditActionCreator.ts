@@ -1,16 +1,16 @@
-import { Stats } from '../../domain/Entity/Stats/Stats';
-import { StatsItem } from '../../domain/Entity/StatsItem/StatsItem';
-import { AsOf } from '../../domain/VO/AsOf/AsOf';
-import { Column } from '../../domain/VO/Coordinate/Column';
-import { Coordinate } from '../../domain/VO/Coordinate/Coordinate';
-import { Row } from '../../domain/VO/Coordinate/Row';
-import { ISO639 } from '../../domain/VO/Language/ISO639';
-import { NumericalValue } from '../../domain/VO/NumericalValue/NumericalValue';
-import { ISO3166 } from '../../domain/VO/Region/ISO3166';
-import { StatsItemName } from '../../domain/VO/StatsItem/StatsItemName';
-import { StatsID } from '../../domain/VO/StatsOutline/StatsID';
-import { StatsName } from '../../domain/VO/StatsOutline/StatsName';
-import { StatsUnit } from '../../domain/VO/StatsOutline/StatsUnit';
+import { Stats } from '../../domain/entity/Stats/Stats';
+import { StatsItem } from '../../domain/entity/StatsItem/StatsItem';
+import { AsOf } from '../../domain/vo/AsOf/AsOf';
+import { Column } from '../../domain/vo/Coordinate/Column';
+import { Coordinate } from '../../domain/vo/Coordinate/Coordinate';
+import { Row } from '../../domain/vo/Coordinate/Row';
+import { ISO639 } from '../../domain/vo/Language/ISO639';
+import { NumericalValue } from '../../domain/vo/NumericalValue/NumericalValue';
+import { ISO3166 } from '../../domain/vo/Region/ISO3166';
+import { StatsItemName } from '../../domain/vo/StatsItem/StatsItemName';
+import { StatsID } from '../../domain/vo/StatsOutline/StatsID';
+import { StatsName } from '../../domain/vo/StatsOutline/StatsName';
+import { StatsUnit } from '../../domain/vo/StatsOutline/StatsUnit';
 import {
   STATS_EDIT_CLEAR_SELECTING_ITEM,
   STATS_EDIT_DATA_DELETED,

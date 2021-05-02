@@ -2,9 +2,9 @@ import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@mater
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import { AccountName } from '../../../domain/VO/Account/AccountName';
-import { EntranceInformation } from '../../../domain/VO/EntranceInformation/EntranceInformation';
-import { Password } from '../../../domain/VO/EntranceInformation/Password';
+import { AccountName } from '../../../domain/vo/Account/AccountName';
+import { EntranceInformation } from '../../../domain/vo/EntranceInformation/EntranceInformation';
+import { Password } from '../../../domain/vo/EntranceInformation/Password';
 import { TextField } from '../Atom/TextField';
 
 export type StateProps = Readonly<{

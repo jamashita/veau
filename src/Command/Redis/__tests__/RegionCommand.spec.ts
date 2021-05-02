@@ -6,9 +6,9 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { MockRegion } from '../../../domain/VO/Region/Mock/MockRegion';
-import { MockRegionName } from '../../../domain/VO/Region/Mock/MockRegionName';
-import { Regions } from '../../../domain/VO/Region/Regions';
+import { MockRegion } from '../../../domain/vo/Region/Mock/MockRegion';
+import { MockRegionName } from '../../../domain/vo/Region/Mock/MockRegionName';
+import { Regions } from '../../../domain/vo/Region/Regions';
 import { RegionCommand } from '../RegionCommand';
 
 describe('RegionCommand', () => {
