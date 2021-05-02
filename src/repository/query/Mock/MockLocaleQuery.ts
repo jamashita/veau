@@ -1,0 +1,15 @@
+import { UnimplementedError } from '@jamashita/anden-error';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
+import { Superposition } from '@jamashita/genitore';
+import { Locale } from '../../../domain/vo/Locale/Locale';
+import { ILocaleQuery } from '../Interface/ILocaleQuery';
+import { IMockQuery } from './Interface/IMockQuery';
+
+export class MockLocaleQuery implements ILocaleQuery, IMockQuery {
+  public readonly noun: 'LocaleQuery' = 'LocaleQuery';
+  public readonly source: 'Mock' = 'Mock';
+
+  public all(): Superposition<Locale, DataSourceError> {
+    throw new UnimplementedError();
+  }
+}

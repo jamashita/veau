@@ -1,0 +1,281 @@
+/* eslint-disable */
+// @ts-nocheck
+import { DataSourceError, Superposition } from 'publikum';
+import { SagaIterator } from 'redux-saga';
+import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
+import { IStatsCommand } from '../../repository/command/Interface/IStatsCommand';
+import { Stats } from '../../domain/entity/Stats/Stats';
+import { NoSuchElementError } from '../../repository/query/Error/NoSuchElementError';
+import { ILanguageQuery } from '../../repository/query/Interface/ILanguageQuery';
+import { IRegionQuery } from '../../repository/query/Interface/IRegionQuery';
+import { IStatsOutlineQuery } from '../../repository/query/Interface/IStatsOutlineQuery';
+import { Language } from '../../domain/vo/Language/Language';
+import { Page } from '../../domain/vo/Page/Page';
+import { Region } from '../../domain/vo/Region/Region';
+import { StatsOutlinesError } from '../../domain/vo/StatsOutline/Error/StatsOutlinesError';
+import { StatsOutlines } from '../../domain/vo/StatsOutline/StatsOutlines';
+import { VeauAccountID } from '../../domain/vo/VeauAccount/VeauAccountID';
+import {
+  STATS_LIST_INITIALIZE,
+  STATS_LIST_ISO3166_SELECTED,
+  STATS_LIST_ISO639_SELECTED,
+  STATS_LIST_NAME_TYPED,
+  STATS_LIST_SAVE_STATS,
+  STATS_LIST_TERM_SELECTED,
+  STATS_LIST_UNIT_TYPED,
+  StatsListISO3166SelectedAction,
+  StatsListISO639SelectedAction,
+  StatsListNameTypedAction,
+  StatsListTermSelectedAction,
+  StatsListUnitTypedAction
+} from '../Action';
+import { loaded, loading } from '../ActionCreator/LoadingActionCreator';
+import { raiseModal } from '../ActionCreator/ModalActionCreator';
+import { appearNotification } from '../ActionCreator/NotificationActionCreator';
+import { pushToStatsEdit } from '../ActionCreator/RedirectActionCreator';
+import { resetStatsListItems, updateStatsListItems } from '../ActionCreator/StatsActionCreator';
+import { closeNewStatsModal } from '../ActionCreator/StatsListActionCreator';
+import { State } from '../State';
+
+export class StatsListSaga {
+  private readonly statsOutlineQuery: IStatsOutlineQuery;
+  private readonly languageQuery: ILanguageQuery;
+  private readonly regionQuery: IRegionQuery;
+  private readonly statsCommand: IStatsCommand;
+
+  public constructor(
+    statsOutlineQuery: IStatsOutlineQuery,
+    languageQuery: ILanguageQuery,
+    regionQuery: IRegionQuery,
+    statsCommand: IStatsCommand
+  ) {
+    this.statsOutlineQuery = statsOutlineQuery;
+    this.languageQuery = languageQuery;
+    this.regionQuery = regionQuery;
+    this.statsCommand = statsCommand;
+  }
+
+  private* findStatsList(): SagaIterator<unknown> {
+    while (true) {
+      yield take(STATS_LIST_INITIALIZE);
+
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = yield call(
+        (): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> => {
+          return this.statsOutlineQuery.findByVeauAccountID(VeauAccountID.generate(), Page.of(1).get());
+        }
+      );
+
+      yield superposition.transform<Effect>(
+        (statsOutlines: StatsOutlines) => {
+          return put(updateStatsListItems(statsOutlines));
+        },
+        () => {
+          return all([
+            put(resetStatsListItems()),
+            put(appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'))
+          ]);
+        }
+      );
+    }
+  }
+
+  public* init(): IterableIterator<unknown> {
+    yield fork(this.findStatsList);
+    yield fork(this.nameTyped);
+    yield fork(this.unitTyped);
+    yield fork(this.iso639Selected);
+    yield fork(this.iso3166Selected);
+    yield fork(this.termSelected);
+    yield fork(this.save);
+  }
+
+  private* iso3166Selected(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsListISO3166SelectedAction = yield take(STATS_LIST_ISO3166_SELECTED);
+      const state: State = yield select();
+
+      const {
+        statsList: {
+          stats
+        }
+      } = state;
+
+      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = yield call(
+        (): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
+          return this.regionQuery.findByISO3166(action.iso3166);
+        }
+      );
+
+      if (superposition.isAlive()) {
+        const newStats: Stats = Stats.of(
+          stats.getStatsID(),
+          stats.getLanguage(),
+          superposition.get(),
+          stats.getTerm(),
+          stats.getName(),
+          stats.getUnit(),
+          stats.getUpdatedAt(),
+          stats.getItems()
+        );
+
+        yield put(updateNewStatsDisplay(newStats));
+      }
+    }
+  }
+
+  private* iso639Selected(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsListISO639SelectedAction = yield take(STATS_LIST_ISO639_SELECTED);
+      const state: State = yield select();
+
+      const {
+        statsList: {
+          stats
+        }
+      } = state;
+
+      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = yield call(
+        (): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
+          return this.languageQuery.findByISO639(action.iso639);
+        }
+      );
+
+      if (superposition.isAlive()) {
+        const newStats: Stats = Stats.of(
+          stats.getStatsID(),
+          superposition.get(),
+          stats.getRegion(),
+          stats.getTerm(),
+          stats.getName(),
+          stats.getUnit(),
+          stats.getUpdatedAt(),
+          stats.getItems()
+        );
+
+        return put(updateNewStatsDisplay(newStats));
+      }
+    }
+  }
+
+  private* nameTyped(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsListNameTypedAction = yield take(STATS_LIST_NAME_TYPED);
+      const state: State = yield select();
+
+      const {
+        statsList: {
+          stats
+        }
+      } = state;
+      const {
+        name
+      } = action;
+
+      const newStats: Stats = Stats.of(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        stats.getTerm(),
+        name,
+        stats.getUnit(),
+        stats.getUpdatedAt(),
+        stats.getItems()
+      );
+
+      yield put(updateNewStatsDisplay(newStats));
+    }
+  }
+
+  private* save(): SagaIterator<unknown> {
+    while (true) {
+      yield take(STATS_LIST_SAVE_STATS);
+
+      const state: State = yield select();
+
+      const {
+        statsList: {
+          stats
+        }
+      } = state;
+
+      if (!stats.isFilled()) {
+        continue;
+      }
+
+      yield all([put(closeNewStatsModal()), put(loading())]);
+
+      const superposition: Superposition<void, DataSourceError> = yield call(
+        (): Promise<Superposition<void, DataSourceError>> => {
+          return this.statsCommand.create(stats, VeauAccountID.generate());
+        }
+      );
+
+      yield superposition.transform<Effect>(
+        () => {
+          return all([put(loaded()), put(pushToStatsEdit(stats.getStatsID())), put(resetNewStatsDisplay())]);
+        },
+        () => {
+          return all([
+            put(loaded()),
+            put(raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION'))
+          ]);
+        }
+      );
+    }
+  }
+
+  private* termSelected(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsListTermSelectedAction = yield take(STATS_LIST_TERM_SELECTED);
+      const state: State = yield select();
+
+      const {
+        statsList: {
+          stats
+        }
+      } = state;
+
+      const newStats: Stats = Stats.of(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        action.term,
+        stats.getName(),
+        stats.getUnit(),
+        stats.getUpdatedAt(),
+        stats.getItems()
+      );
+
+      yield put(updateNewStatsDisplay(newStats));
+    }
+  }
+
+  private* unitTyped(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsListUnitTypedAction = yield take(STATS_LIST_UNIT_TYPED);
+      const state: State = yield select();
+
+      const {
+        statsList: {
+          stats
+        }
+      } = state;
+      const {
+        unit
+      } = action;
+
+      const newStats: Stats = Stats.of(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        stats.getTerm(),
+        stats.getName(),
+        unit,
+        stats.getUpdatedAt(),
+        stats.getItems()
+      );
+
+      yield put(updateNewStatsDisplay(newStats));
+    }
+  }
+}
