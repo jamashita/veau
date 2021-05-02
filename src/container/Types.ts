@@ -38,9 +38,9 @@ export const Type = {
   StatsValueMySQLQuery: Symbol(),
   LanguageRedisQuery: Symbol(),
   RegionRedisQuery: Symbol(),
-  IdentityVaultQuery: Symbol(),
-  LanguageVaultQuery: Symbol(),
-  LocaleVaultQuery: Symbol(),
-  RegionVaultQuery: Symbol(),
-  StatsListItemVaultQuery: Symbol()
+  IdentityBinQuery: Symbol(),
+  LanguageBinQuery: Symbol(),
+  LocaleBinQuery: Symbol(),
+  RegionBinQuery: Symbol(),
+  StatsListItemBinQuery: Symbol()
 } as const;

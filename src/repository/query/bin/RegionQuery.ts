@@ -13,16 +13,16 @@ import { Regions } from '../../../domain/vo/Region/Regions';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILocaleQuery } from '../interface/ILocaleQuery';
 import { IRegionQuery } from '../interface/IRegionQuery';
-import { IVaultQuery } from './interface/IVaultQuery';
+import { IBinQuery } from './IBinQuery';
 
 @injectable()
-export class RegionQuery implements IRegionQuery, IVaultQuery {
+export class RegionQuery implements IRegionQuery, IBinQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
-  public readonly source: 'Vault' = 'Vault';
+  public readonly source: 'Bin' = 'Bin';
   private readonly localeQuery: ILocaleQuery;
 
-  public constructor(@inject(Type.LocaleVaultQuery) localeVaultQuery: ILocaleQuery) {
-    this.localeQuery = localeVaultQuery;
+  public constructor(@inject(Type.LocaleBinQuery) localeBinQuery: ILocaleQuery) {
+    this.localeQuery = localeBinQuery;
   }
 
   public all(): Superposition<Regions, DataSourceError | RegionError> {

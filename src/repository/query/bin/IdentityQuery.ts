@@ -16,20 +16,20 @@ import { IIdentityQuery } from '../interface/IIdentityQuery';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
 import { IRegionQuery } from '../interface/IRegionQuery';
 import { IVeauAccountQuery } from '../interface/IVeauAccountQuery';
-import { IVaultQuery } from './interface/IVaultQuery';
+import { IBinQuery } from './IBinQuery';
 
 @injectable()
-export class IdentityQuery implements IIdentityQuery, IVaultQuery {
+export class IdentityQuery implements IIdentityQuery, IBinQuery {
   public readonly noun: 'IdentityQuery' = 'IdentityQuery';
-  public readonly source: 'Vault' = 'Vault';
+  public readonly source: 'Bin' = 'Bin';
   private readonly accountQuery: IVeauAccountQuery;
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;
 
   public constructor(
     @inject(Type.VeauAccountFetchQuery) accountQuery: IVeauAccountQuery,
-    @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
-    @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery
+    @inject(Type.LanguageBinQuery) languageQuery: ILanguageQuery,
+    @inject(Type.RegionBinQuery) regionQuery: IRegionQuery
   ) {
     this.accountQuery = accountQuery;
     this.languageQuery = languageQuery;

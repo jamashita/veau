@@ -25,7 +25,7 @@ import { State } from '../State';
 export class EntranceEpic {
   private readonly identityQuery: IIdentityQuery;
 
-  public constructor(@inject(Type.IdentityVaultQuery) identityQuery: IIdentityQuery) {
+  public constructor(@inject(Type.IdentityBinQuery) identityQuery: IIdentityQuery) {
     this.identityQuery = identityQuery;
   }
 

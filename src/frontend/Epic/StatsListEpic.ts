@@ -50,9 +50,9 @@ export class StatsListEpic {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(Type.StatsListItemVaultQuery) statsListItemQuery: IStatsListItemQuery,
-    @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
-    @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery,
+    @inject(Type.StatsListItemBinQuery) statsListItemQuery: IStatsListItemQuery,
+    @inject(Type.LanguageBinQuery) languageQuery: ILanguageQuery,
+    @inject(Type.RegionBinQuery) regionQuery: IRegionQuery,
     @inject(Type.StatsFetchCommand) statsCommand: IStatsCommand
   ) {
     this.statsListItemQuery = statsListItemQuery;

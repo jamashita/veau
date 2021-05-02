@@ -4,8 +4,8 @@ import { Schrodinger } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { vault } from '../../../../container/Vault';
 import { SessionCommand } from '../SessionCommand';
 
 describe('SessionCommand', () => {
@@ -13,8 +13,8 @@ describe('SessionCommand', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const sessionCommand1: SessionCommand = vault.get<SessionCommand>(Type.SessionFetchCommand);
-      const sessionCommand2: SessionCommand = vault.get<SessionCommand>(Type.SessionFetchCommand);
+      const sessionCommand1: SessionCommand = bin.get<SessionCommand>(Type.SessionFetchCommand);
+      const sessionCommand2: SessionCommand = bin.get<SessionCommand>(Type.SessionFetchCommand);
 
       expect(sessionCommand1).toBeInstanceOf(SessionCommand);
       expect(sessionCommand1).toBe(sessionCommand2);

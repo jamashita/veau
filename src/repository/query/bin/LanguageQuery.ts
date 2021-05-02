@@ -12,15 +12,15 @@ import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
 import { ILocaleQuery } from '../interface/ILocaleQuery';
-import { IVaultQuery } from './interface/IVaultQuery';
+import { IBinQuery } from './IBinQuery';
 
 @injectable()
-export class LanguageQuery implements ILanguageQuery, IVaultQuery {
+export class LanguageQuery implements ILanguageQuery, IBinQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
-  public readonly source: 'Vault' = 'Vault';
+  public readonly source: 'Bin' = 'Bin';
   private readonly localeQuery: ILocaleQuery;
 
-  public constructor(@inject(Type.LocaleVaultQuery) localeQuery: ILocaleQuery) {
+  public constructor(@inject(Type.LocaleBinQuery) localeQuery: ILocaleQuery) {
     this.localeQuery = localeQuery;
   }
 

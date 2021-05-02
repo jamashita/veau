@@ -34,9 +34,9 @@ export class IdentityEpic {
   private readonly languageQuery: ILanguageQuery;
 
   public constructor(
-    @inject(Type.IdentityVaultQuery) identityQuery: IIdentityQuery,
-    @inject(Type.LocaleVaultQuery) localeQuery: ILocaleQuery,
-    @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery
+    @inject(Type.IdentityBinQuery) identityQuery: IIdentityQuery,
+    @inject(Type.LocaleBinQuery) localeQuery: ILocaleQuery,
+    @inject(Type.LanguageBinQuery) languageQuery: ILanguageQuery
   ) {
     this.identityQuery = identityQuery;
     this.localeQuery = localeQuery;

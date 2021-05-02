@@ -6,12 +6,12 @@ import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError';
 import { Locale } from '../../../domain/vo/Locale/Locale';
 import { ILocaleCommand } from '../../command/interface/ILocaleCommand';
 import { ILocaleQuery } from '../interface/ILocaleQuery';
-import { IVaultQuery } from './interface/IVaultQuery';
+import { IBinQuery } from './IBinQuery';
 
 @injectable()
-export class LocaleQuery implements ILocaleQuery, IVaultQuery {
+export class LocaleQuery implements ILocaleQuery, IBinQuery {
   public readonly noun: 'LocaleQuery' = 'LocaleQuery';
-  public readonly source: 'Vault' = 'Vault';
+  public readonly source: 'Bin' = 'Bin';
   private readonly ajaxQuery: ILocaleQuery;
   private readonly cacheQuery: ILocaleQuery;
   private readonly cacheCommand: ILocaleCommand;

@@ -4,8 +4,8 @@ import { HeapError } from '@jamashita/catacombe-heap';
 import { Schrodinger, Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { vault } from '../../../../container/Vault';
 import { MockLanguage } from '../../../../domain/vo/Language/mock/MockLanguage';
 import { MockLanguageID } from '../../../../domain/vo/Language/mock/MockLanguageID';
 import { LocaleError } from '../../../../domain/vo/Locale/error/LocaleError';
@@ -34,8 +34,8 @@ describe('StatsListItemQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsListItemQuery1: StatsListItemQuery = vault.get<StatsListItemQuery>(Type.StatsListItemVaultQuery);
-      const statsListItemQuery2: StatsListItemQuery = vault.get<StatsListItemQuery>(Type.StatsListItemVaultQuery);
+      const statsListItemQuery1: StatsListItemQuery = bin.get<StatsListItemQuery>(Type.StatsListItemBinQuery);
+      const statsListItemQuery2: StatsListItemQuery = bin.get<StatsListItemQuery>(Type.StatsListItemBinQuery);
 
       expect(statsListItemQuery1).toBeInstanceOf(StatsListItemQuery);
       expect(statsListItemQuery1).toBe(statsListItemQuery2);

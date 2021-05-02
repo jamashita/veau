@@ -5,8 +5,8 @@ import { Schrodinger } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { vault } from '../../../../container/Vault';
 import { Stats, StatsJSON } from '../../../../domain/entity/Stats/Stats';
 import { StatsError } from '../../../../domain/vo/StatsOutline/error/StatsError';
 import { MockStatsID } from '../../../../domain/vo/StatsOutline/mock/MockStatsID';
@@ -19,8 +19,8 @@ describe('StatsQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsQuery1: StatsQuery = vault.get<StatsQuery>(Type.StatsFetchQuery);
-      const statsQuery2: StatsQuery = vault.get<StatsQuery>(Type.StatsFetchQuery);
+      const statsQuery1: StatsQuery = bin.get<StatsQuery>(Type.StatsFetchQuery);
+      const statsQuery2: StatsQuery = bin.get<StatsQuery>(Type.StatsFetchQuery);
 
       expect(statsQuery1).toBeInstanceOf(StatsQuery);
       expect(statsQuery1).toBe(statsQuery2);

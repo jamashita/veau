@@ -3,8 +3,8 @@ import { FetchError } from '@jamashita/catacombe-fetch';
 import { Schrodinger, Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { vault } from '../../../../container/Vault';
 import { Locale } from '../../../../domain/vo/Locale/Locale';
 import { MockLocale } from '../../../../domain/vo/Locale/mock/MockLocale';
 import { RegionError } from '../../../../domain/vo/Region/error/RegionError';
@@ -23,8 +23,8 @@ describe('RegionQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const regionQuery1: RegionQuery = vault.get<RegionQuery>(Type.RegionVaultQuery);
-      const regionQuery2: RegionQuery = vault.get<RegionQuery>(Type.RegionVaultQuery);
+      const regionQuery1: RegionQuery = bin.get<RegionQuery>(Type.RegionBinQuery);
+      const regionQuery2: RegionQuery = bin.get<RegionQuery>(Type.RegionBinQuery);
 
       expect(regionQuery1).toBeInstanceOf(RegionQuery);
       expect(regionQuery1).toBe(regionQuery2);
@@ -37,13 +37,13 @@ describe('RegionQuery', () => {
 
       const locale: MockLocale = new MockLocale();
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
-      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const regionQuery: RegionQuery = new RegionQuery(localeBinQuery);
       const schrodinger: Schrodinger<Regions, DataSourceError | RegionError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
@@ -53,13 +53,13 @@ describe('RegionQuery', () => {
     it('localeQuery returns Dead', async () => {
       expect.assertions(2);
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed'), FetchError));
 
-      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const regionQuery: RegionQuery = new RegionQuery(localeBinQuery);
       const schrodinger: Schrodinger<Regions, DataSourceError | RegionError> = await regionQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -84,13 +84,13 @@ describe('RegionQuery', () => {
         regions: [region1, region2]
       });
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
-      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const regionQuery: RegionQuery = new RegionQuery(localeBinQuery);
       const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.find(regionID).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
@@ -102,13 +102,13 @@ describe('RegionQuery', () => {
 
       const regionID: MockRegionID = new MockRegionID();
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed'), FetchError));
 
-      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const regionQuery: RegionQuery = new RegionQuery(localeBinQuery);
       const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.find(regionID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -122,13 +122,13 @@ describe('RegionQuery', () => {
 
       const regionID: MockRegionID = new MockRegionID();
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.dead<Locale, RegionError>(new RegionError('test failed'), RegionError));
 
-      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const regionQuery: RegionQuery = new RegionQuery(localeBinQuery);
       const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.find(regionID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -151,13 +151,13 @@ describe('RegionQuery', () => {
         regions: [region1, region2]
       });
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
-      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const regionQuery: RegionQuery = new RegionQuery(localeBinQuery);
       const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.find(regionID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -181,13 +181,13 @@ describe('RegionQuery', () => {
         regions: [region1, region2]
       });
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
-      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const regionQuery: RegionQuery = new RegionQuery(localeBinQuery);
       const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
@@ -197,13 +197,13 @@ describe('RegionQuery', () => {
     it('localeQuery.all returns Dead, FetchError', async () => {
       expect.assertions(2);
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed'), FetchError));
 
-      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const regionQuery: RegionQuery = new RegionQuery(localeBinQuery);
       const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -215,7 +215,7 @@ describe('RegionQuery', () => {
     it('localeQuery.all returns Dead, RegionError', async () => {
       expect.assertions(2);
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
       localeVaultQuery.all = stub;

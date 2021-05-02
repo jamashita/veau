@@ -6,8 +6,8 @@ import { Schrodinger } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { vault } from '../../../../container/Vault';
 import { Language } from '../../../../domain/vo/Language/Language';
 import { LanguageID } from '../../../../domain/vo/Language/LanguageID';
 import { LocaleError } from '../../../../domain/vo/Locale/error/LocaleError';
@@ -21,8 +21,8 @@ describe('LocaleQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleFetchQuery);
-      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleFetchQuery);
+      const localeQuery1: LocaleQuery = bin.get<LocaleQuery>(Type.LocaleFetchQuery);
+      const localeQuery2: LocaleQuery = bin.get<LocaleQuery>(Type.LocaleFetchQuery);
 
       expect(localeQuery1).toBeInstanceOf(LocaleQuery);
       expect(localeQuery1).toBe(localeQuery2);

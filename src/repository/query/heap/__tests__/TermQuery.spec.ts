@@ -1,8 +1,8 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Schrodinger } from '@jamashita/genitore';
 import 'reflect-metadata';
+import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { vault } from '../../../../container/Vault';
 import { TermError } from '../../../../domain/vo/Term/error/TermError';
 import { Terms } from '../../../../domain/vo/Term/Terms';
 import { TermQuery } from '../TermQuery';
@@ -12,8 +12,8 @@ describe('TermQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const termQuery1: TermQuery = vault.get<TermQuery>(Type.TermHeapQuery);
-      const termQuery2: TermQuery = vault.get<TermQuery>(Type.TermHeapQuery);
+      const termQuery1: TermQuery = bin.get<TermQuery>(Type.TermHeapQuery);
+      const termQuery2: TermQuery = bin.get<TermQuery>(Type.TermHeapQuery);
 
       expect(termQuery1).toBeInstanceOf(TermQuery);
       expect(termQuery1).toBe(termQuery2);

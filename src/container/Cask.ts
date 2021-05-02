@@ -15,7 +15,7 @@ import { veauRedis } from '../infrastructure/VeauRedis';
 import { AuthenticationInteractor } from '../interactor/AuthenticationInteractor';
 import { LocaleInteractor } from '../interactor/LocaleInteractor';
 import { StatsInteractor } from '../interactor/StatsInteractor';
-import { StatsCommand as StatsCaskCommand } from '../repository/command/kernel/StatsCommand';
+import { StatsCommand as StatsCaskCommand } from '../repository/command/cask/StatsCommand';
 import { LanguageCommand as LanguageRedisCommand } from '../repository/command/redis/LanguageCommand';
 import { RegionCommand as RegionRedisCommand } from '../repository/command/redis/RegionCommand';
 import { LanguageQuery as LanguageCaskQuery } from '../repository/query/kernel/LanguageQuery';

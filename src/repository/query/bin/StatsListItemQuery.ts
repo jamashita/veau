@@ -18,19 +18,19 @@ import { ILocaleQuery } from '../interface/ILocaleQuery';
 import { IStatsListItemQuery } from '../interface/IStatsListItemQuery';
 import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
 import { ITermQuery } from '../interface/ITermQuery';
-import { IVaultQuery } from './interface/IVaultQuery';
+import { IBinQuery } from './IBinQuery';
 
 @injectable()
-export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {
+export class StatsListItemQuery implements IStatsListItemQuery, IBinQuery {
   public readonly noun: 'StatsListItemQuery' = 'StatsListItemQuery';
-  public readonly source: 'Vault' = 'Vault';
+  public readonly source: 'Bin' = 'Bin';
   private readonly outlineQuery: IStatsOutlineQuery;
   private readonly localeQuery: ILocaleQuery;
   private readonly termQuery: ITermQuery;
 
   public constructor(
     @inject(Type.StatsOutlineFetchQuery) outlineQuery: IStatsOutlineQuery,
-    @inject(Type.LocaleVaultQuery) localeQuery: ILocaleQuery,
+    @inject(Type.LocaleBinQuery) localeQuery: ILocaleQuery,
     @inject(Type.TermHeapQuery) termQuery: ITermQuery
   ) {
     this.outlineQuery = outlineQuery;

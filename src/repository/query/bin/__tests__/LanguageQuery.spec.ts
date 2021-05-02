@@ -3,8 +3,8 @@ import { FetchError } from '@jamashita/catacombe-fetch';
 import { Schrodinger, Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { vault } from '../../../../container/Vault';
 import { LanguageError } from '../../../../domain/vo/Language/error/LanguageError';
 import { ISO639 } from '../../../../domain/vo/Language/ISO639';
 import { Language } from '../../../../domain/vo/Language/Language';
@@ -23,8 +23,8 @@ describe('LanguageQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const languageQuery1: LanguageQuery = vault.get<LanguageQuery>(Type.LanguageVaultQuery);
-      const languageQuery2: LanguageQuery = vault.get<LanguageQuery>(Type.LanguageVaultQuery);
+      const languageQuery1: LanguageQuery = bin.get<LanguageQuery>(Type.LanguageBinQuery);
+      const languageQuery2: LanguageQuery = bin.get<LanguageQuery>(Type.LanguageBinQuery);
 
       expect(languageQuery1).toBeInstanceOf(LanguageQuery);
       expect(languageQuery1).toBe(languageQuery2);
@@ -37,13 +37,13 @@ describe('LanguageQuery', () => {
 
       const locale: MockLocale = new MockLocale();
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
-      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
+      const languageQuery: LanguageQuery = new LanguageQuery(localeBinQuery);
       const schrodinger: Schrodinger<Languages, DataSourceError | LanguageError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
@@ -53,13 +53,13 @@ describe('LanguageQuery', () => {
     it('localeQuery returns Dead', async () => {
       expect.assertions(2);
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.dead<Locale, FetchError>(new FetchError('test failed'), FetchError));
 
-      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
+      const languageQuery: LanguageQuery = new LanguageQuery(localeBinQuery);
       const schrodinger: Schrodinger<Languages, DataSourceError | LanguageError> = await languageQuery.all().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -84,13 +84,13 @@ describe('LanguageQuery', () => {
         languages: [language1, language2]
       });
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
 
-      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
+      const languageQuery: LanguageQuery = new LanguageQuery(localeBinQuery);
       const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.find(languageID).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
@@ -102,13 +102,13 @@ describe('LanguageQuery', () => {
 
       const languageID: MockLanguageID = new MockLanguageID();
 
-      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.dead<Locale, DataSourceError>(new FetchError('test failed'), FetchError));
 
-      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
+      const languageQuery: LanguageQuery = new LanguageQuery(localeBinQuery);
       const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.find(languageID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);

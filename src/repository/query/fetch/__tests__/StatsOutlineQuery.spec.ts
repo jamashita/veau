@@ -6,8 +6,8 @@ import { Schrodinger } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { vault } from '../../../../container/Vault';
 import { MockPage } from '../../../../domain/vo/Page/mock/MockPage';
 import { StatsOutlineError } from '../../../../domain/vo/StatsOutline/error/StatsOutlineError';
 import { StatsID } from '../../../../domain/vo/StatsOutline/StatsID';
@@ -21,8 +21,8 @@ describe('StatsOutlineQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsOutlineQuery1: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineFetchQuery);
-      const statsOutlineQuery2: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineFetchQuery);
+      const statsOutlineQuery1: StatsOutlineQuery = bin.get<StatsOutlineQuery>(Type.StatsOutlineFetchQuery);
+      const statsOutlineQuery2: StatsOutlineQuery = bin.get<StatsOutlineQuery>(Type.StatsOutlineFetchQuery);
 
       expect(statsOutlineQuery1).toBeInstanceOf(StatsOutlineQuery);
       expect(statsOutlineQuery1).toBe(statsOutlineQuery2);

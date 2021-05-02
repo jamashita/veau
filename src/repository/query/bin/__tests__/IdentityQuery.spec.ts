@@ -3,8 +3,8 @@ import { FetchError } from '@jamashita/catacombe-fetch';
 import { Schrodinger, Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { vault } from '../../../../container/Vault';
 import { AccountName } from '../../../../domain/vo/Account/AccountName';
 import { MockEntranceInformation } from '../../../../domain/vo/EntranceInformation/mock/MockEntranceInformation';
 import { IdentityError } from '../../../../domain/vo/Identity/error/IdentityError';
@@ -29,8 +29,8 @@ describe('IdentityQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const identityQuery1: IdentityQuery = vault.get<IdentityQuery>(Type.IdentityVaultQuery);
-      const identityQuery2: IdentityQuery = vault.get<IdentityQuery>(Type.IdentityVaultQuery);
+      const identityQuery1: IdentityQuery = bin.get<IdentityQuery>(Type.IdentityBinQuery);
+      const identityQuery2: IdentityQuery = bin.get<IdentityQuery>(Type.IdentityBinQuery);
 
       expect(identityQuery1).toBeInstanceOf(IdentityQuery);
       expect(identityQuery1).toBe(identityQuery2);

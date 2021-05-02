@@ -5,8 +5,8 @@ import { Schrodinger } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { vault } from '../../../../container/Vault';
 import { MockStats } from '../../../../domain/entity/Stats/mock/MockStats';
 import { MockLanguage } from '../../../../domain/vo/Language/mock/MockLanguage';
 import { MockLanguageID } from '../../../../domain/vo/Language/mock/MockLanguageID';
@@ -24,8 +24,8 @@ describe('StatsCommand', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsCommand1: StatsCommand = vault.get<StatsCommand>(Type.StatsFetchCommand);
-      const statsCommand2: StatsCommand = vault.get<StatsCommand>(Type.StatsFetchCommand);
+      const statsCommand1: StatsCommand = bin.get<StatsCommand>(Type.StatsFetchCommand);
+      const statsCommand2: StatsCommand = bin.get<StatsCommand>(Type.StatsFetchCommand);
 
       expect(statsCommand1).toBeInstanceOf(StatsCommand);
       expect(statsCommand1).toBe(statsCommand2);

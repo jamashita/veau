@@ -2,8 +2,8 @@ import { routerMiddleware } from 'connected-react-router';
 import { applyMiddleware, createStore, Middleware, Store } from 'redux';
 import { createLogger } from 'redux-logger';
 import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
+import { bin } from '../container/Bin';
 import { Type } from '../container/Types';
-import { vault } from '../container/Vault';
 import { VeauAction } from './Action';
 import { onload } from './ActionCreator/OnLoadActionCreator';
 import { RootEpic } from './Epic/RootEpic';
@@ -18,7 +18,7 @@ const logger: Middleware = createLogger({
 const router: Middleware = routerMiddleware(history);
 const epic: EpicMiddleware<VeauAction, VeauAction, State> = createEpicMiddleware<VeauAction, VeauAction, State>();
 const s: Store = createStore(reducers, applyMiddleware(epic, logger, router));
-const rootEpic: RootEpic = vault.get<RootEpic>(Type.RootEpic);
+const rootEpic: RootEpic = bin.get<RootEpic>(Type.RootEpic);
 
 epic.run(rootEpic.init());
 s.dispatch(onload());

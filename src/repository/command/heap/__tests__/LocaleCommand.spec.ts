@@ -3,8 +3,8 @@ import { HeapError, MockHeap } from '@jamashita/catacombe-heap';
 import { Schrodinger } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { vault } from '../../../../container/Vault';
 import { Locale } from '../../../../domain/vo/Locale/Locale';
 import { MockLocale } from '../../../../domain/vo/Locale/mock/MockLocale';
 import { VAULT_LOCALE_KEY } from '../../../../infrastructure/VeauHeap';
@@ -15,8 +15,8 @@ describe('LocaleCommand', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const localeCommand1: LocaleCommand = vault.get<LocaleCommand>(Type.LocaleHeapCommand);
-      const localeCommand2: LocaleCommand = vault.get<LocaleCommand>(Type.LocaleHeapCommand);
+      const localeCommand1: LocaleCommand = bin.get<LocaleCommand>(Type.LocaleHeapCommand);
+      const localeCommand2: LocaleCommand = bin.get<LocaleCommand>(Type.LocaleHeapCommand);
 
       expect(localeCommand1).toBeInstanceOf(LocaleCommand);
       expect(localeCommand1).toBe(localeCommand2);

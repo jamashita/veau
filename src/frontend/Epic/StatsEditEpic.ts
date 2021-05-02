@@ -76,8 +76,8 @@ export class StatsEditEpic {
 
   public constructor(
     @inject(Type.StatsFetchQuery) statsQuery: IStatsQuery,
-    @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
-    @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery,
+    @inject(Type.LanguageBinQuery) languageQuery: ILanguageQuery,
+    @inject(Type.RegionBinQuery) regionQuery: IRegionQuery,
     @inject(Type.StatsFetchCommand) statsCommand: IStatsCommand
   ) {
     this.statsQuery = statsQuery;
