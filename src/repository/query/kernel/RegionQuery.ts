@@ -11,8 +11,8 @@ import { RegionID } from '../../../domain/vo/Region/RegionID';
 import { Regions } from '../../../domain/vo/Region/Regions';
 import { IRegionCommand } from '../../command/interface/IRegionCommand';
 import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IRegionQuery } from '../Interface/IRegionQuery';
-import { IKernelQuery } from './Interface/IKernelQuery';
+import { IRegionQuery } from '../interface/IRegionQuery';
+import { IKernelQuery } from './interface/IKernelQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery, IKernelQuery {

@@ -19,9 +19,9 @@ import { VeauAccountError } from '../../../../domain/vo/VeauAccount/error/VeauAc
 import { MockVeauAccount } from '../../../../domain/vo/VeauAccount/mock/MockVeauAccount';
 import { MockVeauAccountID } from '../../../../domain/vo/VeauAccount/mock/MockVeauAccountID';
 import { VeauAccount } from '../../../../domain/vo/VeauAccount/VeauAccount';
-import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
-import { MockRegionQuery } from '../../Mock/MockRegionQuery';
-import { MockVeauAccountQuery } from '../../Mock/MockVeauAccountQuery';
+import { MockLanguageQuery } from '../../mock/MockLanguageQuery';
+import { MockRegionQuery } from '../../mock/MockRegionQuery';
+import { MockVeauAccountQuery } from '../../mock/MockVeauAccountQuery';
 import { IdentityQuery } from '../IdentityQuery';
 
 describe('IdentityQuery', () => {

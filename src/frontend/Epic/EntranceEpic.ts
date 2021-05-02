@@ -5,7 +5,7 @@ import { filter, map, mergeMap } from 'rxjs/operators';
 import { Type } from '../../container/Types';
 import { EntranceInformation } from '../../domain/vo/EntranceInformation/EntranceInformation';
 import { Identity } from '../../domain/vo/Identity/Identity';
-import { IIdentityQuery } from '../../repository/query/Interface/IIdentityQuery';
+import { IIdentityQuery } from '../../repository/query/interface/IIdentityQuery';
 import {
   ENTRANCE_ACCOUNT_NAME_TYPED,
   ENTRANCE_PASSWORD_TYPED,

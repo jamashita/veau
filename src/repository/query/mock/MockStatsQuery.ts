@@ -4,8 +4,8 @@ import { Superposition } from '@jamashita/genitore';
 import { Stats } from '../../../domain/entity/Stats/Stats';
 import { StatsError } from '../../../domain/vo/StatsOutline/error/StatsError';
 import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IStatsQuery } from '../Interface/IStatsQuery';
-import { IMockQuery } from './Interface/IMockQuery';
+import { IStatsQuery } from '../interface/IStatsQuery';
+import { IMockQuery } from './interface/IMockQuery';
 
 export class MockStatsQuery implements IStatsQuery, IMockQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';

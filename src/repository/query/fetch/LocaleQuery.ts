@@ -5,8 +5,8 @@ import { inject, injectable } from 'inversify';
 import { Type } from '../../../container/Types';
 import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError';
 import { Locale } from '../../../domain/vo/Locale/Locale';
-import { ILocaleQuery } from '../Interface/ILocaleQuery';
-import { IFetchQuery } from './Interface/IFetchQuery';
+import { ILocaleQuery } from '../interface/ILocaleQuery';
+import { IFetchQuery } from './interface/IFetchQuery';
 
 @injectable()
 export class LocaleQuery implements ILocaleQuery<FetchError>, IFetchQuery {

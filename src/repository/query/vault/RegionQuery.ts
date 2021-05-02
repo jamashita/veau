@@ -11,9 +11,9 @@ import { Region } from '../../../domain/vo/Region/Region';
 import { RegionID } from '../../../domain/vo/Region/RegionID';
 import { Regions } from '../../../domain/vo/Region/Regions';
 import { NoSuchElementError } from '../error/NoSuchElementError';
-import { ILocaleQuery } from '../Interface/ILocaleQuery';
-import { IRegionQuery } from '../Interface/IRegionQuery';
-import { IVaultQuery } from './Interface/IVaultQuery';
+import { ILocaleQuery } from '../interface/ILocaleQuery';
+import { IRegionQuery } from '../interface/IRegionQuery';
+import { IVaultQuery } from './interface/IVaultQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery, IVaultQuery {

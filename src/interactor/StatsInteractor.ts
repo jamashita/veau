@@ -12,8 +12,8 @@ import { StatsOutlines } from '../domain/vo/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../domain/vo/VeauAccount/VeauAccountID';
 import { IStatsCommand } from '../repository/command/interface/IStatsCommand';
 import { NoSuchElementError } from '../repository/query/error/NoSuchElementError';
-import { IStatsOutlineQuery } from '../repository/query/Interface/IStatsOutlineQuery';
-import { IStatsQuery } from '../repository/query/Interface/IStatsQuery';
+import { IStatsOutlineQuery } from '../repository/query/interface/IStatsOutlineQuery';
+import { IStatsQuery } from '../repository/query/interface/IStatsQuery';
 
 @injectable()
 export class StatsInteractor implements Noun<'StatsInteractor'> {

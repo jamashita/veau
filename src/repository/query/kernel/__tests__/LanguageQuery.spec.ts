@@ -14,7 +14,7 @@ import { MockISO639 } from '../../../../domain/vo/Language/mock/MockISO639';
 import { MockLanguage } from '../../../../domain/vo/Language/mock/MockLanguage';
 import { MockLanguageCommand } from '../../../command/mock/MockLanguageCommand';
 import { NoSuchElementError } from '../../error/NoSuchElementError';
-import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
+import { MockLanguageQuery } from '../../mock/MockLanguageQuery';
 import { LanguageQuery } from '../LanguageQuery';
 
 describe('LanguageQuery', () => {

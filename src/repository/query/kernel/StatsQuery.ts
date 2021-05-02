@@ -16,12 +16,12 @@ import { StatsOutline } from '../../../domain/vo/StatsOutline/StatsOutline';
 import { TermError } from '../../../domain/vo/Term/error/TermError';
 import { Term } from '../../../domain/vo/Term/Term';
 import { NoSuchElementError } from '../error/NoSuchElementError';
-import { ILanguageQuery } from '../Interface/ILanguageQuery';
-import { IRegionQuery } from '../Interface/IRegionQuery';
-import { IStatsItemQuery } from '../Interface/IStatsItemQuery';
-import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
-import { IStatsQuery } from '../Interface/IStatsQuery';
-import { IKernelQuery } from './Interface/IKernelQuery';
+import { ILanguageQuery } from '../interface/ILanguageQuery';
+import { IRegionQuery } from '../interface/IRegionQuery';
+import { IStatsItemQuery } from '../interface/IStatsItemQuery';
+import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
+import { IStatsQuery } from '../interface/IStatsQuery';
+import { IKernelQuery } from './interface/IKernelQuery';
 
 @injectable()
 export class StatsQuery implements IStatsQuery, IKernelQuery {

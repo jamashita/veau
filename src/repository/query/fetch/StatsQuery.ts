@@ -7,8 +7,8 @@ import { Stats } from '../../../domain/entity/Stats/Stats';
 import { StatsError } from '../../../domain/vo/StatsOutline/error/StatsError';
 import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
 import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IStatsQuery } from '../Interface/IStatsQuery';
-import { IFetchQuery } from './Interface/IFetchQuery';
+import { IStatsQuery } from '../interface/IStatsQuery';
+import { IFetchQuery } from './interface/IFetchQuery';
 
 @injectable()
 export class StatsQuery implements IStatsQuery<FetchError>, IFetchQuery {

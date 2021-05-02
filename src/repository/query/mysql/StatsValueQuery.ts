@@ -10,8 +10,8 @@ import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
 import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueError';
 import { StatsValue, StatsValueRow } from '../../../domain/vo/StatsValue/StatsValue';
 import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues';
-import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
-import { IMySQLQuery } from './Interface/IMySQLQuery';
+import { IStatsValueQuery } from '../interface/IStatsValueQuery';
+import { IMySQLQuery } from './interface/IMySQLQuery';
 
 @injectable()
 export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuery {

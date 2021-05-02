@@ -8,8 +8,8 @@ import { MockLanguageCommand } from '../../repository/command/mock/MockLanguageC
 import { MockRegionCommand } from '../../repository/command/mock/MockRegionCommand';
 import { kernel } from '../../container/Kernel';
 import { Type } from '../../container/Types';
-import { MockLanguageQuery } from '../../repository/query/Mock/MockLanguageQuery';
-import { MockRegionQuery } from '../../repository/query/Mock/MockRegionQuery';
+import { MockLanguageQuery } from '../../repository/query/mock/MockLanguageQuery';
+import { MockRegionQuery } from '../../repository/query/mock/MockRegionQuery';
 import { LanguageError } from '../../domain/vo/Language/error/LanguageError';
 import { Languages } from '../../domain/vo/Language/Languages';
 import { LocaleError } from '../../domain/vo/Locale/error/LocaleError';

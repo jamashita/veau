@@ -15,7 +15,7 @@ import { MockRegionID } from '../../../../domain/vo/Region/mock/MockRegionID';
 import { Region } from '../../../../domain/vo/Region/Region';
 import { Regions } from '../../../../domain/vo/Region/Regions';
 import { NoSuchElementError } from '../../error/NoSuchElementError';
-import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
+import { MockLocaleQuery } from '../../mock/MockLocaleQuery';
 import { RegionQuery } from '../RegionQuery';
 
 describe('RegionQuery', () => {

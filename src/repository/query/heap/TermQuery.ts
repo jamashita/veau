@@ -3,8 +3,8 @@ import { Superposition } from '@jamashita/genitore';
 import { injectable } from 'inversify';
 import { TermError } from '../../../domain/vo/Term/error/TermError';
 import { Terms } from '../../../domain/vo/Term/Terms';
-import { ITermQuery } from '../Interface/ITermQuery';
-import { IHeapQuery } from './Interface/IHeapQuery';
+import { ITermQuery } from '../interface/ITermQuery';
+import { IHeapQuery } from './interface/IHeapQuery';
 
 @injectable()
 export class TermQuery implements ITermQuery<HeapError>, IHeapQuery {

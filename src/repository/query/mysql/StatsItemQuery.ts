@@ -11,9 +11,9 @@ import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID';
 import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
 import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueError';
 import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues';
-import { IStatsItemQuery } from '../Interface/IStatsItemQuery';
-import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
-import { IMySQLQuery } from './Interface/IMySQLQuery';
+import { IStatsItemQuery } from '../interface/IStatsItemQuery';
+import { IStatsValueQuery } from '../interface/IStatsValueQuery';
+import { IMySQLQuery } from './interface/IMySQLQuery';
 
 @injectable()
 export class StatsItemQuery implements IStatsItemQuery<MySQLError>, IMySQLQuery {

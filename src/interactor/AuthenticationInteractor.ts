@@ -10,7 +10,7 @@ import { AccountError } from '../domain/vo/Account/error/AccountError';
 import { Password } from '../domain/vo/EntranceInformation/Password';
 import { logger } from '../infrastructure/Logger';
 import { NoSuchElementError } from '../repository/query/error/NoSuchElementError';
-import { IAccountQuery } from '../repository/query/Interface/IAccountQuery';
+import { IAccountQuery } from '../repository/query/interface/IAccountQuery';
 
 const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
 const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';

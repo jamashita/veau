@@ -7,7 +7,7 @@ import { Account } from '../../domain/vo/Account/Account';
 import { MockAccount } from '../../domain/vo/Account/mock/MockAccount';
 import { VeauAccount } from '../../domain/vo/VeauAccount/VeauAccount';
 import { NoSuchElementError } from '../../repository/query/error/NoSuchElementError';
-import { MockAccountQuery } from '../../repository/query/Mock/MockAccountQuery';
+import { MockAccountQuery } from '../../repository/query/mock/MockAccountQuery';
 import { AuthenticationInteractor } from '../AuthenticationInteractor';
 
 describe('AuthenticationInteractor', () => {

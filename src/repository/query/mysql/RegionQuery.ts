@@ -8,8 +8,8 @@ import { Region, RegionRow } from '../../../domain/vo/Region/Region';
 import { RegionID } from '../../../domain/vo/Region/RegionID';
 import { Regions } from '../../../domain/vo/Region/Regions';
 import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IRegionQuery } from '../Interface/IRegionQuery';
-import { IMySQLQuery } from './Interface/IMySQLQuery';
+import { IRegionQuery } from '../interface/IRegionQuery';
+import { IMySQLQuery } from './interface/IMySQLQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {

@@ -17,7 +17,7 @@ import { MockStatsID } from '../../../../domain/vo/StatsOutline/mock/MockStatsID
 import { StatsValueError } from '../../../../domain/vo/StatsValue/error/StatsValueError';
 import { MockStatsValue } from '../../../../domain/vo/StatsValue/mock/MockStatsValue';
 import { StatsValues } from '../../../../domain/vo/StatsValue/StatsValues';
-import { MockStatsValueQuery } from '../../Mock/MockStatsValueQuery';
+import { MockStatsValueQuery } from '../../mock/MockStatsValueQuery';
 import { StatsItemQuery } from '../StatsItemQuery';
 
 describe('StatsItemQuery', () => {

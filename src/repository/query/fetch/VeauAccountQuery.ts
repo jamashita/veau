@@ -6,8 +6,8 @@ import { Type } from '../../../container/Types';
 import { EntranceInformation } from '../../../domain/vo/EntranceInformation/EntranceInformation';
 import { VeauAccountError } from '../../../domain/vo/VeauAccount/error/VeauAccountError';
 import { VeauAccount } from '../../../domain/vo/VeauAccount/VeauAccount';
-import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
-import { IFetchQuery } from './Interface/IFetchQuery';
+import { IVeauAccountQuery } from '../interface/IVeauAccountQuery';
+import { IFetchQuery } from './interface/IFetchQuery';
 
 @injectable()
 export class VeauAccountQuery implements IVeauAccountQuery<FetchError>, IFetchQuery {

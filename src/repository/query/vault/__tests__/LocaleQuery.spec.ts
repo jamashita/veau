@@ -10,7 +10,7 @@ import { LocaleError } from '../../../../domain/vo/Locale/error/LocaleError';
 import { Locale } from '../../../../domain/vo/Locale/Locale';
 import { MockLocale } from '../../../../domain/vo/Locale/mock/MockLocale';
 import { MockLocaleCommand } from '../../../command/mock/MockLocaleCommand';
-import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
+import { MockLocaleQuery } from '../../mock/MockLocaleQuery';
 import { LocaleQuery } from '../LocaleQuery';
 
 describe('LocaleQuery', () => {

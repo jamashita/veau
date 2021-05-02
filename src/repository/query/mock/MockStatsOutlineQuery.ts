@@ -5,8 +5,8 @@ import { StatsOutlineError } from '../../../domain/vo/StatsOutline/error/StatsOu
 import { StatsOutline } from '../../../domain/vo/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../../domain/vo/StatsOutline/StatsOutlines';
 import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
-import { IMockQuery } from './Interface/IMockQuery';
+import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
+import { IMockQuery } from './interface/IMockQuery';
 
 export class MockStatsOutlineQuery implements IStatsOutlineQuery, IMockQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';

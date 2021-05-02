@@ -24,9 +24,9 @@ import { TermError } from '../../../../domain/vo/Term/error/TermError';
 import { Term } from '../../../../domain/vo/Term/Term';
 import { Terms } from '../../../../domain/vo/Term/Terms';
 import { MockVeauAccountID } from '../../../../domain/vo/VeauAccount/mock/MockVeauAccountID';
-import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
-import { MockStatsOutlineQuery } from '../../Mock/MockStatsOutlineQuery';
-import { MockTermQuery } from '../../Mock/MockTermQuery';
+import { MockLocaleQuery } from '../../mock/MockLocaleQuery';
+import { MockStatsOutlineQuery } from '../../mock/MockStatsOutlineQuery';
+import { MockTermQuery } from '../../mock/MockTermQuery';
 import { StatsListItemQuery } from '../StatsListItemQuery';
 
 describe('StatsListItemQuery', () => {

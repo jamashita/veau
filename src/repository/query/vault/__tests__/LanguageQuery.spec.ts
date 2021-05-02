@@ -15,7 +15,7 @@ import { MockLanguageID } from '../../../../domain/vo/Language/mock/MockLanguage
 import { Locale } from '../../../../domain/vo/Locale/Locale';
 import { MockLocale } from '../../../../domain/vo/Locale/mock/MockLocale';
 import { NoSuchElementError } from '../../error/NoSuchElementError';
-import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
+import { MockLocaleQuery } from '../../mock/MockLocaleQuery';
 import { LanguageQuery } from '../LanguageQuery';
 
 describe('LanguageQuery', () => {

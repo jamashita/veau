@@ -10,9 +10,9 @@ import { LanguageID } from '../../../domain/vo/Language/LanguageID';
 import { Languages } from '../../../domain/vo/Language/Languages';
 import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError';
 import { NoSuchElementError } from '../error/NoSuchElementError';
-import { ILanguageQuery } from '../Interface/ILanguageQuery';
-import { ILocaleQuery } from '../Interface/ILocaleQuery';
-import { IVaultQuery } from './Interface/IVaultQuery';
+import { ILanguageQuery } from '../interface/ILanguageQuery';
+import { ILocaleQuery } from '../interface/ILocaleQuery';
+import { IVaultQuery } from './interface/IVaultQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IVaultQuery {

@@ -27,10 +27,10 @@ import { StatsUnit } from '../../../../domain/vo/StatsOutline/StatsUnit';
 import { Term } from '../../../../domain/vo/Term/Term';
 import { TermID } from '../../../../domain/vo/Term/TermID';
 import { NoSuchElementError } from '../../error/NoSuchElementError';
-import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
-import { MockRegionQuery } from '../../Mock/MockRegionQuery';
-import { MockStatsItemQuery } from '../../Mock/MockStatsItemQuery';
-import { MockStatsOutlineQuery } from '../../Mock/MockStatsOutlineQuery';
+import { MockLanguageQuery } from '../../mock/MockLanguageQuery';
+import { MockRegionQuery } from '../../mock/MockRegionQuery';
+import { MockStatsItemQuery } from '../../mock/MockStatsItemQuery';
+import { MockStatsOutlineQuery } from '../../mock/MockStatsOutlineQuery';
 import { StatsQuery } from '../StatsQuery';
 
 describe('StatsQuery', () => {

@@ -1,4 +1,4 @@
-import { IQuery } from '../../Interface/IQuery';
+import { IQuery } from '../../interface/IQuery';
 
 export interface IMockQuery extends IQuery<string, 'Mock'> {
   readonly source: 'Mock';

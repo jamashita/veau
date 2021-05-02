@@ -6,8 +6,8 @@ import { Account, AccountRow } from '../../../domain/vo/Account/Account';
 import { AccountName } from '../../../domain/vo/Account/AccountName';
 import { AccountError } from '../../../domain/vo/Account/error/AccountError';
 import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IAccountQuery } from '../Interface/IAccountQuery';
-import { IMySQLQuery } from './Interface/IMySQLQuery';
+import { IAccountQuery } from '../interface/IAccountQuery';
+import { IMySQLQuery } from './interface/IMySQLQuery';
 
 @injectable()
 export class AccountQuery implements IAccountQuery<MySQLError>, IMySQLQuery {

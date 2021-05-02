@@ -15,8 +15,8 @@ import { StatsOutlines } from '../../domain/vo/StatsOutline/StatsOutlines';
 import { MockVeauAccountID } from '../../domain/vo/VeauAccount/mock/MockVeauAccountID';
 import { MockStatsCommand } from '../../repository/command/mock/MockStatsCommand';
 import { NoSuchElementError } from '../../repository/query/error/NoSuchElementError';
-import { MockStatsOutlineQuery } from '../../repository/query/Mock/MockStatsOutlineQuery';
-import { MockStatsQuery } from '../../repository/query/Mock/MockStatsQuery';
+import { MockStatsOutlineQuery } from '../../repository/query/mock/MockStatsOutlineQuery';
+import { MockStatsQuery } from '../../repository/query/mock/MockStatsQuery';
 import { StatsInteractor } from '../StatsInteractor';
 
 describe('StatsInteractor', () => {

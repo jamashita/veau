@@ -5,8 +5,8 @@ import { Type } from '../../../container/Types';
 import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError';
 import { Locale } from '../../../domain/vo/Locale/Locale';
 import { VAULT_LOCALE_KEY } from '../../../infrastructure/VeauHeap';
-import { ILocaleQuery } from '../Interface/ILocaleQuery';
-import { IHeapQuery } from './Interface/IHeapQuery';
+import { ILocaleQuery } from '../interface/ILocaleQuery';
+import { IHeapQuery } from './interface/IHeapQuery';
 
 @injectable()
 export class LocaleQuery implements ILocaleQuery<HeapError>, IHeapQuery {

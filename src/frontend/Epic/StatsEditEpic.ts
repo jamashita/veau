@@ -15,9 +15,9 @@ import { StatsOutline } from '../../domain/vo/StatsOutline/StatsOutline';
 import { VeauAccountID } from '../../domain/vo/VeauAccount/VeauAccountID';
 import { IStatsCommand } from '../../repository/command/interface/IStatsCommand';
 import { NoSuchElementError } from '../../repository/query/error/NoSuchElementError';
-import { ILanguageQuery } from '../../repository/query/Interface/ILanguageQuery';
-import { IRegionQuery } from '../../repository/query/Interface/IRegionQuery';
-import { IStatsQuery } from '../../repository/query/Interface/IStatsQuery';
+import { ILanguageQuery } from '../../repository/query/interface/ILanguageQuery';
+import { IRegionQuery } from '../../repository/query/interface/IRegionQuery';
+import { IStatsQuery } from '../../repository/query/interface/IStatsQuery';
 import {
   STATS_EDIT_DATA_DELETED,
   STATS_EDIT_DATA_FILLED,

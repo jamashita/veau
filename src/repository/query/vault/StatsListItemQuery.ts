@@ -14,11 +14,11 @@ import { StatsOutlines } from '../../../domain/vo/StatsOutline/StatsOutlines';
 import { TermError } from '../../../domain/vo/Term/error/TermError';
 import { Terms } from '../../../domain/vo/Term/Terms';
 import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
-import { ILocaleQuery } from '../Interface/ILocaleQuery';
-import { IStatsListItemQuery } from '../Interface/IStatsListItemQuery';
-import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
-import { ITermQuery } from '../Interface/ITermQuery';
-import { IVaultQuery } from './Interface/IVaultQuery';
+import { ILocaleQuery } from '../interface/ILocaleQuery';
+import { IStatsListItemQuery } from '../interface/IStatsListItemQuery';
+import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
+import { ITermQuery } from '../interface/ITermQuery';
+import { IVaultQuery } from './interface/IVaultQuery';
 
 @injectable()
 export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {

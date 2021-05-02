@@ -10,9 +10,9 @@ import { Language } from '../../domain/vo/Language/Language';
 import { Locale } from '../../domain/vo/Locale/Locale';
 import { SystemSupportLanguage } from '../../domain/vo/System/SystemSupportLanguage';
 import { VeauAccountID } from '../../domain/vo/VeauAccount/VeauAccountID';
-import { IIdentityQuery } from '../../repository/query/Interface/IIdentityQuery';
-import { ILanguageQuery } from '../../repository/query/Interface/ILanguageQuery';
-import { ILocaleQuery } from '../../repository/query/Interface/ILocaleQuery';
+import { IIdentityQuery } from '../../repository/query/interface/IIdentityQuery';
+import { ILanguageQuery } from '../../repository/query/interface/ILanguageQuery';
+import { ILocaleQuery } from '../../repository/query/interface/ILocaleQuery';
 import { LanguageIdentificationService } from '../../service/LanguageIdentificationService';
 import { IDENTITY_AUTHENTICATION_FAILED, IDENTITY_INITIALIZE, ON_LOAD, VeauAction } from '../Action';
 import {

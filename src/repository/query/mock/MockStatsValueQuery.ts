@@ -5,8 +5,8 @@ import { Project } from '@jamashita/lluvia-collection';
 import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID';
 import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueError';
 import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues';
-import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
-import { IMockQuery } from './Interface/IMockQuery';
+import { IStatsValueQuery } from '../interface/IStatsValueQuery';
+import { IMockQuery } from './interface/IMockQuery';
 
 export class MockStatsValueQuery implements IStatsValueQuery, IMockQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';

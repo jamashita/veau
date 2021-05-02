@@ -12,11 +12,11 @@ import { Region } from '../../../domain/vo/Region/Region';
 import { VeauAccountError } from '../../../domain/vo/VeauAccount/error/VeauAccountError';
 import { VeauAccount } from '../../../domain/vo/VeauAccount/VeauAccount';
 import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IIdentityQuery } from '../Interface/IIdentityQuery';
-import { ILanguageQuery } from '../Interface/ILanguageQuery';
-import { IRegionQuery } from '../Interface/IRegionQuery';
-import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
-import { IVaultQuery } from './Interface/IVaultQuery';
+import { IIdentityQuery } from '../interface/IIdentityQuery';
+import { ILanguageQuery } from '../interface/ILanguageQuery';
+import { IRegionQuery } from '../interface/IRegionQuery';
+import { IVeauAccountQuery } from '../interface/IVeauAccountQuery';
+import { IVaultQuery } from './interface/IVaultQuery';
 
 @injectable()
 export class IdentityQuery implements IIdentityQuery, IVaultQuery {
