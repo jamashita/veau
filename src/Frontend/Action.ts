@@ -400,4 +400,66 @@ export interface StatsEditSaveStatsAction extends Action {
 }
 
 export type VeauAction =
-  CallHistoryAction | ChangeAction | EntranceAccountNameTypedAction | EntrancePasswordTypedAction | EntranceUpdateAction | IdentityAuthenticateAction | IdentityAuthenticatedAction | IdentityAuthenticationFailedAction | IdentityIdentifiedAction | IdentityInitializeAction | LoadingFinishAction | LoadingStartAction | LocaleDefinedAction | LogoutAction | ModalCloseAction | ModalRaiseAction | NothingAction | NotificationAppearAction | NotificationDisappearAction | OnLoadAction | ProviderCloseAction | ProviderOpenAction | PushToEntranceAction | PushToStatsEditAction | PushToStatsListAction | StatsEditClearSelectingItemAction | StatsEditDataDeletedAction | StatsEditDataFilledAction | StatsEditInitializationFailureAction | StatsEditInitializeAction | StatsEditInvalidDateInputAction | StatsEditInvalidValueInputAction | StatsEditISO639SelectedAction | StatsEditISO3166SelectedAction | StatsEditItemNameTypedAction | StatsEditItemSaveAction | StatsEditNameTypedAction | StatsEditRemoveSelectingItemAction | StatsEditResetStatsAction | StatsEditResetStatsItemAction | StatsEditRowMovedAction | StatsEditRowSelectedAction | StatsEditSaveStatsAction | StatsEditSelectingItemNameTypedAction | StatsEditSelectItemAction | StatsEditStartDateDeterminedAction | StatsEditUnitTypedAction | StatsEditUpdateSelectingItemAction | StatsEditUpdateStatsAction | StatsEditUpdateStatsItemAction | StatsListCloseNewStatsModalAction | StatsListInitializeAction | StatsListISO639SelectedAction | StatsListISO3166SelectedAction | StatsListNameTypedAction | StatsListOpenNewStatsModalAction | StatsListResetStatsAction | StatsListResetStatsItemsAction | StatsListSaveStatsAction | StatsListTermSelectedAction | StatsListUnitTypedAction | StatsListUpdateStatsAction | StatsListUpdateStatsItemsAction;
+  CallHistoryAction
+  | ChangeAction
+  | EntranceAccountNameTypedAction
+  | EntrancePasswordTypedAction
+  | EntranceUpdateAction
+  | IdentityAuthenticateAction
+  | IdentityAuthenticatedAction
+  | IdentityAuthenticationFailedAction
+  | IdentityIdentifiedAction
+  | IdentityInitializeAction
+  | LoadingFinishAction
+  | LoadingStartAction
+  | LocaleDefinedAction
+  | LogoutAction
+  | ModalCloseAction
+  | ModalRaiseAction
+  | NothingAction
+  | NotificationAppearAction
+  | NotificationDisappearAction
+  | OnLoadAction
+  | ProviderCloseAction
+  | ProviderOpenAction
+  | PushToEntranceAction
+  | PushToStatsEditAction
+  | PushToStatsListAction
+  | StatsEditClearSelectingItemAction
+  | StatsEditDataDeletedAction
+  | StatsEditDataFilledAction
+  | StatsEditInitializationFailureAction
+  | StatsEditInitializeAction
+  | StatsEditInvalidDateInputAction
+  | StatsEditInvalidValueInputAction
+  | StatsEditISO639SelectedAction
+  | StatsEditISO3166SelectedAction
+  | StatsEditItemNameTypedAction
+  | StatsEditItemSaveAction
+  | StatsEditNameTypedAction
+  | StatsEditRemoveSelectingItemAction
+  | StatsEditResetStatsAction
+  | StatsEditResetStatsItemAction
+  | StatsEditRowMovedAction
+  | StatsEditRowSelectedAction
+  | StatsEditSaveStatsAction
+  | StatsEditSelectingItemNameTypedAction
+  | StatsEditSelectItemAction
+  | StatsEditStartDateDeterminedAction
+  | StatsEditUnitTypedAction
+  | StatsEditUpdateSelectingItemAction
+  | StatsEditUpdateStatsAction
+  | StatsEditUpdateStatsItemAction
+  | StatsListCloseNewStatsModalAction
+  | StatsListInitializeAction
+  | StatsListISO639SelectedAction
+  | StatsListISO3166SelectedAction
+  | StatsListNameTypedAction
+  | StatsListOpenNewStatsModalAction
+  | StatsListResetStatsAction
+  | StatsListResetStatsItemsAction
+  | StatsListSaveStatsAction
+  | StatsListTermSelectedAction
+  | StatsListUnitTypedAction
+  | StatsListUpdateStatsAction
+  | StatsListUpdateStatsItemsAction;

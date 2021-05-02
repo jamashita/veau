@@ -1,4 +1,4 @@
-import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, Catalogue, Mapper, Nullable } from '@jamashita/anden-type';
 import { Collection, ImmutableSequence, Quantity, ReadonlySequence } from '@jamashita/lluvia-collection';
 import { StatsListItem } from './StatsListItem';
 
@@ -41,6 +41,9 @@ export class StatsListItems extends Quantity<number, StatsListItem, 'StatsListIt
     if (this === other) {
       return true;
     }
+    if (!(other instanceof StatsListItems)) {
+      return false;
+    }
 
     return this.items.equals(other.items);
   }
@@ -57,8 +60,8 @@ export class StatsListItems extends Quantity<number, StatsListItem, 'StatsListIt
     return this.items.find(predicate);
   }
 
-  public forEach(enumerator: Enumerator<number, StatsListItem>): void {
-    this.items.forEach(iteration);
+  public forEach(catalogue: Catalogue<number, StatsListItem>): void {
+    this.items.forEach(catalogue);
   }
 
   public get(index: number): Nullable<StatsListItem> {

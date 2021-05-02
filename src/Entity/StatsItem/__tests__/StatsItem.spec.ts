@@ -2,17 +2,16 @@ import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
 import { ImmutableProject } from '@jamashita/lluvia-collection';
 import { AsOf } from '../../../VO/AsOf/AsOf';
+import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
-import { MockAsOfs } from '../../../VO/AsOf/Mock/MockAsOfs';
+import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
 import { NumericalValues } from '../../../VO/NumericalValue/NumericalValues';
-import { ValueContained } from '../../../VO/NumericalValue/ValueContained';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
 import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
-import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
 import { StatsValue } from '../../../VO/StatsValue/StatsValue';
 import { StatsValues } from '../../../VO/StatsValue/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
@@ -26,7 +25,7 @@ describe('StatsItem', () => {
       const name: MockStatsItemName = new MockStatsItemName();
       const statsValue: MockStatsValue = new MockStatsValue();
 
-      const statsItem: StatsItem = StatsItem.of(statsItemID, name, new MockStatsValues(statsValue));
+      const statsItem: StatsItem = StatsItem.of(statsItemID, name, StatsValues.ofSpread(statsValue));
 
       expect(statsItem.getStatsItemID()).toBe(statsItemID);
       expect(statsItem.getName()).toBe(name);
@@ -171,15 +170,15 @@ describe('StatsItem', () => {
             StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
-                value: ValueContained.of(10)
+                value: NumericalValue.of(10)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: ValueContained.of(100)
+                value: NumericalValue.of(100)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: ValueContained.of(1000)
+                value: NumericalValue.of(1000)
               })
             )
           ],
@@ -188,15 +187,15 @@ describe('StatsItem', () => {
             StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
-                value: ValueContained.of(11)
+                value: NumericalValue.of(11)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: ValueContained.of(101)
+                value: NumericalValue.of(101)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: ValueContained.of(1001)
+                value: NumericalValue.of(1001)
               })
             )
           ]
@@ -246,15 +245,15 @@ describe('StatsItem', () => {
       const statsValues: StatsValues = StatsValues.ofArray([
         new MockStatsValue({
           asOf: asOf1,
-          value: ValueContained.of(10)
+          value: NumericalValue.of(10)
         }),
         new MockStatsValue({
           asOf: asOf2,
-          value: ValueContained.of(100)
+          value: NumericalValue.of(100)
         }),
         new MockStatsValue({
           asOf: asOf3,
-          value: ValueContained.of(1000)
+          value: NumericalValue.of(1000)
         })
       ]);
 
@@ -284,19 +283,19 @@ describe('StatsItem', () => {
           asOf: new MockAsOf({
             day: 1
           }),
-          value: ValueContained.of(10)
+          value: NumericalValue.of(10)
         }),
         new MockStatsValue({
           asOf: new MockAsOf({
             day: 2
           }),
-          value: ValueContained.of(100)
+          value: NumericalValue.of(100)
         }),
         new MockStatsValue({
           asOf: new MockAsOf({
             day: 3
           }),
-          value: ValueContained.of(1000)
+          value: NumericalValue.of(1000)
         })
       ]);
 
@@ -469,12 +468,12 @@ describe('StatsItem', () => {
 
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
       const statsItemID2: MockStatsItemID = new MockStatsItemID();
-      const statsItem1: StatsItem = StatsItem.of(statsItemID1, new MockStatsItemName(), new MockStatsValues());
-      const statsItem2: StatsItem = StatsItem.of(statsItemID2, new MockStatsItemName(), new MockStatsValues());
+      const statsItem1: StatsItem = StatsItem.of(statsItemID1, new MockStatsItemName(), StatsValues.ofSpread());
+      const statsItem2: StatsItem = StatsItem.of(statsItemID2, new MockStatsItemName(), StatsValues.ofSpread());
       const statsItem3: StatsItem = StatsItem.of(
         statsItemID1,
         StatsItemName.of('name 3'),
-        new MockStatsValues(new MockStatsValue())
+        StatsValues.ofSpread(new MockStatsValue())
       );
 
       expect(statsItem1.equals(statsItem1)).toBe(true);
@@ -492,8 +491,8 @@ describe('StatsItem', () => {
         statsItemID,
         StatsItemName.of('name 1'),
         StatsValues.ofSpread(
-          StatsValue.of(AsOf.ofString('2000-01-01'), ValueContained.of(10)),
-          StatsValue.of(AsOf.ofString('2000-01-02'), ValueContained.of(100))
+          StatsValue.of(AsOf.ofString('2000-01-01'), NumericalValue.of(10)),
+          StatsValue.of(AsOf.ofString('2000-01-02'), NumericalValue.of(100))
         )
       );
 
@@ -527,7 +526,7 @@ describe('StatsItem', () => {
       const statsItem: StatsItem = StatsItem.of(
         new MockStatsItemID(),
         new MockStatsItemName(),
-        new MockStatsValues(
+        StatsValues.ofSpread(
           new MockStatsValue({
             asOf: asOf1
           }),
@@ -556,7 +555,7 @@ describe('StatsItem', () => {
       const statsItem: StatsItem = StatsItem.of(
         new MockStatsItemID(),
         StatsItemName.empty(),
-        new MockStatsValues(
+        StatsValues.ofSpread(
           new MockStatsValue({
             asOf: asOf1
           }),
@@ -580,7 +579,7 @@ describe('StatsItem', () => {
 
       const statsItemID: MockStatsItemID = new MockStatsItemID();
       const name: MockStatsItemName = new MockStatsItemName();
-      const statsValues: MockStatsValues = new MockStatsValues();
+      const statsValues: StatsValues = StatsValues.ofSpread();
 
       const statsItem: StatsItem = StatsItem.of(statsItemID, name, statsValues);
       const duplicated: StatsItem = statsItem.duplicate();
@@ -596,7 +595,7 @@ describe('StatsItem', () => {
     it('returns empty string when the date is empty', () => {
       expect.assertions(4);
 
-      const column: MockAsOfs = new MockAsOfs(
+      const column: AsOfs = AsOfs.ofSpread(
         new MockAsOf({
           day: 1
         }),
@@ -610,18 +609,18 @@ describe('StatsItem', () => {
       const statsItem: StatsItem = StatsItem.of(
         new MockStatsItemID(),
         new MockStatsItemName(),
-        new MockStatsValues(
+        StatsValues.ofSpread(
           new MockStatsValue({
             asOf: new MockAsOf({
               day: 1
             }),
-            value: ValueContained.of(1)
+            value: NumericalValue.of(1)
           }),
           new MockStatsValue({
             asOf: new MockAsOf({
               day: 3
             }),
-            value: ValueContained.of(3)
+            value: NumericalValue.of(3)
           })
         )
       );
@@ -642,12 +641,12 @@ describe('StatsItem', () => {
       const statsItem1: StatsItem = StatsItem.of(
         new MockStatsItemID(),
         StatsItemName.empty(),
-        new MockStatsValues()
+        StatsValues.ofSpread()
       );
       const statsItem2: StatsItem = StatsItem.of(
         new MockStatsItemID(),
         StatsItemName.of('name'),
-        new MockStatsValues()
+        StatsValues.ofSpread()
       );
 
       expect(statsItem1.isFilled()).toBe(false);
@@ -680,27 +679,27 @@ describe('StatsItem', () => {
       const statsItem1: StatsItem = StatsItem.of(
         statsItemID1,
         new MockStatsItemName(),
-        new MockStatsValues()
+        StatsValues.ofSpread()
       );
       const statsItem2: StatsItem = StatsItem.of(
         statsItemID2,
         new MockStatsItemName(),
-        new MockStatsValues()
+        StatsValues.ofSpread()
       );
       const statsItem3: StatsItem = StatsItem.of(
         statsItemID1,
         new MockStatsItemName('name 3'),
-        new MockStatsValues(new MockStatsValue())
+        StatsValues.ofSpread(new MockStatsValue())
       );
       const statsItem4: StatsItem = StatsItem.of(
         statsItemID1,
         new MockStatsItemName(),
-        new MockStatsValues(new MockStatsValue(), new MockStatsValue())
+        StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue())
       );
       const statsItem5: StatsItem = StatsItem.of(
         statsItemID2,
         new MockStatsItemName(),
-        new MockStatsValues(
+        StatsValues.ofSpread(
           new MockStatsValue({
             asOf: new MockAsOf({
               day: 2
@@ -711,7 +710,7 @@ describe('StatsItem', () => {
       const statsItem6: StatsItem = StatsItem.of(
         statsItemID1,
         new MockStatsItemName(),
-        new MockStatsValues()
+        StatsValues.ofSpread()
       );
 
       expect(statsItem1.same(statsItem1)).toBe(true);

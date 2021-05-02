@@ -8,6 +8,12 @@ import { AuthenticationMiddleware } from '../AuthenticationMiddleware';
 
 @Controller('/')
 class MockController {
+  @Delete('/')
+  @UseBefore(AuthenticationMiddleware)
+  public delete(@Res() res: Response): Response {
+    return res.sendStatus(StatusCodes.OK);
+  }
+
   @Get('/')
   @UseBefore(AuthenticationMiddleware)
   public get(@Res() res: Response): Response {
@@ -23,12 +29,6 @@ class MockController {
   @Put('/')
   @UseBefore(AuthenticationMiddleware)
   public put(@Res() res: Response): Response {
-    return res.sendStatus(StatusCodes.OK);
-  }
-
-  @Delete('/')
-  @UseBefore(AuthenticationMiddleware)
-  public delete(@Res() res: Response): Response {
     return res.sendStatus(StatusCodes.OK);
   }
 }

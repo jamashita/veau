@@ -4,9 +4,9 @@ import { ImmutableProject, ImmutableSequence, MockSequence } from '@jamashita/ll
 import sinon, { SinonSpy } from 'sinon';
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
-import { MockColumn } from '../../../VO/Coordinate/Mock/MockColumn';
-import { MockRow } from '../../../VO/Coordinate/Mock/MockRow';
-import { ValueContained } from '../../../VO/NumericalValue/ValueContained';
+import { Column } from '../../../VO/Coordinate/Column';
+import { Row } from '../../../VO/Coordinate/Row';
+import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
@@ -14,7 +14,6 @@ import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 import { StatsItemNames } from '../../../VO/StatsItem/StatsItemNames';
 import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
-import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
 import { StatsValues } from '../../../VO/StatsValue/StatsValues';
 import { MockStatsItem } from '../Mock/MockStatsItem';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
@@ -121,27 +120,27 @@ describe('StatsItems', () => {
         new Map<StatsItemID, StatsValues>([
           [
             StatsItemID.of(UUID.of(statsItemID1)),
-            new MockStatsValues(
+            StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf2,
-                value: ValueContained.of(1)
+                value: NumericalValue.of(1)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: ValueContained.of(3)
+                value: NumericalValue.of(3)
               })
             )
           ],
           [
             StatsItemID.of(UUID.of(statsItemID2)),
-            new MockStatsValues(
+            StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
-                value: ValueContained.of(0)
+                value: NumericalValue.of(0)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: ValueContained.of(3)
+                value: NumericalValue.of(3)
               })
             )
           ]
@@ -427,10 +426,9 @@ describe('StatsItems', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.get = spy;
-
       const items: StatsItems = StatsItems.of(sequence);
+
+      items.get = spy;
 
       items.get(0);
 
@@ -447,7 +445,7 @@ describe('StatsItems', () => {
       const statsItem3: MockStatsItem = new MockStatsItem();
       const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      statsItems.move(new MockColumn(0), new MockColumn(1));
+      statsItems.move(Column.of(0), Column.of(1));
 
       expect(statsItems.size()).toBe(3);
       expect(statsItems.get(0)).toBe(statsItem2);
@@ -463,7 +461,7 @@ describe('StatsItems', () => {
       const statsItem3: MockStatsItem = new MockStatsItem();
       const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      statsItems.move(new MockColumn(1), new MockColumn(2));
+      statsItems.move(Column.of(1), Column.of(2));
 
       expect(statsItems.size()).toBe(3);
       expect(statsItems.get(0)).toBe(statsItem1);
@@ -479,7 +477,7 @@ describe('StatsItems', () => {
       const statsItem3: MockStatsItem = new MockStatsItem();
       const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      statsItems.move(new MockColumn(2), new MockColumn(0));
+      statsItems.move(Column.of(2), Column.of(0));
 
       expect(statsItems.size()).toBe(3);
       expect(statsItems.get(0)).toBe(statsItem3);
@@ -498,7 +496,7 @@ describe('StatsItems', () => {
       const statsItem4: MockStatsItem = new MockStatsItem();
       const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      statsItems.replace(statsItem4, new MockRow(0));
+      statsItems.replace(statsItem4, Row.of(0));
 
       expect(statsItems.size()).toBe(3);
       expect(statsItems.get(0)).toBe(statsItem4);
@@ -515,7 +513,7 @@ describe('StatsItems', () => {
       const statsItem4: MockStatsItem = new MockStatsItem();
       const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      statsItems.replace(statsItem4, new MockRow(1));
+      statsItems.replace(statsItem4, Row.of(1));
 
       expect(statsItems.size()).toBe(3);
       expect(statsItems.get(0)).not.toBe(statsItem4);
@@ -532,7 +530,7 @@ describe('StatsItems', () => {
       const statsItem4: MockStatsItem = new MockStatsItem();
       const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      statsItems.replace(statsItem4, new MockRow(2));
+      statsItems.replace(statsItem4, Row.of(2));
 
       expect(statsItems.size()).toBe(3);
       expect(statsItems.get(0)).not.toBe(statsItem4);
@@ -606,7 +604,7 @@ describe('StatsItems', () => {
       expect.assertions(9);
 
       const statsItem1: MockStatsItem = new MockStatsItem({
-        values: new MockStatsValues(
+        values: StatsValues.ofSpread(
           new MockStatsValue({
             asOf: new MockAsOf({
               day: 1
@@ -625,7 +623,7 @@ describe('StatsItems', () => {
         )
       });
       const statsItem2: MockStatsItem = new MockStatsItem({
-        values: new MockStatsValues(
+        values: StatsValues.ofSpread(
           new MockStatsValue({
             asOf: new MockAsOf({
               day: 2
@@ -644,7 +642,7 @@ describe('StatsItems', () => {
         )
       });
       const statsItem3: MockStatsItem = new MockStatsItem({
-        values: new MockStatsValues(
+        values: StatsValues.ofSpread(
           new MockStatsValue({
             asOf: new MockAsOf({
               day: 4
@@ -712,10 +710,9 @@ describe('StatsItems', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.contains = spy;
-
       const items: StatsItems = StatsItems.of(sequence);
+
+      items.contains = spy;
 
       items.contains(new MockStatsItem());
 
@@ -733,10 +730,9 @@ describe('StatsItems', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.size = spy;
-
       const items: StatsItems = StatsItems.of(sequence);
+
+      items.size = spy;
 
       items.size();
 
@@ -754,10 +750,9 @@ describe('StatsItems', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.forEach = spy;
-
       const items: StatsItems = StatsItems.of(sequence);
+
+      items.forEach = spy;
 
       items.forEach(() => {
         // NOOP
@@ -801,10 +796,9 @@ describe('StatsItems', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.isEmpty = spy;
-
       const items: StatsItems = StatsItems.of(sequence);
+
+      items.isEmpty = spy;
 
       items.isEmpty();
 
@@ -832,10 +826,9 @@ describe('StatsItems', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.equals = spy;
-
       const items: StatsItems = StatsItems.of(sequence);
+
+      items.equals = spy;
 
       items.equals(StatsItems.empty());
 
@@ -885,10 +878,9 @@ describe('StatsItems', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.toString = spy;
-
       const items: StatsItems = StatsItems.of(sequence);
+
+      items.toString = spy;
 
       items.toString();
 
@@ -934,10 +926,9 @@ describe('StatsItems', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.every = spy;
-
       const items: StatsItems = StatsItems.of(sequence);
+
+      items.every = spy;
 
       items.every(() => {
         return true;
@@ -957,10 +948,9 @@ describe('StatsItems', () => {
       ]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.some = spy;
-
       const items: StatsItems = StatsItems.of(sequence);
+
+      items.some = spy;
 
       items.some(() => {
         return true;
@@ -1010,7 +1000,7 @@ describe('StatsItems', () => {
 
       const statsItems1: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
-          values: new MockStatsValues()
+          values: StatsValues.ofSpread()
         })
       ]);
       const statsItems2: StatsItems = StatsItems.ofArray([
@@ -1027,9 +1017,9 @@ describe('StatsItems', () => {
 
       const statsItems: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
-          values: new MockStatsValues(
+          values: StatsValues.ofSpread(
             new MockStatsValue({
-              value: ValueContained.of()
+              value: NumericalValue.of(0)
             })
           )
         })

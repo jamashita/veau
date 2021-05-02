@@ -6,8 +6,8 @@ import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { Account, AccountRow } from '../../../VO/Account/Account';
+import { AccountName } from '../../../VO/Account/AccountName';
 import { AccountError } from '../../../VO/Account/Error/AccountError';
-import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { AccountQuery } from '../AccountQuery';
 
@@ -28,7 +28,7 @@ describe('AccountQuery', () => {
     it('normal case', async () => {
       expect.assertions(7);
 
-      const accountName: MockAccountName = new MockAccountName('moloque');
+      const accountName: AccountName = AccountName.of('moloque');
       const rows: Array<AccountRow> = [
         {
           veauAccountID: UUID.v4().get(),
@@ -82,7 +82,7 @@ describe('AccountQuery', () => {
     it('returns Dead because MySQL.execute returns 0 results', async () => {
       expect.assertions(2);
 
-      const name: MockAccountName = new MockAccountName();
+      const name: AccountName = AccountName.empty();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
@@ -102,7 +102,7 @@ describe('AccountQuery', () => {
     it('returns Dead because veauAccountID is malformat', async () => {
       expect.assertions(2);
 
-      const name: MockAccountName = new MockAccountName();
+      const name: AccountName = AccountName.empty();
       const rows: Array<AccountRow> = [
         {
           veauAccountID: 'malformat uuid',
@@ -131,7 +131,7 @@ describe('AccountQuery', () => {
     it('returns Dead because the client throws MySQLError', async () => {
       expect.assertions(2);
 
-      const name: MockAccountName = new MockAccountName();
+      const name: AccountName = AccountName.empty();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();

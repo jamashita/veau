@@ -5,7 +5,7 @@ import { Schrodinger } from '@jamashita/genitore';
 import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
+import { AccountName } from '../../../VO/Account/AccountName';
 import { MockEntranceInformation } from '../../../VO/EntranceInformation/Mock/MockEntranceInformation';
 import { MockPassword } from '../../../VO/EntranceInformation/Mock/MockPassword';
 import { VeauAccountError } from '../../../VO/VeauAccount/Error/VeauAccountError';
@@ -13,6 +13,7 @@ import { VeauAccount, VeauAccountJSON } from '../../../VO/VeauAccount/VeauAccoun
 import { VeauAccountQuery } from '../VeauAccountQuery';
 
 describe('VeauAccountQuery', () => {
+  // TODO
   // eslint-disable-next-line jest/no-commented-out-tests
   // describe('container', () => {
   // eslint-disable-next-line jest/no-commented-out-tests
@@ -131,7 +132,7 @@ describe('VeauAccountQuery', () => {
       });
 
       const info: MockEntranceInformation = new MockEntranceInformation({
-        account: new MockAccountName('name'),
+        account: AccountName.of('name'),
         password: new MockPassword('password')
       });
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);

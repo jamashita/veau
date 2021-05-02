@@ -55,8 +55,8 @@ export class Spreadsheet extends React.Component<Props, State> {
         manualRowMove={true}
         autoColumnSize={true}
         autoRowSize={true}
-        className='htRight'
-        selectionMode='range'
+        className="htRight"
+        selectionMode="range"
         height={SPREADSHEET_HEIGHT}
         enterMoves={{
           row: 0,
@@ -139,7 +139,7 @@ export class Spreadsheet extends React.Component<Props, State> {
 
           return true;
         }}
-        licenseKey='non-commercial-and-evaluation'
+        licenseKey="non-commercial-and-evaluation"
       />
     );
   }

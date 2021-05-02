@@ -19,11 +19,11 @@ import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { StatsError } from '../../../VO/StatsOutline/Error/StatsError';
 import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
-import { MockStatsName } from '../../../VO/StatsOutline/Mock/MockStatsName';
 import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
-import { MockStatsUnit } from '../../../VO/StatsOutline/Mock/MockStatsUnit';
 import { MockUpdatedAt } from '../../../VO/StatsOutline/Mock/MockUpdatedAt';
+import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsOutline } from '../../../VO/StatsOutline/StatsOutline';
+import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { Term } from '../../../VO/Term/Term';
 import { TermID } from '../../../VO/Term/TermID';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
@@ -51,8 +51,8 @@ describe('StatsQuery', () => {
       expect.assertions(9);
 
       const statsID: MockStatsID = new MockStatsID();
-      const name: MockStatsName = new MockStatsName();
-      const unit: MockStatsUnit = new MockStatsUnit();
+      const name: StatsName = StatsName.empty();
+      const unit: StatsUnit = StatsUnit.empty();
       const updatedAt: MockUpdatedAt = new MockUpdatedAt();
       const outline: MockStatsOutline = new MockStatsOutline({
         statsID,

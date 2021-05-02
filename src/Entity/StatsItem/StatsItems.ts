@@ -1,4 +1,4 @@
-import { BinaryPredicate, Cloneable, Enumerator, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, Catalogue, Cloneable, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
 import {
   Collection,
   MutableSequence,
@@ -20,6 +20,10 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
   public readonly noun: 'StatsItems' = 'StatsItems';
   private items: MutableSequence<StatsItem>;
 
+  public static empty(): StatsItems {
+    return new StatsItems(MutableSequence.empty<StatsItem>());
+  }
+
   public static of(items: ReadonlySequence<StatsItem>): StatsItems {
     if (items.isEmpty()) {
       return StatsItems.empty();
@@ -30,10 +34,6 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
 
   public static ofArray(items: ReadonlyArray<StatsItem>): StatsItems {
     return StatsItems.of(MutableSequence.ofArray<StatsItem>(items));
-  }
-
-  public static ofSpread(...items: Array<StatsItem>): StatsItems {
-    return StatsItems.ofArray(items);
   }
 
   public static ofJSON(json: ReadonlyArray<StatsItemJSON>): StatsItems {
@@ -52,6 +52,10 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     return StatsItems.ofArray(arr);
   }
 
+  public static ofSpread(...items: Array<StatsItem>): StatsItems {
+    return StatsItems.ofArray(items);
+  }
+
   public static validate(n: unknown): n is Array<StatsItemJSON> {
     if (!Kind.isArray(n)) {
       return false;
@@ -62,29 +66,13 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     });
   }
 
-  public static empty(): StatsItems {
-    return new StatsItems(MutableSequence.empty<StatsItem>());
-  }
-
   protected constructor(items: MutableSequence<StatsItem>) {
     super();
     this.items = items;
   }
 
-  public get(index: number): Nullable<StatsItem> {
-    return this.items.get(index);
-  }
-
   public contains(value: StatsItem): boolean {
     return this.items.contains(value);
-  }
-
-  public size(): number {
-    return this.items.size();
-  }
-
-  public forEach(iteration: Enumerator<number, StatsItem>): void {
-    this.items.forEach(iteration);
   }
 
   public duplicate(): StatsItems {
@@ -95,38 +83,19 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     return StatsItems.of(this.items.duplicate());
   }
 
-  public isEmpty(): boolean {
-    return this.items.isEmpty();
-  }
-
-  public equals(other: StatsItems): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof StatsItems)) {
+      return false;
     }
 
     return this.items.equals(other.items);
   }
 
-  public toJSON(): Array<StatsItemJSON> {
-    return this.items.toArray().map<StatsItemJSON>((item: StatsItem) => {
-      return item.toJSON();
-    });
-  }
-
-  public serialize(): string {
-    return this.items.toString();
-  }
-
   public every(predicate: BinaryPredicate<StatsItem, number>): boolean {
     return this.items.every(predicate);
-  }
-
-  public some(predicate: BinaryPredicate<StatsItem, number>): boolean {
-    return this.items.some(predicate);
-  }
-
-  public values(): Iterable<StatsItem> {
-    return this.items.values();
   }
 
   public filter(predicate: BinaryPredicate<StatsItem, number>): Collection<number, StatsItem> {
@@ -137,6 +106,18 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     return this.items.find(predicate);
   }
 
+  public forEach(catalogue: Catalogue<number, StatsItem>): void {
+    this.items.forEach(catalogue);
+  }
+
+  public get(index: number): Nullable<StatsItem> {
+    return this.items.get(index);
+  }
+
+  public isEmpty(): boolean {
+    return this.items.isEmpty();
+  }
+
   public iterator(): Iterator<[number, StatsItem]> {
     return this.items.iterator();
   }
@@ -145,14 +126,36 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     return this.items.map<W>(mapper);
   }
 
+  public serialize(): string {
+    return this.items.toString();
+  }
+
+  public size(): number {
+    return this.items.size();
+  }
+
+  public some(predicate: BinaryPredicate<StatsItem, number>): boolean {
+    return this.items.some(predicate);
+  }
+
+  public toJSON(): Array<StatsItemJSON> {
+    return this.items.toArray().map<StatsItemJSON>((item: StatsItem) => {
+      return item.toJSON();
+    });
+  }
+
+  public values(): Iterable<StatsItem> {
+    return this.items.values();
+  }
+
   public add(statsItem: StatsItem): void {
     this.items.add(statsItem);
   }
 
-  public getNames(): StatsItemNames {
-    return StatsItemNames.of(this.items.map<StatsItemName>((item: StatsItem) => {
-      return item.getName();
-    }));
+  public areFilled(): boolean {
+    return this.items.every((statsItem: StatsItem) => {
+      return statsItem.isFilled();
+    });
   }
 
   public getAsOfs(): AsOfs {
@@ -161,6 +164,24 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     });
 
     return AsOfs.merge(...all);
+  }
+
+  public getNames(): StatsItemNames {
+    return StatsItemNames.of(this.items.map<StatsItemName>((item: StatsItem) => {
+      return item.getName();
+    }));
+  }
+
+  public haveValues(): boolean {
+    if (this.items.isEmpty()) {
+      return false;
+    }
+
+    const rowLengths: Array<number> = [...this.items.values()].map<number>((item: StatsItem) => {
+      return item.getValues().size();
+    });
+
+    return !rowLengths.includes(0);
   }
 
   public maxNameLength(): number {
@@ -192,34 +213,16 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     }
   }
 
-  public replace(statsItem: StatsItem, to: Row): void {
-    const toValue: number = to.get();
-
-    this.items.set(toValue, statsItem);
-  }
-
   public remove(statsItem: StatsItem): void {
     this.items = this.items.filter((item: StatsItem) => {
       return !item.equals(statsItem);
     });
   }
 
-  public areFilled(): boolean {
-    return this.items.every((statsItem: StatsItem) => {
-      return statsItem.isFilled();
-    });
-  }
+  public replace(statsItem: StatsItem, to: Row): void {
+    const toValue: number = to.get();
 
-  public haveValues(): boolean {
-    if (this.items.isEmpty()) {
-      return false;
-    }
-
-    const rowLengths: Array<number> = [...this.items.values()].map<number>((item: StatsItem) => {
-      return item.getValues().size();
-    });
-
-    return !rowLengths.includes(0);
+    this.items.set(toValue, statsItem);
   }
 
   public same(other: StatsItems): boolean {

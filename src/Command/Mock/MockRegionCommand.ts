@@ -7,11 +7,11 @@ export class MockRegionCommand<E extends DataSourceError = DataSourceError> impl
   public readonly noun: 'RegionCommand' = 'RegionCommand';
   public readonly source: 'Mock' = 'Mock';
 
-  public insertAll(): Superposition<void, E> {
+  public deleteAll(): Superposition<void, E> {
     throw new UnimplementedError();
   }
 
-  public deleteAll(): Superposition<void, E> {
+  public insertAll(): Superposition<void, E> {
     throw new UnimplementedError();
   }
 }

@@ -44,6 +44,16 @@ export class Stats extends Entity<StatsID, Stats> {
   private readonly startDate: Nullable<AsOf>;
   private columns: Nullable<AsOfs>;
 
+  public static default(): Stats {
+    return Stats.of(
+      StatsOutline.default(),
+      Language.empty(),
+      Region.empty(),
+      Term.DAILY,
+      StatsItems.empty()
+    );
+  }
+
   public static of(
     outline: StatsOutline,
     language: Language,
@@ -101,16 +111,6 @@ export class Stats extends Entity<StatsID, Stats> {
     return true;
   }
 
-  public static default(): Stats {
-    return Stats.of(
-      StatsOutline.default(),
-      Language.empty(),
-      Region.empty(),
-      Term.DAILY,
-      StatsItems.empty()
-    );
-  }
-
   protected constructor(
     outline: StatsOutline,
     language: Language,
@@ -129,10 +129,6 @@ export class Stats extends Entity<StatsID, Stats> {
     this.columns = null;
   }
 
-  public getIdentifier(): StatsID {
-    return this.outline.getStatsID();
-  }
-
   public duplicate(): Stats {
     return Stats.of(
       this.outline,
@@ -142,6 +138,10 @@ export class Stats extends Entity<StatsID, Stats> {
       this.items.duplicate(),
       this.startDate
     );
+  }
+
+  public getIdentifier(): StatsID {
+    return this.outline.getStatsID();
   }
 
   public serialize(): string {
@@ -155,57 +155,60 @@ export class Stats extends Entity<StatsID, Stats> {
     return properties.join(' ');
   }
 
-  public toJSON(): StatsJSON {
-    return {
-      outline: this.outline.toJSON(),
-      language: this.language.toJSON(),
-      region: this.region.toJSON(),
-      items: this.items.toJSON()
-    };
+  public deleteData(coordinate: Coordinate): void {
+    const asOf: Nullable<AsOf> = this.getColumn(coordinate.getColumn());
+
+    if (Kind.isNull(asOf)) {
+      return;
+    }
+
+    const item: Nullable<StatsItem> = this.getRow(coordinate.getRow());
+
+    if (Kind.isNull(item)) {
+      return;
+    }
+
+    item.delete(asOf);
+    this.recalculate();
   }
 
-  public getStatsID(): StatsID {
-    return this.outline.getStatsID();
+  public getChart(): Array<{ [key: string]: number | string; }> {
+    const chartItems: Map<string, Chart> = new Map<string, Chart>();
+
+    this.getColumns().forEach((column: AsOf) => {
+      const asOf: string = column.toString();
+
+      chartItems.set(asOf, {
+        name: asOf
+      });
+    });
+    this.items.forEach((statsItem: StatsItem) => {
+      statsItem.getValues().forEach((statsValue: StatsValue) => {
+        const line: Ambiguous<Chart> = chartItems.get(statsValue.getAsOf().toString());
+
+        if (!Kind.isUndefined(line)) {
+          line[statsItem.getName().get()] = statsValue.getValue().get();
+        }
+      });
+    });
+
+    const chart: Array<Chart> = [];
+
+    chartItems.forEach((value: Chart) => {
+      chart.push(value);
+    });
+
+    return chart;
   }
 
-  public getLanguage(): Language {
-    return this.language;
-  }
+  private getColumn(column: Column): Nullable<AsOf> {
+    const columns: Nullable<AsOfs> = this.getColumns();
 
-  public getRegion(): Region {
-    return this.region;
-  }
+    if (Kind.isNull(columns)) {
+      return null;
+    }
 
-  public getTerm(): Term {
-    return this.term;
-  }
-
-  public getName(): StatsName {
-    return this.outline.getName();
-  }
-
-  public getUnit(): StatsUnit {
-    return this.outline.getUnit();
-  }
-
-  public getUpdatedAt(): UpdatedAt {
-    return this.outline.getUpdatedAt();
-  }
-
-  public getOutline(): StatsOutline {
-    return this.outline;
-  }
-
-  public getItems(): StatsItems {
-    return this.items;
-  }
-
-  public getStartDate(): Nullable<AsOf> {
-    return this.startDate;
-  }
-
-  public getRow(row: Row): Nullable<StatsItem> {
-    return this.items.get(row.get());
+    return columns.get(column.get());
   }
 
   public getColumns(): AsOfs {
@@ -239,24 +242,38 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.columns;
   }
 
-  private getColumn(column: Column): Nullable<AsOf> {
-    const columns: Nullable<AsOfs> = this.getColumns();
-
-    if (Kind.isNull(columns)) {
-      return null;
-    }
-
-    return columns.get(column.get());
+  public getData(): Array<Array<string>> {
+    return this.items.map<Array<string>>((item: StatsItem) => {
+      return item.getValuesByColumn(this.getColumns()).row();
+    }).toArray();
   }
 
-  private recalculate(): void {
-    this.columns = null;
-
-    this.getColumns();
-  }
-
-  public getRowHeaders(): StatsItemNames {
+  public getItemNames(): StatsItemNames {
     return this.items.getNames();
+  }
+
+  public getItems(): StatsItems {
+    return this.items;
+  }
+
+  public getLanguage(): Language {
+    return this.language;
+  }
+
+  public getName(): StatsName {
+    return this.outline.getName();
+  }
+
+  public getOutline(): StatsOutline {
+    return this.outline;
+  }
+
+  public getRegion(): Region {
+    return this.region;
+  }
+
+  public getRow(row: Row): Nullable<StatsItem> {
+    return this.items.get(row.get());
   }
 
   public getRowHeaderSize(): HeaderSize {
@@ -269,79 +286,28 @@ export class Stats extends Entity<StatsID, Stats> {
     return HeaderSize.of(length);
   }
 
-  public setData(coordinate: Coordinate, value: NumericalValue): void {
-    const item: Nullable<StatsItem> = this.items.get(coordinate.getRow().get());
-
-    if (Kind.isNull(item)) {
-      return;
-    }
-
-    const asOf: Nullable<AsOf> = this.getColumn(coordinate.getColumn());
-
-    if (Kind.isNull(asOf)) {
-      return;
-    }
-
-    const statsValue: StatsValue = StatsValue.of(asOf, value);
-
-    item.set(statsValue);
-    this.recalculate();
-  }
-
-  public deleteData(coordinate: Coordinate): void {
-    const asOf: Nullable<AsOf> = this.getColumn(coordinate.getColumn());
-
-    if (Kind.isNull(asOf)) {
-      return;
-    }
-
-    const item: Nullable<StatsItem> = this.getRow(coordinate.getRow());
-
-    if (Kind.isNull(item)) {
-      return;
-    }
-
-    item.delete(asOf);
-    this.recalculate();
-  }
-
-  public getData(): Array<Array<string>> {
-    return this.items.map<Array<string>>((item: StatsItem) => {
-      return item.getValuesByColumn(this.getColumns()).row();
-    }).toArray();
-  }
-
-  public getChart(): Array<{ [key: string]: number | string; }> {
-    const chartItems: Map<string, Chart> = new Map<string, Chart>();
-
-    this.getColumns().forEach((column: AsOf) => {
-      const asOf: string = column.toString();
-
-      chartItems.set(asOf, {
-        name: asOf
-      });
-    });
-    this.items.forEach((statsItem: StatsItem) => {
-      statsItem.getValues().forEach((statsValue: StatsValue) => {
-        const line: Ambiguous<Chart> = chartItems.get(statsValue.getAsOf().toString());
-
-        if (!Kind.isUndefined(line)) {
-          line[statsItem.getName().get()] = statsValue.getValue().get();
-        }
-      });
-    });
-
-    const chart: Array<Chart> = [];
-
-    chartItems.forEach((value: Chart) => {
-      chart.push(value);
-    });
-
-    return chart;
-  }
-
-  public getItemNames(): StatsItemNames {
+  public getRowHeaders(): StatsItemNames {
     return this.items.getNames();
+  }
+
+  public getStartDate(): Nullable<AsOf> {
+    return this.startDate;
+  }
+
+  public getStatsID(): StatsID {
+    return this.outline.getStatsID();
+  }
+
+  public getTerm(): Term {
+    return this.term;
+  }
+
+  public getUnit(): StatsUnit {
+    return this.outline.getUnit();
+  }
+
+  public getUpdatedAt(): UpdatedAt {
+    return this.outline.getUpdatedAt();
   }
 
   public isDetermined(): boolean {
@@ -373,16 +339,22 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.items.areFilled();
   }
 
-  public replaceItem(statsItem: StatsItem, to: Row): void {
-    this.items.replace(statsItem, to);
-  }
-
   public moveItem(from: Column, to: Column): void {
     this.items.move(from, to);
   }
 
+  private recalculate(): void {
+    this.columns = null;
+
+    this.getColumns();
+  }
+
   public removeItem(statsItem: StatsItem): void {
     this.items.remove(statsItem);
+  }
+
+  public replaceItem(statsItem: StatsItem, to: Row): void {
+    this.items.replace(statsItem, to);
   }
 
   public same(other: Stats): boolean {
@@ -406,5 +378,33 @@ export class Stats extends Entity<StatsID, Stats> {
     }
 
     return true;
+  }
+
+  public setData(coordinate: Coordinate, value: NumericalValue): void {
+    const item: Nullable<StatsItem> = this.items.get(coordinate.getRow().get());
+
+    if (Kind.isNull(item)) {
+      return;
+    }
+
+    const asOf: Nullable<AsOf> = this.getColumn(coordinate.getColumn());
+
+    if (Kind.isNull(asOf)) {
+      return;
+    }
+
+    const statsValue: StatsValue = StatsValue.of(asOf, value);
+
+    item.set(statsValue);
+    this.recalculate();
+  }
+
+  public toJSON(): StatsJSON {
+    return {
+      outline: this.outline.toJSON(),
+      language: this.language.toJSON(),
+      region: this.region.toJSON(),
+      items: this.items.toJSON()
+    };
   }
 }

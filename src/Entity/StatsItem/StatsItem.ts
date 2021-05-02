@@ -28,6 +28,10 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
   private readonly name: StatsItemName;
   private values: StatsValues;
 
+  public static default(): StatsItem {
+    return StatsItem.of(StatsItemID.generate(), StatsItemName.empty(), StatsValues.empty());
+  }
+
   public static of(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues): StatsItem {
     return new StatsItem(statsItemID, name, values);
   }
@@ -94,10 +98,6 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     return true;
   }
 
-  public static default(): StatsItem {
-    return StatsItem.of(StatsItemID.generate(), StatsItemName.empty(), StatsValues.empty());
-  }
-
   protected constructor(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues) {
     super();
     this.statsItemID = statsItemID;
@@ -105,20 +105,12 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     this.values = values;
   }
 
-  public getIdentifier(): StatsItemID {
-    return this.statsItemID;
-  }
-
   public duplicate(): StatsItem {
     return new StatsItem(this.statsItemID, this.name, this.values.duplicate());
   }
 
-  public toJSON(): StatsItemJSON {
-    return {
-      statsItemID: this.statsItemID.get().get(),
-      name: this.name.get(),
-      values: this.values.toJSON()
-    };
+  public getIdentifier(): StatsItemID {
+    return this.statsItemID;
   }
 
   public serialize(): string {
@@ -131,28 +123,24 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     return properties.join(' ');
   }
 
-  public getStatsItemID(): StatsItemID {
-    return this.statsItemID;
-  }
-
-  public getName(): StatsItemName {
-    return this.name;
-  }
-
-  public getValues(): StatsValues {
-    return this.values;
+  public delete(asOf: AsOf): void {
+    this.values = this.values.delete(asOf);
   }
 
   public getAsOfs(): AsOfs {
     return this.values.getAsOfs();
   }
 
-  public set(statsValue: StatsValue): void {
-    this.values = this.values.set(statsValue);
+  public getName(): StatsItemName {
+    return this.name;
   }
 
-  public delete(asOf: AsOf): void {
-    this.values = this.values.delete(asOf);
+  public getStatsItemID(): StatsItemID {
+    return this.statsItemID;
+  }
+
+  public getValues(): StatsValues {
+    return this.values;
   }
 
   public getValuesByColumn(columns: AsOfs): NumericalValues {
@@ -197,5 +185,17 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     }
 
     return true;
+  }
+
+  public set(statsValue: StatsValue): void {
+    this.values = this.values.set(statsValue);
+  }
+
+  public toJSON(): StatsItemJSON {
+    return {
+      statsItemID: this.statsItemID.get().get(),
+      name: this.name.get(),
+      values: this.values.toJSON()
+    };
   }
 }

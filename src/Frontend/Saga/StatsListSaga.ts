@@ -55,16 +55,6 @@ export class StatsListSaga {
     this.statsCommand = statsCommand;
   }
 
-  public* init(): IterableIterator<unknown> {
-    yield fork(this.findStatsList);
-    yield fork(this.nameTyped);
-    yield fork(this.unitTyped);
-    yield fork(this.iso639Selected);
-    yield fork(this.iso3166Selected);
-    yield fork(this.termSelected);
-    yield fork(this.save);
-  }
-
   private* findStatsList(): SagaIterator<unknown> {
     while (true) {
       yield take(STATS_LIST_INITIALIZE);
@@ -89,38 +79,19 @@ export class StatsListSaga {
     }
   }
 
-  private* nameTyped(): SagaIterator<unknown> {
-    while (true) {
-      const action: StatsListNameTypedAction = yield take(STATS_LIST_NAME_TYPED);
-      const state: State = yield select();
-
-      const {
-        statsList: {
-          stats
-        }
-      } = state;
-      const {
-        name
-      } = action;
-
-      const newStats: Stats = Stats.of(
-        stats.getStatsID(),
-        stats.getLanguage(),
-        stats.getRegion(),
-        stats.getTerm(),
-        name,
-        stats.getUnit(),
-        stats.getUpdatedAt(),
-        stats.getItems()
-      );
-
-      yield put(updateNewStatsDisplay(newStats));
-    }
+  public* init(): IterableIterator<unknown> {
+    yield fork(this.findStatsList);
+    yield fork(this.nameTyped);
+    yield fork(this.unitTyped);
+    yield fork(this.iso639Selected);
+    yield fork(this.iso3166Selected);
+    yield fork(this.termSelected);
+    yield fork(this.save);
   }
 
-  private* unitTyped(): SagaIterator<unknown> {
+  private* iso3166Selected(): SagaIterator<unknown> {
     while (true) {
-      const action: StatsListUnitTypedAction = yield take(STATS_LIST_UNIT_TYPED);
+      const action: StatsListISO3166SelectedAction = yield take(STATS_LIST_ISO3166_SELECTED);
       const state: State = yield select();
 
       const {
@@ -128,22 +99,27 @@ export class StatsListSaga {
           stats
         }
       } = state;
-      const {
-        unit
-      } = action;
 
-      const newStats: Stats = Stats.of(
-        stats.getStatsID(),
-        stats.getLanguage(),
-        stats.getRegion(),
-        stats.getTerm(),
-        stats.getName(),
-        unit,
-        stats.getUpdatedAt(),
-        stats.getItems()
+      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = yield call(
+        (): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
+          return this.regionQuery.findByISO3166(action.iso3166);
+        }
       );
 
-      yield put(updateNewStatsDisplay(newStats));
+      if (superposition.isAlive()) {
+        const newStats: Stats = Stats.of(
+          stats.getStatsID(),
+          stats.getLanguage(),
+          superposition.get(),
+          stats.getTerm(),
+          stats.getName(),
+          stats.getUnit(),
+          stats.getUpdatedAt(),
+          stats.getItems()
+        );
+
+        yield put(updateNewStatsDisplay(newStats));
+      }
     }
   }
 
@@ -181,9 +157,9 @@ export class StatsListSaga {
     }
   }
 
-  private* iso3166Selected(): SagaIterator<unknown> {
+  private* nameTyped(): SagaIterator<unknown> {
     while (true) {
-      const action: StatsListISO3166SelectedAction = yield take(STATS_LIST_ISO3166_SELECTED);
+      const action: StatsListNameTypedAction = yield take(STATS_LIST_NAME_TYPED);
       const state: State = yield select();
 
       const {
@@ -191,47 +167,16 @@ export class StatsListSaga {
           stats
         }
       } = state;
-
-      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = yield call(
-        (): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
-          return this.regionQuery.findByISO3166(action.iso3166);
-        }
-      );
-
-      if (superposition.isAlive()) {
-        const newStats: Stats = Stats.of(
-          stats.getStatsID(),
-          stats.getLanguage(),
-          superposition.get(),
-          stats.getTerm(),
-          stats.getName(),
-          stats.getUnit(),
-          stats.getUpdatedAt(),
-          stats.getItems()
-        );
-
-        yield put(updateNewStatsDisplay(newStats));
-      }
-    }
-  }
-
-  private* termSelected(): SagaIterator<unknown> {
-    while (true) {
-      const action: StatsListTermSelectedAction = yield take(STATS_LIST_TERM_SELECTED);
-      const state: State = yield select();
-
       const {
-        statsList: {
-          stats
-        }
-      } = state;
+        name
+      } = action;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
-        action.term,
-        stats.getName(),
+        stats.getTerm(),
+        name,
         stats.getUnit(),
         stats.getUpdatedAt(),
         stats.getItems()
@@ -276,6 +221,61 @@ export class StatsListSaga {
           ]);
         }
       );
+    }
+  }
+
+  private* termSelected(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsListTermSelectedAction = yield take(STATS_LIST_TERM_SELECTED);
+      const state: State = yield select();
+
+      const {
+        statsList: {
+          stats
+        }
+      } = state;
+
+      const newStats: Stats = Stats.of(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        action.term,
+        stats.getName(),
+        stats.getUnit(),
+        stats.getUpdatedAt(),
+        stats.getItems()
+      );
+
+      yield put(updateNewStatsDisplay(newStats));
+    }
+  }
+
+  private* unitTyped(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsListUnitTypedAction = yield take(STATS_LIST_UNIT_TYPED);
+      const state: State = yield select();
+
+      const {
+        statsList: {
+          stats
+        }
+      } = state;
+      const {
+        unit
+      } = action;
+
+      const newStats: Stats = Stats.of(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        stats.getTerm(),
+        stats.getName(),
+        unit,
+        stats.getUpdatedAt(),
+        stats.getItems()
+      );
+
+      yield put(updateNewStatsDisplay(newStats));
     }
   }
 }

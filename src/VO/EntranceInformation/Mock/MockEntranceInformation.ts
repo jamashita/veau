@@ -1,5 +1,4 @@
 import { AccountName } from '../../Account/AccountName';
-import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { EntranceInformation } from '../EntranceInformation';
 import { Password } from '../Password';
 import { MockPassword } from './MockPassword';
@@ -10,7 +9,7 @@ type EntranceInformationArgs = Partial<Readonly<{
 }>>;
 
 export class MockEntranceInformation extends EntranceInformation {
-  public constructor({ account = new MockAccountName(), password = new MockPassword() }: EntranceInformationArgs = {}) {
+  public constructor({ account = AccountName.empty(), password = new MockPassword() }: EntranceInformationArgs = {}) {
     super(account, password);
   }
 }

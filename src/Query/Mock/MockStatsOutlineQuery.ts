@@ -1,4 +1,5 @@
-import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
+import { UnimplementedError } from '@jamashita/anden-error';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';

@@ -1,4 +1,5 @@
-import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
+import { UnimplementedError } from '@jamashita/anden-error';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { Region } from '../../VO/Region/Region';

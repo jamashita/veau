@@ -6,8 +6,6 @@ import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
 import { Column } from '../../../VO/Coordinate/Column';
 import { Coordinate } from '../../../VO/Coordinate/Coordinate';
-import { MockColumn } from '../../../VO/Coordinate/Mock/MockColumn';
-import { MockRow } from '../../../VO/Coordinate/Mock/MockRow';
 import { Row } from '../../../VO/Coordinate/Row';
 import { HeaderSize } from '../../../VO/HeaderSize/HeaderSize';
 import { Language } from '../../../VO/Language/Language';
@@ -15,7 +13,7 @@ import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
 import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
-import { ValueContained } from '../../../VO/NumericalValue/ValueContained';
+import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
 import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
@@ -25,17 +23,12 @@ import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName'
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 import { StatsError } from '../../../VO/StatsOutline/Error/StatsError';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
-import { MockStatsName } from '../../../VO/StatsOutline/Mock/MockStatsName';
 import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
-import { MockStatsUnit } from '../../../VO/StatsOutline/Mock/MockStatsUnit';
 import { MockUpdatedAt } from '../../../VO/StatsOutline/Mock/MockUpdatedAt';
 import { StatsName } from '../../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
-import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
-import { MockTerm } from '../../../VO/Term/Mock/MockTerm';
-import { MockTermID } from '../../../VO/Term/Mock/MockTermID';
-import { MockTermKey } from '../../../VO/Term/Mock/MockTermKey';
+import { StatsValues } from '../../../VO/StatsValue/StatsValues';
 import { Term } from '../../../VO/Term/Term';
 import { MockStatsItem } from '../../StatsItem/Mock/MockStatsItem';
 import { MockStatsItems } from '../../StatsItem/Mock/MockStatsItems';
@@ -51,7 +44,7 @@ describe('Stats', () => {
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
-      const term: MockTerm = new MockTerm();
+      const term: Term = Term.ANNUAL;
       const items: MockStatsItems = new MockStatsItems();
 
       const stats: Stats = Stats.of(outline, language, region, term, items);
@@ -918,8 +911,6 @@ describe('Stats', () => {
       const uuid4: UUID = UUID.v4();
       const uuid5: UUID = UUID.v4();
       const uuid6: UUID = UUID.v4();
-      const uuid7: UUID = UUID.v4();
-      const uuid8: UUID = UUID.v4();
       const stats1: Stats = Stats.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
@@ -933,9 +924,7 @@ describe('Stats', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        }),
+        Term.DAILY,
         new MockStatsItems()
       );
       const stats2: Stats = Stats.of(
@@ -951,9 +940,7 @@ describe('Stats', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        }),
+        Term.DAILY,
         new MockStatsItems()
       );
       const stats3: Stats = Stats.of(
@@ -969,9 +956,7 @@ describe('Stats', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        }),
+        Term.DAILY,
         new MockStatsItems()
       );
       const stats4: Stats = Stats.of(
@@ -987,9 +972,7 @@ describe('Stats', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        }),
+        Term.DAILY,
         new MockStatsItems()
       );
       const stats5: Stats = Stats.of(
@@ -1005,9 +988,7 @@ describe('Stats', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid6)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        }),
+        Term.DAILY,
         new MockStatsItems()
       );
       const stats6: Stats = Stats.of(
@@ -1023,9 +1004,7 @@ describe('Stats', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid8)
-        }),
+        Term.WEEKLY,
         new MockStatsItems()
       );
       const stats7: Stats = Stats.of(
@@ -1041,9 +1020,7 @@ describe('Stats', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        }),
+        Term.DAILY,
         new MockStatsItems(new MockStatsItem())
       );
       const stats8: Stats = Stats.of(
@@ -1059,9 +1036,7 @@ describe('Stats', () => {
         new MockRegion({
           regionID: new MockRegionID(uuid5)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid7)
-        }),
+        Term.DAILY,
         new MockStatsItems()
       );
 
@@ -1083,7 +1058,6 @@ describe('Stats', () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
-      const uuid4: UUID = UUID.v4();
       const name: string = 'name';
       const unit: string = 'unit';
       const languageName: string = 'language';
@@ -1091,15 +1065,14 @@ describe('Stats', () => {
       const iso639: string = 'IO';
       const regionName: string = 'region';
       const iso3166: string = 'IDE';
-      const key: string = 'term key';
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid2),
           regionID: new MockRegionID(uuid3),
-          termID: new MockTermID(uuid4),
-          name: new MockStatsName(name),
-          unit: new MockStatsUnit(unit),
+          termID: Term.DAILY.getTermID(),
+          name: StatsName.of(name),
+          unit: StatsUnit.of(unit),
           updatedAt: new MockUpdatedAt({
             day: 1
           })
@@ -1115,10 +1088,7 @@ describe('Stats', () => {
           name: new MockRegionName(regionName),
           iso3166: new MockISO3166(iso3166)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid4),
-          key: new MockTermKey(key)
-        }),
+        Term.DAILY,
         new MockStatsItems()
       );
 
@@ -1127,7 +1097,7 @@ describe('Stats', () => {
           statsID: uuid1.get(),
           languageID: uuid2.get(),
           regionID: uuid3.get(),
-          termID: uuid4.get(),
+          termID: Term.DAILY.getTermID().get().get(),
           name,
           unit,
           updatedAt: '2000-01-01 01:02:03'
@@ -1155,7 +1125,6 @@ describe('Stats', () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
-      const uuid4: UUID = UUID.v4();
       const name: string = 'name';
       const unit: string = 'unit';
       const languageName: string = 'language';
@@ -1163,15 +1132,14 @@ describe('Stats', () => {
       const iso639: string = 'IO';
       const regionName: string = 'region';
       const iso3166: string = 'IDE';
-      const key: string = 'term key';
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
           languageID: new MockLanguageID(uuid2),
           regionID: new MockRegionID(uuid3),
-          termID: new MockTermID(uuid4),
-          name: new MockStatsName(name),
-          unit: new MockStatsUnit(unit),
+          termID: Term.WEEKLY.getTermID(),
+          name: StatsName.of(name),
+          unit: StatsUnit.of(unit),
           updatedAt: new MockUpdatedAt({
             day: 1
           })
@@ -1187,15 +1155,12 @@ describe('Stats', () => {
           name: new MockRegionName(regionName),
           iso3166: new MockISO3166(iso3166)
         }),
-        new MockTerm({
-          termID: new MockTermID(uuid4),
-          key: new MockTermKey(key)
-        }),
+        Term.WEEKLY,
         new MockStatsItems()
       );
 
       expect(stats.toString()).toBe(
-        `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name} ${unit} 2000-01-01 01:02:03 ${uuid2.get()} ${languageName} ${englishLanguage} ${iso639} ${uuid3.get()} ${regionName} ${iso3166} ${uuid4.get()} ${key}`
+        `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${Term.WEEKLY.getTermID().get().get()} ${name} ${unit} 2000-01-01 01:02:03 ${uuid2.get()} ${languageName} ${englishLanguage} ${iso639} ${uuid3.get()} ${regionName} ${iso3166} ${Term.WEEKLY.toString()}`
       );
     });
   });
@@ -1211,45 +1176,45 @@ describe('Stats', () => {
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 1
                 }),
-                value: ValueContained.of(1)
+                value: NumericalValue.of(1)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               })
             )
           }),
           new MockStatsItem({
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 1
                 }),
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 2
                 }),
-                value: ValueContained.of(4)
+                value: NumericalValue.of(4)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 5
                 }),
-                value: ValueContained.of(6)
+                value: NumericalValue.of(6)
               })
             )
           })
@@ -1278,45 +1243,45 @@ describe('Stats', () => {
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 1
                 }),
-                value: ValueContained.of(1)
+                value: NumericalValue.of(1)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               })
             )
           }),
           new MockStatsItem({
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 1
                 }),
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 2
                 }),
-                value: ValueContained.of(4)
+                value: NumericalValue.of(4)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 5
                 }),
-                value: ValueContained.of(6)
+                value: NumericalValue.of(6)
               })
             )
           })
@@ -1361,45 +1326,45 @@ describe('Stats', () => {
       expect.assertions(2);
 
       const statsItem1: MockStatsItem = new MockStatsItem({
-        values: new MockStatsValues(
+        values: StatsValues.ofSpread(
           new MockStatsValue({
             asOf: new MockAsOf({
               month: 1,
               day: 1
             }),
-            value: ValueContained.of(1)
+            value: NumericalValue.of(1)
           }),
           new MockStatsValue({
             asOf: new MockAsOf({
               month: 1,
               day: 3
             }),
-            value: ValueContained.of(2)
+            value: NumericalValue.of(2)
           })
         )
       });
       const statsItem2: MockStatsItem = new MockStatsItem({
-        values: new MockStatsValues(
+        values: StatsValues.ofSpread(
           new MockStatsValue({
             asOf: new MockAsOf({
               month: 1,
               day: 1
             }),
-            value: ValueContained.of(2)
+            value: NumericalValue.of(2)
           }),
           new MockStatsValue({
             asOf: new MockAsOf({
               month: 1,
               day: 2
             }),
-            value: ValueContained.of(4)
+            value: NumericalValue.of(4)
           }),
           new MockStatsValue({
             asOf: new MockAsOf({
               month: 1,
               day: 5
             }),
-            value: ValueContained.of(6)
+            value: NumericalValue.of(6)
           })
         )
       });
@@ -1408,7 +1373,7 @@ describe('Stats', () => {
         new MockStatsOutline(),
         new MockLanguage(),
         new MockRegion(),
-        new MockTerm(),
+        Term.DAILY,
         new MockStatsItems(statsItem1, statsItem2)
       );
 
@@ -1427,50 +1392,50 @@ describe('Stats', () => {
         new MockStatsOutline(),
         new MockLanguage(),
         new MockRegion(),
-        new MockTerm(),
+        Term.WEEKLY,
         new MockStatsItems(
           new MockStatsItem({
             name: name1,
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 1
                 }),
-                value: ValueContained.of(1)
+                value: NumericalValue.of(1)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               })
             )
           }),
           new MockStatsItem({
             name: name2,
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 1
                 }),
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 2
                 }),
-                value: ValueContained.of(4)
+                value: NumericalValue.of(4)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 5
                 }),
-                value: ValueContained.of(6)
+                value: NumericalValue.of(6)
               })
             )
           })
@@ -1489,7 +1454,7 @@ describe('Stats', () => {
         new MockStatsOutline(),
         new MockLanguage(),
         new MockRegion(),
-        new MockTerm(),
+        Term.QUARTERLY,
         new MockStatsItems()
       );
 
@@ -1507,29 +1472,29 @@ describe('Stats', () => {
       const asOf2: AsOf = AsOf.ofString('2000-01-02');
       const stats: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
-                value: ValueContained.of(1)
+                value: NumericalValue.of(1)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               })
             )
           })
         )
       );
 
-      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), ValueContained.of(4));
+      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), NumericalValue.of(4));
 
       expect(stats.getItems().get(0)?.getValues().size()).toBe(2);
       expect(stats.getItems().get(0)?.getValues().get(asOf1)?.getValue().get()).toBe(1);
@@ -1544,29 +1509,29 @@ describe('Stats', () => {
       const asOf3: AsOf = AsOf.ofString('2000-01-03');
       const stats: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
-                value: ValueContained.of(1)
+                value: NumericalValue.of(1)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: ValueContained.of(3)
+                value: NumericalValue.of(3)
               })
             )
           })
         )
       );
 
-      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), ValueContained.of(2));
+      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), NumericalValue.of(2));
 
       expect(stats.getItems().get(0)?.getValues().size()).toBe(3);
       expect(stats.getItems().get(0)?.getValues().get(asOf1)?.getValue().get()).toBe(1);
@@ -1585,38 +1550,38 @@ describe('Stats', () => {
       const asOf4: AsOf = AsOf.ofString('2000-01-05');
       const stats: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
-                value: ValueContained.of(1)
+                value: NumericalValue.of(1)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               })
             )
           }),
           new MockStatsItem({
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: ValueContained.of(4)
+                value: NumericalValue.of(4)
               }),
               new MockStatsValue({
                 asOf: asOf4,
-                value: ValueContained.of(6)
+                value: NumericalValue.of(6)
               })
             )
           })
@@ -1644,7 +1609,7 @@ describe('Stats', () => {
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
-      const term: MockTerm = new MockTerm();
+      const term: Term = Term.QUARTERLY;
 
       const stats: Stats = Stats.of(outline, language, region, term, StatsItems.empty());
       const duplicated: Stats = stats.duplicate();
@@ -1667,7 +1632,7 @@ describe('Stats', () => {
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
-      const term: MockTerm = new MockTerm();
+      const term: Term = Term.QUARTERLY;
       const items: MockStatsItems = new MockStatsItems();
 
       const stub: SinonStub = sinon.stub();
@@ -1677,7 +1642,7 @@ describe('Stats', () => {
 
       const stats: Stats = Stats.of(outline, language, region, term, items);
 
-      stats.replaceItem(new MockStatsItem(), new MockRow());
+      stats.replaceItem(new MockStatsItem(), Row.origin());
 
       expect(stub.called).toBe(true);
     });
@@ -1690,7 +1655,7 @@ describe('Stats', () => {
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
-      const term: MockTerm = new MockTerm();
+      const term: Term = Term.QUARTERLY;
       const items: MockStatsItems = new MockStatsItems();
 
       const stub: SinonStub = sinon.stub();
@@ -1700,7 +1665,7 @@ describe('Stats', () => {
 
       const stats: Stats = Stats.of(outline, language, region, term, items);
 
-      stats.moveItem(new MockColumn(), new MockColumn());
+      stats.moveItem(Column.origin(), Column.origin());
 
       expect(stub.called).toBe(true);
     });
@@ -1713,7 +1678,7 @@ describe('Stats', () => {
       const outline: MockStatsOutline = new MockStatsOutline();
       const language: MockLanguage = new MockLanguage();
       const region: MockRegion = new MockRegion();
-      const term: MockTerm = new MockTerm();
+      const term: Term = Term.QUARTERLY;
       const items: MockStatsItems = new MockStatsItems();
 
       const stub: SinonStub = sinon.stub();
@@ -1740,45 +1705,45 @@ describe('Stats', () => {
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 1
                 }),
-                value: ValueContained.of(1)
+                value: NumericalValue.of(1)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               })
             )
           }),
           new MockStatsItem({
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 1
                 }),
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 2
                 }),
-                value: ValueContained.of(4)
+                value: NumericalValue.of(4)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 5
                 }),
-                value: ValueContained.of(6)
+                value: NumericalValue.of(6)
               })
             )
           })
@@ -1828,7 +1793,7 @@ describe('Stats', () => {
       );
       const stats4: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
+          name: StatsName.of('stats name'),
           unit: StatsUnit.empty()
         }),
         Language.empty(),
@@ -1839,7 +1804,7 @@ describe('Stats', () => {
       const stats5: Stats = Stats.of(
         new MockStatsOutline({
           name: StatsName.empty(),
-          unit: new MockStatsUnit('unit')
+          unit: StatsUnit.of('unit')
         }),
         Language.empty(),
         Region.empty(),
@@ -1858,7 +1823,7 @@ describe('Stats', () => {
       );
       const stats7: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
+          name: StatsName.of('stats name'),
           unit: StatsUnit.empty()
         }),
         new MockLanguage(),
@@ -1868,8 +1833,8 @@ describe('Stats', () => {
       );
       const stats8: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
@@ -1878,8 +1843,8 @@ describe('Stats', () => {
       );
       const stats9: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         Language.empty(),
         Region.empty(),
@@ -1935,7 +1900,7 @@ describe('Stats', () => {
       );
       const display4: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
+          name: StatsName.of('stats name'),
           unit: StatsUnit.empty()
         }),
         new MockLanguage(),
@@ -1946,7 +1911,7 @@ describe('Stats', () => {
       const display5: Stats = Stats.of(
         new MockStatsOutline({
           name: StatsName.empty(),
-          unit: new MockStatsUnit('stats unit')
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
@@ -1955,8 +1920,8 @@ describe('Stats', () => {
       );
       const display6: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
@@ -1965,8 +1930,8 @@ describe('Stats', () => {
       );
       const display7: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         Language.empty(),
         Region.empty(),
@@ -1980,8 +1945,8 @@ describe('Stats', () => {
       );
       const display8: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
@@ -2011,8 +1976,8 @@ describe('Stats', () => {
 
       const stats1: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
@@ -2025,8 +1990,8 @@ describe('Stats', () => {
       );
       const stats2: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
@@ -2050,8 +2015,8 @@ describe('Stats', () => {
 
       const stats1: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
@@ -2060,8 +2025,8 @@ describe('Stats', () => {
       );
       const stats2: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
@@ -2074,8 +2039,8 @@ describe('Stats', () => {
       );
       const stats3: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
@@ -2102,8 +2067,8 @@ describe('Stats', () => {
 
       const stats: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
@@ -2111,46 +2076,46 @@ describe('Stats', () => {
         new MockStatsItems(
           new MockStatsItem({
             name: new MockStatsItemName('stats1'),
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 1
                 }),
-                value: ValueContained.of(1)
+                value: NumericalValue.of(1)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               })
             )
           }),
           new MockStatsItem({
             name: new MockStatsItemName('stats2'),
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 2
                 }),
-                value: ValueContained.of(12)
+                value: NumericalValue.of(12)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: ValueContained.of(13)
+                value: NumericalValue.of(13)
               }),
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 4
                 }),
-                value: ValueContained.of(14)
+                value: NumericalValue.of(14)
               })
             )
           })
@@ -2191,21 +2156,21 @@ describe('Stats', () => {
 
       const stats: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   month: 1,
                   day: 3
                 }),
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               })
             )
           })
@@ -2220,8 +2185,8 @@ describe('Stats', () => {
 
       const stats: Stats = Stats.of(
         new MockStatsOutline({
-          name: new MockStatsName('stats name'),
-          unit: new MockStatsUnit('stats unit')
+          name: StatsName.of('stats name'),
+          unit: StatsUnit.of('stats unit')
         }),
         new MockLanguage(),
         new MockRegion(),

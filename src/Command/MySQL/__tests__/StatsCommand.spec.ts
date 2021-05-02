@@ -9,11 +9,10 @@ import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
-import { MockStatsName } from '../../../VO/StatsOutline/Mock/MockStatsName';
 import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
-import { MockStatsUnit } from '../../../VO/StatsOutline/Mock/MockStatsUnit';
-import { MockTerm } from '../../../VO/Term/Mock/MockTerm';
-import { MockTermID } from '../../../VO/Term/Mock/MockTermID';
+import { StatsName } from '../../../VO/StatsOutline/StatsName';
+import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
+import { Term } from '../../../VO/Term/Term';
 import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
 import { StatsCommand } from '../StatsCommand';
 
@@ -26,14 +25,13 @@ describe('StatsCommand', () => {
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
       const uuid4: UUID = UUID.v4();
-      const uuid5: UUID = UUID.v4();
       const statsName: string = 'stats name';
       const statsUnit: string = 'stats unit';
       const stats: MockStats = new MockStats({
         outline: new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
-          name: new MockStatsName(statsName),
-          unit: new MockStatsUnit(statsUnit)
+          name: StatsName.of(statsName),
+          unit: StatsUnit.of(statsUnit)
         }),
         language: new MockLanguage({
           languageID: new MockLanguageID(uuid2)
@@ -41,11 +39,9 @@ describe('StatsCommand', () => {
         region: new MockRegion({
           regionID: new MockRegionID(uuid3)
         }),
-        term: new MockTerm({
-          termID: new MockTermID(uuid4)
-        })
+        term: Term.QUARTERLY
       });
-      const accountID: MockVeauAccountID = new MockVeauAccountID(uuid5);
+      const accountID: MockVeauAccountID = new MockVeauAccountID(uuid4);
 
       const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
@@ -70,8 +66,8 @@ describe('StatsCommand', () => {
           statsID: uuid1.get(),
           languageID: uuid2.get(),
           regionID: uuid3.get(),
-          termID: uuid4.get(),
-          veauAccountID: uuid5.get(),
+          termID: Term.QUARTERLY.getTermID().get().get(),
+          veauAccountID: uuid4.get(),
           name: statsName,
           unit: statsUnit,
           updatedAt: '2000-01-02 01:02:03'

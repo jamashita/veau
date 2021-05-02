@@ -69,23 +69,32 @@ describe('LocaleQuery', () => {
 
       expect(locale.getLanguages().size()).toBe(json.languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
-        const languageID: LanguageID = LanguageID.ofString(json.languages[i].languageID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const languageID: LanguageID = LanguageID.ofString(json.languages[i]!.languageID);
         const language: Nullable<Language> = locale.getLanguages().get(languageID);
 
-        expect(language?.getLanguageID().get().get()).toBe(json.languages[i].languageID);
-        expect(language?.getName().get()).toBe(json.languages[i].name);
-        expect(language?.getEnglishName().get()).toBe(json.languages[i].englishName);
-        expect(language?.getISO639().get()).toBe(json.languages[i].iso639);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getLanguageID().get().get()).toBe(json.languages[i]!.languageID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getName().get()).toBe(json.languages[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getEnglishName().get()).toBe(json.languages[i]!.englishName);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(language?.getISO639().get()).toBe(json.languages[i]!.iso639);
       }
 
       expect(locale.getRegions().size()).toBe(1);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
-        const regionID: RegionID = RegionID.ofString(json.regions[i].regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const regionID: RegionID = RegionID.ofString(json.regions[i]!.regionID);
         const region: Nullable<Region> = locale.getRegions().get(regionID);
 
-        expect(region?.getRegionID().get().get()).toBe(json.regions[i].regionID);
-        expect(region?.getName().get()).toBe(json.regions[i].name);
-        expect(region?.getISO3166().get()).toBe(json.regions[i].iso3166);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getRegionID().get().get()).toBe(json.regions[i]!.regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getName().get()).toBe(json.regions[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(region?.getISO3166().get()).toBe(json.regions[i]!.iso3166);
       }
     });
 

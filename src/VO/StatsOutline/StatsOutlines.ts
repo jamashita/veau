@@ -152,7 +152,7 @@ export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutline
     return this.outlines.values();
   }
 
-  public toArray<W>(mapper: Mapper<StatsOutline, W>): Array<W> {
-    return [...this.outlines.values()].map<W>(mapper);
+  public toArray(): Array<StatsOutline> {
+    return [...this.outlines.values()];
   }
 }

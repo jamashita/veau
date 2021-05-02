@@ -5,9 +5,9 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
+import { Languages } from '../../../VO/Language/Languages';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
-import { MockLanguages } from '../../../VO/Language/Mock/MockLanguages';
 import { LanguageCommand } from '../LanguageCommand';
 
 describe('LanguageCommand', () => {
@@ -27,7 +27,7 @@ describe('LanguageCommand', () => {
     it('normal case', async () => {
       expect.assertions(3);
 
-      const languages: MockLanguages = new MockLanguages(
+      const languages: Languages = Languages.ofSpread(
         new MockLanguage({
           name: new MockLanguageName('lorsque')
         }),
@@ -64,7 +64,7 @@ describe('LanguageCommand', () => {
     it('returns Dead because the client throws RedisError by MockRedisString.set', async () => {
       expect.assertions(2);
 
-      const languages: MockLanguages = new MockLanguages();
+      const languages: Languages = Languages.empty();
 
       const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
@@ -92,7 +92,7 @@ describe('LanguageCommand', () => {
     it('returns Dead because the client throws JSONAError', async () => {
       expect.assertions(2);
 
-      const languages: MockLanguages = new MockLanguages();
+      const languages: Languages = Languages.empty();
 
       const stub1: SinonStub = sinon.stub();
 

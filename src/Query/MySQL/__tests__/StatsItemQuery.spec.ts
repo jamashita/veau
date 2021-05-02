@@ -10,13 +10,12 @@ import { Type } from '../../../Container/Types';
 import { StatsItemRow } from '../../../Entity/StatsItem/StatsItem';
 import { StatsItems } from '../../../Entity/StatsItem/StatsItems';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
-import { ValueContained } from '../../../VO/NumericalValue/ValueContained';
+import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
 import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
 import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { StatsValueError } from '../../../VO/StatsValue/Error/StatsValueError';
 import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
-import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
 import { StatsValues } from '../../../VO/StatsValue/StatsValues';
 import { MockStatsValueQuery } from '../../Mock/MockStatsValueQuery';
 import { StatsItemQuery } from '../StatsItemQuery';
@@ -73,31 +72,31 @@ describe('StatsItemQuery', () => {
         new Map<StatsItemID, StatsValues>([
           [
             StatsItemID.of(uuid2),
-            new MockStatsValues(
+            StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
-                value: ValueContained.of(1)
+                value: NumericalValue.of(1)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: ValueContained.of(2)
+                value: NumericalValue.of(2)
               }),
               new MockStatsValue({
                 asOf: asOf3,
-                value: ValueContained.of(4)
+                value: NumericalValue.of(4)
               })
             )
           ],
           [
             StatsItemID.of(uuid3),
-            new MockStatsValues(
+            StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: asOf1,
-                value: ValueContained.of(11)
+                value: NumericalValue.of(11)
               }),
               new MockStatsValue({
                 asOf: asOf2,
-                value: ValueContained.of(12)
+                value: NumericalValue.of(12)
               })
             )
           ]
@@ -172,7 +171,7 @@ describe('StatsItemQuery', () => {
           name: 'name3'
         }
       ];
-      const values: MockStatsValues = new MockStatsValues();
+      const values: StatsValues = StatsValues.empty();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub1: SinonStub = sinon.stub();

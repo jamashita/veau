@@ -51,7 +51,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
     } = this.props;
 
     return (
-      <Card className='stats-info'>
+      <Card className="stats-info">
         <CardHeader
           title={intl.formatMessage({
             id: 'STATS_INFO'
@@ -62,7 +62,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
             label={intl.formatMessage({
               id: 'NAME'
             })}
-            type='text'
+            type="text"
             value={stats.getName().get()}
             onKeyUp={(value: string) => {
               nameTyped(StatsName.of(value));
@@ -72,7 +72,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
             label={intl.formatMessage({
               id: 'UNIT'
             })}
-            type='text'
+            type="text"
             value={stats.getUnit().get()}
             onKeyUp={(value: string) => {
               unitTyped(StatsUnit.of(value));
@@ -142,7 +142,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
             label={intl.formatMessage({
               id: 'TERM'
             })}
-            type='text'
+            type="text"
             value={intl.formatMessage({
               id: stats.getTerm().getKey().get()
             })}

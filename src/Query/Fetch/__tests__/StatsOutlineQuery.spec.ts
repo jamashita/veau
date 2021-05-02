@@ -68,16 +68,24 @@ describe('StatsOutlineQuery', () => {
 
       expect(outlines.size()).toBe(1);
       for (let i: number = 0; i < outlines.size(); i++) {
-        const statsID: StatsID = StatsID.ofString(json[i].statsID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const statsID: StatsID = StatsID.ofString(json[i]!.statsID);
         const outline: Nullable<StatsOutline> = outlines.get(statsID);
 
-        expect(outline?.getStatsID().get().get()).toBe(json[i].statsID);
-        expect(outline?.getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(outline?.getRegionID().get().get()).toBe(json[i].regionID);
-        expect(outline?.getTermID().get().get()).toBe(json[i].termID);
-        expect(outline?.getName().get()).toBe(json[i].name);
-        expect(outline?.getUnit().get()).toBe(json[i].unit);
-        expect(outline?.getUpdatedAt().toString()).toBe(json[i].updatedAt);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(outline?.getStatsID().get().get()).toBe(json[i]!.statsID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(outline?.getLanguageID().get().get()).toBe(json[i]!.languageID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(outline?.getRegionID().get().get()).toBe(json[i]!.regionID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(outline?.getTermID().get().get()).toBe(json[i]!.termID);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(outline?.getName().get()).toBe(json[i]!.name);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(outline?.getUnit().get()).toBe(json[i]!.unit);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(outline?.getUpdatedAt().toString()).toBe(json[i]!.updatedAt);
       }
     });
 

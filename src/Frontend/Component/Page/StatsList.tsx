@@ -90,8 +90,8 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
 
     return (
       <Authenticated>
-        <Button variant='contained' color='primary' onClick={newStatsClicked}>
-          <Icon className='fas fa-plus-circle icon-spacing' />
+        <Button variant="contained" color="primary" onClick={newStatsClicked}>
+          <Icon className="fas fa-plus-circle icon-spacing" />
           {intl.formatMessage({
             id: 'CREATE_NEW_STATS'
           })}

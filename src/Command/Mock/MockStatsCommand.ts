@@ -1,4 +1,5 @@
-import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
+import { UnimplementedError } from '@jamashita/anden-error';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 import { IMockCommand } from './Interface/IMockCommand';

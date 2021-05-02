@@ -13,7 +13,6 @@ import { Language } from '../../../VO/Language/Language';
 import { Languages } from '../../../VO/Language/Languages';
 import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
-import { MockLanguages } from '../../../VO/Language/Mock/MockLanguages';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
 import { LanguageQuery } from '../LanguageQuery';
@@ -35,7 +34,7 @@ describe('LanguageQuery', () => {
     it('languageRedisQuery returns Alive', async () => {
       expect.assertions(2);
 
-      const languages: MockLanguages = new MockLanguages();
+      const languages: Languages = Languages.empty();
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
@@ -59,7 +58,7 @@ describe('LanguageQuery', () => {
     it('languageMySQLQuery returns Alive', async () => {
       expect.assertions(2);
 
-      const languages: MockLanguages = new MockLanguages();
+      const languages: Languages = Languages.empty();
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
@@ -119,7 +118,7 @@ describe('LanguageQuery', () => {
     it('languageCommand returns Dead', async () => {
       expect.assertions(2);
 
-      const languages: MockLanguages = new MockLanguages();
+      const languages: Languages = Languages.empty();
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
@@ -162,7 +161,7 @@ describe('LanguageQuery', () => {
         iso639: new MockISO639('aa')
       });
 
-      const languages: MockLanguages = new MockLanguages(language1, language2);
+      const languages: Languages = Languages.ofSpread(language1, language2);
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
@@ -242,7 +241,7 @@ describe('LanguageQuery', () => {
     it('no match results', async () => {
       expect.assertions(2);
 
-      const languages: MockLanguages = new MockLanguages(
+      const languages: Languages = Languages.ofSpread(
         new MockLanguage({
           iso639: new MockISO639('ab')
         }),

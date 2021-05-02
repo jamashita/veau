@@ -86,8 +86,76 @@ export class StatsEditEpic {
     this.statsCommand = statsCommand;
   }
 
+  public dataDeleted(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditDataDeletedAction, VeauAction>(
+      ofType<VeauAction, StatsEditDataDeletedAction>(STATS_EDIT_DATA_DELETED),
+      mergeMap<StatsEditDataDeletedAction, Observable<VeauAction>>((action: StatsEditDataDeletedAction) => {
+        const {
+          value: {
+            statsEdit: {
+              stats
+            }
+          }
+        } = state$;
+
+        const duplicated: Stats = stats.duplicate();
+
+        duplicated.deleteData(action.coordinate);
+
+        return of<VeauAction>(updateStats(duplicated));
+      })
+    );
+  }
+
+  public dataFilled(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditDataFilledAction, VeauAction>(
+      ofType<VeauAction, StatsEditDataFilledAction>(STATS_EDIT_DATA_FILLED),
+      mergeMap<StatsEditDataFilledAction, Observable<VeauAction>>((action: StatsEditDataFilledAction) => {
+        const {
+          value: {
+            statsEdit: {
+              stats
+            }
+          }
+        } = state$;
+
+        const duplicated: Stats = stats.duplicate();
+
+        duplicated.setData(action.coordinate, action.value);
+
+        return of<VeauAction>(updateStats(duplicated));
+      })
+    );
+  }
+
+  public findStats(action$: Observable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<StatsEditInitializeAction, VeauAction>(
+      ofType<VeauAction, StatsEditInitializeAction>(STATS_EDIT_INITIALIZE),
+      mergeMap<StatsEditInitializeAction, Observable<VeauAction>>((action: StatsEditInitializeAction) => {
+        return from<Promise<Observable<VeauAction>>>(
+          this.statsQuery.findByStatsID(action.statsID).transform<Observable<VeauAction>, Error>((stats: Stats) => {
+            return of<Array<VeauAction>>(updateStats(stats), clearSelectingItem());
+          }, (err: DataSourceError | NoSuchElementError | StatsError) => {
+            if (err instanceof NoSuchElementError) {
+              return of<Array<VeauAction>>(
+                pushToStatsList(),
+                appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND')
+              );
+            }
+
+            return of<VeauAction>(pushToStatsList());
+          }).get()
+        ).pipe<VeauAction>(
+          mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
+            return observable;
+          })
+        );
+      })
+    );
+  }
+
   public init(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return merge<VeauAction>(
+    return merge<Array<VeauAction>>(
       this.findStats(action$),
       this.initializationFailed(action$),
       this.nameTyped(action$, state$),
@@ -109,105 +177,62 @@ export class StatsEditEpic {
     );
   }
 
-  public findStats(action$: Observable<VeauAction>): Observable<VeauAction> {
-    return action$.pipe<StatsEditInitializeAction, VeauAction>(
-      ofType<VeauAction, StatsEditInitializeAction>(STATS_EDIT_INITIALIZE),
-      mergeMap<StatsEditInitializeAction, Observable<VeauAction>>((action: StatsEditInitializeAction) => {
-        return from<Promise<Observable<VeauAction>>>(
-          this.statsQuery.findByStatsID(action.statsID).transform<Observable<VeauAction>, Error>((stats: Stats) => {
-            return of<VeauAction>(updateStats(stats), clearSelectingItem());
-          }, (err: DataSourceError | NoSuchElementError | StatsError) => {
-            if (err instanceof NoSuchElementError) {
-              return of<VeauAction>(
-                pushToStatsList(),
-                appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND')
-              );
-            }
+  public initializationFailed(action$: Observable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_EDIT_INITIALIZATION_FAILURE),
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        return concat<Array<VeauAction>>(
+          of<Array<VeauAction>>(pushToStatsList(), appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID'))
+        );
+      })
+    );
+  }
 
-            return of<VeauAction>(pushToStatsList());
+  public invalidDateInput(action$: Observable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_EDIT_INVALID_DATE_INPUT),
+      mapTo<VeauAction, VeauAction>(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'))
+    );
+  }
+
+  public invalidValueInput(action$: Observable<VeauAction>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_EDIT_INVALID_VALUE_INPUT),
+      mapTo<VeauAction, VeauAction>(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'))
+    );
+  }
+
+  public iso3166Selected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditISO3166SelectedAction, VeauAction>(
+      ofType<VeauAction, StatsEditISO3166SelectedAction>(STATS_EDIT_ISO3166_SELECTED),
+      mergeMap<StatsEditISO3166SelectedAction, Observable<VeauAction>>((action: StatsEditISO3166SelectedAction) => {
+        const {
+          value: {
+            statsEdit: {
+              stats
+            }
+          }
+        } = state$;
+
+        return from<Promise<Observable<VeauAction>>>(
+          this.regionQuery.findByISO3166(action.iso3166).transform<Observable<VeauAction>, Error>((region: Region) => {
+            const newStats: Stats = Stats.of(
+              stats.getOutline(),
+              stats.getLanguage(),
+              region,
+              stats.getTerm(),
+              stats.getItems()
+            );
+
+            return of<VeauAction>(updateStats(newStats));
+          }, () => {
+            return of<VeauAction>();
           }).get()
         ).pipe<VeauAction>(
           mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
             return observable;
           })
         );
-      })
-    );
-  }
-
-  public initializationFailed(action$: Observable<VeauAction>): Observable<VeauAction> {
-    return action$.pipe<VeauAction, VeauAction>(
-      ofType<VeauAction, VeauAction>(STATS_EDIT_INITIALIZATION_FAILURE),
-      mergeMap<VeauAction, Observable<VeauAction>>(() => {
-        return concat<VeauAction>(
-          of<VeauAction>(pushToStatsList(), appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID'))
-        );
-      })
-    );
-  }
-
-  public nameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<StatsEditNameTypedAction, VeauAction>(
-      ofType<VeauAction, StatsEditNameTypedAction>(STATS_EDIT_NAME_TYPED),
-      mergeMap<StatsEditNameTypedAction, Observable<VeauAction>>((action: StatsEditNameTypedAction) => {
-        const {
-          value: {
-            statsEdit: {
-              stats
-            }
-          }
-        } = state$;
-
-        const newStats: Stats = Stats.of(
-          StatsOutline.of(
-            stats.getStatsID(),
-            stats.getLanguage().getLanguageID(),
-            stats.getRegion().getRegionID(),
-            stats.getTerm().getTermID(),
-            action.name,
-            stats.getUnit(),
-            stats.getUpdatedAt()
-          ),
-          stats.getLanguage(),
-          stats.getRegion(),
-          stats.getTerm(),
-          stats.getItems()
-        );
-
-        return of<VeauAction>(updateStats(newStats));
-      })
-    );
-  }
-
-  public unitTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<StatsEditUnitTypedAction, VeauAction>(
-      ofType<VeauAction, StatsEditUnitTypedAction>(STATS_EDIT_UNIT_TYPED),
-      mergeMap<StatsEditUnitTypedAction, Observable<VeauAction>>((action: StatsEditUnitTypedAction) => {
-        const {
-          value: {
-            statsEdit: {
-              stats
-            }
-          }
-        } = state$;
-
-        const newStats: Stats = Stats.of(
-          StatsOutline.of(
-            stats.getStatsID(),
-            stats.getLanguage().getLanguageID(),
-            stats.getRegion().getRegionID(),
-            stats.getTerm().getTermID(),
-            stats.getName(),
-            action.unit,
-            stats.getUpdatedAt()
-          ),
-          stats.getLanguage(),
-          stats.getRegion(),
-          stats.getTerm(),
-          stats.getItems()
-        );
-
-        return of<VeauAction>(updateStats(newStats));
       })
     );
   }
@@ -247,83 +272,6 @@ export class StatsEditEpic {
     );
   }
 
-  public iso3166Selected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<StatsEditISO3166SelectedAction, VeauAction>(
-      ofType<VeauAction, StatsEditISO3166SelectedAction>(STATS_EDIT_ISO3166_SELECTED),
-      mergeMap<StatsEditISO3166SelectedAction, Observable<VeauAction>>((action: StatsEditISO3166SelectedAction) => {
-        const {
-          value: {
-            statsEdit: {
-              stats
-            }
-          }
-        } = state$;
-
-        return from<Promise<Observable<VeauAction>>>(
-          this.regionQuery.findByISO3166(action.iso3166).transform<Observable<VeauAction>, Error>((region: Region) => {
-            const newStats: Stats = Stats.of(
-              stats.getOutline(),
-              stats.getLanguage(),
-              region,
-              stats.getTerm(),
-              stats.getItems()
-            );
-
-            return of<VeauAction>(updateStats(newStats));
-          }, () => {
-            return of<VeauAction>();
-          }).get()
-        ).pipe<VeauAction>(
-          mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
-            return observable;
-          })
-        );
-      })
-    );
-  }
-
-  public dataFilled(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<StatsEditDataFilledAction, VeauAction>(
-      ofType<VeauAction, StatsEditDataFilledAction>(STATS_EDIT_DATA_FILLED),
-      mergeMap<StatsEditDataFilledAction, Observable<VeauAction>>((action: StatsEditDataFilledAction) => {
-        const {
-          value: {
-            statsEdit: {
-              stats
-            }
-          }
-        } = state$;
-
-        const duplicated: Stats = stats.duplicate();
-
-        duplicated.setData(action.coordinate, action.value);
-
-        return of<VeauAction>(updateStats(duplicated));
-      })
-    );
-  }
-
-  public dataDeleted(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<StatsEditDataDeletedAction, VeauAction>(
-      ofType<VeauAction, StatsEditDataDeletedAction>(STATS_EDIT_DATA_DELETED),
-      mergeMap<StatsEditDataDeletedAction, Observable<VeauAction>>((action: StatsEditDataDeletedAction) => {
-        const {
-          value: {
-            statsEdit: {
-              stats
-            }
-          }
-        } = state$;
-
-        const duplicated: Stats = stats.duplicate();
-
-        duplicated.deleteData(action.coordinate);
-
-        return of<VeauAction>(updateStats(duplicated));
-      })
-    );
-  }
-
   public itemNameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
     return action$.pipe<StatsEditItemNameTypedAction, VeauAction>(
       ofType<VeauAction, StatsEditItemNameTypedAction>(STATS_EDIT_ITEM_NAME_TYPED),
@@ -339,6 +287,139 @@ export class StatsEditEpic {
         const newStatsItem: StatsItem = StatsItem.of(item.getStatsItemID(), action.name, item.getValues());
 
         return updateStatsItem(newStatsItem);
+      })
+    );
+  }
+
+  public nameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditNameTypedAction, VeauAction>(
+      ofType<VeauAction, StatsEditNameTypedAction>(STATS_EDIT_NAME_TYPED),
+      mergeMap<StatsEditNameTypedAction, Observable<VeauAction>>((action: StatsEditNameTypedAction) => {
+        const {
+          value: {
+            statsEdit: {
+              stats
+            }
+          }
+        } = state$;
+
+        const newStats: Stats = Stats.of(
+          StatsOutline.of(
+            stats.getStatsID(),
+            stats.getLanguage().getLanguageID(),
+            stats.getRegion().getRegionID(),
+            stats.getTerm().getTermID(),
+            action.name,
+            stats.getUnit(),
+            stats.getUpdatedAt()
+          ),
+          stats.getLanguage(),
+          stats.getRegion(),
+          stats.getTerm(),
+          stats.getItems()
+        );
+
+        return of<VeauAction>(updateStats(newStats));
+      })
+    );
+  }
+
+  public removeItem(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditRemoveSelectingItemAction, VeauAction>(
+      ofType<VeauAction, StatsEditRemoveSelectingItemAction>(STATS_EDIT_REMOVE_SELECTING_ITEM),
+      mergeMap<StatsEditRemoveSelectingItemAction, Observable<VeauAction>>(
+        (action: StatsEditRemoveSelectingItemAction) => {
+          const {
+            value: {
+              statsEdit: {
+                stats
+              }
+            }
+          } = state$;
+
+          stats.removeItem(action.item);
+
+          return of<Array<VeauAction>>(updateStats(stats), clearSelectingItem());
+        }
+      )
+    );
+  }
+
+  public rowMoved(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditRowMovedAction, VeauAction>(
+      ofType<VeauAction, StatsEditRowMovedAction>(STATS_EDIT_ROW_MOVED),
+      mergeMap<StatsEditRowMovedAction, Observable<VeauAction>>((action: StatsEditRowMovedAction) => {
+        const {
+          value: {
+            statsEdit: {
+              stats
+            }
+          }
+        } = state$;
+
+        stats.moveItem(action.column, action.target);
+
+        return of<VeauAction>(updateStats(stats));
+      })
+    );
+  }
+
+  public rowSelected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditRowSelectedAction, VeauAction>(
+      ofType<VeauAction, StatsEditRowSelectedAction>(STATS_EDIT_ROW_SELECTED),
+      mergeMap<StatsEditRowSelectedAction, Observable<VeauAction>>((action: StatsEditRowSelectedAction) => {
+        const {
+          value: {
+            statsEdit: {
+              stats
+            }
+          }
+        } = state$;
+
+        const item: Nullable<StatsItem> = stats.getRow(action.row);
+
+        if (Kind.isNull(item)) {
+          return of<VeauAction>(nothing());
+        }
+
+        return of<Array<VeauAction>>(
+          selectItem(item, action.row),
+          updateStats(stats)
+        );
+      })
+    );
+  }
+
+  public save(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(STATS_EDIT_SAVE_STATS),
+      mergeMap<VeauAction, Observable<VeauAction>>(() => {
+        const {
+          value: {
+            statsEdit: {
+              stats
+            }
+          }
+        } = state$;
+
+        return concat<Array<VeauAction>>(
+          of<VeauAction>(loading()),
+          from<Promise<Observable<VeauAction>>>(
+            this.statsCommand.create(stats, VeauAccountID.generate()).transform(
+              () => {
+                return of<VeauAction>(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
+              },
+              () => {
+                return of<VeauAction>(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
+              }
+            ).get()
+          ).pipe<VeauAction>(
+            mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
+              return observable;
+            })
+          ),
+          of<VeauAction>(loaded())
+        );
       })
     );
   }
@@ -369,35 +450,9 @@ export class StatsEditEpic {
           stats.getStartDate()
         );
 
-        return of<VeauAction>(
+        return of<Array<VeauAction>>(
           updateStats(newStats),
           resetStatsItem()
-        );
-      })
-    );
-  }
-
-  public rowSelected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<StatsEditRowSelectedAction, VeauAction>(
-      ofType<VeauAction, StatsEditRowSelectedAction>(STATS_EDIT_ROW_SELECTED),
-      mergeMap<StatsEditRowSelectedAction, Observable<VeauAction>>((action: StatsEditRowSelectedAction) => {
-        const {
-          value: {
-            statsEdit: {
-              stats
-            }
-          }
-        } = state$;
-
-        const item: Nullable<StatsItem> = stats.getRow(action.row);
-
-        if (Kind.isNull(item)) {
-          return of<VeauAction>(nothing());
-        }
-
-        return of<VeauAction>(
-          selectItem(item, action.row),
-          updateStats(stats)
         );
       })
     );
@@ -430,7 +485,7 @@ export class StatsEditEpic {
 
           stats.replaceItem(newSelectingItem, selectingRow);
 
-          return of<VeauAction>(
+          return of<Array<VeauAction>>(
             updateSelectingItem(newSelectingItem),
             updateStats(stats)
           );
@@ -470,17 +525,10 @@ export class StatsEditEpic {
     );
   }
 
-  public invalidDateInput(action$: Observable<VeauAction>): Observable<VeauAction> {
-    return action$.pipe<VeauAction, VeauAction>(
-      ofType<VeauAction, VeauAction>(STATS_EDIT_INVALID_DATE_INPUT),
-      mapTo<VeauAction, VeauAction>(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'))
-    );
-  }
-
-  public rowMoved(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<StatsEditRowMovedAction, VeauAction>(
-      ofType<VeauAction, StatsEditRowMovedAction>(STATS_EDIT_ROW_MOVED),
-      mergeMap<StatsEditRowMovedAction, Observable<VeauAction>>((action: StatsEditRowMovedAction) => {
+  public unitTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsEditUnitTypedAction, VeauAction>(
+      ofType<VeauAction, StatsEditUnitTypedAction>(STATS_EDIT_UNIT_TYPED),
+      mergeMap<StatsEditUnitTypedAction, Observable<VeauAction>>((action: StatsEditUnitTypedAction) => {
         const {
           value: {
             statsEdit: {
@@ -489,71 +537,23 @@ export class StatsEditEpic {
           }
         } = state$;
 
-        stats.moveItem(action.column, action.target);
-
-        return of<VeauAction>(updateStats(stats));
-      })
-    );
-  }
-
-  public invalidValueInput(action$: Observable<VeauAction>): Observable<VeauAction> {
-    return action$.pipe<VeauAction, VeauAction>(
-      ofType<VeauAction, VeauAction>(STATS_EDIT_INVALID_VALUE_INPUT),
-      mapTo<VeauAction, VeauAction>(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'))
-    );
-  }
-
-  public removeItem(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<StatsEditRemoveSelectingItemAction, VeauAction>(
-      ofType<VeauAction, StatsEditRemoveSelectingItemAction>(STATS_EDIT_REMOVE_SELECTING_ITEM),
-      mergeMap<StatsEditRemoveSelectingItemAction, Observable<VeauAction>>(
-        (action: StatsEditRemoveSelectingItemAction) => {
-          const {
-            value: {
-              statsEdit: {
-                stats
-              }
-            }
-          } = state$;
-
-          stats.removeItem(action.item);
-
-          return of<VeauAction>(updateStats(stats), clearSelectingItem());
-        }
-      )
-    );
-  }
-
-  public save(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<VeauAction, VeauAction>(
-      ofType<VeauAction, VeauAction>(STATS_EDIT_SAVE_STATS),
-      mergeMap<VeauAction, Observable<VeauAction>>(() => {
-        const {
-          value: {
-            statsEdit: {
-              stats
-            }
-          }
-        } = state$;
-
-        return concat<VeauAction>(
-          of<VeauAction>(loading()),
-          from<Promise<Observable<VeauAction>>>(
-            this.statsCommand.create(stats, VeauAccountID.generate()).transform(
-              () => {
-                return of<VeauAction>(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
-              },
-              () => {
-                return of<VeauAction>(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
-              }
-            ).get()
-          ).pipe<VeauAction>(
-            mergeMap<Observable<VeauAction>, Observable<VeauAction>>((observable: Observable<VeauAction>) => {
-              return observable;
-            })
+        const newStats: Stats = Stats.of(
+          StatsOutline.of(
+            stats.getStatsID(),
+            stats.getLanguage().getLanguageID(),
+            stats.getRegion().getRegionID(),
+            stats.getTerm().getTermID(),
+            stats.getName(),
+            action.unit,
+            stats.getUpdatedAt()
           ),
-          of<VeauAction>(loaded())
+          stats.getLanguage(),
+          stats.getRegion(),
+          stats.getTerm(),
+          stats.getItems()
         );
+
+        return of<VeauAction>(updateStats(newStats));
       })
     );
   }

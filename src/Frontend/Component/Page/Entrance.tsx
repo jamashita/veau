@@ -46,7 +46,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
     } = this.props;
 
     return (
-      <Card className='login-form' raised={true}>
+      <Card className="login-form" raised={true}>
         <CardHeader
           title={intl.formatMessage({
             id: 'VEAU'
@@ -61,7 +61,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
               id: 'ACCOUNT_NAME'
             })}
             value={entranceInformation.getAccount().get()}
-            type='text'
+            type="text"
             onKeyUp={(value: string) => {
               accountTyped(AccountName.of(value));
             }}
@@ -72,7 +72,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
               id: 'PASSWORD'
             })}
             value={entranceInformation.getPassword().get()}
-            type='password'
+            type="password"
             onKeyUp={(value: string) => {
               passwordTyped(Password.of(value));
             }}
@@ -81,13 +81,13 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
         </CardContent>
         <CardActions>
           <Button
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             fullWidth={true}
             disabled={!entranceInformation.isAcceptable()}
             onClick={loginClicked}
           >
-            <Icon className='fas fa-sign-in-alt icon-spacing' />
+            <Icon className="fas fa-sign-in-alt icon-spacing" />
             {intl.formatMessage({
               id: 'LOGIN'
             })}

@@ -29,7 +29,7 @@ export class Chart extends React.Component<Props, State> {
     } = this.props;
 
     return (
-      <ResponsiveContainer width='100%' minHeight={CHART_HEIGHT}>
+      <ResponsiveContainer width="100%" minHeight={CHART_HEIGHT}>
         <LineChart
           margin={{
             top: MARGIN,
@@ -39,7 +39,7 @@ export class Chart extends React.Component<Props, State> {
           }}
           data={stats.getChart()}
         >
-          <XAxis dataKey='name' />
+          <XAxis dataKey="name" />
           <YAxis domain={['dataMin', 'dataMax']} />
           <CartesianGrid />
           <Legend />
@@ -49,12 +49,12 @@ export class Chart extends React.Component<Props, State> {
 
             if (Kind.isNull(color)) {
               return (
-                <Line type='monotone' connectNulls={true} key={item.get()} dataKey={item.get()} stroke='#000000' />
+                <Line type="monotone" connectNulls={true} key={item.get()} dataKey={item.get()} stroke="#000000" />
               );
             }
 
             return (
-              <Line type='monotone' connectNulls={true} key={item.get()} dataKey={item.get()} stroke={color.get()} />
+              <Line type="monotone" connectNulls={true} key={item.get()} dataKey={item.get()} stroke={color.get()} />
             );
           })}
         </LineChart>

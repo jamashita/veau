@@ -8,7 +8,7 @@ import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
-import { MockRegions } from '../../../VO/Region/Mock/MockRegions';
+import { Regions } from '../../../VO/Region/Regions';
 import { RegionCommand } from '../RegionCommand';
 
 describe('RegionCommand', () => {
@@ -28,7 +28,7 @@ describe('RegionCommand', () => {
     it('normal case', async () => {
       expect.assertions(3);
 
-      const regions: MockRegions = new MockRegions(
+      const regions: Regions = Regions.ofSpread(
         new MockRegion({
           name: new MockRegionName('sorella')
         }),
@@ -65,7 +65,7 @@ describe('RegionCommand', () => {
     it('returns Dead because the client throws RedisError by MockRedisString.set', async () => {
       expect.assertions(2);
 
-      const regions: MockRegions = new MockRegions();
+      const regions: Regions = Regions.empty();
 
       const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
@@ -93,7 +93,7 @@ describe('RegionCommand', () => {
     it('returns Dead because the client throws JSONAError', async () => {
       expect.assertions(2);
 
-      const regions: MockRegions = new MockRegions();
+      const regions: Regions = Regions.empty();
 
       const stub1: SinonStub = sinon.stub();
 

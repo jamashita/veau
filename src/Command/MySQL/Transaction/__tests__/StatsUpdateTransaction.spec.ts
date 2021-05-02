@@ -9,7 +9,7 @@ import { MockStatsUpdateFactory } from '../../../../Factory/Mock/MockStatsUpdate
 import { MockAsOf } from '../../../../VO/AsOf/Mock/MockAsOf';
 import { MockStatsItemID } from '../../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsValue } from '../../../../VO/StatsValue/Mock/MockStatsValue';
-import { MockStatsValues } from '../../../../VO/StatsValue/Mock/MockStatsValues';
+import { StatsValues } from '../../../../VO/StatsValue/StatsValues';
 import { MockVeauAccountID } from '../../../../VO/VeauAccount/Mock/MockVeauAccountID';
 import { VeauAccountID } from '../../../../VO/VeauAccount/VeauAccountID';
 import { MockStatsCommand } from '../../../Mock/MockStatsCommand';
@@ -28,7 +28,7 @@ describe('StatsUpdateTransaction', () => {
         items: new MockStatsItems(
           new MockStatsItem({
             statsItemID: statsItemID1,
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   day: 2
@@ -43,7 +43,7 @@ describe('StatsUpdateTransaction', () => {
           }),
           new MockStatsItem({
             statsItemID: statsItemID2,
-            values: new MockStatsValues(
+            values: StatsValues.ofSpread(
               new MockStatsValue({
                 asOf: new MockAsOf({
                   day: 4
@@ -127,10 +127,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });
@@ -184,10 +184,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });
@@ -241,10 +241,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });
@@ -298,10 +298,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });
@@ -373,10 +373,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });
@@ -448,10 +448,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
+            values: StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });

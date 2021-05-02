@@ -4,7 +4,7 @@ import { MockSQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Schrodinger } from '@jamashita/genitore';
 import sinon, { SinonStub } from 'sinon';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
-import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
+import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
 import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
@@ -20,7 +20,7 @@ describe('StatsValueCommand', () => {
       const value: number = 9;
       const statsValue: StatsValue = new MockStatsValue({
         asOf: new MockAsOf(),
-        value: new MockNumericalValue(value)
+        value: NumericalValue.of(value)
       });
 
       const sql: MockSQL = new MockSQL();
@@ -49,7 +49,9 @@ describe('StatsValueCommand', () => {
     it('returns Dead because the client throws MySQLError', async () => {
       expect.assertions(2);
 
-      const statsValue: MockStatsValue = new MockStatsValue();
+      const statsValue: MockStatsValue = new MockStatsValue({
+        value: NumericalValue.of(0)
+      });
 
       const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();

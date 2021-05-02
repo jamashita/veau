@@ -61,18 +61,6 @@ export class StatsListEpic {
     this.statsCommand = statsCommand;
   }
 
-  public init(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return merge<VeauAction>(
-      this.findStatsList(action$, state$),
-      this.nameTyped(action$, state$),
-      this.unitTyped(action$, state$),
-      this.iso639Selected(action$, state$),
-      this.iso3166Selected(action$, state$),
-      this.termSelected(action$, state$),
-      this.save(action$, state$)
-    );
-  }
-
   public findStatsList(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
     return action$.pipe<VeauAction, VeauAction>(
       ofType<VeauAction, VeauAction>(STATS_LIST_INITIALIZE),
@@ -87,7 +75,7 @@ export class StatsListEpic {
           this.statsListItemQuery.findByVeauAccountID(identity.getVeauAccountID(), Page.of(1)).transform<Observable<VeauAction>, Error>((listItems: StatsListItems) => {
             return of<VeauAction>(updateStatsListItems(listItems));
           }, () => {
-            return of<VeauAction>(
+            return of<Array<VeauAction>>(
               resetStatsListItems(),
               appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND')
             );
@@ -101,44 +89,25 @@ export class StatsListEpic {
     );
   }
 
-  public nameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<StatsListNameTypedAction, VeauAction>(
-      ofType<VeauAction, StatsListNameTypedAction>(STATS_LIST_NAME_TYPED),
-      map<StatsListNameTypedAction, VeauAction>((action: StatsListNameTypedAction) => {
-        const {
-          value: {
-            statsList: {
-              stats
-            }
-          }
-        } = state$;
-
-        const newStats: Stats = Stats.of(
-          StatsOutline.of(
-            stats.getStatsID(),
-            stats.getLanguage().getLanguageID(),
-            stats.getRegion().getRegionID(),
-            stats.getTerm().getTermID(),
-            action.name,
-            stats.getUnit(),
-            stats.getUpdatedAt()
-          ),
-          stats.getLanguage(),
-          stats.getRegion(),
-          stats.getTerm(),
-          stats.getItems(),
-          stats.getStartDate()
-        );
-
-        return updateNewStats(newStats);
-      })
+  public init(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return merge<Array<VeauAction>>(
+      this.findStatsList(action$, state$),
+      this.nameTyped(action$, state$),
+      this.unitTyped(action$, state$),
+      this.iso639Selected(action$, state$),
+      this.iso3166Selected(action$, state$),
+      this.termSelected(action$, state$),
+      this.save(action$, state$)
     );
   }
 
-  public unitTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<StatsListUnitTypedAction, VeauAction>(
-      ofType<VeauAction, StatsListUnitTypedAction>(STATS_LIST_UNIT_TYPED),
-      map<StatsListUnitTypedAction, VeauAction>((action: StatsListUnitTypedAction) => {
+  public iso3166Selected(
+    action$: ActionsObservable<VeauAction>,
+    state$: StateObservable<State>
+  ): Observable<VeauAction> {
+    return action$.pipe<StatsListISO3166SelectedAction, VeauAction>(
+      ofType<VeauAction, StatsListISO3166SelectedAction>(STATS_LIST_ISO3166_SELECTED),
+      mergeMap<StatsListISO3166SelectedAction, Observable<VeauAction>>((action: StatsListISO3166SelectedAction) => {
         const {
           value: {
             statsList: {
@@ -147,24 +116,29 @@ export class StatsListEpic {
           }
         } = state$;
 
-        const newStats: Stats = Stats.of(
-          StatsOutline.of(
-            stats.getStatsID(),
-            stats.getLanguage().getLanguageID(),
-            stats.getRegion().getRegionID(),
-            stats.getTerm().getTermID(),
-            stats.getName(),
-            action.unit,
-            stats.getUpdatedAt()
-          ),
-          stats.getLanguage(),
-          stats.getRegion(),
-          stats.getTerm(),
-          stats.getItems(),
-          stats.getStartDate()
-        );
+        return from<Promise<Observable<VeauAction>>>(
+          this.regionQuery.findByISO3166(action.iso3166).transform<Observable<VeauAction>, Error>(
+            (region: Region) => {
+              const newStats: Stats = Stats.of(
+                stats.getOutline(),
+                stats.getLanguage(),
+                region,
+                stats.getTerm(),
+                stats.getItems(),
+                stats.getStartDate()
+              );
 
-        return updateNewStats(newStats);
+              return of<VeauAction>(updateNewStats(newStats));
+            },
+            () => {
+              return of<VeauAction>();
+            }
+          ).get()
+        ).pipe(
+          mergeMap((observable: Observable<VeauAction>) => {
+            return observable;
+          })
+        );
       })
     );
   }
@@ -211,52 +185,10 @@ export class StatsListEpic {
     );
   }
 
-  public iso3166Selected(
-    action$: ActionsObservable<VeauAction>,
-    state$: StateObservable<State>
-  ): Observable<VeauAction> {
-    return action$.pipe<StatsListISO3166SelectedAction, VeauAction>(
-      ofType<VeauAction, StatsListISO3166SelectedAction>(STATS_LIST_ISO3166_SELECTED),
-      mergeMap<StatsListISO3166SelectedAction, Observable<VeauAction>>((action: StatsListISO3166SelectedAction) => {
-        const {
-          value: {
-            statsList: {
-              stats
-            }
-          }
-        } = state$;
-
-        return from<Promise<Observable<VeauAction>>>(
-          this.regionQuery.findByISO3166(action.iso3166).transform<Observable<VeauAction>, Error>(
-            (region: Region) => {
-              const newStats: Stats = Stats.of(
-                stats.getOutline(),
-                stats.getLanguage(),
-                region,
-                stats.getTerm(),
-                stats.getItems(),
-                stats.getStartDate()
-              );
-
-              return of<VeauAction>(updateNewStats(newStats));
-            },
-            () => {
-              return of<VeauAction>();
-            }
-          ).get()
-        ).pipe(
-          mergeMap((observable: Observable<VeauAction>) => {
-            return observable;
-          })
-        );
-      })
-    );
-  }
-
-  public termSelected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<StatsListTermSelectedAction, VeauAction>(
-      ofType<VeauAction, StatsListTermSelectedAction>(STATS_LIST_TERM_SELECTED),
-      map<StatsListTermSelectedAction, VeauAction>((action: StatsListTermSelectedAction) => {
+  public nameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsListNameTypedAction, VeauAction>(
+      ofType<VeauAction, StatsListNameTypedAction>(STATS_LIST_NAME_TYPED),
+      map<StatsListNameTypedAction, VeauAction>((action: StatsListNameTypedAction) => {
         const {
           value: {
             statsList: {
@@ -266,10 +198,18 @@ export class StatsListEpic {
         } = state$;
 
         const newStats: Stats = Stats.of(
-          stats.getOutline(),
+          StatsOutline.of(
+            stats.getStatsID(),
+            stats.getLanguage().getLanguageID(),
+            stats.getRegion().getRegionID(),
+            stats.getTerm().getTermID(),
+            action.name,
+            stats.getUnit(),
+            stats.getUpdatedAt()
+          ),
           stats.getLanguage(),
           stats.getRegion(),
-          action.term,
+          stats.getTerm(),
           stats.getItems(),
           stats.getStartDate()
         );
@@ -303,15 +243,16 @@ export class StatsListEpic {
           }
         } = state$;
 
-        return concat<VeauAction>(
-          of<VeauAction>(closeNewStatsModal(), loading()),
+        // TODO
+        return concat(
+          of<Array<VeauAction>>(closeNewStatsModal(), loading()),
           from<Promise<Observable<VeauAction>>>(
             this.statsCommand.create(stats, identity.getVeauAccountID()).transform<Observable<VeauAction>, Error>(
               () => {
-                return of<VeauAction>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
+                return of<Array<VeauAction>>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
               },
               () => {
-                return of<VeauAction>(
+                return of<Array<VeauAction>>(
                   loaded(),
                   raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
                 );
@@ -320,6 +261,66 @@ export class StatsListEpic {
           ),
           of<VeauAction>(loaded())
         );
+      })
+    );
+  }
+
+  public termSelected(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsListTermSelectedAction, VeauAction>(
+      ofType<VeauAction, StatsListTermSelectedAction>(STATS_LIST_TERM_SELECTED),
+      map<StatsListTermSelectedAction, VeauAction>((action: StatsListTermSelectedAction) => {
+        const {
+          value: {
+            statsList: {
+              stats
+            }
+          }
+        } = state$;
+
+        const newStats: Stats = Stats.of(
+          stats.getOutline(),
+          stats.getLanguage(),
+          stats.getRegion(),
+          action.term,
+          stats.getItems(),
+          stats.getStartDate()
+        );
+
+        return updateNewStats(newStats);
+      })
+    );
+  }
+
+  public unitTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<StatsListUnitTypedAction, VeauAction>(
+      ofType<VeauAction, StatsListUnitTypedAction>(STATS_LIST_UNIT_TYPED),
+      map<StatsListUnitTypedAction, VeauAction>((action: StatsListUnitTypedAction) => {
+        const {
+          value: {
+            statsList: {
+              stats
+            }
+          }
+        } = state$;
+
+        const newStats: Stats = Stats.of(
+          StatsOutline.of(
+            stats.getStatsID(),
+            stats.getLanguage().getLanguageID(),
+            stats.getRegion().getRegionID(),
+            stats.getTerm().getTermID(),
+            stats.getName(),
+            action.unit,
+            stats.getUpdatedAt()
+          ),
+          stats.getLanguage(),
+          stats.getRegion(),
+          stats.getTerm(),
+          stats.getItems(),
+          stats.getStartDate()
+        );
+
+        return updateNewStats(newStats);
       })
     );
   }

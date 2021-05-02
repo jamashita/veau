@@ -38,7 +38,7 @@ export class RootEpic {
 
   public init(): Epic<VeauAction, VeauAction, State> {
     return (action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> => {
-      return merge<VeauAction>(
+      return merge<Array<VeauAction>>(
         this.entranceEpic.init(action$, state$),
         this.identityEpic.init(action$, state$),
         this.logoutEpic.init(action$),

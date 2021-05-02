@@ -29,6 +29,21 @@ export class EntranceSaga {
     this.sessionQuery = sessionQuery;
   }
 
+  private* accountNameTyped(): SagaIterator<unknown> {
+    while (true) {
+      const action: EntranceAccountNameTypedAction = yield take(ENTRANCE_ACCOUNT_NAME_TYPED);
+      const state: State = yield select();
+
+      const {
+        entranceInformation
+      } = state;
+
+      const newLogin: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
+
+      yield put(updateEntranceInformation(newLogin));
+    }
+  }
+
   public* init(): IterableIterator<unknown> {
     yield fork(this.login);
     yield fork(this.accountNameTyped);
@@ -41,7 +56,7 @@ export class EntranceSaga {
       const state: State = yield select();
 
       const {
-        modal: {open},
+        modal: { open },
         entranceInformation
       } = state;
 
@@ -70,21 +85,6 @@ export class EntranceSaga {
           return put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
         }
       );
-    }
-  }
-
-  private* accountNameTyped(): SagaIterator<unknown> {
-    while (true) {
-      const action: EntranceAccountNameTypedAction = yield take(ENTRANCE_ACCOUNT_NAME_TYPED);
-      const state: State = yield select();
-
-      const {
-        entranceInformation
-      } = state;
-
-      const newLogin: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
-
-      yield put(updateEntranceInformation(newLogin));
     }
   }
 

@@ -33,7 +33,7 @@ export class RootSaga {
     this.statsListSaga = statsListSaga;
   }
 
-  public *init(): IterableIterator<unknown> {
+  public* init(): IterableIterator<unknown> {
     yield fork(this.entranceSaga.init);
     yield fork(this.identitySaga.init);
     yield fork(this.logoutSaga.init);

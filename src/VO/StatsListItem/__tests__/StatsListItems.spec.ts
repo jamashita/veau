@@ -98,11 +98,10 @@ describe('StatsListItems', () => {
       const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.get = spy;
-
       const items: StatsListItems = StatsListItems.of(sequence);
 
+      // @ts-expect-error
+      items.items.get = spy;
       items.get(0);
 
       expect(spy.called).toBe(true);
@@ -120,11 +119,10 @@ describe('StatsListItems', () => {
       const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.contains = spy;
-
       const items: StatsListItems = StatsListItems.of(sequence);
 
+      // @ts-expect-error
+      items.items.contains = spy;
       items.contains(item1);
 
       expect(spy.called).toBe(true);
@@ -142,11 +140,10 @@ describe('StatsListItems', () => {
       const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.isEmpty = spy;
-
       const items: StatsListItems = StatsListItems.of(sequence);
 
+      // @ts-expect-error
+      items.items.isEmpty = spy;
       items.isEmpty();
 
       expect(spy.called).toBe(true);
@@ -164,11 +161,10 @@ describe('StatsListItems', () => {
       const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.size = spy;
-
       const items: StatsListItems = StatsListItems.of(sequence);
 
+      // @ts-expect-error
+      items.items.size = spy;
       items.size();
 
       expect(spy.called).toBe(true);
@@ -186,11 +182,10 @@ describe('StatsListItems', () => {
       const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.forEach = spy;
-
       const items: StatsListItems = StatsListItems.of(sequence);
 
+      // @ts-expect-error
+      items.items.forEach = spy;
       items.forEach(() => {
         // NOOP
       });
@@ -220,7 +215,7 @@ describe('StatsListItems', () => {
   });
 
   describe('equals', () => {
-    it('same instance', () => {
+    it('returns true if the same instance given', () => {
       expect.assertions(1);
 
       const item1: MockStatsListItem = new MockStatsListItem();
@@ -241,11 +236,10 @@ describe('StatsListItems', () => {
       const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.equals = spy;
-
       const items: StatsListItems = StatsListItems.of(sequence);
 
+      // @ts-expect-error
+      items.items.equals = spy;
       items.equals(new MockStatsListItems());
 
       expect(spy.called).toBe(true);
@@ -263,11 +257,10 @@ describe('StatsListItems', () => {
       const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.toString = spy;
-
       const items: StatsListItems = StatsListItems.of(sequence);
 
+      // @ts-expect-error
+      items.items.toString = spy;
       items.toString();
 
       expect(spy.called).toBe(true);
@@ -307,11 +300,10 @@ describe('StatsListItems', () => {
       const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.every = spy;
-
       const items: StatsListItems = StatsListItems.of(sequence);
 
+      // @ts-expect-error
+      items.items.every = spy;
       items.every(() => {
         return true;
       });
@@ -331,11 +323,10 @@ describe('StatsListItems', () => {
       const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.some = spy;
-
       const items: StatsListItems = StatsListItems.of(sequence);
 
+      // @ts-expect-error
+      items.items.some = spy;
       items.some(() => {
         return true;
       });
@@ -355,11 +346,10 @@ describe('StatsListItems', () => {
       const sequence: MockSequence<MockStatsListItem> = new MockSequence<MockStatsListItem>([item1, item2, item3]);
 
       const spy: SinonSpy = sinon.spy();
-
-      sequence.values = spy;
-
       const items: StatsListItems = StatsListItems.of(sequence);
 
+      // @ts-expect-error
+      items.items.values = spy;
       items.values();
 
       expect(spy.called).toBe(true);

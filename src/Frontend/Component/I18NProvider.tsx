@@ -31,7 +31,7 @@ export class I18NProvider extends React.Component<Props, State> {
     const messages: Messages = i18nMessages[language];
 
     return (
-      <IntlProvider locale={language} messages={messages} defaultLocale='en'>
+      <IntlProvider locale={language} messages={messages} defaultLocale="en">
         {children}
       </IntlProvider>
     );

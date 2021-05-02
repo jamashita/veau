@@ -1,7 +1,7 @@
-import { DataSourceError } from '@jamashita/anden-error';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { FetchError } from '@jamashita/catacombe-fetch';
 import { HeapError } from '@jamashita/catacombe-heap';
-import { Schrodinger, Superposition } from '@jamashita/genitore-superposition';
+import { Schrodinger, Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
@@ -74,15 +74,15 @@ describe('LocaleQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       localeFetchQuery.all = stub2;
-      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+      stub2.returns(Superposition.alive<Locale, LocaleError>(locale, LocaleError));
 
       const stub3: SinonStub = sinon.stub();
 
       localeCommand.create = stub3;
-      stub3.returns(Superposition.alive<unknown, DataSourceError>(null, DataSourceError));
+      stub3.returns(Superposition.alive<unknown, FetchError>(null, FetchError));
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeFetchQuery, localeCacheQuery, localeCommand);
-      const schrodinger: Schrodinger<Locale, DataSourceError | LocaleError> = await localeQuery.all().terminate();
+      const schrodinger: Schrodinger<Locale, LocaleError | DataSourceError> = await localeQuery.all().terminate();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -139,7 +139,7 @@ describe('LocaleQuery', () => {
       const stub2: SinonStub = sinon.stub();
 
       localeFetchQuery.all = stub2;
-      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
+      stub2.returns(Superposition.alive<Locale, LocaleError>(locale, LocaleError));
 
       const stub3: SinonStub = sinon.stub();
 

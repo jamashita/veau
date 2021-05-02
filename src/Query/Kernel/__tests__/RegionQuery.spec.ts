@@ -11,7 +11,6 @@ import { RegionError } from '../../../VO/Region/Error/RegionError';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
 import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
-import { MockRegions } from '../../../VO/Region/Mock/MockRegions';
 import { Region } from '../../../VO/Region/Region';
 import { Regions } from '../../../VO/Region/Regions';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
@@ -35,7 +34,7 @@ describe('RegionQuery', () => {
     it('regionRedisQuery returns Alive', async () => {
       expect.assertions(2);
 
-      const regions: MockRegions = new MockRegions();
+      const regions: Regions = Regions.empty();
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub: SinonStub = sinon.stub();
@@ -55,7 +54,7 @@ describe('RegionQuery', () => {
     it('regionMySQLQuery returns Alive', async () => {
       expect.assertions(2);
 
-      const regions: MockRegions = new MockRegions();
+      const regions: Regions = Regions.empty();
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
@@ -111,7 +110,7 @@ describe('RegionQuery', () => {
     it('regionCommand returns Dead', async () => {
       expect.assertions(2);
 
-      const regions: MockRegions = new MockRegions();
+      const regions: Regions = Regions.empty();
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
@@ -149,7 +148,7 @@ describe('RegionQuery', () => {
       const region2: MockRegion = new MockRegion({
         iso3166: new MockISO3166('ALB')
       });
-      const regions: MockRegions = new MockRegions(region1, region2);
+      const regions: Regions = Regions.ofSpread(region1, region2);
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub: SinonStub = sinon.stub();
@@ -217,7 +216,7 @@ describe('RegionQuery', () => {
     it('no match results', async () => {
       expect.assertions(2);
 
-      const regions: MockRegions = new MockRegions(
+      const regions: Regions = Regions.ofSpread(
         new MockRegion({
           iso3166: new MockISO3166('AFG')
         }),

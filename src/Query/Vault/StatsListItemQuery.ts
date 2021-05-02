@@ -42,7 +42,7 @@ export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {
     return this.outlineQuery.findByVeauAccountID(veauAccountID, page).map<StatsListItems, DataSourceError | LocaleError | StatsListItemError | StatsOutlineError | TermError>((outlines: StatsOutlines) => {
       return this.localeQuery.all().map<StatsListItems, DataSourceError | LocaleError | StatsListItemError | TermError>((locale: Locale) => {
         return this.termQuery.all().map<StatsListItems, DataSourceError | StatsListItemError | TermError>((terms: Terms) => {
-          const items: Array<StatsListItem> = outlines.map<StatsListItem>((outline: StatsOutline) => {
+          const items: Array<StatsListItem> = outlines.toArray().map<StatsListItem>((outline: StatsOutline) => {
             return StatsListItem.ofOutline(outline, locale, terms);
           });
 

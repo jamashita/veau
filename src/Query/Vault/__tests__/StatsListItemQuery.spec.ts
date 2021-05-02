@@ -21,9 +21,7 @@ import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline
 import { MockStatsOutlines } from '../../../VO/StatsOutline/Mock/MockStatsOutlines';
 import { StatsOutlines } from '../../../VO/StatsOutline/StatsOutlines';
 import { TermError } from '../../../VO/Term/Error/TermError';
-import { MockTerm } from '../../../VO/Term/Mock/MockTerm';
-import { MockTermID } from '../../../VO/Term/Mock/MockTermID';
-import { MockTerms } from '../../../VO/Term/Mock/MockTerms';
+import { Term } from '../../../VO/Term/Term';
 import { Terms } from '../../../VO/Term/Terms';
 import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
@@ -64,30 +62,24 @@ describe('StatsListItemQuery', () => {
       const region2: MockRegion = new MockRegion({
         regionID: regionID2
       });
-      const termID1: MockTermID = new MockTermID();
-      const term1: MockTerm = new MockTerm({
-        termID: termID1
-      });
-      const termID2: MockTermID = new MockTermID();
-      const term2: MockTerm = new MockTerm({
-        termID: termID2
-      });
+      const term1: Term = Term.DAILY;
+      const term2: Term = Term.WEEKLY;
       const outline1: MockStatsOutline = new MockStatsOutline({
         languageID: languageID1,
         regionID: regionID1,
-        termID: termID1
+        termID: term1.getTermID()
       });
       const outline2: MockStatsOutline = new MockStatsOutline({
         languageID: languageID2,
         regionID: regionID2,
-        termID: termID2
+        termID: term2.getTermID()
       });
       const outlines: MockStatsOutlines = new MockStatsOutlines(outline1, outline2);
       const locale: MockLocale = new MockLocale({
         languages: [language1, language2, new MockLanguage()],
         regions: [region1, region2, new MockRegion()]
       });
-      const terms: MockTerms = new MockTerms(term1, term2);
+      const terms: Terms = Terms.all();
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -128,7 +120,7 @@ describe('StatsListItemQuery', () => {
       expect.assertions(2);
 
       const locale: MockLocale = new MockLocale();
-      const terms: MockTerms = new MockTerms();
+      const terms: Terms = Terms.all();
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -161,7 +153,7 @@ describe('StatsListItemQuery', () => {
       expect.assertions(2);
 
       const locale: MockLocale = new MockLocale();
-      const terms: MockTerms = new MockTerms();
+      const terms: Terms = Terms.all();
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -194,7 +186,7 @@ describe('StatsListItemQuery', () => {
       expect.assertions(2);
 
       const outlines: MockStatsOutlines = new MockStatsOutlines();
-      const terms: MockTerms = new MockTerms();
+      const terms: Terms = Terms.all();
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -228,7 +220,7 @@ describe('StatsListItemQuery', () => {
       expect.assertions(2);
 
       const outlines: MockStatsOutlines = new MockStatsOutlines();
-      const terms: MockTerms = new MockTerms();
+      const terms: Terms = Terms.all();
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -338,7 +330,7 @@ describe('StatsListItemQuery', () => {
       const locale: MockLocale = new MockLocale({
         languages: [language1]
       });
-      const terms: MockTerms = new MockTerms();
+      const terms: Terms = Terms.all();
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -388,62 +380,7 @@ describe('StatsListItemQuery', () => {
         languages: [language1],
         regions: [region1]
       });
-      const terms: MockTerms = new MockTerms();
-
-      const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
-      const localeQuery: MockLocaleQuery = new MockLocaleQuery();
-      const termQuery: MockTermQuery = new MockTermQuery();
-      const stub1: SinonStub = sinon.stub();
-
-      statsOutlineQuery.findByVeauAccountID = stub1;
-      stub1.returns(Superposition.alive<StatsOutlines, DataSourceError>(outlines, DataSourceError));
-
-      const stub2: SinonStub = sinon.stub();
-
-      localeQuery.all = stub2;
-      stub2.returns(Superposition.alive<Locale, DataSourceError>(locale, DataSourceError));
-
-      const stub3: SinonStub = sinon.stub();
-
-      termQuery.all = stub3;
-      stub3.returns(Superposition.alive<Terms, DataSourceError>(terms, DataSourceError));
-
-      const statsListItemQuery: StatsListItemQuery = new StatsListItemQuery(statsOutlineQuery, localeQuery, termQuery);
-      const schrodinger: Schrodinger<StatsListItems, DataSourceError | StatsListItemError> = await statsListItemQuery.findByVeauAccountID(new MockVeauAccountID(), new MockPage()).terminate();
-
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(StatsListItemError);
-    });
-
-    it('returns Dead.StatsListItemError because there is no such TermID', async () => {
-      expect.assertions(2);
-
-      const languageID1: MockLanguageID = new MockLanguageID();
-      const language1: MockLanguage = new MockLanguage({
-        languageID: languageID1
-      });
-      const regionID1: MockRegionID = new MockRegionID();
-      const region1: MockRegion = new MockRegion({
-        regionID: regionID1
-      });
-      const termID1: MockTermID = new MockTermID();
-      const term1: MockTerm = new MockTerm({
-        termID: termID1
-      });
-      const termID2: MockTermID = new MockTermID();
-      const outline: MockStatsOutline = new MockStatsOutline({
-        languageID: languageID1,
-        regionID: regionID1,
-        termID: termID2
-      });
-      const outlines: MockStatsOutlines = new MockStatsOutlines(outline);
-      const locale: MockLocale = new MockLocale({
-        languages: [language1],
-        regions: [region1]
-      });
-      const terms: MockTerms = new MockTerms(term1);
+      const terms: Terms = Terms.all();
 
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const localeQuery: MockLocaleQuery = new MockLocaleQuery();

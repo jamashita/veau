@@ -76,7 +76,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
     } = this.props;
 
     return (
-      <Dialog open={open} onClose={closeNewStatsModal} fullWidth={true} maxWidth='md'>
+      <Dialog open={open} onClose={closeNewStatsModal} fullWidth={true} maxWidth="md">
         <DialogTitle>
           {intl.formatMessage({
             id: 'CREATE_NEW_STATS'
@@ -87,7 +87,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
             label={intl.formatMessage({
               id: 'NAME'
             })}
-            type='text'
+            type="text"
             value={stats.getName().get()}
             onKeyUp={(value: string) => {
               nameTyped(StatsName.of(value));
@@ -97,7 +97,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
             label={intl.formatMessage({
               id: 'UNIT'
             })}
-            type='text'
+            type="text"
             value={stats.getUnit().get()}
             onKeyUp={(value: string) => {
               unitTyped(StatsUnit.of(value));
@@ -201,14 +201,14 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button color='secondary' onClick={saveNewStats} disabled={!stats.isFilled()}>
-            <Icon className='fas fa-check' />
+          <Button color="secondary" onClick={saveNewStats} disabled={!stats.isFilled()}>
+            <Icon className="fas fa-check" />
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
           </Button>
-          <Button color='secondary' onClick={closeNewStatsModal}>
-            <Icon className='fas fa-times' />
+          <Button color="secondary" onClick={closeNewStatsModal}>
+            <Icon className="fas fa-times" />
             {intl.formatMessage({
               id: 'CANCEL'
             })}

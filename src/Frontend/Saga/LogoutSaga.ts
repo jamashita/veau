@@ -17,11 +17,11 @@ export class LogoutSaga {
     this.sessionCommand = sessionCommand;
   }
 
-  public *init(): IterableIterator<unknown> {
+  public* init(): IterableIterator<unknown> {
     yield fork(this.logout);
   }
 
-  private *logout(): SagaIterator<unknown> {
+  private* logout(): SagaIterator<unknown> {
     while (true) {
       yield take(LOGOUT);
 

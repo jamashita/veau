@@ -1,4 +1,5 @@
-import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
+import { UnimplementedError } from '@jamashita/anden-error';
+import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 import { ILanguageCommand } from '../Interface/ILanguageCommand';
 import { IMockCommand } from './Interface/IMockCommand';
@@ -7,11 +8,11 @@ export class MockLanguageCommand<E extends DataSourceError = DataSourceError> im
   public readonly noun: 'LanguageCommand' = 'LanguageCommand';
   public readonly source: 'Mock' = 'Mock';
 
-  public insertAll(): Superposition<void, E> {
+  public deleteAll(): Superposition<void, E> {
     throw new UnimplementedError();
   }
 
-  public deleteAll(): Superposition<void, E> {
+  public insertAll(): Superposition<void, E> {
     throw new UnimplementedError();
   }
 }

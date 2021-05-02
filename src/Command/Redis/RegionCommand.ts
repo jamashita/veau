@@ -20,18 +20,6 @@ export class RegionCommand implements IRegionCommand<RedisError>, IRedisCommand 
     this.redis = redis;
   }
 
-  public insertAll(regions: Regions): Superposition<unknown, RedisError> {
-    return Superposition.playground<string, JSONAError>(() => {
-      return JSONA.stringify(regions.toJSON());
-    }, JSONAError).transform<unknown, RedisError>(async (str: string) => {
-      await this.redis.getString().set(REDIS_REGION_KEY, str);
-
-      return this.redis.expires(REDIS_REGION_KEY, DURATION);
-    }, (err: JSONAError) => {
-      throw new RedisError('RegionCommand.insertAll()', err);
-    }, RedisError);
-  }
-
   public deleteAll(): Superposition<unknown, RedisError> {
     return Superposition.playground<boolean, RedisError>(() => {
       return this.redis.delete(REDIS_REGION_KEY);
@@ -42,5 +30,17 @@ export class RegionCommand implements IRegionCommand<RedisError>, IRedisCommand 
 
       throw new RedisError('FAIL TO DELETE CACHE');
     });
+  }
+
+  public insertAll(regions: Regions): Superposition<unknown, RedisError> {
+    return Superposition.playground<string, JSONAError>(() => {
+      return JSONA.stringify(regions.toJSON());
+    }, JSONAError).transform<unknown, RedisError>(async (str: string) => {
+      await this.redis.getString().set(REDIS_REGION_KEY, str);
+
+      return this.redis.expires(REDIS_REGION_KEY, DURATION);
+    }, (err: JSONAError) => {
+      throw new RedisError('RegionCommand.insertAll()', err);
+    }, RedisError);
   }
 }

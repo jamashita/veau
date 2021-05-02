@@ -1,6 +1,5 @@
 import { UUID } from '@jamashita/anden-uuid';
 import { AccountName } from '../../Account/AccountName';
-import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
 import { MockRegionID } from '../../Region/Mock/MockRegionID';
@@ -18,7 +17,7 @@ describe('VeauAccount', () => {
       const veauAccountID: VeauAccountID = new MockVeauAccountID();
       const languageID: LanguageID = new MockLanguageID();
       const regionID: RegionID = new MockRegionID();
-      const name: AccountName = new MockAccountName();
+      const name: AccountName = AccountName.empty();
 
       const veauAccount: VeauAccount = VeauAccount.of(veauAccountID, languageID, regionID, name);
 
@@ -272,37 +271,37 @@ describe('VeauAccount', () => {
         new MockVeauAccountID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockAccountName()
+        AccountName.empty()
       );
       const veauAccount2: VeauAccount = VeauAccount.of(
         new MockVeauAccountID(uuid2),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockAccountName()
+        AccountName.empty()
       );
       const veauAccount3: VeauAccount = VeauAccount.of(
         new MockVeauAccountID(uuid1),
         new MockLanguageID(uuid4),
         new MockRegionID(uuid5),
-        new MockAccountName()
+        AccountName.empty()
       );
       const veauAccount4: VeauAccount = VeauAccount.of(
         new MockVeauAccountID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid6),
-        new MockAccountName()
+        AccountName.empty()
       );
       const veauAccount5: VeauAccount = VeauAccount.of(
         new MockVeauAccountID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockAccountName('rectangle')
+        AccountName.of('rectangle')
       );
       const veauAccount6: VeauAccount = VeauAccount.of(
         new MockVeauAccountID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockAccountName()
+        AccountName.empty()
       );
 
       expect(veauAccount1.equals(veauAccount1)).toBe(true);

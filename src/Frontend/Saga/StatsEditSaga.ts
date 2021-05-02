@@ -80,25 +80,45 @@ export class StatsEditSaga {
     this.statsCommand = statsCommand;
   }
 
-  public* init(): IterableIterator<unknown> {
-    yield fork(this.findStats);
-    yield fork(this.initializationFailed);
-    yield fork(this.nameTyped);
-    yield fork(this.unitTyped);
-    yield fork(this.iso639Selected);
-    yield fork(this.iso3166Selected);
-    yield fork(this.dataFilled);
-    yield fork(this.dataDeleted);
-    yield fork(this.itemNameTyped);
-    yield fork(this.saveItem);
-    yield fork(this.rowSelected);
-    yield fork(this.selectingItemNameTyped);
-    yield fork(this.startDateDetermined);
-    yield fork(this.invalidDateInput);
-    yield fork(this.invalidValueInput);
-    yield fork(this.removeItem);
-    yield fork(this.rowMoved);
-    yield fork(this.save);
+  private* dataDeleted(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsEditDataDeletedAction = yield take(STATS_EDIT_DATA_DELETED);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+      const {
+        coordinate
+      } = action;
+
+      const duplicated: Stats = stats.duplicate();
+
+      duplicated.deleteData(coordinate);
+
+      yield put(updateStats(duplicated));
+    }
+  }
+
+  private* dataFilled(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsEditDataFilledAction = yield take(STATS_EDIT_DATA_FILLED);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+      const {
+        oordinate,
+        value
+      } = action;
+
+      const duplicated: Stats = stats.duplicate();
+
+      duplicated.setData(coordinate, value);
+
+      yield put(updateStats(duplicated));
+    }
   }
 
   private* findStats(): SagaIterator<unknown> {
@@ -130,6 +150,27 @@ export class StatsEditSaga {
     }
   }
 
+  public* init(): IterableIterator<unknown> {
+    yield fork(this.findStats);
+    yield fork(this.initializationFailed);
+    yield fork(this.nameTyped);
+    yield fork(this.unitTyped);
+    yield fork(this.iso639Selected);
+    yield fork(this.iso3166Selected);
+    yield fork(this.dataFilled);
+    yield fork(this.dataDeleted);
+    yield fork(this.itemNameTyped);
+    yield fork(this.saveItem);
+    yield fork(this.rowSelected);
+    yield fork(this.selectingItemNameTyped);
+    yield fork(this.startDateDetermined);
+    yield fork(this.invalidDateInput);
+    yield fork(this.invalidValueInput);
+    yield fork(this.removeItem);
+    yield fork(this.rowMoved);
+    yield fork(this.save);
+  }
+
   private* initializationFailed(): SagaIterator<unknown> {
     while (true) {
       yield take(STATS_EDIT_INITIALIZATION_FAILURE);
@@ -138,83 +179,18 @@ export class StatsEditSaga {
     }
   }
 
-  private* nameTyped(): SagaIterator<unknown> {
+  private* invalidDateInput(): SagaIterator<unknown> {
     while (true) {
-      const action: StatsEditNameTypedAction = yield take(STATS_EDIT_NAME_TYPED);
-      const state: State = yield select();
+      yield take(STATS_EDIT_INVALID_DATE_INPUT);
 
-      const {
-        stats
-      } = state;
-
-      const newStats: Stats = Stats.of(
-        stats.getStatsID(),
-        stats.getLanguage(),
-        stats.getRegion(),
-        stats.getTerm(),
-        action.name,
-        stats.getUnit(),
-        stats.getUpdatedAt(),
-        stats.getItems()
-      );
-
-      yield put(updateStats(newStats));
+      yield put(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'));
     }
   }
 
-  private* unitTyped(): SagaIterator<unknown> {
+  private* invalidValueInput(): SagaIterator<unknown> {
     while (true) {
-      const action: StatsEditUnitTypedAction = yield take(STATS_EDIT_UNIT_TYPED);
-      const state: State = yield select();
-
-      const {
-        stats
-      } = state;
-
-      const newStats: Stats = Stats.of(
-        stats.getStatsID(),
-        stats.getLanguage(),
-        stats.getRegion(),
-        stats.getTerm(),
-        stats.getName(),
-        action.unit,
-        stats.getUpdatedAt(),
-        stats.getItems()
-      );
-
-      yield put(updateStats(newStats));
-    }
-  }
-
-  private* iso639Selected(): SagaIterator<unknown> {
-    while (true) {
-      const action: StatsEditISO639SelectedAction = yield take(STATS_EDIT_ISO639_SELECTED);
-      const state: State = yield select();
-
-      const {
-        stats
-      } = state;
-
-      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = yield call(
-        (): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
-          return this.languageQuery.findByISO639(action.iso639);
-        }
-      );
-
-      if (superposition.isAlive()) {
-        const newStats: Stats = Stats.of(
-          stats.getStatsID(),
-          superposition.get(),
-          stats.getRegion(),
-          stats.getTerm(),
-          stats.getName(),
-          stats.getUnit(),
-          stats.getUpdatedAt(),
-          stats.getItems()
-        );
-
-        yield put(updateStats(newStats));
-      }
+      yield take(STATS_EDIT_INVALID_VALUE_INPUT);
+      yield put(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'));
     }
   }
 
@@ -250,44 +226,35 @@ export class StatsEditSaga {
     }
   }
 
-  private* dataFilled(): SagaIterator<unknown> {
+  private* iso639Selected(): SagaIterator<unknown> {
     while (true) {
-      const action: StatsEditDataFilledAction = yield take(STATS_EDIT_DATA_FILLED);
+      const action: StatsEditISO639SelectedAction = yield take(STATS_EDIT_ISO639_SELECTED);
       const state: State = yield select();
 
       const {
         stats
       } = state;
-      const {
-        oordinate,
-        value
-      } = action;
 
-      const duplicated: Stats = stats.duplicate();
+      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = yield call(
+        (): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
+          return this.languageQuery.findByISO639(action.iso639);
+        }
+      );
 
-      duplicated.setData(coordinate, value);
+      if (superposition.isAlive()) {
+        const newStats: Stats = Stats.of(
+          stats.getStatsID(),
+          superposition.get(),
+          stats.getRegion(),
+          stats.getTerm(),
+          stats.getName(),
+          stats.getUnit(),
+          stats.getUpdatedAt(),
+          stats.getItems()
+        );
 
-      yield put(updateStats(duplicated));
-    }
-  }
-
-  private* dataDeleted(): SagaIterator<unknown> {
-    while (true) {
-      const action: StatsEditDataDeletedAction = yield take(STATS_EDIT_DATA_DELETED);
-      const state: State = yield select();
-
-      const {
-        stats
-      } = state;
-      const {
-        coordinate
-      } = action;
-
-      const duplicated: Stats = stats.duplicate();
-
-      duplicated.deleteData(coordinate);
-
-      yield put(updateStats(duplicated));
+        yield put(updateStats(newStats));
+      }
     }
   }
 
@@ -306,6 +273,116 @@ export class StatsEditSaga {
       const newStatsItem: StatsItem = StatsItem.of(statsItem.getStatsItemID(), name, statsItem.getValues());
 
       yield put(updateStatsItem(newStatsItem));
+    }
+  }
+
+  private* nameTyped(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsEditNameTypedAction = yield take(STATS_EDIT_NAME_TYPED);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+
+      const newStats: Stats = Stats.of(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        stats.getTerm(),
+        action.name,
+        stats.getUnit(),
+        stats.getUpdatedAt(),
+        stats.getItems()
+      );
+
+      yield put(updateStats(newStats));
+    }
+  }
+
+  private* removeItem(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsEditRemoveSelectingItemAction = yield take(STATS_EDIT_REMOVE_SELECTING_ITEM);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+
+      const duplicated: Stats = stats.duplicate();
+
+      duplicated.removeItem(action.item);
+
+      yield all([put(updateStats(duplicated)), put(clearSelectingItem())]);
+    }
+  }
+
+  private* rowMoved(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsEditRowMovedAction = yield take(STATS_EDIT_ROW_MOVED);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+      const {
+        column,
+        target
+      } = action;
+
+      const duplicated: Stats = stats.duplicate();
+
+      duplicated.moveItem(column, target);
+
+      yield put(updateStats(duplicated));
+    }
+  }
+
+  private* rowSelected(): SagaIterator<unknown> {
+    while (true) {
+      const action: StatsEditRowSelectedAction = yield take(STATS_EDIT_ROW_SELECTED);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+      const {
+        row
+      } = action;
+
+      const statsItem: Quantum<StatsItem> = stats.getRow(row);
+
+      yield put(selectItem(statsItem, row));
+    }
+  }
+
+  private* save(): SagaIterator<unknown> {
+    while (true) {
+      yield take(STATS_EDIT_SAVE_STATS);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+
+      yield put(loading());
+
+      const superposition: Superposition<void, DataSourceError> = yield call(
+        (): Promise<Superposition<void, DataSourceError>> => {
+          return this.statsCommand.create(stats, VeauAccountID.generate());
+        }
+      );
+
+      yield put(loaded());
+
+      yield superposition.transform<PutEffect<VeauAction>>(
+        () => {
+          return put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
+        },
+        () => {
+          return put(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
+        }
+      );
     }
   }
 
@@ -332,24 +409,6 @@ export class StatsEditSaga {
       );
 
       yield all([put(updateStats(newStats)), put(resetStatsItem())]);
-    }
-  }
-
-  private* rowSelected(): SagaIterator<unknown> {
-    while (true) {
-      const action: StatsEditRowSelectedAction = yield take(STATS_EDIT_ROW_SELECTED);
-      const state: State = yield select();
-
-      const {
-        stats
-      } = state;
-      const {
-        row
-      } = action;
-
-      const statsItem: Quantum<StatsItem> = stats.getRow(row);
-
-      yield put(selectItem(statsItem, row));
     }
   }
 
@@ -411,86 +470,27 @@ export class StatsEditSaga {
     }
   }
 
-  private* invalidDateInput(): SagaIterator<unknown> {
+  private* unitTyped(): SagaIterator<unknown> {
     while (true) {
-      yield take(STATS_EDIT_INVALID_DATE_INPUT);
-
-      yield put(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'));
-    }
-  }
-
-  private* rowMoved(): SagaIterator<unknown> {
-    while (true) {
-      const action: StatsEditRowMovedAction = yield take(STATS_EDIT_ROW_MOVED);
-      const state: State = yield select();
-
-      const {
-        stats
-      } = state;
-      const {
-        column,
-        target
-      } = action;
-
-      const duplicated: Stats = stats.duplicate();
-
-      duplicated.moveItem(column, target);
-
-      yield put(updateStats(duplicated));
-    }
-  }
-
-  private* invalidValueInput(): SagaIterator<unknown> {
-    while (true) {
-      yield take(STATS_EDIT_INVALID_VALUE_INPUT);
-      yield put(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'));
-    }
-  }
-
-  private* removeItem(): SagaIterator<unknown> {
-    while (true) {
-      const action: StatsEditRemoveSelectingItemAction = yield take(STATS_EDIT_REMOVE_SELECTING_ITEM);
+      const action: StatsEditUnitTypedAction = yield take(STATS_EDIT_UNIT_TYPED);
       const state: State = yield select();
 
       const {
         stats
       } = state;
 
-      const duplicated: Stats = stats.duplicate();
-
-      duplicated.removeItem(action.item);
-
-      yield all([put(updateStats(duplicated)), put(clearSelectingItem())]);
-    }
-  }
-
-  private* save(): SagaIterator<unknown> {
-    while (true) {
-      yield take(STATS_EDIT_SAVE_STATS);
-      const state: State = yield select();
-
-      const {
-        stats
-      } = state;
-
-      yield put(loading());
-
-      const superposition: Superposition<void, DataSourceError> = yield call(
-        (): Promise<Superposition<void, DataSourceError>> => {
-          return this.statsCommand.create(stats, VeauAccountID.generate());
-        }
+      const newStats: Stats = Stats.of(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        stats.getTerm(),
+        stats.getName(),
+        action.unit,
+        stats.getUpdatedAt(),
+        stats.getItems()
       );
 
-      yield put(loaded());
-
-      yield superposition.transform<PutEffect<VeauAction>>(
-        () => {
-          return put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
-        },
-        () => {
-          return put(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
-        }
-      );
+      yield put(updateStats(newStats));
     }
   }
 }

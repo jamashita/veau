@@ -9,13 +9,13 @@ import { Endpoints } from '../Endpoints';
 @injectable()
 export class RedirectEpic {
   public init(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
-    return merge<VeauAction>(this.toStatsList(action$), this.toStatsEdit(action$), this.toEntrance(action$));
+    return merge<Array<VeauAction>>(this.toStatsList(action$), this.toStatsEdit(action$), this.toEntrance(action$));
   }
 
-  public toStatsList(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
+  public toEntrance(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
     return action$.pipe<VeauAction, VeauAction>(
-      ofType<VeauAction, VeauAction>(PUSH_TO_STATS_LIST),
-      mapTo<VeauAction, VeauAction>(push(Endpoints.STATS_LIST))
+      ofType<VeauAction, VeauAction>(PUSH_TO_ENTRANCE),
+      mapTo<VeauAction, VeauAction>(push(Endpoints.ENTRANCE))
     );
   }
 
@@ -28,10 +28,10 @@ export class RedirectEpic {
     );
   }
 
-  public toEntrance(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
+  public toStatsList(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
     return action$.pipe<VeauAction, VeauAction>(
-      ofType<VeauAction, VeauAction>(PUSH_TO_ENTRANCE),
-      mapTo<VeauAction, VeauAction>(push(Endpoints.ENTRANCE))
+      ofType<VeauAction, VeauAction>(PUSH_TO_STATS_LIST),
+      mapTo<VeauAction, VeauAction>(push(Endpoints.STATS_LIST))
     );
   }
 }

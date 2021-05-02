@@ -5,7 +5,7 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
+import { AccountName } from '../../../VO/Account/AccountName';
 import { MockEntranceInformation } from '../../../VO/EntranceInformation/Mock/MockEntranceInformation';
 import { IdentityError } from '../../../VO/Identity/Error/IdentityError';
 import { Identity } from '../../../VO/Identity/Identity';
@@ -42,7 +42,7 @@ describe('IdentityQuery', () => {
       expect.assertions(5);
 
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
-      const account: MockAccountName = new MockAccountName();
+      const account: AccountName = AccountName.empty();
       const veauAccount: MockVeauAccount = new MockVeauAccount({
         veauAccountID,
         account
@@ -260,7 +260,7 @@ describe('IdentityQuery', () => {
       expect.assertions(5);
 
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
-      const account: MockAccountName = new MockAccountName();
+      const account: AccountName = AccountName.empty();
       const veauAccount: MockVeauAccount = new MockVeauAccount({
         veauAccountID,
         account

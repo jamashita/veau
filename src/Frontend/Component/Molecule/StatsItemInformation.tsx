@@ -40,7 +40,7 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
     }
 
     return (
-      <Card className='stats-item-info'>
+      <Card className="stats-item-info">
         <CardHeader
           title={intl.formatMessage({
             id: 'STATS_ITEM_INFO'
@@ -51,7 +51,7 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
             label={intl.formatMessage({
               id: 'NAME'
             })}
-            type='text'
+            type="text"
             value={selecting.get().getName().get()}
             onKeyUp={(value: string) => {
               nameTyped(StatsItemName.of(value));
@@ -59,13 +59,13 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
           />
           <CardActions>
             <Button
-              color='primary'
+              color="primary"
               onClick={() => {
                 removeItem(selecting.get());
               }}
               fullWidth={true}
             >
-              <Icon className='fas fa-trash' />
+              <Icon className="fas fa-trash" />
               {intl.formatMessage({
                 id: 'REMOVE_ITEM'
               })}

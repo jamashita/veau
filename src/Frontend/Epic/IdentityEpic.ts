@@ -44,7 +44,7 @@ export class IdentityEpic {
   }
 
   public init(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return merge<VeauAction>(
+    return merge<Array<VeauAction>>(
       this.initIdentity(action$),
       this.noSession(action$, state$),
       this.initialize(action$, state$)
@@ -55,7 +55,7 @@ export class IdentityEpic {
     return action$.pipe<VeauAction, VeauAction>(
       ofType(ON_LOAD),
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
-        return concat<VeauAction>(
+        return concat<Array<VeauAction>>(
           of<VeauAction>(loading()),
           from<Promise<Observable<VeauAction>>>(
             this.localeQuery.all().transform<Observable<VeauAction>, Error>((locale: Locale) => {
@@ -76,7 +76,7 @@ export class IdentityEpic {
                 actions.push(pushToStatsList());
               }
 
-              return of<VeauAction>(...actions);
+              return of<Array<VeauAction>>(...actions);
             }, () => {
               return of<VeauAction>(identityAuthenticationFailed());
             }).get()
@@ -87,6 +87,23 @@ export class IdentityEpic {
           ),
           of<VeauAction>(loaded())
         );
+      })
+    );
+  }
+
+  public initialize(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<VeauAction, VeauAction>(
+      ofType<VeauAction, VeauAction>(IDENTITY_INITIALIZE),
+      map<VeauAction, VeauAction>(() => {
+        const {
+          value: {
+            identity
+          }
+        } = state$;
+
+        const newIdentity: Identity = Identity.of(VeauAccountID.generate(), AccountName.empty(), identity.getLanguage(), identity.getRegion());
+
+        return identityAuthenticated(newIdentity);
       })
     );
   }
@@ -106,7 +123,7 @@ export class IdentityEpic {
               }
             } = state$;
 
-            return of<VeauAction>(
+            return of<Array<VeauAction>>(
               identityAuthenticated(
                 Identity.of(
                   identity.getVeauAccountID(),
@@ -125,23 +142,6 @@ export class IdentityEpic {
             return observable;
           })
         );
-      })
-    );
-  }
-
-  public initialize(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<VeauAction, VeauAction>(
-      ofType<VeauAction, VeauAction>(IDENTITY_INITIALIZE),
-      map<VeauAction, VeauAction>(() => {
-        const {
-          value: {
-            identity
-          }
-        } = state$;
-
-        const newIdentity: Identity = Identity.of(VeauAccountID.generate(), AccountName.empty(), identity.getLanguage(), identity.getRegion());
-
-        return identityAuthenticated(newIdentity);
       })
     );
   }

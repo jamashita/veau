@@ -7,7 +7,7 @@ import { ICommand } from './ICommand';
 export interface IRegionCommand<E extends DataSourceError = DataSourceError> extends ICommand<'RegionCommand'> {
   readonly noun: 'RegionCommand';
 
-  insertAll(regions: Regions): Superposition<unknown, E>;
-
   deleteAll(): Superposition<unknown, E>;
+
+  insertAll(regions: Regions): Superposition<unknown, E>;
 }

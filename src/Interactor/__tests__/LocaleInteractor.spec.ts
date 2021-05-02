@@ -12,11 +12,9 @@ import { MockLanguageQuery } from '../../Query/Mock/MockLanguageQuery';
 import { MockRegionQuery } from '../../Query/Mock/MockRegionQuery';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Languages } from '../../VO/Language/Languages';
-import { MockLanguages } from '../../VO/Language/Mock/MockLanguages';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../VO/Locale/Locale';
 import { RegionError } from '../../VO/Region/Error/RegionError';
-import { MockRegions } from '../../VO/Region/Mock/MockRegions';
 import { Regions } from '../../VO/Region/Regions';
 import { LocaleInteractor } from '../LocaleInteractor';
 
@@ -37,8 +35,8 @@ describe('LocaleInteractor', () => {
     it('normal case', async () => {
       expect.assertions(3);
 
-      const languages: MockLanguages = new MockLanguages();
-      const regions: MockRegions = new MockRegions();
+      const languages: Languages = Languages.empty();
+      const regions: Regions = Regions.empty();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
 
@@ -72,7 +70,7 @@ describe('LocaleInteractor', () => {
     it('languageQuery.all returns Dead by LanguageError', async () => {
       expect.assertions(2);
 
-      const regions: MockRegions = new MockRegions();
+      const regions: Regions = Regions.empty();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
@@ -106,7 +104,7 @@ describe('LocaleInteractor', () => {
     it('languageQuery.all returns Dead by DataSourceError', async () => {
       expect.assertions(2);
 
-      const regions: MockRegions = new MockRegions();
+      const regions: Regions = Regions.empty();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
@@ -141,7 +139,7 @@ describe('LocaleInteractor', () => {
     it('regionQuery.all returns Dead by RegionError', async () => {
       expect.assertions(2);
 
-      const languages: MockLanguages = new MockLanguages();
+      const languages: Languages = Languages.empty();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
@@ -175,7 +173,7 @@ describe('LocaleInteractor', () => {
     it('regionQuery.all returns Dead by NoSuchElementError', async () => {
       expect.assertions(2);
 
-      const languages: MockLanguages = new MockLanguages();
+      const languages: Languages = Languages.empty();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();

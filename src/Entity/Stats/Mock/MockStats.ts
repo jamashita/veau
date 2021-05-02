@@ -6,7 +6,6 @@ import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { Region } from '../../../VO/Region/Region';
 import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
 import { StatsOutline } from '../../../VO/StatsOutline/StatsOutline';
-import { MockTerm } from '../../../VO/Term/Mock/MockTerm';
 import { Term } from '../../../VO/Term/Term';
 import { MockStatsItems } from '../../StatsItem/Mock/MockStatsItems';
 import { StatsItems } from '../../StatsItem/StatsItems';
@@ -26,7 +25,7 @@ export class MockStats extends Stats {
     outline = new MockStatsOutline(),
     language = new MockLanguage(),
     region = new MockRegion(),
-    term = new MockTerm(),
+    term = Term.ANNUAL,
     items = new MockStatsItems(),
     startDate = null
   }: StatsArgs = {}) {

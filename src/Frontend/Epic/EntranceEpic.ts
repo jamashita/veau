@@ -29,8 +29,25 @@ export class EntranceEpic {
     this.identityQuery = identityQuery;
   }
 
+  public accountNameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
+    return action$.pipe<EntranceAccountNameTypedAction, VeauAction>(
+      ofType<VeauAction, EntranceAccountNameTypedAction>(ENTRANCE_ACCOUNT_NAME_TYPED),
+      map<EntranceAccountNameTypedAction, VeauAction>((action: EntranceAccountNameTypedAction) => {
+        const {
+          value: {
+            entranceInformation
+          }
+        } = state$;
+
+        const newInfo: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
+
+        return updateEntranceInformation(newInfo);
+      })
+    );
+  }
+
   public init(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return merge<VeauAction>(
+    return merge<Array<VeauAction>>(
       this.login(action$, state$),
       this.accountNameTyped(action$, state$),
       this.passwordTyped(action$, state$)
@@ -63,11 +80,11 @@ export class EntranceEpic {
           }
         } = state$;
 
-        return concat<VeauAction>(
+        return concat<Array<VeauAction>>(
           of<VeauAction>(loading()),
           from<Promise<Observable<VeauAction>>>(
             this.identityQuery.findByEntranceInfo(entranceInformation).transform<Observable<VeauAction>, Error>((identity: Identity) => {
-              return of<VeauAction>(identityAuthenticated(identity), pushToStatsList(), identified());
+              return of<Array<VeauAction>>(identityAuthenticated(identity), pushToStatsList(), identified());
             }, () => {
               return of<VeauAction>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
             }).get()
@@ -78,23 +95,6 @@ export class EntranceEpic {
           ),
           of<VeauAction>(loaded())
         );
-      })
-    );
-  }
-
-  public accountNameTyped(action$: ActionsObservable<VeauAction>, state$: StateObservable<State>): Observable<VeauAction> {
-    return action$.pipe<EntranceAccountNameTypedAction, VeauAction>(
-      ofType<VeauAction, EntranceAccountNameTypedAction>(ENTRANCE_ACCOUNT_NAME_TYPED),
-      map<EntranceAccountNameTypedAction, VeauAction>((action: EntranceAccountNameTypedAction) => {
-        const {
-          value: {
-            entranceInformation
-          }
-        } = state$;
-
-        const newInfo: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
-
-        return updateEntranceInformation(newInfo);
       })
     );
   }

@@ -1,5 +1,4 @@
 import { AccountName } from '../../Account/AccountName';
-import { MockAccountName } from '../../Account/Mock/MockAccountName';
 import { EntranceInformation } from '../EntranceInformation';
 import { MockPassword } from '../Mock/MockPassword';
 import { Password } from '../Password';
@@ -70,7 +69,7 @@ describe('EntranceInformation', () => {
       expect.assertions(1);
 
       const entranceInformation: EntranceInformation = EntranceInformation.of(
-        new MockAccountName('name'),
+        AccountName.of('name'),
         Password.empty()
       );
 
@@ -81,7 +80,7 @@ describe('EntranceInformation', () => {
       expect.assertions(1);
 
       const entranceInformation: EntranceInformation = EntranceInformation.of(
-        new MockAccountName('name'),
+        AccountName.of('name'),
         new MockPassword('password')
       );
 
@@ -117,23 +116,23 @@ describe('EntranceInformation', () => {
       expect.assertions(5);
 
       const entranceInformation1: EntranceInformation = EntranceInformation.of(
-        new MockAccountName('name1'),
+        AccountName.of('name1'),
         new MockPassword('password1')
       );
       const entranceInformation2: EntranceInformation = EntranceInformation.of(
-        new MockAccountName('name2'),
+        AccountName.of('name2'),
         new MockPassword('password1')
       );
       const entranceInformation3: EntranceInformation = EntranceInformation.of(
-        new MockAccountName('name1'),
+        AccountName.of('name1'),
         new MockPassword('password2')
       );
       const entranceInformation4: EntranceInformation = EntranceInformation.of(
-        new MockAccountName('name2'),
+        AccountName.of('name2'),
         new MockPassword('password2')
       );
       const entranceInformation5: EntranceInformation = EntranceInformation.of(
-        new MockAccountName('name1'),
+        AccountName.of('name1'),
         new MockPassword('password1')
       );
 

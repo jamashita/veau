@@ -19,7 +19,7 @@ export class LogoutEpic {
   }
 
   public init(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
-    return merge<VeauAction>(this.logout(action$));
+    return merge<Array<VeauAction>>(this.logout(action$));
   }
 
   public logout(action$: ActionsObservable<VeauAction>): Observable<VeauAction> {
@@ -28,7 +28,7 @@ export class LogoutEpic {
       mergeMap<VeauAction, Observable<VeauAction>>(() => {
         return from<Promise<Observable<VeauAction>>>(
           this.sessionCommand.delete().transform<Observable<VeauAction>, Error>(() => {
-            return of<VeauAction>(initializeIdentity(), closeProvider(), pushToEntrance());
+            return of<Array<VeauAction>>(initializeIdentity(), closeProvider(), pushToEntrance());
           }, () => {
             return of<VeauAction>(nothing());
           }).get()

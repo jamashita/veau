@@ -1,4 +1,3 @@
-import { MockTerm } from '../../Term/Mock/MockTerm';
 import { Term } from '../../Term/Term';
 import { Terms } from '../../Term/Terms';
 import { AsOf } from '../AsOf';
@@ -169,17 +168,6 @@ describe('AsOf', () => {
         }).not.toThrow(AsOfError);
       });
     });
-
-    it('throws AsOfError because this situation is not considered', () => {
-      expect.assertions(1);
-
-      const asOf: AsOf = AsOf.ofString('2000-01-01');
-      const fakeTerm: MockTerm = new MockTerm();
-
-      expect(() => {
-        asOf.previous(fakeTerm);
-      }).toThrow(AsOfError);
-    });
   });
 
   describe('next', () => {
@@ -244,17 +232,6 @@ describe('AsOf', () => {
           asOf.next(term);
         }).not.toThrow(AsOfError);
       });
-    });
-
-    it('throws AsOfError because this situation is not considered', () => {
-      expect.assertions(1);
-
-      const asOf: AsOf = AsOf.ofString('2000-01-01');
-      const fakeTerm: MockTerm = new MockTerm();
-
-      expect(() => {
-        asOf.next(fakeTerm);
-      }).toThrow(AsOfError);
     });
   });
 

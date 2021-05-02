@@ -2,7 +2,6 @@ import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
 import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
-import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
 import { StatsValues } from '../../../VO/StatsValue/StatsValues';
 import { StatsItem } from '../StatsItem';
 
@@ -16,7 +15,7 @@ export class MockStatsItem extends StatsItem {
   public constructor({
     statsItemID = new MockStatsItemID(),
     name = new MockStatsItemName(),
-    values = new MockStatsValues()
+    values = StatsValues.empty()
   }: StatsItemArgs = {}) {
     super(statsItemID, name, values);
   }

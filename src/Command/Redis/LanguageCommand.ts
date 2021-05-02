@@ -20,18 +20,6 @@ export class LanguageCommand implements ILanguageCommand<RedisError>, IRedisComm
     this.redis = redis;
   }
 
-  public insertAll(languages: Languages): Superposition<unknown, RedisError> {
-    return Superposition.playground<string, JSONAError>(() => {
-      return JSONA.stringify(languages.toJSON());
-    }, JSONAError).transform<unknown, RedisError>(async (str: string) => {
-      await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
-
-      return this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
-    }, (err: JSONAError) => {
-      throw new RedisError('LanguageCommand.insertAll()', err);
-    }, RedisError);
-  }
-
   public deleteAll(): Superposition<unknown, RedisError> {
     return Superposition.playground<boolean, RedisError>(() => {
       return this.redis.delete(REDIS_LANGUAGE_KEY);
@@ -42,5 +30,17 @@ export class LanguageCommand implements ILanguageCommand<RedisError>, IRedisComm
 
       throw new RedisError('FAIL TO DELETE CACHE');
     });
+  }
+
+  public insertAll(languages: Languages): Superposition<unknown, RedisError> {
+    return Superposition.playground<string, JSONAError>(() => {
+      return JSONA.stringify(languages.toJSON());
+    }, JSONAError).transform<unknown, RedisError>(async (str: string) => {
+      await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
+
+      return this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
+    }, (err: JSONAError) => {
+      throw new RedisError('LanguageCommand.insertAll()', err);
+    }, RedisError);
   }
 }
