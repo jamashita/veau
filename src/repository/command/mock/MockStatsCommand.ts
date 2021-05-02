@@ -2,7 +2,7 @@ import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 import { IStatsCommand } from '../interface/IStatsCommand';
-import { IMockCommand } from './interface/IMockCommand';
+import { IMockCommand } from './IMockCommand';
 
 export class MockStatsCommand<E extends DataSourceError = DataSourceError> implements IStatsCommand<E>, IMockCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';

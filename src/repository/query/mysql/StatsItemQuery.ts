@@ -13,7 +13,7 @@ import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueE
 import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues';
 import { IStatsItemQuery } from '../interface/IStatsItemQuery';
 import { IStatsValueQuery } from '../interface/IStatsValueQuery';
-import { IMySQLQuery } from './interface/IMySQLQuery';
+import { IMySQLQuery } from './IMySQLQuery';
 
 @injectable()
 export class StatsItemQuery implements IStatsItemQuery<MySQLError>, IMySQLQuery {

@@ -6,7 +6,7 @@ import { Language } from '../../../domain/vo/Language/Language';
 import { Languages } from '../../../domain/vo/Language/Languages';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { IMockQuery } from './interface/IMockQuery';
+import { IMockQuery } from './IMockQuery';
 
 export class MockLanguageQuery implements ILanguageQuery, IMockQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';

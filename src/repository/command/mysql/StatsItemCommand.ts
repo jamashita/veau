@@ -3,7 +3,7 @@ import { Superposition } from '@jamashita/genitore';
 import { StatsItem } from '../../../domain/entity/StatsItem/StatsItem';
 import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
 import { IStatsItemCommand } from '../interface/IStatsItemCommand';
-import { IMySQLCommand } from './interface/IMySQLCommand';
+import { IMySQLCommand } from './IMySQLCommand';
 
 export class StatsItemCommand implements IStatsItemCommand<MySQLError>, IMySQLCommand {
   public readonly noun: 'StatsItemCommand' = 'StatsItemCommand';

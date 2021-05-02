@@ -2,7 +2,7 @@ import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 import { IRegionCommand } from '../interface/IRegionCommand';
-import { IMockCommand } from './interface/IMockCommand';
+import { IMockCommand } from './IMockCommand';
 
 export class MockRegionCommand<E extends DataSourceError = DataSourceError> implements IRegionCommand<E>, IMockCommand {
   public readonly noun: 'RegionCommand' = 'RegionCommand';

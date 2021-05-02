@@ -5,7 +5,7 @@ import { Type } from '../../../container/Types';
 import { Locale } from '../../../domain/vo/Locale/Locale';
 import { VAULT_LOCALE_KEY } from '../../../infrastructure/VeauHeap';
 import { ILocaleCommand } from '../interface/ILocaleCommand';
-import { IHeapCommand } from './interface/IHeapCommand';
+import { IHeapCommand } from './IHeapCommand';
 
 @injectable()
 export class LocaleCommand implements ILocaleCommand<HeapError>, IHeapCommand {

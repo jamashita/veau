@@ -6,7 +6,7 @@ import { Type } from '../../../container/Types';
 import { Regions } from '../../../domain/vo/Region/Regions';
 import { REDIS_REGION_KEY } from '../../../infrastructure/VeauRedis';
 import { IRegionCommand } from '../interface/IRegionCommand';
-import { IRedisCommand } from './interface/IRedisCommand';
+import { IRedisCommand } from './IRedisCommand';
 
 const DURATION: number = 3 * 60 * 60;
 

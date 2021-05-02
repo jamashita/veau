@@ -4,7 +4,7 @@ import { Superposition } from '@jamashita/genitore';
 import { TermError } from '../../../domain/vo/Term/error/TermError';
 import { Terms } from '../../../domain/vo/Term/Terms';
 import { ITermQuery } from '../interface/ITermQuery';
-import { IMockQuery } from './interface/IMockQuery';
+import { IMockQuery } from './IMockQuery';
 
 export class MockTermQuery implements ITermQuery, IMockQuery {
   public readonly noun: 'TermQuery' = 'TermQuery';

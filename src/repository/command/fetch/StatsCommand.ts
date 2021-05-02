@@ -7,7 +7,7 @@ import { Type } from '../../../container/Types';
 import { Stats } from '../../../domain/entity/Stats/Stats';
 import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
 import { IStatsCommand } from '../interface/IStatsCommand';
-import { IFetchCommand } from './interface/IFetchCommand';
+import { IFetchCommand } from './IFetchCommand';
 
 @injectable()
 export class StatsCommand implements IStatsCommand<FetchError>, IFetchCommand {

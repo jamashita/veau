@@ -5,7 +5,7 @@ import { Stats } from '../../../domain/entity/Stats/Stats';
 import { StatsError } from '../../../domain/vo/StatsOutline/error/StatsError';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IStatsQuery } from '../interface/IStatsQuery';
-import { IMockQuery } from './interface/IMockQuery';
+import { IMockQuery } from './IMockQuery';
 
 export class MockStatsQuery implements IStatsQuery, IMockQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';

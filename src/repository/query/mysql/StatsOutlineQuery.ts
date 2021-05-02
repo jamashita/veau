@@ -10,7 +10,7 @@ import { StatsOutlines } from '../../../domain/vo/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
-import { IMySQLQuery } from './interface/IMySQLQuery';
+import { IMySQLQuery } from './IMySQLQuery';
 
 @injectable()
 export class StatsOutlineQuery implements IStatsOutlineQuery<MySQLError>, IMySQLQuery {

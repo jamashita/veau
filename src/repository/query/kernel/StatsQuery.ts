@@ -21,7 +21,7 @@ import { IRegionQuery } from '../interface/IRegionQuery';
 import { IStatsItemQuery } from '../interface/IStatsItemQuery';
 import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../interface/IStatsQuery';
-import { IKernelQuery } from './interface/IKernelQuery';
+import { IKernelQuery } from './IKernelQuery';
 
 @injectable()
 export class StatsQuery implements IStatsQuery, IKernelQuery {

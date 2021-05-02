@@ -13,7 +13,7 @@ import { Languages } from '../../../domain/vo/Language/Languages';
 import { REDIS_LANGUAGE_KEY } from '../../../infrastructure/VeauRedis';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { IRedisQuery } from './interface/IRedisQuery';
+import { IRedisQuery } from './IRedisQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery<RedisError>, IRedisQuery {

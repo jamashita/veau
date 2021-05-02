@@ -5,7 +5,7 @@ import { Account } from '../../../domain/vo/Account/Account';
 import { AccountError } from '../../../domain/vo/Account/error/AccountError';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IAccountQuery } from '../interface/IAccountQuery';
-import { IMockQuery } from './interface/IMockQuery';
+import { IMockQuery } from './IMockQuery';
 
 export class MockAccountQuery implements IAccountQuery, IMockQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';

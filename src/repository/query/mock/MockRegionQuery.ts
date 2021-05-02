@@ -6,7 +6,7 @@ import { Region } from '../../../domain/vo/Region/Region';
 import { Regions } from '../../../domain/vo/Region/Regions';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IRegionQuery } from '../interface/IRegionQuery';
-import { IMockQuery } from './interface/IMockQuery';
+import { IMockQuery } from './IMockQuery';
 
 export class MockRegionQuery implements IRegionQuery, IMockQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';

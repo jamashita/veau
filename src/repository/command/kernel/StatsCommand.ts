@@ -9,7 +9,7 @@ import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
 import { StatsUpdateFactory } from '../../../factory/StatsUpdateFactory';
 import { IStatsCommand } from '../interface/IStatsCommand';
 import { StatsUpdateTransaction } from '../mysql/transaction/StatsUpdateTransaction';
-import { IKernelCommand } from './interface/IKernelCommand';
+import { IKernelCommand } from './IKernelCommand';
 
 @injectable()
 export class StatsCommand implements IStatsCommand<MySQLError>, IKernelCommand {

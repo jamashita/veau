@@ -9,7 +9,7 @@ import { LanguageID } from '../../../domain/vo/Language/LanguageID';
 import { Languages } from '../../../domain/vo/Language/Languages';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { IMySQLQuery } from './interface/IMySQLQuery';
+import { IMySQLQuery } from './IMySQLQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {

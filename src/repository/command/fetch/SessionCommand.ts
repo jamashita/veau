@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../../container/Types';
 import { ISessionCommand } from '../interface/ISessionCommand';
-import { IFetchCommand } from './interface/IFetchCommand';
+import { IFetchCommand } from './IFetchCommand';
 
 @injectable()
 export class SessionCommand implements ISessionCommand<FetchError>, IFetchCommand {

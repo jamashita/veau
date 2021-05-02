@@ -2,7 +2,7 @@ import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 import { ILocaleCommand } from '../interface/ILocaleCommand';
-import { IMockCommand } from './interface/IMockCommand';
+import { IMockCommand } from './IMockCommand';
 
 export class MockLocaleCommand<E extends DataSourceError = DataSourceError> implements ILocaleCommand<E>, IMockCommand {
   public readonly noun: 'LocaleCommand' = 'LocaleCommand';

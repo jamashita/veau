@@ -9,7 +9,7 @@ import { RegionID } from '../../../domain/vo/Region/RegionID';
 import { Regions } from '../../../domain/vo/Region/Regions';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IRegionQuery } from '../interface/IRegionQuery';
-import { IMySQLQuery } from './interface/IMySQLQuery';
+import { IMySQLQuery } from './IMySQLQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {

@@ -4,7 +4,7 @@ import { Superposition } from '@jamashita/genitore';
 import { VeauAccountError } from '../../../domain/vo/VeauAccount/error/VeauAccountError';
 import { VeauAccount } from '../../../domain/vo/VeauAccount/VeauAccount';
 import { IVeauAccountQuery } from '../interface/IVeauAccountQuery';
-import { IMockQuery } from './interface/IMockQuery';
+import { IMockQuery } from './IMockQuery';
 
 export class MockVeauAccountQuery implements IVeauAccountQuery, IMockQuery {
   public readonly noun: 'VeauAccountQuery' = 'VeauAccountQuery';

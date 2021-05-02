@@ -13,7 +13,7 @@ import { Regions } from '../../../domain/vo/Region/Regions';
 import { REDIS_REGION_KEY } from '../../../infrastructure/VeauRedis';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IRegionQuery } from '../interface/IRegionQuery';
-import { IRedisQuery } from './interface/IRedisQuery';
+import { IRedisQuery } from './IRedisQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {

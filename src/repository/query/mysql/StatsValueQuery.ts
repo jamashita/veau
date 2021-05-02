@@ -11,7 +11,7 @@ import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueE
 import { StatsValue, StatsValueRow } from '../../../domain/vo/StatsValue/StatsValue';
 import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues';
 import { IStatsValueQuery } from '../interface/IStatsValueQuery';
-import { IMySQLQuery } from './interface/IMySQLQuery';
+import { IMySQLQuery } from './IMySQLQuery';
 
 @injectable()
 export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuery {

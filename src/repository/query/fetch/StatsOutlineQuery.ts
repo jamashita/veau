@@ -12,7 +12,7 @@ import { StatsOutlines } from '../../../domain/vo/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
-import { IFetchQuery } from './interface/IFetchQuery';
+import { IFetchQuery } from './IFetchQuery';
 
 @injectable()
 export class StatsOutlineQuery implements IStatsOutlineQuery<FetchError>, IFetchQuery {

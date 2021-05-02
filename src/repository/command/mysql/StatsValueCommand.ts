@@ -4,7 +4,7 @@ import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID';
 import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
 import { StatsValue } from '../../../domain/vo/StatsValue/StatsValue';
 import { IStatsValueCommand } from '../interface/IStatsValueCommand';
-import { IMySQLCommand } from './interface/IMySQLCommand';
+import { IMySQLCommand } from './IMySQLCommand';
 
 export class StatsValueCommand implements IStatsValueCommand<MySQLError>, IMySQLCommand {
   public readonly noun: 'StatsValueCommand' = 'StatsValueCommand';

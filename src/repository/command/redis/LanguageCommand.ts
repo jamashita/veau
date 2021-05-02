@@ -6,7 +6,7 @@ import { Type } from '../../../container/Types';
 import { Languages } from '../../../domain/vo/Language/Languages';
 import { REDIS_LANGUAGE_KEY } from '../../../infrastructure/VeauRedis';
 import { ILanguageCommand } from '../interface/ILanguageCommand';
-import { IRedisCommand } from './interface/IRedisCommand';
+import { IRedisCommand } from './IRedisCommand';
 
 const DURATION: number = 3 * 60 * 60;
 

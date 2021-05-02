@@ -3,7 +3,7 @@ import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 import { Locale } from '../../../domain/vo/Locale/Locale';
 import { ILocaleQuery } from '../interface/ILocaleQuery';
-import { IMockQuery } from './interface/IMockQuery';
+import { IMockQuery } from './IMockQuery';
 
 export class MockLocaleQuery implements ILocaleQuery, IMockQuery {
   public readonly noun: 'LocaleQuery' = 'LocaleQuery';

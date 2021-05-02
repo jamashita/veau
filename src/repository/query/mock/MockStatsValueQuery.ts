@@ -6,7 +6,7 @@ import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID';
 import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueError';
 import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues';
 import { IStatsValueQuery } from '../interface/IStatsValueQuery';
-import { IMockQuery } from './interface/IMockQuery';
+import { IMockQuery } from './IMockQuery';
 
 export class MockStatsValueQuery implements IStatsValueQuery, IMockQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';

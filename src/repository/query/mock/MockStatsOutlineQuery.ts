@@ -6,7 +6,7 @@ import { StatsOutline } from '../../../domain/vo/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../../domain/vo/StatsOutline/StatsOutlines';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
-import { IMockQuery } from './interface/IMockQuery';
+import { IMockQuery } from './IMockQuery';
 
 export class MockStatsOutlineQuery implements IStatsOutlineQuery, IMockQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';

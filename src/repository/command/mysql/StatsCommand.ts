@@ -4,7 +4,7 @@ import { Stats } from '../../../domain/entity/Stats/Stats';
 import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
 import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
 import { IStatsCommand } from '../interface/IStatsCommand';
-import { IMySQLCommand } from './interface/IMySQLCommand';
+import { IMySQLCommand } from './IMySQLCommand';
 
 export class StatsCommand implements IStatsCommand<MySQLError>, IMySQLCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';

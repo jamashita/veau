@@ -12,7 +12,7 @@ import { Languages } from '../../../domain/vo/Language/Languages';
 import { ILanguageCommand } from '../../command/interface/ILanguageCommand';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { IKernelQuery } from './interface/IKernelQuery';
+import { IKernelQuery } from './IKernelQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IKernelQuery {

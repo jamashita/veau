@@ -4,7 +4,7 @@ import { injectable } from 'inversify';
 import { TermError } from '../../../domain/vo/Term/error/TermError';
 import { Terms } from '../../../domain/vo/Term/Terms';
 import { ITermQuery } from '../interface/ITermQuery';
-import { IHeapQuery } from './interface/IHeapQuery';
+import { IHeapQuery } from './IHeapQuery';
 
 @injectable()
 export class TermQuery implements ITermQuery<HeapError>, IHeapQuery {
