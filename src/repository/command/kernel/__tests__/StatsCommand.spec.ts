@@ -3,7 +3,7 @@ import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Schrodinger, Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../../../container/Kernel';
+import { cask } from '../../../../container/Cask';
 import { Type } from '../../../../container/Types';
 import { MockStats } from '../../../../domain/entity/Stats/mock/MockStats';
 import { MockVeauAccountID } from '../../../../domain/vo/VeauAccount/mock/MockVeauAccountID';
@@ -14,8 +14,8 @@ describe('StatsCommand', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsCommand1: StatsCommand = kernel.get<StatsCommand>(Type.StatsKernelCommand);
-      const statsCommand2: StatsCommand = kernel.get<StatsCommand>(Type.StatsKernelCommand);
+      const statsCommand1: StatsCommand = cask.get<StatsCommand>(Type.StatsCaskCommand);
+      const statsCommand2: StatsCommand = cask.get<StatsCommand>(Type.StatsCaskCommand);
 
       expect(statsCommand1).toBeInstanceOf(StatsCommand);
       expect(statsCommand1).toBe(statsCommand2);

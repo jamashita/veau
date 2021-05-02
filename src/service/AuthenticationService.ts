@@ -1,11 +1,11 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { kernel } from '../container/Kernel';
+import { cask } from '../container/Cask';
 import { Type } from '../container/Types';
 import { VeauAccount, VeauAccountJSON } from '../domain/vo/VeauAccount/VeauAccount';
 import { AuthenticationInteractor } from '../interactor/AuthenticationInteractor';
 
-const authenticationInteractor: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
+const authenticationInteractor: AuthenticationInteractor = cask.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
 
 passport.use(
   new LocalStrategy(

@@ -8,7 +8,7 @@ import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
-import { kernel } from '../../../container/Kernel';
+import { cask } from '../../../container/Cask';
 import { Type } from '../../../container/Types';
 import { MockISO639 } from '../../../domain/vo/Language/mock/MockISO639';
 import { MockLanguage } from '../../../domain/vo/Language/mock/MockLanguage';
@@ -53,7 +53,7 @@ describe.skip('LocaleController', () => {
         ]
       });
 
-      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = cask.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
 
       localeInteractor.all = stub;
@@ -61,7 +61,7 @@ describe.skip('LocaleController', () => {
 
       const app: Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       useExpressServer<Express>(app, {
         controllers: [LocaleController]
       });
@@ -75,7 +75,7 @@ describe.skip('LocaleController', () => {
     it('returns StatusCodes.INTERNAL_SERVER_ERROR when Dead contains NoSuchElementError', async () => {
       expect.assertions(1);
 
-      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = cask.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
 
       localeInteractor.all = stub;
@@ -85,7 +85,7 @@ describe.skip('LocaleController', () => {
 
       const app: Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       useExpressServer<Express>(app, {
         controllers: [LocaleController]
       });
@@ -98,7 +98,7 @@ describe.skip('LocaleController', () => {
     it('returns StatusCodes.INTERNAL_SERVER_ERROR when Dead contains DataSourceError', async () => {
       expect.assertions(1);
 
-      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = cask.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
 
       localeInteractor.all = stub;
@@ -106,7 +106,7 @@ describe.skip('LocaleController', () => {
 
       const app: Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       useExpressServer<Express>(app, {
         controllers: [LocaleController]
       });
@@ -121,7 +121,7 @@ describe.skip('LocaleController', () => {
     it('delete all locales of the cache', async () => {
       expect.assertions(1);
 
-      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = cask.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
 
       localeInteractor.delete = stub;
@@ -129,7 +129,7 @@ describe.skip('LocaleController', () => {
 
       const app: Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [LocaleController]
@@ -143,7 +143,7 @@ describe.skip('LocaleController', () => {
     it('replies StatusCodes.INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(1);
 
-      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = cask.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
 
       localeInteractor.delete = stub;
@@ -151,7 +151,7 @@ describe.skip('LocaleController', () => {
 
       const app: Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [LocaleController]

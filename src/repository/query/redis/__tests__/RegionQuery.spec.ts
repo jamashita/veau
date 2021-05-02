@@ -4,7 +4,7 @@ import { MockRedis, MockRedisString, RedisError } from '@jamashita/catacombe-red
 import { Schrodinger } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../../../container/Kernel';
+import { cask } from '../../../../container/Cask';
 import { Type } from '../../../../container/Types';
 import { LanguageJSON } from '../../../../domain/vo/Language/Language';
 import { RegionError } from '../../../../domain/vo/Region/error/RegionError';
@@ -20,8 +20,8 @@ describe('RegionQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const regionQuery1: RegionQuery = kernel.get<RegionQuery>(Type.RegionRedisQuery);
-      const regionQuery2: RegionQuery = kernel.get<RegionQuery>(Type.RegionRedisQuery);
+      const regionQuery1: RegionQuery = cask.get<RegionQuery>(Type.RegionRedisQuery);
+      const regionQuery2: RegionQuery = cask.get<RegionQuery>(Type.RegionRedisQuery);
 
       expect(regionQuery1).toBeInstanceOf(RegionQuery);
       expect(regionQuery1).toBe(regionQuery2);

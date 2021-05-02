@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
-import { kernel } from '../../../container/Kernel';
+import { cask } from '../../../container/Cask';
 import { SessionController } from '../SessionController';
 
 const dummy = (req: Request, _res: Response, next: NextFunction): void => {
@@ -21,7 +21,7 @@ describe.skip('SessionController', () => {
 
       const app: Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(dummy);
       useExpressServer<Express>(app, {
         controllers: [SessionController]

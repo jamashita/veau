@@ -2,7 +2,7 @@ import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Schrodinger, Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../container/Kernel';
+import { cask } from '../../container/Cask';
 import { Type } from '../../container/Types';
 import { MockStats } from '../../domain/entity/Stats/mock/MockStats';
 import { Stats } from '../../domain/entity/Stats/Stats';
@@ -24,8 +24,8 @@ describe('StatsInteractor', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsInteractor1: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
-      const statsInteractor2: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor1: StatsInteractor = cask.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor2: StatsInteractor = cask.get<StatsInteractor>(Type.StatsInteractor);
 
       expect(statsInteractor1).toBeInstanceOf(StatsInteractor);
       expect(statsInteractor1).toBe(statsInteractor2);

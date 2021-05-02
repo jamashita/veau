@@ -4,7 +4,7 @@ import { Schrodinger } from '@jamashita/genitore';
 import { JSONA, JSONAError } from '@jamashita/steckdose-json';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../../../container/Kernel';
+import { cask } from '../../../../container/Cask';
 import { Type } from '../../../../container/Types';
 import { MockRegion } from '../../../../domain/vo/Region/mock/MockRegion';
 import { MockRegionName } from '../../../../domain/vo/Region/mock/MockRegionName';
@@ -16,8 +16,8 @@ describe('RegionCommand', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const regionCommand1: RegionCommand = kernel.get<RegionCommand>(Type.RegionRedisCommand);
-      const regionCommand2: RegionCommand = kernel.get<RegionCommand>(Type.RegionRedisCommand);
+      const regionCommand1: RegionCommand = cask.get<RegionCommand>(Type.RegionRedisCommand);
+      const regionCommand2: RegionCommand = cask.get<RegionCommand>(Type.RegionRedisCommand);
 
       expect(regionCommand1).toBeInstanceOf(RegionCommand);
       expect(regionCommand1).toBe(regionCommand2);

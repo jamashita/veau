@@ -9,7 +9,7 @@ import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
-import { kernel } from '../../../container/Kernel';
+import { cask } from '../../../container/Cask';
 import { Type } from '../../../container/Types';
 import { MockStats } from '../../../domain/entity/Stats/mock/MockStats';
 import { Stats } from '../../../domain/entity/Stats/Stats';
@@ -42,7 +42,7 @@ describe.skip('StatsController', () => {
         new MockStatsOutline()
       );
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor: StatsInteractor = cask.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByVeauAccountID = stub;
@@ -50,7 +50,7 @@ describe.skip('StatsController', () => {
 
       const app: express.Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [StatsController]
@@ -67,7 +67,7 @@ describe.skip('StatsController', () => {
 
       const app: express.Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [StatsController]
@@ -81,7 +81,7 @@ describe.skip('StatsController', () => {
     it('replies StatusCodes.INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(1);
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor: StatsInteractor = cask.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByVeauAccountID = stub;
@@ -91,7 +91,7 @@ describe.skip('StatsController', () => {
 
       const app: express.Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [StatsController]
@@ -109,7 +109,7 @@ describe.skip('StatsController', () => {
 
       const stats: MockStats = new MockStats();
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor: StatsInteractor = cask.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByStatsID = stub;
@@ -117,7 +117,7 @@ describe.skip('StatsController', () => {
 
       const app: express.Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [StatsController]
@@ -132,7 +132,7 @@ describe.skip('StatsController', () => {
     it('replies StatusCodes.INTERNAL_SERVER_ERROR because uuid is malformat', async () => {
       expect.assertions(1);
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor: StatsInteractor = cask.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByStatsID = stub;
@@ -140,7 +140,7 @@ describe.skip('StatsController', () => {
 
       const app: express.Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [StatsController]
@@ -154,7 +154,7 @@ describe.skip('StatsController', () => {
     it('replies StatusCodes.NO_CONTENT because StatsIteractor.findByStatsID() returns Dead NoSuchElementError', async () => {
       expect.assertions(1);
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor: StatsInteractor = cask.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByStatsID = stub;
@@ -162,7 +162,7 @@ describe.skip('StatsController', () => {
 
       const app: express.Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [StatsController]
@@ -176,7 +176,7 @@ describe.skip('StatsController', () => {
     it('replies StatusCodes.INTERNAL_SERVER_ERROR because StatsIteractor.findByStatsID() returns Dead', async () => {
       expect.assertions(1);
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor: StatsInteractor = cask.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.findByStatsID = stub;
@@ -184,7 +184,7 @@ describe.skip('StatsController', () => {
 
       const app: express.Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(fakeAccount);
       useExpressServer<Express>(app, {
         controllers: [StatsController]
@@ -206,7 +206,7 @@ describe.skip('StatsController', () => {
         })
       });
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor: StatsInteractor = cask.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.save = stub;
@@ -214,7 +214,7 @@ describe.skip('StatsController', () => {
 
       const app: express.Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(express.urlencoded({
         extended: false
       }));
@@ -234,7 +234,7 @@ describe.skip('StatsController', () => {
 
       const app: express.Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(express.urlencoded({
         extended: false
       }));
@@ -262,7 +262,7 @@ describe.skip('StatsController', () => {
     it('replies StatusCodes.BAD_REQUEST because UUIDs are malformat', async () => {
       expect.assertions(1);
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor: StatsInteractor = cask.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.save = stub;
@@ -270,7 +270,7 @@ describe.skip('StatsController', () => {
 
       const app: express.Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(express.urlencoded({
         extended: false
       }));
@@ -316,7 +316,7 @@ describe.skip('StatsController', () => {
         })
       });
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor: StatsInteractor = cask.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
 
       statsInteractor.save = stub;
@@ -324,7 +324,7 @@ describe.skip('StatsController', () => {
 
       const app: express.Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(express.urlencoded({
         extended: false
       }));

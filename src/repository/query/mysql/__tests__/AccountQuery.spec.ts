@@ -3,7 +3,7 @@ import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Schrodinger } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../../../container/Kernel';
+import { cask } from '../../../../container/Cask';
 import { Type } from '../../../../container/Types';
 import { Account, AccountRow } from '../../../../domain/vo/Account/Account';
 import { AccountName } from '../../../../domain/vo/Account/AccountName';
@@ -16,8 +16,8 @@ describe('AccountQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const accountQuery1: AccountQuery = kernel.get<AccountQuery>(Type.AccountMySQLQuery);
-      const accountQuery2: AccountQuery = kernel.get<AccountQuery>(Type.AccountMySQLQuery);
+      const accountQuery1: AccountQuery = cask.get<AccountQuery>(Type.AccountMySQLQuery);
+      const accountQuery2: AccountQuery = cask.get<AccountQuery>(Type.AccountMySQLQuery);
 
       expect(accountQuery1).toBeInstanceOf(AccountQuery);
       expect(accountQuery1).toBe(accountQuery2);

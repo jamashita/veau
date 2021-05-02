@@ -4,7 +4,7 @@ import { MySQLError } from '@jamashita/catacombe-mysql';
 import { Schrodinger, Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../../../container/Kernel';
+import { cask } from '../../../../container/Cask';
 import { Type } from '../../../../container/Types';
 import { Stats } from '../../../../domain/entity/Stats/Stats';
 import { MockStatsItems } from '../../../../domain/entity/StatsItem/mock/MockStatsItems';
@@ -38,8 +38,8 @@ describe('StatsQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsQuery1: StatsQuery = kernel.get<StatsQuery>(Type.StatsKernelQuery);
-      const statsQuery2: StatsQuery = kernel.get<StatsQuery>(Type.StatsKernelQuery);
+      const statsQuery1: StatsQuery = cask.get<StatsQuery>(Type.StatsCaskQuery);
+      const statsQuery2: StatsQuery = cask.get<StatsQuery>(Type.StatsCaskQuery);
 
       expect(statsQuery1).toBeInstanceOf(StatsQuery);
       expect(statsQuery1).toBe(statsQuery2);

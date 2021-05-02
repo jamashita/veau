@@ -12,12 +12,12 @@ import { Regions } from '../../../domain/vo/Region/Regions';
 import { IRegionCommand } from '../../command/interface/IRegionCommand';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IRegionQuery } from '../interface/IRegionQuery';
-import { IKernelQuery } from './IKernelQuery';
+import { ICaskQuery } from './ICaskQuery';
 
 @injectable()
-export class RegionQuery implements IRegionQuery, IKernelQuery {
+export class RegionQuery implements IRegionQuery, ICaskQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
-  public readonly source: 'Kernel' = 'Kernel';
+  public readonly source: 'Cask' = 'Cask';
   private readonly mysqlQuery: IRegionQuery;
   private readonly redisQuery: IRegionQuery;
   private readonly redisCommand: IRegionCommand;

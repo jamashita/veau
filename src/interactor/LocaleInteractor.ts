@@ -23,8 +23,8 @@ export class LocaleInteractor implements Noun<'LocaleInteractor'> {
   private readonly regionCommand: IRegionCommand;
 
   public constructor(
-    @inject(Type.LanguageKernelQuery) languageQuery: ILanguageQuery,
-    @inject(Type.RegionKernelQuery) regionQuery: IRegionQuery,
+    @inject(Type.LanguageCaskQuery) languageQuery: ILanguageQuery,
+    @inject(Type.RegionCaskQuery) regionQuery: IRegionQuery,
     @inject(Type.LanguageRedisCommand) languageCommand: ILanguageCommand,
     @inject(Type.RegionRedisCommand) regionCommand: IRegionCommand
   ) {

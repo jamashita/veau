@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import 'reflect-metadata';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
-import { kernel } from '../../../container/Kernel';
+import { cask } from '../../../container/Cask';
 import { AccountName } from '../../../domain/vo/Account/AccountName';
 import { MockLanguageID } from '../../../domain/vo/Language/mock/MockLanguageID';
 import { MockRegionID } from '../../../domain/vo/Region/mock/MockRegionID';
@@ -34,7 +34,7 @@ describe.skip('AccountController', () => {
 
       const app: Express = express();
 
-      useContainer(kernel);
+      useContainer(cask);
       app.use(setAccount(account));
       useExpressServer(app, {
         controllers: [AccountController]

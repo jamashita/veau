@@ -4,7 +4,7 @@ import { RedisError } from '@jamashita/catacombe-redis';
 import { Schrodinger, Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../../../container/Kernel';
+import { cask } from '../../../../container/Cask';
 import { Type } from '../../../../container/Types';
 import { RegionError } from '../../../../domain/vo/Region/error/RegionError';
 import { ISO3166 } from '../../../../domain/vo/Region/ISO3166';
@@ -22,8 +22,8 @@ describe('RegionQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const regionQuery1: RegionQuery = kernel.get<RegionQuery>(Type.RegionKernelQuery);
-      const regionQuery2: RegionQuery = kernel.get<RegionQuery>(Type.RegionKernelQuery);
+      const regionQuery1: RegionQuery = cask.get<RegionQuery>(Type.RegionCaskQuery);
+      const regionQuery2: RegionQuery = cask.get<RegionQuery>(Type.RegionCaskQuery);
 
       expect(regionQuery1).toBeInstanceOf(RegionQuery);
       expect(regionQuery1).toBe(regionQuery2);

@@ -3,7 +3,7 @@ import { Schrodinger } from '@jamashita/genitore';
 import { JSONA, JSONAError } from '@jamashita/steckdose-json';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../../../container/Kernel';
+import { cask } from '../../../../container/Cask';
 import { Type } from '../../../../container/Types';
 import { Languages } from '../../../../domain/vo/Language/Languages';
 import { MockLanguage } from '../../../../domain/vo/Language/mock/MockLanguage';
@@ -15,8 +15,8 @@ describe('LanguageCommand', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const languageCommand1: LanguageCommand = kernel.get<LanguageCommand>(Type.LanguageRedisCommand);
-      const languageCommand2: LanguageCommand = kernel.get<LanguageCommand>(Type.LanguageRedisCommand);
+      const languageCommand1: LanguageCommand = cask.get<LanguageCommand>(Type.LanguageRedisCommand);
+      const languageCommand2: LanguageCommand = cask.get<LanguageCommand>(Type.LanguageRedisCommand);
 
       expect(languageCommand1).toBeInstanceOf(LanguageCommand);
       expect(languageCommand1).toBe(languageCommand2);

@@ -5,7 +5,7 @@ import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Schrodinger } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../../../container/Kernel';
+import { cask } from '../../../../container/Cask';
 import { Type } from '../../../../container/Types';
 import { MockPage } from '../../../../domain/vo/Page/mock/MockPage';
 import { StatsOutlineError } from '../../../../domain/vo/StatsOutline/error/StatsOutlineError';
@@ -22,8 +22,8 @@ describe('StatsOutlineQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsOutlineQuery1: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(Type.StatsOutlineMySQLQuery);
-      const statsOutlineQuery2: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(Type.StatsOutlineMySQLQuery);
+      const statsOutlineQuery1: StatsOutlineQuery = cask.get<StatsOutlineQuery>(Type.StatsOutlineMySQLQuery);
+      const statsOutlineQuery2: StatsOutlineQuery = cask.get<StatsOutlineQuery>(Type.StatsOutlineMySQLQuery);
 
       expect(statsOutlineQuery1).toBeInstanceOf(StatsOutlineQuery);
       expect(statsOutlineQuery1).toBe(statsOutlineQuery2);

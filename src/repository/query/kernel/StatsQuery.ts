@@ -21,12 +21,12 @@ import { IRegionQuery } from '../interface/IRegionQuery';
 import { IStatsItemQuery } from '../interface/IStatsItemQuery';
 import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../interface/IStatsQuery';
-import { IKernelQuery } from './IKernelQuery';
+import { ICaskQuery } from './ICaskQuery';
 
 @injectable()
-export class StatsQuery implements IStatsQuery, IKernelQuery {
+export class StatsQuery implements IStatsQuery, ICaskQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';
-  public readonly source: 'Kernel' = 'Kernel';
+  public readonly source: 'Cask' = 'Cask';
   private readonly outlineQuery: IStatsOutlineQuery;
   private readonly itemQuery: IStatsItemQuery;
   private readonly languageQuery: ILanguageQuery;
@@ -35,8 +35,8 @@ export class StatsQuery implements IStatsQuery, IKernelQuery {
   public constructor(
     @inject(Type.StatsOutlineMySQLQuery) outlineQuery: IStatsOutlineQuery,
     @inject(Type.StatsItemMySQLQuery) itemQuery: IStatsItemQuery,
-    @inject(Type.LanguageKernelQuery) languageQuery: ILanguageQuery,
-    @inject(Type.RegionKernelQuery) regionQuery: IRegionQuery
+    @inject(Type.LanguageCaskQuery) languageQuery: ILanguageQuery,
+    @inject(Type.RegionCaskQuery) regionQuery: IRegionQuery
   ) {
     this.outlineQuery = outlineQuery;
     this.itemQuery = itemQuery;

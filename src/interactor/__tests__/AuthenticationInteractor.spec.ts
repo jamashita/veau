@@ -1,7 +1,7 @@
 import { Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../container/Kernel';
+import { cask } from '../../container/Cask';
 import { Type } from '../../container/Types';
 import { Account } from '../../domain/vo/Account/Account';
 import { MockAccount } from '../../domain/vo/Account/mock/MockAccount';
@@ -15,8 +15,8 @@ describe('AuthenticationInteractor', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const authenticationInteractor1: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
-      const authenticationInteractor2: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
+      const authenticationInteractor1: AuthenticationInteractor = cask.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
+      const authenticationInteractor2: AuthenticationInteractor = cask.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
 
       expect(authenticationInteractor1).toBeInstanceOf(AuthenticationInteractor);
       expect(authenticationInteractor1).toBe(authenticationInteractor2);

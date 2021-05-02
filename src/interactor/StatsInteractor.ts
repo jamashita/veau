@@ -23,9 +23,9 @@ export class StatsInteractor implements Noun<'StatsInteractor'> {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(Type.StatsKernelQuery) statsQuery: IStatsQuery,
+    @inject(Type.StatsCaskQuery) statsQuery: IStatsQuery,
     @inject(Type.StatsOutlineMySQLQuery) outlineQuery: IStatsOutlineQuery,
-    @inject(Type.StatsKernelCommand) statsCommand: IStatsCommand
+    @inject(Type.StatsCaskCommand) statsCommand: IStatsCommand
   ) {
     this.statsQuery = statsQuery;
     this.outlineQuery = outlineQuery;

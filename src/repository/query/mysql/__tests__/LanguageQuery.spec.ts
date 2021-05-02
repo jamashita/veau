@@ -3,7 +3,7 @@ import { MockMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Schrodinger } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../../../container/Kernel';
+import { cask } from '../../../../container/Cask';
 import { Type } from '../../../../container/Types';
 import { LanguageError } from '../../../../domain/vo/Language/error/LanguageError';
 import { ISO639 } from '../../../../domain/vo/Language/ISO639';
@@ -19,8 +19,8 @@ describe('LanguageQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const languageQuery1: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageMySQLQuery);
-      const languageQuery2: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageMySQLQuery);
+      const languageQuery1: LanguageQuery = cask.get<LanguageQuery>(Type.LanguageMySQLQuery);
+      const languageQuery2: LanguageQuery = cask.get<LanguageQuery>(Type.LanguageMySQLQuery);
 
       expect(languageQuery1).toBeInstanceOf(LanguageQuery);
       expect(languageQuery1).toBe(languageQuery2);

@@ -5,7 +5,7 @@ import { Schrodinger, Superposition } from '@jamashita/genitore';
 import { ImmutableProject, Project } from '@jamashita/lluvia-collection';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../../../container/Kernel';
+import { cask } from '../../../../container/Cask';
 import { Type } from '../../../../container/Types';
 import { StatsItemRow } from '../../../../domain/entity/StatsItem/StatsItem';
 import { StatsItems } from '../../../../domain/entity/StatsItem/StatsItems';
@@ -25,8 +25,8 @@ describe('StatsItemQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsItemQuery1: StatsItemQuery = kernel.get<StatsItemQuery>(Type.StatsItemMySQLQuery);
-      const statsItemQuery2: StatsItemQuery = kernel.get<StatsItemQuery>(Type.StatsItemMySQLQuery);
+      const statsItemQuery1: StatsItemQuery = cask.get<StatsItemQuery>(Type.StatsItemMySQLQuery);
+      const statsItemQuery2: StatsItemQuery = cask.get<StatsItemQuery>(Type.StatsItemMySQLQuery);
 
       expect(statsItemQuery1).toBeInstanceOf(StatsItemQuery);
       expect(statsItemQuery1).toBe(statsItemQuery2);

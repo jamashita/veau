@@ -1,11 +1,11 @@
 import { Express } from 'express';
 import { useContainer, useExpressServer } from 'routing-controllers';
-import { kernel } from '../container/Kernel';
+import { cask } from '../container/Cask';
 import { APIController } from './api/APIController';
 import { FEController } from './fe/FEController';
 
 export const BaseController = (app: Express): Express => {
-  useContainer(kernel);
+  useContainer(cask);
   APIController(app);
   useExpressServer<Express>(app, {
     routePrefix: '/',

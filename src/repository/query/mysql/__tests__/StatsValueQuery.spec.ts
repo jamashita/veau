@@ -4,7 +4,7 @@ import { Schrodinger } from '@jamashita/genitore';
 import { Project } from '@jamashita/lluvia-collection';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../../../container/Kernel';
+import { cask } from '../../../../container/Cask';
 import { Type } from '../../../../container/Types';
 import { AsOf } from '../../../../domain/vo/AsOf/AsOf';
 import { StatsItemID } from '../../../../domain/vo/StatsItem/StatsItemID';
@@ -19,8 +19,8 @@ describe('StatsValueQuery', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsValueQuery1: StatsValueQuery = kernel.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
-      const statsValueQuery2: StatsValueQuery = kernel.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
+      const statsValueQuery1: StatsValueQuery = cask.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
+      const statsValueQuery2: StatsValueQuery = cask.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
 
       expect(statsValueQuery1).toBeInstanceOf(StatsValueQuery);
       expect(statsValueQuery1).toBe(statsValueQuery2);

@@ -9,12 +9,12 @@ import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
 import { StatsUpdateFactory } from '../../../factory/StatsUpdateFactory';
 import { IStatsCommand } from '../interface/IStatsCommand';
 import { StatsUpdateTransaction } from '../mysql/transaction/StatsUpdateTransaction';
-import { IKernelCommand } from './IKernelCommand';
+import { ICaskCommand } from './ICaskCommand';
 
 @injectable()
-export class StatsCommand implements IStatsCommand<MySQLError>, IKernelCommand {
+export class StatsCommand implements IStatsCommand<MySQLError>, ICaskCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
-  public readonly source: 'Kernel' = 'Kernel';
+  public readonly source: 'Cask' = 'Cask';
   private readonly mysql: IMySQL;
 
   public constructor(@inject(Type.MySQL) mysql: IMySQL) {

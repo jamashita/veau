@@ -12,12 +12,12 @@ import { Languages } from '../../../domain/vo/Language/Languages';
 import { ILanguageCommand } from '../../command/interface/ILanguageCommand';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { IKernelQuery } from './IKernelQuery';
+import { ICaskQuery } from './ICaskQuery';
 
 @injectable()
-export class LanguageQuery implements ILanguageQuery, IKernelQuery {
+export class LanguageQuery implements ILanguageQuery, ICaskQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
-  public readonly source: 'Kernel' = 'Kernel';
+  public readonly source: 'Cask' = 'Cask';
   private readonly mysqlQuery: ILanguageQuery;
   private readonly redisQuery: ILanguageQuery;
   private readonly redisCommand: ILanguageCommand;
