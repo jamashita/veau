@@ -1,7 +1,6 @@
 import { UnimplementedError } from '@jamashita/anden-error';
-import { Nullable } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../../container/Types';
 import { RegionError } from '../../../domain/vo/Region/error/RegionError';
@@ -12,6 +11,7 @@ import { Regions } from '../../../domain/vo/Region/Regions';
 import { IRegionCommand } from '../../command/interface/IRegionCommand';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IRegionQuery } from '../interface/IRegionQuery';
+import { RegionQueryFindByISO3166 } from '../trait/RegionQueryFindByISO3166';
 import { ICaskQuery } from './ICaskQuery';
 
 @injectable()
@@ -48,18 +48,6 @@ export class RegionQuery implements IRegionQuery, ICaskQuery {
   }
 
   public findByISO3166(iso3166: ISO3166): Superposition<Region, DataSourceError | NoSuchElementError | RegionError> {
-    return this.all().map<Region, DataSourceError | RegionError | UnscharferelationError>((regions: Regions) => {
-      const region: Nullable<Region> = regions.find((r: Region) => {
-        return r.getISO3166().equals(iso3166);
-      });
-
-      return Unscharferelation.maybe<Region>(region).toSuperposition();
-    }).recover<Region, DataSourceError | NoSuchElementError | RegionError>((err: DataSourceError | RegionError | UnscharferelationError) => {
-      if (err instanceof UnscharferelationError) {
-        throw new NoSuchElementError(iso3166.toString());
-      }
-
-      throw err;
-    }, RegionError, NoSuchElementError, DataSourceError);
+    return RegionQueryFindByISO3166.of(this.all()).findByISO3166(iso3166);
   }
 }

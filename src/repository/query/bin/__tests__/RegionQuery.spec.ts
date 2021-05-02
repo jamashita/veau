@@ -218,10 +218,10 @@ describe('RegionQuery', () => {
       const localeBinQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
 
-      localeVaultQuery.all = stub;
+      localeBinQuery.all = stub;
       stub.returns(Superposition.dead<Locale, RegionError>(new RegionError('test failed'), RegionError));
 
-      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const regionQuery: RegionQuery = new RegionQuery(localeBinQuery);
       const schrodinger: Schrodinger<Region, DataSourceError | NoSuchElementError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
 
       expect(schrodinger.isDead()).toBe(true);

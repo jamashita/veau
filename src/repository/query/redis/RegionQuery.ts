@@ -13,6 +13,7 @@ import { Regions } from '../../../domain/vo/Region/Regions';
 import { REDIS_REGION_KEY } from '../../../infrastructure/VeauRedis';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IRegionQuery } from '../interface/IRegionQuery';
+import { RegionQueryFindByISO3166 } from '../trait/RegionQueryFindByISO3166';
 import { IRedisQuery } from './IRedisQuery';
 
 @injectable()
@@ -51,20 +52,7 @@ export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {
     throw new UnimplementedError();
   }
 
-  // TODO TRAIT
   public findByISO3166(iso3166: ISO3166): Superposition<Region, NoSuchElementError | RedisError | RegionError> {
-    return this.all().map<Region, RedisError | RegionError | UnscharferelationError>((regions: Regions) => {
-      const region: Nullable<Region> = regions.find((r: Region) => {
-        return r.getISO3166().equals(iso3166);
-      });
-
-      return Unscharferelation.maybe<Region>(region).toSuperposition();
-    }).recover<Region, NoSuchElementError | RedisError | RegionError>((err: RedisError | RegionError | UnscharferelationError) => {
-      if (err instanceof UnscharferelationError) {
-        throw new NoSuchElementError(iso3166.get());
-      }
-
-      throw err;
-    }, RegionError, NoSuchElementError, RedisError);
+    return RegionQueryFindByISO3166.of<RedisError>(this.all()).findByISO3166(iso3166);
   }
 }

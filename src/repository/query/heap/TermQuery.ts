@@ -12,8 +12,6 @@ export class TermQuery implements ITermQuery<HeapError>, IHeapQuery {
   public readonly source: 'Heap' = 'Heap';
 
   public all(): Superposition<Terms, HeapError | TermError> {
-    return Superposition.playground<Terms, HeapError>(() => {
-      return Terms.all();
-    }, HeapError);
+    return Superposition.alive<Terms, HeapError>(Terms.all(), HeapError);
   }
 }

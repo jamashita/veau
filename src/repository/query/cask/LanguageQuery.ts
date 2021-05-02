@@ -1,7 +1,6 @@
 import { UnimplementedError } from '@jamashita/anden-error';
-import { Nullable } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../../container/Types';
 import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
@@ -12,6 +11,7 @@ import { Languages } from '../../../domain/vo/Language/Languages';
 import { ILanguageCommand } from '../../command/interface/ILanguageCommand';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
+import { LanguageQueryFindByISO639 } from '../trait/LanguageQueryFindByISO639';
 import { ICaskQuery } from './ICaskQuery';
 
 @injectable()
@@ -48,18 +48,6 @@ export class LanguageQuery implements ILanguageQuery, ICaskQuery {
   }
 
   public findByISO639(iso639: ISO639): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
-    return this.all().map<Language, DataSourceError | LanguageError | UnscharferelationError>((languages: Languages) => {
-      const language: Nullable<Language> = languages.find((l: Language) => {
-        return l.getISO639().equals(iso639);
-      });
-
-      return Unscharferelation.maybe(language).toSuperposition();
-    }).recover<Language, DataSourceError | LanguageError | NoSuchElementError>((err: DataSourceError | LanguageError | UnscharferelationError) => {
-      if (err instanceof UnscharferelationError) {
-        throw new NoSuchElementError(iso639.toString());
-      }
-
-      throw err;
-    }, LanguageError, NoSuchElementError, DataSourceError);
+    return LanguageQueryFindByISO639.of(this.all()).findByISO639(iso639);
   }
 }

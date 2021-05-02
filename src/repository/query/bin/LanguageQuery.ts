@@ -13,6 +13,7 @@ import { Locale } from '../../../domain/vo/Locale/Locale';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
 import { ILocaleQuery } from '../interface/ILocaleQuery';
+import { LanguageQueryFindByISO639 } from '../trait/LanguageQueryFindByISO639';
 import { IBinQuery } from './IBinQuery';
 
 @injectable()
@@ -37,6 +38,7 @@ export class LanguageQuery implements ILanguageQuery, IBinQuery {
     }, LanguageError, DataSourceError);
   }
 
+  // TODO TRAIT
   public find(languageID: LanguageID): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
     return this.all().map<Language, DataSourceError | LanguageError | UnscharferelationError>((languages: Languages) => {
       const language: Nullable<Language> = languages.find((l: Language) => {
@@ -54,18 +56,6 @@ export class LanguageQuery implements ILanguageQuery, IBinQuery {
   }
 
   public findByISO639(iso639: ISO639): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
-    return this.all().map<Language, DataSourceError | LanguageError | UnscharferelationError>((languages: Languages) => {
-      const language: Nullable<Language> = languages.find((l: Language) => {
-        return l.getISO639().equals(iso639);
-      });
-
-      return Unscharferelation.maybe<Language>(language).toSuperposition();
-    }).recover<Language, DataSourceError | LanguageError | NoSuchElementError>((err: DataSourceError | LanguageError | UnscharferelationError) => {
-      if (err instanceof UnscharferelationError) {
-        throw new NoSuchElementError(iso639.get());
-      }
-
-      throw err;
-    }, LanguageError, NoSuchElementError, DataSourceError);
+    return LanguageQueryFindByISO639.of(this.all()).findByISO639(iso639);
   }
 }

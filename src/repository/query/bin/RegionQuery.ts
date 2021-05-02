@@ -13,6 +13,7 @@ import { Regions } from '../../../domain/vo/Region/Regions';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILocaleQuery } from '../interface/ILocaleQuery';
 import { IRegionQuery } from '../interface/IRegionQuery';
+import { RegionQueryFindByISO3166 } from '../trait/RegionQueryFindByISO3166';
 import { IBinQuery } from './IBinQuery';
 
 @injectable()
@@ -37,6 +38,7 @@ export class RegionQuery implements IRegionQuery, IBinQuery {
     }, RegionError, DataSourceError);
   }
 
+  // TODO TRAIT
   public find(regionID: RegionID): Superposition<Region, DataSourceError | NoSuchElementError | RegionError> {
     return this.all().map<Region, DataSourceError | RegionError | UnscharferelationError>((regions: Regions) => {
       const region: Nullable<Region> = regions.find((r: Region) => {
@@ -54,18 +56,6 @@ export class RegionQuery implements IRegionQuery, IBinQuery {
   }
 
   public findByISO3166(iso3166: ISO3166): Superposition<Region, DataSourceError | NoSuchElementError | RegionError> {
-    return this.all().map<Region, DataSourceError | RegionError | UnscharferelationError>((regions: Regions) => {
-      const region: Nullable<Region> = regions.find((r: Region) => {
-        return r.getISO3166().equals(iso3166);
-      });
-
-      return Unscharferelation.maybe<Region>(region).toSuperposition();
-    }).recover<Region, DataSourceError | NoSuchElementError | RegionError>((err: DataSourceError | RegionError | UnscharferelationError) => {
-      if (err instanceof UnscharferelationError) {
-        throw new NoSuchElementError(iso3166.get());
-      }
-
-      throw err;
-    }, RegionError, NoSuchElementError, DataSourceError);
+    return RegionQueryFindByISO3166.of(this.all()).findByISO3166(iso3166);
   }
 }

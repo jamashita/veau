@@ -13,6 +13,7 @@ import { Languages } from '../../../domain/vo/Language/Languages';
 import { REDIS_LANGUAGE_KEY } from '../../../infrastructure/VeauRedis';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
+import { LanguageQueryFindByISO639 } from '../trait/LanguageQueryFindByISO639';
 import { IRedisQuery } from './IRedisQuery';
 
 @injectable()
@@ -52,18 +53,6 @@ export class LanguageQuery implements ILanguageQuery<RedisError>, IRedisQuery {
   }
 
   public findByISO639(iso639: ISO639): Superposition<Language, LanguageError | NoSuchElementError | RedisError> {
-    return this.all().map<Language, LanguageError | RedisError | UnscharferelationError>((languages: Languages) => {
-      const language: Nullable<Language> = languages.find((l: Language) => {
-        return l.getISO639().equals(iso639);
-      });
-
-      return Unscharferelation.maybe<Language>(language).toSuperposition();
-    }).recover<Language, LanguageError | NoSuchElementError | RedisError>((err: LanguageError | RedisError | UnscharferelationError) => {
-      if (err instanceof UnscharferelationError) {
-        throw new NoSuchElementError(iso639.get());
-      }
-
-      throw err;
-    }, LanguageError, NoSuchElementError, RedisError);
+    return LanguageQueryFindByISO639.of<RedisError>(this.all()).findByISO639(iso639);
   }
 }
