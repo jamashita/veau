@@ -21,7 +21,6 @@ describe('LanguageQueryFindByISO639', () => {
       const language2: MockLanguage = new MockLanguage({
         iso639: new MockISO639('aa')
       });
-
       const languages: Languages = Languages.ofSpread(language1, language2);
 
       const languageQuery: LanguageQueryFindByISO639 = LanguageQueryFindByISO639.of(Superposition.alive<Languages, DataSourceError>(languages));
