@@ -9,6 +9,7 @@ import { Language } from '../../../domain/vo/Language/Language';
 import { LanguageID } from '../../../domain/vo/Language/LanguageID';
 import { Languages } from '../../../domain/vo/Language/Languages';
 import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError';
+import { Locale } from '../../../domain/vo/Locale/Locale';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
 import { ILocaleQuery } from '../interface/ILocaleQuery';

@@ -28,11 +28,11 @@ export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {
   public all(): Superposition<Regions, RedisError | RegionError> {
     return Superposition.playground<Nullable<string>, RedisError>(() => {
       return this.redis.getString().get(REDIS_REGION_KEY);
-    }, RedisError).map<string, RedisError | UnscharferelationError>((str: Nullable<string>) => {
+    }, RedisError).map<string, UnscharferelationError>((str: Nullable<string>) => {
       return Unscharferelation.maybe(str).toSuperposition();
-    }).map<Array<RegionJSON>, JSONAError | RedisError | UnscharferelationError>((j: string) => {
+    }).map<Array<RegionJSON>, JSONAError>((j: string) => {
       return JSONA.parse<Array<RegionJSON>>(j);
-    }, JSONAError).map<Regions, JSONAError | RedisError | RegionError | UnscharferelationError>((json: Array<RegionJSON>) => {
+    }, JSONAError).map<Regions, RegionError>((json: Array<RegionJSON>) => {
       return Regions.ofJSON(json);
     }, RegionError).recover<Regions, RedisError | RegionError>((err: JSONAError | RedisError | RegionError | UnscharferelationError) => {
       if (err instanceof JSONAError) {
@@ -51,6 +51,7 @@ export class RegionQuery implements IRegionQuery<RedisError>, IRedisQuery {
     throw new UnimplementedError();
   }
 
+  // TODO TRAIT
   public findByISO3166(iso3166: ISO3166): Superposition<Region, NoSuchElementError | RedisError | RegionError> {
     return this.all().map<Region, RedisError | RegionError | UnscharferelationError>((regions: Regions) => {
       const region: Nullable<Region> = regions.find((r: Region) => {
