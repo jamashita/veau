@@ -1,4 +1,4 @@
-import { MockProject } from '@jamashita/lluvia-collection';
+import { ImmutableProject, MockProject } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { Term } from '../Term';
 import { TermID } from '../TermID';
@@ -126,30 +126,16 @@ describe('Terms', () => {
   });
 
   describe('map', () => {
-    it('delegates its inner collection instance', () => {
+    it('does not affect the original length', () => {
       expect.assertions(1);
 
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
-        new Map<TermID, Term>([
-          [Term.DAILY.getTermID(), Term.DAILY],
-          [Term.MONTHLY.getTermID(), Term.MONTHLY]
-        ])
-      );
+      const terms: Terms = Terms.all();
 
-      const spy: SinonSpy = sinon.spy();
-
-      project.map = spy;
-
-      // @ts-expect-error
-      const terms: Terms = Terms.of(Terms.all().terms);
-      // @ts-expect-error
-      terms.terms = project;
-
-      terms.map<TermID>((term: Term) => {
+      const mapped: ImmutableProject<TermID, TermID> = terms.map<TermID>((term: Term) => {
         return term.getTermID();
       });
 
-      expect(spy.called).toBe(true);
+      expect(mapped.size()).toBe(5);
     });
   });
 
@@ -337,17 +323,6 @@ describe('Terms', () => {
   describe('filter', () => {
     it('returns matching elements by predicate', () => {
       expect.assertions(1);
-
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
-        new Map<TermID, Term>([
-          [Term.DAILY.getTermID(), Term.DAILY],
-          [Term.MONTHLY.getTermID(), Term.MONTHLY]
-        ])
-      );
-
-      const spy: SinonSpy = sinon.spy();
-
-      project.values = spy;
 
       const terms: Terms = Terms.all();
 

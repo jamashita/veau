@@ -919,13 +919,12 @@ describe('StatsValues', () => {
       );
 
       const values: StatsValues = StatsValues.of(vals);
-
       let i: number = 0;
 
-      values.forEach((v: StatsValue) => {
+      for (const [, v] of values) {
         expect(v).toBe(arr[i]);
         i++;
-      });
+      }
     });
   });
 
@@ -1047,6 +1046,123 @@ describe('StatsValues', () => {
       values.values();
 
       expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('filter', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const statsValue1: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 1
+        })
+      });
+      const statsValue2: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 2
+        })
+      });
+      const statsValue3: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 3
+        })
+      });
+
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
+
+      const values: StatsValues = StatsValues.of(vals);
+
+      const filtered: StatsValues = values.filter((v: StatsValue) => {
+        return v.getAsOf().isAfter(AsOf.ofString('2000-01-01'));
+      });
+
+      expect(filtered.size()).toBe(2);
+    });
+  });
+
+  describe('find', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const statsValue1: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 1
+        })
+      });
+      const statsValue2: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 2
+        })
+      });
+      const statsValue3: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 3
+        })
+      });
+
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
+
+      const spy: SinonSpy = sinon.spy();
+      const values: StatsValues = StatsValues.of(vals);
+
+      // @ts-expect-error
+      values.vals.find = spy;
+      values.find(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('map', () => {
+    it('does not affect the original length', () => {
+      expect.assertions(1);
+
+      const statsValue1: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 1
+        })
+      });
+      const statsValue2: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 2
+        })
+      });
+      const statsValue3: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 3
+        })
+      });
+
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
+        new Map<AsOf, MockStatsValue>([
+          [statsValue1.getAsOf(), statsValue1],
+          [statsValue2.getAsOf(), statsValue2],
+          [statsValue3.getAsOf(), statsValue3]
+        ])
+      );
+
+      const values: StatsValues = StatsValues.of(vals);
+
+      const mapped: ImmutableProject<AsOf, AsOf> = values.map<AsOf>((v: StatsValue) => {
+        return v.getAsOf();
+      });
+
+      expect(mapped.size()).toBe(3);
     });
   });
 });

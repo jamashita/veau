@@ -1,5 +1,5 @@
 import { BinaryPredicate, Catalogue, Cloneable, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
-import { ImmutableProject, Project, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
+import { ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
 import { AsOf } from '../AsOf/AsOf';
 import { AsOfs } from '../AsOf/AsOfs';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
@@ -122,7 +122,7 @@ export class StatsValues extends Quantity<AsOf, StatsValue, 'StatsValues'> imple
     return this.vals[Symbol.iterator]();
   }
 
-  public map<W>(mapper: Mapper<StatsValue, W>): Project<AsOf, W> {
+  public map<W>(mapper: Mapper<StatsValue, W>): ImmutableProject<AsOf, W> {
     return this.vals.map<W>(mapper);
   }
 
