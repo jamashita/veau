@@ -38,6 +38,7 @@ export class IdentityQuery implements IIdentityQuery, IBinQuery {
 
   public find(): Superposition<Identity, DataSourceError | IdentityError> {
     return this.accountQuery.find().map<Identity, DataSourceError | LanguageError | NoSuchElementError | RegionError | VeauAccountError>((veauAccount: VeauAccount) => {
+      // TODO SIMULTANEOUSLY
       return this.languageQuery.find(veauAccount.getLanguageID()).map<Identity, DataSourceError | LanguageError | NoSuchElementError | RegionError>((language: Language) => {
         return this.regionQuery.find(veauAccount.getRegionID()).map<Identity, DataSourceError | NoSuchElementError | RegionError>((region: Region) => {
           return Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region);
@@ -54,6 +55,7 @@ export class IdentityQuery implements IIdentityQuery, IBinQuery {
 
   public findByEntranceInfo(entranceInformation: EntranceInformation): Superposition<Identity, DataSourceError | IdentityError> {
     return this.accountQuery.findByEntranceInfo(entranceInformation).map<Identity, DataSourceError | LanguageError | NoSuchElementError | RegionError | VeauAccountError>((veauAccount: VeauAccount) => {
+      // TODO SIMULTANEOUSLY
       return this.languageQuery.find(veauAccount.getLanguageID()).map<Identity, DataSourceError | LanguageError | NoSuchElementError | RegionError>((language: Language) => {
         return this.regionQuery.find(veauAccount.getRegionID()).map<Identity, DataSourceError | NoSuchElementError | RegionError>((region: Region) => {
           return Identity.of(veauAccount.getVeauAccountID(), veauAccount.getAccountName(), language, region);

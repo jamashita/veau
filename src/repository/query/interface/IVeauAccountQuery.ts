@@ -1,8 +1,8 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { EntranceInformation } from '../../domain/vo/EntranceInformation/EntranceInformation';
-import { VeauAccountError } from '../../domain/vo/VeauAccount/Error/VeauAccountError';
-import { VeauAccount } from '../../domain/vo/VeauAccount/VeauAccount';
+import { EntranceInformation } from '../../../domain/vo/EntranceInformation/EntranceInformation';
+import { VeauAccountError } from '../../../domain/vo/VeauAccount/error/VeauAccountError';
+import { VeauAccount } from '../../../domain/vo/VeauAccount/VeauAccount';
 import { IQuery } from './IQuery';
 
 export interface IVeauAccountQuery<E extends DataSourceError = DataSourceError> extends IQuery<'VeauAccountQuery'> {
