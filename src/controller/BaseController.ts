@@ -1,6 +1,5 @@
 import { Express } from 'express';
 import { useContainer, useExpressServer } from 'routing-controllers';
-
 import { kernel } from '../container/Kernel';
 import { APIController } from './api/APIController';
 import { FEController } from './fe/FEController';

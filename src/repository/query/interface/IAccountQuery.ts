@@ -1,6 +1,5 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-
 import { Account } from '../../domain/vo/Account/Account';
 import { AccountName } from '../../domain/vo/Account/AccountName';
 import { AccountError } from '../../domain/vo/Account/Error/AccountError';

@@ -1,6 +1,5 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-
 import { Regions } from '../../domain/vo/Region/Regions';
 import { ICommand } from './ICommand';
 

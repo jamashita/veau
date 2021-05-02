@@ -1,6 +1,5 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-
 import { EntranceInformation } from '../../domain/vo/EntranceInformation/EntranceInformation';
 import { IdentityError } from '../../domain/vo/Identity/Error/IdentityError';
 import { Identity } from '../../domain/vo/Identity/Identity';

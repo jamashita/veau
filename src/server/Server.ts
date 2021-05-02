@@ -1,5 +1,4 @@
 import { Ambiguous, Kind } from '@jamashita/anden-type';
-
 import compression from 'compression';
 import config from 'config';
 import connectRedis from 'connect-redis';
@@ -10,7 +9,6 @@ import passport from 'passport';
 import path from 'path';
 import 'reflect-metadata';
 import favicon from 'serve-favicon';
-
 import { BaseController } from '../controller/BaseController';
 import { logger } from '../insrastructure/Logger';
 import { veauRedis } from '../insrastructure/VeauRedis';

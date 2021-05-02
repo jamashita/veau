@@ -1,6 +1,5 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-
 import { StatsItem } from '../../domain/entity/StatsItem/StatsItem';
 import { StatsID } from '../../domain/vo/StatsOutline/StatsID';
 import { ICommand } from './ICommand';

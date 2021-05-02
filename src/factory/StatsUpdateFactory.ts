@@ -1,5 +1,4 @@
 import { ISQL } from '@jamashita/catacombe-mysql';
-
 import { StatsCommand } from '../repository/command/mysql/StatsCommand';
 import { StatsItemCommand } from '../repository/command/mysql/StatsItemCommand';
 import { StatsValueCommand } from '../repository/command/mysql/StatsValueCommand';

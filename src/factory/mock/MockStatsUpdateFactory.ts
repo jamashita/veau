@@ -1,5 +1,4 @@
 import { MySQLError } from '@jamashita/catacombe-mysql';
-
 import { IStatsCommand } from '../../repository/command/interface/IStatsCommand';
 import { IStatsItemCommand } from '../../repository/command/interface/IStatsItemCommand';
 import { IStatsValueCommand } from '../../repository/command/interface/IStatsValueCommand';

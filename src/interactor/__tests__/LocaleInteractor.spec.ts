@@ -4,18 +4,18 @@ import { RedisError } from '@jamashita/catacombe-redis';
 import { Schrodinger, Superposition } from '@jamashita/genitore';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { MockLanguageCommand } from '../../repository/command/mock/MockLanguageCommand';
-import { MockRegionCommand } from '../../repository/command/mock/MockRegionCommand';
 import { kernel } from '../../container/Kernel';
 import { Type } from '../../container/Types';
-import { MockLanguageQuery } from '../../repository/query/mock/MockLanguageQuery';
-import { MockRegionQuery } from '../../repository/query/mock/MockRegionQuery';
 import { LanguageError } from '../../domain/vo/Language/error/LanguageError';
 import { Languages } from '../../domain/vo/Language/Languages';
 import { LocaleError } from '../../domain/vo/Locale/error/LocaleError';
 import { Locale } from '../../domain/vo/Locale/Locale';
 import { RegionError } from '../../domain/vo/Region/error/RegionError';
 import { Regions } from '../../domain/vo/Region/Regions';
+import { MockLanguageCommand } from '../../repository/command/mock/MockLanguageCommand';
+import { MockRegionCommand } from '../../repository/command/mock/MockRegionCommand';
+import { MockLanguageQuery } from '../../repository/query/mock/MockLanguageQuery';
+import { MockRegionQuery } from '../../repository/query/mock/MockRegionQuery';
 import { LocaleInteractor } from '../LocaleInteractor';
 
 describe('LocaleInteractor', () => {

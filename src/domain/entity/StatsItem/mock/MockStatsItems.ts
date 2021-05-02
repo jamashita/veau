@@ -1,5 +1,4 @@
 import { MutableSequence } from '@jamashita/lluvia-collection';
-
 import { StatsItem } from '../StatsItem';
 import { StatsItems } from '../StatsItems';
 
