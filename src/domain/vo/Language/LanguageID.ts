@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { UUID, UUIDError } from '@jamashita/anden-uuid';
-import { LanguageError } from './Error/LanguageError';
+import { LanguageError } from './error/LanguageError';
 
 export class LanguageID extends ValueObject<'LanguageID'> {
   public readonly noun: 'LanguageID' = 'LanguageID';

@@ -1,7 +1,7 @@
 import { MockSQL } from '@jamashita/catacombe-mysql';
-import { StatsCommand } from '../../repository/command/MySQL/StatsCommand';
-import { StatsItemCommand } from '../../repository/command/MySQL/StatsItemCommand';
-import { StatsValueCommand } from '../../repository/command/MySQL/StatsValueCommand';
+import { StatsCommand } from '../../repository/command/mysql/StatsCommand';
+import { StatsItemCommand } from '../../repository/command/mysql/StatsItemCommand';
+import { StatsValueCommand } from '../../repository/command/mysql/StatsValueCommand';
 import { StatsUpdateFactory } from '../StatsUpdateFactory';
 
 describe('StatsUpdateFactory', () => {

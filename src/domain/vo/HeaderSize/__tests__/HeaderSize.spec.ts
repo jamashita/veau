@@ -1,4 +1,4 @@
-import { HeaderSizeError } from '../Error/HeaderSizeError';
+import { HeaderSizeError } from '../error/HeaderSizeError';
 import { HeaderSize } from '../HeaderSize';
 
 describe('HeaderSize', () => {

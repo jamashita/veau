@@ -1,5 +1,5 @@
 import { UUID } from '@jamashita/anden-uuid';
-import { StatsItemError } from '../Error/StatsItemError';
+import { StatsItemError } from '../error/StatsItemError';
 import { StatsItemID } from '../StatsItemID';
 
 describe('StatsItemID', () => {

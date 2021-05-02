@@ -4,7 +4,7 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 import { AsOf } from '../../../domain/vo/AsOf/AsOf';
-import { AsOfError } from '../../../domain/vo/AsOf/Error/AsOfError';
+import { AsOfError } from '../../../domain/vo/AsOf/error/AsOfError';
 import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{

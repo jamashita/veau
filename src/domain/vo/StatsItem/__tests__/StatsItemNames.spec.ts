@@ -1,6 +1,6 @@
 import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
-import { MockStatsItemName } from '../Mock/MockStatsItemName';
+import { MockStatsItemName } from '../mock/MockStatsItemName';
 import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';
 

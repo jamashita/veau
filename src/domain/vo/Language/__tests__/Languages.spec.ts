@@ -7,10 +7,10 @@ import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';
 import { LanguageName } from '../LanguageName';
 import { Languages } from '../Languages';
-import { MockISO639 } from '../Mock/MockISO639';
-import { MockLanguage } from '../Mock/MockLanguage';
-import { MockLanguageID } from '../Mock/MockLanguageID';
-import { MockLanguageName } from '../Mock/MockLanguageName';
+import { MockISO639 } from '../mock/MockISO639';
+import { MockLanguage } from '../mock/MockLanguage';
+import { MockLanguageID } from '../mock/MockLanguageID';
+import { MockLanguageName } from '../mock/MockLanguageName';
 
 describe('Languages', () => {
   describe('of', () => {

@@ -2,16 +2,16 @@ import { Noun } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
-import { ILanguageCommand } from '../repository/command/Interface/ILanguageCommand';
-import { IRegionCommand } from '../repository/command/Interface/IRegionCommand';
+import { ILanguageCommand } from '../repository/command/interface/ILanguageCommand';
+import { IRegionCommand } from '../repository/command/interface/IRegionCommand';
 import { Type } from '../container/Types';
 import { ILanguageQuery } from '../repository/query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../repository/query/Interface/IRegionQuery';
-import { LanguageError } from '../domain/vo/Language/Error/LanguageError';
+import { LanguageError } from '../domain/vo/Language/error/LanguageError';
 import { Languages } from '../domain/vo/Language/Languages';
-import { LocaleError } from '../domain/vo/Locale/Error/LocaleError';
+import { LocaleError } from '../domain/vo/Locale/error/LocaleError';
 import { Locale } from '../domain/vo/Locale/Locale';
-import { RegionError } from '../domain/vo/Region/Error/RegionError';
+import { RegionError } from '../domain/vo/Region/error/RegionError';
 import { Regions } from '../domain/vo/Region/Regions';
 
 @injectable()

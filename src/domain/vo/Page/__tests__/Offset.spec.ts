@@ -1,4 +1,4 @@
-import { PageError } from '../Error/PageError';
+import { PageError } from '../error/PageError';
 import { Offset } from '../Offset';
 
 describe('Offset', () => {

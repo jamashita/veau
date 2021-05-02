@@ -4,7 +4,7 @@ import sinon, { SinonSpy } from 'sinon';
 import { Term } from '../../Term/Term';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
-import { MockAsOf } from '../Mock/MockAsOf';
+import { MockAsOf } from '../mock/MockAsOf';
 
 describe('AsOfs', () => {
   describe('of', () => {

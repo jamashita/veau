@@ -5,10 +5,10 @@ import { AsOf } from '../../vo/AsOf/AsOf';
 import { AsOfs } from '../../vo/AsOf/AsOfs';
 import { NoValue } from '../../vo/NumericalValue/NoValue';
 import { NumericalValues } from '../../vo/NumericalValue/NumericalValues';
-import { StatsItemError } from '../../vo/StatsItem/Error/StatsItemError';
+import { StatsItemError } from '../../vo/StatsItem/error/StatsItemError';
 import { StatsItemID } from '../../vo/StatsItem/StatsItemID';
 import { StatsItemName } from '../../vo/StatsItem/StatsItemName';
-import { StatsValueError } from '../../vo/StatsValue/Error/StatsValueError';
+import { StatsValueError } from '../../vo/StatsValue/error/StatsValueError';
 import { StatsValue, StatsValueJSON } from '../../vo/StatsValue/StatsValue';
 import { StatsValues } from '../../vo/StatsValue/StatsValues';
 

@@ -1,5 +1,5 @@
 import { Column } from '../Column';
-import { ColumnError } from '../Error/ColumnError';
+import { ColumnError } from '../error/ColumnError';
 
 describe('Column', () => {
   describe('origin', () => {

@@ -5,16 +5,16 @@ import { Language, LanguageJSON } from '../../Language/Language';
 import { LanguageID } from '../../Language/LanguageID';
 import { LanguageName } from '../../Language/LanguageName';
 import { Languages } from '../../Language/Languages';
-import { MockLanguage } from '../../Language/Mock/MockLanguage';
-import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
+import { MockLanguage } from '../../Language/mock/MockLanguage';
+import { MockLanguageID } from '../../Language/mock/MockLanguageID';
 import { ISO3166 } from '../../Region/ISO3166';
-import { MockRegion } from '../../Region/Mock/MockRegion';
-import { MockRegionID } from '../../Region/Mock/MockRegionID';
+import { MockRegion } from '../../Region/mock/MockRegion';
+import { MockRegionID } from '../../Region/mock/MockRegionID';
 import { Region, RegionJSON } from '../../Region/Region';
 import { RegionID } from '../../Region/RegionID';
 import { RegionName } from '../../Region/RegionName';
 import { Regions } from '../../Region/Regions';
-import { LocaleError } from '../Error/LocaleError';
+import { LocaleError } from '../error/LocaleError';
 import { Locale } from '../Locale';
 
 describe('Locale', () => {

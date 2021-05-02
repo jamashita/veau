@@ -1,9 +1,9 @@
 import { UUID } from '@jamashita/anden-uuid';
-import { RegionError } from '../Error/RegionError';
+import { RegionError } from '../error/RegionError';
 import { ISO3166 } from '../ISO3166';
-import { MockISO3166 } from '../Mock/MockISO3166';
-import { MockRegionID } from '../Mock/MockRegionID';
-import { MockRegionName } from '../Mock/MockRegionName';
+import { MockISO3166 } from '../mock/MockISO3166';
+import { MockRegionID } from '../mock/MockRegionID';
+import { MockRegionName } from '../mock/MockRegionName';
 import { Region, RegionJSON, RegionRow } from '../Region';
 import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';

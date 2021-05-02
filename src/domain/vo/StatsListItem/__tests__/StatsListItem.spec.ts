@@ -1,15 +1,15 @@
 import { UUID } from '@jamashita/anden-uuid';
-import { MockLanguage } from '../../Language/Mock/MockLanguage';
-import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
-import { MockLocale } from '../../Locale/Mock/MockLocale';
-import { MockRegion } from '../../Region/Mock/MockRegion';
-import { MockRegionID } from '../../Region/Mock/MockRegionID';
-import { MockStatsID } from '../../StatsOutline/Mock/MockStatsID';
-import { MockStatsOutline } from '../../StatsOutline/Mock/MockStatsOutline';
+import { MockLanguage } from '../../Language/mock/MockLanguage';
+import { MockLanguageID } from '../../Language/mock/MockLanguageID';
+import { MockLocale } from '../../Locale/mock/MockLocale';
+import { MockRegion } from '../../Region/mock/MockRegion';
+import { MockRegionID } from '../../Region/mock/MockRegionID';
+import { MockStatsID } from '../../StatsOutline/mock/MockStatsID';
+import { MockStatsOutline } from '../../StatsOutline/mock/MockStatsOutline';
 import { Term } from '../../Term/Term';
 import { TermID } from '../../Term/TermID';
 import { Terms } from '../../Term/Terms';
-import { StatsListItemError } from '../Error/StatsListItemError';
+import { StatsListItemError } from '../error/StatsListItemError';
 import { StatsListItem } from '../StatsListItem';
 
 describe('StatsListItem', () => {

@@ -1,11 +1,11 @@
 import { UUID } from '@jamashita/anden-uuid';
 import { AccountName } from '../../Account/AccountName';
 import { LanguageID } from '../../Language/LanguageID';
-import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
-import { MockRegionID } from '../../Region/Mock/MockRegionID';
+import { MockLanguageID } from '../../Language/mock/MockLanguageID';
+import { MockRegionID } from '../../Region/mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
-import { VeauAccountError } from '../Error/VeauAccountError';
-import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
+import { VeauAccountError } from '../error/VeauAccountError';
+import { MockVeauAccountID } from '../mock/MockVeauAccountID';
 import { VeauAccount, VeauAccountJSON } from '../VeauAccount';
 import { VeauAccountID } from '../VeauAccountID';
 

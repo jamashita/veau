@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { UUID, UUIDError } from '@jamashita/anden-uuid';
-import { TermError } from './Error/TermError';
+import { TermError } from './error/TermError';
 
 export class TermID extends ValueObject<'TermID'> {
   public readonly noun: 'TermID' = 'TermID';

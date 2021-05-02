@@ -1,5 +1,5 @@
 import { UUID } from '@jamashita/anden-uuid';
-import { LanguageError } from '../Error/LanguageError';
+import { LanguageError } from '../error/LanguageError';
 import { LanguageID } from '../LanguageID';
 
 describe('LanguageID', () => {

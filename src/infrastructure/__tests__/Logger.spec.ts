@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { Logger } from 'tslog';
 import { kernel } from '../../container/Kernel';
 import { Type } from '../../container/Types';
-import { ILogger } from '../Interface/ILogger';
+import { ILogger } from '../interface/ILogger';
 
 describe('Logger', () => {
   describe('container', () => {

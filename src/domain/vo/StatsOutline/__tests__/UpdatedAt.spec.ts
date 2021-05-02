@@ -1,5 +1,5 @@
 import { Zeit } from '@jamashita/anden-zeit';
-import { StatsError } from '../Error/StatsError';
+import { StatsError } from '../error/StatsError';
 import { UpdatedAt } from '../UpdatedAt';
 
 describe('UpdatedAt', () => {

@@ -1,5 +1,5 @@
 import { UUID } from '@jamashita/anden-uuid';
-import { VeauAccountError } from '../Error/VeauAccountError';
+import { VeauAccountError } from '../error/VeauAccountError';
 import { VeauAccountID } from '../VeauAccountID';
 
 describe('VeauAccountID', () => {

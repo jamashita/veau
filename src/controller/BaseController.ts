@@ -2,8 +2,8 @@ import { Express } from 'express';
 import { useContainer, useExpressServer } from 'routing-controllers';
 
 import { kernel } from '../container/Kernel';
-import { APIController } from './API/APIController';
-import { FEController } from './FE/FEController';
+import { APIController } from './api/APIController';
+import { FEController } from './fe/FEController';
 
 export const BaseController = (app: Express): Express => {
   useContainer(kernel);

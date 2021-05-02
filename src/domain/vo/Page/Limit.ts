@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { PageError } from './Error/PageError';
+import { PageError } from './error/PageError';
 
 const DEFAULT_VALUE: number = 40;
 

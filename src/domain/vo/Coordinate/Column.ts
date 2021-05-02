@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { ColumnError } from './Error/ColumnError';
+import { ColumnError } from './error/ColumnError';
 
 const ORIGIN_VALUE: number = 0;
 

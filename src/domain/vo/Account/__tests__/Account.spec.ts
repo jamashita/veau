@@ -1,16 +1,16 @@
 import { UUID } from '@jamashita/anden-uuid';
 import { Password } from '../../EntranceInformation/Password';
 import { LanguageID } from '../../Language/LanguageID';
-import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
-import { MockRegionID } from '../../Region/Mock/MockRegionID';
+import { MockLanguageID } from '../../Language/mock/MockLanguageID';
+import { MockRegionID } from '../../Region/mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
-import { MockVeauAccount } from '../../VeauAccount/Mock/MockVeauAccount';
-import { MockVeauAccountID } from '../../VeauAccount/Mock/MockVeauAccountID';
+import { MockVeauAccount } from '../../VeauAccount/mock/MockVeauAccount';
+import { MockVeauAccountID } from '../../VeauAccount/mock/MockVeauAccountID';
 import { VeauAccount } from '../../VeauAccount/VeauAccount';
 import { VeauAccountID } from '../../VeauAccount/VeauAccountID';
 import { Account, AccountRow } from '../Account';
 import { AccountName } from '../AccountName';
-import { AccountError } from '../Error/AccountError';
+import { AccountError } from '../error/AccountError';
 import { Hash } from '../Hash';
 
 describe('Account', () => {

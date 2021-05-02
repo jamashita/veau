@@ -1,6 +1,6 @@
 import { AccountName } from '../../Account/AccountName';
 import { EntranceInformation } from '../EntranceInformation';
-import { MockPassword } from '../Mock/MockPassword';
+import { MockPassword } from '../mock/MockPassword';
 import { Password } from '../Password';
 
 describe('EntranceInformation', () => {

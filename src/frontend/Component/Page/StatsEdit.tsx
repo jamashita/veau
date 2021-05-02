@@ -11,7 +11,7 @@ import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 import { StatsItem } from '../../../domain/entity/StatsItem/StatsItem';
 import { AsOf } from '../../../domain/vo/AsOf/AsOf';
-import { AsOfError } from '../../../domain/vo/AsOf/Error/AsOfError';
+import { AsOfError } from '../../../domain/vo/AsOf/error/AsOfError';
 import { Column } from '../../../domain/vo/Coordinate/Column';
 import { Coordinate } from '../../../domain/vo/Coordinate/Coordinate';
 import { Row } from '../../../domain/vo/Coordinate/Row';
@@ -22,7 +22,7 @@ import { Locale } from '../../../domain/vo/Locale/Locale';
 import { NumericalValue } from '../../../domain/vo/NumericalValue/NumericalValue';
 import { ISO3166 } from '../../../domain/vo/Region/ISO3166';
 import { StatsItemName } from '../../../domain/vo/StatsItem/StatsItemName';
-import { StatsIDError } from '../../../domain/vo/StatsOutline/Error/StatsIDError';
+import { StatsIDError } from '../../../domain/vo/StatsOutline/error/StatsIDError';
 import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
 import { StatsName } from '../../../domain/vo/StatsOutline/StatsName';
 import { StatsUnit } from '../../../domain/vo/StatsOutline/StatsUnit';

@@ -2,11 +2,11 @@ import { ValueObject } from '@jamashita/anden-object';
 import { JSONable, Kind } from '@jamashita/anden-type';
 
 import { AccountName } from '../Account/AccountName';
-import { LanguageError } from '../Language/Error/LanguageError';
+import { LanguageError } from '../Language/error/LanguageError';
 import { LanguageID } from '../Language/LanguageID';
-import { RegionError } from '../Region/Error/RegionError';
+import { RegionError } from '../Region/error/RegionError';
 import { RegionID } from '../Region/RegionID';
-import { VeauAccountError } from './Error/VeauAccountError';
+import { VeauAccountError } from './error/VeauAccountError';
 import { VeauAccountID } from './VeauAccountID';
 
 export type VeauAccountJSON = Readonly<{

@@ -1,4 +1,4 @@
-import { LoadingCountError } from '../Error/LoadingCountError';
+import { LoadingCountError } from '../error/LoadingCountError';
 import { LoadingCount } from '../LoadingCount';
 
 describe('LoadingCount', () => {

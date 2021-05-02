@@ -1,7 +1,7 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Ambiguous, Kind } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
-import { TermError } from './Error/TermError';
+import { TermError } from './error/TermError';
 import { TermID } from './TermID';
 import { TermKey } from './TermKey';
 

@@ -6,7 +6,7 @@ import { Region } from '../Region/Region';
 import { StatsOutline } from '../StatsOutline/StatsOutline';
 import { Term } from '../Term/Term';
 import { Terms } from '../Term/Terms';
-import { StatsListItemError } from './Error/StatsListItemError';
+import { StatsListItemError } from './error/StatsListItemError';
 
 export class StatsListItem extends ValueObject<'StatsListItem'> {
   public readonly noun: 'StatsListItem' = 'StatsListItem';

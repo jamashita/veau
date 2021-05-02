@@ -1,8 +1,8 @@
 import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { Term } from '../../Term/Term';
-import { MockStatsListItem } from '../Mock/MockStatsListItem';
-import { MockStatsListItems } from '../Mock/MockStatsListItems';
+import { MockStatsListItem } from '../mock/MockStatsListItem';
+import { MockStatsListItems } from '../mock/MockStatsListItems';
 import { StatsListItem } from '../StatsListItem';
 import { StatsListItems } from '../StatsListItems';
 

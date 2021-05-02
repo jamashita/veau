@@ -1,9 +1,9 @@
 import { ISQL } from '@jamashita/catacombe-mysql';
 
-import { StatsCommand } from '../repository/command/MySQL/StatsCommand';
-import { StatsItemCommand } from '../repository/command/MySQL/StatsItemCommand';
-import { StatsValueCommand } from '../repository/command/MySQL/StatsValueCommand';
-import { IStatsUpdateFactory } from './Interface/IStatsUpdateFactory';
+import { StatsCommand } from '../repository/command/mysql/StatsCommand';
+import { StatsItemCommand } from '../repository/command/mysql/StatsItemCommand';
+import { StatsValueCommand } from '../repository/command/mysql/StatsValueCommand';
+import { IStatsUpdateFactory } from './interface/IStatsUpdateFactory';
 
 export class StatsUpdateFactory implements IStatsUpdateFactory {
   public readonly noun: 'StatsUpdateFactory' = 'StatsUpdateFactory';

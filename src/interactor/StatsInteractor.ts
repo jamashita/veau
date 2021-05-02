@@ -5,13 +5,13 @@ import { inject, injectable } from 'inversify';
 import { Type } from '../container/Types';
 import { Stats } from '../domain/entity/Stats/Stats';
 import { Page } from '../domain/vo/Page/Page';
-import { StatsError } from '../domain/vo/StatsOutline/Error/StatsError';
-import { StatsOutlineError } from '../domain/vo/StatsOutline/Error/StatsOutlineError';
+import { StatsError } from '../domain/vo/StatsOutline/error/StatsError';
+import { StatsOutlineError } from '../domain/vo/StatsOutline/error/StatsOutlineError';
 import { StatsID } from '../domain/vo/StatsOutline/StatsID';
 import { StatsOutlines } from '../domain/vo/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../domain/vo/VeauAccount/VeauAccountID';
-import { IStatsCommand } from '../repository/command/Interface/IStatsCommand';
-import { NoSuchElementError } from '../repository/query/Error/NoSuchElementError';
+import { IStatsCommand } from '../repository/command/interface/IStatsCommand';
+import { NoSuchElementError } from '../repository/query/error/NoSuchElementError';
 import { IStatsOutlineQuery } from '../repository/query/Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../repository/query/Interface/IStatsQuery';
 

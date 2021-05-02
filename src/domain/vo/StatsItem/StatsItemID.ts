@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { UUID, UUIDError } from '@jamashita/anden-uuid';
-import { StatsItemError } from './Error/StatsItemError';
+import { StatsItemError } from './error/StatsItemError';
 
 export class StatsItemID extends ValueObject<'StatsItemID'> {
   public readonly noun: 'StatsItemID' = 'StatsItemID';

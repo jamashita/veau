@@ -1,4 +1,4 @@
-import { PageError } from '../Error/PageError';
+import { PageError } from '../error/PageError';
 import { Limit } from '../Limit';
 
 describe('Limit', () => {

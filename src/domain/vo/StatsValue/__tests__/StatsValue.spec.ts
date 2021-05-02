@@ -1,7 +1,7 @@
 import { AsOf } from '../../AsOf/AsOf';
-import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
+import { MockAsOf } from '../../AsOf/mock/MockAsOf';
 import { NumericalValue } from '../../NumericalValue/NumericalValue';
-import { StatsValueError } from '../Error/StatsValueError';
+import { StatsValueError } from '../error/StatsValueError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 
 describe('StatsValue', () => {

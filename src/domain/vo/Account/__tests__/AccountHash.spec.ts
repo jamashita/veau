@@ -1,4 +1,4 @@
-import { MockVeauAccountID } from '../../VeauAccount/Mock/MockVeauAccountID';
+import { MockVeauAccountID } from '../../VeauAccount/mock/MockVeauAccountID';
 import { VeauAccountID } from '../../VeauAccount/VeauAccountID';
 import { AccountHash } from '../AccountHash';
 import { Hash } from '../Hash';

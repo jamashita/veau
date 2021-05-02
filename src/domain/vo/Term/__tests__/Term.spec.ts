@@ -1,5 +1,5 @@
 import { UUID } from '@jamashita/anden-uuid';
-import { TermError } from '../Error/TermError';
+import { TermError } from '../error/TermError';
 import { Term } from '../Term';
 import { TermID } from '../TermID';
 

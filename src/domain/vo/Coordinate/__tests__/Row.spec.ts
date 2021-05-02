@@ -1,4 +1,4 @@
-import { RowError } from '../Error/RowError';
+import { RowError } from '../error/RowError';
 import { Row } from '../Row';
 
 describe('Row', () => {

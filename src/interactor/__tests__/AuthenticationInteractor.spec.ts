@@ -4,9 +4,9 @@ import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../container/Kernel';
 import { Type } from '../../container/Types';
 import { Account } from '../../domain/vo/Account/Account';
-import { MockAccount } from '../../domain/vo/Account/Mock/MockAccount';
+import { MockAccount } from '../../domain/vo/Account/mock/MockAccount';
 import { VeauAccount } from '../../domain/vo/VeauAccount/VeauAccount';
-import { NoSuchElementError } from '../../repository/query/Error/NoSuchElementError';
+import { NoSuchElementError } from '../../repository/query/error/NoSuchElementError';
 import { MockAccountQuery } from '../../repository/query/Mock/MockAccountQuery';
 import { AuthenticationInteractor } from '../AuthenticationInteractor';
 

@@ -6,10 +6,10 @@ import { VerifyFunction } from 'passport-local';
 import { Type } from '../container/Types';
 import { Account } from '../domain/vo/Account/Account';
 import { AccountName } from '../domain/vo/Account/AccountName';
-import { AccountError } from '../domain/vo/Account/Error/AccountError';
+import { AccountError } from '../domain/vo/Account/error/AccountError';
 import { Password } from '../domain/vo/EntranceInformation/Password';
 import { logger } from '../infrastructure/Logger';
-import { NoSuchElementError } from '../repository/query/Error/NoSuchElementError';
+import { NoSuchElementError } from '../repository/query/error/NoSuchElementError';
 import { IAccountQuery } from '../repository/query/Interface/IAccountQuery';
 
 const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';

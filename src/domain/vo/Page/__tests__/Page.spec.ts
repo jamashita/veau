@@ -1,5 +1,5 @@
 import sinon, { SinonStub } from 'sinon';
-import { PageError } from '../Error/PageError';
+import { PageError } from '../error/PageError';
 import { Page } from '../Page';
 
 describe('Page', () => {

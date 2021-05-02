@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { UUID, UUIDError } from '@jamashita/anden-uuid';
-import { VeauAccountError } from './Error/VeauAccountError';
+import { VeauAccountError } from './error/VeauAccountError';
 
 export class VeauAccountID extends ValueObject<'VeauAccountID'> {
   public readonly noun: 'VeauAccountID' = 'VeauAccountID';

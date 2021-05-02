@@ -2,10 +2,10 @@ import { ImmutableProject } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { AsOf } from '../../AsOf/AsOf';
 import { AsOfs } from '../../AsOf/AsOfs';
-import { MockAsOf } from '../../AsOf/Mock/MockAsOf';
+import { MockAsOf } from '../../AsOf/mock/MockAsOf';
 import { NumericalValue } from '../../NumericalValue/NumericalValue';
-import { StatsValueError } from '../Error/StatsValueError';
-import { MockStatsValue } from '../Mock/MockStatsValue';
+import { StatsValueError } from '../error/StatsValueError';
+import { MockStatsValue } from '../mock/MockStatsValue';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
 

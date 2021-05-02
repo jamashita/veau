@@ -1,13 +1,13 @@
 import { UUID } from '@jamashita/anden-uuid';
 import { LanguageID } from '../../Language/LanguageID';
-import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
-import { MockRegionID } from '../../Region/Mock/MockRegionID';
+import { MockLanguageID } from '../../Language/mock/MockLanguageID';
+import { MockRegionID } from '../../Region/mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
 import { Term } from '../../Term/Term';
 import { TermID } from '../../Term/TermID';
-import { StatsOutlineError } from '../Error/StatsOutlineError';
-import { MockStatsID } from '../Mock/MockStatsID';
-import { MockUpdatedAt } from '../Mock/MockUpdatedAt';
+import { StatsOutlineError } from '../error/StatsOutlineError';
+import { MockStatsID } from '../mock/MockStatsID';
+import { MockUpdatedAt } from '../mock/MockUpdatedAt';
 import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';

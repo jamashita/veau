@@ -3,7 +3,7 @@ import { ActionsObservable, ofType } from 'redux-observable';
 import { from, merge, Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { Type } from '../../container/Types';
-import { ISessionCommand } from '../../repository/command/Interface/ISessionCommand';
+import { ISessionCommand } from '../../repository/command/interface/ISessionCommand';
 import { LOGOUT, VeauAction } from '../Action';
 import { initializeIdentity } from '../ActionCreator/IdentityActionCreator';
 import { nothing } from '../ActionCreator/NothingActionCreator';

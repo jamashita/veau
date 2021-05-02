@@ -1,12 +1,12 @@
 import { UUID } from '@jamashita/anden-uuid';
-import { LanguageError } from '../Error/LanguageError';
+import { LanguageError } from '../error/LanguageError';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';
 import { LanguageName } from '../LanguageName';
-import { MockISO639 } from '../Mock/MockISO639';
-import { MockLanguageID } from '../Mock/MockLanguageID';
-import { MockLanguageName } from '../Mock/MockLanguageName';
+import { MockISO639 } from '../mock/MockISO639';
+import { MockLanguageID } from '../mock/MockLanguageID';
+import { MockLanguageName } from '../mock/MockLanguageName';
 
 describe('Language', () => {
   describe('of', () => {

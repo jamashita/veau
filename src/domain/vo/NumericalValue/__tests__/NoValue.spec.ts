@@ -1,4 +1,4 @@
-import { NumericalValueError } from '../Error/NumericalValueError';
+import { NumericalValueError } from '../error/NumericalValueError';
 import { NoValue } from '../NoValue';
 import { NumericalValue } from '../NumericalValue';
 

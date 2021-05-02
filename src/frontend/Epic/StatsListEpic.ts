@@ -9,7 +9,7 @@ import { Page } from '../../domain/vo/Page/Page';
 import { Region } from '../../domain/vo/Region/Region';
 import { StatsListItems } from '../../domain/vo/StatsListItem/StatsListItems';
 import { StatsOutline } from '../../domain/vo/StatsOutline/StatsOutline';
-import { IStatsCommand } from '../../repository/command/Interface/IStatsCommand';
+import { IStatsCommand } from '../../repository/command/interface/IStatsCommand';
 import { ILanguageQuery } from '../../repository/query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../repository/query/Interface/IRegionQuery';
 import { IStatsListItemQuery } from '../../repository/query/Interface/IStatsListItemQuery';

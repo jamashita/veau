@@ -1,7 +1,7 @@
 import { Term } from '../../Term/Term';
 import { Terms } from '../../Term/Terms';
 import { AsOf } from '../AsOf';
-import { AsOfError } from '../Error/AsOfError';
+import { AsOfError } from '../error/AsOfError';
 
 describe('AsOf', () => {
   describe('ofString', () => {

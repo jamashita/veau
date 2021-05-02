@@ -1,5 +1,5 @@
 import { UUID } from '@jamashita/anden-uuid';
-import { RegionError } from '../Error/RegionError';
+import { RegionError } from '../error/RegionError';
 import { RegionID } from '../RegionID';
 
 describe('RegionID', () => {

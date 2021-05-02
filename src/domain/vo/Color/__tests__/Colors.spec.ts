@@ -2,7 +2,7 @@ import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { Color } from '../Color';
 import { Colors } from '../Colors';
-import { MockColor } from '../Mock/MockColor';
+import { MockColor } from '../mock/MockColor';
 
 describe('Colors', () => {
   describe('of', () => {

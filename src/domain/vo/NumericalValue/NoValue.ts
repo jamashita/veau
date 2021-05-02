@@ -1,4 +1,4 @@
-import { NumericalValueError } from './Error/NumericalValueError';
+import { NumericalValueError } from './error/NumericalValueError';
 import { NumericalValue } from './NumericalValue';
 
 export class NoValue extends NumericalValue {

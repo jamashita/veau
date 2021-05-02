@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { LoadingCountError } from './Error/LoadingCountError';
+import { LoadingCountError } from './error/LoadingCountError';
 
 const DEFAULT_COUNT: number = 0;
 
