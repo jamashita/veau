@@ -3,8 +3,8 @@ import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauHeap';
-import { LocaleError } from '../../VO/Locale/Error/LocaleError';
-import { Locale } from '../../VO/Locale/Locale';
+import { LocaleError } from '../../domain/VO/Locale/Error/LocaleError';
+import { Locale } from '../../domain/VO/Locale/Locale';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IHeapQuery } from './Interface/IHeapQuery';
 

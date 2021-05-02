@@ -3,7 +3,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { kernel } from '../Container/Kernel';
 import { Type } from '../Container/Types';
 import { AuthenticationInteractor } from '../Interactor/AuthenticationInteractor';
-import { VeauAccount, VeauAccountJSON } from '../VO/VeauAccount/VeauAccount';
+import { VeauAccount, VeauAccountJSON } from '../domain/VO/VeauAccount/VeauAccount';
 
 const authenticationInteractor: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(Type.AuthenticationInteractor);
 

@@ -1,7 +1,7 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 
-import { Languages } from '../../VO/Language/Languages';
+import { Languages } from '../../domain/VO/Language/Languages';
 import { ICommand } from './ICommand';
 
 export interface ILanguageCommand<E extends DataSourceError = DataSourceError> extends ICommand<'LanguageCommand'> {

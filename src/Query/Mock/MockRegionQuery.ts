@@ -1,9 +1,9 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { RegionError } from '../../VO/Region/Error/RegionError';
-import { Region } from '../../VO/Region/Region';
-import { Regions } from '../../VO/Region/Regions';
+import { RegionError } from '../../domain/VO/Region/Error/RegionError';
+import { Region } from '../../domain/VO/Region/Region';
+import { Regions } from '../../domain/VO/Region/Regions';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 import { IMockQuery } from './Interface/IMockQuery';

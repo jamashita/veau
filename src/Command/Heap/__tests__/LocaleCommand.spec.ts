@@ -6,8 +6,8 @@ import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauHeap';
-import { Locale } from '../../../VO/Locale/Locale';
-import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
+import { Locale } from '../../../domain/VO/Locale/Locale';
+import { MockLocale } from '../../../domain/VO/Locale/Mock/MockLocale';
 import { LocaleCommand } from '../LocaleCommand';
 
 describe('LocaleCommand', () => {

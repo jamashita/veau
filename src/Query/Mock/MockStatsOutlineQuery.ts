@@ -1,9 +1,9 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
-import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
-import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
+import { StatsOutlineError } from '../../domain/VO/StatsOutline/Error/StatsOutlineError';
+import { StatsOutline } from '../../domain/VO/StatsOutline/StatsOutline';
+import { StatsOutlines } from '../../domain/VO/StatsOutline/StatsOutlines';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
 import { IMockQuery } from './Interface/IMockQuery';

@@ -1,8 +1,8 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 
-import { StatsItem } from '../../Entity/StatsItem/StatsItem';
-import { StatsID } from '../../VO/StatsOutline/StatsID';
+import { StatsItem } from '../../domain/Entity/StatsItem/StatsItem';
+import { StatsID } from '../../domain/VO/StatsOutline/StatsID';
 import { ICommand } from './ICommand';
 
 export interface IStatsItemCommand<E extends DataSourceError = DataSourceError> extends ICommand<'StatsItemCommand'> {

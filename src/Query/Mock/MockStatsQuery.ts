@@ -1,8 +1,8 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { Stats } from '../../Entity/Stats/Stats';
-import { StatsError } from '../../VO/StatsOutline/Error/StatsError';
+import { Stats } from '../../domain/Entity/Stats/Stats';
+import { StatsError } from '../../domain/VO/StatsOutline/Error/StatsError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IStatsQuery } from '../Interface/IStatsQuery';
 import { IMockQuery } from './Interface/IMockQuery';

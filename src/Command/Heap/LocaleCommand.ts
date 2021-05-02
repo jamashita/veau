@@ -3,7 +3,7 @@ import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauHeap';
-import { Locale } from '../../VO/Locale/Locale';
+import { Locale } from '../../domain/VO/Locale/Locale';
 import { ILocaleCommand } from '../Interface/ILocaleCommand';
 import { IHeapCommand } from './Interface/IHeapCommand';
 

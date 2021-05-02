@@ -7,16 +7,16 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { MockStats } from '../../../Entity/Stats/Mock/MockStats';
-import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
-import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
-import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
-import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
-import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
-import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
-import { StatsName } from '../../../VO/StatsOutline/StatsName';
-import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
-import { Term } from '../../../VO/Term/Term';
+import { MockStats } from '../../../domain/Entity/Stats/Mock/MockStats';
+import { MockLanguage } from '../../../domain/VO/Language/Mock/MockLanguage';
+import { MockLanguageID } from '../../../domain/VO/Language/Mock/MockLanguageID';
+import { MockRegion } from '../../../domain/VO/Region/Mock/MockRegion';
+import { MockRegionID } from '../../../domain/VO/Region/Mock/MockRegionID';
+import { MockStatsID } from '../../../domain/VO/StatsOutline/Mock/MockStatsID';
+import { MockStatsOutline } from '../../../domain/VO/StatsOutline/Mock/MockStatsOutline';
+import { StatsName } from '../../../domain/VO/StatsOutline/StatsName';
+import { StatsUnit } from '../../../domain/VO/StatsOutline/StatsUnit';
+import { Term } from '../../../domain/VO/Term/Term';
 import { StatsCommand } from '../StatsCommand';
 
 describe('StatsCommand', () => {

@@ -1,9 +1,9 @@
 import { DataSourceError, UnimplementedError } from '@jamashita/anden-error';
 import { Superposition } from '@jamashita/genitore';
 import { Project } from '@jamashita/lluvia-collection';
-import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
-import { StatsValueError } from '../../VO/StatsValue/Error/StatsValueError';
-import { StatsValues } from '../../VO/StatsValue/StatsValues';
+import { StatsItemID } from '../../domain/VO/StatsItem/StatsItemID';
+import { StatsValueError } from '../../domain/VO/StatsValue/Error/StatsValueError';
+import { StatsValues } from '../../domain/VO/StatsValue/StatsValues';
 import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
 import { IMockQuery } from './Interface/IMockQuery';
 

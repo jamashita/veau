@@ -1,11 +1,11 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { ISO639 } from '../../../VO/Language/ISO639';
-import { ISO3166 } from '../../../VO/Region/ISO3166';
-import { StatsID } from '../../../VO/StatsOutline/StatsID';
-import { StatsName } from '../../../VO/StatsOutline/StatsName';
-import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
-import { Term } from '../../../VO/Term/Term';
+import { ISO639 } from '../../../domain/VO/Language/ISO639';
+import { ISO3166 } from '../../../domain/VO/Region/ISO3166';
+import { StatsID } from '../../../domain/VO/StatsOutline/StatsID';
+import { StatsName } from '../../../domain/VO/StatsOutline/StatsName';
+import { StatsUnit } from '../../../domain/VO/StatsOutline/StatsUnit';
+import { Term } from '../../../domain/VO/Term/Term';
 import { VeauAction } from '../../Action';
 import { pushToStatsEdit } from '../../ActionCreator/RedirectActionCreator';
 import {

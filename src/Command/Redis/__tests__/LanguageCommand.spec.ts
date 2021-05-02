@@ -5,9 +5,9 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { Languages } from '../../../VO/Language/Languages';
-import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
-import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
+import { Languages } from '../../../domain/VO/Language/Languages';
+import { MockLanguage } from '../../../domain/VO/Language/Mock/MockLanguage';
+import { MockLanguageName } from '../../../domain/VO/Language/Mock/MockLanguageName';
 import { LanguageCommand } from '../LanguageCommand';
 
 describe('LanguageCommand', () => {

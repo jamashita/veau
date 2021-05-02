@@ -7,7 +7,7 @@ import { Controller, Delete, Get, Res, UseBefore } from 'routing-controllers';
 import { Type } from '../../Container/Types';
 import { logger } from '../../Infrastructure/Logger';
 import { LocaleInteractor } from '../../Interactor/LocaleInteractor';
-import { LocaleError } from '../../VO/Locale/Error/LocaleError';
+import { LocaleError } from '../../domain/VO/Locale/Error/LocaleError';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
 @injectable()

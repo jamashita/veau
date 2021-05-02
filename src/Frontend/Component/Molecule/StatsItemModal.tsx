@@ -1,8 +1,8 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { StatsItemDisplay } from '../../../VO/Display/StatsItemDisplay';
-import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
+import { StatsItemDisplay } from '../../../domain/VO/Display/StatsItemDisplay';
+import { StatsItemName } from '../../../domain/VO/StatsItem/StatsItemName';
 import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{

@@ -1,9 +1,9 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 
-import { Account } from '../../VO/Account/Account';
-import { AccountName } from '../../VO/Account/AccountName';
-import { AccountError } from '../../VO/Account/Error/AccountError';
+import { Account } from '../../domain/VO/Account/Account';
+import { AccountName } from '../../domain/VO/Account/AccountName';
+import { AccountError } from '../../domain/VO/Account/Error/AccountError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IQuery } from './IQuery';
 

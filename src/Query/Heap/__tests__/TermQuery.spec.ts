@@ -3,8 +3,8 @@ import { Schrodinger } from '@jamashita/genitore';
 import 'reflect-metadata';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { TermError } from '../../../VO/Term/Error/TermError';
-import { Terms } from '../../../VO/Term/Terms';
+import { TermError } from '../../../domain/VO/Term/Error/TermError';
+import { Terms } from '../../../domain/VO/Term/Terms';
 import { TermQuery } from '../TermQuery';
 
 describe('TermQuery', () => {

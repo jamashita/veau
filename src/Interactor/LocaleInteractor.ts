@@ -7,12 +7,12 @@ import { IRegionCommand } from '../Command/Interface/IRegionCommand';
 import { Type } from '../Container/Types';
 import { ILanguageQuery } from '../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../Query/Interface/IRegionQuery';
-import { LanguageError } from '../VO/Language/Error/LanguageError';
-import { Languages } from '../VO/Language/Languages';
-import { LocaleError } from '../VO/Locale/Error/LocaleError';
-import { Locale } from '../VO/Locale/Locale';
-import { RegionError } from '../VO/Region/Error/RegionError';
-import { Regions } from '../VO/Region/Regions';
+import { LanguageError } from '../domain/VO/Language/Error/LanguageError';
+import { Languages } from '../domain/VO/Language/Languages';
+import { LocaleError } from '../domain/VO/Locale/Error/LocaleError';
+import { Locale } from '../domain/VO/Locale/Locale';
+import { RegionError } from '../domain/VO/Region/Error/RegionError';
+import { Regions } from '../domain/VO/Region/Regions';
 
 @injectable()
 export class LocaleInteractor implements Noun<'LocaleInteractor'> {

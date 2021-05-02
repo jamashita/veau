@@ -7,10 +7,10 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { Stats, StatsJSON } from '../../../Entity/Stats/Stats';
-import { StatsError } from '../../../VO/StatsOutline/Error/StatsError';
-import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
-import { Term } from '../../../VO/Term/Term';
+import { Stats, StatsJSON } from '../../../domain/Entity/Stats/Stats';
+import { StatsError } from '../../../domain/VO/StatsOutline/Error/StatsError';
+import { MockStatsID } from '../../../domain/VO/StatsOutline/Mock/MockStatsID';
+import { Term } from '../../../domain/VO/Term/Term';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsQuery } from '../StatsQuery';
 

@@ -4,7 +4,7 @@ import { JSONA, JSONAError } from '@jamashita/steckdose-json';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
-import { Languages } from '../../VO/Language/Languages';
+import { Languages } from '../../domain/VO/Language/Languages';
 import { ILanguageCommand } from '../Interface/ILanguageCommand';
 import { IRedisCommand } from './Interface/IRedisCommand';
 

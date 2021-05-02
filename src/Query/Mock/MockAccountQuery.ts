@@ -1,8 +1,8 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { Account } from '../../VO/Account/Account';
-import { AccountError } from '../../VO/Account/Error/AccountError';
+import { Account } from '../../domain/VO/Account/Account';
+import { AccountError } from '../../domain/VO/Account/Error/AccountError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IAccountQuery } from '../Interface/IAccountQuery';
 import { IMockQuery } from './Interface/IMockQuery';

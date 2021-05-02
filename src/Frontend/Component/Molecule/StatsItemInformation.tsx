@@ -3,8 +3,8 @@ import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@mater
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
-import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
-import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
+import { StatsItem } from '../../../domain/Entity/StatsItem/StatsItem';
+import { StatsItemName } from '../../../domain/VO/StatsItem/StatsItemName';
 import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{

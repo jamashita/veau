@@ -7,9 +7,9 @@ import sinon, { SinonStub } from 'sinon';
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
-import { Locale } from '../../../VO/Locale/Locale';
-import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
+import { LocaleError } from '../../../domain/VO/Locale/Error/LocaleError';
+import { Locale } from '../../../domain/VO/Locale/Locale';
+import { MockLocale } from '../../../domain/VO/Locale/Mock/MockLocale';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { LocaleQuery } from '../LocaleQuery';
 

@@ -12,17 +12,17 @@ import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
 import { LocaleInteractor } from '../../../Interactor/LocaleInteractor';
 import { NoSuchElementError } from '../../../Query/Error/NoSuchElementError';
-import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
-import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
-import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
-import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
-import { Locale } from '../../../VO/Locale/Locale';
-import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
-import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
-import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
-import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
-import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
-import { MockVeauAccount } from '../../../VO/VeauAccount/Mock/MockVeauAccount';
+import { MockISO639 } from '../../../domain/VO/Language/Mock/MockISO639';
+import { MockLanguage } from '../../../domain/VO/Language/Mock/MockLanguage';
+import { MockLanguageID } from '../../../domain/VO/Language/Mock/MockLanguageID';
+import { MockLanguageName } from '../../../domain/VO/Language/Mock/MockLanguageName';
+import { Locale } from '../../../domain/VO/Locale/Locale';
+import { MockLocale } from '../../../domain/VO/Locale/Mock/MockLocale';
+import { MockISO3166 } from '../../../domain/VO/Region/Mock/MockISO3166';
+import { MockRegion } from '../../../domain/VO/Region/Mock/MockRegion';
+import { MockRegionID } from '../../../domain/VO/Region/Mock/MockRegionID';
+import { MockRegionName } from '../../../domain/VO/Region/Mock/MockRegionName';
+import { MockVeauAccount } from '../../../domain/VO/VeauAccount/Mock/MockVeauAccount';
 import { LocaleController } from '../LocaleController';
 
 const fakeAccount = (req: Request, _res: Response, next: NextFunction): void => {

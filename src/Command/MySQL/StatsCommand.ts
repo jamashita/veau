@@ -1,8 +1,8 @@
 import { ISQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Superposition } from '@jamashita/genitore';
-import { Stats } from '../../Entity/Stats/Stats';
-import { StatsID } from '../../VO/StatsOutline/StatsID';
-import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
+import { Stats } from '../../domain/Entity/Stats/Stats';
+import { StatsID } from '../../domain/VO/StatsOutline/StatsID';
+import { VeauAccountID } from '../../domain/VO/VeauAccount/VeauAccountID';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 import { IMySQLCommand } from './Interface/IMySQLCommand';
 

@@ -1,7 +1,7 @@
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { LoadingCount } from '../../../VO/LoadingCount/LoadingCount';
+import { LoadingCount } from '../../../domain/VO/LoadingCount/LoadingCount';
 
 type Props = DispatchProps & OwnProps & StateProps;
 type State = Readonly<{}>;

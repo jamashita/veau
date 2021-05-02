@@ -1,7 +1,7 @@
 import { ISQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Superposition } from '@jamashita/genitore';
-import { StatsItem } from '../../Entity/StatsItem/StatsItem';
-import { StatsID } from '../../VO/StatsOutline/StatsID';
+import { StatsItem } from '../../domain/Entity/StatsItem/StatsItem';
+import { StatsID } from '../../domain/VO/StatsOutline/StatsID';
 import { IStatsItemCommand } from '../Interface/IStatsItemCommand';
 import { IMySQLCommand } from './Interface/IMySQLCommand';
 

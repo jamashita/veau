@@ -1,7 +1,7 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { Locale } from '../../VO/Locale/Locale';
+import { Locale } from '../../domain/VO/Locale/Locale';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IMockQuery } from './Interface/IMockQuery';
 

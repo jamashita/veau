@@ -1,9 +1,9 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { Page } from '../../VO/Page/Page';
-import { StatsListItemError } from '../../VO/StatsListItem/Error/StatsListItemError';
-import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
-import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
+import { Page } from '../../domain/VO/Page/Page';
+import { StatsListItemError } from '../../domain/VO/StatsListItem/Error/StatsListItemError';
+import { StatsListItems } from '../../domain/VO/StatsListItem/StatsListItems';
+import { VeauAccountID } from '../../domain/VO/VeauAccount/VeauAccountID';
 import { IQuery } from './IQuery';
 
 export interface IStatsListItemQuery<E extends DataSourceError = DataSourceError> extends IQuery<'StatsListItemQuery'> {

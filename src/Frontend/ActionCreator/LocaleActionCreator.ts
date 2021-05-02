@@ -1,4 +1,4 @@
-import { Locale } from '../../VO/Locale/Locale';
+import { Locale } from '../../domain/VO/Locale/Locale';
 import { LOCALE_DEFINED, LocaleDefinedAction } from '../Action';
 
 export const defineLocale = (locale: Locale): LocaleDefinedAction => {

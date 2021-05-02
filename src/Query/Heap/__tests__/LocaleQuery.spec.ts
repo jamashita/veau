@@ -6,9 +6,9 @@ import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauHeap';
-import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
-import { Locale } from '../../../VO/Locale/Locale';
-import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
+import { LocaleError } from '../../../domain/VO/Locale/Error/LocaleError';
+import { Locale } from '../../../domain/VO/Locale/Locale';
+import { MockLocale } from '../../../domain/VO/Locale/Mock/MockLocale';
 import { LocaleQuery } from '../LocaleQuery';
 
 describe('LocaleQuery', () => {

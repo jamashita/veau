@@ -4,12 +4,12 @@ import { Chrono, Superposition } from '@jamashita/genitore';
 import { ImmutableProject, MutableProject, MutableSequence, Project, Sequence } from '@jamashita/lluvia-collection';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../Container/Types';
-import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
-import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
-import { StatsID } from '../../VO/StatsOutline/StatsID';
-import { StatsValueError } from '../../VO/StatsValue/Error/StatsValueError';
-import { StatsValue, StatsValueRow } from '../../VO/StatsValue/StatsValue';
-import { StatsValues } from '../../VO/StatsValue/StatsValues';
+import { StatsItemError } from '../../domain/VO/StatsItem/Error/StatsItemError';
+import { StatsItemID } from '../../domain/VO/StatsItem/StatsItemID';
+import { StatsID } from '../../domain/VO/StatsOutline/StatsID';
+import { StatsValueError } from '../../domain/VO/StatsValue/Error/StatsValueError';
+import { StatsValue, StatsValueRow } from '../../domain/VO/StatsValue/StatsValue';
+import { StatsValues } from '../../domain/VO/StatsValue/StatsValues';
 import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
 import { IMySQLQuery } from './Interface/IMySQLQuery';
 

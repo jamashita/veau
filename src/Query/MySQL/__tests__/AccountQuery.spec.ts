@@ -5,9 +5,9 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { Account, AccountRow } from '../../../VO/Account/Account';
-import { AccountName } from '../../../VO/Account/AccountName';
-import { AccountError } from '../../../VO/Account/Error/AccountError';
+import { Account, AccountRow } from '../../../domain/VO/Account/Account';
+import { AccountName } from '../../../domain/VO/Account/AccountName';
+import { AccountError } from '../../../domain/VO/Account/Error/AccountError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { AccountQuery } from '../AccountQuery';
 

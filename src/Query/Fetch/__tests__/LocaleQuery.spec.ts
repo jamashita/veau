@@ -8,12 +8,12 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { Language } from '../../../VO/Language/Language';
-import { LanguageID } from '../../../VO/Language/LanguageID';
-import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
-import { Locale, LocaleJSON } from '../../../VO/Locale/Locale';
-import { Region } from '../../../VO/Region/Region';
-import { RegionID } from '../../../VO/Region/RegionID';
+import { Language } from '../../../domain/VO/Language/Language';
+import { LanguageID } from '../../../domain/VO/Language/LanguageID';
+import { LocaleError } from '../../../domain/VO/Locale/Error/LocaleError';
+import { Locale, LocaleJSON } from '../../../domain/VO/Locale/Locale';
+import { Region } from '../../../domain/VO/Region/Region';
+import { RegionID } from '../../../domain/VO/Region/RegionID';
 import { LocaleQuery } from '../LocaleQuery';
 
 describe('LocaleQuery', () => {

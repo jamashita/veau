@@ -5,9 +5,9 @@ import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
-import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
-import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
-import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
+import { EntranceInformation } from '../../domain/VO/EntranceInformation/EntranceInformation';
+import { VeauAccountError } from '../../domain/VO/VeauAccount/Error/VeauAccountError';
+import { VeauAccount } from '../../domain/VO/VeauAccount/VeauAccount';
 import {
   ENTRANCE_ACCOUNT_NAME_TYPED,
   ENTRANCE_PASSWORD_TYPED,

@@ -5,18 +5,18 @@ import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, PutEffect, select, take } from 'redux-saga/effects';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
-import { StatsError } from '../../Entity/Stats/Error/StatsError';
-import { Stats } from '../../Entity/Stats/Stats';
-import { StatsItem } from '../../Entity/StatsItem/StatsItem';
+import { StatsError } from '../../domain/Entity/Stats/Error/StatsError';
+import { Stats } from '../../domain/Entity/Stats/Stats';
+import { StatsItem } from '../../domain/Entity/StatsItem/StatsItem';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsQuery } from '../../Query/Interface/IStatsQuery';
-import { AsOf } from '../../VO/AsOf/AsOf';
-import { Language } from '../../VO/Language/Language';
-import { Region } from '../../VO/Region/Region';
-import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
+import { AsOf } from '../../domain/VO/AsOf/AsOf';
+import { Language } from '../../domain/VO/Language/Language';
+import { Region } from '../../domain/VO/Region/Region';
+import { VeauAccountID } from '../../domain/VO/VeauAccount/VeauAccountID';
 import {
   STATS_EDIT_DATA_DELETED,
   STATS_EDIT_DATA_FILLED,

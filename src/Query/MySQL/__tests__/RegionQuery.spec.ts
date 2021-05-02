@@ -5,12 +5,12 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { RegionError } from '../../../VO/Region/Error/RegionError';
-import { ISO3166 } from '../../../VO/Region/ISO3166';
-import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
-import { Region, RegionRow } from '../../../VO/Region/Region';
-import { RegionID } from '../../../VO/Region/RegionID';
-import { Regions } from '../../../VO/Region/Regions';
+import { RegionError } from '../../../domain/VO/Region/Error/RegionError';
+import { ISO3166 } from '../../../domain/VO/Region/ISO3166';
+import { MockRegionID } from '../../../domain/VO/Region/Mock/MockRegionID';
+import { Region, RegionRow } from '../../../domain/VO/Region/Region';
+import { RegionID } from '../../../domain/VO/Region/RegionID';
+import { Regions } from '../../../domain/VO/Region/Regions';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionQuery } from '../RegionQuery';
 

@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
-import { Stats } from '../../Entity/Stats/Stats';
-import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
+import { Stats } from '../../domain/Entity/Stats/Stats';
+import { StatsListItems } from '../../domain/VO/StatsListItem/StatsListItems';
 import {
   STATS_LIST_CLOSE_STATS_MODAL,
   STATS_LIST_OPEN_STATS_MODAL,
