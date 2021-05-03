@@ -77,7 +77,7 @@
     ],
     /* List of folders to include type definitions from. */
     "types": [
-      "mode",
+      "node",
       "jest"
     ],
     /* Type declaration files to be included in compilation. */
