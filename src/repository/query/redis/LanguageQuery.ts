@@ -11,9 +11,9 @@ import { Language, LanguageJSON } from '../../../domain/vo/Language/Language';
 import { LanguageID } from '../../../domain/vo/Language/LanguageID';
 import { Languages } from '../../../domain/vo/Language/Languages';
 import { REDIS_LANGUAGE_KEY } from '../../../infrastructure/VeauRedis';
+import { LanguageQueryFindByISO639 } from '../abstract/LanguageQueryFindByISO639';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { LanguageQueryFindByISO639 } from '../trait/LanguageQueryFindByISO639';
 import { IRedisQuery } from './IRedisQuery';
 
 @injectable()

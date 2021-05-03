@@ -9,11 +9,11 @@ import { LanguageID } from '../../../domain/vo/Language/LanguageID';
 import { Languages } from '../../../domain/vo/Language/Languages';
 import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError';
 import { Locale } from '../../../domain/vo/Locale/Locale';
+import { LanguageQueryFind } from '../abstract/LanguageQueryFind';
+import { LanguageQueryFindByISO639 } from '../abstract/LanguageQueryFindByISO639';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
 import { ILocaleQuery } from '../interface/ILocaleQuery';
-import { LanguageQueryFind } from '../trait/LanguageQueryFind';
-import { LanguageQueryFindByISO639 } from '../trait/LanguageQueryFindByISO639';
 import { IBinQuery } from './IBinQuery';
 
 @injectable()

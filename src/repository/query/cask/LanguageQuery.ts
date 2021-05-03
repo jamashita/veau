@@ -9,9 +9,9 @@ import { Language } from '../../../domain/vo/Language/Language';
 import { LanguageID } from '../../../domain/vo/Language/LanguageID';
 import { Languages } from '../../../domain/vo/Language/Languages';
 import { ILanguageCommand } from '../../command/interface/ILanguageCommand';
+import { LanguageQueryFindByISO639 } from '../abstract/LanguageQueryFindByISO639';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { LanguageQueryFindByISO639 } from '../trait/LanguageQueryFindByISO639';
 import { ICaskQuery } from './ICaskQuery';
 
 @injectable()

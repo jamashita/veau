@@ -11,9 +11,9 @@ import { Region, RegionJSON } from '../../../domain/vo/Region/Region';
 import { RegionID } from '../../../domain/vo/Region/RegionID';
 import { Regions } from '../../../domain/vo/Region/Regions';
 import { REDIS_REGION_KEY } from '../../../infrastructure/VeauRedis';
+import { RegionQueryFindByISO3166 } from '../abstract/RegionQueryFindByISO3166';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IRegionQuery } from '../interface/IRegionQuery';
-import { RegionQueryFindByISO3166 } from '../trait/RegionQueryFindByISO3166';
 import { IRedisQuery } from './IRedisQuery';
 
 @injectable()

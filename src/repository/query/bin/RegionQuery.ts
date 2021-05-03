@@ -9,11 +9,11 @@ import { ISO3166 } from '../../../domain/vo/Region/ISO3166';
 import { Region } from '../../../domain/vo/Region/Region';
 import { RegionID } from '../../../domain/vo/Region/RegionID';
 import { Regions } from '../../../domain/vo/Region/Regions';
+import { RegionQueryFind } from '../abstract/RegionQueryFind';
+import { RegionQueryFindByISO3166 } from '../abstract/RegionQueryFindByISO3166';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILocaleQuery } from '../interface/ILocaleQuery';
 import { IRegionQuery } from '../interface/IRegionQuery';
-import { RegionQueryFind } from '../trait/RegionQueryFind';
-import { RegionQueryFindByISO3166 } from '../trait/RegionQueryFindByISO3166';
 import { IBinQuery } from './IBinQuery';
 
 @injectable()
