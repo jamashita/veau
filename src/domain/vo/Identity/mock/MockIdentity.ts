@@ -1,5 +1,4 @@
 import { AccountName } from '../../Account/AccountName';
-import { MockAccountName } from '../../Account/mock/MockAccountName';
 import { Language } from '../../Language/Language';
 import { MockLanguage } from '../../Language/mock/MockLanguage';
 import { MockRegion } from '../../Region/mock/MockRegion';
@@ -18,7 +17,7 @@ type VeauAccountArgs = Partial<Readonly<{
 export class MockIdentity extends Identity {
   public constructor({
     veauAccountID = new MockVeauAccountID(),
-    account = new MockAccountName(),
+    account = AccountName.empty(),
     language = new MockLanguage(),
     region = new MockRegion()
   }: VeauAccountArgs = {}) {
