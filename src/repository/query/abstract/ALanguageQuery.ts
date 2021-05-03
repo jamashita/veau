@@ -8,9 +8,8 @@ import { LanguageID } from '../../../domain/vo/Language/LanguageID';
 import { Languages } from '../../../domain/vo/Language/Languages';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { IQuery } from '../interface/IQuery';
 
-export abstract class ALanguageQuery<E extends DataSourceError = DataSourceError, S extends string = string> implements ILanguageQuery, IQuery<'LanguageQuery', S> {
+export abstract class ALanguageQuery<E extends DataSourceError = DataSourceError, S extends string = string> implements ILanguageQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public abstract readonly source: S;
 
@@ -44,7 +43,6 @@ export abstract class ALanguageQuery<E extends DataSourceError = DataSourceError
         throw new NoSuchElementError(iso639.toString());
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-throw-literal
       throw err;
     }, LanguageError, NoSuchElementError, DataSourceError);
   }
