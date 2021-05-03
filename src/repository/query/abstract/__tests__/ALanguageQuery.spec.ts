@@ -11,7 +11,6 @@ import { MockLanguage } from '../../../../domain/vo/Language/mock/MockLanguage';
 import { MockLanguageID } from '../../../../domain/vo/Language/mock/MockLanguageID';
 import { NoSuchElementError } from '../../error/NoSuchElementError';
 import { ALanguageQuery } from '../ALanguageQuery';
-import { LanguageQueryFindByISO639 } from '../LanguageQueryFindByISO639';
 
 class MockALanguageQuery extends ALanguageQuery {
   public readonly source: 'Mock' = 'Mock';
@@ -131,7 +130,7 @@ describe('ALanguageQuery', () => {
 
       const languages: Languages = Languages.ofSpread(language1, language2);
 
-      const languageQuery: LanguageQueryFindByISO639 = LanguageQueryFindByISO639.of(Superposition.alive<Languages, DataSourceError>(languages));
+      const languageQuery: MockALanguageQuery = new MockALanguageQuery(Superposition.alive<Languages, DataSourceError>(languages));
       const schrodinger: Schrodinger<Language, DataSourceError | LanguageError | NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);

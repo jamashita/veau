@@ -1,4 +1,3 @@
-import { UnimplementedError } from '@jamashita/anden-error';
 import { Nullable } from '@jamashita/anden-type';
 import { IRedis, RedisError } from '@jamashita/catacombe-redis';
 import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore';
@@ -6,23 +5,21 @@ import { JSONA, JSONAError } from '@jamashita/steckdose-json';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../../container/Types';
 import { RegionError } from '../../../domain/vo/Region/error/RegionError';
-import { ISO3166 } from '../../../domain/vo/Region/ISO3166';
-import { Region, RegionJSON } from '../../../domain/vo/Region/Region';
-import { RegionID } from '../../../domain/vo/Region/RegionID';
+import { RegionJSON } from '../../../domain/vo/Region/Region';
 import { Regions } from '../../../domain/vo/Region/Regions';
 import { REDIS_REGION_KEY } from '../../../infrastructure/VeauRedis';
-import { RegionQueryFindByISO3166 } from '../abstract/RegionQueryFindByISO3166';
-import { NoSuchElementError } from '../error/NoSuchElementError';
+import { ARegionQuery } from '../abstract/ARegionQuery';
 import { IRegionQuery } from '../interface/IRegionQuery';
 import { IRedisQuery } from './IRedisQuery';
 
 @injectable()
-export class RegionRedisQuery implements IRegionQuery<RedisError>, IRedisQuery {
+export class RegionRedisQuery extends ARegionQuery<RedisError, 'Redis'> implements IRegionQuery<RedisError>, IRedisQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
   public constructor(@inject(Type.Redis) redis: IRedis) {
+    super();
     this.redis = redis;
   }
 
@@ -45,14 +42,5 @@ export class RegionRedisQuery implements IRegionQuery<RedisError>, IRedisQuery {
 
       throw err;
     }, RegionError, RedisError);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(_regionID: RegionID): Superposition<Region, NoSuchElementError | RedisError | RegionError> {
-    throw new UnimplementedError();
-  }
-
-  public findByISO3166(iso3166: ISO3166): Superposition<Region, NoSuchElementError | RedisError | RegionError> {
-    return RegionQueryFindByISO3166.of<RedisError>(this.all()).findByISO3166(iso3166);
   }
 }

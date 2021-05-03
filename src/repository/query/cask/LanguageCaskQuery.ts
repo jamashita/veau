@@ -1,21 +1,16 @@
-import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../../container/Types';
 import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
-import { ISO639 } from '../../../domain/vo/Language/ISO639';
-import { Language } from '../../../domain/vo/Language/Language';
-import { LanguageID } from '../../../domain/vo/Language/LanguageID';
 import { Languages } from '../../../domain/vo/Language/Languages';
 import { ILanguageCommand } from '../../command/interface/ILanguageCommand';
-import { LanguageQueryFindByISO639 } from '../abstract/LanguageQueryFindByISO639';
-import { NoSuchElementError } from '../error/NoSuchElementError';
+import { ALanguageQuery } from '../abstract/ALanguageQuery';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
 import { ICaskQuery } from './ICaskQuery';
 
 @injectable()
-export class LanguageCaskQuery implements ILanguageQuery, ICaskQuery {
+export class LanguageCaskQuery extends ALanguageQuery<DataSourceError, 'Cask'> implements ILanguageQuery, ICaskQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'Cask' = 'Cask';
   private readonly mysqlQuery: ILanguageQuery;
@@ -27,6 +22,7 @@ export class LanguageCaskQuery implements ILanguageQuery, ICaskQuery {
     @inject(Type.LanguageRedisQuery) redisQuery: ILanguageQuery,
     @inject(Type.LanguageRedisCommand) redisCommand: ILanguageCommand
   ) {
+    super();
     this.mysqlQuery = mysqlQuery;
     this.redisQuery = redisQuery;
     this.redisCommand = redisCommand;
@@ -40,14 +36,5 @@ export class LanguageCaskQuery implements ILanguageQuery, ICaskQuery {
         });
       });
     });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(_languageID: LanguageID): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
-    throw new UnimplementedError();
-  }
-
-  public findByISO639(iso639: ISO639): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
-    return LanguageQueryFindByISO639.of(this.all()).findByISO639(iso639);
   }
 }
