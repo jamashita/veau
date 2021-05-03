@@ -1,6 +1,6 @@
-import { Kind } from '@jamashita/anden-type';
+import { Kind, Peek, UnaryFunction } from '@jamashita/anden-type';
 import Text from '@material-ui/core/TextField';
-import React from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 
 type Props = Readonly<{
   label: string;
@@ -11,74 +11,53 @@ type Props = Readonly<{
   onKeyUp?(value: string): void;
   onEnterUp?(): void;
 }>;
-type State = Readonly<{}>;
 
-export class TextField extends React.Component<Props, State> {
-  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
-    const {
-      label,
-      type,
-      value,
-      defaultValue,
-      disabled
-    } = this.props;
+const doNothing: Peek = () => {
+};
 
-    if (label !== nextProps.label) {
-      return true;
-    }
-    if (type !== nextProps.type) {
-      return true;
-    }
-    if (value !== nextProps.value) {
-      return true;
-    }
-    if (defaultValue !== nextProps.defaultValue) {
-      return true;
-    }
-    if (disabled !== nextProps.disabled) {
-      return true;
+export const TextField: React.FC<Props> = (props: PropsWithChildren<Props>) => {
+  const {
+    label,
+    disabled,
+    type,
+    value,
+    defaultValue,
+    onKeyUp,
+    onEnterUp
+  } = props;
+
+  const keyUp: UnaryFunction<string, void> = useMemo<UnaryFunction<string, void>>(() => {
+    if (Kind.isUndefined(onKeyUp)) {
+      return doNothing;
     }
 
-    return false;
-  }
+    return onKeyUp;
+  }, []);
+  const enterUp: Peek = useMemo<Peek>(() => {
+    if (Kind.isUndefined(onEnterUp)) {
+      return doNothing;
+    }
 
-  public render(): React.ReactNode {
-    const {
-      label,
-      disabled,
-      type,
-      value,
-      defaultValue,
-      onKeyUp,
-      onEnterUp
-    } = this.props;
+    return onEnterUp;
+  }, []);
 
-    return (
-      <Text
-        disabled={disabled}
-        label={label}
-        fullWidth={true}
-        type={type}
-        value={value}
-        defaultValue={defaultValue}
-        onChange={(e1: React.ChangeEvent<HTMLInputElement>) => {
-          if (Kind.isUndefined(onKeyUp)) {
-            return;
+  return (
+    <Text
+      disabled={disabled}
+      label={label}
+      fullWidth={true}
+      type={type}
+      value={value}
+      defaultValue={defaultValue}
+      onChange={(e1: React.ChangeEvent<HTMLInputElement>) => {
+        keyUp(e1.target.value);
+
+        e1.target.onkeydown = (e2: KeyboardEvent) => {
+          if (e2.key === 'Enter') {
+            enterUp();
           }
-
-          onKeyUp(e1.target.value);
-
-          e1.target.onkeydown = (e2: KeyboardEvent) => {
-            if (e2.key === 'Enter') {
-              if (Kind.isUndefined(onEnterUp)) {
-                return;
-              }
-
-              onEnterUp();
-            }
-          };
-        }}
-      />
-    );
-  }
-}
+        };
+      }}
+    />
+  );
+};
