@@ -1,39 +1,26 @@
-import React from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 
 type Props = Readonly<{
   href: string;
-  style?: Record<string, string>;
+  style?: {
+    [key: string]: string
+  };
 }>;
-type State = Readonly<{}>;
 
-export class ExternalLink extends React.Component<Props, State> {
-  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
-    const {
-      href,
-      style
-    } = this.props;
+export const ExternalLink: React.FC<Props> = (props: PropsWithChildren<Props>) => {
+  const {
+    style,
+    href,
+    children
+  } = props;
 
-    if (href !== nextProps.href) {
-      return true;
-    }
-    if (style !== nextProps.style) {
-      return true;
-    }
+  const memorize: string = useMemo<string>(() => {
+    return href;
+  }, [href]);
 
-    return false;
-  }
-
-  public render(): React.ReactNode {
-    const {
-      href,
-      style,
-      children
-    } = this.props;
-
-    return (
-      <a style={style} href={href} target='_blank' rel='noopener noreferrer'>
-        {children}
-      </a>
-    );
-  }
-}
+  return (
+    <a style={style} href={memorize} target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
+  );
+};
