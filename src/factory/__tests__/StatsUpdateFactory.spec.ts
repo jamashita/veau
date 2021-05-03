@@ -1,43 +1,43 @@
 import { MockSQL } from '@jamashita/catacombe-mysql';
-import { StatsCommand } from '../../repository/command/mysql/StatsCommand';
-import { StatsItemCommand } from '../../repository/command/mysql/StatsItemCommand';
-import { StatsValueCommand } from '../../repository/command/mysql/StatsValueCommand';
+import { StatsItemMySQLCommand } from '../../repository/command/mysql/StatsItemMySQLCommand';
+import { StatsMySQLCommand } from '../../repository/command/mysql/StatsMySQLCommand';
+import { StatsValueMySQLCommand } from '../../repository/command/mysql/StatsValueMySQLCommand';
 import { StatsUpdateFactory } from '../StatsUpdateFactory';
 
 describe('StatsUpdateFactory', () => {
   describe('forgeStatsCommand', () => {
-    it('returns StatsCommand instance', () => {
+    it('returns StatsMySQLCommand instance', () => {
       expect.assertions(1);
 
       const sql: MockSQL = new MockSQL();
 
       const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory();
 
-      expect(statsUpdateFactory.forgeStatsCommand(sql)).toBeInstanceOf(StatsCommand);
+      expect(statsUpdateFactory.forgeStatsCommand(sql)).toBeInstanceOf(StatsMySQLCommand);
     });
   });
 
   describe('forgeStatsItemCommand', () => {
-    it('returns StatsItemCommand instance', () => {
+    it('returns StatsItemMySQLCommand instance', () => {
       expect.assertions(1);
 
       const sql: MockSQL = new MockSQL();
 
       const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory();
 
-      expect(statsUpdateFactory.forgeStatsItemCommand(sql)).toBeInstanceOf(StatsItemCommand);
+      expect(statsUpdateFactory.forgeStatsItemCommand(sql)).toBeInstanceOf(StatsItemMySQLCommand);
     });
   });
 
   describe('forgeStatsValueCommand', () => {
-    it('returns StatsValueCommand instance', () => {
+    it('returns StatsValueMySQLCommand instance', () => {
       expect.assertions(1);
 
       const sql: MockSQL = new MockSQL();
 
       const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory();
 
-      expect(statsUpdateFactory.forgeStatsValueCommand(sql)).toBeInstanceOf(StatsValueCommand);
+      expect(statsUpdateFactory.forgeStatsValueCommand(sql)).toBeInstanceOf(StatsValueMySQLCommand);
     });
   });
 });

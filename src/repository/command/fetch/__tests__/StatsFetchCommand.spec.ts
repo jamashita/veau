@@ -17,17 +17,17 @@ import { MockStatsOutline } from '../../../../domain/vo/StatsOutline/mock/MockSt
 import { StatsName } from '../../../../domain/vo/StatsOutline/StatsName';
 import { StatsUnit } from '../../../../domain/vo/StatsOutline/StatsUnit';
 import { Term } from '../../../../domain/vo/Term/Term';
-import { StatsCommand } from '../StatsCommand';
+import { StatsFetchCommand } from '../StatsFetchCommand';
 
-describe('StatsCommand', () => {
+describe('StatsFetchCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const statsCommand1: StatsCommand = bin.get<StatsCommand>(Type.StatsFetchCommand);
-      const statsCommand2: StatsCommand = bin.get<StatsCommand>(Type.StatsFetchCommand);
+      const statsCommand1: StatsFetchCommand = bin.get<StatsFetchCommand>(Type.StatsFetchCommand);
+      const statsCommand2: StatsFetchCommand = bin.get<StatsFetchCommand>(Type.StatsFetchCommand);
 
-      expect(statsCommand1).toBeInstanceOf(StatsCommand);
+      expect(statsCommand1).toBeInstanceOf(StatsFetchCommand);
       expect(statsCommand1).toBe(statsCommand2);
     });
   });
@@ -68,7 +68,7 @@ describe('StatsCommand', () => {
         body: {}
       });
 
-      const statsCommand: StatsCommand = new StatsCommand(ajax);
+      const statsCommand: StatsFetchCommand = new StatsFetchCommand(ajax);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats).terminate();
 
       expect(
@@ -113,7 +113,7 @@ describe('StatsCommand', () => {
         body: {}
       });
 
-      const statsCommand: StatsCommand = new StatsCommand(ajax);
+      const statsCommand: StatsFetchCommand = new StatsFetchCommand(ajax);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats).terminate();
 
       expect(schrodinger.isDead()).toBe(true);

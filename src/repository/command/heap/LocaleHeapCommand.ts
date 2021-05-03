@@ -8,7 +8,7 @@ import { ILocaleCommand } from '../interface/ILocaleCommand';
 import { IHeapCommand } from './IHeapCommand';
 
 @injectable()
-export class LocaleCommand implements ILocaleCommand<HeapError>, IHeapCommand {
+export class LocaleHeapCommand implements ILocaleCommand<HeapError>, IHeapCommand {
   public readonly noun: 'LocaleCommand' = 'LocaleCommand';
   public readonly source: 'Heap' = 'Heap';
   private readonly Heap: IHeap;

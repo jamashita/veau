@@ -3,16 +3,16 @@ import { Superposition } from '@jamashita/genitore';
 import { JSONA, JSONAError } from '@jamashita/steckdose-json';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../../container/Types';
-import { Regions } from '../../../domain/vo/Region/Regions';
-import { REDIS_REGION_KEY } from '../../../infrastructure/VeauRedis';
-import { IRegionCommand } from '../interface/IRegionCommand';
+import { Languages } from '../../../domain/vo/Language/Languages';
+import { REDIS_LANGUAGE_KEY } from '../../../infrastructure/VeauRedis';
+import { ILanguageCommand } from '../interface/ILanguageCommand';
 import { IRedisCommand } from './IRedisCommand';
 
 const DURATION: number = 3 * 60 * 60;
 
 @injectable()
-export class RegionCommand implements IRegionCommand<RedisError>, IRedisCommand {
-  public readonly noun: 'RegionCommand' = 'RegionCommand';
+export class LanguageRedisCommand implements ILanguageCommand<RedisError>, IRedisCommand {
+  public readonly noun: 'LanguageCommand' = 'LanguageCommand';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
@@ -22,7 +22,7 @@ export class RegionCommand implements IRegionCommand<RedisError>, IRedisCommand 
 
   public deleteAll(): Superposition<unknown, RedisError> {
     return Superposition.playground<boolean, RedisError>(() => {
-      return this.redis.delete(REDIS_REGION_KEY);
+      return this.redis.delete(REDIS_LANGUAGE_KEY);
     }, RedisError).map<unknown, RedisError>((ok: boolean) => {
       if (ok) {
         return null;
@@ -32,15 +32,15 @@ export class RegionCommand implements IRegionCommand<RedisError>, IRedisCommand 
     });
   }
 
-  public insertAll(regions: Regions): Superposition<unknown, RedisError> {
+  public insertAll(languages: Languages): Superposition<unknown, RedisError> {
     return Superposition.playground<string, JSONAError>(() => {
-      return JSONA.stringify(regions.toJSON());
+      return JSONA.stringify(languages.toJSON());
     }, JSONAError).transform<unknown, RedisError>(async (str: string) => {
-      await this.redis.getString().set(REDIS_REGION_KEY, str);
+      await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
 
-      return this.redis.expires(REDIS_REGION_KEY, DURATION);
+      return this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
     }, (err: JSONAError) => {
-      throw new RedisError('RegionCommand.insertAll()', err);
+      throw new RedisError('LanguageRedisCommand.insertAll()', err);
     }, RedisError);
   }
 }

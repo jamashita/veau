@@ -8,17 +8,17 @@ import { Type } from '../../../../container/Types';
 import { Languages } from '../../../../domain/vo/Language/Languages';
 import { MockLanguage } from '../../../../domain/vo/Language/mock/MockLanguage';
 import { MockLanguageName } from '../../../../domain/vo/Language/mock/MockLanguageName';
-import { LanguageCommand } from '../LanguageCommand';
+import { LanguageRedisCommand } from '../LanguageRedisCommand';
 
-describe('LanguageCommand', () => {
+describe('LanguageRedisCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const languageCommand1: LanguageCommand = cask.get<LanguageCommand>(Type.LanguageRedisCommand);
-      const languageCommand2: LanguageCommand = cask.get<LanguageCommand>(Type.LanguageRedisCommand);
+      const languageCommand1: LanguageRedisCommand = cask.get<LanguageRedisCommand>(Type.LanguageRedisCommand);
+      const languageCommand2: LanguageRedisCommand = cask.get<LanguageRedisCommand>(Type.LanguageRedisCommand);
 
-      expect(languageCommand1).toBeInstanceOf(LanguageCommand);
+      expect(languageCommand1).toBeInstanceOf(LanguageRedisCommand);
       expect(languageCommand1).toBe(languageCommand2);
     });
   });
@@ -53,7 +53,7 @@ describe('LanguageCommand', () => {
       redis.expires = stub2;
       stub2.resolves();
 
-      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const languageCommand: LanguageRedisCommand = new LanguageRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.insertAll(languages).terminate();
 
       expect(stub1.withArgs('LANGUAGES', JSON.stringify(languages.toJSON())).called).toBe(true);
@@ -80,7 +80,7 @@ describe('LanguageCommand', () => {
       redis.expires = stub2;
       stub2.resolves();
 
-      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const languageCommand: LanguageRedisCommand = new LanguageRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.insertAll(languages).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -100,7 +100,7 @@ describe('LanguageCommand', () => {
       stub1.throws(new JSONAError());
       const redis: MockRedis = new MockRedis();
 
-      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const languageCommand: LanguageRedisCommand = new LanguageRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.insertAll(languages).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -120,7 +120,7 @@ describe('LanguageCommand', () => {
       redis.delete = stub;
       stub.resolves(true);
 
-      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const languageCommand: LanguageRedisCommand = new LanguageRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.deleteAll().terminate();
 
       expect(stub.withArgs('LANGUAGES').called).toBe(true);
@@ -136,7 +136,7 @@ describe('LanguageCommand', () => {
       redis.delete = stub;
       stub.resolves(false);
 
-      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const languageCommand: LanguageRedisCommand = new LanguageRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.deleteAll().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -154,7 +154,7 @@ describe('LanguageCommand', () => {
       redis.delete = stub;
       stub.rejects(new RedisError('test failed'));
 
-      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const languageCommand: LanguageRedisCommand = new LanguageRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, RedisError> = await languageCommand.deleteAll().terminate();
 
       expect(schrodinger.isDead()).toBe(true);

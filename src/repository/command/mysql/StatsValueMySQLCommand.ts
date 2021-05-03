@@ -6,7 +6,7 @@ import { StatsValue } from '../../../domain/vo/StatsValue/StatsValue';
 import { IStatsValueCommand } from '../interface/IStatsValueCommand';
 import { IMySQLCommand } from './IMySQLCommand';
 
-export class StatsValueCommand implements IStatsValueCommand<MySQLError>, IMySQLCommand {
+export class StatsValueMySQLCommand implements IStatsValueCommand<MySQLError>, IMySQLCommand {
   public readonly noun: 'StatsValueCommand' = 'StatsValueCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly sql: ISQL;

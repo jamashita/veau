@@ -1,21 +1,21 @@
 import { ISQL } from '@jamashita/catacombe-mysql';
-import { StatsCommand } from '../repository/command/mysql/StatsCommand';
-import { StatsItemCommand } from '../repository/command/mysql/StatsItemCommand';
-import { StatsValueCommand } from '../repository/command/mysql/StatsValueCommand';
+import { StatsItemMySQLCommand } from '../repository/command/mysql/StatsItemMySQLCommand';
+import { StatsMySQLCommand } from '../repository/command/mysql/StatsMySQLCommand';
+import { StatsValueMySQLCommand } from '../repository/command/mysql/StatsValueMySQLCommand';
 import { IStatsUpdateFactory } from './interface/IStatsUpdateFactory';
 
 export class StatsUpdateFactory implements IStatsUpdateFactory {
   public readonly noun: 'StatsUpdateFactory' = 'StatsUpdateFactory';
 
-  public forgeStatsCommand(sql: ISQL): StatsCommand {
-    return new StatsCommand(sql);
+  public forgeStatsCommand(sql: ISQL): StatsMySQLCommand {
+    return new StatsMySQLCommand(sql);
   }
 
-  public forgeStatsItemCommand(sql: ISQL): StatsItemCommand {
-    return new StatsItemCommand(sql);
+  public forgeStatsItemCommand(sql: ISQL): StatsItemMySQLCommand {
+    return new StatsItemMySQLCommand(sql);
   }
 
-  public forgeStatsValueCommand(sql: ISQL): StatsValueCommand {
-    return new StatsValueCommand(sql);
+  public forgeStatsValueCommand(sql: ISQL): StatsValueMySQLCommand {
+    return new StatsValueMySQLCommand(sql);
   }
 }

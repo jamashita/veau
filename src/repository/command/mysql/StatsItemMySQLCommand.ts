@@ -5,7 +5,7 @@ import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
 import { IStatsItemCommand } from '../interface/IStatsItemCommand';
 import { IMySQLCommand } from './IMySQLCommand';
 
-export class StatsItemCommand implements IStatsItemCommand<MySQLError>, IMySQLCommand {
+export class StatsItemMySQLCommand implements IStatsItemCommand<MySQLError>, IMySQLCommand {
   public readonly noun: 'StatsItemCommand' = 'StatsItemCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly sql: ISQL;

@@ -12,7 +12,7 @@ import { StatsUpdateTransaction } from '../mysql/transaction/StatsUpdateTransact
 import { ICaskCommand } from './ICaskCommand';
 
 @injectable()
-export class StatsCommand implements IStatsCommand<MySQLError>, ICaskCommand {
+export class StatsCaskCommand implements IStatsCommand<MySQLError>, ICaskCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'Cask' = 'Cask';
   private readonly mysql: IMySQL;

@@ -7,7 +7,7 @@ import { ISessionCommand } from '../interface/ISessionCommand';
 import { IFetchCommand } from './IFetchCommand';
 
 @injectable()
-export class SessionCommand implements ISessionCommand<FetchError>, IFetchCommand {
+export class SessionFetchCommand implements ISessionCommand<FetchError>, IFetchCommand {
   public readonly noun: 'SessionCommand' = 'SessionCommand';
   public readonly source: 'Fetch' = 'Fetch';
   private readonly fetch: IFetch<'json'>;

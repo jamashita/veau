@@ -8,17 +8,17 @@ import { Type } from '../../../../container/Types';
 import { Locale } from '../../../../domain/vo/Locale/Locale';
 import { MockLocale } from '../../../../domain/vo/Locale/mock/MockLocale';
 import { VAULT_LOCALE_KEY } from '../../../../infrastructure/VeauHeap';
-import { LocaleCommand } from '../LocaleCommand';
+import { LocaleHeapCommand } from '../LocaleHeapCommand';
 
-describe('LocaleCommand', () => {
+describe('LocaleHeapCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const localeCommand1: LocaleCommand = bin.get<LocaleCommand>(Type.LocaleHeapCommand);
-      const localeCommand2: LocaleCommand = bin.get<LocaleCommand>(Type.LocaleHeapCommand);
+      const localeCommand1: LocaleHeapCommand = bin.get<LocaleHeapCommand>(Type.LocaleHeapCommand);
+      const localeCommand2: LocaleHeapCommand = bin.get<LocaleHeapCommand>(Type.LocaleHeapCommand);
 
-      expect(localeCommand1).toBeInstanceOf(LocaleCommand);
+      expect(localeCommand1).toBeInstanceOf(LocaleHeapCommand);
       expect(localeCommand1).toBe(localeCommand2);
     });
   });
@@ -35,7 +35,7 @@ describe('LocaleCommand', () => {
       cache.set = stub;
       stub.returns(locale);
 
-      const localeCommand: LocaleCommand = new LocaleCommand(cache);
+      const localeCommand: LocaleHeapCommand = new LocaleHeapCommand(cache);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await localeCommand.create(locale).terminate();
 
       expect(stub.withArgs(VAULT_LOCALE_KEY, locale).called).toBe(true);
@@ -53,7 +53,7 @@ describe('LocaleCommand', () => {
       cache.set = stub;
       stub.throws(new HeapError('test failed'));
 
-      const localeCommand: LocaleCommand = new LocaleCommand(cache);
+      const localeCommand: LocaleHeapCommand = new LocaleHeapCommand(cache);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await localeCommand.create(locale).terminate();
 
       expect(schrodinger.isDead()).toBe(true);

@@ -10,7 +10,7 @@ import { IStatsCommand } from '../interface/IStatsCommand';
 import { IFetchCommand } from './IFetchCommand';
 
 @injectable()
-export class StatsCommand implements IStatsCommand<FetchError>, IFetchCommand {
+export class StatsFetchCommand implements IStatsCommand<FetchError>, IFetchCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'Fetch' = 'Fetch';
   private readonly fetch: IFetch<'json'>;

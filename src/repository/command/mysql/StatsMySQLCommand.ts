@@ -6,7 +6,7 @@ import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
 import { IStatsCommand } from '../interface/IStatsCommand';
 import { IMySQLCommand } from './IMySQLCommand';
 
-export class StatsCommand implements IStatsCommand<MySQLError>, IMySQLCommand {
+export class StatsMySQLCommand implements IStatsCommand<MySQLError>, IMySQLCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly sql: ISQL;

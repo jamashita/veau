@@ -6,17 +6,17 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { bin } from '../../../../container/Bin';
 import { Type } from '../../../../container/Types';
-import { SessionCommand } from '../SessionCommand';
+import { SessionFetchCommand } from '../SessionFetchCommand';
 
-describe('SessionCommand', () => {
+describe('SessionFetchCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const sessionCommand1: SessionCommand = bin.get<SessionCommand>(Type.SessionFetchCommand);
-      const sessionCommand2: SessionCommand = bin.get<SessionCommand>(Type.SessionFetchCommand);
+      const sessionCommand1: SessionFetchCommand = bin.get<SessionFetchCommand>(Type.SessionFetchCommand);
+      const sessionCommand2: SessionFetchCommand = bin.get<SessionFetchCommand>(Type.SessionFetchCommand);
 
-      expect(sessionCommand1).toBeInstanceOf(SessionCommand);
+      expect(sessionCommand1).toBeInstanceOf(SessionFetchCommand);
       expect(sessionCommand1).toBe(sessionCommand2);
     });
   });
@@ -34,7 +34,7 @@ describe('SessionCommand', () => {
         body: {}
       });
 
-      const sessionCommand: SessionCommand = new SessionCommand(ajax);
+      const sessionCommand: SessionFetchCommand = new SessionFetchCommand(ajax);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await sessionCommand.delete().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
@@ -53,7 +53,7 @@ describe('SessionCommand', () => {
         body: {}
       });
 
-      const sessionCommand: SessionCommand = new SessionCommand(ajax);
+      const sessionCommand: SessionFetchCommand = new SessionFetchCommand(ajax);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await sessionCommand.delete().terminate();
 
       expect(schrodinger.isDead()).toBe(true);

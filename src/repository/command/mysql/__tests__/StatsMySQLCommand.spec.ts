@@ -14,9 +14,9 @@ import { StatsName } from '../../../../domain/vo/StatsOutline/StatsName';
 import { StatsUnit } from '../../../../domain/vo/StatsOutline/StatsUnit';
 import { Term } from '../../../../domain/vo/Term/Term';
 import { MockVeauAccountID } from '../../../../domain/vo/VeauAccount/mock/MockVeauAccountID';
-import { StatsCommand } from '../StatsCommand';
+import { StatsMySQLCommand } from '../StatsMySQLCommand';
 
-describe('StatsCommand', () => {
+describe('StatsMySQLCommand', () => {
   describe('create', () => {
     it('normal case', async () => {
       expect.assertions(2);
@@ -48,7 +48,7 @@ describe('StatsCommand', () => {
 
       sql.execute = stub;
 
-      const statsCommand: StatsCommand = new StatsCommand(sql);
+      const statsCommand: StatsMySQLCommand = new StatsMySQLCommand(sql);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats, accountID).terminate();
 
       expect(stub.withArgs(
@@ -88,7 +88,7 @@ describe('StatsCommand', () => {
       sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
 
-      const statsCommand: StatsCommand = new StatsCommand(sql);
+      const statsCommand: StatsMySQLCommand = new StatsMySQLCommand(sql);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.create(stats, accountID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -110,7 +110,7 @@ describe('StatsCommand', () => {
 
       sql.execute = stub;
 
-      const statsCommand: StatsCommand = new StatsCommand(sql);
+      const statsCommand: StatsMySQLCommand = new StatsMySQLCommand(sql);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.deleteByStatsID(statsID).terminate();
 
       expect(stub.withArgs(
@@ -135,7 +135,7 @@ describe('StatsCommand', () => {
       sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
 
-      const statsCommand: StatsCommand = new StatsCommand(sql);
+      const statsCommand: StatsMySQLCommand = new StatsMySQLCommand(sql);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await statsCommand.deleteByStatsID(statsID).terminate();
 
       expect(schrodinger.isDead()).toBe(true);

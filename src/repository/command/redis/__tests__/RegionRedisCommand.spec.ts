@@ -9,17 +9,17 @@ import { Type } from '../../../../container/Types';
 import { MockRegion } from '../../../../domain/vo/Region/mock/MockRegion';
 import { MockRegionName } from '../../../../domain/vo/Region/mock/MockRegionName';
 import { Regions } from '../../../../domain/vo/Region/Regions';
-import { RegionCommand } from '../RegionCommand';
+import { RegionRedisCommand } from '../RegionRedisCommand';
 
-describe('RegionCommand', () => {
+describe('RegionRedisCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
       expect.assertions(2);
 
-      const regionCommand1: RegionCommand = cask.get<RegionCommand>(Type.RegionRedisCommand);
-      const regionCommand2: RegionCommand = cask.get<RegionCommand>(Type.RegionRedisCommand);
+      const regionCommand1: RegionRedisCommand = cask.get<RegionRedisCommand>(Type.RegionRedisCommand);
+      const regionCommand2: RegionRedisCommand = cask.get<RegionRedisCommand>(Type.RegionRedisCommand);
 
-      expect(regionCommand1).toBeInstanceOf(RegionCommand);
+      expect(regionCommand1).toBeInstanceOf(RegionRedisCommand);
       expect(regionCommand1).toBe(regionCommand2);
     });
   });
@@ -54,7 +54,7 @@ describe('RegionCommand', () => {
       redis.expires = stub2;
       stub2.resolves();
 
-      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const regionCommand: RegionRedisCommand = new RegionRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.insertAll(regions).terminate();
 
       expect(stub1.withArgs('REGIONS', JSON.stringify(regions.toJSON())).called).toBe(true);
@@ -81,7 +81,7 @@ describe('RegionCommand', () => {
       redis.expires = stub2;
       stub2.resolves();
 
-      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const regionCommand: RegionRedisCommand = new RegionRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.insertAll(regions).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -101,7 +101,7 @@ describe('RegionCommand', () => {
       stub1.throws(new JSONAError());
       const redis: MockRedis = new MockRedis();
 
-      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const regionCommand: RegionRedisCommand = new RegionRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.insertAll(regions).terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -121,7 +121,7 @@ describe('RegionCommand', () => {
       redis.delete = stub;
       stub.resolves(true);
 
-      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const regionCommand: RegionRedisCommand = new RegionRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.deleteAll().terminate();
 
       expect(stub.withArgs('REGIONS').called).toBe(true);
@@ -137,7 +137,7 @@ describe('RegionCommand', () => {
       redis.delete = stub;
       stub.resolves(false);
 
-      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const regionCommand: RegionRedisCommand = new RegionRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.deleteAll().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
@@ -155,7 +155,7 @@ describe('RegionCommand', () => {
       redis.delete = stub;
       stub.rejects(new RedisError('test failed'));
 
-      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const regionCommand: RegionRedisCommand = new RegionRedisCommand(redis);
       const schrodinger: Schrodinger<unknown, DataSourceError> = await regionCommand.deleteAll().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
