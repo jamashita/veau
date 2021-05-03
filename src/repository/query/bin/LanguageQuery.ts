@@ -1,6 +1,5 @@
-import { Nullable } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore';
 import { inject, injectable } from 'inversify';
 import { Type } from '../../../container/Types';
 import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
@@ -13,6 +12,7 @@ import { Locale } from '../../../domain/vo/Locale/Locale';
 import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
 import { ILocaleQuery } from '../interface/ILocaleQuery';
+import { LanguageQueryFind } from '../trait/LanguageQueryFind';
 import { LanguageQueryFindByISO639 } from '../trait/LanguageQueryFindByISO639';
 import { IBinQuery } from './IBinQuery';
 
@@ -38,21 +38,8 @@ export class LanguageQuery implements ILanguageQuery, IBinQuery {
     }, LanguageError, DataSourceError);
   }
 
-  // TODO TRAIT
   public find(languageID: LanguageID): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
-    return this.all().map<Language, DataSourceError | LanguageError | UnscharferelationError>((languages: Languages) => {
-      const language: Nullable<Language> = languages.find((l: Language) => {
-        return l.getLanguageID().equals(languageID);
-      });
-
-      return Unscharferelation.maybe<Language>(language).toSuperposition();
-    }).recover<Language, DataSourceError | LanguageError | NoSuchElementError>((err: DataSourceError | LanguageError | UnscharferelationError) => {
-      if (err instanceof UnscharferelationError) {
-        throw new NoSuchElementError(languageID.get().get());
-      }
-
-      throw err;
-    }, LanguageError, NoSuchElementError, DataSourceError);
+    return LanguageQueryFind.of(this.all()).find(languageID);
   }
 
   public findByISO639(iso639: ISO639): Superposition<Language, DataSourceError | LanguageError | NoSuchElementError> {
