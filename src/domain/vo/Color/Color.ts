@@ -4,6 +4,8 @@ export class Color extends ValueObject<'Color'> {
   public readonly noun: 'Color' = 'Color';
   private readonly rgb: string;
 
+  public static readonly NO_COLOR: Color = new Color('#000000');
+
   public static of(rgb: string): Color {
     return new Color(rgb);
   }

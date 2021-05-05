@@ -1,10 +1,11 @@
-import { BinaryPredicate, Catalogue, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, Catalogue, Kind, Mapper, Nullable } from '@jamashita/anden-type';
 import { ImmutableSequence, Quantity, ReadonlySequence } from '@jamashita/lluvia-collection';
 import { Color } from './Color';
 
 export class Colors extends Quantity<number, Color, 'Colors'> {
   public readonly noun: 'Colors' = 'Colors';
   private readonly colors: ImmutableSequence<Color>;
+
   private static readonly DEFAULT: Colors = Colors.ofSpread(
     Color.of('#8aa399'),
     Color.of('#7d84b2'),
@@ -80,8 +81,15 @@ export class Colors extends Quantity<number, Color, 'Colors'> {
     this.colors.forEach(catalogue);
   }
 
-  public get(index: number): Nullable<Color> {
-    return this.colors.get(index % this.colors.size());
+  public get(index: number): Color {
+    const color: Nullable<Color> = this.colors.get(index % this.colors.size());
+
+    if (Kind.isNull(color)) {
+      return Color.NO_COLOR;
+    }
+
+
+    return color;
   }
 
   public isEmpty(): boolean {
