@@ -3,8 +3,10 @@ import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import config from 'config';
 import { FastifyRegisterOptions } from 'fastify';
-import secureSession, { SecureSessionPluginOptions } from 'fastify-secure-session';
-import { FastifyPluginAsync } from 'fastify/types/plugin';
+import compress from 'fastify-compress';
+import helmet from 'fastify-helmet';
+import secureSession from 'fastify-secure-session';
+import path from 'path';
 import 'reflect-metadata';
 import { BaseController } from '../controller/BaseController';
 import { logger } from '../infrastructure/Logger';
@@ -29,12 +31,32 @@ const bootstrap = async (): Promise<unknown> => {
     logger
   });
 
-  // @ts-ignore
-  await app.register(secureSession as FastifyPluginAsync<SecureSessionPluginOptions>, session);
+  // app.set('views', path.resolve('static', 'views'));
+  // app.set('view engine', 'pug');
+  // app.use(express.static(path.resolve(__dirname, 'public')));
+  // app.use(favicon(path.resolve('static', 'favicon.ico')));
+  app.useStaticAssets({
+    root: path.join(__dirname, 'public'),
+    prefix: '/'
+  });
+  app.setViewEngine({
+    engine: {
+      pug: true
+    },
+    templates: path.join('static', 'views')
+  });
+  await Promise.all([
+    // @ts-ignore
+    app.register(secureSession, session),
+    // @ts-ignore
+    app.register(helmet),
+    // @ts-ignore
+    app.register(compress)
+  ]);
 
   return app.listen(port);
 };
 
 bootstrap().then(() => {
-  log.info(`Server running on port ${port} in ${mode} mode`);
+  logger.info(`Server running on port ${port} in ${mode} mode`);
 });
