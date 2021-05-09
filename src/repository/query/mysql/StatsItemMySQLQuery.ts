@@ -2,7 +2,7 @@ import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Superposition } from '@jamashita/genitore';
 import { Project } from '@jamashita/lluvia-collection';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { StatsItemRow } from '../../../domain/entity/StatsItem/StatsItem';
 import { StatsItems } from '../../../domain/entity/StatsItem/StatsItems';
@@ -15,7 +15,7 @@ import { IStatsItemQuery } from '../interface/IStatsItemQuery';
 import { IStatsValueQuery } from '../interface/IStatsValueQuery';
 import { IMySQLQuery } from './IMySQLQuery';
 
-@injectable()
+@Injectable()
 export class StatsItemMySQLQuery implements IStatsItemQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'StatsItemQuery' = 'StatsItemQuery';
   public readonly source: 'MySQL' = 'MySQL';
@@ -23,8 +23,8 @@ export class StatsItemMySQLQuery implements IStatsItemQuery<MySQLError>, IMySQLQ
   private readonly statsValueQuery: IStatsValueQuery;
 
   public constructor(
-    @inject(Type.MySQL) mysql: IMySQL,
-    @inject(Type.StatsValueMySQLQuery) statsValueQuery: IStatsValueQuery
+    @Inject(Type.MySQL) mysql: IMySQL,
+    @Inject(Type.StatsValueMySQLQuery) statsValueQuery: IStatsValueQuery
   ) {
     this.mysql = mysql;
     this.statsValueQuery = statsValueQuery;

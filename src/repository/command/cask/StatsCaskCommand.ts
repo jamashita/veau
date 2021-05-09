@@ -1,7 +1,7 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Schrodinger, Superposition } from '@jamashita/genitore';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { Stats } from '../../../domain/entity/Stats/Stats';
 import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
@@ -11,13 +11,13 @@ import { IStatsCommand } from '../interface/IStatsCommand';
 import { StatsUpdateTransaction } from '../mysql/transaction/StatsUpdateTransaction';
 import { ICaskCommand } from './ICaskCommand';
 
-@injectable()
+@Injectable()
 export class StatsCaskCommand implements IStatsCommand<MySQLError>, ICaskCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'Cask' = 'Cask';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

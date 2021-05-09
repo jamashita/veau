@@ -1,7 +1,7 @@
 import { Noun } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../container/Types';
 import { Stats } from '../domain/entity/Stats/Stats';
 import { Page } from '../domain/vo/Page/Page';
@@ -15,7 +15,7 @@ import { NoSuchElementError } from '../repository/query/error/NoSuchElementError
 import { IStatsOutlineQuery } from '../repository/query/interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../repository/query/interface/IStatsQuery';
 
-@injectable()
+@Injectable()
 export class StatsInteractor implements Noun<'StatsInteractor'> {
   public readonly noun: 'StatsInteractor' = 'StatsInteractor';
   private readonly statsQuery: IStatsQuery;
@@ -23,9 +23,9 @@ export class StatsInteractor implements Noun<'StatsInteractor'> {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(Type.StatsCaskQuery) statsQuery: IStatsQuery,
-    @inject(Type.StatsOutlineMySQLQuery) outlineQuery: IStatsOutlineQuery,
-    @inject(Type.StatsCaskCommand) statsCommand: IStatsCommand
+    @Inject(Type.StatsCaskQuery) statsQuery: IStatsQuery,
+    @Inject(Type.StatsOutlineMySQLQuery) outlineQuery: IStatsOutlineQuery,
+    @Inject(Type.StatsCaskCommand) statsCommand: IStatsCommand
   ) {
     this.statsQuery = statsQuery;
     this.outlineQuery = outlineQuery;

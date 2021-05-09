@@ -1,25 +1,23 @@
-import pino, { BaseLogger } from 'pino';
+import { Logger as Log } from 'tslog';
 import { ILogger } from './ILogger';
 
 export class Logger implements ILogger {
-  private logger: BaseLogger;
+  private logger: Log;
 
   public constructor() {
-    this.logger = pino({
-      level: 'info'
-    });
+    this.logger = new Log();
   }
 
   public debug(message: unknown, context?: string): unknown {
-    return this.rightnow(this.logger.debug, message, context);
+    return this.logger.debug(message, context);
   }
 
   public error(message: unknown, trace?: string, context?: string): unknown {
-    return this.rightnow(this.logger.error, message, trace, context);
+    return this.logger.error(message, trace, context);
   }
 
   public fatal(message: unknown, trace?: string, context?: string): unknown {
-    return this.rightnow(this.logger.fatal, message, trace, context);
+    return this.logger.fatal(message, trace, context);
   }
 
   public info(message: unknown, context?: string): unknown {
@@ -27,7 +25,7 @@ export class Logger implements ILogger {
   }
 
   public log(message: unknown, context?: string): unknown {
-    return this.rightnow(this.logger.info, message, context);
+    return this.logger.info(message, context);
   }
 
   public trace(message: unknown, context?: string): unknown {
@@ -35,17 +33,11 @@ export class Logger implements ILogger {
   }
 
   public verbose(message: unknown, context?: string): unknown {
-    return this.rightnow(this.logger.trace, message, context);
+    return this.logger.trace(message, context);
   }
 
   public warn(message: unknown, context?: string): unknown {
-    return this.rightnow(this.logger.warn, message, context);
-  }
-
-  private rightnow(fn: Function, ...args: Array<unknown>): unknown {
-    return setImmediate(() => {
-      fn(...args);
-    });
+    return this.logger.warn(message, context);
   }
 }
 

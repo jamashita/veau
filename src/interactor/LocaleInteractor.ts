@@ -1,7 +1,7 @@
 import { Noun } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../container/Types';
 import { LanguageError } from '../domain/vo/Language/error/LanguageError';
 import { Languages } from '../domain/vo/Language/Languages';
@@ -14,7 +14,7 @@ import { IRegionCommand } from '../repository/command/interface/IRegionCommand';
 import { ILanguageQuery } from '../repository/query/interface/ILanguageQuery';
 import { IRegionQuery } from '../repository/query/interface/IRegionQuery';
 
-@injectable()
+@Injectable()
 export class LocaleInteractor implements Noun<'LocaleInteractor'> {
   public readonly noun: 'LocaleInteractor' = 'LocaleInteractor';
   private readonly languageQuery: ILanguageQuery;
@@ -23,10 +23,10 @@ export class LocaleInteractor implements Noun<'LocaleInteractor'> {
   private readonly regionCommand: IRegionCommand;
 
   public constructor(
-    @inject(Type.LanguageCaskQuery) languageQuery: ILanguageQuery,
-    @inject(Type.RegionCaskQuery) regionQuery: IRegionQuery,
-    @inject(Type.LanguageRedisCommand) languageCommand: ILanguageCommand,
-    @inject(Type.RegionRedisCommand) regionCommand: IRegionCommand
+    @Inject(Type.LanguageCaskQuery) languageQuery: ILanguageQuery,
+    @Inject(Type.RegionCaskQuery) regionQuery: IRegionQuery,
+    @Inject(Type.LanguageRedisCommand) languageCommand: ILanguageCommand,
+    @Inject(Type.RegionRedisCommand) regionCommand: IRegionCommand
   ) {
     this.languageQuery = languageQuery;
     this.regionQuery = regionQuery;

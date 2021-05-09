@@ -1,6 +1,6 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { RegionError } from '../../../domain/vo/Region/error/RegionError';
 import { Regions } from '../../../domain/vo/Region/Regions';
@@ -9,7 +9,7 @@ import { ARegionQuery } from '../abstract/ARegionQuery';
 import { IRegionQuery } from '../interface/IRegionQuery';
 import { ICaskQuery } from './ICaskQuery';
 
-@injectable()
+@Injectable()
 export class RegionCaskQuery extends ARegionQuery<DataSourceError, 'Cask'> implements IRegionQuery, ICaskQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'Cask' = 'Cask';
@@ -18,9 +18,9 @@ export class RegionCaskQuery extends ARegionQuery<DataSourceError, 'Cask'> imple
   private readonly redisCommand: IRegionCommand;
 
   public constructor(
-    @inject(Type.RegionMySQLQuery) mysqlQuery: IRegionQuery,
-    @inject(Type.RegionRedisQuery) redisQuery: IRegionQuery,
-    @inject(Type.RegionRedisCommand) redisCommand: IRegionCommand
+    @Inject(Type.RegionMySQLQuery) mysqlQuery: IRegionQuery,
+    @Inject(Type.RegionRedisQuery) redisQuery: IRegionQuery,
+    @Inject(Type.RegionRedisCommand) redisCommand: IRegionCommand
   ) {
     super();
     this.mysqlQuery = mysqlQuery;

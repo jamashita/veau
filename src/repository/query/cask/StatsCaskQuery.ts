@@ -1,6 +1,6 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { Stats } from '../../../domain/entity/Stats/Stats';
 import { StatsItems } from '../../../domain/entity/StatsItem/StatsItems';
@@ -23,7 +23,7 @@ import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../interface/IStatsQuery';
 import { ICaskQuery } from './ICaskQuery';
 
-@injectable()
+@Injectable()
 export class StatsCaskQuery implements IStatsQuery, ICaskQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';
   public readonly source: 'Cask' = 'Cask';
@@ -33,10 +33,10 @@ export class StatsCaskQuery implements IStatsQuery, ICaskQuery {
   private readonly regionQuery: IRegionQuery;
 
   public constructor(
-    @inject(Type.StatsOutlineMySQLQuery) outlineQuery: IStatsOutlineQuery,
-    @inject(Type.StatsItemMySQLQuery) itemQuery: IStatsItemQuery,
-    @inject(Type.LanguageCaskQuery) languageQuery: ILanguageQuery,
-    @inject(Type.RegionCaskQuery) regionQuery: IRegionQuery
+    @Inject(Type.StatsOutlineMySQLQuery) outlineQuery: IStatsOutlineQuery,
+    @Inject(Type.StatsItemMySQLQuery) itemQuery: IStatsItemQuery,
+    @Inject(Type.LanguageCaskQuery) languageQuery: ILanguageQuery,
+    @Inject(Type.RegionCaskQuery) regionQuery: IRegionQuery
   ) {
     this.outlineQuery = outlineQuery;
     this.itemQuery = itemQuery;

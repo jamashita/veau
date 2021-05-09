@@ -1,6 +1,6 @@
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Superposition } from '@jamashita/genitore';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
 import { ISO639 } from '../../../domain/vo/Language/ISO639';
@@ -11,13 +11,13 @@ import { NoSuchElementError } from '../error/NoSuchElementError';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
 import { IMySQLQuery } from './IMySQLQuery';
 
-@injectable()
+@Injectable()
 export class LanguageMySQLQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

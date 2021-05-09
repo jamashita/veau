@@ -1,6 +1,6 @@
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Superposition } from '@jamashita/genitore';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { Page } from '../../../domain/vo/Page/Page';
 import { StatsOutlineError } from '../../../domain/vo/StatsOutline/error/StatsOutlineError';
@@ -12,13 +12,13 @@ import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
 import { IMySQLQuery } from './IMySQLQuery';
 
-@injectable()
+@Injectable()
 export class StatsOutlineMySQLQuery implements IStatsOutlineQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

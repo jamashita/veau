@@ -1,6 +1,6 @@
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Superposition } from '@jamashita/genitore';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { Account, AccountRow } from '../../../domain/vo/Account/Account';
 import { AccountName } from '../../../domain/vo/Account/AccountName';
@@ -9,13 +9,13 @@ import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IAccountQuery } from '../interface/IAccountQuery';
 import { IMySQLQuery } from './IMySQLQuery';
 
-@injectable()
+@Injectable()
 export class AccountMySQLQuery implements IAccountQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

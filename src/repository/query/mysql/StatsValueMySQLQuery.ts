@@ -2,7 +2,7 @@ import { Kind, Nullable } from '@jamashita/anden-type';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Chrono, Superposition } from '@jamashita/genitore';
 import { ImmutableProject, MutableProject, MutableSequence, Project, Sequence } from '@jamashita/lluvia-collection';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { StatsItemError } from '../../../domain/vo/StatsItem/error/StatsItemError';
 import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID';
@@ -13,13 +13,13 @@ import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues';
 import { IStatsValueQuery } from '../interface/IStatsValueQuery';
 import { IMySQLQuery } from './IMySQLQuery';
 
-@injectable()
+@Injectable()
 export class StatsValueMySQLQuery implements IStatsValueQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

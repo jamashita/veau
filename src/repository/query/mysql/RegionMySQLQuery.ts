@@ -1,6 +1,6 @@
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
 import { Superposition } from '@jamashita/genitore';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { RegionError } from '../../../domain/vo/Region/error/RegionError';
 import { ISO3166 } from '../../../domain/vo/Region/ISO3166';
@@ -11,13 +11,13 @@ import { NoSuchElementError } from '../error/NoSuchElementError';
 import { IRegionQuery } from '../interface/IRegionQuery';
 import { IMySQLQuery } from './IMySQLQuery';
 
-@injectable()
+@Injectable()
 export class RegionMySQLQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

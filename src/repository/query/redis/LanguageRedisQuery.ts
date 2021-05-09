@@ -2,7 +2,7 @@ import { Nullable } from '@jamashita/anden-type';
 import { IRedis, RedisError } from '@jamashita/catacombe-redis';
 import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore';
 import { JSONA, JSONAError } from '@jamashita/steckdose-json';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
 import { LanguageJSON } from '../../../domain/vo/Language/Language';
@@ -12,13 +12,13 @@ import { ALanguageQuery } from '../abstract/ALanguageQuery';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
 import { IRedisQuery } from './IRedisQuery';
 
-@injectable()
+@Injectable()
 export class LanguageRedisQuery extends ALanguageQuery<RedisError, 'Redis'> implements ILanguageQuery<RedisError>, IRedisQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
-  public constructor(@inject(Type.Redis) redis: IRedis) {
+  public constructor(@Inject(Type.Redis) redis: IRedis) {
     super();
     this.redis = redis;
   }

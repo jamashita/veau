@@ -1,7 +1,7 @@
 import { IRedis, RedisError } from '@jamashita/catacombe-redis';
 import { Superposition } from '@jamashita/genitore';
 import { JSONA, JSONAError } from '@jamashita/steckdose-json';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { Regions } from '../../../domain/vo/Region/Regions';
 import { REDIS_REGION_KEY } from '../../../infrastructure/VeauRedis';
@@ -10,13 +10,13 @@ import { IRedisCommand } from './IRedisCommand';
 
 const DURATION: number = 3 * 60 * 60;
 
-@injectable()
+@Injectable()
 export class RegionRedisCommand implements IRegionCommand<RedisError>, IRedisCommand {
   public readonly noun: 'RegionCommand' = 'RegionCommand';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
-  public constructor(@inject(Type.Redis) redis: IRedis) {
+  public constructor(@Inject(Type.Redis) redis: IRedis) {
     this.redis = redis;
   }
 

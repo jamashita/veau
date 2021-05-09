@@ -2,7 +2,7 @@ import { Nullable } from '@jamashita/anden-type';
 import { IRedis, RedisError } from '@jamashita/catacombe-redis';
 import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore';
 import { JSONA, JSONAError } from '@jamashita/steckdose-json';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { RegionError } from '../../../domain/vo/Region/error/RegionError';
 import { RegionJSON } from '../../../domain/vo/Region/Region';
@@ -12,13 +12,13 @@ import { ARegionQuery } from '../abstract/ARegionQuery';
 import { IRegionQuery } from '../interface/IRegionQuery';
 import { IRedisQuery } from './IRedisQuery';
 
-@injectable()
+@Injectable()
 export class RegionRedisQuery extends ARegionQuery<RedisError, 'Redis'> implements IRegionQuery<RedisError>, IRedisQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
-  public constructor(@inject(Type.Redis) redis: IRedis) {
+  public constructor(@Inject(Type.Redis) redis: IRedis) {
     super();
     this.redis = redis;
   }

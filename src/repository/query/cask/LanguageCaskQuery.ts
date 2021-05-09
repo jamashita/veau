@@ -1,6 +1,6 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
-import { inject, injectable } from 'inversify';
+import { Inject, Injectable } from '@nestjs/common';
 import { Type } from '../../../container/Types';
 import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
 import { Languages } from '../../../domain/vo/Language/Languages';
@@ -9,7 +9,7 @@ import { ALanguageQuery } from '../abstract/ALanguageQuery';
 import { ILanguageQuery } from '../interface/ILanguageQuery';
 import { ICaskQuery } from './ICaskQuery';
 
-@injectable()
+@Injectable()
 export class LanguageCaskQuery extends ALanguageQuery<DataSourceError, 'Cask'> implements ILanguageQuery, ICaskQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'Cask' = 'Cask';
@@ -18,9 +18,9 @@ export class LanguageCaskQuery extends ALanguageQuery<DataSourceError, 'Cask'> i
   private readonly redisCommand: ILanguageCommand;
 
   public constructor(
-    @inject(Type.LanguageMySQLQuery) mysqlQuery: ILanguageQuery,
-    @inject(Type.LanguageRedisQuery) redisQuery: ILanguageQuery,
-    @inject(Type.LanguageRedisCommand) redisCommand: ILanguageCommand
+    @Inject(Type.LanguageMySQLQuery) mysqlQuery: ILanguageQuery,
+    @Inject(Type.LanguageRedisQuery) redisQuery: ILanguageQuery,
+    @Inject(Type.LanguageRedisCommand) redisCommand: ILanguageCommand
   ) {
     super();
     this.mysqlQuery = mysqlQuery;
