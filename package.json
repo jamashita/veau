@@ -48,7 +48,6 @@
     "@nestjs/core": "7.6.15",
     "@nestjs/platform-fastify": "7.6.15",
     "bourbon-neat": "4.0.0",
-    "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
     "compression": "1.7.4",
     "config": "3.3.6",
@@ -57,6 +56,8 @@
     "express": "4.17.1",
     "express-session": "1.17.1",
     "fastify": "3.15.1",
+    "fastify-compress": "3.4.2",
+    "fastify-helmet": "5.3.1",
     "fastify-secure-session": "2.3.1",
     "handsontable": "8.3.2",
     "helmet": "4.6.0",
@@ -66,7 +67,6 @@
     "js-yaml": "4.1.0",
     "passport": "0.4.1",
     "passport-local": "1.0.0",
-    "pino": "6.11.3",
     "pm2": "4.5.6",
     "pug": "3.0.2",
     "react": "17.0.2",
@@ -80,7 +80,8 @@
     "redux-observable": "1.2.0",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.0.0",
-    "serve-favicon": "2.5.0"
+    "serve-favicon": "2.5.0",
+    "tslog": "3.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "12.1.1",
