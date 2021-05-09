@@ -1,11 +1,4 @@
 port: 4000
-session:
-  cookieName: 'VEAU'
-  secret: 'vQvoPFGXtl2p9shByUmDi7tlypCRtMtw1Rau0qeq7zxHh2NwlTzqxmatSjGL2Vvn'
-  salt: 'HC2gTMIMNZ1wOolB'
-  cookie:
-    path: '/'
-    httpOnly: true
 redis:
   host: 'localhost'
   port: 6379

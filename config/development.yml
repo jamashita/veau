@@ -1,11 +1,4 @@
 port: 3000
-session:
-  cookieName: 'VEAU'
-  secret: 'zgp1tng0vzawgieau0zmolsbgh1r0kmxs40q35gjzbfcf2c8dmy57hnhlqjz3evq'
-  salt: 'TbShH7BsJYk21AN8'
-  cookie:
-    path: '/'
-    httpOnly: true
 redis:
   host: '127.0.0.1'
   port: 6380
