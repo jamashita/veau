@@ -1,7 +1,7 @@
-import { LoggerService } from '@nestjs/common';
 import pino, { BaseLogger } from 'pino';
+import { ILogger } from './ILogger';
 
-export class Logger implements LoggerService {
+export class Logger implements ILogger {
   private logger: BaseLogger;
 
   public constructor() {
@@ -18,8 +18,20 @@ export class Logger implements LoggerService {
     return this.rightnow(this.logger.error, message, trace, context);
   }
 
+  public fatal(message: unknown, trace?: string, context?: string): unknown {
+    return this.rightnow(this.logger.fatal, message, trace, context);
+  }
+
+  public info(message: unknown, context?: string): unknown {
+    return this.log(message, context);
+  }
+
   public log(message: unknown, context?: string): unknown {
     return this.rightnow(this.logger.info, message, context);
+  }
+
+  public trace(message: unknown, context?: string): unknown {
+    return this.verbose(message, context);
   }
 
   public verbose(message: unknown, context?: string): unknown {
@@ -30,22 +42,10 @@ export class Logger implements LoggerService {
     return this.rightnow(this.logger.warn, message, context);
   }
 
-  public fatal(message: unknown, trace?: string, context?: string): unknown {
-    return this.rightnow(this.logger.fatal, message, trace, context);
-  }
-
-  public info(message: unknown, context?: string): unknown {
-    return this.log(message, context);
-  }
-
   private rightnow(fn: Function, ...args: Array<unknown>): unknown {
     return setImmediate(() => {
       fn(...args);
     });
-  }
-
-  public trace(message: unknown, context?: string): unknown {
-    return this.verbose(message, context);
   }
 }
 
