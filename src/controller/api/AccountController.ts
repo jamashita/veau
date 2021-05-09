@@ -1,15 +1,15 @@
-import { Response } from 'express';
+import { Controller, Get, Req, Res } from '@nestjs/common';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
-import { injectable } from 'inversify';
-import { Controller, Get, Res, UseBefore } from 'routing-controllers';
-import { AuthenticationMiddleware } from '../middleware/AuthenticationMiddleware';
+import { VeauAccount } from '../../domain/vo/VeauAccount/VeauAccount';
 
-@injectable()
-@Controller('/accounts')
+@Controller('accounts')
 export class AccountController {
   @Get('/')
-  @UseBefore(AuthenticationMiddleware)
-  public inquire(@Res() res: Response): Response {
-    return res.status(StatusCodes.OK).send(res.locals.account.toJSON());
+  // TODO USE_ BEOFRE
+  public inquire(@Req() req: FastifyReply, @Res() res: FastifyRequest): void {
+    const account: VeauAccount = res.session.get('VEAU');
+
+    req.status(StatusCodes.OK).send(account.toJSON());
   }
 }

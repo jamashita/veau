@@ -1,44 +1,48 @@
 import { JSONable } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Response } from 'express';
+import { Controller, Delete, Get, Inject, Res } from '@nestjs/common';
+import { FastifyReply } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
-import { inject, injectable } from 'inversify';
-import { Controller, Delete, Get, Res, UseBefore } from 'routing-controllers';
 import { Type } from '../../container/Types';
 import { LocaleError } from '../../domain/vo/Locale/error/LocaleError';
-import { logger } from '../../infrastructure/Logger';
+import { ILogger } from '../../infrastructure/ILogger';
 import { LocaleInteractor } from '../../interactor/LocaleInteractor';
-import { AuthenticationMiddleware } from '../middleware/AuthenticationMiddleware';
 
-@injectable()
-@Controller('/locale')
+@Controller('locale')
 export class LocaleController {
   private readonly localeInteractor: LocaleInteractor;
+  private readonly logger: ILogger;
 
-  public constructor(@inject(Type.LocaleInteractor) localeInteractor: LocaleInteractor) {
+  public constructor(
+    @Inject(Type.LocaleInteractor) localeInteractor: LocaleInteractor,
+    @Inject(Type.Logger) logger: ILogger
+  ) {
     this.localeInteractor = localeInteractor;
+    this.logger = logger;
   }
 
   @Get('/')
-  public async all(@Res() res: Response): Promise<Response> {
-    return this.localeInteractor.all().transform<Response, Error>((locale: JSONable) => {
-      return res.status(StatusCodes.OK).send(locale.toJSON());
+  public all(@Res() res: FastifyReply): void {
+    this.localeInteractor.all().transform<void, Error>((locale: JSONable) => {
+      res.status(StatusCodes.OK).send(locale.toJSON());
     }, (err: DataSourceError | LocaleError) => {
-      logger.error(err);
+      this.logger.error(err);
 
-      return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-    }).get();
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+    });
   }
 
   @Delete('/')
-  @UseBefore(AuthenticationMiddleware)
-  public async delete(@Res() res: Response): Promise<Response> {
-    return this.localeInteractor.delete().transform<Response, Error>(() => {
-      return res.sendStatus(StatusCodes.OK);
-    }, (err: DataSourceError) => {
-      logger.error(err);
+  // TODO USEBEFORE
+  public delete(@Res() res: FastifyReply): void {
+    this.localeInteractor.delete().transform<void, Error>(() => {
+      this.logger.trace('LOCALE CACHE DELETED');
 
-      return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-    }).get();
+      res.status(StatusCodes.OK).send();
+    }, (err: DataSourceError) => {
+      this.logger.error(err);
+
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+    });
   }
 }

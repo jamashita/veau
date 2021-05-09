@@ -1,19 +1,21 @@
-import { NextFunction, Request, Response } from 'express';
+import { Ambiguous, Kind, Peek } from '@jamashita/anden-type';
+import { Injectable } from '@nestjs/common';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
-import { injectable } from 'inversify';
 import { VeauAccount } from '../../domain/vo/VeauAccount/VeauAccount';
-import { IMiddleware } from './Interface/IMiddleware';
+import { IMiddleware } from './IMiddleware';
 
-@injectable()
+@Injectable()
 export class AuthenticationMiddleware implements IMiddleware {
-  public use(req: Request, res: Response, next: NextFunction): void {
-    if (req.user === undefined) {
-      res.sendStatus(StatusCodes.UNAUTHORIZED);
+  public use(req: FastifyRequest, res: FastifyReply, next: Peek): void {
+    const account: Ambiguous<VeauAccount> = req.session.get('VEAU');
+
+    if (Kind.isUndefined(account)) {
+      res.status(StatusCodes.UNAUTHORIZED);
 
       return;
     }
 
-    res.locals.account = req.user as VeauAccount;
     next();
   }
 }

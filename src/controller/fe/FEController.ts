@@ -1,19 +1,17 @@
-import { Response } from 'express';
-import { injectable } from 'inversify';
-import { Controller, Get, Render, Res } from 'routing-controllers';
+import { Controller, Get, Render, Res } from '@nestjs/common';
+import { FastifyReply } from 'fastify';
 
-@injectable()
 @Controller()
 export class FEController {
-  @Get('*')
+  @Get('/?*')
   @Render('index')
   public render(): void {
     // NOOP
   }
 
   @Get('/robots.txt')
-  public robot(@Res() res: Response): Response {
-    res.set('Content-Type', 'text/plain');
+  public robot(@Res() res: FastifyReply): FastifyReply {
+    res.header('Content-Type', 'text/plain');
 
     return res.send('User-Agent: *\nDisallow:');
   }

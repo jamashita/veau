@@ -1,15 +1,13 @@
-import { Request, Response } from 'express';
+import { Controller, Delete, Req, Res } from '@nestjs/common';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
-import { injectable } from 'inversify';
-import { Controller, Delete, Req, Res } from 'routing-controllers';
 
-@injectable()
-@Controller('/session')
+@Controller('session')
 export class SessionController {
   @Delete('/')
-  public destroy(@Req() req: Request, @Res() res: Response): Response {
-    req.logout();
+  public destroy(@Req() req: FastifyRequest, @Res() res: FastifyReply): FastifyReply {
+    req.session.delete();
 
-    return res.sendStatus(StatusCodes.OK);
+    return res.status(StatusCodes.OK).send();
   }
 }
