@@ -7,24 +7,27 @@ import secureSession, { SecureSessionPluginOptions } from 'fastify-secure-sessio
 import { FastifyPluginAsync } from 'fastify/types/plugin';
 import 'reflect-metadata';
 import { BaseController } from '../controller/BaseController';
-import { log } from '../infrastructure/Logger';
+import { logger } from '../infrastructure/Logger';
 
 const port: number = config.get<number>('port');
 const mode: Ambiguous<string> = process.env['NODE_ENV'];
 const session: FastifyRegisterOptions<unknown> = config.get<FastifyRegisterOptions<unknown>>('session');
 
 if (Kind.isUndefined(mode)) {
-  log.fatal('mode IS NOT SET');
+  logger.fatal('mode IS NOT SET');
   // eslint-disable-next-line no-process-exit,node/no-process-exit
   process.exit(1);
 }
 
 process.on('unhandledRejection', (reason: unknown) => {
-  log.fatal('UNHANDLED REJECTION', reason);
+  logger.fatal('UNHANDLED REJECTION');
+  logger.fatal(reason);
 });
 
 const bootstrap = async (): Promise<unknown> => {
-  const app: NestFastifyApplication = await NestFactory.create<NestFastifyApplication>(BaseController, new FastifyAdapter());
+  const app: NestFastifyApplication = await NestFactory.create<NestFastifyApplication>(BaseController, new FastifyAdapter(), {
+    logger
+  });
 
   // @ts-ignore
   await app.register(secureSession as FastifyPluginAsync<SecureSessionPluginOptions>, session);
