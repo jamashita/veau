@@ -1,4 +1,8 @@
 port: 3000
+session:
+  cookieName: 'VEAU'
+  secret: ''
+  salt: ''
 redis:
   host: 'veau_redis'
   port: 6379
