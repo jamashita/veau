@@ -2,6 +2,7 @@ import { Ambiguous, Kind } from '@jamashita/anden-type';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import config from 'config';
+import { FastifyRegisterOptions } from 'fastify';
 import secureSession, { SecureSessionPluginOptions } from 'fastify-secure-session';
 import { FastifyPluginAsync } from 'fastify/types/plugin';
 import 'reflect-metadata';
@@ -10,7 +11,7 @@ import { log } from '../infrastructure/Logger';
 
 const port: number = config.get<number>('port');
 const mode: Ambiguous<string> = process.env['NODE_ENV'];
-// const session;
+const session: FastifyRegisterOptions<unknown> = config.get<FastifyRegisterOptions<unknown>>('session');
 
 if (Kind.isUndefined(mode)) {
   log.fatal('mode IS NOT SET');
@@ -26,11 +27,7 @@ const bootstrap = async (): Promise<unknown> => {
   const app: NestFastifyApplication = await NestFactory.create<NestFastifyApplication>(BaseController, new FastifyAdapter());
 
   // @ts-ignore
-  await app.register(secureSession as FastifyPluginAsync<SecureSessionPluginOptions>, {
-    cookieName: 'VEAU',
-    secret: '',
-    salt: ''
-  });
+  await app.register(secureSession as FastifyPluginAsync<SecureSessionPluginOptions>, session);
 
   return app.listen(port);
 };
