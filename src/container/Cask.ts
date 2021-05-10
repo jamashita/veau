@@ -8,7 +8,7 @@ import { SessionController } from '../controller/api/SessionController';
 import { StatsController } from '../controller/api/StatsController';
 import { FEController } from '../controller/fe/FEController';
 import { AuthenticationMiddleware } from '../controller/middleware/AuthenticationMiddleware';
-import { ILogger } from '../infrastructure/interface/ILogger';
+import { ILogger } from '../infrastructure/ILogger';
 import { logger } from '../infrastructure/Logger';
 import { veauMySQL } from '../infrastructure/VeauMySQL';
 import { veauRedis } from '../infrastructure/VeauRedis';

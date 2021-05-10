@@ -2,7 +2,7 @@ import { JSONable, PlainObject } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore';
 import { Body, Controller, Get, Inject, Param, Post, Req, Res } from '@nestjs/common';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Type } from '../../container/Types';
 import { Stats } from '../../domain/entity/Stats/Stats';
@@ -31,11 +31,13 @@ export class StatsController {
 
   // TODO USE BEFORE
   @Get('/page/:page(\\d+)')
-  public list(@Param('page') pg: number, @Req() req: FastifyRequest, @Res() res: FastifyReply): void {
+  public list(@Param('page') pg: number, @Req() req: Request, @Res() res: Response): void {
     Superposition.playground<Page, PageError>(() => {
       return Page.of(pg);
     }, PageError).map<JSONable, DataSourceError | PageError | StatsOutlineError>((page: Page) => {
-      const account: VeauAccount = req.session.get('VEAU');
+      // TODO
+      // @ts-ignore
+      const account: VeauAccount = req.session.account;
 
       return this.statsInteractor.findByVeauAccountID(account.getVeauAccountID(), page);
     }).map<void, DataSourceError | PageError | StatsOutlineError>((outlines: JSONable) => {
@@ -55,7 +57,7 @@ export class StatsController {
 
   // TODO USE BEDORE
   @Get('/:statsID([0-9a-f-]{36})')
-  public refer(@Param('statsID') id: string, @Res() res: FastifyReply): void {
+  public refer(@Param('statsID') id: string, @Res() res: Response): void {
     Superposition.playground<StatsID, StatsError>(() => {
       return StatsID.ofString(id);
     }, StatsError).map<JSONable, DataSourceError | NoSuchElementError | StatsError>((statsID: StatsID) => {
@@ -78,7 +80,7 @@ export class StatsController {
 
   // TODO USE BEFORE
   @Post('/')
-  public register(@Body() body: PlainObject, @Req() req: FastifyRequest, @Res() res: FastifyReply): void {
+  public register(@Body() body: PlainObject, @Req() req: Request, @Res() res: Response): void {
     Superposition.playground<Stats, StatsError>(() => {
       if (!Stats.validate(body)) {
         throw new StatsError('StatsController.register()');
@@ -86,7 +88,9 @@ export class StatsController {
 
       return Stats.ofJSON(body);
     }, StatsError).map<unknown, DataSourceError | StatsError>((stats: Stats) => {
-      const account: VeauAccount = req.session.get('VEAU');
+      // TODO
+      // @ts-ignore
+      const account: VeauAccount = req.session.account;
 
       return this.statsInteractor.save(stats, account.getVeauAccountID());
     }).map<void, DataSourceError | StatsError>(() => {

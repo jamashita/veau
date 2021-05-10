@@ -1,5 +1,5 @@
 import { Controller, Delete, Inject, Req, Res } from '@nestjs/common';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Type } from '../../container/Types';
 import { ILogger } from '../../infrastructure/ILogger';
@@ -13,11 +13,11 @@ export class SessionController {
   }
 
   @Delete('/')
-  public destroy(@Req() req: FastifyRequest, @Res() res: FastifyReply): FastifyReply {
-    req.session.delete();
+  public destroy(@Req() req: Request, @Res() res: Response): void {
+    req.session.destroy(() => {
+      this.logger.trace('CACHE DELETED');
 
-    this.logger.trace('CACHE DELETED');
-
-    return res.status(StatusCodes.OK).send();
+      res.status(StatusCodes.OK).send();
+    });
   }
 }

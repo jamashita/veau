@@ -1,7 +1,7 @@
 import { Ambiguous, Kind } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Body, Controller, Inject, Post, Req, Res } from '@nestjs/common';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Type } from '../../container/Types';
 import { AccountError } from '../../domain/vo/Account/error/AccountError';
@@ -27,8 +27,10 @@ export class AuthController {
 
   // TODO BODY CHECK
   @Post('/')
-  public auth(@Body() entrancedDTO: EntranceInfoDTO, @Req() req: FastifyRequest, @Res() res: FastifyReply): void {
-    const account: Ambiguous<VeauAccount> = req.session.get('VEAU');
+  public auth(@Body() entrancedDTO: EntranceInfoDTO, @Req() req: Request, @Res() res: Response): void {
+    // TODO AAAA
+    // @ts-ignore
+    const account: Ambiguous<VeauAccount> = req.session.account;
 
     this.logger.trace(entrancedDTO);
 
@@ -45,7 +47,8 @@ export class AuthController {
         this.logger.debug(`ACCOUNT FOUND: ${account.getVeauAccountID().toString()}`);
 
         // TODO REDIS
-        req.session.set('VEAU', account);
+        // @ts-ignore
+        req.session.account = account;
 
         res.status(StatusCodes.OK).send(account.toJSON());
       },

@@ -1,5 +1,5 @@
 import { Controller, Get, Render, Res } from '@nestjs/common';
-import { FastifyReply } from 'fastify';
+import { Response } from 'express';
 
 @Controller()
 export class FEController {
@@ -10,9 +10,9 @@ export class FEController {
   }
 
   @Get('/robots.txt')
-  public robot(@Res() res: FastifyReply): FastifyReply {
+  public robot(@Res() res: Response): void {
     res.header('Content-Type', 'text/plain');
 
-    return res.send('User-Agent: *\nDisallow:');
+    res.send('User-Agent: *\nDisallow:');
   }
 }

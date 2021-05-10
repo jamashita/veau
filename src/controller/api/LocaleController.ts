@@ -1,7 +1,7 @@
 import { JSONable } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Controller, Delete, Get, Inject, Res } from '@nestjs/common';
-import { FastifyReply } from 'fastify';
+import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Type } from '../../container/Types';
 import { LocaleError } from '../../domain/vo/Locale/error/LocaleError';
@@ -22,7 +22,7 @@ export class LocaleController {
   }
 
   @Get('/')
-  public all(@Res() res: FastifyReply): void {
+  public all(@Res() res: Response): void {
     this.localeInteractor.all().transform<void, Error>((locale: JSONable) => {
       res.status(StatusCodes.OK).send(locale.toJSON());
     }, (err: DataSourceError | LocaleError) => {
@@ -34,7 +34,7 @@ export class LocaleController {
 
   // TODO USEBEFORE
   @Delete('/')
-  public delete(@Res() res: FastifyReply): void {
+  public delete(@Res() res: Response): void {
     this.localeInteractor.delete().transform<void, Error>(() => {
       this.logger.trace('LOCALE CACHE DELETED');
 

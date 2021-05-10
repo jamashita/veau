@@ -1,5 +1,5 @@
 import { Controller, Get, Inject, Req, Res } from '@nestjs/common';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Type } from '../../container/Types';
 import { VeauAccount } from '../../domain/vo/VeauAccount/VeauAccount';
@@ -15,8 +15,11 @@ export class AccountController {
 
   // TODO USE_ BEOFRE
   @Get('/')
-  public inquire(@Req() req: FastifyRequest, @Res() res: FastifyReply): void {
-    const account: VeauAccount = req.session.get('VEAU');
+  public inquire(@Req() req: Request, @Res() res: Response): void {
+    // TODO ACCOUNT
+    // @ts-ignore
+    const account: VeauAccount = req.session.account;
+    this.logger.debug(account);
 
     this.logger.trace(account.getVeauAccountID().toString());
 

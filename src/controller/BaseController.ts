@@ -131,6 +131,7 @@ export class BaseController implements NestModule {
         path: 'locale',
         method: RequestMethod.DELETE
       }).forRoutes(
+      AccountController,
       LocaleController,
       StatsController
     );
