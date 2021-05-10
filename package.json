@@ -46,19 +46,14 @@
     "@material-ui/core": "4.11.4",
     "@nestjs/common": "7.6.15",
     "@nestjs/core": "7.6.15",
-    "@nestjs/platform-fastify": "7.6.15",
+    "@nestjs/platform-express": "7.6.15",
     "bourbon-neat": "4.0.0",
     "class-validator": "0.13.1",
     "compression": "1.7.4",
     "config": "3.3.6",
     "connect-redis": "5.2.0",
     "connected-react-router": "6.9.1",
-    "express": "4.17.1",
     "express-session": "1.17.1",
-    "fastify-compress": "3.4.2",
-    "fastify-helmet": "5.3.1",
-    "fastify-secure-session": "2.3.1",
-    "fastify-static": "4.0.1",
     "handsontable": "8.3.2",
     "helmet": "4.6.0",
     "history": "5.0.0",
@@ -99,7 +94,6 @@
     "@types/node": "15.0.2",
     "@types/passport": "1.0.6",
     "@types/passport-local": "1.0.33",
-    "@types/pino": "6.3.8",
     "@types/react": "17.0.5",
     "@types/react-dom": "17.0.3",
     "@types/react-redux": "7.1.16",
@@ -136,7 +130,7 @@
     "webpack-stream": "6.1.2"
   },
   "engines": {
-    "node": ">= 14.5.0",
+    "node": ">= 15.0.0",
     "npm": "npm is not supported"
   },
   "engineStrict": true
