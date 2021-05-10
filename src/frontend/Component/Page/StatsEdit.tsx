@@ -1,28 +1,20 @@
-import {
-  Absent,
-  Heisenberg,
-  Superposition,
-  Unscharferelation,
-  UnscharferelationError
-} from '@jamashita/genitore-superposition';
+import { Kind, Nullable } from '@jamashita/anden-type';
+import { Absent, Heisenberg, Superposition } from '@jamashita/genitore';
 import { Button, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-
+import { Stats } from '../../../domain/entity/Stats/Stats';
 import { StatsItem } from '../../../domain/entity/StatsItem/StatsItem';
 import { AsOf } from '../../../domain/vo/AsOf/AsOf';
 import { AsOfError } from '../../../domain/vo/AsOf/error/AsOfError';
 import { Column } from '../../../domain/vo/Coordinate/Column';
 import { Coordinate } from '../../../domain/vo/Coordinate/Coordinate';
 import { Row } from '../../../domain/vo/Coordinate/Row';
-import { StatsDisplay } from '../../../domain/vo/Display/StatsDisplay';
-import { StatsItemDisplay } from '../../../domain/vo/Display/StatsItemDisplay';
 import { ISO639 } from '../../../domain/vo/Language/ISO639';
 import { Locale } from '../../../domain/vo/Locale/Locale';
 import { NumericalValue } from '../../../domain/vo/NumericalValue/NumericalValue';
 import { ISO3166 } from '../../../domain/vo/Region/ISO3166';
 import { StatsItemName } from '../../../domain/vo/StatsItem/StatsItemName';
-import { StatsIDError } from '../../../domain/vo/StatsOutline/error/StatsIDError';
 import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
 import { StatsName } from '../../../domain/vo/StatsOutline/StatsName';
 import { StatsUnit } from '../../../domain/vo/StatsOutline/StatsUnit';
@@ -35,11 +27,11 @@ import { StatsItemInformation } from '../Molecule/StatsItemInformation';
 import { StatsItemModal } from '../Molecule/StatsItemModal';
 
 export type StateProps = Readonly<{
-  stats: StatsDisplay;
-  item: StatsItemDisplay;
-  selectingItem: Heisenberg<StatsItem>;
+  stats: Stats;
+  item: StatsItem;
+  selectingItem: Nullable<StatsItem>;
   locale: Locale;
-  id: Heisenberg<string>;
+  id: Nullable<string>;
 }>;
 export type DispatchProps = Readonly<{
   initialize(statsID: StatsID): void;
@@ -87,54 +79,13 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
       invalidIDInput
     } = this.props;
 
-    Unscharferelation.ofHeisenberg<string>(id).toSuperposition().map<StatsID, StatsIDError | UnscharferelationError>((str: string) => {
-      return StatsID.ofString(str);
-    }, StatsIDError).transform<void, Error>(
-      (statsID: StatsID) => {
-        initialize(statsID);
-      },
-      () => {
-        invalidIDInput();
-      }
-    );
-  }
+    if (Kind.isNull(id)) {
+      invalidIDInput();
 
-  public shouldComponentUpdate(nextProps: Props & WrappedComponentProps, nextState: State): boolean {
-    const {
-      stats,
-      item,
-      selectingItem,
-      locale
-    } = this.props;
-    const {
-      openNewStatsItemModal,
-      openStartDateModal,
-      startDate
-    } = this.state;
-
-    if (!stats.equals(nextProps.stats)) {
-      return true;
-    }
-    if (!item.equals(nextProps.item)) {
-      return true;
-    }
-    if (!locale.equals(nextProps.locale)) {
-      return true;
-    }
-    if (openNewStatsItemModal !== nextState.openNewStatsItemModal) {
-      return true;
-    }
-    if (openStartDateModal !== nextState.openStartDateModal) {
-      return true;
-    }
-    if (startDate !== nextState.startDate) {
-      return true;
-    }
-    if (selectingItem !== nextProps.selectingItem) {
-      return true;
+      return;
     }
 
-    return false;
+    initialize(StatsID.ofString(id));
   }
 
   public render(): React.ReactNode {
@@ -265,6 +216,44 @@ class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State
         />
       </Authenticated>
     );
+  }
+
+  public shouldComponentUpdate(nextProps: Props & WrappedComponentProps, nextState: State): boolean {
+    const {
+      stats,
+      item,
+      selectingItem,
+      locale
+    } = this.props;
+    const {
+      openNewStatsItemModal,
+      openStartDateModal,
+      startDate
+    } = this.state;
+
+    if (!stats.equals(nextProps.stats)) {
+      return true;
+    }
+    if (!item.equals(nextProps.item)) {
+      return true;
+    }
+    if (!locale.equals(nextProps.locale)) {
+      return true;
+    }
+    if (openNewStatsItemModal !== nextState.openNewStatsItemModal) {
+      return true;
+    }
+    if (openStartDateModal !== nextState.openStartDateModal) {
+      return true;
+    }
+    if (startDate !== nextState.startDate) {
+      return true;
+    }
+    if (selectingItem !== nextProps.selectingItem) {
+      return true;
+    }
+
+    return false;
   }
 }
 

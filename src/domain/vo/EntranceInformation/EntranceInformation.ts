@@ -29,6 +29,14 @@ export class EntranceInformation extends ValueObject<'EntranceInformation'> impl
     return new EntranceInformation(account, password);
   }
 
+  // TODO TEST
+  public static ofJSON(json: EntranceInformationJSON): EntranceInformation {
+    return EntranceInformation.of(
+      AccountName.of(json.account),
+      Password.of(json.password)
+    );
+  }
+
   protected constructor(account: AccountName, password: Password) {
     super();
     this.account = account;

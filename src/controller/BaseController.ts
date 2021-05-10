@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { Type } from '../container/Types';
 import { logger } from '../infrastructure/Logger';
 import { veauMySQL } from '../infrastructure/VeauMySQL';
@@ -29,7 +29,6 @@ import { FEController } from './fe/FEController';
 import { AuthenticationMiddleware } from './middleware/AuthenticationMiddleware';
 
 @Module({
-  imports: [],
   providers: [
     // infrastructure
     {
@@ -126,10 +125,13 @@ import { AuthenticationMiddleware } from './middleware/AuthenticationMiddleware'
   ]
 })
 export class BaseController implements NestModule {
-  public configure(consumer: MiddlewareConsumer): any {
-    consumer.apply(AuthenticationMiddleware).forRoutes(
-      AccountController,
-      AuthController,
+  public configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(AuthenticationMiddleware).exclude(
+      {
+        path: 'locale',
+        method: RequestMethod.DELETE
+      }).forRoutes(
+      LocaleController,
       StatsController
     );
   }
