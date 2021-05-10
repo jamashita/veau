@@ -45,7 +45,7 @@ export class AuthController {
         this.logger.debug(`ACCOUNT FOUND: ${account.getVeauAccountID().toString()}`);
 
         // TODO REDIS
-        req.session.set('session', account);
+        req.session.set('VEAU', account);
 
         res.status(StatusCodes.OK).send(account.toJSON());
       },

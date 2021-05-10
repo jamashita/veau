@@ -32,8 +32,8 @@ export class LocaleController {
     });
   }
 
-  @Delete('/')
   // TODO USEBEFORE
+  @Delete('/')
   public delete(@Res() res: FastifyReply): void {
     this.localeInteractor.delete().transform<void, Error>(() => {
       this.logger.trace('LOCALE CACHE DELETED');

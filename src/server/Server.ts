@@ -2,7 +2,6 @@ import { Ambiguous, Kind } from '@jamashita/anden-type';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import config from 'config';
-import { FastifyRegisterOptions } from 'fastify';
 import compress from 'fastify-compress';
 import helmet from 'fastify-helmet';
 import secureSession from 'fastify-secure-session';
@@ -13,7 +12,6 @@ import { logger } from '../infrastructure/Logger';
 
 const port: number = config.get<number>('port');
 const mode: Ambiguous<string> = process.env['NODE_ENV'];
-const session: FastifyRegisterOptions<unknown> = config.get<FastifyRegisterOptions<unknown>>('session');
 
 if (Kind.isUndefined(mode)) {
   logger.fatal('mode IS NOT SET');
@@ -31,23 +29,27 @@ const bootstrap = async (): Promise<unknown> => {
     logger
   });
 
-  // app.set('views', path.resolve('static', 'views'));
-  // app.set('view engine', 'pug');
-  // app.use(express.static(path.resolve(__dirname, 'public')));
-  // app.use(favicon(path.resolve('static', 'favicon.ico')));
   app.useStaticAssets({
-    root: path.join(__dirname, 'public'),
+    root: path.resolve(__dirname, 'public'),
     prefix: '/'
   });
   app.setViewEngine({
     engine: {
       pug: true
     },
-    templates: path.join('static', 'views')
+    templates: path.resolve('..', 'static', 'views')
   });
   await Promise.all([
     // @ts-ignore
-    app.register(secureSession, session),
+    app.register(secureSession, {
+      cookieName: 'VEAU',
+      secret: 'zgp1tng0vzawgieau0zmolsbgh1r0kmxs40q35gjzbfcf2c8dmy57hnhlqjz3evq',
+      salt: 'TbShH7BsJYk21AN8',
+      cookie: {
+        path: '/',
+        httpOnly: true
+      }
+    }),
     // @ts-ignore
     app.register(helmet),
     // @ts-ignore

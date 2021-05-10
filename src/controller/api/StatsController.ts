@@ -29,8 +29,8 @@ export class StatsController {
     this.logger = logger;
   }
 
-  @Get('/page/:page(\\d+)')
   // TODO USE BEFORE
+  @Get('/page/:page(\\d+)')
   public list(@Param('page') pg: number, @Req() req: FastifyRequest, @Res() res: FastifyReply): void {
     Superposition.playground<Page, PageError>(() => {
       return Page.of(pg);
@@ -53,8 +53,8 @@ export class StatsController {
     });
   }
 
-  @Get('/:statsID([0-9a-f-]{36})')
   // TODO USE BEDORE
+  @Get('/:statsID([0-9a-f-]{36})')
   public refer(@Param('statsID') id: string, @Res() res: FastifyReply): void {
     Superposition.playground<StatsID, StatsError>(() => {
       return StatsID.ofString(id);
@@ -76,8 +76,8 @@ export class StatsController {
     });
   }
 
-  @Post('/')
   // TODO USE BEFORE
+  @Post('/')
   public register(@Body() body: PlainObject, @Req() req: FastifyRequest, @Res() res: FastifyReply): void {
     Superposition.playground<Stats, StatsError>(() => {
       if (!Stats.validate(body)) {
