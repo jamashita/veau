@@ -1,10 +1,10 @@
 import { Ambiguous, Kind } from '@jamashita/anden-type';
 import { NestFactory } from '@nestjs/core';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import compression from 'compression';
 import config from 'config';
-import compress from 'fastify-compress';
-import helmet from 'fastify-helmet';
-import secureSession from 'fastify-secure-session';
+import session from 'express-session';
+import helmet from 'helmet';
 import path from 'path';
 import 'reflect-metadata';
 import { BaseController } from '../controller/BaseController';
@@ -25,36 +25,20 @@ process.on('unhandledRejection', (reason: unknown) => {
 });
 
 const bootstrap = async (): Promise<unknown> => {
-  const app: NestFastifyApplication = await NestFactory.create<NestFastifyApplication>(BaseController, new FastifyAdapter(), {
+  const app: NestExpressApplication = await NestFactory.create<NestExpressApplication>(BaseController, {
     logger
   });
 
-  app.useStaticAssets({
-    root: path.resolve(__dirname, 'public'),
-    prefix: '/'
-  });
-  app.setViewEngine({
-    engine: {
-      pug: true
-    },
-    templates: path.resolve('..', 'static', 'views')
-  });
-  await Promise.all([
-    // @ts-ignore
-    app.register(secureSession, {
-      cookieName: 'VEAU',
-      secret: 'zgp1tng0vzawgieau0zmolsbgh1r0kmxs40q35gjzbfcf2c8dmy57hnhlqjz3evq',
-      salt: 'TbShH7BsJYk21AN8',
-      cookie: {
-        path: '/',
-        httpOnly: true
-      }
-    }),
-    // @ts-ignore
-    app.register(helmet),
-    // @ts-ignore
-    app.register(compress)
-  ]);
+  app.useStaticAssets(path.resolve(__dirname, 'public'));
+  app.setBaseViewsDir(path.resolve(__dirname, 'views'));
+  app.setViewEngine('pug');
+  app.use(session({
+    secret: 'zgp1tng0vzawgieau0zmolsbgh1r0kmxs40q35gjzbfcf2c8dmy57hnhlqjz3evq',
+    resave: false,
+    saveUninitialized: false
+  }));
+  app.use(helmet());
+  app.use(compression());
 
   return app.listen(port);
 };
