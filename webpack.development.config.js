@@ -35,7 +35,7 @@ module.exports = {
       NODE_ENV: 'development'
     }),
     new TsConfigWebpackPlugin({
-      configFile: 'tsconfig.esm.json'
+      configFile: 'tsconfig.compilation.json'
     }),
     new ScssConfigWebpackPlugin(),
     new FontConfigWebpackPlugin()
