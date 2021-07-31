@@ -6,9 +6,8 @@ WORKDIR /home/veau
 
 COPY src src
 COPY static static
-COPY tsconfig.base.json tsconfig.base.json
-COPY tsconfig.cjs.json tsconfig.cjs.json
-COPY tsconfig.esm.json tsconfig.esm.json
+COPY tsconfig.json tsconfig.json
+COPY tsconfig.compilation.json tsconfig.compilation.json
 COPY package.json package.json
 COPY webpack.config.js webpack.config.js
 COPY yarn.lock yarn.lock
