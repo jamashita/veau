@@ -1,23 +1,23 @@
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Superposition } from '@jamashita/genitore';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
-import { ISO639 } from '../../../domain/vo/Language/ISO639';
-import { Language, LanguageRow } from '../../../domain/vo/Language/Language';
-import { LanguageID } from '../../../domain/vo/Language/LanguageID';
-import { Languages } from '../../../domain/vo/Language/Languages';
-import { NoSuchElementError } from '../error/NoSuchElementError';
-import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { IMySQLQuery } from './IMySQLQuery';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { LanguageError } from '../../../domain/vo/Language/error/LanguageError.js';
+import { ISO639 } from '../../../domain/vo/Language/ISO639.js';
+import { Language, LanguageRow } from '../../../domain/vo/Language/Language.js';
+import { LanguageID } from '../../../domain/vo/Language/LanguageID.js';
+import { Languages } from '../../../domain/vo/Language/Languages.js';
+import { NoSuchElementError } from '../error/NoSuchElementError.js';
+import { ILanguageQuery } from '../ILanguageQuery.js';
+import { IMySQLQuery } from './IMySQLQuery.js';
 
-@Injectable()
+@injectable()
 export class LanguageMySQLQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

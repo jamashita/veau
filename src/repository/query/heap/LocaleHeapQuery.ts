@@ -1,12 +1,12 @@
 import { HeapError, IHeap } from '@jamashita/catacombe-heap';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { inject, injectable } from 'inversify';
-import { Type } from '../../../container/Types';
-import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError';
-import { Locale } from '../../../domain/vo/Locale/Locale';
-import { VAULT_LOCALE_KEY } from '../../../infrastructure/VeauHeap';
-import { ILocaleQuery } from '../interface/ILocaleQuery';
-import { IHeapQuery } from './IHeapQuery';
+import { Type } from '../../../container/Types.js';
+import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError.js';
+import { Locale } from '../../../domain/vo/Locale/Locale.js';
+import { VAULT_LOCALE_KEY } from '../../../infrastructure/VeauHeap.js';
+import { ILocaleQuery } from '../ILocaleQuery.js';
+import { IHeapQuery } from './IHeapQuery.js';
 
 @injectable()
 export class LocaleHeapQuery implements ILocaleQuery<HeapError>, IHeapQuery {

@@ -1,29 +1,29 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition } from '@jamashita/genitore';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { Stats } from '../../../domain/entity/Stats/Stats';
-import { StatsItems } from '../../../domain/entity/StatsItem/StatsItems';
-import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
-import { Language } from '../../../domain/vo/Language/Language';
-import { RegionError } from '../../../domain/vo/Region/error/RegionError';
-import { Region } from '../../../domain/vo/Region/Region';
-import { StatsItemError } from '../../../domain/vo/StatsItem/error/StatsItemError';
-import { StatsError } from '../../../domain/vo/StatsOutline/error/StatsError';
-import { StatsOutlineError } from '../../../domain/vo/StatsOutline/error/StatsOutlineError';
-import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
-import { StatsOutline } from '../../../domain/vo/StatsOutline/StatsOutline';
-import { TermError } from '../../../domain/vo/Term/error/TermError';
-import { Term } from '../../../domain/vo/Term/Term';
-import { NoSuchElementError } from '../error/NoSuchElementError';
-import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { IRegionQuery } from '../interface/IRegionQuery';
-import { IStatsItemQuery } from '../interface/IStatsItemQuery';
-import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
-import { IStatsQuery } from '../interface/IStatsQuery';
-import { ICaskQuery } from './ICaskQuery';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { Stats } from '../../../domain/entity/Stats/Stats.js';
+import { StatsItems } from '../../../domain/entity/StatsItem/StatsItems.js';
+import { LanguageError } from '../../../domain/vo/Language/error/LanguageError.js';
+import { Language } from '../../../domain/vo/Language/Language.js';
+import { RegionError } from '../../../domain/vo/Region/error/RegionError.js';
+import { Region } from '../../../domain/vo/Region/Region.js';
+import { StatsItemError } from '../../../domain/vo/StatsItem/error/StatsItemError.js';
+import { StatsError } from '../../../domain/vo/StatsOutline/error/StatsError.js';
+import { StatsOutlineError } from '../../../domain/vo/StatsOutline/error/StatsOutlineError.js';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID.js';
+import { StatsOutline } from '../../../domain/vo/StatsOutline/StatsOutline.js';
+import { TermError } from '../../../domain/vo/Term/error/TermError.js';
+import { Term } from '../../../domain/vo/Term/Term.js';
+import { NoSuchElementError } from '../error/NoSuchElementError.js';
+import { ILanguageQuery } from '../ILanguageQuery.js';
+import { IRegionQuery } from '../IRegionQuery.js';
+import { IStatsItemQuery } from '../IStatsItemQuery.js';
+import { IStatsOutlineQuery } from '../IStatsOutlineQuery.js';
+import { IStatsQuery } from '../IStatsQuery.js';
+import { ICaskQuery } from './ICaskQuery.js';
 
-@Injectable()
+@injectable()
 export class StatsCaskQuery implements IStatsQuery, ICaskQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';
   public readonly source: 'Cask' = 'Cask';
@@ -33,10 +33,10 @@ export class StatsCaskQuery implements IStatsQuery, ICaskQuery {
   private readonly regionQuery: IRegionQuery;
 
   public constructor(
-    @Inject(Type.StatsOutlineMySQLQuery) outlineQuery: IStatsOutlineQuery,
-    @Inject(Type.StatsItemMySQLQuery) itemQuery: IStatsItemQuery,
-    @Inject(Type.LanguageCaskQuery) languageQuery: ILanguageQuery,
-    @Inject(Type.RegionCaskQuery) regionQuery: IRegionQuery
+    @inject(Type.StatsOutlineMySQLQuery) outlineQuery: IStatsOutlineQuery,
+    @inject(Type.StatsItemMySQLQuery) itemQuery: IStatsItemQuery,
+    @inject(Type.LanguageCaskQuery) languageQuery: ILanguageQuery,
+    @inject(Type.RegionCaskQuery) regionQuery: IRegionQuery
   ) {
     this.outlineQuery = outlineQuery;
     this.itemQuery = itemQuery;

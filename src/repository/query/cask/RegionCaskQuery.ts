@@ -1,26 +1,26 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition } from '@jamashita/genitore';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { RegionError } from '../../../domain/vo/Region/error/RegionError';
-import { Regions } from '../../../domain/vo/Region/Regions';
-import { IRegionCommand } from '../../command/interface/IRegionCommand';
-import { ARegionQuery } from '../abstract/ARegionQuery';
-import { IRegionQuery } from '../interface/IRegionQuery';
-import { ICaskQuery } from './ICaskQuery';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { RegionError } from '../../../domain/vo/Region/error/RegionError.js';
+import { Regions } from '../../../domain/vo/Region/Regions.js';
+import { IRegionCommand } from '../../command/IRegionCommand.js';
+import { ARegionQuery } from '../ARegionQuery.js';
+import { IRegionQuery } from '../IRegionQuery.js';
+import { ICaskQuery } from './ICaskQuery.js';
 
-@Injectable()
+@injectable()
 export class RegionCaskQuery extends ARegionQuery<DataSourceError, 'Cask'> implements IRegionQuery, ICaskQuery {
-  public readonly noun: 'RegionQuery' = 'RegionQuery';
+  public override readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'Cask' = 'Cask';
   private readonly mysqlQuery: IRegionQuery;
   private readonly redisQuery: IRegionQuery;
   private readonly redisCommand: IRegionCommand;
 
   public constructor(
-    @Inject(Type.RegionMySQLQuery) mysqlQuery: IRegionQuery,
-    @Inject(Type.RegionRedisQuery) redisQuery: IRegionQuery,
-    @Inject(Type.RegionRedisCommand) redisCommand: IRegionCommand
+    @inject(Type.RegionMySQLQuery) mysqlQuery: IRegionQuery,
+    @inject(Type.RegionRedisQuery) redisQuery: IRegionQuery,
+    @inject(Type.RegionRedisCommand) redisCommand: IRegionCommand
   ) {
     super();
     this.mysqlQuery = mysqlQuery;

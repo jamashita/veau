@@ -1,10 +1,10 @@
 import { HeapError } from '@jamashita/catacombe-heap';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { injectable } from 'inversify';
-import { TermError } from '../../../domain/vo/Term/error/TermError';
-import { Terms } from '../../../domain/vo/Term/Terms';
-import { ITermQuery } from '../interface/ITermQuery';
-import { IHeapQuery } from './IHeapQuery';
+import { TermError } from '../../../domain/vo/Term/error/TermError.js';
+import { Terms } from '../../../domain/vo/Term/Terms.js';
+import { ITermQuery } from '../ITermQuery.js';
+import { IHeapQuery } from './IHeapQuery.js';
 
 @injectable()
 export class TermHeapQuery implements ITermQuery<HeapError>, IHeapQuery {

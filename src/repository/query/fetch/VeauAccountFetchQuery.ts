@@ -1,13 +1,13 @@
 import { FetchError, FetchResponse, IFetch } from '@jamashita/catacombe-fetch';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
-import { Type } from '../../../container/Types';
-import { EntranceInformation } from '../../../domain/vo/EntranceInformation/EntranceInformation';
-import { VeauAccountError } from '../../../domain/vo/VeauAccount/error/VeauAccountError';
-import { VeauAccount } from '../../../domain/vo/VeauAccount/VeauAccount';
-import { IVeauAccountQuery } from '../interface/IVeauAccountQuery';
-import { IFetchQuery } from './IFetchQuery';
+import { Type } from '../../../container/Types.js';
+import { EntranceInformation } from '../../../domain/vo/EntranceInformation/EntranceInformation.js';
+import { VeauAccountError } from '../../../domain/vo/VeauAccount/error/VeauAccountError.js';
+import { VeauAccount } from '../../../domain/vo/VeauAccount/VeauAccount.js';
+import { IVeauAccountQuery } from '../IVeauAccountQuery.js';
+import { IFetchQuery } from './IFetchQuery.js';
 
 @injectable()
 export class VeauAccountFetchQuery implements IVeauAccountQuery<FetchError>, IFetchQuery {
@@ -22,7 +22,10 @@ export class VeauAccountFetchQuery implements IVeauAccountQuery<FetchError>, IFe
   public find(): Superposition<VeauAccount, FetchError | VeauAccountError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
       return this.fetch.get('/api/accounts');
-    }, FetchError).map<VeauAccount, FetchError | VeauAccountError>(({ status, body }: FetchResponse<'json'>) => {
+    }, FetchError).map<VeauAccount, FetchError | VeauAccountError>(({
+      status,
+      body
+    }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
           if (VeauAccount.validate(body)) {
@@ -41,7 +44,10 @@ export class VeauAccountFetchQuery implements IVeauAccountQuery<FetchError>, IFe
   public findByEntranceInfo(entranceInformation: EntranceInformation): Superposition<VeauAccount, FetchError | VeauAccountError> {
     return Superposition.playground<FetchResponse<'json'>, FetchError>(() => {
       return this.fetch.post('/api/auth', entranceInformation.toJSON());
-    }, FetchError).map<VeauAccount, FetchError | VeauAccountError>(({ status, body }: FetchResponse<'json'>) => {
+    }, FetchError).map<VeauAccount, FetchError | VeauAccountError>(({
+      status,
+      body
+    }: FetchResponse<'json'>) => {
       switch (status) {
         case StatusCodes.OK: {
           if (VeauAccount.validate(body)) {

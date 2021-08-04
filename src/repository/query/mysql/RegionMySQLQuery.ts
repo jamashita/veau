@@ -1,23 +1,23 @@
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Superposition } from '@jamashita/genitore';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { RegionError } from '../../../domain/vo/Region/error/RegionError';
-import { ISO3166 } from '../../../domain/vo/Region/ISO3166';
-import { Region, RegionRow } from '../../../domain/vo/Region/Region';
-import { RegionID } from '../../../domain/vo/Region/RegionID';
-import { Regions } from '../../../domain/vo/Region/Regions';
-import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IRegionQuery } from '../interface/IRegionQuery';
-import { IMySQLQuery } from './IMySQLQuery';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { RegionError } from '../../../domain/vo/Region/error/RegionError.js';
+import { ISO3166 } from '../../../domain/vo/Region/ISO3166.js';
+import { Region, RegionRow } from '../../../domain/vo/Region/Region.js';
+import { RegionID } from '../../../domain/vo/Region/RegionID.js';
+import { Regions } from '../../../domain/vo/Region/Regions.js';
+import { NoSuchElementError } from '../error/NoSuchElementError.js';
+import { IRegionQuery } from '../IRegionQuery.js';
+import { IMySQLQuery } from './IMySQLQuery.js';
 
-@Injectable()
+@injectable()
 export class RegionMySQLQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

@@ -1,19 +1,19 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { inject, injectable } from 'inversify';
-import { Type } from '../../../container/Types';
-import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
-import { Languages } from '../../../domain/vo/Language/Languages';
-import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError';
-import { Locale } from '../../../domain/vo/Locale/Locale';
-import { ALanguageQuery } from '../abstract/ALanguageQuery';
-import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { ILocaleQuery } from '../interface/ILocaleQuery';
-import { IBinQuery } from './IBinQuery';
+import { Type } from '../../../container/Types.js';
+import { LanguageError } from '../../../domain/vo/Language/error/LanguageError.js';
+import { Languages } from '../../../domain/vo/Language/Languages.js';
+import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError.js';
+import { Locale } from '../../../domain/vo/Locale/Locale.js';
+import { ALanguageQuery } from '../ALanguageQuery.js';
+import { ILanguageQuery } from '../ILanguageQuery.js';
+import { ILocaleQuery } from '../ILocaleQuery.js';
+import { IBinQuery } from './IBinQuery.js';
 
 @injectable()
 export class LanguageBinQuery extends ALanguageQuery<DataSourceError, 'Bin'> implements ILanguageQuery, IBinQuery {
-  public readonly noun: 'LanguageQuery' = 'LanguageQuery';
+  public override readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'Bin' = 'Bin';
   private readonly localeQuery: ILocaleQuery;
 

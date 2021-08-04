@@ -1,31 +1,30 @@
 import { Kind, Nullable } from '@jamashita/anden-type';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Chrono, Superposition } from '@jamashita/genitore';
-import { ImmutableProject, MutableProject, MutableSequence, Project, Sequence } from '@jamashita/lluvia-collection';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { StatsItemError } from '../../../domain/vo/StatsItem/error/StatsItemError';
-import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID';
-import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
-import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueError';
-import { StatsValue, StatsValueRow } from '../../../domain/vo/StatsValue/StatsValue';
-import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues';
-import { IStatsValueQuery } from '../interface/IStatsValueQuery';
-import { IMySQLQuery } from './IMySQLQuery';
+import { Chrono, Superposition } from '@jamashita/genitore-superposition';
+import { ImmutableProject, MutableProject, Project } from '@jamashita/lluvia-project';
+import { MutableSequence, Sequence } from '@jamashita/lluvia-sequence';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { StatsItemError } from '../../../domain/vo/StatsItem/error/StatsItemError.js';
+import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID.js';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID.js';
+import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueError.js';
+import { StatsValue, StatsValueRow } from '../../../domain/vo/StatsValue/StatsValue.js';
+import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues.js';
+import { IStatsValueQuery } from '../IStatsValueQuery.js';
+import { IMySQLQuery } from './IMySQLQuery.js';
 
-@Injectable()
+@injectable()
 export class StatsValueMySQLQuery implements IStatsValueQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 
-  public findByStatsID(
-    statsID: StatsID
-  ): Superposition<Project<StatsItemID, StatsValues>, MySQLError | StatsValueError> {
+  public findByStatsID(statsID: StatsID): Superposition<Project<StatsItemID, StatsValues>, MySQLError | StatsValueError> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,

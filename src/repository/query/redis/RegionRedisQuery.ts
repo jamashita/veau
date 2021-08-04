@@ -1,24 +1,24 @@
-import { Nullable } from '@jamashita/anden-type';
+import { Kind, Nullable } from '@jamashita/anden-type';
 import { IRedis, RedisError } from '@jamashita/catacombe-redis';
-import { Superposition, Unscharferelation, UnscharferelationError } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { JSONA, JSONAError } from '@jamashita/steckdose-json';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { RegionError } from '../../../domain/vo/Region/error/RegionError';
-import { RegionJSON } from '../../../domain/vo/Region/Region';
-import { Regions } from '../../../domain/vo/Region/Regions';
-import { REDIS_REGION_KEY } from '../../../infrastructure/VeauRedis';
-import { ARegionQuery } from '../abstract/ARegionQuery';
-import { IRegionQuery } from '../interface/IRegionQuery';
-import { IRedisQuery } from './IRedisQuery';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { RegionError } from '../../../domain/vo/Region/error/RegionError.js';
+import { RegionJSON } from '../../../domain/vo/Region/Region.js';
+import { Regions } from '../../../domain/vo/Region/Regions.js';
+import { REDIS_REGION_KEY } from '../../../infrastructure/VeauRedis.js';
+import { ARegionQuery } from '../ARegionQuery.js';
+import { IRegionQuery } from '../IRegionQuery.js';
+import { IRedisQuery } from './IRedisQuery.js';
 
-@Injectable()
+@injectable()
 export class RegionRedisQuery extends ARegionQuery<RedisError, 'Redis'> implements IRegionQuery<RedisError>, IRedisQuery {
-  public readonly noun: 'RegionQuery' = 'RegionQuery';
+  public override readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
-  public constructor(@Inject(Type.Redis) redis: IRedis) {
+  public constructor(@inject(Type.Redis) redis: IRedis) {
     super();
     this.redis = redis;
   }
@@ -26,17 +26,16 @@ export class RegionRedisQuery extends ARegionQuery<RedisError, 'Redis'> implemen
   public all(): Superposition<Regions, RedisError | RegionError> {
     return Superposition.playground<Nullable<string>, RedisError>(() => {
       return this.redis.getString().get(REDIS_REGION_KEY);
-    }, RedisError).map<string, UnscharferelationError>((str: Nullable<string>) => {
-      return Unscharferelation.maybe(str).toSuperposition();
-    }).map<Array<RegionJSON>, JSONAError>((j: string) => {
+    }, RedisError).map<Array<RegionJSON>, RedisError>((str: Nullable<string>) => {
+      if (Kind.isNull(str)) {
+        throw new RedisError('RegionBinQuery.all()');
+      }
+
       return JSONA.parse<Array<RegionJSON>>(j);
-    }, JSONAError).map<Regions, RegionError>((json: Array<RegionJSON>) => {
+    }).map<Regions, RegionError>((json: Array<RegionJSON>) => {
       return Regions.ofJSON(json);
     }, RegionError).recover<Regions, RedisError | RegionError>((err: JSONAError | RedisError | RegionError | UnscharferelationError) => {
       if (err instanceof JSONAError) {
-        throw new RedisError('RegionBinQuery.all()', err);
-      }
-      if (err instanceof UnscharferelationError) {
         throw new RedisError('RegionBinQuery.all()', err);
       }
 

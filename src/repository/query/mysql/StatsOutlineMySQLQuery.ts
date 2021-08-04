@@ -1,24 +1,24 @@
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Superposition } from '@jamashita/genitore';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { Page } from '../../../domain/vo/Page/Page';
-import { StatsOutlineError } from '../../../domain/vo/StatsOutline/error/StatsOutlineError';
-import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
-import { StatsOutline, StatsOutlineRow } from '../../../domain/vo/StatsOutline/StatsOutline';
-import { StatsOutlines } from '../../../domain/vo/StatsOutline/StatsOutlines';
-import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
-import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
-import { IMySQLQuery } from './IMySQLQuery';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { Page } from '../../../domain/vo/Page/Page.js';
+import { StatsOutlineError } from '../../../domain/vo/StatsOutline/error/StatsOutlineError.js';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID.js';
+import { StatsOutline, StatsOutlineRow } from '../../../domain/vo/StatsOutline/StatsOutline.js';
+import { StatsOutlines } from '../../../domain/vo/StatsOutline/StatsOutlines.js';
+import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID.js';
+import { NoSuchElementError } from '../error/NoSuchElementError.js';
+import { IStatsOutlineQuery } from '../IStatsOutlineQuery.js';
+import { IMySQLQuery } from './IMySQLQuery.js';
 
-@Injectable()
+@injectable()
 export class StatsOutlineMySQLQuery implements IStatsOutlineQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

@@ -1,24 +1,24 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { inject, injectable } from 'inversify';
-import { Type } from '../../../container/Types';
-import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError';
-import { Locale } from '../../../domain/vo/Locale/Locale';
-import { Page } from '../../../domain/vo/Page/Page';
-import { StatsListItemError } from '../../../domain/vo/StatsListItem/error/StatsListItemError';
-import { StatsListItem } from '../../../domain/vo/StatsListItem/StatsListItem';
-import { StatsListItems } from '../../../domain/vo/StatsListItem/StatsListItems';
-import { StatsOutlineError } from '../../../domain/vo/StatsOutline/error/StatsOutlineError';
-import { StatsOutline } from '../../../domain/vo/StatsOutline/StatsOutline';
-import { StatsOutlines } from '../../../domain/vo/StatsOutline/StatsOutlines';
-import { TermError } from '../../../domain/vo/Term/error/TermError';
-import { Terms } from '../../../domain/vo/Term/Terms';
-import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
-import { ILocaleQuery } from '../interface/ILocaleQuery';
-import { IStatsListItemQuery } from '../interface/IStatsListItemQuery';
-import { IStatsOutlineQuery } from '../interface/IStatsOutlineQuery';
-import { ITermQuery } from '../interface/ITermQuery';
-import { IBinQuery } from './IBinQuery';
+import { Type } from '../../../container/Types.js';
+import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError.js';
+import { Locale } from '../../../domain/vo/Locale/Locale.js';
+import { Page } from '../../../domain/vo/Page/Page.js';
+import { StatsListItemError } from '../../../domain/vo/StatsListItem/error/StatsListItemError.js';
+import { StatsListItem } from '../../../domain/vo/StatsListItem/StatsListItem.js';
+import { StatsListItems } from '../../../domain/vo/StatsListItem/StatsListItems.js';
+import { StatsOutlineError } from '../../../domain/vo/StatsOutline/error/StatsOutlineError.js';
+import { StatsOutline } from '../../../domain/vo/StatsOutline/StatsOutline.js';
+import { StatsOutlines } from '../../../domain/vo/StatsOutline/StatsOutlines.js';
+import { TermError } from '../../../domain/vo/Term/error/TermError.js';
+import { Terms } from '../../../domain/vo/Term/Terms.js';
+import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID.js';
+import { ILocaleQuery } from '../ILocaleQuery.js';
+import { IStatsListItemQuery } from '../IStatsListItemQuery.js';
+import { IStatsOutlineQuery } from '../IStatsOutlineQuery.js';
+import { ITermQuery } from '../ITermQuery.js';
+import { IBinQuery } from './IBinQuery.js';
 
 @injectable()
 export class StatsListItemBinQuery implements IStatsListItemQuery, IBinQuery {

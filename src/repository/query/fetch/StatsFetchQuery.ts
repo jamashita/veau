@@ -1,14 +1,14 @@
 import { FetchError, FetchResponse, IFetch } from '@jamashita/catacombe-fetch';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
-import { Type } from '../../../container/Types';
-import { Stats } from '../../../domain/entity/Stats/Stats';
-import { StatsError } from '../../../domain/vo/StatsOutline/error/StatsError';
-import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
-import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IStatsQuery } from '../interface/IStatsQuery';
-import { IFetchQuery } from './IFetchQuery';
+import { Type } from '../../../container/Types.js';
+import { Stats } from '../../../domain/entity/Stats/Stats.js';
+import { StatsError } from '../../../domain/vo/StatsOutline/error/StatsError.js';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID.js';
+import { NoSuchElementError } from '../error/NoSuchElementError.js';
+import { IStatsQuery } from '../IStatsQuery.js';
+import { IFetchQuery } from './IFetchQuery.js';
 
 @injectable()
 export class StatsFetchQuery implements IStatsQuery<FetchError>, IFetchQuery {

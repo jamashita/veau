@@ -2,13 +2,13 @@ import { Kind, Nullable } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Superposition } from '@jamashita/genitore-superposition';
 import { injectable } from 'inversify';
-import { RegionError } from '../../../domain/vo/Region/error/RegionError.js';
-import { ISO3166 } from '../../../domain/vo/Region/ISO3166.js';
-import { Region } from '../../../domain/vo/Region/Region.js';
-import { RegionID } from '../../../domain/vo/Region/RegionID.js';
-import { Regions } from '../../../domain/vo/Region/Regions.js';
-import { NoSuchElementError } from '../error/NoSuchElementError.js';
-import { IRegionQuery } from '../IRegionQuery.js';
+import { RegionError } from '../../domain/vo/Region/error/RegionError.js';
+import { ISO3166 } from '../../domain/vo/Region/ISO3166.js';
+import { Region } from '../../domain/vo/Region/Region.js';
+import { RegionID } from '../../domain/vo/Region/RegionID.js';
+import { Regions } from '../../domain/vo/Region/Regions.js';
+import { NoSuchElementError } from './error/NoSuchElementError.js';
+import { IRegionQuery } from './IRegionQuery.js';
 
 @injectable()
 export abstract class ARegionQuery<E extends DataSourceError = DataSourceError, S extends string = string> implements IRegionQuery<E> {

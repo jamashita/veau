@@ -1,12 +1,12 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { inject, injectable } from 'inversify';
-import { Type } from '../../../container/Types';
-import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError';
-import { Locale } from '../../../domain/vo/Locale/Locale';
-import { ILocaleCommand } from '../../command/interface/ILocaleCommand';
-import { ILocaleQuery } from '../interface/ILocaleQuery';
-import { IBinQuery } from './IBinQuery';
+import { Type } from '../../../container/Types.js';
+import { LocaleError } from '../../../domain/vo/Locale/error/LocaleError.js';
+import { Locale } from '../../../domain/vo/Locale/Locale.js';
+import { ILocaleCommand } from '../../command/ILocaleCommand.js';
+import { ILocaleQuery } from '../ILocaleQuery.js';
+import { IBinQuery } from './IBinQuery.js';
 
 @injectable()
 export class LocaleBinQuery implements ILocaleQuery, IBinQuery {

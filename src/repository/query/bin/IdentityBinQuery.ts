@@ -1,22 +1,22 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { inject, injectable } from 'inversify';
-import { Type } from '../../../container/Types';
-import { EntranceInformation } from '../../../domain/vo/EntranceInformation/EntranceInformation';
-import { IdentityError } from '../../../domain/vo/Identity/error/IdentityError';
-import { Identity } from '../../../domain/vo/Identity/Identity';
-import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
-import { Language } from '../../../domain/vo/Language/Language';
-import { RegionError } from '../../../domain/vo/Region/error/RegionError';
-import { Region } from '../../../domain/vo/Region/Region';
-import { VeauAccountError } from '../../../domain/vo/VeauAccount/error/VeauAccountError';
-import { VeauAccount } from '../../../domain/vo/VeauAccount/VeauAccount';
-import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IIdentityQuery } from '../interface/IIdentityQuery';
-import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { IRegionQuery } from '../interface/IRegionQuery';
-import { IVeauAccountQuery } from '../interface/IVeauAccountQuery';
-import { IBinQuery } from './IBinQuery';
+import { Type } from '../../../container/Types.js';
+import { EntranceInformation } from '../../../domain/vo/EntranceInformation/EntranceInformation.js';
+import { IdentityError } from '../../../domain/vo/Identity/error/IdentityError.js';
+import { Identity } from '../../../domain/vo/Identity/Identity.js';
+import { LanguageError } from '../../../domain/vo/Language/error/LanguageError.js';
+import { Language } from '../../../domain/vo/Language/Language.js';
+import { RegionError } from '../../../domain/vo/Region/error/RegionError.js';
+import { Region } from '../../../domain/vo/Region/Region.js';
+import { VeauAccountError } from '../../../domain/vo/VeauAccount/error/VeauAccountError.js';
+import { VeauAccount } from '../../../domain/vo/VeauAccount/VeauAccount.js';
+import { NoSuchElementError } from '../error/NoSuchElementError.js';
+import { IIdentityQuery } from '../IIdentityQuery.js';
+import { ILanguageQuery } from '../ILanguageQuery.js';
+import { IRegionQuery } from '../IRegionQuery.js';
+import { IVeauAccountQuery } from '../IVeauAccountQuery.js';
+import { IBinQuery } from './IBinQuery.js';
 
 @injectable()
 export class IdentityBinQuery implements IIdentityQuery, IBinQuery {

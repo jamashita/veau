@@ -1,21 +1,21 @@
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Superposition } from '@jamashita/genitore';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { Account, AccountRow } from '../../../domain/vo/Account/Account';
-import { AccountName } from '../../../domain/vo/Account/AccountName';
-import { AccountError } from '../../../domain/vo/Account/error/AccountError';
-import { NoSuchElementError } from '../error/NoSuchElementError';
-import { IAccountQuery } from '../interface/IAccountQuery';
-import { IMySQLQuery } from './IMySQLQuery';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { Account, AccountRow } from '../../../domain/vo/Account/Account.js';
+import { AccountName } from '../../../domain/vo/Account/AccountName.js';
+import { AccountError } from '../../../domain/vo/Account/error/AccountError.js';
+import { NoSuchElementError } from '../error/NoSuchElementError.js';
+import { IAccountQuery } from '../IAccountQuery.js';
+import { IMySQLQuery } from './IMySQLQuery.js';
 
-@Injectable()
+@injectable()
 export class AccountMySQLQuery implements IAccountQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

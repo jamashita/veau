@@ -1,26 +1,26 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition } from '@jamashita/genitore';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
-import { Languages } from '../../../domain/vo/Language/Languages';
-import { ILanguageCommand } from '../../command/interface/ILanguageCommand';
-import { ALanguageQuery } from '../abstract/ALanguageQuery';
-import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { ICaskQuery } from './ICaskQuery';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { LanguageError } from '../../../domain/vo/Language/error/LanguageError.js';
+import { Languages } from '../../../domain/vo/Language/Languages.js';
+import { ILanguageCommand } from '../../command/ILanguageCommand.js';
+import { ALanguageQuery } from '../ALanguageQuery.js';
+import { ILanguageQuery } from '../ILanguageQuery.js';
+import { ICaskQuery } from './ICaskQuery.js';
 
-@Injectable()
+@injectable()
 export class LanguageCaskQuery extends ALanguageQuery<DataSourceError, 'Cask'> implements ILanguageQuery, ICaskQuery {
-  public readonly noun: 'LanguageQuery' = 'LanguageQuery';
+  public override readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'Cask' = 'Cask';
   private readonly mysqlQuery: ILanguageQuery;
   private readonly redisQuery: ILanguageQuery;
   private readonly redisCommand: ILanguageCommand;
 
   public constructor(
-    @Inject(Type.LanguageMySQLQuery) mysqlQuery: ILanguageQuery,
-    @Inject(Type.LanguageRedisQuery) redisQuery: ILanguageQuery,
-    @Inject(Type.LanguageRedisCommand) redisCommand: ILanguageCommand
+    @inject(Type.LanguageMySQLQuery) mysqlQuery: ILanguageQuery,
+    @inject(Type.LanguageRedisQuery) redisQuery: ILanguageQuery,
+    @inject(Type.LanguageRedisCommand) redisCommand: ILanguageCommand
   ) {
     super();
     this.mysqlQuery = mysqlQuery;

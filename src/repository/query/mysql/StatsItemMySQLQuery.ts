@@ -1,21 +1,21 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Superposition } from '@jamashita/genitore';
-import { Project } from '@jamashita/lluvia-collection';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { StatsItemRow } from '../../../domain/entity/StatsItem/StatsItem';
-import { StatsItems } from '../../../domain/entity/StatsItem/StatsItems';
-import { StatsItemError } from '../../../domain/vo/StatsItem/error/StatsItemError';
-import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID';
-import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
-import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueError';
-import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues';
-import { IStatsItemQuery } from '../interface/IStatsItemQuery';
-import { IStatsValueQuery } from '../interface/IStatsValueQuery';
-import { IMySQLQuery } from './IMySQLQuery';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { Project } from '@jamashita/lluvia-project';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { StatsItemRow } from '../../../domain/entity/StatsItem/StatsItem.js';
+import { StatsItems } from '../../../domain/entity/StatsItem/StatsItems.js';
+import { StatsItemError } from '../../../domain/vo/StatsItem/error/StatsItemError.js';
+import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID.js';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID.js';
+import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueError.js';
+import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues.js';
+import { IStatsItemQuery } from '../IStatsItemQuery.js';
+import { IStatsValueQuery } from '../IStatsValueQuery.js';
+import { IMySQLQuery } from './IMySQLQuery.js';
 
-@Injectable()
+@injectable()
 export class StatsItemMySQLQuery implements IStatsItemQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'StatsItemQuery' = 'StatsItemQuery';
   public readonly source: 'MySQL' = 'MySQL';
@@ -23,8 +23,8 @@ export class StatsItemMySQLQuery implements IStatsItemQuery<MySQLError>, IMySQLQ
   private readonly statsValueQuery: IStatsValueQuery;
 
   public constructor(
-    @Inject(Type.MySQL) mysql: IMySQL,
-    @Inject(Type.StatsValueMySQLQuery) statsValueQuery: IStatsValueQuery
+    @inject(Type.MySQL) mysql: IMySQL,
+    @inject(Type.StatsValueMySQLQuery) statsValueQuery: IStatsValueQuery
   ) {
     this.mysql = mysql;
     this.statsValueQuery = statsValueQuery;
