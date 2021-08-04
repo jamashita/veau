@@ -1,20 +1,15 @@
 import { BinaryPredicate, Catalogue, Cloneable, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
-import {
-  Collection,
-  MutableSequence,
-  Project,
-  Quantity,
-  ReadonlySequence,
-  Sequence
-} from '@jamashita/lluvia-collection';
-import { AsOfs } from '../../vo/AsOf/AsOfs';
-import { Column } from '../../vo/Coordinate/Column';
-import { Row } from '../../vo/Coordinate/Row';
-import { StatsItemID } from '../../vo/StatsItem/StatsItemID';
-import { StatsItemName } from '../../vo/StatsItem/StatsItemName';
-import { StatsItemNames } from '../../vo/StatsItem/StatsItemNames';
-import { StatsValues } from '../../vo/StatsValue/StatsValues';
-import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
+import { Collection, Quantity } from '@jamashita/lluvia-collection';
+import { Project } from '@jamashita/lluvia-project';
+import { MutableSequence, ReadonlySequence, Sequence } from '@jamashita/lluvia-sequence';
+import { AsOfs } from '../../vo/AsOf/AsOfs.js';
+import { Column } from '../../vo/Coordinate/Column.js';
+import { Row } from '../../vo/Coordinate/Row.js';
+import { StatsItemID } from '../../vo/StatsItem/StatsItemID.js';
+import { StatsItemName } from '../../vo/StatsItem/StatsItemName.js';
+import { StatsItemNames } from '../../vo/StatsItem/StatsItemNames.js';
+import { StatsValues } from '../../vo/StatsValue/StatsValues.js';
+import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem.js';
 
 export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implements Cloneable<StatsItems>, JSONable {
   public readonly noun: 'StatsItems' = 'StatsItems';
@@ -71,8 +66,19 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     this.items = items;
   }
 
-  public contains(value: StatsItem): boolean {
-    return this.items.contains(value);
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof StatsItems)) {
+      return false;
+    }
+
+    return this.items.equals(other.items);
+  }
+
+  public serialize(): string {
+    return this.items.toString();
   }
 
   public duplicate(): StatsItems {
@@ -83,15 +89,12 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     return StatsItems.of(this.items.duplicate());
   }
 
-  public equals(other: unknown): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!(other instanceof StatsItems)) {
-      return false;
-    }
+  public iterator(): Iterator<[number, StatsItem]> {
+    return this.items.iterator();
+  }
 
-    return this.items.equals(other.items);
+  public contains(value: StatsItem): boolean {
+    return this.items.contains(value);
   }
 
   public every(predicate: BinaryPredicate<StatsItem, number>): boolean {
@@ -114,20 +117,12 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     return this.items.get(index);
   }
 
-  public isEmpty(): boolean {
+  public override isEmpty(): boolean {
     return this.items.isEmpty();
-  }
-
-  public iterator(): Iterator<[number, StatsItem]> {
-    return this.items.iterator();
   }
 
   public map<W>(mapper: Mapper<StatsItem, W>): Sequence<W> {
     return this.items.map<W>(mapper);
-  }
-
-  public serialize(): string {
-    return this.items.toString();
   }
 
   public size(): number {
@@ -138,14 +133,14 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     return this.items.some(predicate);
   }
 
+  public values(): Iterable<StatsItem> {
+    return this.items.values();
+  }
+
   public toJSON(): Array<StatsItemJSON> {
     return this.items.toArray().map<StatsItemJSON>((item: StatsItem) => {
       return item.toJSON();
     });
-  }
-
-  public values(): Iterable<StatsItem> {
-    return this.items.values();
   }
 
   public add(statsItem: StatsItem): void {

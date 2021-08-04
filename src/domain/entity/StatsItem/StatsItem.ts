@@ -1,16 +1,16 @@
 import { Entity } from '@jamashita/anden-object';
 import { Kind, Nullable } from '@jamashita/anden-type';
-import { Project } from '@jamashita/lluvia-collection';
-import { AsOf } from '../../vo/AsOf/AsOf';
-import { AsOfs } from '../../vo/AsOf/AsOfs';
-import { NoValue } from '../../vo/NumericalValue/NoValue';
-import { NumericalValues } from '../../vo/NumericalValue/NumericalValues';
-import { StatsItemError } from '../../vo/StatsItem/error/StatsItemError';
-import { StatsItemID } from '../../vo/StatsItem/StatsItemID';
-import { StatsItemName } from '../../vo/StatsItem/StatsItemName';
-import { StatsValueError } from '../../vo/StatsValue/error/StatsValueError';
-import { StatsValue, StatsValueJSON } from '../../vo/StatsValue/StatsValue';
-import { StatsValues } from '../../vo/StatsValue/StatsValues';
+import { Project } from '@jamashita/lluvia-project';
+import { AsOf } from '../../vo/AsOf/AsOf.js';
+import { AsOfs } from '../../vo/AsOf/AsOfs.js';
+import { NoValue } from '../../vo/NumericalValue/NoValue.js';
+import { NumericalValues } from '../../vo/NumericalValue/NumericalValues.js';
+import { StatsItemError } from '../../vo/StatsItem/error/StatsItemError.js';
+import { StatsItemID } from '../../vo/StatsItem/StatsItemID.js';
+import { StatsItemName } from '../../vo/StatsItem/StatsItemName.js';
+import { StatsValueError } from '../../vo/StatsValue/error/StatsValueError.js';
+import { StatsValue, StatsValueJSON } from '../../vo/StatsValue/StatsValue.js';
+import { StatsValues } from '../../vo/StatsValue/StatsValues.js';
 
 export type StatsItemJSON = Readonly<{
   statsItemID: string;
@@ -105,12 +105,12 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     this.values = values;
   }
 
-  public duplicate(): StatsItem {
-    return new StatsItem(this.statsItemID, this.name, this.values.duplicate());
-  }
-
   public getIdentifier(): StatsItemID {
     return this.statsItemID;
+  }
+
+  public duplicate(): StatsItem {
+    return new StatsItem(this.statsItemID, this.name, this.values.duplicate());
   }
 
   public serialize(): string {
