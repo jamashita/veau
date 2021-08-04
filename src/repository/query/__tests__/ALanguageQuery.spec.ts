@@ -1,20 +1,21 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { FetchError } from '@jamashita/catacombe-fetch';
-import { Schrodinger, Superposition } from '@jamashita/genitore';
+import { Schrodinger } from '@jamashita/genitore-schrodinger';
+import { Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
-import { LanguageError } from '../../../../domain/vo/Language/error/LanguageError';
-import { ISO639 } from '../../../../domain/vo/Language/ISO639';
-import { Language } from '../../../../domain/vo/Language/Language';
-import { Languages } from '../../../../domain/vo/Language/Languages';
-import { MockISO639 } from '../../../../domain/vo/Language/mock/MockISO639';
-import { MockLanguage } from '../../../../domain/vo/Language/mock/MockLanguage';
-import { MockLanguageID } from '../../../../domain/vo/Language/mock/MockLanguageID';
-import { NoSuchElementError } from '../../error/NoSuchElementError';
-import { ALanguageQuery } from '../ALanguageQuery';
+import { LanguageError } from '../../../../domain/vo/Language/error/LanguageError.js';
+import { ISO639 } from '../../../../domain/vo/Language/ISO639.js';
+import { Language } from '../../../../domain/vo/Language/Language.js';
+import { Languages } from '../../../../domain/vo/Language/Languages.js';
+import { MockISO639 } from '../../../../domain/vo/Language/mock/MockISO639.js';
+import { MockLanguage } from '../../../../domain/vo/Language/mock/MockLanguage.js';
+import { MockLanguageID } from '../../../../domain/vo/Language/mock/MockLanguageID.js';
+import { NoSuchElementError } from '../../error/NoSuchElementError.js';
+import { ALanguageQuery } from '../ALanguageQuery.js';
 
 class MockALanguageQuery extends ALanguageQuery {
-  public readonly source: 'Mock' = 'Mock';
   private readonly a: Superposition<Languages, DataSourceError | LanguageError>;
+  public readonly source: 'Mock' = 'Mock';
 
   public constructor(all: Superposition<Languages, DataSourceError | LanguageError>) {
     super();

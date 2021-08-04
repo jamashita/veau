@@ -1,28 +1,30 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { FetchError } from '@jamashita/catacombe-fetch';
-import { Schrodinger, Superposition } from '@jamashita/genitore';
+import { Schrodinger } from '@jamashita/genitore-schrodinger';
+import { Superposition } from '@jamashita/genitore-superposition';
 import 'reflect-metadata';
-import { RegionError } from '../../../../domain/vo/Region/error/RegionError';
-import { ISO3166 } from '../../../../domain/vo/Region/ISO3166';
-import { MockISO3166 } from '../../../../domain/vo/Region/mock/MockISO3166';
-import { MockRegion } from '../../../../domain/vo/Region/mock/MockRegion';
-import { MockRegionID } from '../../../../domain/vo/Region/mock/MockRegionID';
-import { Region } from '../../../../domain/vo/Region/Region';
-import { Regions } from '../../../../domain/vo/Region/Regions';
-import { NoSuchElementError } from '../../error/NoSuchElementError';
-import { ARegionQuery } from '../ARegionQuery';
+import { RegionError } from '../../../../domain/vo/Region/error/RegionError.js';
+import { ISO3166 } from '../../../../domain/vo/Region/ISO3166.js';
+import { MockISO3166 } from '../../../../domain/vo/Region/mock/MockISO3166.js';
+import { MockRegion } from '../../../../domain/vo/Region/mock/MockRegion.js';
+import { MockRegionID } from '../../../../domain/vo/Region/mock/MockRegionID.js';
+import { Region } from '../../../../domain/vo/Region/Region.js';
+import { Regions } from '../../../../domain/vo/Region/Regions.js';
+import { NoSuchElementError } from '../../error/NoSuchElementError.js';
+import { ARegionQuery } from '../ARegionQuery.js';
 
 class MockARegionQuery extends ARegionQuery {
   public readonly source: 'Mock' = 'Mock';
+
+  public all(): Superposition<Regions, DataSourceError | RegionError> {
+    return this.a;
+  }
+
   private readonly a: Superposition<Regions, DataSourceError | RegionError>;
 
   public constructor(all: Superposition<Regions, DataSourceError | RegionError>) {
     super();
     this.a = all;
-  }
-
-  public all(): Superposition<Regions, RegionError | DataSourceError> {
-    return this.a;
   }
 }
 
