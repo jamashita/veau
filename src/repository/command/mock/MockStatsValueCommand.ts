@@ -1,8 +1,8 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition } from '@jamashita/genitore';
-import { IStatsValueCommand } from '../interface/IStatsValueCommand';
-import { IMockCommand } from './IMockCommand';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { IStatsValueCommand } from '../IStatsValueCommand.js';
+import { IMockCommand } from './IMockCommand.js';
 
 export class MockStatsValueCommand<E extends DataSourceError = DataSourceError> implements IStatsValueCommand<E>, IMockCommand {
   public readonly noun: 'StatsValueCommand' = 'StatsValueCommand';

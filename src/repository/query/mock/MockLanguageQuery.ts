@@ -1,12 +1,12 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition } from '@jamashita/genitore';
-import { LanguageError } from '../../../domain/vo/Language/error/LanguageError';
-import { Language } from '../../../domain/vo/Language/Language';
-import { Languages } from '../../../domain/vo/Language/Languages';
-import { NoSuchElementError } from '../error/NoSuchElementError';
-import { ILanguageQuery } from '../interface/ILanguageQuery';
-import { IMockQuery } from './IMockQuery';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { LanguageError } from '../../../domain/vo/Language/error/LanguageError.js';
+import { Language } from '../../../domain/vo/Language/Language.js';
+import { Languages } from '../../../domain/vo/Language/Languages.js';
+import { NoSuchElementError } from '../error/NoSuchElementError.js';
+import { ILanguageQuery } from '../ILanguageQuery.js';
+import { IMockQuery } from './IMockQuery.js';
 
 export class MockLanguageQuery implements ILanguageQuery, IMockQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';

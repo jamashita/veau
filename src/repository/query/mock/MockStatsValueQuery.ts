@@ -1,12 +1,12 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition } from '@jamashita/genitore';
-import { Project } from '@jamashita/lluvia-collection';
-import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID';
-import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueError';
-import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues';
-import { IStatsValueQuery } from '../interface/IStatsValueQuery';
-import { IMockQuery } from './IMockQuery';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { Project } from '@jamashita/lluvia-project';
+import { StatsItemID } from '../../../domain/vo/StatsItem/StatsItemID.js';
+import { StatsValueError } from '../../../domain/vo/StatsValue/error/StatsValueError.js';
+import { StatsValues } from '../../../domain/vo/StatsValue/StatsValues.js';
+import { IStatsValueQuery } from '../IStatsValueQuery.js';
+import { IMockQuery } from './IMockQuery.js';
 
 export class MockStatsValueQuery implements IStatsValueQuery, IMockQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';

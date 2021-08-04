@@ -1,10 +1,10 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
-import { Superposition } from '@jamashita/genitore';
-import { StatsItems } from '../../../domain/entity/StatsItem/StatsItems';
-import { StatsItemError } from '../../../domain/vo/StatsItem/error/StatsItemError';
-import { IStatsItemQuery } from '../interface/IStatsItemQuery';
-import { IMockQuery } from './IMockQuery';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { StatsItems } from '../../../domain/entity/StatsItem/StatsItems.js';
+import { StatsItemError } from '../../../domain/vo/StatsItem/error/StatsItemError.js';
+import { IStatsItemQuery } from '../IStatsItemQuery.js';
+import { IMockQuery } from './IMockQuery.js';
 
 export class MockStatsItemQuery implements IStatsItemQuery, IMockQuery {
   public readonly noun: 'StatsItemQuery' = 'StatsItemQuery';
