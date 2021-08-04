@@ -1,44 +1,40 @@
 import { Logger as Log } from 'tslog';
-import { ILogger } from './ILogger';
+import { ILogger } from './ILogger.js';
 
 export class Logger implements ILogger {
-  private logger: Log;
+  private readonly logger: Log;
+
+  private static readonly INSTANCE: Logger = new Logger();
+
+  public static instance(): Logger {
+    return Logger.INSTANCE;
+  }
 
   public constructor() {
     this.logger = new Log();
   }
 
-  public debug(message: unknown, context?: string): unknown {
-    return this.logger.debug(message, context);
+  public debug(...messages: ReadonlyArray<unknown>): unknown {
+    return this.logger.debug(messages);
   }
 
-  public error(message: unknown, trace?: string, context?: string): unknown {
-    return this.logger.error(message, trace, context);
+  public error(...messages: ReadonlyArray<unknown>): unknown {
+    return this.logger.error(messages);
   }
 
-  public fatal(message: unknown, trace?: string, context?: string): unknown {
-    return this.logger.fatal(message, trace, context);
+  public fatal(...messages: ReadonlyArray<unknown>): unknown {
+    return this.logger.fatal(messages);
   }
 
-  public info(message: unknown, context?: string): unknown {
-    return this.log(message, context);
+  public info(...messages: ReadonlyArray<unknown>): unknown {
+    return this.logger.info(messages);
   }
 
-  public log(message: unknown, context?: string): unknown {
-    return this.logger.info(message, context);
+  public trace(...messages: ReadonlyArray<unknown>): unknown {
+    return this.logger.trace(messages);
   }
 
-  public trace(message: unknown, context?: string): unknown {
-    return this.verbose(message, context);
-  }
-
-  public verbose(message: unknown, context?: string): unknown {
-    return this.logger.trace(message, context);
-  }
-
-  public warn(message: unknown, context?: string): unknown {
-    return this.logger.warn(message, context);
+  public warn(...messages: ReadonlyArray<unknown>): unknown {
+    return this.logger.warn(messages);
   }
 }
-
-export const logger: Logger = new Logger();
