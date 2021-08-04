@@ -1,8 +1,8 @@
 import { ValueObject } from '@jamashita/anden-object';
-import { AccountName } from '../Account/AccountName';
-import { Language } from '../Language/Language';
-import { Region } from '../Region/Region';
-import { VeauAccountID } from '../VeauAccount/VeauAccountID';
+import { AccountName } from '../Account/AccountName.js';
+import { Language } from '../Language/Language.js';
+import { Region } from '../Region/Region.js';
+import { VeauAccountID } from '../VeauAccount/VeauAccountID.js';
 
 export class Identity extends ValueObject<'Identity'> {
   public readonly noun: 'Identity' = 'Identity';

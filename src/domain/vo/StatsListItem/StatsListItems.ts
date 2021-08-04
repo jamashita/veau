@@ -1,6 +1,7 @@
 import { BinaryPredicate, Catalogue, Mapper, Nullable } from '@jamashita/anden-type';
-import { Collection, ImmutableSequence, Quantity, ReadonlySequence } from '@jamashita/lluvia-collection';
-import { StatsListItem } from './StatsListItem';
+import { Collection, Quantity } from '@jamashita/lluvia-collection';
+import { ImmutableSequence, ReadonlySequence } from '@jamashita/lluvia-sequence';
+import { StatsListItem } from './StatsListItem.js';
 
 export class StatsListItems extends Quantity<number, StatsListItem, 'StatsListItems'> {
   public readonly noun: 'StatsListItems' = 'StatsListItems';
@@ -33,10 +34,6 @@ export class StatsListItems extends Quantity<number, StatsListItem, 'StatsListIt
     this.items = items;
   }
 
-  public contains(value: StatsListItem): boolean {
-    return this.items.contains(value);
-  }
-
   public equals(other: unknown): boolean {
     if (this === other) {
       return true;
@@ -46,6 +43,18 @@ export class StatsListItems extends Quantity<number, StatsListItem, 'StatsListIt
     }
 
     return this.items.equals(other.items);
+  }
+
+  public serialize(): string {
+    return this.items.toString();
+  }
+
+  public iterator(): Iterator<[number, StatsListItem]> {
+    return this.items.iterator();
+  }
+
+  public contains(value: StatsListItem): boolean {
+    return this.items.contains(value);
   }
 
   public every(predicate: BinaryPredicate<StatsListItem, number>): boolean {
@@ -68,20 +77,12 @@ export class StatsListItems extends Quantity<number, StatsListItem, 'StatsListIt
     return this.items.get(index);
   }
 
-  public isEmpty(): boolean {
+  public override isEmpty(): boolean {
     return this.items.isEmpty();
-  }
-
-  public iterator(): Iterator<[number, StatsListItem]> {
-    return this.items.iterator();
   }
 
   public map<W>(mapper: Mapper<StatsListItem, W>): ImmutableSequence<W> {
     return this.items.map<W>(mapper);
-  }
-
-  public serialize(): string {
-    return this.items.toString();
   }
 
   public size(): number {

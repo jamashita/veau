@@ -1,18 +1,18 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { JSONable, Kind } from '@jamashita/anden-type';
-import { LanguageError } from '../Language/error/LanguageError';
-import { LanguageID } from '../Language/LanguageID';
-import { RegionError } from '../Region/error/RegionError';
-import { RegionID } from '../Region/RegionID';
-import { TermError } from '../Term/error/TermError';
-import { Term } from '../Term/Term';
-import { TermID } from '../Term/TermID';
-import { StatsError } from './error/StatsError';
-import { StatsOutlineError } from './error/StatsOutlineError';
-import { StatsID } from './StatsID';
-import { StatsName } from './StatsName';
-import { StatsUnit } from './StatsUnit';
-import { UpdatedAt } from './UpdatedAt';
+import { LanguageError } from '../Language/error/LanguageError.js';
+import { LanguageID } from '../Language/LanguageID.js';
+import { RegionError } from '../Region/error/RegionError.js';
+import { RegionID } from '../Region/RegionID.js';
+import { TermError } from '../Term/error/TermError.js';
+import { Term } from '../Term/Term.js';
+import { TermID } from '../Term/TermID.js';
+import { StatsError } from './error/StatsError.js';
+import { StatsOutlineError } from './error/StatsOutlineError.js';
+import { StatsID } from './StatsID.js';
+import { StatsName } from './StatsName.js';
+import { StatsUnit } from './StatsUnit.js';
+import { UpdatedAt } from './UpdatedAt.js';
 
 export type StatsOutlineJSON = Readonly<{
   statsID: string;

@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
-import { VeauAccountID } from '../VeauAccount/VeauAccountID';
-import { Hash } from './Hash';
+import { VeauAccountID } from '../VeauAccount/VeauAccountID.js';
+import { Hash } from './Hash.js';
 
 export class AccountHash extends ValueObject<'AccountHash'> {
   public readonly noun: 'AccountHash' = 'AccountHash';

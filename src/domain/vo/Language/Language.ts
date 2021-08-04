@@ -1,8 +1,8 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { JSONable, Kind } from '@jamashita/anden-type';
-import { ISO639 } from './ISO639';
-import { LanguageID } from './LanguageID';
-import { LanguageName } from './LanguageName';
+import { ISO639 } from './ISO639.js';
+import { LanguageID } from './LanguageID.js';
+import { LanguageName } from './LanguageName.js';
 
 export type LanguageJSON = Readonly<{
   languageID: string;

@@ -1,12 +1,12 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { JSONable, Kind } from '@jamashita/anden-type';
-import { LanguageError } from '../Language/error/LanguageError';
-import { LanguageJSON } from '../Language/Language';
-import { Languages } from '../Language/Languages';
-import { RegionError } from '../Region/error/RegionError';
-import { RegionJSON } from '../Region/Region';
-import { Regions } from '../Region/Regions';
-import { LocaleError } from './error/LocaleError';
+import { LanguageError } from '../Language/error/LanguageError.js';
+import { LanguageJSON } from '../Language/Language.js';
+import { Languages } from '../Language/Languages.js';
+import { RegionError } from '../Region/error/RegionError.js';
+import { RegionJSON } from '../Region/Region.js';
+import { Regions } from '../Region/Regions.js';
+import { LocaleError } from './error/LocaleError.js';
 
 export type LocaleJSON = Readonly<{
   languages: ReadonlyArray<LanguageJSON>;

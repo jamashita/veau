@@ -1,12 +1,12 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind, Nullable } from '@jamashita/anden-type';
-import { Language } from '../Language/Language';
-import { Locale } from '../Locale/Locale';
-import { Region } from '../Region/Region';
-import { StatsOutline } from '../StatsOutline/StatsOutline';
-import { Term } from '../Term/Term';
-import { Terms } from '../Term/Terms';
-import { StatsListItemError } from './error/StatsListItemError';
+import { Language } from '../Language/Language.js';
+import { Locale } from '../Locale/Locale.js';
+import { Region } from '../Region/Region.js';
+import { StatsOutline } from '../StatsOutline/StatsOutline.js';
+import { Term } from '../Term/Term.js';
+import { Terms } from '../Term/Terms.js';
+import { StatsListItemError } from './error/StatsListItemError.js';
 
 export class StatsListItem extends ValueObject<'StatsListItem'> {
   public readonly noun: 'StatsListItem' = 'StatsListItem';

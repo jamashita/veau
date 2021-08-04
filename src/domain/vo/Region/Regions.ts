@@ -1,7 +1,8 @@
 import { BinaryPredicate, Catalogue, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
-import { ImmutableProject, Project, Quantity } from '@jamashita/lluvia-collection';
-import { Region, RegionJSON, RegionRow } from './Region';
-import { RegionID } from './RegionID';
+import { Quantity } from '@jamashita/lluvia-collection';
+import { ImmutableProject, Project } from '@jamashita/lluvia-project';
+import { Region, RegionJSON, RegionRow } from './Region.js';
+import { RegionID } from './RegionID.js';
 
 export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JSONable<Array<RegionJSON>> {
   public readonly noun: 'Regions' = 'Regions';
@@ -70,10 +71,6 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     this.regions = regions;
   }
 
-  public contains(value: Region): boolean {
-    return this.regions.contains(value);
-  }
-
   public equals(other: unknown): boolean {
     if (this === other) {
       return true;
@@ -83,6 +80,18 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     }
 
     return this.regions.equals(other.regions);
+  }
+
+  public serialize(): string {
+    return this.regions.toString();
+  }
+
+  public iterator(): Iterator<[RegionID, Region]> {
+    return this.regions.iterator();
+  }
+
+  public contains(value: Region): boolean {
+    return this.regions.contains(value);
   }
 
   public every(predicate: BinaryPredicate<Region, RegionID>): boolean {
@@ -105,20 +114,12 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     return this.regions.get(key);
   }
 
-  public isEmpty(): boolean {
+  public override isEmpty(): boolean {
     return this.regions.isEmpty();
-  }
-
-  public iterator(): Iterator<[RegionID, Region]> {
-    return this.regions.iterator();
   }
 
   public map<W>(mapper: Mapper<Region, W>): ImmutableProject<RegionID, W> {
     return this.regions.map<W>(mapper);
-  }
-
-  public serialize(): string {
-    return this.regions.toString();
   }
 
   public size(): number {
@@ -129,6 +130,10 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     return this.regions.some(predicate);
   }
 
+  public values(): Iterable<Region> {
+    return this.regions.values();
+  }
+
   public toJSON(): Array<RegionJSON> {
     const json: Array<RegionJSON> = [];
 
@@ -137,9 +142,5 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     });
 
     return json;
-  }
-
-  public values(): Iterable<Region> {
-    return this.regions.values();
   }
 }

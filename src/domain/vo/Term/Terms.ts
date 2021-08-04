@@ -1,7 +1,8 @@
 import { BinaryPredicate, Catalogue, Mapper, Nullable } from '@jamashita/anden-type';
-import { ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
-import { Term } from './Term';
-import { TermID } from './TermID';
+import { Quantity } from '@jamashita/lluvia-collection';
+import { ImmutableProject, ReadonlyProject } from '@jamashita/lluvia-project';
+import { Term } from './Term.js';
+import { TermID } from './TermID.js';
 
 export class Terms extends Quantity<TermID, Term, 'Terms'> {
   public readonly noun: 'Terms' = 'Terms';
@@ -42,16 +43,24 @@ export class Terms extends Quantity<TermID, Term, 'Terms'> {
     this.terms = terms;
   }
 
-  public contains(value: Term): boolean {
-    return this.terms.contains(value);
-  }
-
   public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }
 
     return false;
+  }
+
+  public serialize(): string {
+    return this.terms.toString();
+  }
+
+  public iterator(): Iterator<[TermID, Term]> {
+    return this.terms.iterator();
+  }
+
+  public contains(value: Term): boolean {
+    return this.terms.contains(value);
   }
 
   public every(predicate: BinaryPredicate<Term, TermID>): boolean {
@@ -74,20 +83,12 @@ export class Terms extends Quantity<TermID, Term, 'Terms'> {
     return this.terms.get(key);
   }
 
-  public isEmpty(): boolean {
+  public override isEmpty(): boolean {
     return this.terms.isEmpty();
-  }
-
-  public iterator(): Iterator<[TermID, Term]> {
-    return this.terms.iterator();
   }
 
   public map<U>(mapper: Mapper<Term, U>): ImmutableProject<TermID, U> {
     return this.terms.map<U>(mapper);
-  }
-
-  public serialize(): string {
-    return this.terms.toString();
   }
 
   public size(): number {

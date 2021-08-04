@@ -1,7 +1,8 @@
 import { BinaryPredicate, Catalogue, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
-import { ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
-import { Language, LanguageJSON, LanguageRow } from './Language';
-import { LanguageID } from './LanguageID';
+import { Quantity } from '@jamashita/lluvia-collection';
+import { ImmutableProject, ReadonlyProject } from '@jamashita/lluvia-project';
+import { Language, LanguageJSON, LanguageRow } from './Language.js';
+import { LanguageID } from './LanguageID.js';
 
 export class Languages extends Quantity<LanguageID, Language, 'Languages'> implements JSONable<Array<LanguageJSON>> {
   public readonly noun: 'Languages' = 'Languages';
@@ -105,7 +106,7 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return this.languages.get(key);
   }
 
-  public isEmpty(): boolean {
+  public override isEmpty(): boolean {
     return this.languages.isEmpty();
   }
 

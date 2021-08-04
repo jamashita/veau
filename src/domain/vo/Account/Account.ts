@@ -1,16 +1,16 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Digest } from '@jamashita/steckdose-digest';
-import { Password } from '../EntranceInformation/Password';
-import { LanguageError } from '../Language/error/LanguageError';
-import { LanguageID } from '../Language/LanguageID';
-import { RegionError } from '../Region/error/RegionError';
-import { RegionID } from '../Region/RegionID';
-import { VeauAccountError } from '../VeauAccount/error/VeauAccountError';
-import { VeauAccount } from '../VeauAccount/VeauAccount';
-import { VeauAccountID } from '../VeauAccount/VeauAccountID';
-import { AccountName } from './AccountName';
-import { AccountError } from './error/AccountError';
-import { Hash } from './Hash';
+import { Password } from '../EntranceInformation/Password.js';
+import { LanguageError } from '../Language/error/LanguageError.js';
+import { LanguageID } from '../Language/LanguageID.js';
+import { RegionError } from '../Region/error/RegionError.js';
+import { RegionID } from '../Region/RegionID.js';
+import { VeauAccountError } from '../VeauAccount/error/VeauAccountError.js';
+import { VeauAccount } from '../VeauAccount/VeauAccount.js';
+import { VeauAccountID } from '../VeauAccount/VeauAccountID.js';
+import { AccountName } from './AccountName.js';
+import { AccountError } from './error/AccountError.js';
+import { Hash } from './Hash.js';
 
 export type AccountRow = Readonly<{
   veauAccountID: string;

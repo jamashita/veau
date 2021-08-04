@@ -1,7 +1,7 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { JSONable } from '@jamashita/anden-type';
-import { AccountName } from '../Account/AccountName';
-import { Password } from './Password';
+import { AccountName } from '../Account/AccountName.js';
+import { Password } from './Password.js';
 
 export type EntranceInformationJSON = Readonly<{
   account: string;

@@ -1,8 +1,9 @@
 import { BinaryPredicate, Catalogue, Cloneable, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
-import { ImmutableProject, Quantity, ReadonlyProject } from '@jamashita/lluvia-collection';
-import { AsOf } from '../AsOf/AsOf';
-import { AsOfs } from '../AsOf/AsOfs';
-import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
+import { Quantity } from '@jamashita/lluvia-collection';
+import { ImmutableProject, ReadonlyProject } from '@jamashita/lluvia-project';
+import { AsOf } from '../AsOf/AsOf.js';
+import { AsOfs } from '../AsOf/AsOfs.js';
+import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue.js';
 
 export class StatsValues extends Quantity<AsOf, StatsValue, 'StatsValues'> implements Cloneable<StatsValues>, JSONable<Array<StatsValueJSON>> {
   public readonly noun: 'StatsValues' = 'StatsValues';
@@ -71,8 +72,25 @@ export class StatsValues extends Quantity<AsOf, StatsValue, 'StatsValues'> imple
     this.vals = values;
   }
 
-  public contains(value: StatsValue): boolean {
-    return this.vals.contains(value);
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof StatsValues)) {
+      return false;
+    }
+
+    return this.vals.equals(other.vals);
+  }
+
+  public serialize(): string {
+    const strs: Array<string> = [];
+
+    this.vals.forEach((value: StatsValue) => {
+      strs.push(value.toString());
+    });
+
+    return strs.join(', ');
   }
 
   public duplicate(): StatsValues {
@@ -83,15 +101,12 @@ export class StatsValues extends Quantity<AsOf, StatsValue, 'StatsValues'> imple
     return StatsValues.of(this.vals.duplicate());
   }
 
-  public equals(other: unknown): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!(other instanceof StatsValues)) {
-      return false;
-    }
+  public iterator(): Iterator<[AsOf, StatsValue]> {
+    return this.vals[Symbol.iterator]();
+  }
 
-    return this.vals.equals(other.vals);
+  public contains(value: StatsValue): boolean {
+    return this.vals.contains(value);
   }
 
   public every(predicate: BinaryPredicate<StatsValue, AsOf>): boolean {
@@ -114,26 +129,12 @@ export class StatsValues extends Quantity<AsOf, StatsValue, 'StatsValues'> imple
     return this.vals.get(key);
   }
 
-  public isEmpty(): boolean {
+  public override isEmpty(): boolean {
     return this.vals.isEmpty();
-  }
-
-  public iterator(): Iterator<[AsOf, StatsValue]> {
-    return this.vals[Symbol.iterator]();
   }
 
   public map<W>(mapper: Mapper<StatsValue, W>): ImmutableProject<AsOf, W> {
     return this.vals.map<W>(mapper);
-  }
-
-  public serialize(): string {
-    const strs: Array<string> = [];
-
-    this.vals.forEach((value: StatsValue) => {
-      strs.push(value.toString());
-    });
-
-    return strs.join(', ');
   }
 
   public size(): number {
@@ -144,6 +145,10 @@ export class StatsValues extends Quantity<AsOf, StatsValue, 'StatsValues'> imple
     return this.vals.some(predicate);
   }
 
+  public values(): Iterable<StatsValue> {
+    return this.vals.values();
+  }
+
   public toJSON(): Array<StatsValueJSON> {
     const json: Array<StatsValueJSON> = [];
 
@@ -152,10 +157,6 @@ export class StatsValues extends Quantity<AsOf, StatsValue, 'StatsValues'> imple
     });
 
     return json;
-  }
-
-  public values(): Iterable<StatsValue> {
-    return this.vals.values();
   }
 
   public delete(asOf: AsOf): StatsValues {

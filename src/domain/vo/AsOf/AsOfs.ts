@@ -1,8 +1,9 @@
 import { BinaryPredicate, Catalogue, Cloneable, JSONable, Mapper, Nullable } from '@jamashita/anden-type';
 import { Zeit } from '@jamashita/anden-zeit';
-import { ImmutableSequence, Quantity, ReadonlySequence, Sequence } from '@jamashita/lluvia-collection';
-import { Term } from '../Term/Term';
-import { AsOf } from './AsOf';
+import { Quantity } from '@jamashita/lluvia-collection';
+import { ImmutableSequence, ReadonlySequence, Sequence } from '@jamashita/lluvia-sequence';
+import { Term } from '../Term/Term.js';
+import { AsOf } from './AsOf.js';
 
 export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<AsOfs>, JSONable<Array<string>> {
   public readonly noun: 'AsOfs' = 'AsOfs';
@@ -112,7 +113,7 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
     return this.asOfs.get(index);
   }
 
-  public isEmpty(): boolean {
+  public override isEmpty(): boolean {
     return this.asOfs.isEmpty();
   }
 

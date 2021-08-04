@@ -1,8 +1,8 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { PageError } from './error/PageError';
-import { Limit } from './Limit';
-import { Offset } from './Offset';
+import { PageError } from './error/PageError.js';
+import { Limit } from './Limit.js';
+import { Offset } from './Offset.js';
 
 const MIN_PAGE: number = 1;
 

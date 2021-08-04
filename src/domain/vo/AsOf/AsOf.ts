@@ -1,7 +1,7 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Zeit, ZeitError } from '@jamashita/anden-zeit';
-import { Term } from '../Term/Term';
-import { AsOfError } from './error/AsOfError';
+import { Term } from '../Term/Term.js';
+import { AsOfError } from './error/AsOfError.js';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 

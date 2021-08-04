@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Zeit, ZeitError } from '@jamashita/anden-zeit';
-import { StatsError } from './error/StatsError';
+import { StatsError } from './error/StatsError.js';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 

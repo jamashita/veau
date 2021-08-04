@@ -1,9 +1,9 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { JSONable, Kind } from '@jamashita/anden-type';
-import { AsOf } from '../AsOf/AsOf';
-import { AsOfError } from '../AsOf/error/AsOfError';
-import { NumericalValue } from '../NumericalValue/NumericalValue';
-import { StatsValueError } from './error/StatsValueError';
+import { AsOf } from '../AsOf/AsOf.js';
+import { AsOfError } from '../AsOf/error/AsOfError.js';
+import { NumericalValue } from '../NumericalValue/NumericalValue.js';
+import { StatsValueError } from './error/StatsValueError.js';
 
 export type StatsValueJSON = Readonly<{
   asOf: string;

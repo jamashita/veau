@@ -1,6 +1,7 @@
 import { BinaryPredicate, Catalogue, JSONable, Mapper, Nullable } from '@jamashita/anden-type';
-import { Collection, ImmutableSequence, Quantity, ReadonlySequence } from '@jamashita/lluvia-collection';
-import { StatsItemName } from './StatsItemName';
+import { Collection, Quantity } from '@jamashita/lluvia-collection';
+import { ImmutableSequence, ReadonlySequence } from '@jamashita/lluvia-sequence';
+import { StatsItemName } from './StatsItemName.js';
 
 export class StatsItemNames extends Quantity<number, StatsItemName, 'StatsItemNames'>
   implements JSONable<Array<string>> {
@@ -34,10 +35,6 @@ export class StatsItemNames extends Quantity<number, StatsItemName, 'StatsItemNa
     this.names = names;
   }
 
-  public contains(value: StatsItemName): boolean {
-    return this.names.contains(value);
-  }
-
   public equals(other: unknown): boolean {
     if (this === other) {
       return true;
@@ -47,6 +44,18 @@ export class StatsItemNames extends Quantity<number, StatsItemName, 'StatsItemNa
     }
 
     return this.names.equals(other.names);
+  }
+
+  public serialize(): string {
+    return this.names.toString();
+  }
+
+  public iterator(): Iterator<[number, StatsItemName]> {
+    return this.names.iterator();
+  }
+
+  public contains(value: StatsItemName): boolean {
+    return this.names.contains(value);
   }
 
   public every(predicate: BinaryPredicate<StatsItemName, number>): boolean {
@@ -69,20 +78,12 @@ export class StatsItemNames extends Quantity<number, StatsItemName, 'StatsItemNa
     return this.names.get(index);
   }
 
-  public isEmpty(): boolean {
+  public override isEmpty(): boolean {
     return this.names.isEmpty();
-  }
-
-  public iterator(): Iterator<[number, StatsItemName]> {
-    return this.names.iterator();
   }
 
   public map<W>(mapper: Mapper<StatsItemName, W>): ImmutableSequence<W> {
     return this.names.map<W>(mapper);
-  }
-
-  public serialize(): string {
-    return this.names.toString();
   }
 
   public size(): number {
@@ -93,13 +94,13 @@ export class StatsItemNames extends Quantity<number, StatsItemName, 'StatsItemNa
     return this.names.some(predicate);
   }
 
+  public values(): Iterable<StatsItemName> {
+    return this.names.values();
+  }
+
   public toJSON(): Array<string> {
     return this.names.toArray().map<string>((name: StatsItemName) => {
       return name.get();
     });
-  }
-
-  public values(): Iterable<StatsItemName> {
-    return this.names.values();
   }
 }

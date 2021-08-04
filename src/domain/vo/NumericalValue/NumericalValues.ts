@@ -1,6 +1,7 @@
 import { BinaryPredicate, Catalogue, Mapper, Nullable } from '@jamashita/anden-type';
-import { ImmutableSequence, Quantity, ReadonlySequence } from '@jamashita/lluvia-collection';
-import { NumericalValue } from './NumericalValue';
+import { Quantity } from '@jamashita/lluvia-collection';
+import { ImmutableSequence, ReadonlySequence } from '@jamashita/lluvia-sequence';
+import { NumericalValue } from './NumericalValue.js';
 
 export class NumericalValues extends Quantity<number, NumericalValue, 'NumericalValues'> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
@@ -71,7 +72,7 @@ export class NumericalValues extends Quantity<number, NumericalValue, 'Numerical
     return this.vals.get(index);
   }
 
-  public isEmpty(): boolean {
+  public override isEmpty(): boolean {
     return this.vals.isEmpty();
   }
 

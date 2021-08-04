@@ -1,8 +1,8 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { JSONable, Kind } from '@jamashita/anden-type';
-import { ISO3166 } from './ISO3166';
-import { RegionID } from './RegionID';
-import { RegionName } from './RegionName';
+import { ISO3166 } from './ISO3166.js';
+import { RegionID } from './RegionID.js';
+import { RegionName } from './RegionName.js';
 
 export type RegionJSON = Readonly<{
   regionID: string;

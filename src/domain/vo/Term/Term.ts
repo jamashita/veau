@@ -1,9 +1,9 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Ambiguous, Kind } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
-import { TermError } from './error/TermError';
-import { TermID } from './TermID';
-import { TermKey } from './TermKey';
+import { TermError } from './error/TermError.js';
+import { TermID } from './TermID.js';
+import { TermKey } from './TermKey.js';
 
 const DAILY_ID: string = '34b53215-a990-44d7-926e-30d6a53611d9';
 const WEEKLY_ID: string = 'e194c8ed-f53b-4ac5-b506-a06900e7053c';

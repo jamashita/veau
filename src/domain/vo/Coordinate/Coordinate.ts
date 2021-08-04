@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
-import { Column } from './Column';
-import { Row } from './Row';
+import { Column } from './Column.js';
+import { Row } from './Row.js';
 
 export class Coordinate extends ValueObject<'Coordinate'> {
   public readonly noun: 'Coordinate' = 'Coordinate';

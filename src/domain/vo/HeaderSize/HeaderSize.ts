@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { HeaderSizeError } from './error/HeaderSizeError';
+import { HeaderSizeError } from './error/HeaderSizeError.js';
 
 const REVISED_VALUE: number = 14;
 
