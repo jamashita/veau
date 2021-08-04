@@ -1,20 +1,20 @@
 import { UUID } from '@jamashita/anden-uuid';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { MockSQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Schrodinger } from '@jamashita/genitore';
+import { Schrodinger } from '@jamashita/genitore-schrodinger';
 import sinon, { SinonStub } from 'sinon';
-import { MockStats } from '../../../../domain/entity/Stats/mock/MockStats';
-import { MockLanguage } from '../../../../domain/vo/Language/mock/MockLanguage';
-import { MockLanguageID } from '../../../../domain/vo/Language/mock/MockLanguageID';
-import { MockRegion } from '../../../../domain/vo/Region/mock/MockRegion';
-import { MockRegionID } from '../../../../domain/vo/Region/mock/MockRegionID';
-import { MockStatsID } from '../../../../domain/vo/StatsOutline/mock/MockStatsID';
-import { MockStatsOutline } from '../../../../domain/vo/StatsOutline/mock/MockStatsOutline';
-import { StatsName } from '../../../../domain/vo/StatsOutline/StatsName';
-import { StatsUnit } from '../../../../domain/vo/StatsOutline/StatsUnit';
-import { Term } from '../../../../domain/vo/Term/Term';
-import { MockVeauAccountID } from '../../../../domain/vo/VeauAccount/mock/MockVeauAccountID';
-import { StatsMySQLCommand } from '../StatsMySQLCommand';
+import { MockStats } from '../../../../domain/entity/Stats/mock/MockStats.js';
+import { MockLanguage } from '../../../../domain/vo/Language/mock/MockLanguage.js';
+import { MockLanguageID } from '../../../../domain/vo/Language/mock/MockLanguageID.js';
+import { MockRegion } from '../../../../domain/vo/Region/mock/MockRegion.js';
+import { MockRegionID } from '../../../../domain/vo/Region/mock/MockRegionID.js';
+import { MockStatsID } from '../../../../domain/vo/StatsOutline/mock/MockStatsID.js';
+import { MockStatsOutline } from '../../../../domain/vo/StatsOutline/mock/MockStatsOutline.js';
+import { StatsName } from '../../../../domain/vo/StatsOutline/StatsName.js';
+import { StatsUnit } from '../../../../domain/vo/StatsOutline/StatsUnit.js';
+import { Term } from '../../../../domain/vo/Term/Term.js';
+import { MockVeauAccountID } from '../../../../domain/vo/VeauAccount/mock/MockVeauAccountID.js';
+import { StatsMySQLCommand } from '../StatsMySQLCommand.js';
 
 describe('StatsMySQLCommand', () => {
   describe('create', () => {

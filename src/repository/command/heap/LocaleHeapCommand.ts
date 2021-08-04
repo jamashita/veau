@@ -1,11 +1,11 @@
 import { HeapError, IHeap } from '@jamashita/catacombe-heap';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { inject, injectable } from 'inversify';
-import { Type } from '../../../container/Types';
-import { Locale } from '../../../domain/vo/Locale/Locale';
-import { VAULT_LOCALE_KEY } from '../../../infrastructure/VeauHeap';
-import { ILocaleCommand } from '../interface/ILocaleCommand';
-import { IHeapCommand } from './IHeapCommand';
+import { Type } from '../../../container/Types.js';
+import { Locale } from '../../../domain/vo/Locale/Locale.js';
+import { VAULT_LOCALE_KEY } from '../../../infrastructure/VeauHeap.js';
+import { ILocaleCommand } from '../ILocaleCommand.js';
+import { IHeapCommand } from './IHeapCommand.js';
 
 @injectable()
 export class LocaleHeapCommand implements ILocaleCommand<HeapError>, IHeapCommand {

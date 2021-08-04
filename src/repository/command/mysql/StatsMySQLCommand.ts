@@ -1,10 +1,10 @@
 import { ISQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Superposition } from '@jamashita/genitore';
-import { Stats } from '../../../domain/entity/Stats/Stats';
-import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
-import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
-import { IStatsCommand } from '../interface/IStatsCommand';
-import { IMySQLCommand } from './IMySQLCommand';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { Stats } from '../../../domain/entity/Stats/Stats.js';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID.js';
+import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID.js';
+import { IStatsCommand } from '../IStatsCommand.js';
+import { IMySQLCommand } from './IMySQLCommand.js';
 
 export class StatsMySQLCommand implements IStatsCommand<MySQLError>, IMySQLCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';

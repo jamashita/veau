@@ -1,13 +1,13 @@
 import { UUID } from '@jamashita/anden-uuid';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { MockSQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Schrodinger } from '@jamashita/genitore';
+import { Schrodinger } from '@jamashita/genitore-schrodinger';
 import sinon, { SinonStub } from 'sinon';
-import { MockStatsItem } from '../../../../domain/entity/StatsItem/mock/MockStatsItem';
-import { MockStatsItemID } from '../../../../domain/vo/StatsItem/mock/MockStatsItemID';
-import { MockStatsItemName } from '../../../../domain/vo/StatsItem/mock/MockStatsItemName';
-import { MockStatsID } from '../../../../domain/vo/StatsOutline/mock/MockStatsID';
-import { StatsItemMySQLCommand } from '../StatsItemMySQLCommand';
+import { MockStatsItem } from '../../../../domain/entity/StatsItem/mock/MockStatsItem.js';
+import { MockStatsItemID } from '../../../../domain/vo/StatsItem/mock/MockStatsItemID.js';
+import { MockStatsItemName } from '../../../../domain/vo/StatsItem/mock/MockStatsItemName.js';
+import { MockStatsID } from '../../../../domain/vo/StatsOutline/mock/MockStatsID.js';
+import { StatsItemMySQLCommand } from '../StatsItemMySQLCommand.js';
 
 describe('StatsItemMySQLCommand', () => {
   describe('create', () => {

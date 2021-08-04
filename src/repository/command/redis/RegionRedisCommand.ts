@@ -1,22 +1,22 @@
 import { IRedis, RedisError } from '@jamashita/catacombe-redis';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { JSONA, JSONAError } from '@jamashita/steckdose-json';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { Regions } from '../../../domain/vo/Region/Regions';
-import { REDIS_REGION_KEY } from '../../../infrastructure/VeauRedis';
-import { IRegionCommand } from '../interface/IRegionCommand';
-import { IRedisCommand } from './IRedisCommand';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { Regions } from '../../../domain/vo/Region/Regions.js';
+import { REDIS_REGION_KEY } from '../../../infrastructure/VeauRedis.js';
+import { IRegionCommand } from '../IRegionCommand.js';
+import { IRedisCommand } from './IRedisCommand.js';
 
 const DURATION: number = 3 * 60 * 60;
 
-@Injectable()
+@injectable()
 export class RegionRedisCommand implements IRegionCommand<RedisError>, IRedisCommand {
   public readonly noun: 'RegionCommand' = 'RegionCommand';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
-  public constructor(@Inject(Type.Redis) redis: IRedis) {
+  public constructor(@inject(Type.Redis) redis: IRedis) {
     this.redis = redis;
   }
 

@@ -1,23 +1,24 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { IMySQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Schrodinger, Superposition } from '@jamashita/genitore';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { Stats } from '../../../domain/entity/Stats/Stats';
-import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
-import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID';
-import { StatsUpdateFactory } from '../../../factory/StatsUpdateFactory';
-import { IStatsCommand } from '../interface/IStatsCommand';
-import { StatsUpdateTransaction } from '../mysql/transaction/StatsUpdateTransaction';
-import { ICaskCommand } from './ICaskCommand';
+import { Schrodinger } from '@jamashita/genitore-schrodinger';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { Stats } from '../../../domain/entity/Stats/Stats.js';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID.js';
+import { VeauAccountID } from '../../../domain/vo/VeauAccount/VeauAccountID.js';
+import { StatsUpdateFactory } from '../../../factory/StatsUpdateFactory.js';
+import { IStatsCommand } from '../IStatsCommand.js';
+import { StatsUpdateTransaction } from '../mysql/transaction/StatsUpdateTransaction.js';
+import { ICaskCommand } from './ICaskCommand.js';
 
-@Injectable()
+@injectable()
 export class StatsCaskCommand implements IStatsCommand<MySQLError>, ICaskCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'Cask' = 'Cask';
   private readonly mysql: IMySQL;
 
-  public constructor(@Inject(Type.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

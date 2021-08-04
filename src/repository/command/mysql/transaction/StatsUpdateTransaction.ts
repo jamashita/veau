@@ -1,14 +1,15 @@
 import { ISQL, ITransaction, MySQLError } from '@jamashita/catacombe-mysql';
-import { Schrodinger, Superposition } from '@jamashita/genitore';
-import { Stats } from '../../../../domain/entity/Stats/Stats';
-import { StatsItem } from '../../../../domain/entity/StatsItem/StatsItem';
-import { StatsID } from '../../../../domain/vo/StatsOutline/StatsID';
-import { StatsValue } from '../../../../domain/vo/StatsValue/StatsValue';
-import { VeauAccountID } from '../../../../domain/vo/VeauAccount/VeauAccountID';
-import { IStatsUpdateFactory } from '../../../../factory/interface/IStatsUpdateFactory';
-import { IStatsCommand } from '../../interface/IStatsCommand';
-import { IStatsItemCommand } from '../../interface/IStatsItemCommand';
-import { IStatsValueCommand } from '../../interface/IStatsValueCommand';
+import { Schrodinger } from '@jamashita/genitore-schrodinger';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { Stats } from '../../../../domain/entity/Stats/Stats.js';
+import { StatsItem } from '../../../../domain/entity/StatsItem/StatsItem.js';
+import { StatsID } from '../../../../domain/vo/StatsOutline/StatsID.js';
+import { StatsValue } from '../../../../domain/vo/StatsValue/StatsValue.js';
+import { VeauAccountID } from '../../../../domain/vo/VeauAccount/VeauAccountID.js';
+import { IStatsUpdateFactory } from '../../../../factory/IStatsUpdateFactory.js';
+import { IStatsCommand } from '../../IStatsCommand.js';
+import { IStatsItemCommand } from '../../IStatsItemCommand.js';
+import { IStatsValueCommand } from '../../IStatsValueCommand.js';
 
 export class StatsUpdateTransaction implements ITransaction<Schrodinger<unknown, MySQLError>, 'StatsUpdateTransaction'> {
   public readonly noun: 'StatsUpdateTransaction' = 'StatsUpdateTransaction';

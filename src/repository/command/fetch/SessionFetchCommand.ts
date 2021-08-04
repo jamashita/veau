@@ -1,10 +1,10 @@
 import { FetchError, FetchResponse, IFetch } from '@jamashita/catacombe-fetch';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
-import { Type } from '../../../container/Types';
-import { ISessionCommand } from '../interface/ISessionCommand';
-import { IFetchCommand } from './IFetchCommand';
+import { Type } from '../../../container/Types.js';
+import { ISessionCommand } from '../ISessionCommand.js';
+import { IFetchCommand } from './IFetchCommand.js';
 
 @injectable()
 export class SessionFetchCommand implements ISessionCommand<FetchError>, IFetchCommand {

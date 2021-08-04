@@ -1,9 +1,9 @@
 import { ISQL, MySQLError } from '@jamashita/catacombe-mysql';
-import { Superposition } from '@jamashita/genitore';
-import { StatsItem } from '../../../domain/entity/StatsItem/StatsItem';
-import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
-import { IStatsItemCommand } from '../interface/IStatsItemCommand';
-import { IMySQLCommand } from './IMySQLCommand';
+import { Superposition } from '@jamashita/genitore-superposition';
+import { StatsItem } from '../../../domain/entity/StatsItem/StatsItem.js';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID.js';
+import { IStatsItemCommand } from '../IStatsItemCommand.js';
+import { IMySQLCommand } from './IMySQLCommand.js';
 
 export class StatsItemMySQLCommand implements IStatsItemCommand<MySQLError>, IMySQLCommand {
   public readonly noun: 'StatsItemCommand' = 'StatsItemCommand';

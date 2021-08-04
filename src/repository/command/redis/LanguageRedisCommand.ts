@@ -1,22 +1,22 @@
 import { IRedis, RedisError } from '@jamashita/catacombe-redis';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { JSONA, JSONAError } from '@jamashita/steckdose-json';
-import { Inject, Injectable } from '@nestjs/common';
-import { Type } from '../../../container/Types';
-import { Languages } from '../../../domain/vo/Language/Languages';
-import { REDIS_LANGUAGE_KEY } from '../../../infrastructure/VeauRedis';
-import { ILanguageCommand } from '../interface/ILanguageCommand';
-import { IRedisCommand } from './IRedisCommand';
+import { inject, injectable } from 'inversify';
+import { Type } from '../../../container/Types.js';
+import { Languages } from '../../../domain/vo/Language/Languages.js';
+import { REDIS_LANGUAGE_KEY } from '../../../infrastructure/VeauRedis.js';
+import { ILanguageCommand } from '../ILanguageCommand.js';
+import { IRedisCommand } from './IRedisCommand.js';
 
 const DURATION: number = 3 * 60 * 60;
 
-@Injectable()
+@injectable()
 export class LanguageRedisCommand implements ILanguageCommand<RedisError>, IRedisCommand {
   public readonly noun: 'LanguageCommand' = 'LanguageCommand';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
-  public constructor(@Inject(Type.Redis) redis: IRedis) {
+  public constructor(@inject(Type.Redis) redis: IRedis) {
     this.redis = redis;
   }
 

@@ -1,13 +1,13 @@
 import { UnimplementedError } from '@jamashita/anden-error';
 import { FetchError, FetchResponse, IFetch } from '@jamashita/catacombe-fetch';
-import { Superposition } from '@jamashita/genitore';
+import { Superposition } from '@jamashita/genitore-superposition';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
-import { Type } from '../../../container/Types';
-import { Stats } from '../../../domain/entity/Stats/Stats';
-import { StatsID } from '../../../domain/vo/StatsOutline/StatsID';
-import { IStatsCommand } from '../interface/IStatsCommand';
-import { IFetchCommand } from './IFetchCommand';
+import { Type } from '../../../container/Types.js';
+import { Stats } from '../../../domain/entity/Stats/Stats.js';
+import { StatsID } from '../../../domain/vo/StatsOutline/StatsID.js';
+import { IStatsCommand } from '../IStatsCommand.js';
+import { IFetchCommand } from './IFetchCommand.js';
 
 @injectable()
 export class StatsFetchCommand implements IStatsCommand<FetchError>, IFetchCommand {
