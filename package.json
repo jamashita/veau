@@ -58,6 +58,8 @@
     "express": "4.17.1",
     "express-session": "1.17.2",
     "helmet": "4.6.0",
+    "handsontable": "10.0.0",
+    "history": "5.0.0",
     "http-status-codes": "2.1.4",
     "inversify": "5.1.1",
     "js-yaml": "4.1.0",
