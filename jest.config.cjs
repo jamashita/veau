@@ -1,6 +1,7 @@
 module.exports = {
   verbose: true,
   bail: true,
+  forceExit: true,
   roots: [
     'src'
   ],
@@ -12,10 +13,23 @@ module.exports = {
   collectCoverage: true,
   coveragePathIgnorePatterns: [
     'node_modules',
-    'Mock'
+    'mock'
   ],
+  globals: {
+    'ts-jest': {
+      useESM: true
+    }
+  },
+  preset: 'ts-jest/presets/js-with-ts-esm',
   transform: {
+    '^.+\\.jsx?$': 'babel-jest',
     '^.+\\.tsx?$': 'ts-jest'
+  },
+  transformIgnorePatterns: [
+    'node_modules/?!@jamashita'
+  ],
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1'
   },
   moduleFileExtensions: [
     'js',
