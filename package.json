@@ -10,11 +10,12 @@
   "author": "jamashita <jamashita@arachnid.xyz>",
   "scripts": {
     "build": "yarn clean && concurrently 'npm:build:*'",
-    "build:f": "tsc -b tsconfig.compile.json",
     "build:b": "webpack",
+    "build:f": "tsc -b tsconfig.compile.json",
     "clean": "rimraf dist && rimraf coverage",
     "commit": "git cz",
     "format": "eslint --fix 'src/**/*.{ts,tsx}'",
+    "prepare": "is-ci || husky install",
     "start": "pm2-runtime start pm2.yml",
     "stop": "pm2-runtime stop pm2.yml",
     "test": "jest test",
