@@ -3,28 +3,20 @@ import { LanguageName } from '../LanguageName';
 describe('LanguageName', () => {
   describe('empty', () => {
     it('always returns empty string', () => {
-      expect.assertions(1);
-
       expect(LanguageName.empty().get()).toBe('');
     });
 
     it('returns singleton instance', () => {
-      expect.assertions(1);
-
       expect(LanguageName.empty()).toBe(LanguageName.empty());
     });
   });
 
   describe('of', () => {
     it('returns LanguageName.empty() when empty string is given', () => {
-      expect.assertions(1);
-
       expect(LanguageName.of('')).toBe(LanguageName.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(2);
-
       const name1: string = 'language name 1';
       const name2: string = 'language name 2';
 
@@ -35,14 +27,10 @@ describe('LanguageName', () => {
 
   describe('isEmpty', () => {
     it('returns true if LanguageName.empty() is given', () => {
-      expect.assertions(1);
-
       expect(LanguageName.empty().isEmpty()).toBe(true);
     });
 
     it('normal case', () => {
-      expect.assertions(2);
-
       const name1: string = 'language name 1';
       const name2: string = 'language name 2';
 
@@ -53,8 +41,6 @@ describe('LanguageName', () => {
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const name: LanguageName = LanguageName.of('language name');
 
       expect(name.equals(null)).toBe(false);
@@ -76,8 +62,6 @@ describe('LanguageName', () => {
     });
 
     it('returns true if both properties are the same', () => {
-      expect.assertions(3);
-
       const name1: LanguageName = LanguageName.of('language name 1');
       const name2: LanguageName = LanguageName.of('language name 2');
       const name3: LanguageName = LanguageName.of('language name 1');
@@ -90,8 +74,6 @@ describe('LanguageName', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
-      expect.assertions(1);
-
       const name: string = 'language name';
       const languageName: LanguageName = LanguageName.of(name);
 

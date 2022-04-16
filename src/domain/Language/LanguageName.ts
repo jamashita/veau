@@ -2,8 +2,7 @@ import { ValueObject } from '@jamashita/anden-object';
 
 const EMPTY_NAME: string = '';
 
-export class LanguageName extends ValueObject<'LanguageName'> {
-  public readonly noun: 'LanguageName' = 'LanguageName';
+export class LanguageName extends ValueObject {
   private readonly name: string;
 
   private static readonly EMPTY: LanguageName = new LanguageName(EMPTY_NAME);
@@ -32,11 +31,8 @@ export class LanguageName extends ValueObject<'LanguageName'> {
     if (!(other instanceof LanguageName)) {
       return false;
     }
-    if (this.name === other.name) {
-      return true;
-    }
 
-    return false;
+    return this.name === other.name;
   }
 
   public serialize(): string {

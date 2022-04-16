@@ -17,7 +17,7 @@ export type LanguageRow = Readonly<{
   iso639: string;
 }>;
 
-export class Language extends ValueObject<'Language'> implements JSONable<LanguageJSON> {
+export class Language extends ValueObject implements JSONable<LanguageJSON> {
   public readonly noun: 'Language' = 'Language';
   private readonly languageID: LanguageID;
   private readonly name: LanguageName;
@@ -129,7 +129,7 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
     props.push(this.englishName.toString());
     props.push(this.iso639.toString());
 
-    return props.join(' ');
+    return props.join(', ');
   }
 
   public toJSON(): LanguageJSON {

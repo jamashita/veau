@@ -1,14 +1,14 @@
-import { BinaryPredicate, Catalogue, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, ForEach, JSONable, Kind, Mapping, Nullable } from '@jamashita/anden-type';
 import { Quantity } from '@jamashita/lluvia-collection';
 import { ImmutableProject, ReadonlyProject } from '@jamashita/lluvia-project';
 import { Language, LanguageJSON, LanguageRow } from './Language.js';
 import { LanguageID } from './LanguageID.js';
 
-export class Languages extends Quantity<LanguageID, Language, 'Languages'> implements JSONable<Array<LanguageJSON>> {
+export class Languages extends Quantity<LanguageID, Language> implements JSONable<Array<LanguageJSON>> {
   public readonly noun: 'Languages' = 'Languages';
   private readonly languages: ImmutableProject<LanguageID, Language>;
 
-  private static readonly EMPTY: Languages = new Languages(ImmutableProject.empty<LanguageID, Language>());
+  private static readonly EMPTY: Languages = new Languages(ImmutableProject.empty());
 
   public static empty(): Languages {
     return Languages.EMPTY;
@@ -19,11 +19,11 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
       return Languages.empty();
     }
 
-    return new Languages(ImmutableProject.of<LanguageID, Language>(languages));
+    return new Languages(ImmutableProject.of(languages));
   }
 
   public static ofArray(languages: ReadonlyArray<Language>): Languages {
-    const map: Map<LanguageID, Language> = new Map<LanguageID, Language>();
+    const map: Map<LanguageID, Language> = new Map();
 
     languages.forEach((language: Language) => {
       map.set(language.getLanguageID(), language);
@@ -33,7 +33,7 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
   }
 
   public static ofJSON(json: ReadonlyArray<LanguageJSON>): Languages {
-    const arr: Array<Language> = json.map<Language>((language: LanguageJSON) => {
+    const arr: Array<Language> = json.map((language: LanguageJSON): Language => {
       return Language.ofJSON(language);
     });
 
@@ -41,11 +41,11 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
   }
 
   private static ofMap(languages: ReadonlyMap<LanguageID, Language>): Languages {
-    return Languages.of(ImmutableProject.ofMap<LanguageID, Language>(languages));
+    return Languages.of(ImmutableProject.ofMap(languages));
   }
 
   public static ofRow(rows: ReadonlyArray<LanguageRow>): Languages {
-    const arr: Array<Language> = rows.map<Language>((language: LanguageRow) => {
+    const arr: Array<Language> = rows.map((language: LanguageRow): Language => {
       return Language.ofRow(language);
     });
 
@@ -98,8 +98,8 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return this.languages.find(predicate);
   }
 
-  public forEach(catalogue: Catalogue<LanguageID, Language>): void {
-    this.languages.forEach(catalogue);
+  public forEach(foreach: ForEach<LanguageID, Language>): void {
+    this.languages.forEach(foreach);
   }
 
   public get(key: LanguageID): Nullable<Language> {
@@ -114,8 +114,8 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return this.languages.iterator();
   }
 
-  public map<W>(mapper: Mapper<Language, W>): ImmutableProject<LanguageID, W> {
-    return this.languages.map<W>(mapper);
+  public map<W>(mapping: Mapping<Language, W>): ImmutableProject<LanguageID, W> {
+    return this.languages.map(mapping);
   }
 
   public serialize(): string {
