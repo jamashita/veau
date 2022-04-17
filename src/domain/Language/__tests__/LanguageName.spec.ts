@@ -71,13 +71,4 @@ describe('LanguageName', () => {
       expect(name1.equals(name3)).toBe(true);
     });
   });
-
-  describe('toString', () => {
-    it('returns the original string', () => {
-      const name: string = 'language name';
-      const languageName: LanguageName = LanguageName.of(name);
-
-      expect(languageName.toString()).toBe(name);
-    });
-  });
 });

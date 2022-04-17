@@ -1,31 +1,30 @@
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
-import { ImmutableProject, MockProject } from '@jamashita/lluvia-collection';
-import sinon, { SinonSpy } from 'sinon';
+import { ImmutableProject, MutableProject, Project } from '@jamashita/lluvia-project';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';
 import { LanguageName } from '../LanguageName';
 import { Languages } from '../Languages';
-import { MockISO639 } from '../mock/MockISO639';
 import { MockLanguage } from '../mock/MockLanguage';
-import { MockLanguageID } from '../mock/MockLanguageID';
-import { MockLanguageName } from '../mock/MockLanguageName';
 
 describe('Languages', () => {
   describe('of', () => {
     it('returns Languages.empty() if the size is 0', () => {
-      expect.assertions(1);
-
-      const languages: Languages = Languages.of(ImmutableProject.empty<LanguageID, Language>());
+      const languages: Languages = Languages.of(ImmutableProject.empty());
 
       expect(languages).toBe(Languages.empty());
     });
 
     it('returns normal-length project', () => {
-      expect.assertions(3);
-
-      const array: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
+      const array: Array<MockLanguage> = [
+        new MockLanguage({
+          languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+        }),
+        new MockLanguage({
+          languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+        })
+      ];
       const languages: Languages = Languages.ofArray(array);
 
       expect(languages.size()).toBe(array.length);
@@ -37,9 +36,14 @@ describe('Languages', () => {
   });
   describe('ofArray', () => {
     it('returns normal-length project', () => {
-      expect.assertions(3);
-
-      const array: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
+      const array: Array<MockLanguage> = [
+        new MockLanguage({
+          languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+        }),
+        new MockLanguage({
+          languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+        })
+      ];
       const languages: Languages = Languages.ofArray(array);
 
       expect(languages.size()).toBe(array.length);
@@ -52,8 +56,6 @@ describe('Languages', () => {
 
   describe('ofJSON', () => {
     it('returns parsed class instance', () => {
-      expect.assertions(13);
-
       const json: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -91,8 +93,6 @@ describe('Languages', () => {
 
   describe('ofRow', () => {
     it('returns parsed class instance', () => {
-      expect.assertions(5);
-
       const rows: Array<LanguageRow> = [
         {
           languageID: UUID.v4().get(),
@@ -118,22 +118,16 @@ describe('Languages', () => {
 
   describe('empty', () => {
     it('generates 0-length Languages', () => {
-      expect.assertions(1);
-
       expect(Languages.empty().size()).toBe(0);
     });
 
     it('returns singleton instance', () => {
-      expect.assertions(1);
-
       expect(Languages.empty()).toBe(Languages.empty());
     });
   });
 
   describe('validate', () => {
     it('returns true if given parameter is json', () => {
-      expect.assertions(1);
-
       const n: unknown = [
         {
           languageID: 'tis tis',
@@ -147,8 +141,6 @@ describe('Languages', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect.assertions(5);
-
       expect(Languages.validate(null)).toBe(false);
       expect(Languages.validate(undefined)).toBe(false);
       expect(Languages.validate(56)).toBe(false);
@@ -157,153 +149,164 @@ describe('Languages', () => {
     });
 
     it('returns false because given parameter is not an array', () => {
-      expect.assertions(1);
-
       expect(Languages.validate({})).toBe(false);
     });
   });
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
-      const spy: SinonSpy = sinon.spy();
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'get');
 
       // @ts-expect-error
-      languages.languages.get = spy;
-      languages.get(new MockLanguageID());
+      languages.languages = project;
+      languages.get(LanguageID.ofString('0a518e9f-f49e-4d7b-8103-5d52ffc3c330'));
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
-      const spy: SinonSpy = sinon.spy();
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'contains');
 
       // @ts-expect-error
-      languages.languages.contains = spy;
+      languages.languages = project;
       languages.contains(language1);
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
-      const spy: SinonSpy = sinon.spy();
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'size');
 
       // @ts-expect-error
-      languages.languages.size = spy;
+      languages.languages = project;
       languages.size();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
-      const spy: SinonSpy = sinon.spy();
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'forEach');
 
       // @ts-expect-error
-      languages.languages.forEach = spy;
+      languages.languages = project;
       languages.forEach(() => {
         // NOOP
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
-      const spy: SinonSpy = sinon.spy();
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'isEmpty');
 
       // @ts-expect-error
-      languages.languages.isEmpty = spy;
+      languages.languages = project;
       languages.isEmpty();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const languages: Languages = Languages.empty();
 
       expect(languages.equals(null)).toBe(false);
@@ -325,12 +328,10 @@ describe('Languages', () => {
     });
 
     it('returns true if the same instance given', () => {
-      expect.assertions(1);
-
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage({
-        name: new MockLanguageName('language'),
-        iso639: new MockISO639('ab')
+        name: LanguageName.of('language'),
+        iso639: ISO639.of('ab')
       });
 
       const languages: Languages = Languages.ofArray([language1, language2]);
@@ -339,35 +340,36 @@ describe('Languages', () => {
     });
 
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
-      const spy: SinonSpy = sinon.spy();
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'equals');
 
       // @ts-expect-error
-      languages.languages.equals = spy;
-      languages.equals(Languages.empty());
+      languages.languages = project;
+      languages.equals(Languages.ofArray([language2]));
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('toJSON', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const uuid: UUID = UUID.v4();
       const languages: Languages = Languages.ofArray([
         Language.of(
@@ -389,45 +391,22 @@ describe('Languages', () => {
     });
   });
 
-  describe('toString', () => {
-    it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
-          [language1.getLanguageID(), language1],
-          [language2.getLanguageID(), language2],
-          [language3.getLanguageID(), language3]
-        ])
-      );
-
-      const spy: SinonSpy = sinon.spy();
-      const languages: Languages = Languages.of(project);
-
-      // @ts-expect-error
-      languages.languages.toString = spy;
-      languages.toString();
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
   describe('iterator', () => {
     it('returns [LanguageID, Language]', () => {
-      expect.assertions(3);
-
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
       const arr: Array<MockLanguage> = [language1, language2, language3];
 
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
@@ -446,173 +425,191 @@ describe('Languages', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
-      const spy: SinonSpy = sinon.spy();
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'every');
 
       // @ts-expect-error
-      languages.languages.every = spy;
+      languages.languages = project;
       languages.every(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
-      const spy: SinonSpy = sinon.spy();
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'some');
 
       // @ts-expect-error
-      languages.languages.some = spy;
+      languages.languages = project;
       languages.some(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('values', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
-      const spy: SinonSpy = sinon.spy();
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'values');
 
       // @ts-expect-error
-      languages.languages.values = spy;
+      languages.languages = project;
       languages.values();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('filter', () => {
     it('returns matching elements by predicate', () => {
-      expect.assertions(1);
-
       const language1: MockLanguage = new MockLanguage({
-        name: new MockLanguageName('name 1')
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
       });
       const language2: MockLanguage = new MockLanguage({
-        name: new MockLanguageName('name 2')
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
       });
       const language3: MockLanguage = new MockLanguage({
-        name: new MockLanguageName('name 1')
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
       });
 
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'filter');
 
-      const filtered: Languages = languages.filter((l: Language) => {
-        return l.getName().get() === 'name 1';
+      // @ts-expect-error
+      languages.languages = project;
+      languages.filter(() => {
+        return true;
       });
 
-      expect(filtered.size()).toBe(2);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('find', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
-      const spy: SinonSpy = sinon.spy();
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'find');
 
       // @ts-expect-error
-      languages.languages.find = spy;
+      languages.languages = project;
       languages.find(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('map', () => {
     it('does not affect the length, only change the instance', () => {
-      expect.assertions(1);
+      const language1: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d01ef031-9421-4eeb-87aa-a44e166dd02c')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('337ddba2-7b99-4739-9933-6593063dbeda')
+      });
+      const language3: MockLanguage = new MockLanguage({
+        languageID: LanguageID.ofString('d9a2f9a5-fb0f-497a-983c-dbe3304a9277')
+      });
 
-      const language1: MockLanguage = new MockLanguage();
-      const language2: MockLanguage = new MockLanguage();
-      const language3: MockLanguage = new MockLanguage();
-
-      const project: MockProject<MockLanguageID, MockLanguage> = new MockProject<MockLanguageID, MockLanguage>(
-        new Map<MockLanguageID, MockLanguage>([
+      const project: Project<LanguageID, MockLanguage> = MutableProject.ofMap(
+        new Map([
           [language1.getLanguageID(), language1],
           [language2.getLanguageID(), language2],
           [language3.getLanguageID(), language3]
         ])
       );
-
       const languages: Languages = Languages.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'map');
 
-      const mapped: ImmutableProject<LanguageID, ISO639> = languages.map<ISO639>((language: Language) => {
-        return language.getISO639();
+      // @ts-expect-error
+      languages.languages = project;
+      languages.map((language: Language): Language => {
+        return language;
       });
 
-      expect(mapped.size()).toBe(3);
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

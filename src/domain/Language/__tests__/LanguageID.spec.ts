@@ -85,13 +85,4 @@ describe('LanguageID', () => {
       expect(LanguageID.of(UUID.v4()).isEmpty()).toBe(false);
     });
   });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      const uuid: UUID = UUID.v4();
-      const languageID: LanguageID = LanguageID.of(uuid);
-
-      expect(languageID.toString()).toBe(uuid.toString());
-    });
-  });
 });

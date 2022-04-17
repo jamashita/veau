@@ -111,7 +111,7 @@ export class Region extends ValueObject implements JSONable<RegionJSON> {
     props.push(this.name.toString());
     props.push(this.iso3166.toString());
 
-    return props.join(' ');
+    return props.join(', ');
   }
 
   public toJSON(): RegionJSON {

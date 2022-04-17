@@ -85,13 +85,4 @@ describe('RegionID', () => {
       expect(RegionID.of(UUID.v4()).isEmpty()).toBe(false);
     });
   });
-
-  describe('toString', () => {
-    it('returns the original string', () => {
-      const uuid: UUID = UUID.v4();
-      const regionID: RegionID = RegionID.of(uuid);
-
-      expect(regionID.toString()).toBe(uuid.toString());
-    });
-  });
 });

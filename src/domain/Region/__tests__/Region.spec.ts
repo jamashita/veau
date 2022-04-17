@@ -252,16 +252,4 @@ describe('Region', () => {
       });
     });
   });
-
-  describe('toString', () => {
-    it('returns the original string', () => {
-      const uuid: UUID = UUID.v4();
-      const name: string = 'region 1';
-      const iso3166: string = 'abc';
-
-      const region: Region = Region.of(RegionID.of(uuid), RegionName.of(name), ISO3166.of(iso3166));
-
-      expect(region.toString()).toBe(`${uuid.get()} ${name} ${iso3166}`);
-    });
-  });
 });
