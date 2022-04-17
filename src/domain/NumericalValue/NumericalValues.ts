@@ -1,13 +1,12 @@
-import { BinaryPredicate, Catalogue, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, ForEach, Mapping, Nullable } from '@jamashita/anden-type';
 import { Quantity } from '@jamashita/lluvia-collection';
 import { ImmutableSequence, ReadonlySequence } from '@jamashita/lluvia-sequence';
 import { NumericalValue } from './NumericalValue.js';
 
-export class NumericalValues extends Quantity<number, NumericalValue, 'NumericalValues'> {
-  public readonly noun: 'NumericalValues' = 'NumericalValues';
+export class NumericalValues extends Quantity<number, NumericalValue> {
   private readonly vals: ImmutableSequence<NumericalValue>;
 
-  private static readonly EMPTY: NumericalValues = new NumericalValues(ImmutableSequence.empty<NumericalValue>());
+  private static readonly EMPTY: NumericalValues = new NumericalValues(ImmutableSequence.empty());
 
   public static empty(): NumericalValues {
     return NumericalValues.EMPTY;
@@ -22,7 +21,7 @@ export class NumericalValues extends Quantity<number, NumericalValue, 'Numerical
       return NumericalValues.empty();
     }
 
-    return new NumericalValues(ImmutableSequence.ofArray<NumericalValue>(values));
+    return new NumericalValues(ImmutableSequence.ofArray(values));
   }
 
   public static ofSpread(...values: Array<NumericalValue>): NumericalValues {
@@ -64,8 +63,8 @@ export class NumericalValues extends Quantity<number, NumericalValue, 'Numerical
     return this.vals.find(predicate);
   }
 
-  public forEach(catalogue: Catalogue<number, NumericalValue>): void {
-    this.vals.forEach(catalogue);
+  public forEach(foreach: ForEach<number, NumericalValue>): void {
+    this.vals.forEach(foreach);
   }
 
   public get(index: number): Nullable<NumericalValue> {
@@ -80,8 +79,8 @@ export class NumericalValues extends Quantity<number, NumericalValue, 'Numerical
     return this.vals.iterator();
   }
 
-  public map<W>(mapper: Mapper<NumericalValue, W>): ImmutableSequence<W> {
-    return this.vals.map<W>(mapper);
+  public map<W>(mapping: Mapping<NumericalValue, W>): ImmutableSequence<W> {
+    return this.vals.map(mapping);
   }
 
   public serialize(): string {

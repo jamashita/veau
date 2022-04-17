@@ -1,22 +1,17 @@
-import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
-import sinon, { SinonSpy } from 'sinon';
+import { ImmutableSequence, Sequence } from '@jamashita/lluvia-sequence';
 import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';
 
 describe('NumericalValues', () => {
   describe('of', () => {
     it('when the ImmutableSequence is zero size, returns empty', () => {
-      expect.assertions(1);
-
-      const values: NumericalValues = NumericalValues.of(ImmutableSequence.empty<NumericalValue>());
+      const values: NumericalValues = NumericalValues.of(ImmutableSequence.empty());
 
       expect(values).toBe(NumericalValues.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(3);
-
-      const sequence: ImmutableSequence<NumericalValue> = ImmutableSequence.ofArray<NumericalValue>([
+      const sequence: ImmutableSequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(2)
       ]);
@@ -32,16 +27,12 @@ describe('NumericalValues', () => {
 
   describe('ofArray', () => {
     it('when empty Array given, returns NumericalValues.empty()', () => {
-      expect.assertions(1);
-
       const values: NumericalValues = NumericalValues.ofArray([]);
 
       expect(values).toBe(NumericalValues.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(4);
-
       const values: Array<NumericalValue> = [
         NumericalValue.of(1),
         NumericalValue.of(3),
@@ -59,16 +50,12 @@ describe('NumericalValues', () => {
 
   describe('ofSpread', () => {
     it('when no arguments given, returns NumericalValues.empty()', () => {
-      expect.assertions(1);
-
       const values: NumericalValues = NumericalValues.ofSpread();
 
       expect(values).toBe(NumericalValues.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(4);
-
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
       const value3: NumericalValue = NumericalValue.of(3);
@@ -84,22 +71,16 @@ describe('NumericalValues', () => {
 
   describe('empty', () => {
     it('returns size-0 sequence', () => {
-      expect.assertions(1);
-
       expect(NumericalValues.empty().size()).toBe(0);
     });
 
     it('returns singleton instance', () => {
-      expect.assertions(1);
-
       expect(NumericalValues.empty()).toBe(NumericalValues.empty());
     });
   });
 
   describe('add', () => {
     it('does not affect the original one', () => {
-      expect.assertions(7);
-
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(1);
       const value3: NumericalValue = NumericalValue.of(1);
@@ -120,49 +101,39 @@ describe('NumericalValues', () => {
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(1)
       ]);
-
-      const spy: SinonSpy = sinon.spy();
-
-      sequence.get = spy;
-
       const values: NumericalValues = NumericalValues.empty();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'get');
+
       // @ts-expect-error
       values.vals = sequence;
 
       values.get(0);
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(1)
       ]);
-
-      const spy: SinonSpy = sinon.spy();
-
-      sequence.contains = spy;
-
       const values: NumericalValues = NumericalValues.empty();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'contains');
+
       // @ts-expect-error
       values.vals = sequence;
 
       values.contains(NumericalValue.of(1));
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
@@ -170,41 +141,31 @@ describe('NumericalValues', () => {
     it('delegates its inner collection instance', () => {
       expect.assertions(1);
 
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(1)
       ]);
-
-      const spy: SinonSpy = sinon.spy();
-
-      sequence.size = spy;
-
       const values: NumericalValues = NumericalValues.empty();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'size');
       // @ts-expect-error
       values.vals = sequence;
 
       values.size();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(1)
       ]);
-
-      const spy: SinonSpy = sinon.spy();
-
-      sequence.forEach = spy;
-
       const values: NumericalValues = NumericalValues.empty();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'forEach');
       // @ts-expect-error
       values.vals = sequence;
 
@@ -212,38 +173,30 @@ describe('NumericalValues', () => {
         // NOOP
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(1)
       ]);
-
-      const spy: SinonSpy = sinon.spy();
-
-      sequence.isEmpty = spy;
-
       const values: NumericalValues = NumericalValues.empty();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'isEmpty');
       // @ts-expect-error
       values.vals = sequence;
 
       values.isEmpty();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const values: NumericalValues = NumericalValues.empty();
 
       expect(values.equals(null)).toBe(false);
@@ -265,8 +218,6 @@ describe('NumericalValues', () => {
     });
 
     it('returns true if the same instance given', () => {
-      expect.assertions(1);
-
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
 
@@ -276,35 +227,26 @@ describe('NumericalValues', () => {
     });
 
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(1)
       ]);
-
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
-
-      const spy: SinonSpy = sinon.spy();
-
-      sequence.equals = spy;
-
       const values: NumericalValues = NumericalValues.empty();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'equals');
       // @ts-expect-error
       values.vals = sequence;
 
       values.equals(NumericalValues.ofArray([value2, value1]));
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('row', () => {
     it('returns as a string Array', () => {
-      expect.assertions(3);
-
       const num1: number = 1;
       const num2: number = 2;
       const nums: Array<number> = [num1, num2];
@@ -324,41 +266,14 @@ describe('NumericalValues', () => {
     });
   });
 
-  describe('toString', () => {
-    it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
-        NumericalValue.of(1),
-        NumericalValue.of(1),
-        NumericalValue.of(1)
-      ]);
-
-      const spy: SinonSpy = sinon.spy();
-
-      sequence.toString = spy;
-
-      const values: NumericalValues = NumericalValues.empty();
-      // @ts-expect-error
-      values.vals = sequence;
-
-      values.toString();
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
   describe('iterator', () => {
     it('normal case', () => {
-      expect.assertions(3);
-
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(1);
       const value3: NumericalValue = NumericalValue.of(1);
       const arr: Array<NumericalValue> = [value1, value2, value3];
 
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>(arr);
-
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray(arr);
       const values: NumericalValues = NumericalValues.empty();
       // @ts-expect-error
       values.vals = sequence;
@@ -376,17 +291,13 @@ describe('NumericalValues', () => {
     it('delegates its inner collection instance', () => {
       expect.assertions(1);
 
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(1)
       ]);
-
-      const spy: SinonSpy = sinon.spy();
-
-      sequence.every = spy;
-
       const values: NumericalValues = NumericalValues.empty();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'every');
       // @ts-expect-error
       values.vals = sequence;
 
@@ -394,25 +305,19 @@ describe('NumericalValues', () => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(1)
       ]);
-
-      const spy: SinonSpy = sinon.spy();
-
-      sequence.some = spy;
-
       const values: NumericalValues = NumericalValues.empty();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'some');
       // @ts-expect-error
       values.vals = sequence;
 
@@ -420,49 +325,37 @@ describe('NumericalValues', () => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('values', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(1)
       ]);
-
-      const spy: SinonSpy = sinon.spy();
-
-      sequence.values = spy;
-
       const values: NumericalValues = NumericalValues.empty();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'values');
       // @ts-expect-error
       values.vals = sequence;
 
       values.values();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('find', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(1)
       ]);
-
-      const spy: SinonSpy = sinon.spy();
-
-      sequence.find = spy;
-
       const values: NumericalValues = NumericalValues.empty();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'find');
       // @ts-expect-error
       values.vals = sequence;
 
@@ -470,47 +363,47 @@ describe('NumericalValues', () => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('filter', () => {
     it('returns matching elements by predicate', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(3)
       ]);
-
       const values: NumericalValues = NumericalValues.of(sequence);
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'filter');
+      // @ts-expect-error
+      values.vals = sequence;
 
-      const filtered: NumericalValues = values.filter((n: NumericalValue) => {
-        return n.get() === 1;
+      values.filter(() => {
+        return true;
       });
 
-      expect(filtered.size()).toBe(2);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('map', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<NumericalValue> = new MockSequence<NumericalValue>([
+      const sequence: Sequence<NumericalValue> = ImmutableSequence.ofArray([
         NumericalValue.of(1),
         NumericalValue.of(1),
         NumericalValue.of(1)
       ]);
-
       const values: NumericalValues = NumericalValues.of(sequence);
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'map');
+      // @ts-expect-error
+      values.vals = sequence;
 
-      const mapped: ImmutableSequence<number> = values.map<number>((v: NumericalValue) => {
-        return v.get();
+      values.map((v: NumericalValue): NumericalValue => {
+        return v;
       });
 
-      expect(mapped.size()).toBe(3);
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

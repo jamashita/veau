@@ -1,7 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 
-export class NumericalValue extends ValueObject<'NumericalValue'> {
-  public readonly noun: 'NumericalValue' = 'NumericalValue';
+export class NumericalValue extends ValueObject {
   private readonly value: number;
 
   public static of(value: number): NumericalValue {
@@ -20,11 +19,8 @@ export class NumericalValue extends ValueObject<'NumericalValue'> {
     if (!(other instanceof NumericalValue)) {
       return false;
     }
-    if (this.value === other.value) {
-      return true;
-    }
 
-    return false;
+    return this.value === other.value;
   }
 
   public serialize(): string {
