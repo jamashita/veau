@@ -1,9 +1,8 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { UUID, UUIDError } from '@jamashita/anden-uuid';
-import { RegionError } from './error/RegionError.js';
+import { RegionError } from './RegionError.js';
 
-export class RegionID extends ValueObject<'RegionID'> {
-  public readonly noun: 'RegionID' = 'RegionID';
+export class RegionID extends ValueObject {
   private readonly uuid: UUID;
 
   private static readonly EMPTY: RegionID = new RegionID(UUID.v5());

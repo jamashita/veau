@@ -1,14 +1,13 @@
-import { BinaryPredicate, Catalogue, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, ForEach, JSONable, Kind, Mapping, Nullable } from '@jamashita/anden-type';
 import { Quantity } from '@jamashita/lluvia-collection';
 import { ImmutableProject, Project } from '@jamashita/lluvia-project';
 import { Region, RegionJSON, RegionRow } from './Region.js';
 import { RegionID } from './RegionID.js';
 
-export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JSONable<Array<RegionJSON>> {
-  public readonly noun: 'Regions' = 'Regions';
+export class Regions extends Quantity<RegionID, Region> implements JSONable<Array<RegionJSON>> {
   private readonly regions: ImmutableProject<RegionID, Region>;
 
-  private static readonly EMPTY: Regions = new Regions(ImmutableProject.empty<RegionID, Region>());
+  private static readonly EMPTY: Regions = new Regions(ImmutableProject.empty());
 
   public static empty(): Regions {
     return Regions.EMPTY;
@@ -19,11 +18,11 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
       return Regions.empty();
     }
 
-    return new Regions(ImmutableProject.of<RegionID, Region>(regions));
+    return new Regions(ImmutableProject.of(regions));
   }
 
   public static ofArray(regions: ReadonlyArray<Region>): Regions {
-    const map: Map<RegionID, Region> = new Map<RegionID, Region>();
+    const map: Map<RegionID, Region> = new Map();
 
     regions.forEach((region: Region) => {
       map.set(region.getRegionID(), region);
@@ -33,7 +32,7 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
   }
 
   public static ofJSON(json: ReadonlyArray<RegionJSON>): Regions {
-    const arr: Array<Region> = json.map<Region>((region: RegionJSON) => {
+    const arr: Array<Region> = json.map((region: RegionJSON): Region => {
       return Region.ofJSON(region);
     });
 
@@ -41,11 +40,11 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
   }
 
   private static ofMap(regions: ReadonlyMap<RegionID, Region>): Regions {
-    return Regions.of(ImmutableProject.ofMap<RegionID, Region>(regions));
+    return Regions.of(ImmutableProject.ofMap(regions));
   }
 
   public static ofRow(rows: ReadonlyArray<RegionRow>): Regions {
-    const arr: Array<Region> = rows.map<Region>((region: RegionRow) => {
+    const arr: Array<Region> = rows.map((region: RegionRow): Region => {
       return Region.ofJSON(region);
     });
 
@@ -71,6 +70,10 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     this.regions = regions;
   }
 
+  public contains(value: Region): boolean {
+    return this.regions.contains(value);
+  }
+
   public equals(other: unknown): boolean {
     if (this === other) {
       return true;
@@ -80,18 +83,6 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     }
 
     return this.regions.equals(other.regions);
-  }
-
-  public serialize(): string {
-    return this.regions.toString();
-  }
-
-  public iterator(): Iterator<[RegionID, Region]> {
-    return this.regions.iterator();
-  }
-
-  public contains(value: Region): boolean {
-    return this.regions.contains(value);
   }
 
   public every(predicate: BinaryPredicate<Region, RegionID>): boolean {
@@ -106,8 +97,8 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     return this.regions.find(predicate);
   }
 
-  public forEach(catalogue: Catalogue<RegionID, Region>): void {
-    this.regions.forEach(catalogue);
+  public forEach(foreach: ForEach<RegionID, Region>): void {
+    this.regions.forEach(foreach);
   }
 
   public get(key: RegionID): Nullable<Region> {
@@ -118,8 +109,16 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     return this.regions.isEmpty();
   }
 
-  public map<W>(mapper: Mapper<Region, W>): ImmutableProject<RegionID, W> {
-    return this.regions.map<W>(mapper);
+  public iterator(): Iterator<[RegionID, Region]> {
+    return this.regions.iterator();
+  }
+
+  public map<W>(mapping: Mapping<Region, W>): ImmutableProject<RegionID, W> {
+    return this.regions.map(mapping);
+  }
+
+  public serialize(): string {
+    return this.regions.toString();
   }
 
   public size(): number {
@@ -130,10 +129,6 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     return this.regions.some(predicate);
   }
 
-  public values(): Iterable<Region> {
-    return this.regions.values();
-  }
-
   public toJSON(): Array<RegionJSON> {
     const json: Array<RegionJSON> = [];
 
@@ -142,5 +137,9 @@ export class Regions extends Quantity<RegionID, Region, 'Regions'> implements JS
     });
 
     return json;
+  }
+
+  public values(): Iterable<Region> {
+    return this.regions.values();
   }
 }

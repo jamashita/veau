@@ -2,8 +2,7 @@ import { ValueObject } from '@jamashita/anden-object';
 
 const EMPTY_NAME: string = '';
 
-export class RegionName extends ValueObject<'RegionName'> {
-  public readonly noun: 'RegionName' = 'RegionName';
+export class RegionName extends ValueObject {
   private readonly name: string;
 
   private static readonly EMPTY: RegionName = new RegionName(EMPTY_NAME);
@@ -32,11 +31,8 @@ export class RegionName extends ValueObject<'RegionName'> {
     if (!(other instanceof RegionName)) {
       return false;
     }
-    if (this.name === other.name) {
-      return true;
-    }
 
-    return false;
+    return this.name === other.name;
   }
 
   public serialize(): string {

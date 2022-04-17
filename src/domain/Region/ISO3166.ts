@@ -2,8 +2,7 @@ import { ValueObject } from '@jamashita/anden-object';
 
 const EMPTY_CODE: string = '';
 
-export class ISO3166 extends ValueObject<'ISO3166'> {
-  public readonly noun: 'ISO3166' = 'ISO3166';
+export class ISO3166 extends ValueObject {
   private readonly iso3166: string;
 
   private static readonly EMPTY: ISO3166 = new ISO3166(EMPTY_CODE);
@@ -32,11 +31,8 @@ export class ISO3166 extends ValueObject<'ISO3166'> {
     if (!(other instanceof ISO3166)) {
       return false;
     }
-    if (this.iso3166 === other.iso3166) {
-      return true;
-    }
 
-    return false;
+    return this.iso3166 === other.iso3166;
   }
 
   public serialize(): string {

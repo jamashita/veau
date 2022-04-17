@@ -1,12 +1,8 @@
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
-import { ImmutableProject, MockProject } from '@jamashita/lluvia-collection';
-import sinon, { SinonSpy } from 'sinon';
+import { ImmutableProject, MutableProject, Project } from '@jamashita/lluvia-project';
 import { ISO3166 } from '../ISO3166';
-import { MockISO3166 } from '../mock/MockISO3166';
 import { MockRegion } from '../mock/MockRegion';
-import { MockRegionID } from '../mock/MockRegionID';
-import { MockRegionName } from '../mock/MockRegionName';
 import { Region, RegionJSON, RegionRow } from '../Region';
 import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';
@@ -15,17 +11,20 @@ import { Regions } from '../Regions';
 describe('Regions', () => {
   describe('of', () => {
     it('when the ImmutableProject is zero size, returns Regions.empty()', () => {
-      expect.assertions(1);
-
-      const regions: Regions = Regions.of(ImmutableProject.empty<RegionID, Region>());
+      const regions: Regions = Regions.of(ImmutableProject.empty());
 
       expect(regions).toBe(Regions.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(3);
-
-      const array: Array<MockRegion> = [new MockRegion(), new MockRegion()];
+      const array: Array<MockRegion> = [
+        new MockRegion({
+          regionID: RegionID.ofString('f8614570-1b57-464b-8787-ec97f258766b')
+        }),
+        new MockRegion({
+          regionID: RegionID.ofString('a626fa24-083e-4170-8eb5-935b8578ac88')
+        })
+      ];
 
       const regions: Regions = Regions.ofArray(array);
 
@@ -41,16 +40,12 @@ describe('Regions', () => {
 
   describe('ofJSON', () => {
     it('when empty Array given, returns Regions.empty()', () => {
-      expect.assertions(1);
-
       const regions: Regions = Regions.ofJSON([]);
 
       expect(regions).toBe(Regions.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(7);
-
       const json: Array<RegionJSON> = [
         {
           regionID: UUID.v4().get(),
@@ -79,16 +74,12 @@ describe('Regions', () => {
 
   describe('ofRow', () => {
     it('when empty Array given, returns Regions.empty()', () => {
-      expect.assertions(1);
-
       const regions: Regions = Regions.ofRow([]);
 
       expect(regions).toBe(Regions.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(4);
-
       const rows: Array<RegionRow> = [
         {
           regionID: UUID.v4().get(),
@@ -105,29 +96,29 @@ describe('Regions', () => {
         const regionID: RegionID = RegionID.ofString(rows[i]!.regionID);
         const region: Nullable<Region> = regions.get(regionID);
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(region?.getRegionID().get().get()).toBe(rows[i]!.regionID);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(region?.getName().get()).toBe(rows[i]!.name);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(region?.getISO3166().get()).toBe(rows[i]!.iso3166);
+        expect(region?.getRegionID().get().get()).toBe(rows[i]?.regionID);
+        expect(region?.getName().get()).toBe(rows[i]?.name);
+        expect(region?.getISO3166().get()).toBe(rows[i]?.iso3166);
       }
     });
   });
 
   describe('ofArray', () => {
     it('when empty Array given, returns Regions.empty()', () => {
-      expect.assertions(1);
-
       const regions: Regions = Regions.ofArray([]);
 
       expect(regions).toBe(Regions.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(3);
-
-      const regs: Array<MockRegion> = [new MockRegion(), new MockRegion()];
+      const regs: Array<MockRegion> = [
+        new MockRegion({
+          regionID: RegionID.ofString('f8614570-1b57-464b-8787-ec97f258766b')
+        }),
+        new MockRegion({
+          regionID: RegionID.ofString('a626fa24-083e-4170-8eb5-935b8578ac88')
+        })
+      ];
 
       const regions: Regions = Regions.ofArray(regs);
 
@@ -141,18 +132,18 @@ describe('Regions', () => {
 
   describe('ofSpread', () => {
     it('when no arguments given, returns Regions.empty()', () => {
-      expect.assertions(1);
-
       const regions: Regions = Regions.ofSpread();
 
       expect(regions).toBe(Regions.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(3);
-
-      const region1: MockRegion = new MockRegion();
-      const region2: MockRegion = new MockRegion();
+      const region1: MockRegion = new MockRegion({
+        regionID: RegionID.ofString('f8614570-1b57-464b-8787-ec97f258766b')
+      });
+      const region2: MockRegion = new MockRegion({
+        regionID: RegionID.ofString('a626fa24-083e-4170-8eb5-935b8578ac88')
+      });
       const regs: Array<MockRegion> = [region1, region2];
 
       const regions: Regions = Regions.ofSpread(region1, region2);
@@ -167,22 +158,16 @@ describe('Regions', () => {
 
   describe('empty', () => {
     it('generates 0-length Regions', () => {
-      expect.assertions(1);
-
       expect(Regions.empty().size()).toBe(0);
     });
 
     it('returns singleton instance', () => {
-      expect.assertions(1);
-
       expect(Regions.empty()).toBe(Regions.empty());
     });
   });
 
   describe('validate', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const n: unknown = [
         {
           regionID: 'to to',
@@ -195,8 +180,6 @@ describe('Regions', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect.assertions(5);
-
       expect(Regions.validate(null)).toBe(false);
       expect(Regions.validate(undefined)).toBe(false);
       expect(Regions.validate(56)).toBe(false);
@@ -205,240 +188,232 @@ describe('Regions', () => {
     });
 
     it('returns false because given parameter is not an array', () => {
-      expect.assertions(1);
-
       expect(Regions.validate({})).toBe(false);
     });
   });
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const spy: SinonSpy = sinon.spy();
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'get');
 
       // @ts-expect-error
-      regions.regions.get = spy;
-      regions.get(new MockRegionID());
+      regions.regions = project;
+      regions.get(RegionID.ofString('83b33c16-1506-4556-9cd9-27df3c4da9df'));
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const spy: SinonSpy = sinon.spy();
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'contains');
 
       // @ts-expect-error
-      regions.regions.contains = spy;
+      regions.regions = project;
       regions.contains(region1);
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const spy: SinonSpy = sinon.spy();
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'size');
 
       // @ts-expect-error
-      regions.regions.size = spy;
+      regions.regions = project;
       regions.size();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const spy: SinonSpy = sinon.spy();
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'forEach');
 
       // @ts-expect-error
-      regions.regions.forEach = spy;
+      regions.regions = project;
       regions.forEach(() => {
         // NOOP
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('map', () => {
     it('does not affect the length, only change the instance', () => {
-      expect.assertions(1);
+      const region1: MockRegion = new MockRegion({
+        regionID: RegionID.ofString('f8614570-1b57-464b-8787-ec97f258766b')
+      });
+      const region2: MockRegion = new MockRegion({
+        regionID: RegionID.ofString('a626fa24-083e-4170-8eb5-935b8578ac88')
+      });
+      const region3: MockRegion = new MockRegion({
+        regionID: RegionID.ofString('35e86ced-dfc4-4c8e-bb9b-a8b25d180076')
+      });
 
-      const region1: MockRegion = new MockRegion();
-      const region2: MockRegion = new MockRegion();
-      const region3: MockRegion = new MockRegion();
-
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'map');
 
-      const arr: Array<ISO3166> = [...regions.values()].map<ISO3166>((region: Region) => {
-        return region.getISO3166();
+      // @ts-expect-error
+      regions.regions = project;
+      regions.map((region: Region): Region => {
+        return region;
       });
 
-      expect(arr).toHaveLength(3);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('find', () => {
     it('returns Region if the element exists', () => {
-      expect.assertions(1);
-
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const spy: SinonSpy = sinon.spy();
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'find');
 
       // @ts-expect-error
-      regions.regions.find = spy;
+      regions.regions = project;
       regions.find(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('filter', () => {
     it('returns matching elements by predicate', () => {
-      expect.assertions(1);
-
       const region1: MockRegion = new MockRegion({
-        name: new MockRegionName('name 1')
+        regionID: RegionID.ofString('f8614570-1b57-464b-8787-ec97f258766b')
       });
       const region2: MockRegion = new MockRegion({
-        name: new MockRegionName('name 2')
+        regionID: RegionID.ofString('a626fa24-083e-4170-8eb5-935b8578ac88')
       });
       const region3: MockRegion = new MockRegion({
-        name: new MockRegionName('name 0')
+        regionID: RegionID.ofString('705a6fbc-b3b4-4d5a-aac6-f06ddf0ed36c')
       });
 
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: Project<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'filter');
 
-      const filtered: Regions = regions.filter((r: Region) => {
-        return r.getName().get() === 'name 0';
+      // @ts-expect-error
+      regions.regions = project;
+      regions.filter(() => {
+        return true;
       });
 
-      expect(filtered.size()).toBe(1);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const spy: SinonSpy = sinon.spy();
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'isEmpty');
 
       // @ts-expect-error
-      regions.regions.isEmpty = spy;
+      regions.regions = project;
       regions.isEmpty();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const regions: Regions = Regions.empty();
 
       expect(regions.equals(null)).toBe(false);
@@ -460,12 +435,10 @@ describe('Regions', () => {
     });
 
     it('returns true if the same instance given', () => {
-      expect.assertions(1);
-
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion({
-        name: new MockRegionName('region'),
-        iso3166: new MockISO3166('abd')
+        name: RegionName.of('region'),
+        iso3166: ISO3166.of('abd')
       });
 
       const regions: Regions = Regions.ofArray([region1, region2]);
@@ -474,35 +447,39 @@ describe('Regions', () => {
     });
 
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
+      const region1: MockRegion = new MockRegion({
+        regionID: RegionID.ofString('f8614570-1b57-464b-8787-ec97f258766b')
+      });
+      const region2: MockRegion = new MockRegion({
+        regionID: RegionID.ofString('a626fa24-083e-4170-8eb5-935b8578ac88')
+      });
+      const region3: MockRegion = new MockRegion({
+        regionID: RegionID.ofString('705a6fbc-b3b4-4d5a-aac6-f06ddf0ed36c')
+      });
 
-      const region1: MockRegion = new MockRegion();
-      const region2: MockRegion = new MockRegion();
-      const region3: MockRegion = new MockRegion();
-
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const spy: SinonSpy = sinon.spy();
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'equals');
 
       // @ts-expect-error
-      regions.regions.equals = spy;
-      regions.equals(Regions.empty());
+      regions.regions = project;
+      regions.equals(Regions.ofArray([
+        region2
+      ]));
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('toJSON', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const uuid: UUID = UUID.v4();
       const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(uuid), RegionName.of('region 1'), ISO3166.of('abc'))
@@ -518,45 +495,22 @@ describe('Regions', () => {
     });
   });
 
-  describe('toString', () => {
-    it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const region1: MockRegion = new MockRegion();
-      const region2: MockRegion = new MockRegion();
-      const region3: MockRegion = new MockRegion();
-
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
-          [region1.getRegionID(), region1],
-          [region2.getRegionID(), region2],
-          [region3.getRegionID(), region3]
-        ])
-      );
-
-      const spy: SinonSpy = sinon.spy();
-      const regions: Regions = Regions.of(project);
-
-      // @ts-expect-error
-      regions.regions.toString = spy;
-      regions.toString();
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
   describe('iterator', () => {
     it('normal case', () => {
-      expect.assertions(3);
-
-      const region1: MockRegion = new MockRegion();
-      const region2: MockRegion = new MockRegion();
-      const region3: MockRegion = new MockRegion();
+      const region1: MockRegion = new MockRegion({
+        regionID: RegionID.ofString('f8614570-1b57-464b-8787-ec97f258766b')
+      });
+      const region2: MockRegion = new MockRegion({
+        regionID: RegionID.ofString('a626fa24-083e-4170-8eb5-935b8578ac88')
+      });
+      const region3: MockRegion = new MockRegion({
+        regionID: RegionID.ofString('705a6fbc-b3b4-4d5a-aac6-f06ddf0ed36c')
+      });
 
       const arr: Array<MockRegion> = [region1, region2, region3];
 
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
@@ -575,86 +529,80 @@ describe('Regions', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const spy: SinonSpy = sinon.spy();
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'every');
 
       // @ts-expect-error
-      regions.regions.every = spy;
+      regions.regions = project;
       regions.every(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const spy: SinonSpy = sinon.spy();
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'some');
 
       // @ts-expect-error
-      regions.regions.some = spy;
+      regions.regions = project;
       regions.some(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('values', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
       const region3: MockRegion = new MockRegion();
 
-      const project: MockProject<MockRegionID, MockRegion> = new MockProject<MockRegionID, MockRegion>(
-        new Map<MockRegionID, MockRegion>([
+      const project: MutableProject<RegionID, MockRegion> = MutableProject.ofMap(
+        new Map([
           [region1.getRegionID(), region1],
           [region2.getRegionID(), region2],
           [region3.getRegionID(), region3]
         ])
       );
+      const regions: Regions = Regions.ofArray([]);
 
-      const spy: SinonSpy = sinon.spy();
-      const regions: Regions = Regions.of(project);
+      const spy: jest.SpyInstance = jest.spyOn(project, 'values');
 
       // @ts-expect-error
-      regions.regions.values = spy;
+      regions.regions = project;
       regions.values();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

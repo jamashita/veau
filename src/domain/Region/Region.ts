@@ -15,8 +15,7 @@ export type RegionRow = Readonly<{
   iso3166: string;
 }>;
 
-export class Region extends ValueObject<'Region'> implements JSONable<RegionJSON> {
-  public readonly noun: 'Region' = 'Region';
+export class Region extends ValueObject implements JSONable<RegionJSON> {
   private readonly regionID: RegionID;
   private readonly name: RegionName;
   private readonly iso3166: ISO3166;

@@ -1,21 +1,16 @@
 import { UUID } from '@jamashita/anden-uuid';
-import { RegionError } from '../error/RegionError';
 import { ISO3166 } from '../ISO3166';
-import { MockISO3166 } from '../mock/MockISO3166';
-import { MockRegionID } from '../mock/MockRegionID';
-import { MockRegionName } from '../mock/MockRegionName';
 import { Region, RegionJSON, RegionRow } from '../Region';
+import { RegionError } from '../RegionError';
 import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';
 
 describe('Region', () => {
   describe('of', () => {
     it('normal case', () => {
-      expect.assertions(3);
-
-      const regionID: MockRegionID = new MockRegionID();
-      const name: MockRegionName = new MockRegionName();
-      const iso3166: MockISO3166 = new MockISO3166();
+      const regionID: RegionID = RegionID.ofString('581a2172-f2bb-4c8f-a82f-1ea6917de733');
+      const name: RegionName = RegionName.of('afg');
+      const iso3166: ISO3166 = ISO3166.of('AFG');
 
       const region: Region = Region.of(regionID, name, iso3166);
 
@@ -25,25 +20,19 @@ describe('Region', () => {
     });
 
     it('returns Region.empty() if RegionID is empty', () => {
-      expect.assertions(1);
-
-      const region: Region = Region.of(RegionID.empty(), new MockRegionName(), new MockISO3166());
+      const region: Region = Region.of(RegionID.empty(), RegionName.of('afg'), ISO3166.of('AFG'));
 
       expect(region).toBe(Region.empty());
     });
 
     it('returns Region.empty() if RegionName is empty', () => {
-      expect.assertions(1);
-
-      const region: Region = Region.of(new MockRegionID(), RegionName.empty(), new MockISO3166());
+      const region: Region = Region.of(RegionID.ofString('d2d8b19a-d65a-4fc4-98d1-612c2d2932c0'), RegionName.empty(), ISO3166.of('AFG'));
 
       expect(region).toBe(Region.empty());
     });
 
     it('returns Region.empty() if ISO3166 is empty', () => {
-      expect.assertions(1);
-
-      const region: Region = Region.of(new MockRegionID(), new MockRegionName(), ISO3166.empty());
+      const region: Region = Region.of(RegionID.ofString('02d5f6ac-3d30-4143-9586-571b20b1c7ee'), RegionName.of('afg'), ISO3166.empty());
 
       expect(region).toBe(Region.empty());
     });
@@ -51,8 +40,6 @@ describe('Region', () => {
 
   describe('ofJSON', () => {
     it('normal case', () => {
-      expect.assertions(3);
-
       const json: RegionJSON = {
         regionID: UUID.v4().get(),
         name: 'Albania',
@@ -67,8 +54,6 @@ describe('Region', () => {
     });
 
     it('returns Dead if regionID is malformat', () => {
-      expect.assertions(1);
-
       const json: RegionJSON = {
         regionID: 'puente',
         name: 'Albania',
@@ -83,8 +68,6 @@ describe('Region', () => {
 
   describe('ofRow', () => {
     it('normal case', () => {
-      expect.assertions(3);
-
       const row: RegionRow = {
         regionID: UUID.v4().get(),
         name: 'Albania',
@@ -99,8 +82,6 @@ describe('Region', () => {
     });
 
     it('returns Dead if regionID is malformat', () => {
-      expect.assertions(1);
-
       const row: RegionRow = {
         regionID: 'puente',
         name: 'Albania',
@@ -115,8 +96,6 @@ describe('Region', () => {
 
   describe('validate', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         regionID: 'to to',
         name: 'Albania',
@@ -127,8 +106,6 @@ describe('Region', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect.assertions(5);
-
       expect(Region.validate(null)).toBe(false);
       expect(Region.validate(undefined)).toBe(false);
       expect(Region.validate(56)).toBe(false);
@@ -137,8 +114,6 @@ describe('Region', () => {
     });
 
     it('returns false because regionID is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         name: 'Albania',
         iso3166: 'ALB'
@@ -148,8 +123,6 @@ describe('Region', () => {
     });
 
     it('returns false because regionID is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         regionID: 2,
         name: 'Albania',
@@ -160,8 +133,6 @@ describe('Region', () => {
     });
 
     it('returns false because name is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         regionID: 'to to',
         iso3166: 'ALB'
@@ -171,8 +142,6 @@ describe('Region', () => {
     });
 
     it('returns false because name is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         regionID: 'to to',
         name: true,
@@ -183,8 +152,6 @@ describe('Region', () => {
     });
 
     it('returns false because iso3166 is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         regionID: 'to to',
         name: 'Albania'
@@ -194,8 +161,6 @@ describe('Region', () => {
     });
 
     it('returns false because iso3166 is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         regionID: 'to to',
         name: 'Albania',
@@ -208,8 +173,6 @@ describe('Region', () => {
 
   describe('empty', () => {
     it('returns each default value', () => {
-      expect.assertions(3);
-
       const region: Region = Region.empty();
 
       expect(region.getRegionID()).toBe(RegionID.empty());
@@ -218,16 +181,12 @@ describe('Region', () => {
     });
 
     it('returns singleton instance', () => {
-      expect.assertions(1);
-
       expect(Region.empty()).toBe(Region.empty());
     });
   });
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const region: Region = Region.empty();
 
       expect(region.equals(null)).toBe(false);
@@ -249,30 +208,28 @@ describe('Region', () => {
     });
 
     it('returns true if the all properties are the same', () => {
-      expect.assertions(5);
-
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const region1: Region = Region.of(
-        new MockRegionID(uuid1),
-        new MockRegionName('Afghanistan'),
-        new MockISO3166('AFG')
+        RegionID.of(uuid1),
+        RegionName.of('Afghanistan'),
+        ISO3166.of('AFG')
       );
       const region2: Region = Region.of(
-        new MockRegionID(uuid2),
-        new MockRegionName('Afghanistan'),
-        new MockISO3166('AFG')
+        RegionID.of(uuid2),
+        RegionName.of('Afghanistan'),
+        ISO3166.of('AFG')
       );
-      const region3: Region = Region.of(new MockRegionID(uuid1), new MockRegionName('Albania'), new MockISO3166('AFG'));
+      const region3: Region = Region.of(RegionID.of(uuid1), RegionName.of('Albania'), ISO3166.of('AFG'));
       const region4: Region = Region.of(
-        new MockRegionID(uuid1),
-        new MockRegionName('Afghanistan'),
-        new MockISO3166('AFB')
+        RegionID.of(uuid1),
+        RegionName.of('Afghanistan'),
+        ISO3166.of('AFB')
       );
       const region5: Region = Region.of(
-        new MockRegionID(uuid1),
-        new MockRegionName('Afghanistan'),
-        new MockISO3166('AFG')
+        RegionID.of(uuid1),
+        RegionName.of('Afghanistan'),
+        ISO3166.of('AFG')
       );
 
       expect(region1.equals(region1)).toBe(true);
@@ -285,8 +242,6 @@ describe('Region', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const uuid: UUID = UUID.v4();
       const region: Region = Region.of(RegionID.of(uuid), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
 
@@ -300,8 +255,6 @@ describe('Region', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
-      expect.assertions(1);
-
       const uuid: UUID = UUID.v4();
       const name: string = 'region 1';
       const iso3166: string = 'abc';
