@@ -1,27 +1,18 @@
 import { UUID } from '@jamashita/anden-uuid';
 import { AccountName } from '../../Account/AccountName';
-import { ISO639 } from '../../Language/ISO639';
 import { Language } from '../../Language/Language';
 import { LanguageID } from '../../Language/LanguageID';
-import { LanguageName } from '../../Language/LanguageName';
 import { MockLanguage } from '../../Language/mock/MockLanguage';
-import { MockLanguageID } from '../../Language/mock/MockLanguageID';
-import { ISO3166 } from '../../Region/ISO3166';
 import { MockRegion } from '../../Region/mock/MockRegion';
-import { MockRegionID } from '../../Region/mock/MockRegionID';
 import { Region } from '../../Region/Region';
 import { RegionID } from '../../Region/RegionID';
-import { RegionName } from '../../Region/RegionName';
-import { MockVeauAccountID } from '../../VeauAccount/mock/MockVeauAccountID';
 import { VeauAccountID } from '../../VeauAccount/VeauAccountID';
 import { Identity } from '../Identity';
 
 describe('Identity', () => {
   describe('of', () => {
     it('normal case', () => {
-      expect.assertions(4);
-
-      const veauAccountID: VeauAccountID = new MockVeauAccountID();
+      const veauAccountID: VeauAccountID = VeauAccountID.ofString('5ef8bce9-8e26-4c38-8353-dc05621267a1');
       const language: Language = new MockLanguage();
       const region: Region = new MockRegion();
       const name: AccountName = AccountName.empty();
@@ -37,8 +28,6 @@ describe('Identity', () => {
 
   describe('empty', () => {
     it('has randomly generated id and empty name, language, and region', () => {
-      expect.assertions(5);
-
       const identity1: Identity = Identity.empty();
       const identity2: Identity = Identity.empty();
 
@@ -52,8 +41,6 @@ describe('Identity', () => {
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const identity: Identity = Identity.empty();
 
       expect(identity.equals(null)).toBe(false);
@@ -75,8 +62,6 @@ describe('Identity', () => {
     });
 
     it('returns true if the all properties are the same', () => {
-      expect.assertions(6);
-
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -85,63 +70,63 @@ describe('Identity', () => {
       const uuid6: UUID = UUID.v4();
 
       const veauAccount1: Identity = Identity.of(
-        new MockVeauAccountID(uuid1),
+        VeauAccountID.of(uuid1),
         AccountName.empty(),
         new MockLanguage({
-          languageID: new MockLanguageID(uuid3)
+          languageID: LanguageID.of(uuid3)
         }),
         new MockRegion({
-          regionID: new MockRegionID(uuid5)
+          regionID: RegionID.of(uuid5)
         })
       );
       const veauAccount2: Identity = Identity.of(
-        new MockVeauAccountID(uuid2),
+        VeauAccountID.of(uuid2),
         AccountName.empty(),
         new MockLanguage({
-          languageID: new MockLanguageID(uuid3)
+          languageID: LanguageID.of(uuid3)
         }),
         new MockRegion({
-          regionID: new MockRegionID(uuid5)
+          regionID: RegionID.of(uuid5)
         })
       );
       const veauAccount3: Identity = Identity.of(
-        new MockVeauAccountID(uuid1),
+        VeauAccountID.of(uuid1),
         AccountName.empty(),
         new MockLanguage({
-          languageID: new MockLanguageID(uuid4)
+          languageID: LanguageID.of(uuid4)
         }),
         new MockRegion({
-          regionID: new MockRegionID(uuid5)
+          regionID: RegionID.of(uuid5)
         })
       );
       const veauAccount4: Identity = Identity.of(
-        new MockVeauAccountID(uuid1),
+        VeauAccountID.of(uuid1),
         AccountName.empty(),
         new MockLanguage({
-          languageID: new MockLanguageID(uuid3)
+          languageID: LanguageID.of(uuid3)
         }),
         new MockRegion({
-          regionID: new MockRegionID(uuid6)
+          regionID: RegionID.of(uuid6)
         })
       );
       const veauAccount5: Identity = Identity.of(
-        new MockVeauAccountID(uuid1),
+        VeauAccountID.of(uuid1),
         AccountName.of('rectangle'),
         new MockLanguage({
-          languageID: new MockLanguageID(uuid3)
+          languageID: LanguageID.of(uuid3)
         }),
         new MockRegion({
-          regionID: new MockRegionID(uuid5)
+          regionID: RegionID.of(uuid5)
         })
       );
       const veauAccount6: Identity = Identity.of(
-        new MockVeauAccountID(uuid1),
+        VeauAccountID.of(uuid1),
         AccountName.empty(),
         new MockLanguage({
-          languageID: new MockLanguageID(uuid3)
+          languageID: LanguageID.of(uuid3)
         }),
         new MockRegion({
-          regionID: new MockRegionID(uuid5)
+          regionID: RegionID.of(uuid5)
         })
       );
 
@@ -151,35 +136,6 @@ describe('Identity', () => {
       expect(veauAccount1.equals(veauAccount4)).toBe(false);
       expect(veauAccount1.equals(veauAccount5)).toBe(false);
       expect(veauAccount1.equals(veauAccount6)).toBe(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('returns the original string', () => {
-      expect.assertions(1);
-
-      const uuid1: UUID = UUID.v4();
-      const uuid2: UUID = UUID.v4();
-      const uuid3: UUID = UUID.v4();
-      const name: string = 'veau account';
-
-      const identity: Identity = Identity.of(
-        VeauAccountID.of(uuid1),
-        AccountName.of(name),
-        Language.of(
-          LanguageID.of(uuid2),
-          LanguageName.of('e'),
-          LanguageName.of('l'),
-          ISO639.of('DU')
-        ),
-        Region.of(
-          RegionID.of(uuid3),
-          RegionName.of('r'),
-          ISO3166.of('IU2')
-        )
-      );
-
-      expect(identity.toString()).toBe(`${uuid1.get()} ${name} ${uuid2.get()} e l DU ${uuid3.get()} r IU2`);
     });
   });
 });

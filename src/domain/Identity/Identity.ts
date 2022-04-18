@@ -4,8 +4,7 @@ import { Language } from '../Language/Language.js';
 import { Region } from '../Region/Region.js';
 import { VeauAccountID } from '../VeauAccount/VeauAccountID.js';
 
-export class Identity extends ValueObject<'Identity'> {
-  public readonly noun: 'Identity' = 'Identity';
+export class Identity extends ValueObject {
   private readonly veauAccountID: VeauAccountID;
   private readonly name: AccountName;
   private readonly language: Language;
@@ -58,7 +57,7 @@ export class Identity extends ValueObject<'Identity'> {
     properties.push(this.language.toString());
     properties.push(this.region.toString());
 
-    return properties.join(' ');
+    return properties.join(', ');
   }
 
   public getAccountName(): AccountName {
