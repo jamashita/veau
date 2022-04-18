@@ -1,22 +1,17 @@
 import { UUID } from '@jamashita/anden-uuid';
 import { AccountName } from '../../Account/AccountName';
 import { LanguageID } from '../../Language/LanguageID';
-import { MockLanguageID } from '../../Language/mock/MockLanguageID';
-import { MockRegionID } from '../../Region/mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
-import { VeauAccountError } from '../error/VeauAccountError';
-import { MockVeauAccountID } from '../mock/MockVeauAccountID';
 import { VeauAccount, VeauAccountJSON } from '../VeauAccount';
+import { VeauAccountError } from '../VeauAccountError';
 import { VeauAccountID } from '../VeauAccountID';
 
 describe('VeauAccount', () => {
   describe('of', () => {
     it('normal case', () => {
-      expect.assertions(4);
-
-      const veauAccountID: VeauAccountID = new MockVeauAccountID();
-      const languageID: LanguageID = new MockLanguageID();
-      const regionID: RegionID = new MockRegionID();
+      const veauAccountID: VeauAccountID = VeauAccountID.ofString('64d3acc4-af9b-4987-8915-30f3aab698f5');
+      const languageID: LanguageID = LanguageID.ofString('b902f0ba-8b13-449f-8281-16e940ede000');
+      const regionID: RegionID = RegionID.ofString('6ef7ae7f-549d-4342-a70f-8a16e52dea3d');
       const name: AccountName = AccountName.empty();
 
       const veauAccount: VeauAccount = VeauAccount.of(veauAccountID, languageID, regionID, name);
@@ -30,8 +25,6 @@ describe('VeauAccount', () => {
 
   describe('ofJSON', () => {
     it('normal case', () => {
-      expect.assertions(4);
-
       const json: VeauAccountJSON = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -48,8 +41,6 @@ describe('VeauAccount', () => {
     });
 
     it('veauAccountID is mal format', () => {
-      expect.assertions(1);
-
       const json: VeauAccountJSON = {
         veauAccountID: 'illegal one',
         languageID: UUID.v4().get(),
@@ -63,8 +54,6 @@ describe('VeauAccount', () => {
     });
 
     it('languageID is mal format', () => {
-      expect.assertions(1);
-
       const json: VeauAccountJSON = {
         veauAccountID: UUID.v4().get(),
         languageID: 'illegal one',
@@ -78,8 +67,6 @@ describe('VeauAccount', () => {
     });
 
     it('regionID is mal format', () => {
-      expect.assertions(1);
-
       const json: VeauAccountJSON = {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -95,8 +82,6 @@ describe('VeauAccount', () => {
 
   describe('validate', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         veauAccountID: 'illegal one',
         languageID: UUID.v4().get(),
@@ -108,8 +93,6 @@ describe('VeauAccount', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect.assertions(5);
-
       expect(VeauAccount.validate(null)).toBe(false);
       expect(VeauAccount.validate(undefined)).toBe(false);
       expect(VeauAccount.validate(56)).toBe(false);
@@ -118,8 +101,6 @@ describe('VeauAccount', () => {
     });
 
     it('returns false because veauAccountID is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
@@ -130,8 +111,6 @@ describe('VeauAccount', () => {
     });
 
     it('returns false because veauAccountID is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         veauAccountID: false,
         languageID: UUID.v4().get(),
@@ -143,8 +122,6 @@ describe('VeauAccount', () => {
     });
 
     it('returns false because languageID is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         veauAccountID: 'illegal one',
         regionID: UUID.v4().get(),
@@ -155,8 +132,6 @@ describe('VeauAccount', () => {
     });
 
     it('returns false because languageID is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         veauAccountID: 'illegal one',
         languageID: undefined,
@@ -168,8 +143,6 @@ describe('VeauAccount', () => {
     });
 
     it('returns false because regionID is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         veauAccountID: 'illegal one',
         languageID: UUID.v4().get(),
@@ -180,8 +153,6 @@ describe('VeauAccount', () => {
     });
 
     it('returns false because regionID is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         veauAccountID: 'illegal one',
         languageID: UUID.v4().get(),
@@ -193,8 +164,6 @@ describe('VeauAccount', () => {
     });
 
     it('returns false because name is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         veauAccountID: 'illegal one',
         languageID: UUID.v4().get(),
@@ -205,8 +174,6 @@ describe('VeauAccount', () => {
     });
 
     it('returns false because name is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         veauAccountID: 'illegal one',
         languageID: UUID.v4().get(),
@@ -220,8 +187,6 @@ describe('VeauAccount', () => {
 
   describe('empty', () => {
     it('has randomly generated id and empty name, language, and region', () => {
-      expect.assertions(5);
-
       const account1: VeauAccount = VeauAccount.empty();
       const account2: VeauAccount = VeauAccount.empty();
 
@@ -235,8 +200,6 @@ describe('VeauAccount', () => {
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const account: VeauAccount = VeauAccount.empty();
 
       expect(account.equals(null)).toBe(false);
@@ -258,8 +221,6 @@ describe('VeauAccount', () => {
     });
 
     it('returns true if the all properties are the same', () => {
-      expect.assertions(6);
-
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -268,39 +229,39 @@ describe('VeauAccount', () => {
       const uuid6: UUID = UUID.v4();
 
       const veauAccount1: VeauAccount = VeauAccount.of(
-        new MockVeauAccountID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        VeauAccountID.of(uuid1),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid5),
         AccountName.empty()
       );
       const veauAccount2: VeauAccount = VeauAccount.of(
-        new MockVeauAccountID(uuid2),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        VeauAccountID.of(uuid2),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid5),
         AccountName.empty()
       );
       const veauAccount3: VeauAccount = VeauAccount.of(
-        new MockVeauAccountID(uuid1),
-        new MockLanguageID(uuid4),
-        new MockRegionID(uuid5),
+        VeauAccountID.of(uuid1),
+        LanguageID.of(uuid4),
+        RegionID.of(uuid5),
         AccountName.empty()
       );
       const veauAccount4: VeauAccount = VeauAccount.of(
-        new MockVeauAccountID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid6),
+        VeauAccountID.of(uuid1),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid6),
         AccountName.empty()
       );
       const veauAccount5: VeauAccount = VeauAccount.of(
-        new MockVeauAccountID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        VeauAccountID.of(uuid1),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid5),
         AccountName.of('rectangle')
       );
       const veauAccount6: VeauAccount = VeauAccount.of(
-        new MockVeauAccountID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        VeauAccountID.of(uuid1),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid5),
         AccountName.empty()
       );
 
@@ -315,8 +276,6 @@ describe('VeauAccount', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -335,26 +294,6 @@ describe('VeauAccount', () => {
         regionID: uuid3.get(),
         name
       });
-    });
-  });
-
-  describe('toString', () => {
-    it('returns the original string', () => {
-      expect.assertions(1);
-
-      const uuid1: UUID = UUID.v4();
-      const uuid2: UUID = UUID.v4();
-      const uuid3: UUID = UUID.v4();
-      const name: string = 'veau account';
-
-      const veauAccount: VeauAccount = VeauAccount.of(
-        VeauAccountID.of(uuid1),
-        LanguageID.of(uuid2),
-        RegionID.of(uuid3),
-        AccountName.of(name)
-      );
-
-      expect(veauAccount.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${name}`);
     });
   });
 });

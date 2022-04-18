@@ -1,11 +1,11 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { JSONable, Kind } from '@jamashita/anden-type';
 import { AccountName } from '../Account/AccountName.js';
-import { LanguageError } from '../Language/error/LanguageError.js';
+import { LanguageError } from '../Language/LanguageError.js';
 import { LanguageID } from '../Language/LanguageID.js';
-import { RegionError } from '../Region/error/RegionError.js';
+import { RegionError } from '../Region/RegionError.js';
 import { RegionID } from '../Region/RegionID.js';
-import { VeauAccountError } from './error/VeauAccountError.js';
+import { VeauAccountError } from './VeauAccountError.js';
 import { VeauAccountID } from './VeauAccountID.js';
 
 export type VeauAccountJSON = Readonly<{
@@ -15,8 +15,7 @@ export type VeauAccountJSON = Readonly<{
   name: string;
 }>;
 
-export class VeauAccount extends ValueObject<'VeauAccount'> implements JSONable<VeauAccountJSON> {
-  public readonly noun: 'VeauAccount' = 'VeauAccount';
+export class VeauAccount extends ValueObject implements JSONable<VeauAccountJSON> {
   private readonly veauAccountID: VeauAccountID;
   private readonly languageID: LanguageID;
   private readonly regionID: RegionID;
