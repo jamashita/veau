@@ -1,9 +1,9 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { JSONable, Kind } from '@jamashita/anden-type';
 import { AsOf } from '../AsOf/AsOf.js';
-import { AsOfError } from '../AsOf/error/AsOfError.js';
+import { AsOfError } from '../AsOf/AsOfError.js';
 import { NumericalValue } from '../NumericalValue/NumericalValue.js';
-import { StatsValueError } from './error/StatsValueError.js';
+import { StatsValueError } from './StatsValueError.js';
 
 export type StatsValueJSON = Readonly<{
   asOf: string;
@@ -15,8 +15,7 @@ export type StatsValueRow = Readonly<{
   value: number;
 }>;
 
-export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<StatsValueJSON> {
-  public readonly noun: 'StatsValue' = 'StatsValue';
+export class StatsValue extends ValueObject implements JSONable<StatsValueJSON> {
   private readonly asOf: AsOf;
   private readonly value: NumericalValue;
 
@@ -30,7 +29,7 @@ export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<St
     }
     catch (err: unknown) {
       if (err instanceof AsOfError) {
-        throw new StatsValueError('StatsValue.ofRow()', err);
+        throw new StatsValueError('StatsValue.ofJSON()', err);
       }
 
       throw err;
@@ -93,7 +92,7 @@ export class StatsValue extends ValueObject<'StatsValue'> implements JSONable<St
     properties.push(this.asOf.toString());
     properties.push(this.value.toString());
 
-    return properties.join(' ');
+    return properties.join(', ');
   }
 
   public toJSON(): StatsValueJSON {

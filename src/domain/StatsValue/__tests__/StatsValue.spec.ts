@@ -1,14 +1,12 @@
 import { AsOf } from '../../AsOf/AsOf';
 import { MockAsOf } from '../../AsOf/mock/MockAsOf';
 import { NumericalValue } from '../../NumericalValue/NumericalValue';
-import { StatsValueError } from '../error/StatsValueError';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
+import { StatsValueError } from '../StatsValueError';
 
 describe('StatsValue', () => {
   describe('ofJSON', () => {
     it('normal case', () => {
-      expect.assertions(2);
-
       const json: StatsValueJSON = {
         asOf: '2000-01-01',
         value: -1.1
@@ -21,8 +19,6 @@ describe('StatsValue', () => {
     });
 
     it('asOf is mal format', () => {
-      expect.assertions(1);
-
       const json: StatsValueJSON = {
         asOf: 'illegal datetime',
         value: -1.1
@@ -36,8 +32,6 @@ describe('StatsValue', () => {
 
   describe('ofRow', () => {
     it('normal case', () => {
-      expect.assertions(2);
-
       const row: StatsValueRow = {
         statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
         asOf: '2000-01-01',
@@ -51,8 +45,6 @@ describe('StatsValue', () => {
     });
 
     it('asOf is mal format', () => {
-      expect.assertions(1);
-
       const row: StatsValueRow = {
         statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
         asOf: 'illegal asOf format',
@@ -67,8 +59,6 @@ describe('StatsValue', () => {
 
   describe('validate', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         asOf: '2000-01-01',
         value: 1
@@ -78,8 +68,6 @@ describe('StatsValue', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect.assertions(5);
-
       expect(StatsValue.validate(null)).toBe(false);
       expect(StatsValue.validate(undefined)).toBe(false);
       expect(StatsValue.validate(56)).toBe(false);
@@ -88,8 +76,6 @@ describe('StatsValue', () => {
     });
 
     it('returns false because asOf is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         value: -0.3
       };
@@ -98,8 +84,6 @@ describe('StatsValue', () => {
     });
 
     it('returns false because asOf is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         asOf: false,
         value: -0.3
@@ -109,8 +93,6 @@ describe('StatsValue', () => {
     });
 
     it('returns false because value is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         asOf: '2000-01-01'
       };
@@ -119,8 +101,6 @@ describe('StatsValue', () => {
     });
 
     it('returns false because value is not number', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         asOf: '2000-01-01',
         value: null
@@ -132,8 +112,6 @@ describe('StatsValue', () => {
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const value: StatsValue = StatsValue.of(new MockAsOf(), NumericalValue.of(1));
 
       expect(value.equals(null)).toBe(false);
@@ -155,8 +133,6 @@ describe('StatsValue', () => {
     });
 
     it('returns true if the all properties are the same', () => {
-      expect.assertions(5);
-
       const statsValue1: StatsValue = StatsValue.of(
         new MockAsOf({
           day: 1
@@ -198,26 +174,12 @@ describe('StatsValue', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const statsValue: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01'), NumericalValue.of(1));
 
       expect(statsValue.toJSON()).toStrictEqual({
         asOf: '2000-01-01',
         value: 1
       });
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      expect.assertions(1);
-
-      const asOf: string = '2000-01-01';
-      const value: number = 1;
-      const statsValue: StatsValue = StatsValue.of(AsOf.ofString(asOf), NumericalValue.of(value));
-
-      expect(statsValue.toString()).toBe(`${asOf} ${value}`);
     });
   });
 });

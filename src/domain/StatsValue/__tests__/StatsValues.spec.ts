@@ -1,27 +1,22 @@
-import { ImmutableProject } from '@jamashita/lluvia-collection';
-import sinon, { SinonSpy } from 'sinon';
+import { ImmutableProject } from '@jamashita/lluvia-project';
 import { AsOf } from '../../AsOf/AsOf';
 import { AsOfs } from '../../AsOf/AsOfs';
 import { MockAsOf } from '../../AsOf/mock/MockAsOf';
 import { NumericalValue } from '../../NumericalValue/NumericalValue';
-import { StatsValueError } from '../error/StatsValueError';
 import { MockStatsValue } from '../mock/MockStatsValue';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
+import { StatsValueError } from '../StatsValueError';
 import { StatsValues } from '../StatsValues';
 
 describe('StatsValues', () => {
   describe('of', () => {
     it('when the ImmutableSequence is zero size, returns StatsValues.empty()', () => {
-      expect.assertions(1);
-
-      const values: StatsValues = StatsValues.of(ImmutableProject.empty<AsOf, StatsValue>());
+      const values: StatsValues = StatsValues.of(ImmutableProject.empty());
 
       expect(values).toBe(StatsValues.empty());
     });
 
     it('produces the instance', () => {
-      expect.assertions(3);
-
       const value1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -32,7 +27,7 @@ describe('StatsValues', () => {
           day: 3
         })
       });
-      const vals: ImmutableProject<MockAsOf, MockStatsValue> = ImmutableProject.ofMap<MockAsOf, StatsValue>(
+      const vals: ImmutableProject<MockAsOf, MockStatsValue> = ImmutableProject.ofMap(
         new Map<MockAsOf, StatsValue>([
           [value1.getAsOf(), value1],
           [value2.getAsOf(), value2]
@@ -49,16 +44,12 @@ describe('StatsValues', () => {
 
   describe('ofJSON', () => {
     it('when empty Array given, returns StatsValues.empty()', () => {
-      expect.assertions(1);
-
       const statsValues: StatsValues = StatsValues.ofJSON([]);
 
       expect(statsValues).toBe(StatsValues.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(3);
-
       const json: Array<StatsValueJSON> = [
         {
           asOf: '2000-01-01',
@@ -80,8 +71,6 @@ describe('StatsValues', () => {
     });
 
     it('contains mal format asOf', () => {
-      expect.assertions(1);
-
       const json: Array<StatsValueJSON> = [
         {
           asOf: '2000-01-01 00:00:00',
@@ -99,8 +88,6 @@ describe('StatsValues', () => {
     });
 
     it('will be multiple mal format asOfs', () => {
-      expect.assertions(1);
-
       const json: Array<StatsValueJSON> = [
         {
           asOf: '2000-01-01 00:00:00',
@@ -120,16 +107,12 @@ describe('StatsValues', () => {
 
   describe('ofRow', () => {
     it('when empty Array given, returns StatsValues.empty()', () => {
-      expect.assertions(1);
-
       const statsValues: StatsValues = StatsValues.ofRow([]);
 
       expect(statsValues).toBe(StatsValues.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(3);
-
       const row: Array<StatsValueRow> = [
         {
           statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
@@ -153,8 +136,6 @@ describe('StatsValues', () => {
     });
 
     it('contains mal format statsItemID', () => {
-      expect.assertions(1);
-
       const row: Array<StatsValueRow> = [
         {
           statsItemID: 'illegal uuid',
@@ -174,8 +155,6 @@ describe('StatsValues', () => {
     });
 
     it('contains mal format asOf', () => {
-      expect.assertions(1);
-
       const row: Array<StatsValueRow> = [
         {
           statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
@@ -197,16 +176,12 @@ describe('StatsValues', () => {
 
   describe('ofArray', () => {
     it('when empty Array given, returns StatsValues.empty()', () => {
-      expect.assertions(1);
-
       const statsValues: StatsValues = StatsValues.ofArray([]);
 
       expect(statsValues).toBe(StatsValues.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(3);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -229,16 +204,12 @@ describe('StatsValues', () => {
 
   describe('ofSpread', () => {
     it('when no arguments given, returns StatsValues.empty()', () => {
-      expect.assertions(1);
-
       const statsValues: StatsValues = StatsValues.ofSpread();
 
       expect(statsValues).toBe(StatsValues.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(3);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -260,8 +231,6 @@ describe('StatsValues', () => {
 
   describe('validate', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const n: unknown = [
         {
           asOf: '2000-01-01',
@@ -281,8 +250,6 @@ describe('StatsValues', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect.assertions(5);
-
       expect(StatsValues.validate(null)).toBe(false);
       expect(StatsValues.validate(undefined)).toBe(false);
       expect(StatsValues.validate(56)).toBe(false);
@@ -291,14 +258,10 @@ describe('StatsValues', () => {
     });
 
     it('returns false because given parameter is not an array', () => {
-      expect.assertions(1);
-
       expect(StatsValues.validate({})).toBe(false);
     });
 
     it('returns false because the first element would not be StatsValueJSON', () => {
-      expect.assertions(1);
-
       const n: unknown = [
         {
           asOf: '2000-01-01',
@@ -318,8 +281,6 @@ describe('StatsValues', () => {
     });
 
     it('returns false because the second element would not be StatsValueJSON', () => {
-      expect.assertions(1);
-
       const n: unknown = [
         {
           asOf: '2000-01-01',
@@ -339,8 +300,6 @@ describe('StatsValues', () => {
     });
 
     it('returns false because the last element would not be StatsValueJSON', () => {
-      expect.assertions(1);
-
       const n: unknown = [
         {
           asOf: '2000-01-01',
@@ -362,22 +321,16 @@ describe('StatsValues', () => {
 
   describe('empty', () => {
     it('generates 0-length StatsValues', () => {
-      expect.assertions(1);
-
       expect(StatsValues.empty().size()).toBe(0);
     });
 
     it('returns singleton instance', () => {
-      expect.assertions(1);
-
       expect(StatsValues.empty()).toBe(StatsValues.empty());
     });
   });
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -394,29 +347,27 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(vals, 'get');
       const values: StatsValues = StatsValues.of(vals);
 
       // @ts-expect-error
-      values.vals.get = spy;
+      values.vals = vals;
       values.get(new MockAsOf());
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('set', () => {
     it('cannot set the same object', () => {
-      expect.assertions(3);
-
       const statsValue1: StatsValue = new MockStatsValue({
         value: NumericalValue.of(1)
       });
@@ -434,8 +385,6 @@ describe('StatsValues', () => {
     });
 
     it('update pattern', () => {
-      expect.assertions(5);
-
       const statsValue1: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -473,8 +422,6 @@ describe('StatsValues', () => {
     });
 
     it('insert pattern', () => {
-      expect.assertions(4);
-
       const statsValue1: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -507,8 +454,6 @@ describe('StatsValues', () => {
 
   describe('delete', () => {
     it('deletes a element if its asOf is the same', () => {
-      expect.assertions(4);
-
       const statsValue1: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -542,8 +487,6 @@ describe('StatsValues', () => {
     });
 
     it('returns StatsValues.empty() if the all values are deleted', () => {
-      expect.assertions(1);
-
       const asOf: MockAsOf = new MockAsOf({
         day: 10
       });
@@ -562,8 +505,6 @@ describe('StatsValues', () => {
 
   describe('getAdOfs', () => {
     it('extracts only their asOfs', () => {
-      expect.assertions(2);
-
       const asOf1: MockAsOf = new MockAsOf({
         day: 3
       });
@@ -588,8 +529,6 @@ describe('StatsValues', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -606,29 +545,27 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(vals, 'contains');
       const values: StatsValues = StatsValues.of(vals);
 
       // @ts-expect-error
-      values.vals.contains = spy;
+      values.vals = vals;
       values.contains(statsValue3);
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -645,29 +582,27 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(vals, 'isEmpty');
       const values: StatsValues = StatsValues.of(vals);
 
       // @ts-expect-error
-      values.vals.isEmpty = spy;
+      values.vals = vals;
       values.isEmpty();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -684,29 +619,27 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(vals, 'size');
       const values: StatsValues = StatsValues.of(vals);
 
       // @ts-expect-error
-      values.vals.size = spy;
+      values.vals = vals;
       values.size();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -723,31 +656,29 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(vals, 'forEach');
       const values: StatsValues = StatsValues.of(vals);
 
       // @ts-expect-error
-      values.vals.forEach = spy;
+      values.vals = vals;
       values.forEach(() => {
         // NOOP
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('duplicate', () => {
     it('just create a new array but the objects are the same', () => {
-      expect.assertions(6);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -781,16 +712,12 @@ describe('StatsValues', () => {
     });
 
     it('returns StatsValues.empty() if the original is empty', () => {
-      expect.assertions(1);
-
       expect(StatsValues.empty().duplicate()).toBe(StatsValues.empty());
     });
   });
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const values: StatsValues = StatsValues.empty();
 
       expect(values.equals(null)).toBe(false);
@@ -812,8 +739,6 @@ describe('StatsValues', () => {
     });
 
     it('returns true when the same instance given', () => {
-      expect.assertions(1);
-
       const statsValue1: StatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -833,8 +758,6 @@ describe('StatsValues', () => {
     });
 
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -851,47 +774,27 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(vals, 'equals');
       const values: StatsValues = StatsValues.of(vals);
 
       // @ts-expect-error
-      values.vals.equals = spy;
+      values.vals = vals;
       values.equals(StatsValues.empty());
 
-      expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      expect.assertions(1);
-
-      const asOf1: string = '2000-01-01';
-      const asOf2: string = '2000-01-02';
-      const value1: number = 1;
-      const value2: number = 2;
-
-      const statsValues: StatsValues = StatsValues.ofArray([
-        StatsValue.of(AsOf.ofString(asOf1), NumericalValue.of(value1)),
-        StatsValue.of(AsOf.ofString(asOf2), NumericalValue.of(value2))
-      ]);
-
-      expect(statsValues.toString()).toBe(`${asOf1} ${value1}, ${asOf2} ${value2}`);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('iterator', () => {
     it('normal case', () => {
-      expect.assertions(3);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -910,8 +813,8 @@ describe('StatsValues', () => {
 
       const arr: Array<MockStatsValue> = [statsValue1, statsValue2, statsValue3];
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
@@ -930,8 +833,6 @@ describe('StatsValues', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -948,31 +849,29 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(vals, 'every');
       const values: StatsValues = StatsValues.of(vals);
 
       // @ts-expect-error
-      values.vals.every = spy;
+      values.vals = vals;
       values.every(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -989,31 +888,29 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(vals, 'some');
       const values: StatsValues = StatsValues.of(vals);
 
       // @ts-expect-error
-      values.vals.some = spy;
+      values.vals = vals;
       values.some(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('values', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -1030,29 +927,27 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(vals, 'values');
       const values: StatsValues = StatsValues.of(vals);
 
       // @ts-expect-error
-      values.vals.values = spy;
+      values.vals = vals;
       values.values();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('filter', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -1069,8 +964,8 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
@@ -1089,8 +984,6 @@ describe('StatsValues', () => {
 
   describe('find', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -1107,31 +1000,29 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(vals, 'find');
       const values: StatsValues = StatsValues.of(vals);
 
       // @ts-expect-error
-      values.vals.find = spy;
+      values.vals = vals;
       values.find(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('map', () => {
     it('does not affect the original length', () => {
-      expect.assertions(1);
-
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 1
@@ -1148,8 +1039,8 @@ describe('StatsValues', () => {
         })
       });
 
-      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap<AsOf, MockStatsValue>(
-        new Map<AsOf, MockStatsValue>([
+      const vals: ImmutableProject<AsOf, MockStatsValue> = ImmutableProject.ofMap(
+        new Map([
           [statsValue1.getAsOf(), statsValue1],
           [statsValue2.getAsOf(), statsValue2],
           [statsValue3.getAsOf(), statsValue3]
@@ -1158,7 +1049,7 @@ describe('StatsValues', () => {
 
       const values: StatsValues = StatsValues.of(vals);
 
-      const mapped: ImmutableProject<AsOf, AsOf> = values.map<AsOf>((v: StatsValue) => {
+      const mapped: ImmutableProject<AsOf, AsOf> = values.map((v: StatsValue): AsOf => {
         return v.getAsOf();
       });
 
