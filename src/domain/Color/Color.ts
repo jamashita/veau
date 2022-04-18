@@ -1,7 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 
-export class Color extends ValueObject<'Color'> {
-  public readonly noun: 'Color' = 'Color';
+export class Color extends ValueObject {
   private readonly rgb: string;
 
   public static readonly NO_COLOR: Color = new Color('#000000');
@@ -22,11 +21,8 @@ export class Color extends ValueObject<'Color'> {
     if (!(other instanceof Color)) {
       return false;
     }
-    if (this.rgb === other.rgb) {
-      return true;
-    }
 
-    return false;
+    return this.rgb === other.rgb;
   }
 
   public serialize(): string {

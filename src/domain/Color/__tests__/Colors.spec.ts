@@ -1,5 +1,4 @@
-import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
-import sinon, { SinonSpy } from 'sinon';
+import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-sequence';
 import { Color } from '../Color';
 import { Colors } from '../Colors';
 import { MockColor } from '../mock/MockColor';
@@ -7,12 +6,10 @@ import { MockColor } from '../mock/MockColor';
 describe('Colors', () => {
   describe('of', () => {
     it('normal case', () => {
-      expect.assertions(4);
-
       const color1: MockColor = new MockColor();
       const color2: MockColor = new MockColor();
       const color3: MockColor = new MockColor();
-      const sequence: ImmutableSequence<Color> = ImmutableSequence.ofArray<Color>([color1, color2, color3]);
+      const sequence: ImmutableSequence<Color> = ImmutableSequence.ofArray([color1, color2, color3]);
 
       const colors: Colors = Colors.of(sequence);
 
@@ -25,8 +22,6 @@ describe('Colors', () => {
 
   describe('ofArray', () => {
     it('normal case', () => {
-      expect.assertions(4);
-
       const colors: Array<MockColor> = [new MockColor(), new MockColor(), new MockColor()];
 
       const colours: Colors = Colors.ofArray(colors);
@@ -40,8 +35,6 @@ describe('Colors', () => {
 
   describe('ofSpread', () => {
     it('normal case', () => {
-      expect.assertions(4);
-
       const color1: MockColor = new MockColor();
       const color2: MockColor = new MockColor();
       const color3: MockColor = new MockColor();
@@ -57,8 +50,6 @@ describe('Colors', () => {
 
   describe('chartScheme', () => {
     it('generates 20 colors', () => {
-      expect.assertions(1);
-
       const colors: Colors = Colors.chartScheme();
 
       expect(colors.size()).toBe(20);
@@ -67,88 +58,78 @@ describe('Colors', () => {
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'get');
       const colors: Colors = Colors.of(sequence);
 
       // @ts-expect-error
-      colors.colors.get = spy;
+      colors.colors = sequence;
       colors.get(0);
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'contains');
       const colors: Colors = Colors.of(sequence);
 
       // @ts-expect-error
-      colors.colors.contains = spy;
+      colors.colors = sequence;
       colors.contains(new MockColor(''));
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'size');
       const colors: Colors = Colors.of(sequence);
 
       // @ts-expect-error
-      colors.colors.size = spy;
+      colors.colors = sequence;
       colors.size();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'isEmpty');
       const colors: Colors = Colors.of(sequence);
 
       // @ts-expect-error
-      colors.colors.isEmpty = spy;
+      colors.colors = sequence;
       colors.isEmpty();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const colors: Colors = Colors.ofSpread();
 
       expect(colors.equals(null)).toBe(false);
@@ -170,8 +151,6 @@ describe('Colors', () => {
     });
 
     it('same instance', () => {
-      expect.assertions(1);
-
       const color1: MockColor = new MockColor('#ffffff');
       const color2: MockColor = new MockColor('#000000');
       const colors: Colors = Colors.ofArray([color1, color2]);
@@ -180,53 +159,29 @@ describe('Colors', () => {
     });
 
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'equals');
       const colors: Colors = Colors.of(sequence);
 
       // @ts-expect-error
-      colors.colors.equals = spy;
+      colors.colors = sequence;
       colors.equals(Colors.ofArray([]));
 
-      expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
-        new MockColor('#ffffff'),
-        new MockColor('#000000')
-      ]);
-
-      const spy: SinonSpy = sinon.spy();
-      const colors: Colors = Colors.of(sequence);
-
-      // @ts-expect-error
-      colors.colors.toString = spy;
-      colors.toString();
-
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('iterator', () => {
     it('normal case', () => {
-      expect.assertions(2);
-
       const color1: MockColor = new MockColor('#ffffff');
       const color2: MockColor = new MockColor('#000000');
       const arr: Array<MockColor> = [color1, color2];
 
-      const sequence: MockSequence<Color> = new MockSequence<Color>(arr);
+      const sequence: MockSequence<Color> = new MockSequence(arr);
 
       const colors: Colors = Colors.of(sequence);
 
@@ -241,95 +196,85 @@ describe('Colors', () => {
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'forEach');
       const colors: Colors = Colors.of(sequence);
 
       // @ts-expect-error
-      colors.colors.forEach = spy;
+      colors.colors = sequence;
       colors.forEach(() => {
         // NOOP
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'every');
       const colors: Colors = Colors.of(sequence);
 
       // @ts-expect-error
-      colors.colors.every = spy;
+      colors.colors = sequence;
       colors.every(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'some');
       const colors: Colors = Colors.of(sequence);
 
       // @ts-expect-error
-      colors.colors.some = spy;
+      colors.colors = sequence;
       colors.some(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('values', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'values');
       const colors: Colors = Colors.of(sequence);
 
       // @ts-expect-error
-      colors.colors.values = spy;
+      colors.colors = sequence;
       colors.values();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('filter', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
@@ -346,38 +291,34 @@ describe('Colors', () => {
 
   describe('find', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'find');
       const colors: Colors = Colors.of(sequence);
 
       // @ts-expect-error
-      colors.colors.find = spy;
+      colors.colors = sequence;
       colors.find(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('map', () => {
     it('does not affect the length, only change the instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<Color> = new MockSequence<Color>([
+      const sequence: MockSequence<Color> = new MockSequence([
         new MockColor('#ffffff'),
         new MockColor('#000000')
       ]);
 
       const colors: Colors = Colors.of(sequence);
 
-      const mapped: ImmutableSequence<string> = colors.map<string>((c: Color) => {
+      const mapped: ImmutableSequence<string> = colors.map((c: Color): string => {
         return c.get();
       });
 

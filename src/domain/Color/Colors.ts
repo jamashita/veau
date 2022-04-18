@@ -1,10 +1,9 @@
-import { BinaryPredicate, Catalogue, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, ForEach, Kind, Mapping, Nullable } from '@jamashita/anden-type';
 import { Quantity } from '@jamashita/lluvia-collection';
 import { ImmutableSequence, ReadonlySequence } from '@jamashita/lluvia-sequence';
 import { Color } from './Color.js';
 
-export class Colors extends Quantity<number, Color, 'Colors'> {
-  public readonly noun: 'Colors' = 'Colors';
+export class Colors extends Quantity<number, Color> {
   private readonly colors: ImmutableSequence<Color>;
 
   private static readonly DEFAULT: Colors = Colors.ofSpread(
@@ -51,6 +50,10 @@ export class Colors extends Quantity<number, Color, 'Colors'> {
     this.colors = colors;
   }
 
+  public contains(value: Color): boolean {
+    return this.colors.contains(value);
+  }
+
   public equals(other: unknown): boolean {
     if (this === other) {
       return true;
@@ -60,18 +63,6 @@ export class Colors extends Quantity<number, Color, 'Colors'> {
     }
 
     return this.colors.equals(other.colors);
-  }
-
-  public serialize(): string {
-    return this.colors.toString();
-  }
-
-  public iterator(): Iterator<[number, Color]> {
-    return this.colors.iterator();
-  }
-
-  public contains(value: Color): boolean {
-    return this.colors.contains(value);
   }
 
   public every(predicate: BinaryPredicate<Color, number>): boolean {
@@ -86,8 +77,8 @@ export class Colors extends Quantity<number, Color, 'Colors'> {
     return this.colors.find(predicate);
   }
 
-  public forEach(catalogue: Catalogue<number, Color>): void {
-    this.colors.forEach(catalogue);
+  public forEach(foreach: ForEach<number, Color>): void {
+    this.colors.forEach(foreach);
   }
 
   public get(index: number): Color {
@@ -105,8 +96,16 @@ export class Colors extends Quantity<number, Color, 'Colors'> {
     return this.colors.isEmpty();
   }
 
-  public map<W>(mapper: Mapper<Color, W>): ImmutableSequence<W> {
-    return this.colors.map<W>(mapper);
+  public iterator(): Iterator<[number, Color]> {
+    return this.colors.iterator();
+  }
+
+  public map<W>(mapping: Mapping<Color, W>): ImmutableSequence<W> {
+    return this.colors.map(mapping);
+  }
+
+  public serialize(): string {
+    return this.colors.toString();
   }
 
   public size(): number {
