@@ -1,7 +1,7 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Ambiguous, Kind } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
-import { TermError } from './error/TermError.js';
+import { TermError } from './TermError.js';
 import { TermID } from './TermID.js';
 import { TermKey } from './TermKey.js';
 
@@ -11,8 +11,7 @@ const MONTHLY_ID: string = '5a60eb2e-64f4-4d18-b8c1-34d3fa6a6262';
 const QUARTERLY_ID: string = 'fbfe34f4-9757-4133-8353-c9a4bf3479d3';
 const ANNUAL_ID: string = '96f0d8a0-a136-4fb1-bc07-22dad6b8a21c';
 
-export class Term extends ValueObject<'Term'> {
-  public readonly noun: 'Term' = 'Term';
+export class Term extends ValueObject {
   private readonly termID: TermID;
   private readonly key: TermKey;
 
@@ -82,7 +81,7 @@ export class Term extends ValueObject<'Term'> {
     props.push(this.termID.toString());
     props.push(this.key.toString());
 
-    return props.join(' ');
+    return props.join(', ');
   }
 
   public getKey(): TermKey {

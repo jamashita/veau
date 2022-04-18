@@ -1,5 +1,4 @@
-import { ImmutableProject, MockProject } from '@jamashita/lluvia-collection';
-import sinon, { SinonSpy } from 'sinon';
+import { ImmutableProject, MockProject } from '@jamashita/lluvia-project';
 import { Term } from '../Term';
 import { TermID } from '../TermID';
 import { Terms } from '../Terms';
@@ -7,32 +6,24 @@ import { Terms } from '../Terms';
 describe('Terms', () => {
   describe('all', () => {
     it('is singleton instance', () => {
-      expect.assertions(1);
-
       expect(Terms.all()).toBe(Terms.all());
     });
 
     it('the length is 5', () => {
-      expect.assertions(1);
-
       expect(Terms.all().size()).toBe(5);
     });
   });
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
-        new Map<TermID, Term>([
+      const project: MockProject<TermID, Term> = new MockProject(
+        new Map([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
-
-      project.get = spy;
+      const spy: jest.SpyInstance = jest.spyOn(project, 'get');
 
       // @ts-expect-error
       const terms: Terms = Terms.of(Terms.all().terms);
@@ -41,24 +32,20 @@ describe('Terms', () => {
 
       terms.get(Term.MONTHLY.getTermID());
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
-        new Map<TermID, Term>([
+      const project: MockProject<TermID, Term> = new MockProject(
+        new Map([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
-
-      project.contains = spy;
+      const spy: jest.SpyInstance = jest.spyOn(project, 'contains');
 
       // @ts-expect-error
       const terms: Terms = Terms.of(Terms.all().terms);
@@ -67,24 +54,20 @@ describe('Terms', () => {
 
       terms.contains(Term.MONTHLY);
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
-        new Map<TermID, Term>([
+      const project: MockProject<TermID, Term> = new MockProject(
+        new Map([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
-
-      project.isEmpty = spy;
+      const spy: jest.SpyInstance = jest.spyOn(project, 'isEmpty');
 
       // @ts-expect-error
       const terms: Terms = Terms.of(Terms.all().terms);
@@ -93,24 +76,20 @@ describe('Terms', () => {
 
       terms.isEmpty();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
-        new Map<TermID, Term>([
+      const project: MockProject<TermID, Term> = new MockProject(
+        new Map([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
-
-      project.forEach = spy;
+      const spy: jest.SpyInstance = jest.spyOn(project, 'forEach');
 
       // @ts-expect-error
       const terms: Terms = Terms.of(Terms.all().terms);
@@ -121,18 +100,16 @@ describe('Terms', () => {
         // NOOP
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('map', () => {
     it('does not affect the original length', () => {
-      expect.assertions(1);
-
       const terms: Terms = Terms.all();
 
-      const mapped: ImmutableProject<TermID, TermID> = terms.map<TermID>((term: Term) => {
-        return term.getTermID();
+      const mapped: ImmutableProject<TermID, Term> = terms.map((term: Term): Term => {
+        return term;
       });
 
       expect(mapped.size()).toBe(5);
@@ -141,8 +118,6 @@ describe('Terms', () => {
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const terms: Terms = Terms.all();
 
       expect(terms.equals(null)).toBe(false);
@@ -164,42 +139,12 @@ describe('Terms', () => {
     });
 
     it('returns true if the same instance given', () => {
-      expect.assertions(1);
-
       expect(Terms.all()).toBe(Terms.all());
-    });
-  });
-
-  describe('toString', () => {
-    it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
-        new Map<TermID, Term>([
-          [Term.DAILY.getTermID(), Term.DAILY],
-          [Term.MONTHLY.getTermID(), Term.MONTHLY]
-        ])
-      );
-
-      const spy: SinonSpy = sinon.spy();
-
-      project.toString = spy;
-
-      // @ts-expect-error
-      const terms: Terms = Terms.of(Terms.all().terms);
-      // @ts-expect-error
-      terms.terms = project;
-
-      terms.toString();
-
-      expect(spy.called).toBe(true);
     });
   });
 
   describe('iterator', () => {
     it('returns [TermID, Term]', () => {
-      expect.assertions(5);
-
       const terms: Terms = Terms.all();
       let i: number = 0;
 
@@ -240,18 +185,14 @@ describe('Terms', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
-        new Map<TermID, Term>([
+      const project: MockProject<TermID, Term> = new MockProject(
+        new Map([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
-
-      project.every = spy;
+      const spy: jest.SpyInstance = jest.spyOn(project, 'every');
 
       // @ts-expect-error
       const terms: Terms = Terms.of(Terms.all().terms);
@@ -262,24 +203,20 @@ describe('Terms', () => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
-        new Map<TermID, Term>([
+      const project: MockProject<TermID, Term> = new MockProject(
+        new Map([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
-
-      project.some = spy;
+      const spy: jest.SpyInstance = jest.spyOn(project, 'some');
 
       // @ts-expect-error
       const terms: Terms = Terms.of(Terms.all().terms);
@@ -290,24 +227,20 @@ describe('Terms', () => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('values', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
-        new Map<TermID, Term>([
+      const project: MockProject<TermID, Term> = new MockProject(
+        new Map([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
-
-      project.values = spy;
+      const spy: jest.SpyInstance = jest.spyOn(project, 'values');
 
       // @ts-expect-error
       const terms: Terms = Terms.of(Terms.all().terms);
@@ -316,14 +249,12 @@ describe('Terms', () => {
 
       terms.values();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('filter', () => {
     it('returns matching elements by predicate', () => {
-      expect.assertions(1);
-
       const terms: Terms = Terms.all();
 
       const filtered: Terms = terms.filter((t: Term) => {
@@ -336,18 +267,14 @@ describe('Terms', () => {
 
   describe('find', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const project: MockProject<TermID, Term> = new MockProject<TermID, Term>(
-        new Map<TermID, Term>([
+      const project: MockProject<TermID, Term> = new MockProject(
+        new Map([
           [Term.DAILY.getTermID(), Term.DAILY],
           [Term.MONTHLY.getTermID(), Term.MONTHLY]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
-
-      project.find = spy;
+      const spy: jest.SpyInstance = jest.spyOn(project, 'find');
 
       // @ts-expect-error
       const terms: Terms = Terms.of(Terms.all().terms);
@@ -358,7 +285,7 @@ describe('Terms', () => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

@@ -1,7 +1,6 @@
 import { ValueObject } from '@jamashita/anden-object';
 
-export class TermKey extends ValueObject<'TermKey'> {
-  public readonly noun: 'TermKey' = 'TermKey';
+export class TermKey extends ValueObject {
   private readonly key: string;
 
   public static of(key: string): TermKey {
@@ -20,11 +19,8 @@ export class TermKey extends ValueObject<'TermKey'> {
     if (!(other instanceof TermKey)) {
       return false;
     }
-    if (this.key === other.key) {
-      return true;
-    }
 
-    return false;
+    return this.key === other.key;
   }
 
   public serialize(): string {

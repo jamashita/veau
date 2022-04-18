@@ -1,12 +1,10 @@
 import { UUID } from '@jamashita/anden-uuid';
-import { TermError } from '../error/TermError';
+import { TermError } from '../TermError';
 import { TermID } from '../TermID';
 
 describe('TermID', () => {
   describe('of', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const uuid: UUID = UUID.v4();
 
       const termID: TermID = TermID.of(uuid);
@@ -17,8 +15,6 @@ describe('TermID', () => {
 
   describe('ofString', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const uuid: UUID = UUID.v4();
 
       const termID: TermID = TermID.ofString(uuid.get());
@@ -27,8 +23,6 @@ describe('TermID', () => {
     });
 
     it('returns Dead when uuid length string is not given', () => {
-      expect.assertions(1);
-
       expect(() => {
         TermID.ofString('cinq');
       }).toThrow(TermError);
@@ -37,8 +31,6 @@ describe('TermID', () => {
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const termID: TermID = TermID.of(UUID.v4());
 
       expect(termID.equals(null)).toBe(false);
@@ -60,8 +52,6 @@ describe('TermID', () => {
     });
 
     it('returns true if the property is the same', () => {
-      expect.assertions(3);
-
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const termID1: TermID = TermID.of(uuid1);
@@ -71,17 +61,6 @@ describe('TermID', () => {
       expect(termID1.equals(termID1)).toBe(true);
       expect(termID1.equals(termID2)).toBe(false);
       expect(termID1.equals(termID3)).toBe(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('returns the original string', () => {
-      expect.assertions(1);
-
-      const uuid: UUID = UUID.v4();
-      const termID: TermID = TermID.of(uuid);
-
-      expect(termID.toString()).toBe(uuid.toString());
     });
   });
 });

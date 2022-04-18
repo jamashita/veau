@@ -1,11 +1,10 @@
-import { BinaryPredicate, Catalogue, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, ForEach, Mapping, Nullable } from '@jamashita/anden-type';
 import { Quantity } from '@jamashita/lluvia-collection';
 import { ImmutableProject, ReadonlyProject } from '@jamashita/lluvia-project';
 import { Term } from './Term.js';
 import { TermID } from './TermID.js';
 
-export class Terms extends Quantity<TermID, Term, 'Terms'> {
-  public readonly noun: 'Terms' = 'Terms';
+export class Terms extends Quantity<TermID, Term> {
   private readonly terms: ImmutableProject<TermID, Term>;
 
   private static readonly ALL: Terms = Terms.ofArray([
@@ -25,7 +24,7 @@ export class Terms extends Quantity<TermID, Term, 'Terms'> {
   }
 
   private static ofArray(terms: ReadonlyArray<Term>): Terms {
-    const map: Map<TermID, Term> = new Map<TermID, Term>();
+    const map: Map<TermID, Term> = new Map();
 
     terms.forEach((term: Term) => {
       map.set(term.getTermID(), term);
@@ -35,7 +34,7 @@ export class Terms extends Quantity<TermID, Term, 'Terms'> {
   }
 
   private static ofMap(terms: ReadonlyMap<TermID, Term>): Terms {
-    return new Terms(ImmutableProject.ofMap<TermID, Term>(terms));
+    return new Terms(ImmutableProject.ofMap(terms));
   }
 
   protected constructor(terms: ImmutableProject<TermID, Term>) {
@@ -43,24 +42,12 @@ export class Terms extends Quantity<TermID, Term, 'Terms'> {
     this.terms = terms;
   }
 
-  public equals(other: unknown): boolean {
-    if (this === other) {
-      return true;
-    }
-
-    return false;
-  }
-
-  public serialize(): string {
-    return this.terms.toString();
-  }
-
-  public iterator(): Iterator<[TermID, Term]> {
-    return this.terms.iterator();
-  }
-
   public contains(value: Term): boolean {
     return this.terms.contains(value);
+  }
+
+  public equals(other: unknown): boolean {
+    return this === other;
   }
 
   public every(predicate: BinaryPredicate<Term, TermID>): boolean {
@@ -75,8 +62,8 @@ export class Terms extends Quantity<TermID, Term, 'Terms'> {
     return this.terms.find(predicate);
   }
 
-  public forEach(catalogue: Catalogue<TermID, Term>): void {
-    this.terms.forEach(catalogue);
+  public forEach(foreach: ForEach<TermID, Term>): void {
+    this.terms.forEach(foreach);
   }
 
   public get(key: TermID): Nullable<Term> {
@@ -87,8 +74,16 @@ export class Terms extends Quantity<TermID, Term, 'Terms'> {
     return this.terms.isEmpty();
   }
 
-  public map<U>(mapper: Mapper<Term, U>): ImmutableProject<TermID, U> {
-    return this.terms.map<U>(mapper);
+  public iterator(): Iterator<[TermID, Term]> {
+    return this.terms.iterator();
+  }
+
+  public map<W>(mapping: Mapping<Term, W>): ImmutableProject<TermID, W> {
+    return this.terms.map(mapping);
+  }
+
+  public serialize(): string {
+    return this.terms.toString();
   }
 
   public size(): number {

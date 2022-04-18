@@ -1,9 +1,8 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { UUID, UUIDError } from '@jamashita/anden-uuid';
-import { TermError } from './error/TermError.js';
+import { TermError } from './TermError.js';
 
-export class TermID extends ValueObject<'TermID'> {
-  public readonly noun: 'TermID' = 'TermID';
+export class TermID extends ValueObject {
   private readonly uuid: UUID;
 
   public static of(uuid: UUID): TermID {
