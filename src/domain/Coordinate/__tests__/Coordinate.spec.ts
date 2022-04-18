@@ -5,8 +5,6 @@ import { Row } from '../Row';
 describe('Coordinate', () => {
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const coordinate: Coordinate = Coordinate.of(Row.origin(), Column.origin());
 
       expect(coordinate.equals(null)).toBe(false);
@@ -28,8 +26,6 @@ describe('Coordinate', () => {
     });
 
     it('returns true if the all properties are the same', () => {
-      expect.assertions(5);
-
       const coordinate1: Coordinate = Coordinate.of(Row.of(1), Column.of(2));
       const coordinate2: Coordinate = Coordinate.of(Row.of(2), Column.of(2));
       const coordinate3: Coordinate = Coordinate.of(Row.of(1), Column.of(1));
@@ -41,18 +37,6 @@ describe('Coordinate', () => {
       expect(coordinate1.equals(coordinate3)).toBe(false);
       expect(coordinate1.equals(coordinate4)).toBe(false);
       expect(coordinate1.equals(coordinate5)).toBe(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('returns the original string', () => {
-      expect.assertions(1);
-
-      const row: number = 1;
-      const column: number = 2;
-      const coordinate: Coordinate = Coordinate.of(Row.of(row), Column.of(column));
-
-      expect(coordinate.toString()).toBe(`${row} ${column}`);
     });
   });
 });

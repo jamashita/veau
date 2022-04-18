@@ -2,8 +2,7 @@ import { ValueObject } from '@jamashita/anden-object';
 import { Column } from './Column.js';
 import { Row } from './Row.js';
 
-export class Coordinate extends ValueObject<'Coordinate'> {
-  public readonly noun: 'Coordinate' = 'Coordinate';
+export class Coordinate extends ValueObject {
   private readonly row: Row;
   private readonly column: Column;
 
@@ -40,7 +39,7 @@ export class Coordinate extends ValueObject<'Coordinate'> {
     properties.push(this.row.toString());
     properties.push(this.column.toString());
 
-    return properties.join(' ');
+    return properties.join(', ');
   }
 
   public getColumn(): Column {

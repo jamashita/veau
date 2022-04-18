@@ -1,18 +1,17 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { ColumnError } from './error/ColumnError.js';
+import { CoordinateError } from './CoordinateError.js';
 
 const ORIGIN_VALUE: number = 0;
 
-export class Column extends ValueObject<'Column'> {
-  public readonly noun: 'Column' = 'Column';
+export class Column extends ValueObject {
   private readonly column: number;
 
   private static readonly ORIGIN: Column = new Column(ORIGIN_VALUE);
 
   public static of(column: number): Column {
     if (column < 0) {
-      throw new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`);
+      throw new CoordinateError(`ILLEGAL COLUMN SPECIFIED ${column}`);
     }
     if (column === ORIGIN_VALUE) {
       return Column.origin();
@@ -21,7 +20,7 @@ export class Column extends ValueObject<'Column'> {
       return new Column(column);
     }
 
-    throw new ColumnError(`ILLEGAL COLUMN SPECIFIED: ${column}`);
+    throw new CoordinateError(`ILLEGAL COLUMN SPECIFIED: ${column}`);
   }
 
   public static origin(): Column {
@@ -40,11 +39,8 @@ export class Column extends ValueObject<'Column'> {
     if (!(other instanceof Column)) {
       return false;
     }
-    if (this.column === other.column) {
-      return true;
-    }
 
-    return false;
+    return this.column === other.column;
   }
 
   public serialize(): string {
@@ -56,10 +52,6 @@ export class Column extends ValueObject<'Column'> {
   }
 
   public isOrigin(): boolean {
-    if (this === Column.origin()) {
-      return true;
-    }
-
-    return false;
+    return this === Column.origin();
   }
 }

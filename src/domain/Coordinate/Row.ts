@@ -1,18 +1,17 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { RowError } from './error/RowError.js';
+import { CoordinateError } from './CoordinateError';
 
 const ORIGIN_VALUE: number = 0;
 
-export class Row extends ValueObject<'Row'> {
-  public readonly noun: 'Row' = 'Row';
+export class Row extends ValueObject {
   private readonly row: number;
 
   private static readonly ORIGIN: Row = new Row(ORIGIN_VALUE);
 
   public static of(row: number): Row {
     if (row < 0) {
-      throw new RowError(`ILLEGAL ROW SPECIFIED ${row}`);
+      throw new CoordinateError(`ILLEGAL ROW SPECIFIED ${row}`);
     }
     if (row === ORIGIN_VALUE) {
       return Row.origin();
@@ -21,7 +20,7 @@ export class Row extends ValueObject<'Row'> {
       return new Row(row);
     }
 
-    throw new RowError(`ILLEGAL ROW SPECIFIED: ${row}`);
+    throw new CoordinateError(`ILLEGAL ROW SPECIFIED: ${row}`);
   }
 
   public static origin(): Row {
@@ -40,11 +39,8 @@ export class Row extends ValueObject<'Row'> {
     if (!(other instanceof Row)) {
       return false;
     }
-    if (this.row === other.row) {
-      return true;
-    }
 
-    return false;
+    return this.row === other.row;
   }
 
   public serialize(): string {
@@ -56,10 +52,6 @@ export class Row extends ValueObject<'Row'> {
   }
 
   public isOrigin(): boolean {
-    if (this === Row.origin()) {
-      return true;
-    }
-
-    return false;
+    return this === Row.origin();
   }
 }
