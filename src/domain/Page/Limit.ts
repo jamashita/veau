@@ -1,11 +1,10 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { PageError } from './error/PageError.js';
+import { PageError } from './PageError';
 
 const DEFAULT_VALUE: number = 40;
 
-export class Limit extends ValueObject<'Limit'> {
-  public readonly noun: 'Limit' = 'Limit';
+export class Limit extends ValueObject {
   private readonly limit: number;
 
   private static readonly DEFAULT: Limit = new Limit(DEFAULT_VALUE);
@@ -40,11 +39,8 @@ export class Limit extends ValueObject<'Limit'> {
     if (!(other instanceof Limit)) {
       return false;
     }
-    if (this.limit === other.limit) {
-      return true;
-    }
 
-    return false;
+    return this.limit === other.limit;
   }
 
   public serialize(): string {

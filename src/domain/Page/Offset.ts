@@ -1,9 +1,8 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { PageError } from './error/PageError.js';
+import { PageError } from './PageError';
 
-export class Offset extends ValueObject<'Offset'> {
-  public readonly noun: 'Offset' = 'Offset';
+export class Offset extends ValueObject {
   private readonly offset: number;
 
   public static of(offset: number): Offset {
@@ -29,11 +28,8 @@ export class Offset extends ValueObject<'Offset'> {
     if (!(other instanceof Offset)) {
       return false;
     }
-    if (this.offset === other.offset) {
-      return true;
-    }
 
-    return false;
+    return this.offset === other.offset;
   }
 
   public serialize(): string {

@@ -1,13 +1,12 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { PageError } from './error/PageError.js';
-import { Limit } from './Limit.js';
-import { Offset } from './Offset.js';
+import { Limit } from './Limit';
+import { Offset } from './Offset';
+import { PageError } from './PageError';
 
 const MIN_PAGE: number = 1;
 
-export class Page extends ValueObject<'Page'> {
-  public readonly noun: 'Page' = 'Page';
+export class Page extends ValueObject {
   private readonly page: number;
 
   private static readonly MIN: Page = new Page(MIN_PAGE);
@@ -42,11 +41,8 @@ export class Page extends ValueObject<'Page'> {
     if (!(other instanceof Page)) {
       return false;
     }
-    if (this.page === other.page) {
-      return true;
-    }
 
-    return false;
+    return this.page === other.page;
   }
 
   public serialize(): string {
