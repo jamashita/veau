@@ -8,8 +8,7 @@ export type EntranceInformationJSON = Readonly<{
   password: string;
 }>;
 
-export class EntranceInformation extends ValueObject<'EntranceInformation'> implements JSONable<EntranceInformationJSON> {
-  public readonly noun: 'EntranceInformation' = 'EntranceInformation';
+export class EntranceInformation extends ValueObject implements JSONable<EntranceInformationJSON> {
   private readonly account: AccountName;
   private readonly password: Password;
 
@@ -66,7 +65,7 @@ export class EntranceInformation extends ValueObject<'EntranceInformation'> impl
     properties.push(this.account.toString());
     properties.push(this.password.toString());
 
-    return properties.join(' ');
+    return properties.join(', ');
   }
 
   public toJSON(): EntranceInformationJSON {

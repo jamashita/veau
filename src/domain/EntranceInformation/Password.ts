@@ -2,8 +2,7 @@ import { ValueObject } from '@jamashita/anden-object';
 
 const EMPTY_PASSWORD: string = '';
 
-export class Password extends ValueObject<'Password'> {
-  public readonly noun: 'Password' = 'Password';
+export class Password extends ValueObject {
   private readonly password: string;
 
   private static readonly EMPTY: Password = new Password(EMPTY_PASSWORD);
@@ -32,11 +31,8 @@ export class Password extends ValueObject<'Password'> {
     if (!(other instanceof Password)) {
       return false;
     }
-    if (this.password === other.password) {
-      return true;
-    }
 
-    return false;
+    return this.password === other.password;
   }
 
   public serialize(): string {
@@ -48,10 +44,6 @@ export class Password extends ValueObject<'Password'> {
   }
 
   public isEmpty(): boolean {
-    if (this === Password.empty()) {
-      return true;
-    }
-
-    return false;
+    return this === Password.empty();
   }
 }

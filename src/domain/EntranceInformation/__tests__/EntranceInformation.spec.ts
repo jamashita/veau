@@ -6,8 +6,6 @@ import { Password } from '../Password';
 describe('EntranceInformation', () => {
   describe('empty', () => {
     it('s account and password must also be empty', () => {
-      expect.assertions(2);
-
       const entranceInformation: EntranceInformation = EntranceInformation.empty();
 
       expect(entranceInformation.getAccount().isEmpty()).toBe(true);
@@ -15,24 +13,18 @@ describe('EntranceInformation', () => {
     });
 
     it('returns singleton instance', () => {
-      expect.assertions(1);
-
       expect(EntranceInformation.empty()).toBe(EntranceInformation.empty());
     });
   });
 
   describe('of', () => {
     it('returns EntranceInformation.empty() when AccountName and Password is blank', () => {
-      expect.assertions(1);
-
       const entranceInformation: EntranceInformation = EntranceInformation.of(AccountName.empty(), Password.empty());
 
       expect(entranceInformation).toBe(EntranceInformation.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(2);
-
       const name: string = 'name';
       const password: string = 'password';
       const entranceInformation: EntranceInformation = EntranceInformation.of(
@@ -47,16 +39,12 @@ describe('EntranceInformation', () => {
 
   describe('isAcceptable', () => {
     it('returns false if the both are not filled', () => {
-      expect.assertions(1);
-
       const entranceInformation: EntranceInformation = EntranceInformation.of(AccountName.empty(), Password.empty());
 
       expect(entranceInformation.isAcceptable()).toBe(false);
     });
 
     it('account is empty, then user is not able to login', () => {
-      expect.assertions(1);
-
       const entranceInformation: EntranceInformation = EntranceInformation.of(
         AccountName.empty(),
         new MockPassword('password')
@@ -66,8 +54,6 @@ describe('EntranceInformation', () => {
     });
 
     it('password is empty, then user is not able to login', () => {
-      expect.assertions(1);
-
       const entranceInformation: EntranceInformation = EntranceInformation.of(
         AccountName.of('name'),
         Password.empty()
@@ -77,8 +63,6 @@ describe('EntranceInformation', () => {
     });
 
     it('account and password are filled then user is able to attempt login', () => {
-      expect.assertions(1);
-
       const entranceInformation: EntranceInformation = EntranceInformation.of(
         AccountName.of('name'),
         new MockPassword('password')
@@ -90,8 +74,6 @@ describe('EntranceInformation', () => {
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const information: EntranceInformation = EntranceInformation.empty();
 
       expect(information.equals(null)).toBe(false);
@@ -113,8 +95,6 @@ describe('EntranceInformation', () => {
     });
 
     it('returns true if the all properties are the same', () => {
-      expect.assertions(5);
-
       const entranceInformation1: EntranceInformation = EntranceInformation.of(
         AccountName.of('name1'),
         new MockPassword('password1')
@@ -141,21 +121,6 @@ describe('EntranceInformation', () => {
       expect(entranceInformation1.equals(entranceInformation3)).toBe(false);
       expect(entranceInformation1.equals(entranceInformation4)).toBe(false);
       expect(entranceInformation1.equals(entranceInformation5)).toBe(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      expect.assertions(1);
-
-      const account: string = 'account';
-      const password: string = 'password';
-      const entranceInformation: EntranceInformation = EntranceInformation.of(
-        AccountName.of(account),
-        Password.of(password)
-      );
-
-      expect(entranceInformation.toString()).toBe(`${account} ${password}`);
     });
   });
 });
