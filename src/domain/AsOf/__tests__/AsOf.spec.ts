@@ -1,13 +1,11 @@
 import { Term } from '../../Term/Term';
 import { Terms } from '../../Term/Terms';
 import { AsOf } from '../AsOf';
-import { AsOfError } from '../error/AsOfError';
+import { AsOfError } from '../AsOfError';
 
 describe('AsOf', () => {
   describe('ofString', () => {
     it('normal case', () => {
-      expect.assertions(2);
-
       const date1: string = '2000-01-01';
       const date2: string = '2000-01-03';
       const asOf1: AsOf = AsOf.ofString(date1);
@@ -18,8 +16,6 @@ describe('AsOf', () => {
     });
 
     it('will return Dead because the string format is not compatible to date time', () => {
-      expect.assertions(3);
-
       expect(() => {
         AsOf.ofString('deux mille');
       }).toThrow(AsOfError);
@@ -34,16 +30,12 @@ describe('AsOf', () => {
 
   describe('format', () => {
     it('returns YYYY-MM-DD', () => {
-      expect.assertions(1);
-
       expect(AsOf.format()).toBe('YYYY-MM-DD');
     });
   });
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const asOf: AsOf = AsOf.now();
 
       expect(asOf.equals(null)).toBe(false);
@@ -65,8 +57,6 @@ describe('AsOf', () => {
     });
 
     it('returns true if both properties are the same', () => {
-      expect.assertions(3);
-
       const asOf1: AsOf = AsOf.ofString('2000-01-01');
       const asOf2: AsOf = AsOf.ofString('2000-01-02');
       const asOf3: AsOf = AsOf.ofString('2000-01-01');
@@ -79,8 +69,6 @@ describe('AsOf', () => {
 
   describe('isBefore', () => {
     it('returns true if the value is before than the other', () => {
-      expect.assertions(3);
-
       const asOf1: AsOf = AsOf.ofString('2000-01-02');
       const asOf2: AsOf = AsOf.ofString('2000-01-03');
       const asOf3: AsOf = AsOf.ofString('2000-01-04');
@@ -93,8 +81,6 @@ describe('AsOf', () => {
 
   describe('isAfter', () => {
     it('returns true if the value is after than the other', () => {
-      expect.assertions(3);
-
       const asOf1: AsOf = AsOf.ofString('2000-01-02');
       const asOf2: AsOf = AsOf.ofString('2000-01-03');
       const asOf3: AsOf = AsOf.ofString('2000-01-04');
@@ -107,8 +93,6 @@ describe('AsOf', () => {
 
   describe('previous', () => {
     it('term.DAILY', () => {
-      expect.assertions(2);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.previous(Term.DAILY);
 
@@ -117,8 +101,6 @@ describe('AsOf', () => {
     });
 
     it('term.WEEKLY', () => {
-      expect.assertions(2);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.previous(Term.WEEKLY);
 
@@ -127,8 +109,6 @@ describe('AsOf', () => {
     });
 
     it('term.MONTHLY', () => {
-      expect.assertions(2);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.previous(Term.MONTHLY);
 
@@ -137,8 +117,6 @@ describe('AsOf', () => {
     });
 
     it('term.QUARTERLY', () => {
-      expect.assertions(2);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.previous(Term.QUARTERLY);
 
@@ -147,8 +125,6 @@ describe('AsOf', () => {
     });
 
     it('term.ANNUAL', () => {
-      expect.assertions(2);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.previous(Term.ANNUAL);
 
@@ -157,8 +133,6 @@ describe('AsOf', () => {
     });
 
     it('all', () => {
-      expect.assertions(5);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const terms: Terms = Terms.all();
 
@@ -172,8 +146,6 @@ describe('AsOf', () => {
 
   describe('next', () => {
     it('term.DAILY', () => {
-      expect.assertions(2);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.next(Term.DAILY);
 
@@ -182,8 +154,6 @@ describe('AsOf', () => {
     });
 
     it('term.WEEKLY', () => {
-      expect.assertions(2);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.next(Term.WEEKLY);
 
@@ -192,8 +162,6 @@ describe('AsOf', () => {
     });
 
     it('term.MONTHLY', () => {
-      expect.assertions(2);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.next(Term.MONTHLY);
 
@@ -202,8 +170,6 @@ describe('AsOf', () => {
     });
 
     it('term.QUARTERLY', () => {
-      expect.assertions(2);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.next(Term.QUARTERLY);
 
@@ -212,8 +178,6 @@ describe('AsOf', () => {
     });
 
     it('term.ANNUAL', () => {
-      expect.assertions(2);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.next(Term.ANNUAL);
 
@@ -222,8 +186,6 @@ describe('AsOf', () => {
     });
 
     it('all', () => {
-      expect.assertions(5);
-
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const terms: Terms = Terms.all();
 
@@ -232,17 +194,6 @@ describe('AsOf', () => {
           asOf.next(term);
         }).not.toThrow(AsOfError);
       });
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      expect.assertions(1);
-
-      const asOf: string = '2000-01-01';
-      const a: AsOf = AsOf.ofString(asOf);
-
-      expect(a.toString()).toBe(asOf);
     });
   });
 });

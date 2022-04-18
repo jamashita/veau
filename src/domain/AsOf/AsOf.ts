@@ -1,12 +1,11 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Zeit, ZeitError } from '@jamashita/anden-zeit';
-import { Term } from '../Term/Term.js';
-import { AsOfError } from './error/AsOfError.js';
+import { Term } from '../Term/Term';
+import { AsOfError } from './AsOfError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
-export class AsOf extends ValueObject<'AsOf'> {
-  public readonly noun: 'AsOf' = 'AsOf';
+export class AsOf extends ValueObject {
   private readonly asOf: Zeit;
 
   public static format(): string {

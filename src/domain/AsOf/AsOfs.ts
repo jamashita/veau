@@ -1,15 +1,14 @@
-import { BinaryPredicate, Catalogue, Cloneable, JSONable, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, Cloneable, ForEach, JSONable, Mapping, Nullable } from '@jamashita/anden-type';
 import { Zeit } from '@jamashita/anden-zeit';
 import { Quantity } from '@jamashita/lluvia-collection';
 import { ImmutableSequence, ReadonlySequence, Sequence } from '@jamashita/lluvia-sequence';
 import { Term } from '../Term/Term.js';
 import { AsOf } from './AsOf.js';
 
-export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<AsOfs>, JSONable<Array<string>> {
-  public readonly noun: 'AsOfs' = 'AsOfs';
+export class AsOfs extends Quantity<number, AsOf> implements Cloneable<AsOfs>, JSONable<Array<string>> {
   private readonly asOfs: ImmutableSequence<AsOf>;
 
-  private static readonly EMPTY: AsOfs = new AsOfs(ImmutableSequence.empty<AsOf>());
+  private static readonly EMPTY: AsOfs = new AsOfs(ImmutableSequence.empty());
 
   public static duration(min: AsOf, max: AsOf, term: Term): AsOfs {
     let asOfs: AsOfs = AsOfs.empty();
@@ -36,7 +35,7 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
       return asOfsArray[0]!;
     }
 
-    const all: Array<Array<AsOf>> = asOfsArray.map<Array<AsOf>>((asOfs: AsOfs) => {
+    const all: Array<Array<AsOf>> = asOfsArray.map((asOfs: AsOfs): Array<AsOf> => {
       return asOfs.asOfs.toArray();
     });
 
@@ -58,7 +57,7 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
       return AsOfs.empty();
     }
 
-    return new AsOfs(ImmutableSequence.ofArray<AsOf>(asOfs));
+    return new AsOfs(ImmutableSequence.ofArray(asOfs));
   }
 
   public static ofSpread(...asOfs: Array<AsOf>): AsOfs {
@@ -105,8 +104,8 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
     return this.asOfs.find(predicate);
   }
 
-  public forEach(catalogue: Catalogue<number, AsOf>): void {
-    this.asOfs.forEach(catalogue);
+  public forEach(foreach: ForEach<number, AsOf>): void {
+    this.asOfs.forEach(foreach);
   }
 
   public get(index: number): Nullable<AsOf> {
@@ -121,8 +120,8 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
     return this.asOfs[Symbol.iterator]();
   }
 
-  public map<W>(mapper: Mapper<AsOf, W>): ImmutableSequence<W> {
-    return this.asOfs.map<W>(mapper);
+  public map<W>(mapping: Mapping<AsOf, W>): ImmutableSequence<W> {
+    return this.asOfs.map(mapping);
   }
 
   public serialize(): string {
@@ -138,7 +137,7 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
   }
 
   public toJSON(): Array<string> {
-    return this.asOfs.toArray().map<string>((asOf: AsOf) => {
+    return this.asOfs.toArray().map((asOf: AsOf): string => {
       return asOf.toString();
     });
   }
@@ -159,7 +158,7 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
       return this.asOfs.get(0);
     }
 
-    const zeiten: Sequence<Zeit> = this.asOfs.map<Zeit>((asOf: AsOf) => {
+    const zeiten: Sequence<Zeit> = this.asOfs.map((asOf: AsOf): Zeit => {
       return asOf.get();
     });
 
@@ -179,7 +178,7 @@ export class AsOfs extends Quantity<number, AsOf, 'AsOfs'> implements Cloneable<
       return this.asOfs.get(0);
     }
 
-    const zeiten: Sequence<Zeit> = this.asOfs.map<Zeit>((asOf: AsOf) => {
+    const zeiten: Sequence<Zeit> = this.asOfs.map((asOf: AsOf): Zeit => {
       return asOf.get();
     });
 
