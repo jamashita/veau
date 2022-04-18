@@ -1,11 +1,10 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { HeaderSizeError } from './error/HeaderSizeError.js';
+import { HeaderSizeError } from './HeaderSizeError';
 
 const REVISED_VALUE: number = 14;
 
-export class HeaderSize extends ValueObject<'HeaderSize'> {
-  public readonly noun: 'HeaderSize' = 'HeaderSize';
+export class HeaderSize extends ValueObject {
   private readonly chars: number;
 
   public static default(): HeaderSize {
@@ -43,11 +42,8 @@ export class HeaderSize extends ValueObject<'HeaderSize'> {
     if (!(other instanceof HeaderSize)) {
       return false;
     }
-    if (this.chars === other.chars) {
-      return true;
-    }
 
-    return false;
+    return this.chars === other.chars;
   }
 
   public serialize(): string {
