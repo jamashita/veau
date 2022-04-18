@@ -1,11 +1,10 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Kind } from '@jamashita/anden-type';
-import { LoadingCountError } from './error/LoadingCountError.js';
+import { LoadingCountError } from './LoadingCountError.js';
 
 const DEFAULT_COUNT: number = 0;
 
-export class LoadingCount extends ValueObject<'LoadingCount'> {
-  public readonly noun: 'LoadingCount' = 'LoadingCount';
+export class LoadingCount extends ValueObject {
   private readonly count: number;
 
   private static readonly DEFAULT: LoadingCount = new LoadingCount(DEFAULT_COUNT);
@@ -40,11 +39,8 @@ export class LoadingCount extends ValueObject<'LoadingCount'> {
     if (!(other instanceof LoadingCount)) {
       return false;
     }
-    if (this.count === other.count) {
-      return true;
-    }
 
-    return false;
+    return this.count === other.count;
   }
 
   public serialize(): string {
@@ -71,10 +67,6 @@ export class LoadingCount extends ValueObject<'LoadingCount'> {
   }
 
   public isLoading(): boolean {
-    if (this.count === 0) {
-      return false;
-    }
-
-    return true;
+    return this.count !== 0;
   }
 }
