@@ -1,15 +1,15 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Digest } from '@jamashita/steckdose-digest';
 import { Password } from '../EntranceInformation/Password.js';
-import { LanguageError } from '../Language/error/LanguageError.js';
+import { LanguageError } from '../Language/LanguageError.js';
 import { LanguageID } from '../Language/LanguageID.js';
-import { RegionError } from '../Region/error/RegionError.js';
+import { RegionError } from '../Region/RegionError.js';
 import { RegionID } from '../Region/RegionID.js';
-import { VeauAccountError } from '../VeauAccount/error/VeauAccountError.js';
 import { VeauAccount } from '../VeauAccount/VeauAccount.js';
+import { VeauAccountError } from '../VeauAccount/VeauAccountError.js';
 import { VeauAccountID } from '../VeauAccount/VeauAccountID.js';
+import { AccountError } from './AccountError.js';
 import { AccountName } from './AccountName.js';
-import { AccountError } from './error/AccountError.js';
 import { Hash } from './Hash.js';
 
 export type AccountRow = Readonly<{
@@ -20,10 +20,9 @@ export type AccountRow = Readonly<{
   hash: string;
 }>;
 
-export class Account extends ValueObject<'Account'> {
-  public readonly noun: 'Account' = 'Account';
+export class Account extends ValueObject {
   private readonly account: VeauAccount;
-  private readonly hash: Hash;
+  private readonly h: Hash;
 
   public static of(account: VeauAccount, hash: Hash): Account {
     return new Account(account, hash);
@@ -52,7 +51,7 @@ export class Account extends ValueObject<'Account'> {
   protected constructor(account: VeauAccount, hash: Hash) {
     super();
     this.account = account;
-    this.hash = hash;
+    this.h = hash;
   }
 
   public equals(other: unknown): boolean {
@@ -65,7 +64,7 @@ export class Account extends ValueObject<'Account'> {
     if (!this.account.equals(other.account)) {
       return false;
     }
-    if (!this.hash.equals(other.hash)) {
+    if (!this.h.equals(other.h)) {
       return false;
     }
 
@@ -76,9 +75,9 @@ export class Account extends ValueObject<'Account'> {
     const properties: Array<string> = [];
 
     properties.push(this.account.toString());
-    properties.push(this.hash.toString());
+    properties.push(this.h.toString());
 
-    return properties.join(' ');
+    return properties.join(', ');
   }
 
   public getAccountName(): AccountName {
@@ -86,7 +85,7 @@ export class Account extends ValueObject<'Account'> {
   }
 
   public getHash(): Hash {
-    return this.hash;
+    return this.h;
   }
 
   public getLanguageID(): LanguageID {
@@ -106,6 +105,6 @@ export class Account extends ValueObject<'Account'> {
   }
 
   public verify(password: Password): Promise<boolean> {
-    return Digest.compare(password.get(), this.hash.get());
+    return Digest.compare(password.get(), this.h.get());
   }
 }

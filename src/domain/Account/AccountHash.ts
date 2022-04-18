@@ -2,10 +2,9 @@ import { ValueObject } from '@jamashita/anden-object';
 import { VeauAccountID } from '../VeauAccount/VeauAccountID.js';
 import { Hash } from './Hash.js';
 
-export class AccountHash extends ValueObject<'AccountHash'> {
-  public readonly noun: 'AccountHash' = 'AccountHash';
+export class AccountHash extends ValueObject {
   private readonly veauAccountID: VeauAccountID;
-  private readonly hash: Hash;
+  private readonly h: Hash;
 
   public static of(veauAccountID: VeauAccountID, hash: Hash): AccountHash {
     return new AccountHash(veauAccountID, hash);
@@ -14,7 +13,7 @@ export class AccountHash extends ValueObject<'AccountHash'> {
   protected constructor(veauAccountID: VeauAccountID, hash: Hash) {
     super();
     this.veauAccountID = veauAccountID;
-    this.hash = hash;
+    this.h = hash;
   }
 
   public equals(other: unknown): boolean {
@@ -27,7 +26,7 @@ export class AccountHash extends ValueObject<'AccountHash'> {
     if (!this.veauAccountID.equals(other.veauAccountID)) {
       return false;
     }
-    if (!this.hash.equals(other.hash)) {
+    if (!this.h.equals(other.h)) {
       return false;
     }
 
@@ -38,13 +37,13 @@ export class AccountHash extends ValueObject<'AccountHash'> {
     const properties: Array<string> = [];
 
     properties.push(this.veauAccountID.toString());
-    properties.push(this.hash.toString());
+    properties.push(this.h.toString());
 
-    return properties.join(' ');
+    return properties.join(', ');
   }
 
   public getHash(): Hash {
-    return this.hash;
+    return this.h;
   }
 
   public getVeauAccountID(): VeauAccountID {

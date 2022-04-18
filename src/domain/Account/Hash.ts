@@ -1,8 +1,7 @@
 import { ValueObject } from '@jamashita/anden-object';
 
-export class Hash extends ValueObject<'Hash'> {
-  public readonly noun: 'Hash' = 'Hash';
-  private readonly hash: string;
+export class Hash extends ValueObject {
+  private readonly h: string;
 
   public static of(hash: string): Hash {
     return new Hash(hash);
@@ -10,7 +9,7 @@ export class Hash extends ValueObject<'Hash'> {
 
   protected constructor(hash: string) {
     super();
-    this.hash = hash;
+    this.h = hash;
   }
 
   public equals(other: unknown): boolean {
@@ -20,18 +19,15 @@ export class Hash extends ValueObject<'Hash'> {
     if (!(other instanceof Hash)) {
       return false;
     }
-    if (this.hash === other.hash) {
-      return true;
-    }
 
-    return false;
+    return this.h === other.h;
   }
 
   public serialize(): string {
-    return this.hash;
+    return this.h;
   }
 
   public get(): string {
-    return this.hash;
+    return this.h;
   }
 }

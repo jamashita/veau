@@ -1,13 +1,10 @@
 import { MockVeauAccountID } from '../../VeauAccount/mock/MockVeauAccountID';
-import { VeauAccountID } from '../../VeauAccount/VeauAccountID';
 import { AccountHash } from '../AccountHash';
 import { Hash } from '../Hash';
 
 describe('AccountHash', () => {
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const accountHash: AccountHash = AccountHash.of(new MockVeauAccountID(), Hash.of('hash'));
 
       expect(accountHash.equals(null)).toBe(false);
@@ -29,8 +26,6 @@ describe('AccountHash', () => {
     });
 
     it('returns true if all the properties are the same', () => {
-      expect.assertions(5);
-
       const account1: MockVeauAccountID = new MockVeauAccountID();
       const account2: MockVeauAccountID = new MockVeauAccountID();
       const hash1: Hash = Hash.of('hash 1');
@@ -47,19 +42,6 @@ describe('AccountHash', () => {
       expect(accountHash1.equals(accountHash3)).toBe(false);
       expect(accountHash1.equals(accountHash4)).toBe(false);
       expect(accountHash1.equals(accountHash5)).toBe(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      expect.assertions(1);
-
-      const id: string = '998106de-b2e7-4981-9643-22cd30cd74de';
-      const hash: string = 'hash';
-
-      const accountHash: AccountHash = AccountHash.of(VeauAccountID.ofString(id), Hash.of(hash));
-
-      expect(accountHash.toString()).toBe(`${id} ${hash}`);
     });
   });
 });
