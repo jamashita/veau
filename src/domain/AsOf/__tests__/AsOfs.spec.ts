@@ -46,25 +46,6 @@ describe('AsOfs', () => {
     });
   });
 
-  describe('ofSpread', () => {
-    it('when no arguments given, returns AsOfs.empty()', () => {
-      expect(AsOfs.ofSpread()).toBe(AsOfs.empty());
-    });
-
-    it('normal case', () => {
-      const asOf1: MockAsOf = new MockAsOf();
-      const asOf2: MockAsOf = new MockAsOf();
-      const asOf3: MockAsOf = new MockAsOf();
-
-      const asOfs: AsOfs = AsOfs.ofSpread(asOf1, asOf2, asOf3);
-
-      expect(asOfs.size()).toBe(3);
-      expect(asOfs.get(0)).toBe(asOf1);
-      expect(asOfs.get(1)).toBe(asOf2);
-      expect(asOfs.get(2)).toBe(asOf3);
-    });
-  });
-
   describe('merge', () => {
     it('returns AsOfs.empty() when argument is 0', () => {
       expect(AsOfs.merge()).toBe(AsOfs.empty());

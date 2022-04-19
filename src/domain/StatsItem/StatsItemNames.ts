@@ -25,10 +25,6 @@ export class StatsItemNames extends Quantity<number, StatsItemName>
     return new StatsItemNames(ImmutableSequence.ofArray(names));
   }
 
-  public static ofSpread(...names: Array<StatsItemName>): StatsItemNames {
-    return StatsItemNames.ofArray(names);
-  }
-
   protected constructor(names: ImmutableSequence<StatsItemName>) {
     super();
     this.names = names;

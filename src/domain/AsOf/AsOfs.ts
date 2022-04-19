@@ -60,10 +60,6 @@ export class AsOfs extends Quantity<number, AsOf> implements Cloneable<AsOfs>, J
     return new AsOfs(ImmutableSequence.ofArray(asOfs));
   }
 
-  public static ofSpread(...asOfs: Array<AsOf>): AsOfs {
-    return AsOfs.ofArray(asOfs);
-  }
-
   protected constructor(asOfs: ImmutableSequence<AsOf>) {
     super();
     this.asOfs = asOfs;

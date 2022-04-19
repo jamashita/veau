@@ -202,33 +202,6 @@ describe('StatsValues', () => {
     });
   });
 
-  describe('ofSpread', () => {
-    it('when no arguments given, returns StatsValues.empty()', () => {
-      const statsValues: StatsValues = StatsValues.ofSpread();
-
-      expect(statsValues).toBe(StatsValues.empty());
-    });
-
-    it('normal case', () => {
-      const statsValue1: MockStatsValue = new MockStatsValue({
-        asOf: new MockAsOf({
-          day: 2
-        })
-      });
-      const statsValue2: MockStatsValue = new MockStatsValue({
-        asOf: new MockAsOf({
-          day: 3
-        })
-      });
-
-      const statsValues: StatsValues = StatsValues.ofSpread(statsValue1, statsValue2);
-
-      expect(statsValues.size()).toBe(2);
-      expect(statsValues.contains(statsValue1)).toBe(true);
-      expect(statsValues.contains(statsValue2)).toBe(true);
-    });
-  });
-
   describe('validate', () => {
     it('normal case', () => {
       const n: unknown = [
@@ -511,7 +484,7 @@ describe('StatsValues', () => {
       const asOf2: MockAsOf = new MockAsOf({
         day: 5
       });
-      const asOfs: AsOfs = AsOfs.ofSpread(asOf1, asOf2);
+      const asOfs: AsOfs = AsOfs.ofArray([asOf1, asOf2]);
 
       const statsValues: StatsValues = StatsValues.ofArray([
         new MockStatsValue({

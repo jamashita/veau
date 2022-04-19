@@ -34,6 +34,7 @@ describe('Languages', () => {
       });
     });
   });
+
   describe('ofArray', () => {
     it('returns normal-length project', () => {
       const array: Array<MockLanguage> = [

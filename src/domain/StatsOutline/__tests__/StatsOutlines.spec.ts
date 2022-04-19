@@ -184,23 +184,6 @@ describe('StatsOutlines', () => {
     });
   });
 
-  describe('ofSpread', () => {
-    it('when no arguments given, returns StatsOutlines.empty()', () => {
-      expect(StatsOutlines.ofSpread()).toBe(StatsOutlines.empty());
-    });
-
-    it('normal case', () => {
-      const statsOutline1: MockStatsOutline = new MockStatsOutline();
-      const statsOutline2: MockStatsOutline = new MockStatsOutline();
-
-      const statsOutlines: StatsOutlines = StatsOutlines.ofSpread(statsOutline1, statsOutline2);
-
-      expect(statsOutlines.size()).toBe(2);
-      expect(statsOutlines.get(statsOutline1.getStatsID())).toBe(statsOutline1);
-      expect(statsOutlines.get(statsOutline2.getStatsID())).toBe(statsOutline2);
-    });
-  });
-
   describe('empty', () => {
     it('generates 0-length StatsOutlines', () => {
       expect(StatsOutlines.empty().size()).toBe(0);

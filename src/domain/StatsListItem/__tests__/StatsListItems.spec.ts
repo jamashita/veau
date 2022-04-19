@@ -42,23 +42,6 @@ describe('StatsListItems', () => {
     });
   });
 
-  describe('ofSpread', () => {
-    it('when no arguments given, returns StatsListItems.empty()', () => {
-      expect(StatsListItems.ofSpread()).toBe(StatsListItems.empty());
-    });
-
-    it('normal case', () => {
-      const statsListItem1: MockStatsListItem = new MockStatsListItem();
-      const statsListItem2: MockStatsListItem = new MockStatsListItem();
-
-      const statsListItems: StatsListItems = StatsListItems.ofSpread(statsListItem1, statsListItem2);
-
-      expect(statsListItems.size()).toBe(2);
-      expect(statsListItems.get(0)).toBe(statsListItem1);
-      expect(statsListItems.get(1)).toBe(statsListItem2);
-    });
-  });
-
   describe('empty', () => {
     it('generates 0-length StatsListItems', () => {
       expect(StatsListItems.empty().size()).toBe(0);

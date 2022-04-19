@@ -110,7 +110,7 @@ describe('StatsItems', () => {
         new Map([
           [
             StatsItemID.of(UUID.of(statsItemID1)),
-            StatsValues.ofSpread(
+            StatsValues.ofArray([
               new MockStatsValue({
                 asOf: asOf2,
                 value: NumericalValue.of(1)
@@ -119,11 +119,11 @@ describe('StatsItems', () => {
                 asOf: asOf3,
                 value: NumericalValue.of(3)
               })
-            )
+            ])
           ],
           [
             StatsItemID.of(UUID.of(statsItemID2)),
-            StatsValues.ofSpread(
+            StatsValues.ofArray([
               new MockStatsValue({
                 asOf: asOf1,
                 value: NumericalValue.of(0)
@@ -132,7 +132,7 @@ describe('StatsItems', () => {
                 asOf: asOf3,
                 value: NumericalValue.of(3)
               })
-            )
+            ])
           ]
         ])
       );
@@ -330,21 +330,6 @@ describe('StatsItems', () => {
       for (let i: number = 0; i < statsItems.size(); i++) {
         expect(statsItems.get(i)).toBe(items[i]);
       }
-    });
-  });
-
-  describe('ofSpread', () => {
-    it('normal case', () => {
-      const item1: MockStatsItem = new MockStatsItem();
-      const item2: MockStatsItem = new MockStatsItem();
-      const item3: MockStatsItem = new MockStatsItem();
-
-      const statsItems: StatsItems = StatsItems.ofSpread(item1, item2, item3);
-
-      expect(statsItems.size()).toBe(3);
-      expect(statsItems.get(0)).toBe(item1);
-      expect(statsItems.get(1)).toBe(item2);
-      expect(statsItems.get(2)).toBe(item3);
     });
   });
 
@@ -547,7 +532,7 @@ describe('StatsItems', () => {
   describe('getAsOfs', () => {
     it('collects all AsOfs even if the date is same', () => {
       const statsItem1: MockStatsItem = new MockStatsItem({
-        values: StatsValues.ofSpread(
+        values: StatsValues.ofArray([
           new MockStatsValue({
             asOf: new MockAsOf({
               day: 1
@@ -563,10 +548,10 @@ describe('StatsItems', () => {
               day: 3
             })
           })
-        )
+        ])
       });
       const statsItem2: MockStatsItem = new MockStatsItem({
-        values: StatsValues.ofSpread(
+        values: StatsValues.ofArray([
           new MockStatsValue({
             asOf: new MockAsOf({
               day: 2
@@ -582,10 +567,10 @@ describe('StatsItems', () => {
               day: 4
             })
           })
-        )
+        ])
       });
       const statsItem3: MockStatsItem = new MockStatsItem({
-        values: StatsValues.ofSpread(
+        values: StatsValues.ofArray([
           new MockStatsValue({
             asOf: new MockAsOf({
               day: 4
@@ -596,7 +581,7 @@ describe('StatsItems', () => {
               day: 5
             })
           })
-        )
+        ])
       });
       const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
@@ -898,7 +883,7 @@ describe('StatsItems', () => {
     it('no values', () => {
       const statsItems1: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
-          values: StatsValues.ofSpread()
+          values: StatsValues.ofArray([])
         })
       ]);
       const statsItems2: StatsItems = StatsItems.ofArray([
@@ -913,11 +898,11 @@ describe('StatsItems', () => {
     it('have values', () => {
       const statsItems: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
-          values: StatsValues.ofSpread(
+          values: StatsValues.ofArray([
             new MockStatsValue({
               value: NumericalValue.of(0)
             })
-          )
+          ])
         })
       ]);
 

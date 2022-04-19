@@ -46,10 +46,6 @@ export class StatsItems extends Quantity<number, StatsItem> implements Cloneable
     return StatsItems.ofArray(arr);
   }
 
-  public static ofSpread(...items: Array<StatsItem>): StatsItems {
-    return StatsItems.ofArray(items);
-  }
-
   public static validate(n: unknown): n is Array<StatsItemJSON> {
     if (!Kind.isArray(n)) {
       return false;

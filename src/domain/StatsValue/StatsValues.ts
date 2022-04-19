@@ -52,10 +52,6 @@ export class StatsValues extends Quantity<AsOf, StatsValue> implements Cloneable
     return StatsValues.ofArray(arr);
   }
 
-  public static ofSpread(...values: Array<StatsValue>): StatsValues {
-    return StatsValues.ofArray(values);
-  }
-
   public static validate(n: unknown): n is Array<StatsValueJSON> {
     if (!Kind.isArray(n)) {
       return false;
@@ -119,7 +115,7 @@ export class StatsValues extends Quantity<AsOf, StatsValue> implements Cloneable
   }
 
   public getAsOfs(): AsOfs {
-    return AsOfs.ofSpread(...this.vals.toMap().keys());
+    return AsOfs.ofArray([...this.vals.toMap().keys()]);
   }
 
   public override isEmpty(): boolean {

@@ -52,10 +52,6 @@ export class Languages extends Quantity<LanguageID, Language> implements JSONabl
     return Languages.ofArray(arr);
   }
 
-  public static ofSpread(...languages: Array<Language>): Languages {
-    return Languages.ofArray(languages);
-  }
-
   public static validate(n: unknown): n is ReadonlyArray<LanguageJSON> {
     if (!Kind.isArray(n)) {
       return false;

@@ -51,10 +51,6 @@ export class Regions extends Quantity<RegionID, Region> implements JSONable<Arra
     return Regions.ofArray(arr);
   }
 
-  public static ofSpread(...regions: Array<Region>): Regions {
-    return Regions.ofArray(regions);
-  }
-
   public static validate(n: unknown): n is ReadonlyArray<RegionJSON> {
     if (!Kind.isArray(n)) {
       return false;

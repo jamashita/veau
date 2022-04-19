@@ -1,14 +1,13 @@
 import { Nullable } from '@jamashita/anden-type';
-import { AsOf } from '../../../vo/AsOf/AsOf';
-import { Language } from '../../../vo/Language/Language';
-import { MockLanguage } from '../../../vo/Language/mock/MockLanguage';
-import { MockRegion } from '../../../vo/Region/mock/MockRegion';
-import { Region } from '../../../vo/Region/Region';
-import { MockStatsOutline } from '../../../vo/StatsOutline/mock/MockStatsOutline';
-import { StatsOutline } from '../../../vo/StatsOutline/StatsOutline';
-import { Term } from '../../../vo/Term/Term';
-import { MockStatsItems } from '../../StatsItem/mock/MockStatsItems';
+import { AsOf } from '../../AsOf/AsOf';
+import { Language } from '../../Language/Language';
+import { MockLanguage } from '../../Language/mock/MockLanguage';
+import { MockRegion } from '../../Region/mock/MockRegion';
+import { Region } from '../../Region/Region';
 import { StatsItems } from '../../StatsItem/StatsItems';
+import { MockStatsOutline } from '../../StatsOutline/mock/MockStatsOutline';
+import { StatsOutline } from '../../StatsOutline/StatsOutline';
+import { Term } from '../../Term/Term';
 import { Stats } from '../Stats';
 
 type StatsArgs = Partial<Readonly<{
@@ -26,7 +25,7 @@ export class MockStats extends Stats {
     language = new MockLanguage(),
     region = new MockRegion(),
     term = Term.ANNUAL,
-    items = new MockStatsItems(),
+    items = StatsItems.empty(),
     startDate = null
   }: StatsArgs = {}) {
     super(outline, language, region, term, items, startDate);

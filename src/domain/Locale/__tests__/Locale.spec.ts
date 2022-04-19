@@ -146,82 +146,82 @@ describe('Locale', () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const locale1: Locale = Locale.of(
-        Languages.ofSpread(
+        Languages.ofArray([
           new MockLanguage({
             languageID: LanguageID.of(uuid1)
           }),
           new MockLanguage({
             languageID: LanguageID.of(uuid2)
           })
-        ),
-        Regions.ofSpread(
+        ]),
+        Regions.ofArray([
           new MockRegion({
             regionID: RegionID.of(uuid1)
           }),
           new MockRegion({
             regionID: RegionID.of(uuid2)
           })
-        )
+        ])
       );
       const locale2: Locale = Locale.of(
-        Languages.ofSpread(
+        Languages.ofArray([
           new MockLanguage({
             languageID: LanguageID.of(uuid1)
           })
-        ),
-        Regions.ofSpread(
+        ]),
+        Regions.ofArray([
           new MockRegion({
             regionID: RegionID.of(uuid1)
           }),
           new MockRegion({
             regionID: RegionID.of(uuid2)
           })
-        )
+        ])
       );
       const locale3: Locale = Locale.of(
-        Languages.ofSpread(
+        Languages.ofArray([
           new MockLanguage({
             languageID: LanguageID.of(uuid1)
           }),
           new MockLanguage({
             languageID: LanguageID.of(uuid2)
           })
-        ),
-        Regions.ofSpread(
+        ]),
+        Regions.ofArray([
           new MockRegion({
             regionID: RegionID.of(uuid2)
           })
-        )
+        ])
       );
       const locale4: Locale = Locale.of(
-        Languages.ofSpread(
+        Languages.ofArray([
           new MockLanguage({
             languageID: LanguageID.of(uuid1)
           })
-        ),
-        Regions.ofSpread(
+        ]),
+        Regions.ofArray([
           new MockRegion({
             regionID: RegionID.of(uuid1)
           })
-        )
+        ])
       );
       const locale5: Locale = Locale.of(
-        Languages.ofSpread(
+        Languages.ofArray([
           new MockLanguage({
             languageID: LanguageID.of(uuid1)
           }),
           new MockLanguage({
             languageID: LanguageID.of(uuid2)
           })
-        ),
-        Regions.ofSpread(
+        ]),
+        Regions.ofArray([
           new MockRegion({
             regionID: RegionID.of(uuid1)
           }),
           new MockRegion({
             regionID: RegionID.of(uuid2)
           })
-        )
+        ])
       );
 
       expect(locale1.equals(locale1)).toBe(true);

@@ -6,7 +6,7 @@ import { Color } from './Color.js';
 export class Colors extends Quantity<number, Color> {
   private readonly colors: ImmutableSequence<Color>;
 
-  private static readonly DEFAULT: Colors = Colors.ofSpread(
+  private static readonly DEFAULT: Colors = Colors.ofArray([
     Color.of('#8aa399'),
     Color.of('#7d84b2'),
     Color.of('#8fa6cb'),
@@ -27,7 +27,7 @@ export class Colors extends Quantity<number, Color> {
     Color.of('#edcbb1'),
     Color.of('#b7245c'),
     Color.of('#7c3238')
-  );
+  ]);
 
   public static chartScheme(): Colors {
     return Colors.DEFAULT;
@@ -39,10 +39,6 @@ export class Colors extends Quantity<number, Color> {
 
   public static ofArray(colors: ReadonlyArray<Color>): Colors {
     return new Colors(ImmutableSequence.ofArray<Color>(colors));
-  }
-
-  public static ofSpread(...colors: Array<Color>): Colors {
-    return Colors.ofArray(colors);
   }
 
   protected constructor(colors: ImmutableSequence<Color>) {

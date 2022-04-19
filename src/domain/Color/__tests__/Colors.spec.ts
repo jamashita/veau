@@ -33,21 +33,6 @@ describe('Colors', () => {
     });
   });
 
-  describe('ofSpread', () => {
-    it('normal case', () => {
-      const color1: MockColor = new MockColor();
-      const color2: MockColor = new MockColor();
-      const color3: MockColor = new MockColor();
-
-      const colours: Colors = Colors.ofSpread(color1, color2, color3);
-
-      expect(colours.size()).toBe(3);
-      expect(colours.get(0)).toBe(color1);
-      expect(colours.get(1)).toBe(color2);
-      expect(colours.get(2)).toBe(color3);
-    });
-  });
-
   describe('chartScheme', () => {
     it('generates 20 colors', () => {
       const colors: Colors = Colors.chartScheme();
@@ -130,7 +115,7 @@ describe('Colors', () => {
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      const colors: Colors = Colors.ofSpread();
+      const colors: Colors = Colors.ofArray([]);
 
       expect(colors.equals(null)).toBe(false);
       expect(colors.equals(undefined)).toBe(false);

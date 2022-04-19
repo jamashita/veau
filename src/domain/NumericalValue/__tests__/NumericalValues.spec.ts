@@ -48,27 +48,6 @@ describe('NumericalValues', () => {
     });
   });
 
-  describe('ofSpread', () => {
-    it('when no arguments given, returns NumericalValues.empty()', () => {
-      const values: NumericalValues = NumericalValues.ofSpread();
-
-      expect(values).toBe(NumericalValues.empty());
-    });
-
-    it('normal case', () => {
-      const value1: NumericalValue = NumericalValue.of(1);
-      const value2: NumericalValue = NumericalValue.of(2);
-      const value3: NumericalValue = NumericalValue.of(3);
-
-      const numericalValues: NumericalValues = NumericalValues.ofSpread(value1, value2, value3);
-
-      expect(numericalValues.size()).toBe(3);
-      expect(numericalValues.get(0)).toBe(value1);
-      expect(numericalValues.get(1)).toBe(value2);
-      expect(numericalValues.get(2)).toBe(value3);
-    });
-  });
-
   describe('empty', () => {
     it('returns size-0 sequence', () => {
       expect(NumericalValues.empty().size()).toBe(0);

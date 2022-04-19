@@ -24,10 +24,6 @@ export class NumericalValues extends Quantity<number, NumericalValue> {
     return new NumericalValues(ImmutableSequence.ofArray(values));
   }
 
-  public static ofSpread(...values: Array<NumericalValue>): NumericalValues {
-    return NumericalValues.ofArray(values);
-  }
-
   protected constructor(values: ImmutableSequence<NumericalValue>) {
     super();
     this.vals = values;

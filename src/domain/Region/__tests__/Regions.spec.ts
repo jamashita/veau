@@ -130,32 +130,6 @@ describe('Regions', () => {
     });
   });
 
-  describe('ofSpread', () => {
-    it('when no arguments given, returns Regions.empty()', () => {
-      const regions: Regions = Regions.ofSpread();
-
-      expect(regions).toBe(Regions.empty());
-    });
-
-    it('normal case', () => {
-      const region1: MockRegion = new MockRegion({
-        regionID: RegionID.ofString('f8614570-1b57-464b-8787-ec97f258766b')
-      });
-      const region2: MockRegion = new MockRegion({
-        regionID: RegionID.ofString('a626fa24-083e-4170-8eb5-935b8578ac88')
-      });
-      const regs: Array<MockRegion> = [region1, region2];
-
-      const regions: Regions = Regions.ofSpread(region1, region2);
-
-      expect(regions.size()).toBe(regs.length);
-      for (let i: number = 0; i < regions.size(); i++) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        expect(regions.get(regs[i]!.getRegionID())).toBe(regs[i]);
-      }
-    });
-  });
-
   describe('empty', () => {
     it('generates 0-length Regions', () => {
       expect(Regions.empty().size()).toBe(0);

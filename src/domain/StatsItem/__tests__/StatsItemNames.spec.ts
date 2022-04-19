@@ -48,25 +48,6 @@ describe('StatsItemNames', () => {
     });
   });
 
-  describe('ofSpread', () => {
-    it('when no arguments given, returns StatsItemNames.empty()', () => {
-      const statsItemNames: StatsItemNames = StatsItemNames.ofSpread();
-
-      expect(statsItemNames).toBe(StatsItemNames.empty());
-    });
-
-    it('normal case', () => {
-      const name1: StatsItemName = StatsItemName.of('');
-      const name2: StatsItemName = StatsItemName.of('');
-
-      const statsItemNames: StatsItemNames = StatsItemNames.ofSpread(name1, name2);
-
-      expect(statsItemNames.size()).toBe(2);
-      expect(statsItemNames.get(0)).toBe(name1);
-      expect(statsItemNames.get(1)).toBe(name2);
-    });
-  });
-
   describe('empty', () => {
     it('generates 0-length StatsItemNames', () => {
       expect(StatsItemNames.empty().size()).toBe(0);

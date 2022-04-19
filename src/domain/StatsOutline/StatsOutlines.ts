@@ -51,10 +51,6 @@ export class StatsOutlines extends Quantity<StatsID, StatsOutline> implements Cl
     return StatsOutlines.ofArray(arr);
   }
 
-  public static ofSpread(...outlines: ReadonlyArray<StatsOutline>): StatsOutlines {
-    return StatsOutlines.ofArray(outlines);
-  }
-
   public static validate(n: unknown): n is ReadonlyArray<StatsOutlineJSON> {
     if (!Kind.isArray(n)) {
       return false;
