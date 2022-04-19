@@ -23,11 +23,11 @@ export class NumericalValue extends ValueObject {
     return this.value === other.value;
   }
 
-  public serialize(): string {
-    return `${this.value}`;
-  }
-
   public get(): number {
     return this.value;
+  }
+
+  public serialize(): string {
+    return `${this.value}`;
   }
 }

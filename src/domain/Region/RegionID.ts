@@ -44,15 +44,15 @@ export class RegionID extends ValueObject {
     return this.uuid.equals(other.uuid);
   }
 
-  public serialize(): string {
-    return this.uuid.toString();
-  }
-
   public get(): UUID {
     return this.uuid;
   }
 
   public isEmpty(): boolean {
     return this === RegionID.empty();
+  }
+
+  public serialize(): string {
+    return this.uuid.toString();
   }
 }

@@ -104,6 +104,22 @@ export class Region extends ValueObject implements JSONable<RegionJSON> {
     return true;
   }
 
+  public getISO3166(): ISO3166 {
+    return this.iso3166;
+  }
+
+  public getName(): RegionName {
+    return this.name;
+  }
+
+  public getRegionID(): RegionID {
+    return this.regionID;
+  }
+
+  public isEmpty(): boolean {
+    return this === Region.empty();
+  }
+
   public serialize(): string {
     const props: Array<string> = [];
 
@@ -120,21 +136,5 @@ export class Region extends ValueObject implements JSONable<RegionJSON> {
       name: this.name.get(),
       iso3166: this.iso3166.get()
     };
-  }
-
-  public getISO3166(): ISO3166 {
-    return this.iso3166;
-  }
-
-  public getName(): RegionName {
-    return this.name;
-  }
-
-  public getRegionID(): RegionID {
-    return this.regionID;
-  }
-
-  public isEmpty(): boolean {
-    return this === Region.empty();
   }
 }

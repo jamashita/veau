@@ -33,6 +33,14 @@ export class Coordinate extends ValueObject {
     return true;
   }
 
+  public getColumn(): Column {
+    return this.column;
+  }
+
+  public getRow(): Row {
+    return this.row;
+  }
+
   public serialize(): string {
     const properties: Array<string> = [];
 
@@ -40,13 +48,5 @@ export class Coordinate extends ValueObject {
     properties.push(this.column.toString());
 
     return properties.join(', ');
-  }
-
-  public getColumn(): Column {
-    return this.column;
-  }
-
-  public getRow(): Row {
-    return this.row;
   }
 }

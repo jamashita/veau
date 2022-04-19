@@ -43,15 +43,15 @@ export class Row extends ValueObject {
     return this.row === other.row;
   }
 
-  public serialize(): string {
-    return `${this.row}`;
-  }
-
   public get(): number {
     return this.row;
   }
 
   public isOrigin(): boolean {
     return this === Row.origin();
+  }
+
+  public serialize(): string {
+    return `${this.row}`;
   }
 }

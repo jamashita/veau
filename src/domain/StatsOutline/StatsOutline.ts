@@ -188,32 +188,6 @@ export class StatsOutline extends ValueObject implements JSONable<StatsOutlineJS
     return true;
   }
 
-  public serialize(): string {
-    const properties: Array<string> = [];
-
-    properties.push(this.statsID.toString());
-    properties.push(this.languageID.toString());
-    properties.push(this.regionID.toString());
-    properties.push(this.termID.toString());
-    properties.push(this.name.toString());
-    properties.push(this.unit.toString());
-    properties.push(this.updatedAt.toString());
-
-    return properties.join(', ');
-  }
-
-  public toJSON(): StatsOutlineJSON {
-    return {
-      statsID: this.statsID.get().get(),
-      languageID: this.languageID.get().get(),
-      regionID: this.regionID.get().get(),
-      termID: this.termID.get().get(),
-      name: this.name.get(),
-      unit: this.unit.get(),
-      updatedAt: this.updatedAt.toString()
-    };
-  }
-
   public getLanguageID(): LanguageID {
     return this.languageID;
   }
@@ -257,5 +231,31 @@ export class StatsOutline extends ValueObject implements JSONable<StatsOutlineJS
     }
 
     return true;
+  }
+
+  public serialize(): string {
+    const properties: Array<string> = [];
+
+    properties.push(this.statsID.toString());
+    properties.push(this.languageID.toString());
+    properties.push(this.regionID.toString());
+    properties.push(this.termID.toString());
+    properties.push(this.name.toString());
+    properties.push(this.unit.toString());
+    properties.push(this.updatedAt.toString());
+
+    return properties.join(', ');
+  }
+
+  public toJSON(): StatsOutlineJSON {
+    return {
+      statsID: this.statsID.get().get(),
+      languageID: this.languageID.get().get(),
+      regionID: this.regionID.get().get(),
+      termID: this.termID.get().get(),
+      name: this.name.get(),
+      unit: this.unit.get(),
+      updatedAt: this.updatedAt.toString()
+    };
   }
 }

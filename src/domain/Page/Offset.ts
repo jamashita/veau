@@ -32,11 +32,11 @@ export class Offset extends ValueObject {
     return this.offset === other.offset;
   }
 
-  public serialize(): string {
-    return `${this.offset}`;
-  }
-
   public get(): number {
     return this.offset;
+  }
+
+  public serialize(): string {
+    return `${this.offset}`;
   }
 }

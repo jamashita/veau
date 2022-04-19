@@ -75,6 +75,14 @@ export class Term extends ValueObject {
     return true;
   }
 
+  public getKey(): TermKey {
+    return this.key;
+  }
+
+  public getTermID(): TermID {
+    return this.termID;
+  }
+
   public serialize(): string {
     const props: Array<string> = [];
 
@@ -82,13 +90,5 @@ export class Term extends ValueObject {
     props.push(this.key.toString());
 
     return props.join(', ');
-  }
-
-  public getKey(): TermKey {
-    return this.key;
-  }
-
-  public getTermID(): TermID {
-    return this.termID;
   }
 }

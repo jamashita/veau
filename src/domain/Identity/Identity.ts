@@ -49,17 +49,6 @@ export class Identity extends ValueObject {
     return true;
   }
 
-  public serialize(): string {
-    const properties: Array<string> = [];
-
-    properties.push(this.veauAccountID.toString());
-    properties.push(this.name.toString());
-    properties.push(this.language.toString());
-    properties.push(this.region.toString());
-
-    return properties.join(', ');
-  }
-
   public getAccountName(): AccountName {
     return this.name;
   }
@@ -74,5 +63,16 @@ export class Identity extends ValueObject {
 
   public getVeauAccountID(): VeauAccountID {
     return this.veauAccountID;
+  }
+
+  public serialize(): string {
+    const properties: Array<string> = [];
+
+    properties.push(this.veauAccountID.toString());
+    properties.push(this.name.toString());
+    properties.push(this.language.toString());
+    properties.push(this.region.toString());
+
+    return properties.join(', ');
   }
 }

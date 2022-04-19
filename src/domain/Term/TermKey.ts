@@ -23,11 +23,11 @@ export class TermKey extends ValueObject {
     return this.key === other.key;
   }
 
-  public serialize(): string {
+  public get(): string {
     return this.key;
   }
 
-  public get(): string {
+  public serialize(): string {
     return this.key;
   }
 }

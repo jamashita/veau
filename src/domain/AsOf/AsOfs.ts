@@ -69,6 +69,10 @@ export class AsOfs extends Quantity<number, AsOf> implements Cloneable<AsOfs>, J
     this.asOfs = asOfs;
   }
 
+  public add(values: AsOf): AsOfs {
+    return AsOfs.of(this.asOfs.add(values));
+  }
+
   public contains(value: AsOf): boolean {
     return this.asOfs.contains(value);
   }
@@ -124,32 +128,6 @@ export class AsOfs extends Quantity<number, AsOf> implements Cloneable<AsOfs>, J
     return this.asOfs.map(mapping);
   }
 
-  public serialize(): string {
-    return this.asOfs.toString();
-  }
-
-  public size(): number {
-    return this.asOfs.size();
-  }
-
-  public some(predicate: BinaryPredicate<AsOf, number>): boolean {
-    return this.asOfs.some(predicate);
-  }
-
-  public toJSON(): Array<string> {
-    return this.asOfs.toArray().map((asOf: AsOf): string => {
-      return asOf.toString();
-    });
-  }
-
-  public values(): Iterable<AsOf> {
-    return this.asOfs.values();
-  }
-
-  public add(values: AsOf): AsOfs {
-    return AsOfs.of(this.asOfs.add(values));
-  }
-
   public max(): Nullable<AsOf> {
     if (this.isEmpty()) {
       return null;
@@ -188,5 +166,27 @@ export class AsOfs extends Quantity<number, AsOf> implements Cloneable<AsOfs>, J
     catch (err: unknown) {
       return null;
     }
+  }
+
+  public serialize(): string {
+    return this.asOfs.toString();
+  }
+
+  public size(): number {
+    return this.asOfs.size();
+  }
+
+  public some(predicate: BinaryPredicate<AsOf, number>): boolean {
+    return this.asOfs.some(predicate);
+  }
+
+  public toJSON(): Array<string> {
+    return this.asOfs.toArray().map((asOf: AsOf): string => {
+      return asOf.toString();
+    });
+  }
+
+  public values(): Iterable<AsOf> {
+    return this.asOfs.values();
   }
 }

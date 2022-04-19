@@ -77,6 +77,14 @@ export class Locale extends ValueObject implements JSONable<LocaleJSON> {
     return true;
   }
 
+  public getLanguages(): Languages {
+    return this.languages;
+  }
+
+  public getRegions(): Regions {
+    return this.regions;
+  }
+
   public serialize(): string {
     const props: Array<string> = [];
 
@@ -91,13 +99,5 @@ export class Locale extends ValueObject implements JSONable<LocaleJSON> {
       languages: this.languages.toJSON(),
       regions: this.regions.toJSON()
     };
-  }
-
-  public getLanguages(): Languages {
-    return this.languages;
-  }
-
-  public getRegions(): Regions {
-    return this.regions;
   }
 }

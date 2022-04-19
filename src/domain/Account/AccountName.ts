@@ -35,15 +35,15 @@ export class AccountName extends ValueObject {
     return this.name === other.name;
   }
 
-  public serialize(): string {
-    return this.name;
-  }
-
   public get(): string {
     return this.name;
   }
 
   public isEmpty(): boolean {
     return this === AccountName.empty();
+  }
+
+  public serialize(): string {
+    return this.name;
   }
 }

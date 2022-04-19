@@ -35,15 +35,15 @@ export class StatsUnit extends ValueObject {
     return this.unit === other.unit;
   }
 
-  public serialize(): string {
-    return this.unit;
-  }
-
   public get(): string {
     return this.unit;
   }
 
   public isEmpty(): boolean {
     return this === StatsUnit.empty();
+  }
+
+  public serialize(): string {
+    return this.unit;
   }
 }

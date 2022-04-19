@@ -35,15 +35,15 @@ export class ISO639 extends ValueObject {
     return this.iso639 === other.iso639;
   }
 
-  public serialize(): string {
-    return this.iso639;
-  }
-
   public get(): string {
     return this.iso639;
   }
 
   public isEmpty(): boolean {
     return this === ISO639.empty();
+  }
+
+  public serialize(): string {
+    return this.iso639;
   }
 }

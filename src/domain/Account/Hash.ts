@@ -23,11 +23,11 @@ export class Hash extends ValueObject {
     return this.h === other.h;
   }
 
-  public serialize(): string {
+  public get(): string {
     return this.h;
   }
 
-  public get(): string {
+  public serialize(): string {
     return this.h;
   }
 }

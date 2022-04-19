@@ -51,10 +51,6 @@ export class AsOf extends ValueObject {
     return this.asOf.equals(other.asOf);
   }
 
-  public serialize(): string {
-    return this.asOf.toString();
-  }
-
   public get(): Zeit {
     return this.asOf;
   }
@@ -111,5 +107,9 @@ export class AsOf extends ValueObject {
         throw new AsOfError(`UNEXPECTED VALUE: ${term.getTermID().get().get()}`);
       }
     }
+  }
+
+  public serialize(): string {
+    return this.asOf.toString();
   }
 }

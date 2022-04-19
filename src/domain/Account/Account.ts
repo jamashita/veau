@@ -71,15 +71,6 @@ export class Account extends ValueObject {
     return true;
   }
 
-  public serialize(): string {
-    const properties: Array<string> = [];
-
-    properties.push(this.account.toString());
-    properties.push(this.h.toString());
-
-    return properties.join(', ');
-  }
-
   public getAccountName(): AccountName {
     return this.account.getAccountName();
   }
@@ -102,6 +93,15 @@ export class Account extends ValueObject {
 
   public getVeauAccountID(): VeauAccountID {
     return this.account.getVeauAccountID();
+  }
+
+  public serialize(): string {
+    const properties: Array<string> = [];
+
+    properties.push(this.account.toString());
+    properties.push(this.h.toString());
+
+    return properties.join(', ');
   }
 
   public verify(password: Password): Promise<boolean> {

@@ -75,6 +75,10 @@ export class StatsValues extends Quantity<AsOf, StatsValue> implements Cloneable
     return this.vals.contains(value);
   }
 
+  public delete(asOf: AsOf): StatsValues {
+    return StatsValues.of(this.vals.remove(asOf));
+  }
+
   public duplicate(): StatsValues {
     if (this.isEmpty()) {
       return StatsValues.empty();
@@ -114,6 +118,10 @@ export class StatsValues extends Quantity<AsOf, StatsValue> implements Cloneable
     return this.vals.get(key);
   }
 
+  public getAsOfs(): AsOfs {
+    return AsOfs.ofSpread(...this.vals.toMap().keys());
+  }
+
   public override isEmpty(): boolean {
     return this.vals.isEmpty();
   }
@@ -136,6 +144,10 @@ export class StatsValues extends Quantity<AsOf, StatsValue> implements Cloneable
     return strs.join(', ');
   }
 
+  public set(statsValue: StatsValue): StatsValues {
+    return StatsValues.of(this.vals.set(statsValue.getAsOf(), statsValue));
+  }
+
   public size(): number {
     return this.vals.size();
   }
@@ -156,17 +168,5 @@ export class StatsValues extends Quantity<AsOf, StatsValue> implements Cloneable
 
   public values(): Iterable<StatsValue> {
     return this.vals.values();
-  }
-
-  public delete(asOf: AsOf): StatsValues {
-    return StatsValues.of(this.vals.remove(asOf));
-  }
-
-  public getAsOfs(): AsOfs {
-    return AsOfs.ofSpread(...this.vals.toMap().keys());
-  }
-
-  public set(statsValue: StatsValue): StatsValues {
-    return StatsValues.of(this.vals.set(statsValue.getAsOf(), statsValue));
   }
 }

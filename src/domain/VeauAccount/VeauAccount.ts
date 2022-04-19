@@ -113,6 +113,22 @@ export class VeauAccount extends ValueObject implements JSONable<VeauAccountJSON
     return true;
   }
 
+  public getAccountName(): AccountName {
+    return this.name;
+  }
+
+  public getLanguageID(): LanguageID {
+    return this.languageID;
+  }
+
+  public getRegionID(): RegionID {
+    return this.regionID;
+  }
+
+  public getVeauAccountID(): VeauAccountID {
+    return this.veauAccountID;
+  }
+
   public serialize(): string {
     const properties: Array<string> = [];
 
@@ -131,21 +147,5 @@ export class VeauAccount extends ValueObject implements JSONable<VeauAccountJSON
       regionID: this.regionID.get().get(),
       name: this.name.get()
     };
-  }
-
-  public getAccountName(): AccountName {
-    return this.name;
-  }
-
-  public getLanguageID(): LanguageID {
-    return this.languageID;
-  }
-
-  public getRegionID(): RegionID {
-    return this.regionID;
-  }
-
-  public getVeauAccountID(): VeauAccountID {
-    return this.veauAccountID;
   }
 }

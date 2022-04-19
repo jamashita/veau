@@ -86,6 +86,14 @@ export class StatsValue extends ValueObject implements JSONable<StatsValueJSON> 
     return true;
   }
 
+  public getAsOf(): AsOf {
+    return this.asOf;
+  }
+
+  public getValue(): NumericalValue {
+    return this.value;
+  }
+
   public serialize(): string {
     const properties: Array<string> = [];
 
@@ -100,13 +108,5 @@ export class StatsValue extends ValueObject implements JSONable<StatsValueJSON> 
       asOf: this.asOf.toString(),
       value: this.value.get()
     };
-  }
-
-  public getAsOf(): AsOf {
-    return this.asOf;
-  }
-
-  public getValue(): NumericalValue {
-    return this.value;
   }
 }

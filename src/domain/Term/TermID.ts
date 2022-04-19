@@ -38,11 +38,11 @@ export class TermID extends ValueObject {
     return this.uuid.equals(other.uuid);
   }
 
-  public serialize(): string {
-    return this.uuid.toString();
-  }
-
   public get(): UUID {
     return this.uuid;
+  }
+
+  public serialize(): string {
+    return this.uuid.toString();
   }
 }

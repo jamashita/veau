@@ -32,21 +32,6 @@ export class LoadingCount extends ValueObject {
     this.count = count;
   }
 
-  public equals(other: unknown): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!(other instanceof LoadingCount)) {
-      return false;
-    }
-
-    return this.count === other.count;
-  }
-
-  public serialize(): string {
-    return `${this.count}`;
-  }
-
   public decrement(): LoadingCount {
     if (this.count === 1) {
       return LoadingCount.default();
@@ -56,6 +41,17 @@ export class LoadingCount extends ValueObject {
     }
 
     return new LoadingCount(this.count - 1);
+  }
+
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof LoadingCount)) {
+      return false;
+    }
+
+    return this.count === other.count;
   }
 
   public get(): number {
@@ -68,5 +64,9 @@ export class LoadingCount extends ValueObject {
 
   public isLoading(): boolean {
     return this.count !== 0;
+  }
+
+  public serialize(): string {
+    return `${this.count}`;
   }
 }

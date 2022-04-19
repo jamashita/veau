@@ -46,11 +46,11 @@ export class HeaderSize extends ValueObject {
     return this.chars === other.chars;
   }
 
-  public serialize(): string {
-    return `${this.chars}`;
-  }
-
   public get(): number {
     return this.chars;
+  }
+
+  public serialize(): string {
+    return `${this.chars}`;
   }
 }

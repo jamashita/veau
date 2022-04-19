@@ -43,11 +43,11 @@ export class Limit extends ValueObject {
     return this.limit === other.limit;
   }
 
-  public serialize(): string {
-    return `${this.limit}`;
-  }
-
   public get(): number {
     return this.limit;
+  }
+
+  public serialize(): string {
+    return `${this.limit}`;
   }
 }

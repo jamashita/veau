@@ -33,6 +33,10 @@ export class NumericalValues extends Quantity<number, NumericalValue> {
     this.vals = values;
   }
 
+  public add(value: NumericalValue): NumericalValues {
+    return NumericalValues.of(this.vals.add(value));
+  }
+
   public contains(value: NumericalValue): boolean {
     return this.vals.contains(value);
   }
@@ -53,10 +57,7 @@ export class NumericalValues extends Quantity<number, NumericalValue> {
   }
 
   public filter(predicate: BinaryPredicate<NumericalValue, number>): NumericalValues {
-    predicate(NumericalValue.of(100), 0);
-
-    const f: ImmutableSequence<NumericalValue> = this.vals.filter(predicate);
-    return NumericalValues.of(f);
+    return NumericalValues.of(this.vals.filter(predicate));
   }
 
   public find(predicate: BinaryPredicate<NumericalValue, number>): Nullable<NumericalValue> {
@@ -83,6 +84,12 @@ export class NumericalValues extends Quantity<number, NumericalValue> {
     return this.vals.map(mapping);
   }
 
+  public row(): Array<string> {
+    return this.vals.toArray().map<string>((value: NumericalValue) => {
+      return value.toString();
+    });
+  }
+
   public serialize(): string {
     return this.vals.toString();
   }
@@ -97,15 +104,5 @@ export class NumericalValues extends Quantity<number, NumericalValue> {
 
   public values(): Iterable<NumericalValue> {
     return this.vals.values();
-  }
-
-  public add(value: NumericalValue): NumericalValues {
-    return NumericalValues.of(this.vals.add(value));
-  }
-
-  public row(): Array<string> {
-    return this.vals.toArray().map<string>((value: NumericalValue) => {
-      return value.toString();
-    });
   }
 }

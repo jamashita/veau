@@ -35,15 +35,15 @@ export class Password extends ValueObject {
     return this.password === other.password;
   }
 
-  public serialize(): string {
-    return this.password;
-  }
-
   public get(): string {
     return this.password;
   }
 
   public isEmpty(): boolean {
     return this === Password.empty();
+  }
+
+  public serialize(): string {
+    return this.password;
   }
 }

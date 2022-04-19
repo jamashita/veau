@@ -48,11 +48,11 @@ export class UpdatedAt extends ValueObject {
     return this.at.equals(other.at);
   }
 
-  public serialize(): string {
-    return this.at.toString();
-  }
-
   public get(): Zeit {
     return this.at;
+  }
+
+  public serialize(): string {
+    return this.at.toString();
   }
 }

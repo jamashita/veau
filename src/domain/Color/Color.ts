@@ -25,11 +25,11 @@ export class Color extends ValueObject {
     return this.rgb === other.rgb;
   }
 
-  public serialize(): string {
+  public get(): string {
     return this.rgb;
   }
 
-  public get(): string {
+  public serialize(): string {
     return this.rgb;
   }
 }

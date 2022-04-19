@@ -33,6 +33,14 @@ export class AccountHash extends ValueObject {
     return true;
   }
 
+  public getHash(): Hash {
+    return this.h;
+  }
+
+  public getVeauAccountID(): VeauAccountID {
+    return this.veauAccountID;
+  }
+
   public serialize(): string {
     const properties: Array<string> = [];
 
@@ -40,13 +48,5 @@ export class AccountHash extends ValueObject {
     properties.push(this.h.toString());
 
     return properties.join(', ');
-  }
-
-  public getHash(): Hash {
-    return this.h;
-  }
-
-  public getVeauAccountID(): VeauAccountID {
-    return this.veauAccountID;
   }
 }

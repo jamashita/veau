@@ -31,11 +31,11 @@ export class PageProvider extends ValueObject {
     return this === other;
   }
 
-  public serialize(): string {
-    return `${this.open}`;
-  }
-
   public get(): boolean {
     return this.open;
+  }
+
+  public serialize(): string {
+    return `${this.open}`;
   }
 }

@@ -43,15 +43,15 @@ export class Column extends ValueObject {
     return this.column === other.column;
   }
 
-  public serialize(): string {
-    return `${this.column}`;
-  }
-
   public get(): number {
     return this.column;
   }
 
   public isOrigin(): boolean {
     return this === Column.origin();
+  }
+
+  public serialize(): string {
+    return `${this.column}`;
   }
 }

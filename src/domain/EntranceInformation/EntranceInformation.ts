@@ -59,22 +59,6 @@ export class EntranceInformation extends ValueObject implements JSONable<Entranc
     return true;
   }
 
-  public serialize(): string {
-    const properties: Array<string> = [];
-
-    properties.push(this.account.toString());
-    properties.push(this.password.toString());
-
-    return properties.join(', ');
-  }
-
-  public toJSON(): EntranceInformationJSON {
-    return {
-      account: this.account.get(),
-      password: this.password.get()
-    };
-  }
-
   public getAccount(): AccountName {
     return this.account;
   }
@@ -92,5 +76,21 @@ export class EntranceInformation extends ValueObject implements JSONable<Entranc
     }
 
     return true;
+  }
+
+  public serialize(): string {
+    const properties: Array<string> = [];
+
+    properties.push(this.account.toString());
+    properties.push(this.password.toString());
+
+    return properties.join(', ');
+  }
+
+  public toJSON(): EntranceInformationJSON {
+    return {
+      account: this.account.get(),
+      password: this.password.get()
+    };
   }
 }

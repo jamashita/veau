@@ -121,26 +121,6 @@ export class Language extends ValueObject implements JSONable<LanguageJSON> {
     return true;
   }
 
-  public serialize(): string {
-    const props: Array<string> = [];
-
-    props.push(this.languageID.toString());
-    props.push(this.name.toString());
-    props.push(this.englishName.toString());
-    props.push(this.iso639.toString());
-
-    return props.join(', ');
-  }
-
-  public toJSON(): LanguageJSON {
-    return {
-      languageID: this.languageID.get().get(),
-      name: this.name.get(),
-      englishName: this.englishName.get(),
-      iso639: this.iso639.get()
-    };
-  }
-
   public getEnglishName(): LanguageName {
     return this.englishName;
   }
@@ -159,5 +139,25 @@ export class Language extends ValueObject implements JSONable<LanguageJSON> {
 
   public isEmpty(): boolean {
     return this === Language.empty();
+  }
+
+  public serialize(): string {
+    const props: Array<string> = [];
+
+    props.push(this.languageID.toString());
+    props.push(this.name.toString());
+    props.push(this.englishName.toString());
+    props.push(this.iso639.toString());
+
+    return props.join(', ');
+  }
+
+  public toJSON(): LanguageJSON {
+    return {
+      languageID: this.languageID.get().get(),
+      name: this.name.get(),
+      englishName: this.englishName.get(),
+      iso639: this.iso639.get()
+    };
   }
 }

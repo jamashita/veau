@@ -35,15 +35,15 @@ export class ISO3166 extends ValueObject {
     return this.iso3166 === other.iso3166;
   }
 
-  public serialize(): string {
-    return this.iso3166;
-  }
-
   public get(): string {
     return this.iso3166;
   }
 
   public isEmpty(): boolean {
     return this === ISO3166.empty();
+  }
+
+  public serialize(): string {
+    return this.iso3166;
   }
 }

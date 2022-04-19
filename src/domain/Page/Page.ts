@@ -45,10 +45,6 @@ export class Page extends ValueObject {
     return this.page === other.page;
   }
 
-  public serialize(): string {
-    return `${this.page}`;
-  }
-
   public get(): number {
     return this.page;
   }
@@ -61,5 +57,9 @@ export class Page extends ValueObject {
     const offset: number = (this.page - 1) * this.getLimit().get();
 
     return Offset.of(offset);
+  }
+
+  public serialize(): string {
+    return `${this.page}`;
   }
 }
