@@ -1,28 +1,24 @@
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
-import { ImmutableProject } from '@jamashita/lluvia-collection';
-import { AsOf } from '../../../vo/AsOf/AsOf';
-import { AsOfs } from '../../../vo/AsOf/AsOfs';
-import { MockAsOf } from '../../../vo/AsOf/mock/MockAsOf';
-import { NumericalValue } from '../../../vo/NumericalValue/NumericalValue';
-import { NumericalValues } from '../../../vo/NumericalValue/NumericalValues';
-import { StatsItemError } from '../../../vo/StatsItem/error/StatsItemError';
-import { MockStatsItemID } from '../../../vo/StatsItem/mock/MockStatsItemID';
-import { MockStatsItemName } from '../../../vo/StatsItem/mock/MockStatsItemName';
-import { StatsItemID } from '../../../vo/StatsItem/StatsItemID';
-import { StatsItemName } from '../../../vo/StatsItem/StatsItemName';
-import { MockStatsValue } from '../../../vo/StatsValue/mock/MockStatsValue';
-import { StatsValue } from '../../../vo/StatsValue/StatsValue';
-import { StatsValues } from '../../../vo/StatsValue/StatsValues';
+import { ImmutableProject } from '@jamashita/lluvia-project';
+import { AsOf } from '../../AsOf/AsOf';
+import { AsOfs } from '../../AsOf/AsOfs';
+import { MockAsOf } from '../../AsOf/mock/MockAsOf';
+import { NumericalValue } from '../../NumericalValue/NumericalValue';
+import { NumericalValues } from '../../NumericalValue/NumericalValues';
+import { MockStatsValue } from '../../StatsValue/mock/MockStatsValue';
+import { StatsValue } from '../../StatsValue/StatsValue';
+import { StatsValues } from '../../StatsValue/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
+import { StatsItemError } from '../StatsItemError';
+import { StatsItemID } from '../StatsItemID';
+import { StatsItemName } from '../StatsItemName';
 
 describe('StatsItem', () => {
   describe('of', () => {
     it('normal case', () => {
-      expect.assertions(3);
-
-      const statsItemID: MockStatsItemID = new MockStatsItemID();
-      const name: MockStatsItemName = new MockStatsItemName();
+      const statsItemID: StatsItemID = StatsItemID.of(UUID.v4());
+      const name: StatsItemName = StatsItemName.of('to');
       const statsValue: MockStatsValue = new MockStatsValue();
 
       const statsItem: StatsItem = StatsItem.of(statsItemID, name, StatsValues.ofSpread(statsValue));
@@ -35,8 +31,6 @@ describe('StatsItem', () => {
 
   describe('ofJSON', () => {
     it('normal case', () => {
-      expect.assertions(7);
-
       const asOf1: string = '2000-01-01';
       const asOf2: string = '2000-01-02';
       const json: StatsItemJSON = {
@@ -75,8 +69,6 @@ describe('StatsItem', () => {
     });
 
     it('statsItemID is malformat', () => {
-      expect.assertions(1);
-
       const json: StatsItemJSON = {
         statsItemID: 'illegal uuid format',
         name: 'name',
@@ -98,8 +90,6 @@ describe('StatsItem', () => {
     });
 
     it('some asOf is malformat', () => {
-      expect.assertions(1);
-
       const json: StatsItemJSON = {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name',
@@ -121,8 +111,6 @@ describe('StatsItem', () => {
     });
 
     it('all asOf are malformat', () => {
-      expect.assertions(1);
-
       const json: StatsItemJSON = {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name',
@@ -146,8 +134,6 @@ describe('StatsItem', () => {
 
   describe('ofRow', () => {
     it('normal case', () => {
-      expect.assertions(8);
-
       const statsItemID1: string = '4d0cf4e5-4f48-4db3-9c04-085374d857d1';
       const statsItemID2: string = '4d0cf4e5-4f48-4db3-9c04-085374d857d2';
       const row: StatsItemRow = {
@@ -163,8 +149,8 @@ describe('StatsItem', () => {
       const asOf3: MockAsOf = new MockAsOf({
         day: 3
       });
-      const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.ofMap<StatsItemID, StatsValues>(
-        new Map<StatsItemID, StatsValues>([
+      const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.ofMap(
+        new Map([
           [
             StatsItemID.ofString(statsItemID1),
             StatsValues.ofSpread(
@@ -227,8 +213,6 @@ describe('StatsItem', () => {
     });
 
     it('does not have values of that StatsItemID', () => {
-      expect.assertions(3);
-
       const row: StatsItemRow = {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name'
@@ -260,7 +244,7 @@ describe('StatsItem', () => {
       const statsItem: StatsItem = StatsItem.ofRow(
         row,
         ImmutableProject.ofMap(
-          new Map<StatsItemID, StatsValues>([
+          new Map([
             [StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d2'), statsValues]
           ])
         )
@@ -272,8 +256,6 @@ describe('StatsItem', () => {
     });
 
     it('statsItemID is malformat', () => {
-      expect.assertions(1);
-
       const row: StatsItemRow = {
         statsItemID: 'illegal uuid format',
         name: 'name'
@@ -303,7 +285,7 @@ describe('StatsItem', () => {
         StatsItem.ofRow(
           row,
           ImmutableProject.ofMap(
-            new Map<StatsItemID, StatsValues>([
+            new Map([
               [StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d1'), statsValues]
             ])
           )
@@ -314,8 +296,6 @@ describe('StatsItem', () => {
 
   describe('validate', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsItemID: 'ding dong',
         name: 'cameleon',
@@ -335,8 +315,6 @@ describe('StatsItem', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect.assertions(5);
-
       expect(StatsItem.validate(null)).toBe(false);
       expect(StatsItem.validate(undefined)).toBe(false);
       expect(StatsItem.validate(56)).toBe(false);
@@ -345,8 +323,6 @@ describe('StatsItem', () => {
     });
 
     it('returns false because statsItemID is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         name: 'cameleon',
         values: [
@@ -365,8 +341,6 @@ describe('StatsItem', () => {
     });
 
     it('returns false because statsItemID is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsItemID: -1,
         name: 'cameleon',
@@ -386,8 +360,6 @@ describe('StatsItem', () => {
     });
 
     it('returns false because name is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsItemID: 'ding dong',
         values: [
@@ -406,8 +378,6 @@ describe('StatsItem', () => {
     });
 
     it('returns false because name is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsItemID: 'ding dong',
         name: false,
@@ -427,8 +397,6 @@ describe('StatsItem', () => {
     });
 
     it('returns false because values is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsItemID: 'ding dong',
         name: 'cameleon'
@@ -438,8 +406,6 @@ describe('StatsItem', () => {
     });
 
     it('returns false because values is not array', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsItemID: 'ding dong',
         name: 'cameleon',
@@ -452,8 +418,6 @@ describe('StatsItem', () => {
 
   describe('default', () => {
     it('id will be generated, data are empty', () => {
-      expect.assertions(3);
-
       const item: StatsItem = StatsItem.default();
 
       expect(item.getStatsItemID().get().get()).toHaveLength(UUID.size());
@@ -464,12 +428,10 @@ describe('StatsItem', () => {
 
   describe('equals', () => {
     it('returns true when the ids equal', () => {
-      expect.assertions(3);
-
-      const statsItemID1: MockStatsItemID = new MockStatsItemID();
-      const statsItemID2: MockStatsItemID = new MockStatsItemID();
-      const statsItem1: StatsItem = StatsItem.of(statsItemID1, new MockStatsItemName(), StatsValues.ofSpread());
-      const statsItem2: StatsItem = StatsItem.of(statsItemID2, new MockStatsItemName(), StatsValues.ofSpread());
+      const statsItemID1: StatsItemID = StatsItemID.of(UUID.v4());
+      const statsItemID2: StatsItemID = StatsItemID.of(UUID.v4());
+      const statsItem1: StatsItem = StatsItem.of(statsItemID1, StatsItemName.of('mo'), StatsValues.ofSpread());
+      const statsItem2: StatsItem = StatsItem.of(statsItemID2, StatsItemName.of('no'), StatsValues.ofSpread());
       const statsItem3: StatsItem = StatsItem.of(
         statsItemID1,
         StatsItemName.of('name 3'),
@@ -484,8 +446,6 @@ describe('StatsItem', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const statsItemID: StatsItemID = StatsItemID.ofString('b5f208c3-f171-488f-a8dc-f3798db5f9f4');
       const statsItem: StatsItem = StatsItem.of(
         statsItemID,
@@ -515,8 +475,6 @@ describe('StatsItem', () => {
 
   describe('getAdOfs', () => {
     it('extracts only their asOfs', () => {
-      expect.assertions(3);
-
       const asOf1: MockAsOf = new MockAsOf({
         day: 1
       });
@@ -524,8 +482,8 @@ describe('StatsItem', () => {
         day: 3
       });
       const statsItem: StatsItem = StatsItem.of(
-        new MockStatsItemID(),
-        new MockStatsItemName(),
+        StatsItemID.of(UUID.v4()),
+        StatsItemName.of('mono'),
         StatsValues.ofSpread(
           new MockStatsValue({
             asOf: asOf1
@@ -544,8 +502,6 @@ describe('StatsItem', () => {
 
   describe('delete', () => {
     it('normal case', () => {
-      expect.assertions(2);
-
       const asOf1: MockAsOf = new MockAsOf({
         day: 4
       });
@@ -553,7 +509,7 @@ describe('StatsItem', () => {
         day: 5
       });
       const statsItem: StatsItem = StatsItem.of(
-        new MockStatsItemID(),
+        StatsItemID.of(UUID.v4()),
         StatsItemName.empty(),
         StatsValues.ofSpread(
           new MockStatsValue({
@@ -575,10 +531,8 @@ describe('StatsItem', () => {
 
   describe('duplicate', () => {
     it('evert properties are duplicated', () => {
-      expect.assertions(4);
-
-      const statsItemID: MockStatsItemID = new MockStatsItemID();
-      const name: MockStatsItemName = new MockStatsItemName();
+      const statsItemID: StatsItemID = StatsItemID.of(UUID.v4());
+      const name: StatsItemName = StatsItemName.of('mono');
       const statsValues: StatsValues = StatsValues.ofSpread();
 
       const statsItem: StatsItem = StatsItem.of(statsItemID, name, statsValues);
@@ -593,8 +547,6 @@ describe('StatsItem', () => {
 
   describe('getValuesByColumn', () => {
     it('returns empty string when the date is empty', () => {
-      expect.assertions(4);
-
       const column: AsOfs = AsOfs.ofSpread(
         new MockAsOf({
           day: 1
@@ -607,8 +559,8 @@ describe('StatsItem', () => {
         })
       );
       const statsItem: StatsItem = StatsItem.of(
-        new MockStatsItemID(),
-        new MockStatsItemName(),
+        StatsItemID.of(UUID.v4()),
+        StatsItemName.of('mono'),
         StatsValues.ofSpread(
           new MockStatsValue({
             asOf: new MockAsOf({
@@ -636,15 +588,13 @@ describe('StatsItem', () => {
 
   describe('isFilled', () => {
     it('returns true if the name is filled', () => {
-      expect.assertions(2);
-
       const statsItem1: StatsItem = StatsItem.of(
-        new MockStatsItemID(),
+        StatsItemID.of(UUID.v4()),
         StatsItemName.empty(),
         StatsValues.ofSpread()
       );
       const statsItem2: StatsItem = StatsItem.of(
-        new MockStatsItemID(),
+        StatsItemID.of(UUID.v4()),
         StatsItemName.of('name'),
         StatsValues.ofSpread()
       );
@@ -654,51 +604,33 @@ describe('StatsItem', () => {
     });
   });
 
-  describe('toString', () => {
-    it('normal case', () => {
-      expect.assertions(1);
-
-      const id: string = '5ee0c273-c26f-432f-9217-d6a7b481a073';
-      const name: string = 'name';
-      const statsItemID: StatsItemID = StatsItemID.ofString(id);
-      const statsItemName: StatsItemName = StatsItemName.of(name);
-      const statsValues: StatsValues = StatsValues.empty();
-
-      const statsItem: StatsItem = StatsItem.of(statsItemID, statsItemName, statsValues);
-
-      expect(statsItem.toString()).toBe(`${id} ${name} `);
-    });
-  });
-
   describe('same', () => {
     it('returns true if all the properties are the same', () => {
-      expect.assertions(6);
-
-      const statsItemID1: MockStatsItemID = new MockStatsItemID();
-      const statsItemID2: MockStatsItemID = new MockStatsItemID();
+      const statsItemID1: StatsItemID = StatsItemID.of(UUID.v4());
+      const statsItemID2: StatsItemID = StatsItemID.of(UUID.v4());
       const statsItem1: StatsItem = StatsItem.of(
         statsItemID1,
-        new MockStatsItemName(),
+        StatsItemName.of('mo'),
         StatsValues.ofSpread()
       );
       const statsItem2: StatsItem = StatsItem.of(
         statsItemID2,
-        new MockStatsItemName(),
+        StatsItemName.of('no'),
         StatsValues.ofSpread()
       );
       const statsItem3: StatsItem = StatsItem.of(
         statsItemID1,
-        new MockStatsItemName('name 3'),
+        StatsItemName.of('name 3'),
         StatsValues.ofSpread(new MockStatsValue())
       );
       const statsItem4: StatsItem = StatsItem.of(
         statsItemID1,
-        new MockStatsItemName(),
+        StatsItemName.of('po'),
         StatsValues.ofSpread(new MockStatsValue(), new MockStatsValue())
       );
       const statsItem5: StatsItem = StatsItem.of(
         statsItemID2,
-        new MockStatsItemName(),
+        StatsItemName.of('fo'),
         StatsValues.ofSpread(
           new MockStatsValue({
             asOf: new MockAsOf({
@@ -709,7 +641,7 @@ describe('StatsItem', () => {
       );
       const statsItem6: StatsItem = StatsItem.of(
         statsItemID1,
-        new MockStatsItemName(),
+        StatsItemName.of('mo'),
         StatsValues.ofSpread()
       );
 

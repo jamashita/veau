@@ -1,29 +1,25 @@
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
-import { ImmutableProject, ImmutableSequence, MockSequence } from '@jamashita/lluvia-collection';
-import sinon, { SinonSpy } from 'sinon';
-import { AsOfs } from '../../../vo/AsOf/AsOfs';
-import { MockAsOf } from '../../../vo/AsOf/mock/MockAsOf';
-import { Column } from '../../../vo/Coordinate/Column';
-import { Row } from '../../../vo/Coordinate/Row';
-import { NumericalValue } from '../../../vo/NumericalValue/NumericalValue';
-import { StatsItemError } from '../../../vo/StatsItem/error/StatsItemError';
-import { MockStatsItemID } from '../../../vo/StatsItem/mock/MockStatsItemID';
-import { MockStatsItemName } from '../../../vo/StatsItem/mock/MockStatsItemName';
-import { StatsItemID } from '../../../vo/StatsItem/StatsItemID';
-import { StatsItemName } from '../../../vo/StatsItem/StatsItemName';
-import { StatsItemNames } from '../../../vo/StatsItem/StatsItemNames';
-import { MockStatsValue } from '../../../vo/StatsValue/mock/MockStatsValue';
-import { StatsValues } from '../../../vo/StatsValue/StatsValues';
+import { ImmutableProject } from '@jamashita/lluvia-project';
+import { ImmutableSequence, MockSequence } from '@jamashita/lluvia-sequence';
+import { AsOfs } from '../../AsOf/AsOfs';
+import { MockAsOf } from '../../AsOf/mock/MockAsOf';
+import { Column } from '../../Coordinate/Column';
+import { Row } from '../../Coordinate/Row';
+import { NumericalValue } from '../../NumericalValue/NumericalValue';
+import { MockStatsValue } from '../../StatsValue/mock/MockStatsValue';
+import { StatsValues } from '../../StatsValue/StatsValues';
 import { MockStatsItem } from '../mock/MockStatsItem';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
+import { StatsItemError } from '../StatsItemError';
+import { StatsItemID } from '../StatsItemID';
+import { StatsItemName } from '../StatsItemName';
+import { StatsItemNames } from '../StatsItemNames';
 import { StatsItems } from '../StatsItems';
 
 describe('StatsItems', () => {
   describe('ofJSON', () => {
     it('normal case', () => {
-      expect.assertions(5);
-
       const json: Array<StatsItemJSON> = [
         {
           statsItemID: 'b1524ae3-8e91-4938-9997-579ef7b84602',
@@ -43,14 +39,12 @@ describe('StatsItems', () => {
       for (let i: number = 0; i < items.size(); i++) {
         const item: Nullable<StatsItem> = items.get(i);
 
-        expect(item?.getStatsItemID().get().get()).toBe(json[i]!.statsItemID);
-        expect(item?.getName().get()).toBe(json[i]!.name);
+        expect(item?.getStatsItemID().get().get()).toBe(json[i]?.statsItemID);
+        expect(item?.getName().get()).toBe(json[i]?.name);
       }
     });
 
     it('contains malformat statsItemID', () => {
-      expect.assertions(1);
-
       const json: Array<StatsItemJSON> = [
         {
           statsItemID: 'malformat uuid',
@@ -70,8 +64,6 @@ describe('StatsItems', () => {
     });
 
     it('contains malformat statsItemIDs', () => {
-      expect.assertions(1);
-
       const json: Array<StatsItemJSON> = [
         {
           statsItemID: 'malformat uuid 1',
@@ -93,8 +85,6 @@ describe('StatsItems', () => {
 
   describe('ofRow', () => {
     it('normal case', () => {
-      expect.assertions(13);
-
       const statsItemID1: string = 'b1524ae3-8e91-4938-9997-579ef7b84602';
       const statsItemID2: string = '1f0719d6-6512-43b3-93f9-2a92bcb51e32';
       const row: Array<StatsItemRow> = [
@@ -116,8 +106,8 @@ describe('StatsItems', () => {
       const asOf3: MockAsOf = new MockAsOf({
         day: 3
       });
-      const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.ofMap<StatsItemID, StatsValues>(
-        new Map<StatsItemID, StatsValues>([
+      const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.ofMap(
+        new Map([
           [
             StatsItemID.of(UUID.of(statsItemID1)),
             StatsValues.ofSpread(
@@ -151,8 +141,8 @@ describe('StatsItems', () => {
 
       expect(items.size()).toBe(2);
       for (let i: number = 0; i < items.size(); i++) {
-        expect(items.get(i)?.getStatsItemID().get().get()).toBe(row[i]!.statsItemID);
-        expect(items.get(i)?.getName().get()).toBe(row[i]!.name);
+        expect(items.get(i)?.getStatsItemID().get().get()).toBe(row[i]?.statsItemID);
+        expect(items.get(i)?.getName().get()).toBe(row[i]?.name);
       }
       expect(items.get(0)?.getValues().size()).toBe(2);
       expect(items.get(0)?.getValues().get(asOf1)).toBeNull();
@@ -165,8 +155,6 @@ describe('StatsItems', () => {
     });
 
     it('contains malformat statsItemID', () => {
-      expect.assertions(1);
-
       const row: Array<StatsItemRow> = [
         {
           statsItemID: 'malformat uuid',
@@ -179,13 +167,11 @@ describe('StatsItems', () => {
       ];
 
       expect(() => {
-        StatsItems.ofRow(row, ImmutableProject.empty<StatsItemID, StatsValues>());
+        StatsItems.ofRow(row, ImmutableProject.empty());
       }).toThrow(StatsItemError);
     });
 
     it('contains malformat statsItemIDs', () => {
-      expect.assertions(1);
-
       const row: Array<StatsItemRow> = [
         {
           statsItemID: 'malformat uuid 1',
@@ -198,15 +184,13 @@ describe('StatsItems', () => {
       ];
 
       expect(() => {
-        StatsItems.ofRow(row, ImmutableProject.empty<StatsItemID, StatsValues>());
+        StatsItems.ofRow(row, ImmutableProject.empty());
       }).toThrow(StatsItemError);
     });
   });
 
   describe('validate', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const n: unknown = [
         {
           statsItemID: 'ding dong 1',
@@ -246,8 +230,6 @@ describe('StatsItems', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect.assertions(5);
-
       expect(StatsItems.validate(null)).toBe(false);
       expect(StatsItems.validate(undefined)).toBe(false);
       expect(StatsItems.validate(56)).toBe(false);
@@ -256,14 +238,10 @@ describe('StatsItems', () => {
     });
 
     it('returns false because given parameter is not an array', () => {
-      expect.assertions(1);
-
       expect(StatsItems.validate({})).toBe(false);
     });
 
     it('returns false because the first element would not be StatsItemJSON', () => {
-      expect.assertions(1);
-
       const n: unknown = [
         {
           statsItemID: -0.2,
@@ -303,8 +281,6 @@ describe('StatsItems', () => {
     });
 
     it('returns false because the second element would not be StatsItemJSON', () => {
-      expect.assertions(1);
-
       const n: unknown = [
         {
           statsItemID: 'ding dong 1',
@@ -346,8 +322,6 @@ describe('StatsItems', () => {
 
   describe('ofArray', () => {
     it('normal case', () => {
-      expect.assertions(4);
-
       const items: Array<MockStatsItem> = [new MockStatsItem(), new MockStatsItem(), new MockStatsItem()];
 
       const statsItems: StatsItems = StatsItems.ofArray(items);
@@ -361,8 +335,6 @@ describe('StatsItems', () => {
 
   describe('ofSpread', () => {
     it('normal case', () => {
-      expect.assertions(4);
-
       const item1: MockStatsItem = new MockStatsItem();
       const item2: MockStatsItem = new MockStatsItem();
       const item3: MockStatsItem = new MockStatsItem();
@@ -378,9 +350,7 @@ describe('StatsItems', () => {
 
   describe('of', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
-      const statsItems: StatsItems = StatsItems.of(ImmutableSequence.ofArray<StatsItem>([new MockStatsItem(), new MockStatsItem()]));
+      const statsItems: StatsItems = StatsItems.of(ImmutableSequence.ofArray([new MockStatsItem(), new MockStatsItem()]));
 
       expect(statsItems).not.toBe(StatsItems.empty());
     });
@@ -388,16 +358,12 @@ describe('StatsItems', () => {
 
   describe('empty', () => {
     it('gives 0-length StatsItems', () => {
-      expect.assertions(1);
-
       expect(StatsItems.empty().isEmpty()).toBe(true);
     });
   });
 
   describe('add', () => {
     it('does not affect the original one', () => {
-      expect.assertions(5);
-
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
@@ -418,28 +384,25 @@ describe('StatsItems', () => {
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<MockStatsItem> = new MockSequence<MockStatsItem>([
+      const sequence: MockSequence<MockStatsItem> = new MockSequence([
         new MockStatsItem(),
         new MockStatsItem()
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'get');
       const items: StatsItems = StatsItems.of(sequence);
 
-      items.get = spy;
+      // @ts-expect-error
+      items.items = sequence;
 
       items.get(0);
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('move', () => {
     it('first index', () => {
-      expect.assertions(4);
-
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
@@ -454,8 +417,6 @@ describe('StatsItems', () => {
     });
 
     it('middle index', () => {
-      expect.assertions(4);
-
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
@@ -470,8 +431,6 @@ describe('StatsItems', () => {
     });
 
     it('last index', () => {
-      expect.assertions(4);
-
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
@@ -488,8 +447,6 @@ describe('StatsItems', () => {
 
   describe('replace', () => {
     it('first index', () => {
-      expect.assertions(4);
-
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
@@ -505,8 +462,6 @@ describe('StatsItems', () => {
     });
 
     it('middle index', () => {
-      expect.assertions(4);
-
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
@@ -522,8 +477,6 @@ describe('StatsItems', () => {
     });
 
     it('last index', () => {
-      expect.assertions(4);
-
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
@@ -541,8 +494,6 @@ describe('StatsItems', () => {
 
   describe('remove', () => {
     it('correctly removed the same object', () => {
-      expect.assertions(3);
-
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
@@ -556,8 +507,6 @@ describe('StatsItems', () => {
     });
 
     it('returns StatsItems.empty() when all the items are removed', () => {
-      expect.assertions(1);
-
       const statsItem: MockStatsItem = new MockStatsItem();
       const statsItems: StatsItems = StatsItems.ofArray([statsItem]);
 
@@ -569,11 +518,9 @@ describe('StatsItems', () => {
 
   describe('maxNameLength', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
-      const name1: MockStatsItemName = new MockStatsItemName('stats name 1');
-      const name2: MockStatsItemName = new MockStatsItemName('stats name 11');
-      const name3: MockStatsItemName = new MockStatsItemName('stats name 111');
+      const name1: StatsItemName = StatsItemName.of('stats name 1');
+      const name2: StatsItemName = StatsItemName.of('stats name 11');
+      const name3: StatsItemName = StatsItemName.of('stats name 111');
 
       const statsItems: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
@@ -591,8 +538,6 @@ describe('StatsItems', () => {
     });
 
     it('should give 0 when items are 0', () => {
-      expect.assertions(1);
-
       const statsItems: StatsItems = StatsItems.ofArray([]);
 
       expect(statsItems.maxNameLength()).toBe(0);
@@ -601,8 +546,6 @@ describe('StatsItems', () => {
 
   describe('getAsOfs', () => {
     it('collects all AsOfs even if the date is same', () => {
-      expect.assertions(9);
-
       const statsItem1: MockStatsItem = new MockStatsItem({
         values: StatsValues.ofSpread(
           new MockStatsValue({
@@ -673,11 +616,9 @@ describe('StatsItems', () => {
 
   describe('getNames', () => {
     it('normal case', () => {
-      expect.assertions(4);
-
-      const name1: MockStatsItemName = new MockStatsItemName('stats name 1');
-      const name2: MockStatsItemName = new MockStatsItemName('stats name 11');
-      const name3: MockStatsItemName = new MockStatsItemName('stats name 111');
+      const name1: StatsItemName = StatsItemName.of('stats name 1');
+      const name2: StatsItemName = StatsItemName.of('stats name 11');
+      const name3: StatsItemName = StatsItemName.of('stats name 111');
 
       const statsItems: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
@@ -702,70 +643,65 @@ describe('StatsItems', () => {
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<MockStatsItem> = new MockSequence<MockStatsItem>([
+      const sequence: MockSequence<MockStatsItem> = new MockSequence([
         new MockStatsItem(),
         new MockStatsItem()
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'contains');
       const items: StatsItems = StatsItems.of(sequence);
 
-      items.contains = spy;
+      // @ts-expect-error
+      items.items = sequence;
 
       items.contains(new MockStatsItem());
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<MockStatsItem> = new MockSequence<MockStatsItem>([
+      const sequence: MockSequence<MockStatsItem> = new MockSequence([
         new MockStatsItem(),
         new MockStatsItem()
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'size');
       const items: StatsItems = StatsItems.of(sequence);
 
-      items.size = spy;
+      // @ts-expect-error
+      items.items = sequence;
 
       items.size();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<MockStatsItem> = new MockSequence<MockStatsItem>([
+      const sequence: MockSequence<MockStatsItem> = new MockSequence([
         new MockStatsItem(),
         new MockStatsItem()
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'forEach');
       const items: StatsItems = StatsItems.of(sequence);
 
-      items.forEach = spy;
+      // @ts-expect-error
+      items.items = sequence;
 
       items.forEach(() => {
         // NOOP
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('duplicate', () => {
     it('shallow duplicated', () => {
-      expect.assertions(4);
-
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
@@ -780,36 +716,31 @@ describe('StatsItems', () => {
     });
 
     it('returns StatsItems.empty when it is already empty', () => {
-      expect.assertions(1);
-
       expect(StatsItems.empty().duplicate().size()).toBe(0);
     });
   });
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<MockStatsItem> = new MockSequence<MockStatsItem>([
+      const sequence: MockSequence<MockStatsItem> = new MockSequence([
         new MockStatsItem(),
         new MockStatsItem()
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'isEmpty');
       const items: StatsItems = StatsItems.of(sequence);
 
-      items.isEmpty = spy;
+      // @ts-expect-error
+      items.items = sequence;
 
       items.isEmpty();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('equals', () => {
     it('same instance', () => {
-      expect.assertions(1);
-
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2]);
@@ -818,28 +749,25 @@ describe('StatsItems', () => {
     });
 
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<MockStatsItem> = new MockSequence<MockStatsItem>([
+      const sequence: MockSequence<MockStatsItem> = new MockSequence([
         new MockStatsItem(),
         new MockStatsItem()
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'equals');
       const items: StatsItems = StatsItems.of(sequence);
 
-      items.equals = spy;
+      // @ts-expect-error
+      items.items = sequence;
 
       items.equals(StatsItems.empty());
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('toJSON', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const statsItems: StatsItems = StatsItems.ofArray([
         StatsItem.of(
           StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700'),
@@ -868,33 +796,11 @@ describe('StatsItems', () => {
     });
   });
 
-  describe('toString', () => {
-    it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<MockStatsItem> = new MockSequence<MockStatsItem>([
-        new MockStatsItem(),
-        new MockStatsItem()
-      ]);
-
-      const spy: SinonSpy = sinon.spy();
-      const items: StatsItems = StatsItems.of(sequence);
-
-      items.toString = spy;
-
-      items.toString();
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
   describe('iterator', () => {
     it('normal case', () => {
-      expect.assertions(3);
-
-      const statsItemID1: MockStatsItemID = new MockStatsItemID();
-      const statsItemID2: MockStatsItemID = new MockStatsItemID();
-      const statsItemID3: MockStatsItemID = new MockStatsItemID();
+      const statsItemID1: StatsItemID = StatsItemID.of(UUID.v4());
+      const statsItemID2: StatsItemID = StatsItemID.of(UUID.v4());
+      const statsItemID3: StatsItemID = StatsItemID.of(UUID.v4());
       const statsItem1: MockStatsItem = new MockStatsItem({
         statsItemID: statsItemID1
       });
@@ -918,63 +824,59 @@ describe('StatsItems', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<MockStatsItem> = new MockSequence<MockStatsItem>([
+      const sequence: MockSequence<MockStatsItem> = new MockSequence([
         new MockStatsItem(),
         new MockStatsItem()
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'every');
       const items: StatsItems = StatsItems.of(sequence);
 
-      items.every = spy;
+      // @ts-expect-error
+      items.items = sequence;
 
       items.every(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const sequence: MockSequence<MockStatsItem> = new MockSequence<MockStatsItem>([
+      const sequence: MockSequence<MockStatsItem> = new MockSequence([
         new MockStatsItem(),
         new MockStatsItem()
       ]);
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(sequence, 'some');
       const items: StatsItems = StatsItems.of(sequence);
 
-      items.some = spy;
+      // @ts-expect-error
+      items.items = sequence;
 
       items.some(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('areFilled', () => {
     it('returns true if the all items are filled', () => {
-      expect.assertions(2);
-
       const statsItems1: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
-          name: new MockStatsItemName('stats item 1')
+          name: StatsItemName.of('stats item 1')
         }),
         new MockStatsItem({
-          name: new MockStatsItemName('stats item 2')
+          name: StatsItemName.of('stats item 2')
         })
       ]);
       const statsItems2: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
-          name: new MockStatsItemName('stats item 3')
+          name: StatsItemName.of('stats item 3')
         }),
         new MockStatsItem({
           name: StatsItemName.empty()
@@ -988,16 +890,12 @@ describe('StatsItems', () => {
 
   describe('haveValues', () => {
     it('no items', () => {
-      expect.assertions(1);
-
       const statsItems: StatsItems = StatsItems.ofArray([]);
 
       expect(statsItems.haveValues()).toBe(false);
     });
 
     it('no values', () => {
-      expect.assertions(2);
-
       const statsItems1: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           values: StatsValues.ofSpread()
@@ -1013,8 +911,6 @@ describe('StatsItems', () => {
     });
 
     it('have values', () => {
-      expect.assertions(1);
-
       const statsItems: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           values: StatsValues.ofSpread(
@@ -1031,18 +927,14 @@ describe('StatsItems', () => {
 
   describe('same', () => {
     it('same instance', () => {
-      expect.assertions(1);
-
       const statsItems1: StatsItems = StatsItems.empty();
 
       expect(statsItems1.same(statsItems1)).toBe(true);
     });
 
     it('returns true', () => {
-      expect.assertions(1);
-
-      const statsItemID1: MockStatsItemID = new MockStatsItemID();
-      const statsItemID2: MockStatsItemID = new MockStatsItemID();
+      const statsItemID1: StatsItemID = StatsItemID.of(UUID.v4());
+      const statsItemID2: StatsItemID = StatsItemID.of(UUID.v4());
 
       const statsItems1: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
@@ -1065,8 +957,6 @@ describe('StatsItems', () => {
     });
 
     it('returns false when the length is different', () => {
-      expect.assertions(1);
-
       const statsItems1: StatsItems = StatsItems.ofArray([
         new MockStatsItem(),
         new MockStatsItem()

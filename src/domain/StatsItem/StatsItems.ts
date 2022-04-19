@@ -1,22 +1,21 @@
-import { BinaryPredicate, Catalogue, Cloneable, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, Cloneable, ForEach, JSONable, Kind, Mapping, Nullable } from '@jamashita/anden-type';
 import { Collection, Quantity } from '@jamashita/lluvia-collection';
 import { Project } from '@jamashita/lluvia-project';
 import { MutableSequence, ReadonlySequence, Sequence } from '@jamashita/lluvia-sequence';
-import { AsOfs } from '../../vo/AsOf/AsOfs.js';
-import { Column } from '../../vo/Coordinate/Column.js';
-import { Row } from '../../vo/Coordinate/Row.js';
-import { StatsItemID } from '../../vo/StatsItem/StatsItemID.js';
-import { StatsItemName } from '../../vo/StatsItem/StatsItemName.js';
-import { StatsItemNames } from '../../vo/StatsItem/StatsItemNames.js';
-import { StatsValues } from '../../vo/StatsValue/StatsValues.js';
+import { AsOfs } from '../AsOf/AsOfs.js';
+import { Column } from '../Coordinate/Column.js';
+import { Row } from '../Coordinate/Row.js';
+import { StatsValues } from '../StatsValue/StatsValues.js';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem.js';
+import { StatsItemID } from './StatsItemID.js';
+import { StatsItemName } from './StatsItemName.js';
+import { StatsItemNames } from './StatsItemNames.js';
 
-export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implements Cloneable<StatsItems>, JSONable {
-  public readonly noun: 'StatsItems' = 'StatsItems';
+export class StatsItems extends Quantity<number, StatsItem> implements Cloneable<StatsItems>, JSONable {
   private items: MutableSequence<StatsItem>;
 
   public static empty(): StatsItems {
-    return new StatsItems(MutableSequence.empty<StatsItem>());
+    return new StatsItems(MutableSequence.empty());
   }
 
   public static of(items: ReadonlySequence<StatsItem>): StatsItems {
@@ -24,15 +23,15 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
       return StatsItems.empty();
     }
 
-    return new StatsItems(MutableSequence.of<StatsItem>(items));
+    return new StatsItems(MutableSequence.of(items));
   }
 
   public static ofArray(items: ReadonlyArray<StatsItem>): StatsItems {
-    return StatsItems.of(MutableSequence.ofArray<StatsItem>(items));
+    return StatsItems.of(MutableSequence.ofArray(items));
   }
 
   public static ofJSON(json: ReadonlyArray<StatsItemJSON>): StatsItems {
-    const arr: Array<StatsItem> = json.map<StatsItem>((statsItemJSON: StatsItemJSON) => {
+    const arr: Array<StatsItem> = json.map((statsItemJSON: StatsItemJSON): StatsItem => {
       return StatsItem.ofJSON(statsItemJSON);
     });
 
@@ -40,7 +39,7 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
   }
 
   public static ofRow(rows: ReadonlyArray<StatsItemRow>, project: Project<StatsItemID, StatsValues>): StatsItems {
-    const arr: Array<StatsItem> = rows.map<StatsItem>((statsItemRow: StatsItemRow) => {
+    const arr: Array<StatsItem> = rows.map((statsItemRow: StatsItemRow): StatsItem => {
       return StatsItem.ofRow(statsItemRow, project);
     });
 
@@ -66,19 +65,18 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     this.items = items;
   }
 
-  public equals(other: unknown): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!(other instanceof StatsItems)) {
-      return false;
-    }
-
-    return this.items.equals(other.items);
+  public add(statsItem: StatsItem): void {
+    this.items.add(statsItem);
   }
 
-  public serialize(): string {
-    return this.items.toString();
+  public areFilled(): boolean {
+    return this.items.every((statsItem: StatsItem) => {
+      return statsItem.isFilled();
+    });
+  }
+
+  public contains(value: StatsItem): boolean {
+    return this.items.contains(value);
   }
 
   public duplicate(): StatsItems {
@@ -89,12 +87,15 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     return StatsItems.of(this.items.duplicate());
   }
 
-  public iterator(): Iterator<[number, StatsItem]> {
-    return this.items.iterator();
-  }
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof StatsItems)) {
+      return false;
+    }
 
-  public contains(value: StatsItem): boolean {
-    return this.items.contains(value);
+    return this.items.equals(other.items);
   }
 
   public every(predicate: BinaryPredicate<StatsItem, number>): boolean {
@@ -109,48 +110,12 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     return this.items.find(predicate);
   }
 
-  public forEach(catalogue: Catalogue<number, StatsItem>): void {
-    this.items.forEach(catalogue);
+  public forEach(foreach: ForEach<number, StatsItem>): void {
+    this.items.forEach(foreach);
   }
 
   public get(index: number): Nullable<StatsItem> {
     return this.items.get(index);
-  }
-
-  public override isEmpty(): boolean {
-    return this.items.isEmpty();
-  }
-
-  public map<W>(mapper: Mapper<StatsItem, W>): Sequence<W> {
-    return this.items.map<W>(mapper);
-  }
-
-  public size(): number {
-    return this.items.size();
-  }
-
-  public some(predicate: BinaryPredicate<StatsItem, number>): boolean {
-    return this.items.some(predicate);
-  }
-
-  public values(): Iterable<StatsItem> {
-    return this.items.values();
-  }
-
-  public toJSON(): Array<StatsItemJSON> {
-    return this.items.toArray().map<StatsItemJSON>((item: StatsItem) => {
-      return item.toJSON();
-    });
-  }
-
-  public add(statsItem: StatsItem): void {
-    this.items.add(statsItem);
-  }
-
-  public areFilled(): boolean {
-    return this.items.every((statsItem: StatsItem) => {
-      return statsItem.isFilled();
-    });
   }
 
   public getAsOfs(): AsOfs {
@@ -177,6 +142,18 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
     });
 
     return !rowLengths.includes(0);
+  }
+
+  public override isEmpty(): boolean {
+    return this.items.isEmpty();
+  }
+
+  public iterator(): Iterator<[number, StatsItem]> {
+    return this.items.iterator();
+  }
+
+  public map<W>(mapping: Mapping<StatsItem, W>): Sequence<W> {
+    return this.items.map(mapping);
   }
 
   public maxNameLength(): number {
@@ -228,26 +205,30 @@ export class StatsItems extends Quantity<number, StatsItem, 'StatsItems'> implem
       return false;
     }
 
-    const thisIterator: Iterator<StatsItem> = this.values()[Symbol.iterator]();
-    const otherIterator: Iterator<StatsItem> = other.values()[Symbol.iterator]();
+    return this.items.every((s: StatsItem, i: number) => {
+      return s.equals(other.get(i));
+    });
+  }
 
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const thisRes: IteratorResult<StatsItem> = thisIterator.next();
-      const otherRes: IteratorResult<StatsItem> = otherIterator.next();
+  public serialize(): string {
+    return this.items.toString();
+  }
 
-      if (thisRes.done !== true && otherRes.done !== true) {
-        if (!thisRes.value.equals(otherRes.value)) {
-          return false;
-        }
+  public size(): number {
+    return this.items.size();
+  }
 
-        continue;
-      }
-      if (thisRes.done === true && otherRes.done === true) {
-        return true;
-      }
+  public some(predicate: BinaryPredicate<StatsItem, number>): boolean {
+    return this.items.some(predicate);
+  }
 
-      return false;
-    }
+  public toJSON(): Array<StatsItemJSON> {
+    return this.items.toArray().map((item: StatsItem): StatsItemJSON => {
+      return item.toJSON();
+    });
+  }
+
+  public values(): Iterable<StatsItem> {
+    return this.items.values();
   }
 }

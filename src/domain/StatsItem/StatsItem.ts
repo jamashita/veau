@@ -1,16 +1,16 @@
 import { Entity } from '@jamashita/anden-object';
 import { Kind, Nullable } from '@jamashita/anden-type';
 import { Project } from '@jamashita/lluvia-project';
-import { AsOf } from '../../vo/AsOf/AsOf.js';
-import { AsOfs } from '../../vo/AsOf/AsOfs.js';
-import { NoValue } from '../../vo/NumericalValue/NoValue.js';
-import { NumericalValues } from '../../vo/NumericalValue/NumericalValues.js';
-import { StatsItemError } from '../../vo/StatsItem/error/StatsItemError.js';
-import { StatsItemID } from '../../vo/StatsItem/StatsItemID.js';
-import { StatsItemName } from '../../vo/StatsItem/StatsItemName.js';
-import { StatsValueError } from '../../vo/StatsValue/error/StatsValueError.js';
-import { StatsValue, StatsValueJSON } from '../../vo/StatsValue/StatsValue.js';
-import { StatsValues } from '../../vo/StatsValue/StatsValues.js';
+import { AsOf } from '../AsOf/AsOf.js';
+import { AsOfs } from '../AsOf/AsOfs.js';
+import { NoValue } from '../NumericalValue/NoValue.js';
+import { NumericalValues } from '../NumericalValue/NumericalValues.js';
+import { StatsValue, StatsValueJSON } from '../StatsValue/StatsValue.js';
+import { StatsValueError } from '../StatsValue/StatsValueError.js';
+import { StatsValues } from '../StatsValue/StatsValues.js';
+import { StatsItemError } from './StatsItemError.js';
+import { StatsItemID } from './StatsItemID.js';
+import { StatsItemName } from './StatsItemName.js';
 
 export type StatsItemJSON = Readonly<{
   statsItemID: string;
@@ -23,7 +23,6 @@ export type StatsItemRow = Readonly<{
 }>;
 
 export class StatsItem extends Entity<StatsItemID, StatsItem> {
-  public readonly noun: 'StatsItem' = 'StatsItem';
   private readonly statsItemID: StatsItemID;
   private readonly name: StatsItemName;
   private values: StatsValues;
@@ -105,30 +104,20 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     this.values = values;
   }
 
-  public getIdentifier(): StatsItemID {
-    return this.statsItemID;
+  public delete(asOf: AsOf): void {
+    this.values = this.values.delete(asOf);
   }
 
   public duplicate(): StatsItem {
     return new StatsItem(this.statsItemID, this.name, this.values.duplicate());
   }
 
-  public serialize(): string {
-    const properties: Array<string> = [];
-
-    properties.push(this.statsItemID.toString());
-    properties.push(this.name.toString());
-    properties.push(this.values.toString());
-
-    return properties.join(' ');
-  }
-
-  public delete(asOf: AsOf): void {
-    this.values = this.values.delete(asOf);
-  }
-
   public getAsOfs(): AsOfs {
     return this.values.getAsOfs();
+  }
+
+  public getIdentifier(): StatsItemID {
+    return this.statsItemID;
   }
 
   public getName(): StatsItemName {
@@ -185,6 +174,16 @@ export class StatsItem extends Entity<StatsItemID, StatsItem> {
     }
 
     return true;
+  }
+
+  public serialize(): string {
+    const properties: Array<string> = [];
+
+    properties.push(this.statsItemID.toString());
+    properties.push(this.name.toString());
+    properties.push(this.values.toString());
+
+    return properties.join(', ');
   }
 
   public set(statsValue: StatsValue): void {
