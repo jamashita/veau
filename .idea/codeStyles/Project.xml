@@ -14,7 +14,7 @@
       <option name="SPACES_WITHIN_IMPORTS" value="true" />
       <option name="IMPORT_SORT_MODULE_NAME" value="true" />
     </JSCodeStyleSettings>
-    <MySQLCodeStyleSettings version="5">
+    <MySQLCodeStyleSettings version="6">
       <option name="USE_GENERAL_STYLE" value="false" />
       <option name="DISABLE_FORMATTING" value="true" />
       <option name="TABLE_TYPES_ALIGN" value="false" />
@@ -83,20 +83,7 @@
           <section>
             <rule>
               <match>
-                <AND>
-                  <FIELD>true</FIELD>
-                  <READONLY>true</READONLY>
-                </AND>
-              </match>
-            </rule>
-          </section>
-          <section>
-            <rule>
-              <match>
-                <AND>
-                  <FIELD>true</FIELD>
-                  <READONLY>false</READONLY>
-                </AND>
+                <FIELD>true</FIELD>
               </match>
             </rule>
           </section>
@@ -142,10 +129,7 @@
           <section>
             <rule>
               <match>
-                <AND>
-                  <METHOD>true</METHOD>
-                  <OVERRIDDEN />
-                </AND>
+                <METHOD>true</METHOD>
               </match>
               <order>BY_NAME</order>
             </rule>
@@ -153,10 +137,7 @@
           <section>
             <rule>
               <match>
-                <AND>
-                  <ABSTRACT>false</ABSTRACT>
-                  <METHOD>true</METHOD>
-                </AND>
+                <PROPERTY>true</PROPERTY>
               </match>
               <order>BY_NAME</order>
             </rule>
