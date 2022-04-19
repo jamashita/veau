@@ -1,11 +1,10 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { Zeit, ZeitError } from '@jamashita/anden-zeit';
-import { StatsError } from './error/StatsError.js';
+import { StatsError } from './StatsError.js';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 
-export class UpdatedAt extends ValueObject<'UpdatedAt'> {
-  public readonly noun: 'UpdatedAt' = 'UpdatedAt';
+export class UpdatedAt extends ValueObject {
   private readonly at: Zeit;
 
   public static format(): string {

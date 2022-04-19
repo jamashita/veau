@@ -1,27 +1,22 @@
 import { UUID } from '@jamashita/anden-uuid';
 import { LanguageID } from '../../Language/LanguageID';
-import { MockLanguageID } from '../../Language/mock/MockLanguageID';
-import { MockRegionID } from '../../Region/mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
 import { Term } from '../../Term/Term';
 import { TermID } from '../../Term/TermID';
-import { StatsOutlineError } from '../error/StatsOutlineError';
-import { MockStatsID } from '../mock/MockStatsID';
 import { MockUpdatedAt } from '../mock/MockUpdatedAt';
 import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
+import { StatsOutlineError } from '../StatsOutlineError';
 import { StatsUnit } from '../StatsUnit';
 import { UpdatedAt } from '../UpdatedAt';
 
 describe('StatsOutline', () => {
   describe('of', () => {
     it('normal case', () => {
-      expect.assertions(7);
-
-      const statsID: MockStatsID = new MockStatsID();
-      const languageID: MockLanguageID = new MockLanguageID();
-      const regionID: MockRegionID = new MockRegionID();
+      const statsID: StatsID = StatsID.of(UUID.v4());
+      const languageID: LanguageID = LanguageID.of(UUID.v4());
+      const regionID: RegionID = RegionID.of(UUID.v4());
       const termID: TermID = TermID.of(UUID.v4());
       const name: StatsName = StatsName.empty();
       const unit: StatsUnit = StatsUnit.empty();
@@ -41,8 +36,6 @@ describe('StatsOutline', () => {
 
   describe('ofJSON', () => {
     it('normal case', () => {
-      expect.assertions(7);
-
       const json: StatsOutlineJSON = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -65,8 +58,6 @@ describe('StatsOutline', () => {
     });
 
     it('contains mal format statsID', () => {
-      expect.assertions(1);
-
       const json: StatsOutlineJSON = {
         statsID: 'illegal uuid',
         languageID: UUID.v4().get(),
@@ -83,8 +74,6 @@ describe('StatsOutline', () => {
     });
 
     it('contains mal format languageID', () => {
-      expect.assertions(1);
-
       const json: StatsOutlineJSON = {
         statsID: UUID.v4().get(),
         languageID: 'illegal uuid',
@@ -101,8 +90,6 @@ describe('StatsOutline', () => {
     });
 
     it('contains mal format regionID', () => {
-      expect.assertions(1);
-
       const json: StatsOutlineJSON = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -119,8 +106,6 @@ describe('StatsOutline', () => {
     });
 
     it('contains mal format termID', () => {
-      expect.assertions(1);
-
       const json: StatsOutlineJSON = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -137,8 +122,6 @@ describe('StatsOutline', () => {
     });
 
     it('contains mal format updatedAt', () => {
-      expect.assertions(1);
-
       const json: StatsOutlineJSON = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -157,8 +140,6 @@ describe('StatsOutline', () => {
 
   describe('ofRow', () => {
     it('normal case', () => {
-      expect.assertions(7);
-
       const row: StatsOutlineRow = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -181,8 +162,6 @@ describe('StatsOutline', () => {
     });
 
     it('contains mal format statsID', () => {
-      expect.assertions(1);
-
       const row: StatsOutlineRow = {
         statsID: 'illegal uuid',
         languageID: UUID.v4().get(),
@@ -199,8 +178,6 @@ describe('StatsOutline', () => {
     });
 
     it('contains mal format languageID', () => {
-      expect.assertions(1);
-
       const row: StatsOutlineRow = {
         statsID: UUID.v4().get(),
         languageID: 'illegal uuid',
@@ -217,8 +194,6 @@ describe('StatsOutline', () => {
     });
 
     it('contains mal format regionID', () => {
-      expect.assertions(1);
-
       const row: StatsOutlineRow = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -235,8 +210,6 @@ describe('StatsOutline', () => {
     });
 
     it('contains mal format termID', () => {
-      expect.assertions(1);
-
       const row: StatsOutlineRow = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -253,8 +226,6 @@ describe('StatsOutline', () => {
     });
 
     it('contains mal format updatedAt', () => {
-      expect.assertions(1);
-
       const row: StatsOutlineRow = {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
@@ -273,8 +244,6 @@ describe('StatsOutline', () => {
 
   describe('default', () => {
     it('id will be generated, data are empty', () => {
-      expect.assertions(6);
-
       const outline: StatsOutline = StatsOutline.default();
 
       expect(outline.getStatsID().get().get()).toHaveLength(UUID.size());
@@ -288,8 +257,6 @@ describe('StatsOutline', () => {
 
   describe('validate', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -304,8 +271,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect.assertions(5);
-
       expect(StatsOutline.validate(null)).toBe(false);
       expect(StatsOutline.validate(undefined)).toBe(false);
       expect(StatsOutline.validate(56)).toBe(false);
@@ -314,8 +279,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because statsID is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         languageID: 'miaow',
         regionID: 'moin',
@@ -329,8 +292,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because statsID is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 1,
         languageID: 'miaow',
@@ -345,8 +306,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because languageID is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         regionID: 'moin',
@@ -360,8 +319,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because languageID is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         languageID: 1,
@@ -376,8 +333,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because regionID is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -391,8 +346,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because regionID is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -407,8 +360,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because termID is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -422,8 +373,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because name is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -437,8 +386,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because name is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -453,8 +400,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because unit is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -468,8 +413,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because unit is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -484,8 +427,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because updatedAt is missing', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -499,8 +440,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns false because updatedAt is not string', () => {
-      expect.assertions(1);
-
       const n: unknown = {
         statsID: 'oink',
         languageID: 'miaow',
@@ -517,8 +456,6 @@ describe('StatsOutline', () => {
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const outline: StatsOutline = StatsOutline.default();
 
       expect(outline.equals(null)).toBe(false);
@@ -540,9 +477,6 @@ describe('StatsOutline', () => {
     });
 
     it('returns true if all the properties are the same', () => {
-      expect.assertions(9);
-
-
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -552,72 +486,72 @@ describe('StatsOutline', () => {
       const uuid7: UUID = UUID.v4();
       const uuid8: UUID = UUID.v4();
       const statsOutline1: StatsOutline = StatsOutline.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        StatsID.of(uuid1),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid5),
         TermID.of(uuid7),
         StatsName.empty(),
         StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline2: StatsOutline = StatsOutline.of(
-        new MockStatsID(uuid2),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        StatsID.of(uuid2),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid5),
         TermID.of(uuid7),
         StatsName.empty(),
         StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline3: StatsOutline = StatsOutline.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid4),
-        new MockRegionID(uuid5),
+        StatsID.of(uuid1),
+        LanguageID.of(uuid4),
+        RegionID.of(uuid5),
         TermID.of(uuid7),
         StatsName.empty(),
         StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline4: StatsOutline = StatsOutline.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid6),
+        StatsID.of(uuid1),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid6),
         TermID.of(uuid7),
         StatsName.empty(),
         StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline5: StatsOutline = StatsOutline.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        StatsID.of(uuid1),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid5),
         TermID.of(uuid8),
         StatsName.empty(),
         StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline6: StatsOutline = StatsOutline.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        StatsID.of(uuid1),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid5),
         TermID.of(uuid7),
         StatsName.of('NO TOFU'),
         StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline7: StatsOutline = StatsOutline.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        StatsID.of(uuid1),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid5),
         TermID.of(uuid7),
         StatsName.empty(),
         StatsUnit.of('NO TOFU'),
         new MockUpdatedAt()
       );
       const statsOutline8: StatsOutline = StatsOutline.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        StatsID.of(uuid1),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid5),
         TermID.of(uuid7),
         StatsName.empty(),
         StatsUnit.empty(),
@@ -626,9 +560,9 @@ describe('StatsOutline', () => {
         })
       );
       const statsOutline9: StatsOutline = StatsOutline.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        StatsID.of(uuid1),
+        LanguageID.of(uuid3),
+        RegionID.of(uuid5),
         TermID.of(uuid7),
         StatsName.empty(),
         StatsUnit.empty(),
@@ -649,8 +583,6 @@ describe('StatsOutline', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -678,39 +610,10 @@ describe('StatsOutline', () => {
     });
   });
 
-  describe('toString', () => {
-    it('normal case', () => {
-      expect.assertions(1);
-
-      const uuid1: UUID = UUID.v4();
-      const uuid2: UUID = UUID.v4();
-      const uuid3: UUID = UUID.v4();
-      const uuid4: UUID = UUID.v4();
-      const name: string = 'name4';
-      const unit: string = 'unit1';
-      const asOf: string = '2000-01-01 00:00:00';
-      const statsOutline: StatsOutline = StatsOutline.of(
-        StatsID.of(uuid1),
-        LanguageID.of(uuid2),
-        RegionID.of(uuid3),
-        TermID.of(uuid4),
-        StatsName.of(name),
-        StatsUnit.of(unit),
-        UpdatedAt.ofString(asOf)
-      );
-
-      expect(statsOutline.toString()).toBe(
-        `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name} ${unit} ${asOf}`
-      );
-    });
-  });
-
   describe('isFilled', () => {
     it('returns true is language, region, name and unit are filled', () => {
-      expect.assertions(7);
-
       const statsOutline1: StatsOutline = StatsOutline.of(
-        new MockStatsID(),
+        StatsID.of(UUID.v4()),
         LanguageID.empty(),
         RegionID.empty(),
         TermID.of(UUID.v4()),
@@ -719,8 +622,8 @@ describe('StatsOutline', () => {
         new MockUpdatedAt()
       );
       const statsOutline2: StatsOutline = StatsOutline.of(
-        new MockStatsID(),
-        new MockLanguageID(),
+        StatsID.of(UUID.v4()),
+        LanguageID.of(UUID.v4()),
         RegionID.empty(),
         TermID.of(UUID.v4()),
         StatsName.empty(),
@@ -728,45 +631,45 @@ describe('StatsOutline', () => {
         new MockUpdatedAt()
       );
       const statsOutline3: StatsOutline = StatsOutline.of(
-        new MockStatsID(),
+        StatsID.of(UUID.v4()),
         LanguageID.empty(),
-        new MockRegionID(),
+        RegionID.of(UUID.v4()),
         TermID.of(UUID.v4()),
         StatsName.empty(),
         StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline4: StatsOutline = StatsOutline.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        StatsID.of(UUID.v4()),
+        LanguageID.of(UUID.v4()),
+        RegionID.of(UUID.v4()),
         TermID.of(UUID.v4()),
         StatsName.empty(),
         StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline5: StatsOutline = StatsOutline.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        StatsID.of(UUID.v4()),
+        LanguageID.of(UUID.v4()),
+        RegionID.of(UUID.v4()),
         TermID.of(UUID.v4()),
         StatsName.of('stats name'),
         StatsUnit.empty(),
         new MockUpdatedAt()
       );
       const statsOutline6: StatsOutline = StatsOutline.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        StatsID.of(UUID.v4()),
+        LanguageID.of(UUID.v4()),
+        RegionID.of(UUID.v4()),
         TermID.of(UUID.v4()),
         StatsName.empty(),
         StatsUnit.of('stats unit'),
         new MockUpdatedAt()
       );
       const statsOutline7: StatsOutline = StatsOutline.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        StatsID.of(UUID.v4()),
+        LanguageID.of(UUID.v4()),
+        RegionID.of(UUID.v4()),
         TermID.of(UUID.v4()),
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),

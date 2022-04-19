@@ -2,8 +2,7 @@ import { ValueObject } from '@jamashita/anden-object';
 
 const EMPTY_UNIT: string = '';
 
-export class StatsUnit extends ValueObject<'StatsUnit'> {
-  public readonly noun: 'StatsUnit' = 'StatsUnit';
+export class StatsUnit extends ValueObject {
   private readonly unit: string;
 
   private static readonly EMPTY: StatsUnit = new StatsUnit(EMPTY_UNIT);
@@ -32,11 +31,8 @@ export class StatsUnit extends ValueObject<'StatsUnit'> {
     if (!(other instanceof StatsUnit)) {
       return false;
     }
-    if (this.unit === other.unit) {
-      return true;
-    }
 
-    return false;
+    return this.unit === other.unit;
   }
 
   public serialize(): string {
@@ -48,10 +44,6 @@ export class StatsUnit extends ValueObject<'StatsUnit'> {
   }
 
   public isEmpty(): boolean {
-    if (this === StatsUnit.empty()) {
-      return true;
-    }
-
-    return false;
+    return this === StatsUnit.empty();
   }
 }

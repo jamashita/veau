@@ -1,7 +1,5 @@
 import { UUID } from '@jamashita/anden-uuid';
 import { LanguageID } from '../../Language/LanguageID';
-import { MockLanguageID } from '../../Language/mock/MockLanguageID';
-import { MockRegionID } from '../../Region/mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
 import { TermID } from '../../Term/TermID';
 import { StatsID } from '../StatsID';
@@ -9,7 +7,6 @@ import { StatsName } from '../StatsName';
 import { StatsOutline } from '../StatsOutline';
 import { StatsUnit } from '../StatsUnit';
 import { UpdatedAt } from '../UpdatedAt';
-import { MockStatsID } from './MockStatsID';
 import { MockUpdatedAt } from './MockUpdatedAt';
 
 type StatsOutlineArgs = Partial<Readonly<{
@@ -24,9 +21,9 @@ type StatsOutlineArgs = Partial<Readonly<{
 
 export class MockStatsOutline extends StatsOutline {
   public constructor({
-    statsID = new MockStatsID(),
-    languageID = new MockLanguageID(),
-    regionID = new MockRegionID(),
+    statsID = StatsID.of(UUID.v4()),
+    languageID = LanguageID.of(UUID.v4()),
+    regionID = RegionID.of(UUID.v4()),
     termID = TermID.of(UUID.v4()),
     name = StatsName.empty(),
     unit = StatsUnit.empty(),

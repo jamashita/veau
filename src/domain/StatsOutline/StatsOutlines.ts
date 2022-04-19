@@ -1,11 +1,10 @@
-import { BinaryPredicate, Catalogue, Cloneable, JSONable, Kind, Mapper, Nullable } from '@jamashita/anden-type';
+import { BinaryPredicate, Cloneable, ForEach, JSONable, Kind, Mapping, Nullable } from '@jamashita/anden-type';
 import { Quantity } from '@jamashita/lluvia-collection';
 import { ImmutableProject, ReadonlyProject } from '@jamashita/lluvia-project';
 import { StatsID } from './StatsID.js';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline.js';
 
-export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutlines'> implements Cloneable<StatsOutlines>, JSONable<Array<StatsOutlineJSON>> {
-  public readonly noun: 'StatsOutlines' = 'StatsOutlines';
+export class StatsOutlines extends Quantity<StatsID, StatsOutline> implements Cloneable<StatsOutlines>, JSONable<Array<StatsOutlineJSON>> {
   private readonly outlines: ImmutableProject<StatsID, StatsOutline>;
 
   private static readonly EMPTY: StatsOutlines = new StatsOutlines(ImmutableProject.empty<StatsID, StatsOutline>());
@@ -19,11 +18,11 @@ export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutline
       return StatsOutlines.empty();
     }
 
-    return new StatsOutlines(ImmutableProject.of<StatsID, StatsOutline>(outlines));
+    return new StatsOutlines(ImmutableProject.of(outlines));
   }
 
   public static ofArray(outlines: ReadonlyArray<StatsOutline>): StatsOutlines {
-    const map: Map<StatsID, StatsOutline> = new Map<StatsID, StatsOutline>();
+    const map: Map<StatsID, StatsOutline> = new Map();
 
     outlines.forEach((outline: StatsOutline) => {
       map.set(outline.getStatsID(), outline);
@@ -33,7 +32,7 @@ export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutline
   }
 
   public static ofJSON(json: ReadonlyArray<StatsOutlineJSON>): StatsOutlines {
-    const arr: Array<StatsOutline> = json.map<StatsOutline>((outline: StatsOutlineJSON) => {
+    const arr: Array<StatsOutline> = json.map((outline: StatsOutlineJSON): StatsOutline => {
       return StatsOutline.ofJSON(outline);
     });
 
@@ -41,11 +40,11 @@ export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutline
   }
 
   private static ofMap(outlines: ReadonlyMap<StatsID, StatsOutline>): StatsOutlines {
-    return StatsOutlines.of(ImmutableProject.ofMap<StatsID, StatsOutline>(outlines));
+    return StatsOutlines.of(ImmutableProject.ofMap(outlines));
   }
 
   public static ofRow(rows: ReadonlyArray<StatsOutlineRow>): StatsOutlines {
-    const arr: Array<StatsOutline> = rows.map<StatsOutline>((outline: StatsOutlineJSON) => {
+    const arr: Array<StatsOutline> = rows.map((outline: StatsOutlineJSON): StatsOutline => {
       return StatsOutline.ofRow(outline);
     });
 
@@ -71,19 +70,8 @@ export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutline
     this.outlines = outlines;
   }
 
-  public equals(other: unknown): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!(other instanceof StatsOutlines)) {
-      return false;
-    }
-
-    return this.outlines.equals(other.outlines);
-  }
-
-  public serialize(): string {
-    return this.outlines.toString();
+  public contains(value: StatsOutline): boolean {
+    return this.outlines.contains(value);
   }
 
   public duplicate(): StatsOutlines {
@@ -94,12 +82,15 @@ export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutline
     return StatsOutlines.of(this.outlines.duplicate());
   }
 
-  public iterator(): Iterator<[StatsID, StatsOutline]> {
-    return this.outlines.iterator();
-  }
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof StatsOutlines)) {
+      return false;
+    }
 
-  public contains(value: StatsOutline): boolean {
-    return this.outlines.contains(value);
+    return this.outlines.equals(other.outlines);
   }
 
   public every(predicate: BinaryPredicate<StatsOutline, StatsID>): boolean {
@@ -114,8 +105,8 @@ export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutline
     return this.outlines.find(predicate);
   }
 
-  public forEach(catalogue: Catalogue<StatsID, StatsOutline>): void {
-    this.outlines.forEach(catalogue);
+  public forEach(foreach: ForEach<StatsID, StatsOutline>): void {
+    this.outlines.forEach(foreach);
   }
 
   public get(key: StatsID): Nullable<StatsOutline> {
@@ -126,8 +117,16 @@ export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutline
     return this.outlines.isEmpty();
   }
 
-  public map<W>(mapper: Mapper<StatsOutline, W>): ImmutableProject<StatsID, W> {
-    return this.outlines.map<W>(mapper);
+  public iterator(): Iterator<[StatsID, StatsOutline]> {
+    return this.outlines.iterator();
+  }
+
+  public map<W>(mapping: Mapping<StatsOutline, W>): ImmutableProject<StatsID, W> {
+    return this.outlines.map(mapping);
+  }
+
+  public serialize(): string {
+    return this.outlines.toString();
   }
 
   public size(): number {
@@ -138,8 +137,8 @@ export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutline
     return this.outlines.some(predicate);
   }
 
-  public values(): Iterable<StatsOutline> {
-    return this.outlines.values();
+  public toArray(): Array<StatsOutline> {
+    return [...this.outlines.values()];
   }
 
   public toJSON(): Array<StatsOutlineJSON> {
@@ -152,7 +151,7 @@ export class StatsOutlines extends Quantity<StatsID, StatsOutline, 'StatsOutline
     return json;
   }
 
-  public toArray(): Array<StatsOutline> {
-    return [...this.outlines.values()];
+  public values(): Iterable<StatsOutline> {
+    return this.outlines.values();
   }
 }

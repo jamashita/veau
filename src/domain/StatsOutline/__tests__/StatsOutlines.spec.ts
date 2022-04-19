@@ -1,17 +1,14 @@
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
-import { ImmutableProject, MockProject } from '@jamashita/lluvia-collection';
-import sinon, { SinonSpy } from 'sinon';
+import { ImmutableProject, MockProject } from '@jamashita/lluvia-project';
 import { LanguageID } from '../../Language/LanguageID';
 import { RegionID } from '../../Region/RegionID';
 import { TermID } from '../../Term/TermID';
-import { StatsOutlineError } from '../error/StatsOutlineError';
-import { MockStatsID } from '../mock/MockStatsID';
 import { MockStatsOutline } from '../mock/MockStatsOutline';
-import { MockStatsOutlines } from '../mock/MockStatsOutlines';
 import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
+import { StatsOutlineError } from '../StatsOutlineError';
 import { StatsOutlines } from '../StatsOutlines';
 import { StatsUnit } from '../StatsUnit';
 import { UpdatedAt } from '../UpdatedAt';
@@ -19,14 +16,10 @@ import { UpdatedAt } from '../UpdatedAt';
 describe('StatsOutlines', () => {
   describe('of', () => {
     it('when the ImmutableProject is zero size, returns empty', () => {
-      expect.assertions(1);
-
-      expect(StatsOutlines.of(ImmutableProject.empty<MockStatsID, MockStatsOutline>())).toBe(StatsOutlines.empty());
+      expect(StatsOutlines.of(ImmutableProject.empty())).toBe(StatsOutlines.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(3);
-
       const array: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
 
       const outlines: StatsOutlines = StatsOutlines.ofArray(array);
@@ -41,8 +34,6 @@ describe('StatsOutlines', () => {
 
   describe('ofJSON', () => {
     it('normal case', () => {
-      expect.assertions(14);
-
       const json: Array<StatsOutlineJSON> = [
         {
           statsID: UUID.v4().get(),
@@ -81,8 +72,6 @@ describe('StatsOutlines', () => {
     });
 
     it('has malformat StatsID', () => {
-      expect.assertions(1);
-
       const json: Array<StatsOutlineJSON> = [
         {
           statsID: 'malformat',
@@ -112,8 +101,6 @@ describe('StatsOutlines', () => {
 
   describe('ofRow', () => {
     it('normal case', () => {
-      expect.assertions(14);
-
       const rows: Array<StatsOutlineRow> = [
         {
           statsID: UUID.v4().get(),
@@ -152,8 +139,6 @@ describe('StatsOutlines', () => {
     });
 
     it('has malformat StatsID', () => {
-      expect.assertions(1);
-
       const rows: Array<StatsOutlineRow> = [
         {
           statsID: 'malformat',
@@ -183,14 +168,10 @@ describe('StatsOutlines', () => {
 
   describe('ofArray', () => {
     it('when empty Array given, returns StatsOutlines.empty()', () => {
-      expect.assertions(1);
-
       expect(StatsOutlines.ofArray([])).toBe(StatsOutlines.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(3);
-
       const outlines: Array<StatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
 
       const statsOutlines: StatsOutlines = StatsOutlines.ofArray(outlines);
@@ -205,14 +186,10 @@ describe('StatsOutlines', () => {
 
   describe('ofSpread', () => {
     it('when no arguments given, returns StatsOutlines.empty()', () => {
-      expect.assertions(1);
-
       expect(StatsOutlines.ofSpread()).toBe(StatsOutlines.empty());
     });
 
     it('normal case', () => {
-      expect.assertions(3);
-
       const statsOutline1: MockStatsOutline = new MockStatsOutline();
       const statsOutline2: MockStatsOutline = new MockStatsOutline();
 
@@ -226,22 +203,16 @@ describe('StatsOutlines', () => {
 
   describe('empty', () => {
     it('generates 0-length StatsOutlines', () => {
-      expect.assertions(1);
-
       expect(StatsOutlines.empty().size()).toBe(0);
     });
 
     it('returns singleton instance', () => {
-      expect.assertions(1);
-
       expect(StatsOutlines.empty()).toBe(StatsOutlines.empty());
     });
   });
 
   describe('validate', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const n: unknown = [
         {
           statsID: 'oink',
@@ -258,8 +229,6 @@ describe('StatsOutlines', () => {
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect.assertions(5);
-
       expect(StatsOutlines.validate(null)).toBe(false);
       expect(StatsOutlines.validate(undefined)).toBe(false);
       expect(StatsOutlines.validate(56)).toBe(false);
@@ -268,164 +237,150 @@ describe('StatsOutlines', () => {
     });
 
     it('returns false because given parameter is not an array', () => {
-      expect.assertions(1);
-
       expect(StatsOutlines.validate({})).toBe(false);
     });
   });
 
   describe('get', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(project, 'get');
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
       // @ts-expect-error
-      statsOutlines.outlines.get = spy;
+      statsOutlines.outlines = project;
 
-      statsOutlines.get(new MockStatsID());
+      statsOutlines.get(StatsID.of(UUID.v4()));
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('contains', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(project, 'contains');
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
       // @ts-expect-error
-      statsOutlines.outlines.contains = spy;
+      statsOutlines.outlines = project;
 
       statsOutlines.contains(outline1);
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('isEmpty', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
-
-      project.isEmpty = spy;
-
+      const spy: jest.SpyInstance = jest.spyOn(project, 'isEmpty');
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      // @ts-expect-error
+      statsOutlines.outlines = project;
 
       statsOutlines.isEmpty();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('size', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
-
-      project.size = spy;
-
+      const spy: jest.SpyInstance = jest.spyOn(project, 'size');
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
+
+      // @ts-expect-error
+      statsOutlines.outlines = project;
 
       statsOutlines.size();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('forEach', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(project, 'forEach');
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
       // @ts-expect-error
-      statsOutlines.outlines.forEach = spy;
+      statsOutlines.outlines = project;
 
       statsOutlines.forEach(() => {
         // NOOP
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('map', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
@@ -434,7 +389,7 @@ describe('StatsOutlines', () => {
 
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
-      const arr: Array<StatsID> = [...statsOutlines.values()].map<StatsID>((outline: StatsOutline) => {
+      const arr: Array<StatsID> = [...statsOutlines.values()].map((outline: StatsOutline): StatsID => {
         return outline.getStatsID();
       });
 
@@ -444,8 +399,6 @@ describe('StatsOutlines', () => {
 
   describe('equals', () => {
     it('returns false if others given', () => {
-      expect.assertions(16);
-
       const outlines: StatsOutlines = StatsOutlines.empty();
 
       expect(outlines.equals(null)).toBe(false);
@@ -467,8 +420,6 @@ describe('StatsOutlines', () => {
     });
 
     it('returns true if the same instance given', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
 
@@ -478,36 +429,32 @@ describe('StatsOutlines', () => {
     });
 
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(project, 'equals');
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
       // @ts-expect-error
-      statsOutlines.outlines.equals = spy;
+      statsOutlines.outlines = project;
 
-      statsOutlines.equals(new MockStatsOutlines());
+      statsOutlines.equals(StatsOutlines.empty());
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('duplicate', () => {
     it('shallow copies the instance and its own elements', () => {
-      expect.assertions(12);
-
       const array: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline(), new MockStatsOutline()];
       const outlines: StatsOutlines = StatsOutlines.ofArray(array);
       const duplicated: StatsOutlines = outlines.duplicate();
@@ -528,8 +475,6 @@ describe('StatsOutlines', () => {
     });
 
     it('returns StatsOutlines.empty() when the original is empty', () => {
-      expect.assertions(1);
-
       const outlines: StatsOutlines = StatsOutlines.ofArray([]);
 
       expect(outlines.duplicate()).toBe(outlines);
@@ -538,8 +483,6 @@ describe('StatsOutlines', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      expect.assertions(1);
-
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
@@ -592,46 +535,16 @@ describe('StatsOutlines', () => {
     });
   });
 
-  describe('toString', () => {
-    it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
-      const outline1: MockStatsOutline = new MockStatsOutline();
-      const outline2: MockStatsOutline = new MockStatsOutline();
-      const outline3: MockStatsOutline = new MockStatsOutline();
-
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
-          [outline1.getStatsID(), outline1],
-          [outline2.getStatsID(), outline2],
-          [outline3.getStatsID(), outline3]
-        ])
-      );
-
-      const spy: SinonSpy = sinon.spy();
-      const statsOutlines: StatsOutlines = StatsOutlines.of(project);
-
-      // @ts-expect-error
-      statsOutlines.outlines.toString = spy;
-
-      statsOutlines.toString();
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
   describe('iterator', () => {
     it('normal case', () => {
-      expect.assertions(3);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
       const arr: Array<MockStatsOutline> = [outline1, outline2, outline3];
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
@@ -650,96 +563,88 @@ describe('StatsOutlines', () => {
 
   describe('every', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(project, 'every');
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
       // @ts-expect-error
-      statsOutlines.outlines.every = spy;
+      statsOutlines.outlines = project;
 
       statsOutlines.every(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('some', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(project, 'some');
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
       // @ts-expect-error
-      statsOutlines.outlines.some = spy;
+      statsOutlines.outlines = project;
 
       statsOutlines.some(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('values', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(project, 'values');
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
       // @ts-expect-error
-      statsOutlines.outlines.values = spy;
+      statsOutlines.outlines = project;
 
       statsOutlines.values();
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('filter', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline({
         name: StatsName.of('outline 1')
       });
@@ -750,8 +655,8 @@ describe('StatsOutlines', () => {
         name: StatsName.of('outline 1')
       });
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
@@ -770,31 +675,29 @@ describe('StatsOutlines', () => {
 
   describe('find', () => {
     it('delegates its inner collection instance', () => {
-      expect.assertions(1);
-
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const project: MockProject<MockStatsID, MockStatsOutline> = new MockProject<MockStatsID, MockStatsOutline>(
-        new Map<MockStatsID, MockStatsOutline>([
+      const project: MockProject<StatsID, MockStatsOutline> = new MockProject(
+        new Map([
           [outline1.getStatsID(), outline1],
           [outline2.getStatsID(), outline2],
           [outline3.getStatsID(), outline3]
         ])
       );
 
-      const spy: SinonSpy = sinon.spy();
+      const spy: jest.SpyInstance = jest.spyOn(project, 'find');
       const statsOutlines: StatsOutlines = StatsOutlines.of(project);
 
       // @ts-expect-error
-      statsOutlines.outlines.find = spy;
+      statsOutlines.outlines = project;
 
       statsOutlines.find(() => {
         return true;
       });
 
-      expect(spy.called).toBe(true);
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

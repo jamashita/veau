@@ -1,9 +1,8 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { UUID, UUIDError } from '@jamashita/anden-uuid';
-import { StatsError } from './error/StatsError.js';
+import { StatsError } from './StatsError.js';
 
-export class StatsID extends ValueObject<'StatsID'> {
-  public readonly noun: 'StatsID' = 'StatsID';
+export class StatsID extends ValueObject {
   private readonly uuid: UUID;
 
   public static generate(): StatsID {

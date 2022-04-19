@@ -1,16 +1,16 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { JSONable, Kind } from '@jamashita/anden-type';
-import { LanguageError } from '../Language/error/LanguageError.js';
+import { LanguageError } from '../Language/LanguageError.js';
 import { LanguageID } from '../Language/LanguageID.js';
-import { RegionError } from '../Region/error/RegionError.js';
+import { RegionError } from '../Region/RegionError.js';
 import { RegionID } from '../Region/RegionID.js';
-import { TermError } from '../Term/error/TermError.js';
 import { Term } from '../Term/Term.js';
+import { TermError } from '../Term/TermError.js';
 import { TermID } from '../Term/TermID.js';
-import { StatsError } from './error/StatsError.js';
-import { StatsOutlineError } from './error/StatsOutlineError.js';
+import { StatsError } from './StatsError.js';
 import { StatsID } from './StatsID.js';
 import { StatsName } from './StatsName.js';
+import { StatsOutlineError } from './StatsOutlineError.js';
 import { StatsUnit } from './StatsUnit.js';
 import { UpdatedAt } from './UpdatedAt.js';
 
@@ -33,8 +33,7 @@ export type StatsOutlineRow = Readonly<{
   updatedAt: string;
 }>;
 
-export class StatsOutline extends ValueObject<'StatsOutline'> implements JSONable<StatsOutlineJSON> {
-  public readonly noun: 'StatsOutline' = 'StatsOutline';
+export class StatsOutline extends ValueObject implements JSONable<StatsOutlineJSON> {
   private readonly statsID: StatsID;
   private readonly languageID: LanguageID;
   private readonly regionID: RegionID;
@@ -200,7 +199,7 @@ export class StatsOutline extends ValueObject<'StatsOutline'> implements JSONabl
     properties.push(this.unit.toString());
     properties.push(this.updatedAt.toString());
 
-    return properties.join(' ');
+    return properties.join(', ');
   }
 
   public toJSON(): StatsOutlineJSON {
