@@ -6,10 +6,9 @@ import { Region } from '../Region/Region.js';
 import { StatsOutline } from '../StatsOutline/StatsOutline.js';
 import { Term } from '../Term/Term.js';
 import { Terms } from '../Term/Terms.js';
-import { StatsListItemError } from './error/StatsListItemError.js';
+import { StatsListItemError } from './StatsListItemError.js';
 
-export class StatsListItem extends ValueObject<'StatsListItem'> {
-  public readonly noun: 'StatsListItem' = 'StatsListItem';
+export class StatsListItem extends ValueObject {
   private readonly outline: StatsOutline;
   private readonly language: Language;
   private readonly region: Region;
@@ -72,17 +71,6 @@ export class StatsListItem extends ValueObject<'StatsListItem'> {
     return true;
   }
 
-  public serialize(): string {
-    const props: Array<string> = [];
-
-    props.push(this.outline.toString());
-    props.push(this.language.toString());
-    props.push(this.region.toString());
-    props.push(this.term.toString());
-
-    return props.join(' ');
-  }
-
   public getLanguage(): Language {
     return this.language;
   }
@@ -97,5 +85,16 @@ export class StatsListItem extends ValueObject<'StatsListItem'> {
 
   public getTerm(): Term {
     return this.term;
+  }
+
+  public serialize(): string {
+    const props: Array<string> = [];
+
+    props.push(this.outline.toString());
+    props.push(this.language.toString());
+    props.push(this.region.toString());
+    props.push(this.term.toString());
+
+    return props.join(', ');
   }
 }
