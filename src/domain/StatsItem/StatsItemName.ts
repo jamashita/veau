@@ -2,8 +2,7 @@ import { ValueObject } from '@jamashita/anden-object';
 
 const EMPTY_NAME: string = '';
 
-export class StatsItemName extends ValueObject<'StatsItemName'> {
-  public readonly noun: 'StatsItemName' = 'StatsItemName';
+export class StatsItemName extends ValueObject {
   private readonly name: string;
 
   private static readonly EMPTY: StatsItemName = new StatsItemName(EMPTY_NAME);
@@ -32,15 +31,8 @@ export class StatsItemName extends ValueObject<'StatsItemName'> {
     if (!(other instanceof StatsItemName)) {
       return false;
     }
-    if (this.name === other.name) {
-      return true;
-    }
 
-    return false;
-  }
-
-  public serialize(): string {
-    return this.name;
+    return this.name === other.name;
   }
 
   public get(): string {
@@ -57,5 +49,9 @@ export class StatsItemName extends ValueObject<'StatsItemName'> {
 
   public length(): number {
     return this.name.length;
+  }
+
+  public serialize(): string {
+    return this.name;
   }
 }

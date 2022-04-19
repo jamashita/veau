@@ -1,9 +1,8 @@
 import { ValueObject } from '@jamashita/anden-object';
 import { UUID, UUIDError } from '@jamashita/anden-uuid';
-import { StatsItemError } from './error/StatsItemError.js';
+import { StatsItemError } from './StatsItemError.js';
 
-export class StatsItemID extends ValueObject<'StatsItemID'> {
-  public readonly noun: 'StatsItemID' = 'StatsItemID';
+export class StatsItemID extends ValueObject {
   private readonly uuid: UUID;
 
   public static generate(): StatsItemID {
@@ -43,11 +42,11 @@ export class StatsItemID extends ValueObject<'StatsItemID'> {
     return this.uuid.equals(other.uuid);
   }
 
-  public serialize(): string {
-    return this.uuid.toString();
-  }
-
   public get(): UUID {
     return this.uuid;
+  }
+
+  public serialize(): string {
+    return this.uuid.toString();
   }
 }
