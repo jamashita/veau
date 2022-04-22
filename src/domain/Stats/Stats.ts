@@ -1,30 +1,30 @@
 import { Entity } from '@jamashita/anden-object';
 import { Ambiguous, Kind, Nullable } from '@jamashita/anden-type';
-import { AsOf } from '../../vo/AsOf/AsOf.js';
-import { AsOfs } from '../../vo/AsOf/AsOfs.js';
-import { Column } from '../../vo/Coordinate/Column.js';
-import { Coordinate } from '../../vo/Coordinate/Coordinate.js';
-import { Row } from '../../vo/Coordinate/Row.js';
-import { HeaderSize } from '../../vo/HeaderSize/HeaderSize.js';
-import { LanguageError } from '../../vo/Language/error/LanguageError.js';
-import { Language, LanguageJSON } from '../../vo/Language/Language.js';
-import { NumericalValue } from '../../vo/NumericalValue/NumericalValue.js';
-import { RegionError } from '../../vo/Region/error/RegionError.js';
-import { Region, RegionJSON } from '../../vo/Region/Region.js';
-import { StatsItemError } from '../../vo/StatsItem/error/StatsItemError.js';
-import { StatsItemNames } from '../../vo/StatsItem/StatsItemNames.js';
-import { StatsError } from '../../vo/StatsOutline/error/StatsError.js';
-import { StatsOutlineError } from '../../vo/StatsOutline/error/StatsOutlineError.js';
-import { StatsID } from '../../vo/StatsOutline/StatsID.js';
-import { StatsName } from '../../vo/StatsOutline/StatsName.js';
-import { StatsOutline, StatsOutlineJSON } from '../../vo/StatsOutline/StatsOutline.js';
-import { StatsUnit } from '../../vo/StatsOutline/StatsUnit.js';
-import { UpdatedAt } from '../../vo/StatsOutline/UpdatedAt.js';
-import { StatsValue } from '../../vo/StatsValue/StatsValue.js';
-import { TermError } from '../../vo/Term/error/TermError.js';
-import { Term } from '../../vo/Term/Term.js';
+import { AsOf } from '../AsOf/AsOf.js';
+import { AsOfs } from '../AsOf/AsOfs.js';
+import { Column } from '../Coordinate/Column.js';
+import { Coordinate } from '../Coordinate/Coordinate.js';
+import { Row } from '../Coordinate/Row.js';
+import { HeaderSize } from '../HeaderSize/HeaderSize.js';
+import { Language, LanguageJSON } from '../Language/Language.js';
+import { LanguageError } from '../Language/LanguageError.js';
+import { NumericalValue } from '../NumericalValue/NumericalValue.js';
+import { Region, RegionJSON } from '../Region/Region.js';
+import { RegionError } from '../Region/RegionError.js';
 import { StatsItem, StatsItemJSON } from '../StatsItem/StatsItem.js';
+import { StatsItemError } from '../StatsItem/StatsItemError.js';
+import { StatsItemNames } from '../StatsItem/StatsItemNames.js';
 import { StatsItems } from '../StatsItem/StatsItems.js';
+import { StatsError } from '../StatsOutline/StatsError.js';
+import { StatsID } from '../StatsOutline/StatsID.js';
+import { StatsName } from '../StatsOutline/StatsName.js';
+import { StatsOutline, StatsOutlineJSON } from '../StatsOutline/StatsOutline.js';
+import { StatsOutlineError } from '../StatsOutline/StatsOutlineError.js';
+import { StatsUnit } from '../StatsOutline/StatsUnit.js';
+import { UpdatedAt } from '../StatsOutline/UpdatedAt.js';
+import { StatsValue } from '../StatsValue/StatsValue.js';
+import { Term } from '../Term/Term.js';
+import { TermError } from '../Term/TermError.js';
 
 type Chart = { [key: string]: number | string; };
 export type StatsJSON = Readonly<{
@@ -35,7 +35,6 @@ export type StatsJSON = Readonly<{
 }>;
 
 export class Stats extends Entity<StatsID, Stats> {
-  public readonly noun: 'Stats' = 'Stats';
   private readonly outline: StatsOutline;
   private readonly language: Language;
   private readonly region: Region;
@@ -129,32 +128,6 @@ export class Stats extends Entity<StatsID, Stats> {
     this.columns = null;
   }
 
-  public duplicate(): Stats {
-    return Stats.of(
-      this.outline,
-      this.language,
-      this.region,
-      this.term,
-      this.items.duplicate(),
-      this.startDate
-    );
-  }
-
-  public getIdentifier(): StatsID {
-    return this.outline.getStatsID();
-  }
-
-  public serialize(): string {
-    const properties: Array<string> = [];
-
-    properties.push(this.outline.toString());
-    properties.push(this.language.toString());
-    properties.push(this.region.toString());
-    properties.push(this.term.toString());
-
-    return properties.join(' ');
-  }
-
   public deleteData(coordinate: Coordinate): void {
     const asOf: Nullable<AsOf> = this.getColumn(coordinate.getColumn());
 
@@ -170,6 +143,17 @@ export class Stats extends Entity<StatsID, Stats> {
 
     item.delete(asOf);
     this.recalculate();
+  }
+
+  public duplicate(): Stats {
+    return Stats.of(
+      this.outline,
+      this.language,
+      this.region,
+      this.term,
+      this.items.duplicate(),
+      this.startDate
+    );
   }
 
   public getChart(): Array<{ [key: string]: number | string; }> {
@@ -246,6 +230,10 @@ export class Stats extends Entity<StatsID, Stats> {
     return this.items.map<Array<string>>((item: StatsItem) => {
       return item.getValuesByColumn(this.getColumns()).row();
     }).toArray();
+  }
+
+  public getIdentifier(): StatsID {
+    return this.outline.getStatsID();
   }
 
   public getItemNames(): StatsItemNames {
@@ -378,6 +366,17 @@ export class Stats extends Entity<StatsID, Stats> {
     }
 
     return true;
+  }
+
+  public serialize(): string {
+    const properties: Array<string> = [];
+
+    properties.push(this.outline.toString());
+    properties.push(this.language.toString());
+    properties.push(this.region.toString());
+    properties.push(this.term.toString());
+
+    return properties.join(', ');
   }
 
   public setData(coordinate: Coordinate, value: NumericalValue): void {
