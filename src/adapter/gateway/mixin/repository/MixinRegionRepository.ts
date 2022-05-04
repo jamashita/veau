@@ -2,13 +2,13 @@ import { UnimplementedError } from '@jamashita/anden-error';
 import { Kind, Nullable } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Alive, Dead, Schrodinger } from '@jamashita/genitore-schrodinger';
-import { ISO3166 } from '../../../domain/Region/ISO3166';
-import { Region } from '../../../domain/Region/Region';
-import { RegionError } from '../../../domain/Region/RegionError';
-import { RegionID } from '../../../domain/Region/RegionID';
-import { RegionRepository } from '../../../domain/Region/RegionRepository';
-import { Regions } from '../../../domain/Region/Regions';
-import { NoSuchElementError } from '../../../repository/query/error/NoSuchElementError';
+import { ISO3166 } from '../../../../domain/Region/ISO3166';
+import { Region } from '../../../../domain/Region/Region';
+import { RegionError } from '../../../../domain/Region/RegionError';
+import { RegionID } from '../../../../domain/Region/RegionID';
+import { RegionRepository } from '../../../../domain/Region/RegionRepository';
+import { Regions } from '../../../../domain/Region/Regions';
+import { NoSuchElementError } from '../../../../repository/query/error/NoSuchElementError';
 
 export class MixinRegionRepository<E extends DataSourceError = DataSourceError> implements RegionRepository<E> {
   private readonly regions: Regions;

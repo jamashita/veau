@@ -2,13 +2,13 @@ import { UnimplementedError } from '@jamashita/anden-error';
 import { Kind, Nullable } from '@jamashita/anden-type';
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Alive, Dead, Schrodinger } from '@jamashita/genitore-schrodinger';
-import { ISO639 } from '../../../domain/Language/ISO639';
-import { Language } from '../../../domain/Language/Language';
-import { LanguageError } from '../../../domain/Language/LanguageError';
-import { LanguageID } from '../../../domain/Language/LanguageID';
-import { LanguageRepository } from '../../../domain/Language/LanguageRepository';
-import { Languages } from '../../../domain/Language/Languages';
-import { NoSuchElementError } from '../../../repository/query/error/NoSuchElementError';
+import { ISO639 } from '../../../../domain/Language/ISO639';
+import { Language } from '../../../../domain/Language/Language';
+import { LanguageError } from '../../../../domain/Language/LanguageError';
+import { LanguageID } from '../../../../domain/Language/LanguageID';
+import { LanguageRepository } from '../../../../domain/Language/LanguageRepository';
+import { Languages } from '../../../../domain/Language/Languages';
+import { NoSuchElementError } from '../../../../repository/query/error/NoSuchElementError';
 
 export class MixinLanguageRepository<E extends DataSourceError = DataSourceError> implements LanguageRepository<E> {
   private readonly languages: Languages;

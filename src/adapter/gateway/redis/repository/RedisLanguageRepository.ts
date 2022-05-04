@@ -12,7 +12,7 @@ import { LanguageRepository } from '../../../../domain/Language/LanguageReposito
 import { Languages } from '../../../../domain/Language/Languages';
 import { REDIS_LANGUAGE_KEY } from '../../../../infrastructure/VeauRedis';
 import { NoSuchElementError } from '../../../../repository/query/error/NoSuchElementError';
-import { MixinLanguageRepository } from '../../mixin/MixinLanguageRepository';
+import { MixinLanguageRepository } from '../../mixin/repository/MixinLanguageRepository';
 
 const DURATION: number = 3 * 60 * 60;
 

@@ -1,12 +1,12 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Schrodinger } from '@jamashita/genitore-schrodinger';
-import { ISO639 } from '../../../../domain/Language/ISO639';
-import { Language } from '../../../../domain/Language/Language';
-import { LanguageError } from '../../../../domain/Language/LanguageError';
-import { LanguageID } from '../../../../domain/Language/LanguageID';
-import { Languages } from '../../../../domain/Language/Languages';
-import { MockLanguage } from '../../../../domain/Language/mock/MockLanguage';
-import { NoSuchElementError } from '../../../../repository/query/error/NoSuchElementError';
+import { ISO639 } from '../../../../../domain/Language/ISO639';
+import { Language } from '../../../../../domain/Language/Language';
+import { LanguageError } from '../../../../../domain/Language/LanguageError';
+import { LanguageID } from '../../../../../domain/Language/LanguageID';
+import { Languages } from '../../../../../domain/Language/Languages';
+import { MockLanguage } from '../../../../../domain/Language/mock/MockLanguage';
+import { NoSuchElementError } from '../../../../../repository/query/error/NoSuchElementError';
 import { MixinLanguageRepository } from '../MixinLanguageRepository';
 
 describe('MixinLanguageRepository', () => {

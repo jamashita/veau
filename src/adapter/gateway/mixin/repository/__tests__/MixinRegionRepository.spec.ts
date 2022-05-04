@@ -1,12 +1,12 @@
 import { DataSourceError } from '@jamashita/catacombe-datasource';
 import { Schrodinger } from '@jamashita/genitore-schrodinger';
-import { ISO3166 } from '../../../../domain/Region/ISO3166';
-import { MockRegion } from '../../../../domain/Region/mock/MockRegion';
-import { Region } from '../../../../domain/Region/Region';
-import { RegionError } from '../../../../domain/Region/RegionError';
-import { RegionID } from '../../../../domain/Region/RegionID';
-import { Regions } from '../../../../domain/Region/Regions';
-import { NoSuchElementError } from '../../../../repository/query/error/NoSuchElementError';
+import { ISO3166 } from '../../../../../domain/Region/ISO3166';
+import { MockRegion } from '../../../../../domain/Region/mock/MockRegion';
+import { Region } from '../../../../../domain/Region/Region';
+import { RegionError } from '../../../../../domain/Region/RegionError';
+import { RegionID } from '../../../../../domain/Region/RegionID';
+import { Regions } from '../../../../../domain/Region/Regions';
+import { NoSuchElementError } from '../../../../../repository/query/error/NoSuchElementError';
 import { MixinRegionRepository } from '../MixinRegionRepository';
 
 describe('MixinRegionRepository', () => {

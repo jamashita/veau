@@ -12,7 +12,7 @@ import { RegionRepository } from '../../../../domain/Region/RegionRepository';
 import { Regions } from '../../../../domain/Region/Regions';
 import { REDIS_REGION_KEY } from '../../../../infrastructure/VeauRedis';
 import { NoSuchElementError } from '../../../../repository/query/error/NoSuchElementError';
-import { MixinRegionRepository } from '../../mixin/MixinRegionRepository';
+import { MixinRegionRepository } from '../../mixin/repository/MixinRegionRepository';
 
 const DURATION: number = 3 * 60 * 60;
 
