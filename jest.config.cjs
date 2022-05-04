@@ -37,5 +37,7 @@ module.exports = {
     'ts',
     'tsx'
   ],
-  testURL: 'http://localhost'
+  testEnvironmentOptions: {
+    url: 'http://localhost'
+  }
 };
