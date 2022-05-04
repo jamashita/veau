@@ -1,37 +1,19 @@
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/catacombe-redis';
-import { Schrodinger } from '@jamashita/genitore';
-import 'reflect-metadata';
-import sinon, { SinonStub } from 'sinon';
-import { cask } from '../../../../container/Cask';
-import { Type } from '../../../../container/Types';
-import { LanguageJSON } from '../../../../domain/vo/Language/Language';
-import { RegionError } from '../../../../domain/vo/Region/error/RegionError';
-import { ISO3166 } from '../../../../domain/vo/Region/ISO3166';
-import { Region, RegionJSON } from '../../../../domain/vo/Region/Region';
-import { RegionID } from '../../../../domain/vo/Region/RegionID';
-import { Regions } from '../../../../domain/vo/Region/Regions';
-import { NoSuchElementError } from '../../error/NoSuchElementError';
-import { RegionRedisQuery } from '../RegionRedisQuery';
+import { Schrodinger } from '@jamashita/genitore-schrodinger';
+import { LanguageJSON } from '../../../../../domain/Language/Language';
+import { ISO3166 } from '../../../../../domain/Region/ISO3166';
+import { Region, RegionJSON } from '../../../../../domain/Region/Region';
+import { RegionError } from '../../../../../domain/Region/RegionError';
+import { RegionID } from '../../../../../domain/Region/RegionID';
+import { Regions } from '../../../../../domain/Region/Regions';
+import { NoSuchElementError } from '../../../../../repository/query/error/NoSuchElementError';
+import { RedisRegionRepository } from '../RedisRegionRepository';
 
-describe('RegionRedosQuery', () => {
-  describe('container', () => {
-    it('must be a singleton', () => {
-      expect.assertions(2);
-
-      const regionQuery1: RegionRedisQuery = cask.get<RegionRedisQuery>(Type.RegionRedisQuery);
-      const regionQuery2: RegionRedisQuery = cask.get<RegionRedisQuery>(Type.RegionRedisQuery);
-
-      expect(regionQuery1).toBeInstanceOf(RegionRedisQuery);
-      expect(regionQuery1).toBe(regionQuery2);
-    });
-  });
-
+describe('RedisRegionRepository', () => {
   describe('all', () => {
     it('normal case', async () => {
-      expect.assertions(8);
-
       const json: Array<RegionJSON> = [
         {
           regionID: UUID.v4().get(),
@@ -45,18 +27,19 @@ describe('RegionRedosQuery', () => {
         }
       ];
       const jsonStr: string = JSON.stringify(json);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionQuery.all().terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionRepository.all();
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -78,41 +61,41 @@ describe('RegionRedosQuery', () => {
     });
 
     it('redis returns empty array', async () => {
-      expect.assertions(2);
-
       const json: Array<LanguageJSON> = [];
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionQuery.all().terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionRepository.all();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get().size()).toBe(json.length);
     });
 
     it('returns Dead when Redis returns null', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(null);
+      spy.mockImplementation(() => {
+        return Promise.resolve(null);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionQuery.all().terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionRepository.all();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -121,19 +104,19 @@ describe('RegionRedosQuery', () => {
     });
 
     it('redis returns RedisError', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.rejects(new RedisError('test faied'));
+      spy.mockImplementation(() => {
+        return Promise.reject(new RedisError('test failed'));
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionQuery.all().terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionRepository.all();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -142,31 +125,29 @@ describe('RegionRedosQuery', () => {
     });
 
     it('redis returns JSONAError', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves('}');
+      spy.mockImplementation(() => {
+        return Promise.resolve('}');
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionQuery.all().terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Regions, RedisError | RegionError> = await regionRepository.all();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(RedisError);
+      }).toThrow(RegionError);
     });
   });
 
   describe('findByISO3166', () => {
     it('normal case', async () => {
-      expect.assertions(4);
-
       const json: Array<RegionJSON> = [
         {
           regionID: UUID.v4().get(),
@@ -180,18 +161,19 @@ describe('RegionRedosQuery', () => {
         }
       ];
       const jsonStr: string = JSON.stringify(json);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionRepository.findByISO3166(ISO3166.of('ALB'));
 
       expect(schrodinger.isAlive()).toBe(true);
       const region: Region = schrodinger.get();
@@ -205,22 +187,22 @@ describe('RegionRedosQuery', () => {
     });
 
     it('redis returns empty array', async () => {
-      expect.assertions(2);
-
       const json: Array<RegionJSON> = [];
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionRepository.findByISO3166(ISO3166.of('ALB'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -229,19 +211,19 @@ describe('RegionRedosQuery', () => {
     });
 
     it('returns Dead because Redis returns null', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(null);
+      spy.mockImplementation(() => {
+        return Promise.resolve(null);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionRepository.findByISO3166(ISO3166.of('ALB'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -250,8 +232,6 @@ describe('RegionRedosQuery', () => {
     });
 
     it('no match results', async () => {
-      expect.assertions(2);
-
       const json: Array<RegionJSON> = [
         {
           regionID: UUID.v4().get(),
@@ -267,16 +247,18 @@ describe('RegionRedosQuery', () => {
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('OOP')).terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionRepository.findByISO3166(ISO3166.of('OOP'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -285,8 +267,6 @@ describe('RegionRedosQuery', () => {
     });
 
     it('malformat regionID', async () => {
-      expect.assertions(2);
-
       const json: Array<RegionJSON> = [
         {
           regionID: 'piu',
@@ -302,16 +282,18 @@ describe('RegionRedosQuery', () => {
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('OOP')).terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionRepository.findByISO3166(ISO3166.of('OOP'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -320,19 +302,19 @@ describe('RegionRedosQuery', () => {
     });
 
     it('redis returns RedisError', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.rejects(new RedisError('test faied'));
+      spy.mockImplementation(() => {
+        return Promise.reject(new RedisError('test faield'));
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionRepository.findByISO3166(ISO3166.of('ALB'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -341,24 +323,24 @@ describe('RegionRedosQuery', () => {
     });
 
     it('redis returns JSONAError', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves('}');
+      spy.mockImplementation(() => {
+        return Promise.resolve('}');
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const regionQuery: RegionRedisQuery = new RegionRedisQuery(redis);
-      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionQuery.findByISO3166(ISO3166.of('ALB')).terminate();
+      const regionRepository: RedisRegionRepository = new RedisRegionRepository(redis);
+      const schrodinger: Schrodinger<Region, NoSuchElementError | RedisError | RegionError> = await regionRepository.findByISO3166(ISO3166.of('ALB'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
         schrodinger.get();
-      }).toThrow(RedisError);
+      }).toThrow(RegionError);
     });
   });
 });

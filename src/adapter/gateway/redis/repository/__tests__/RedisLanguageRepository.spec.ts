@@ -40,8 +40,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all();
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageRepository.all();
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -79,8 +79,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all();
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageRepository.all();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get().size()).toBe(json.length);
@@ -98,8 +98,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all();
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageRepository.all();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -119,8 +119,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all();
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageRepository.all();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -140,8 +140,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all();
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageRepository.all();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -179,8 +179,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageRepository.findByISO639(ISO639.of('aa'));
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -211,8 +211,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageRepository.findByISO639(ISO639.of('aa'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -232,8 +232,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageRepository.findByISO639(ISO639.of('aa'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -269,8 +269,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('oop'));
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageRepository.findByISO639(ISO639.of('oop'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -306,8 +306,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('oop'));
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageRepository.findByISO639(ISO639.of('oop'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -327,8 +327,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageRepository.findByISO639(ISO639.of('aa'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -348,8 +348,8 @@ describe('RedisLanguageRepository', () => {
         string
       });
 
-      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const languageRepository: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageRepository.findByISO639(ISO639.of('aa'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {

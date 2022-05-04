@@ -29,10 +29,10 @@ export class RedisLanguageRepository implements LanguageRepository<RedisError> {
       const str: Nullable<string> = await this.redis.getString().get(REDIS_LANGUAGE_KEY);
 
       if (Kind.isNull(str)) {
-        return Dead.of(new RedisError('LanguageBinQuery.all()'));
+        return Dead.of(new RedisError('RedisLanguageRepository.all()'));
       }
 
-      const json: Array<LanguageJSON> = await JSONA.parse<Array<LanguageJSON>>(str);
+      const json: Array<LanguageJSON> = await JSONA.parse(str);
 
       return Alive.of(Languages.ofJSON(json));
     }
@@ -41,7 +41,7 @@ export class RedisLanguageRepository implements LanguageRepository<RedisError> {
         return Dead.of(e);
       }
       if (e instanceof JSONAError) {
-        return Dead.of(new LanguageError('LanguageBinQuery.all()', e));
+        return Dead.of(new LanguageError('RedisLanguageRepository.all()', e));
       }
       if (e instanceof LanguageError) {
         return Dead.of(e);
@@ -64,7 +64,7 @@ export class RedisLanguageRepository implements LanguageRepository<RedisError> {
         return Dead.of(e);
       }
       if (e instanceof JSONAError) {
-        return Dead.of(new RedisError('RedisLanguageRepository.insertAll()', e));
+        return Dead.of(new RedisError('RedisLanguageRepository.createAll()', e));
       }
       if (e instanceof LanguageError) {
         return Dead.of(e);
