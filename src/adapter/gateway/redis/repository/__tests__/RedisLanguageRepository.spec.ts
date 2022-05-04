@@ -1,36 +1,19 @@
 import { Nullable } from '@jamashita/anden-type';
 import { UUID } from '@jamashita/anden-uuid';
 import { MockRedis, MockRedisString, RedisError } from '@jamashita/catacombe-redis';
-import { Schrodinger } from '@jamashita/genitore';
+import { Schrodinger } from '@jamashita/genitore-schrodinger';
 import 'reflect-metadata';
-import sinon, { SinonStub } from 'sinon';
-import { cask } from '../../../../container/Cask';
-import { Type } from '../../../../container/Types';
-import { LanguageError } from '../../../../domain/vo/Language/error/LanguageError';
-import { ISO639 } from '../../../../domain/vo/Language/ISO639';
-import { Language, LanguageJSON } from '../../../../domain/vo/Language/Language';
-import { LanguageID } from '../../../../domain/vo/Language/LanguageID';
-import { Languages } from '../../../../domain/vo/Language/Languages';
-import { NoSuchElementError } from '../../error/NoSuchElementError';
-import { LanguageRedisQuery } from '../LanguageRedisQuery';
+import { ISO639 } from '../../../../../domain/Language/ISO639';
+import { Language, LanguageJSON } from '../../../../../domain/Language/Language';
+import { LanguageError } from '../../../../../domain/Language/LanguageError';
+import { LanguageID } from '../../../../../domain/Language/LanguageID';
+import { Languages } from '../../../../../domain/Language/Languages';
+import { NoSuchElementError } from '../../../../../repository/query/error/NoSuchElementError';
+import { RedisLanguageRepository } from '../RedisLanguageRepository';
 
-describe('LanguageRedisQuery', () => {
-  describe('container', () => {
-    it('must be a singleton', () => {
-      expect.assertions(2);
-
-      const languageQuery1: LanguageRedisQuery = cask.get<LanguageRedisQuery>(Type.LanguageRedisQuery);
-      const languageQuery2: LanguageRedisQuery = cask.get<LanguageRedisQuery>(Type.LanguageRedisQuery);
-
-      expect(languageQuery1).toBeInstanceOf(LanguageRedisQuery);
-      expect(languageQuery1).toBe(languageQuery2);
-    });
-  });
-
+describe('RedisLanguageRepository', () => {
   describe('all', () => {
     it('normal case', async () => {
-      expect.assertions(10);
-
       const json: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -46,18 +29,19 @@ describe('LanguageRedisQuery', () => {
         }
       ];
       const jsonStr: string = JSON.stringify(json);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all().terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all();
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -81,41 +65,41 @@ describe('LanguageRedisQuery', () => {
     });
 
     it('redis returns empty array', async () => {
-      expect.assertions(2);
-
       const json: Array<LanguageJSON> = [];
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all().terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get().size()).toBe(json.length);
     });
 
     it('returns Dead when Redis returns null', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(null);
+      spy.mockImplementation(() => {
+        return Promise.resolve(null);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all().terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -124,19 +108,19 @@ describe('LanguageRedisQuery', () => {
     });
 
     it('redis returns RedisError', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.rejects(new RedisError('test faied'));
+      spy.mockImplementation(() => {
+        return Promise.reject(new RedisError('test failed'));
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all().terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -145,19 +129,19 @@ describe('LanguageRedisQuery', () => {
     });
 
     it('redis returns JSONAError', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves('{');
+      spy.mockImplementation(() => {
+        return Promise.resolve('{');
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all().terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Languages, LanguageError | RedisError> = await languageQuery.all();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -168,8 +152,6 @@ describe('LanguageRedisQuery', () => {
 
   describe('findByISO639', () => {
     it('normal case', async () => {
-      expect.assertions(5);
-
       const json: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -187,16 +169,18 @@ describe('LanguageRedisQuery', () => {
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -213,22 +197,22 @@ describe('LanguageRedisQuery', () => {
     });
 
     it('redis returns empty array', async () => {
-      expect.assertions(2);
-
       const json: Array<LanguageJSON> = [];
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -237,19 +221,19 @@ describe('LanguageRedisQuery', () => {
     });
 
     it('returns Dead because Redis returns null', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(null);
+      spy.mockImplementation(() => {
+        return Promise.resolve(null);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -258,8 +242,6 @@ describe('LanguageRedisQuery', () => {
     });
 
     it('no match results', async () => {
-      expect.assertions(2);
-
       const json: Array<LanguageJSON> = [
         {
           languageID: UUID.v4().get(),
@@ -277,16 +259,18 @@ describe('LanguageRedisQuery', () => {
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('oop'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -295,8 +279,6 @@ describe('LanguageRedisQuery', () => {
     });
 
     it('malformat languageID', async () => {
-      expect.assertions(2);
-
       const json: Array<LanguageJSON> = [
         {
           languageID: 'ccio',
@@ -314,16 +296,18 @@ describe('LanguageRedisQuery', () => {
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves(jsonStr);
+      spy.mockImplementation(() => {
+        return Promise.resolve(jsonStr);
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('oop')).terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('oop'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -332,19 +316,19 @@ describe('LanguageRedisQuery', () => {
     });
 
     it('redis returns RedisError', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.rejects(new RedisError('test faied'));
+      spy.mockImplementation(() => {
+        return Promise.reject(new RedisError('test failed'));
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -353,19 +337,19 @@ describe('LanguageRedisQuery', () => {
     });
 
     it('redis returns JSONAError', async () => {
-      expect.assertions(2);
-
       const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
+      const spy: jest.SpyInstance = jest.spyOn(string, 'get');
 
-      string.get = stub;
-      stub.resolves('{');
+      spy.mockImplementation(() => {
+        return Promise.resolve('{');
+      });
+
       const redis: MockRedis = new MockRedis({
         string
       });
 
-      const languageQuery: LanguageRedisQuery = new LanguageRedisQuery(redis);
-      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa')).terminate();
+      const languageQuery: RedisLanguageRepository = new RedisLanguageRepository(redis);
+      const schrodinger: Schrodinger<Language, LanguageError | NoSuchElementError | RedisError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
