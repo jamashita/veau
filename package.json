@@ -55,7 +55,7 @@
     "compression": "1.7.4",
     "config": "3.3.6",
     "connect-redis": "6.0.0",
-    "express": "4.17.1",
+    "express": "4.17.3",
     "express-session": "1.17.2",
     "handsontable": "11.0.1",
     "helmet": "4.6.0",
